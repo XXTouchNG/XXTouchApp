@@ -34,6 +34,8 @@
 	<true/>
 	<key>UIStatusBarHidden</key>
 	<false/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -50,5 +52,52 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>3d-stop</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>停止脚本</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Share</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey3</key>
+				<string>firstShortcutKeyValue3</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>3d-launch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>启动脚本</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Compose</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey2</key>
+				<string>firstShortcutKeyValue2</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>3d-scan</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>扫一扫</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Scan</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey1</key>
+				<string>firstShortcutKeyValue1</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

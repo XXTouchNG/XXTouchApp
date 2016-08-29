@@ -7,19 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
+		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
+		0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */; };
+		0F9852741D745E25001323AA /* XXLocalCommandGetFileList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9852731D745E25001323AA /* XXLocalCommandGetFileList.m */; };
 		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
 		0FB0A79C1D73DAF900129E83 /* XXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A79B1D73DAF900129E83 /* XXNavigationViewController.m */; };
 		0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A79E1D73DB7600129E83 /* Assets.xcassets */; };
 		0FB0A7A71D73DB9F00129E83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A7A11D73DB9F00129E83 /* Main.storyboard */; };
 		0FB0A7AD1D73DBE400129E83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7AC1D73DBE400129E83 /* main.m */; };
-		0FB0A7B11D73DC2800129E83 /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7B01D73DC2800129E83 /* UINavigationController+StatusBar.m */; };
 		0FB0A7C81D73E46C00129E83 /* XXScriptListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */; };
 		0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C51D73E46C00129E83 /* XXSettingsTableViewController.m */; };
 		0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C71D73E46C00129E83 /* XXMainTabbarViewController.m */; };
 		0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */; };
+		95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F302D2A1D745751001E566A /* StyleDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
+		0F302D2C1D74578E001E566A /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
+		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
+		0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
+		0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		0F98526E1D745CC3001323AA /* XXLocalCommandBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalCommandBaseRequest.h; sourceTree = "<group>"; };
+		0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalCommandBaseRequest.m; sourceTree = "<group>"; };
+		0F9852711D745D15001323AA /* XXLocalCommandDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalCommandDefines.h; sourceTree = "<group>"; };
+		0F9852721D745E25001323AA /* XXLocalCommandGetFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalCommandGetFileList.h; sourceTree = "<group>"; };
+		0F9852731D745E25001323AA /* XXLocalCommandGetFileList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalCommandGetFileList.m; sourceTree = "<group>"; };
 		0FB0A7891D73D80D00129E83 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0FB0A78A1D73D80D00129E83 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0FB0A79A1D73DAF900129E83 /* XXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXNavigationViewController.h; sourceTree = "<group>"; };
@@ -27,8 +41,6 @@
 		0FB0A79E1D73DB7600129E83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FB0A7A21D73DB9F00129E83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0FB0A7AC1D73DBE400129E83 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0FB0A7AF1D73DC2800129E83 /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
-		0FB0A7B01D73DC2800129E83 /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
 		0FB0A7C11D73E46C00129E83 /* XXScriptListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScriptListTableViewController.h; sourceTree = "<group>"; };
 		0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScriptListTableViewController.m; sourceTree = "<group>"; };
 		0FB0A7C41D73E46C00129E83 /* XXSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXSettingsTableViewController.h; sourceTree = "<group>"; };
@@ -42,6 +54,9 @@
 		0FB0A7D41D741CFB00129E83 /* AppDefines.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDefines.pch; path = Defines/AppDefines.pch; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FD1C2AF1D73CC6D000A784E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.release.xcconfig"; sourceTree = "<group>"; };
+		AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.debug.xcconfig"; sourceTree = "<group>"; };
+		AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XXTouchApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,17 +64,56 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F302D2B1D74578E001E566A /* Catalogs */ = {
+			isa = PBXGroup;
+			children = (
+				0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */,
+				0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */,
+				0F302D2C1D74578E001E566A /* UINavigationController+StatusBar.h */,
+				0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */,
+			);
+			path = Catalogs;
+			sourceTree = "<group>";
+		};
+		0F9852681D745B84001323AA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0F9852691D745B84001323AA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0F9852711D745D15001323AA /* XXLocalCommandDefines.h */,
+				0F98526D1D745CB3001323AA /* Requests */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		0F98526D1D745CB3001323AA /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				0F98526E1D745CC3001323AA /* XXLocalCommandBaseRequest.h */,
+				0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */,
+				0F9852721D745E25001323AA /* XXLocalCommandGetFileList.h */,
+				0F9852731D745E25001323AA /* XXLocalCommandGetFileList.m */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
 		0FB0A7881D73D80D00129E83 /* Global */ = {
 			isa = PBXGroup;
 			children = (
 				0FB0A7D41D741CFB00129E83 /* AppDefines.pch */,
-				0FB0A7AE1D73DC1F00129E83 /* Style */,
+				0F302D2B1D74578E001E566A /* Catalogs */,
 				0FB0A7D01D741BA200129E83 /* Defines */,
 				0FB0A7891D73D80D00129E83 /* AppDelegate.h */,
 				0FB0A78A1D73D80D00129E83 /* AppDelegate.m */,
@@ -104,15 +158,6 @@
 			path = Resources/International;
 			sourceTree = "<group>";
 		};
-		0FB0A7AE1D73DC1F00129E83 /* Style */ = {
-			isa = PBXGroup;
-			children = (
-				0FB0A7AF1D73DC2800129E83 /* UINavigationController+StatusBar.h */,
-				0FB0A7B01D73DC2800129E83 /* UINavigationController+StatusBar.m */,
-			);
-			path = Style;
-			sourceTree = "<group>";
-		};
 		0FB0A7BF1D73E46C00129E83 /* XX Main Tabbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +192,7 @@
 			children = (
 				0FB0A7D21D741BA200129E83 /* SystemVersionDefines.h */,
 				0FB0A7D31D741C9F00129E83 /* SystemConstantsDefines.h */,
+				0F302D2A1D745751001E566A /* StyleDefines.h */,
 			);
 			path = Defines;
 			sourceTree = "<group>";
@@ -156,6 +202,8 @@
 			children = (
 				0FD1C29D1D73CC6D000A784E /* XXTouchApp */,
 				0FD1C29C1D73CC6D000A784E /* Products */,
+				E8BB9045BA67513F87B7DBE9 /* Pods */,
+				7FB225FCAC06A2A9A6A98656 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,6 +218,8 @@
 		0FD1C29D1D73CC6D000A784E /* XXTouchApp */ = {
 			isa = PBXGroup;
 			children = (
+				0F9852681D745B84001323AA /* Models */,
+				0F9852691D745B84001323AA /* Services */,
 				0FB0A7A01D73DB9F00129E83 /* International */,
 				0FB0A79D1D73DB7600129E83 /* Resources */,
 				0FB0A7881D73D80D00129E83 /* Global */,
@@ -180,6 +230,23 @@
 			path = XXTouchApp;
 			sourceTree = "<group>";
 		};
+		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E8BB9045BA67513F87B7DBE9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */,
+				6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,9 +254,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0FD1C2B21D73CC6D000A784E /* Build configuration list for PBXNativeTarget "XXTouchApp" */;
 			buildPhases = (
+				FD605E651055BA2ED4A1496D /* Check Pods Manifest.lock */,
 				0FD1C2971D73CC6D000A784E /* Sources */,
 				0FD1C2981D73CC6D000A784E /* Frameworks */,
 				0FD1C2991D73CC6D000A784E /* Resources */,
+				2E957E7B84CDEB356ECD3E6F /* Embed Pods Frameworks */,
+				F90C0599FF4662AB633741D6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -212,6 +282,11 @@
 					0FD1C29A1D73CC6D000A784E = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = GXZ23M5TP2;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -247,6 +322,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2E957E7B84CDEB356ECD3E6F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F90C0599FF4662AB633741D6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD605E651055BA2ED4A1496D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0FD1C2971D73CC6D000A784E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -255,11 +378,14 @@
 				0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */,
 				0FB0A7AD1D73DBE400129E83 /* main.m in Sources */,
 				0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */,
+				0F9852741D745E25001323AA /* XXLocalCommandGetFileList.m in Sources */,
+				0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */,
 				0FB0A79C1D73DAF900129E83 /* XXNavigationViewController.m in Sources */,
 				0FB0A7C81D73E46C00129E83 /* XXScriptListTableViewController.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
-				0FB0A7B11D73DC2800129E83 /* UINavigationController+StatusBar.m in Sources */,
 				0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */,
+				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +493,7 @@
 		};
 		0FD1C2B31D73CC6D000A784E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -383,6 +510,7 @@
 		};
 		0FD1C2B41D73CC6D000A784E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

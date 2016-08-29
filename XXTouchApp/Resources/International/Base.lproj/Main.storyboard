@@ -163,8 +163,9 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="c6F-g7-UgY">
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="c6F-g7-UgY">
                                                     <rect key="frame" x="551" y="21" width="20" height="20"/>
+                                                    <color key="color" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <constraints>
@@ -391,11 +392,17 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ilv-qv-gwc">
+                                                    <rect key="frame" x="560" y="12" width="20" height="20"/>
+                                                    <color key="color" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="c2r-nx-1CI" firstAttribute="centerY" secondItem="t70-MZ-bpp" secondAttribute="centerY" id="3pt-kW-6wy"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Ilv-qv-gwc" secondAttribute="trailing" constant="12" id="8se-GP-vNq"/>
                                                 <constraint firstItem="YNs-M1-Hv0" firstAttribute="leading" secondItem="t70-MZ-bpp" secondAttribute="leadingMargin" constant="8" id="cKD-lU-K95"/>
                                                 <constraint firstItem="YNs-M1-Hv0" firstAttribute="centerY" secondItem="t70-MZ-bpp" secondAttribute="centerY" id="hJg-wZ-Aq9"/>
+                                                <constraint firstItem="Ilv-qv-gwc" firstAttribute="centerY" secondItem="t70-MZ-bpp" secondAttribute="centerY" id="m6j-B8-Ms0"/>
                                                 <constraint firstItem="c2r-nx-1CI" firstAttribute="leading" secondItem="YNs-M1-Hv0" secondAttribute="trailing" constant="12" id="zIY-fo-900"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -420,11 +427,17 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fQH-vy-0Cr">
+                                                    <rect key="frame" x="560" y="12" width="20" height="20"/>
+                                                    <color key="color" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="s0N-Ml-bkH" firstAttribute="centerY" secondItem="7SM-Hj-Rgz" secondAttribute="centerY" id="4WC-L4-5k0"/>
                                                 <constraint firstItem="vMK-AU-diN" firstAttribute="centerY" secondItem="7SM-Hj-Rgz" secondAttribute="centerY" id="4rH-2C-NLI"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="fQH-vy-0Cr" secondAttribute="trailing" constant="12" id="Q6P-Gb-FY0"/>
                                                 <constraint firstItem="s0N-Ml-bkH" firstAttribute="leading" secondItem="vMK-AU-diN" secondAttribute="trailing" constant="12" id="QuH-1f-9If"/>
+                                                <constraint firstItem="fQH-vy-0Cr" firstAttribute="centerY" secondItem="7SM-Hj-Rgz" secondAttribute="centerY" id="hcQ-IG-JBR"/>
                                                 <constraint firstItem="vMK-AU-diN" firstAttribute="leading" secondItem="7SM-Hj-Rgz" secondAttribute="leadingMargin" constant="8" id="o9V-b6-7RB"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -449,10 +462,16 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="CCC-b9-aGA">
+                                                    <rect key="frame" x="560" y="12" width="20" height="20"/>
+                                                    <color key="color" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="CCC-b9-aGA" firstAttribute="centerY" secondItem="xwc-u5-Y0S" secondAttribute="centerY" id="EKA-6x-v90"/>
                                                 <constraint firstItem="ycW-0b-edU" firstAttribute="centerY" secondItem="xwc-u5-Y0S" secondAttribute="centerY" id="UYv-gu-5Yc"/>
                                                 <constraint firstItem="ycW-0b-edU" firstAttribute="leading" secondItem="xwc-u5-Y0S" secondAttribute="leadingMargin" constant="8" id="gYw-am-T9h"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="CCC-b9-aGA" secondAttribute="trailing" constant="12" id="kH6-DR-jMg"/>
                                                 <constraint firstItem="UtZ-F7-Gzb" firstAttribute="centerY" secondItem="xwc-u5-Y0S" secondAttribute="centerY" id="tN0-RN-PKC"/>
                                                 <constraint firstItem="UtZ-F7-Gzb" firstAttribute="leading" secondItem="ycW-0b-edU" secondAttribute="trailing" constant="12" id="tRt-K3-3lg"/>
                                             </constraints>
@@ -602,7 +621,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" red="0.27450980390000002" green="0.5450980392" blue="0.7725490196" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="CS5-5g-f5g" kind="relationship" relationship="viewControllers" id="bHY-Ru-cpH"/>

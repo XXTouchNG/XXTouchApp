@@ -7,6 +7,7 @@
 //
 
 #import "XXScriptListTableViewController.h"
+#import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 
@@ -15,6 +16,7 @@ enum {
 };
 
 @interface XXScriptListTableViewController ()
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 
 @end
 
@@ -29,10 +31,38 @@ enum {
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
+    
+    self.tableView.mj_header = self.refreshHeader;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - MJRefresh Header
+
+- (MJRefreshNormalHeader *)refreshHeader {
+    if (!_refreshHeader) {
+        /* Init of MJRefresh */
+        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadScriptListTableView)];
+        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
+        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
+        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
+        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
+        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
+        normalHeader.lastUpdatedTimeLabel.hidden = YES;
+        [normalHeader beginRefreshing];
+        _refreshHeader = normalHeader;
+    }
+    return _refreshHeader;
+}
+
+- (void)reloadScriptListTableView {
+    [self performSelector:@selector(endScriptListRefresh) withObject:nil afterDelay:1.0];
+}
+
+- (void)endScriptListRefresh {
+    [self.refreshHeader endRefreshing];
 }
 
 #pragma mark - Table view data source
@@ -43,7 +73,7 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == kXXScriptListCellSection) {
-        return 100;
+        return 12;
     }
     return 0;
 }

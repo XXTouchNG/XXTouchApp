@@ -12,9 +12,11 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+#import "StyleDefines.h"
 #import "SystemVersionDefines.h"
 #import "SystemConstantsDefines.h"
 
 #import "UINavigationController+StatusBar.h"
+#import "UINavigationController+FDFullscreenPopGesture.h"
 
 #endif /* AppDefines_pch */
