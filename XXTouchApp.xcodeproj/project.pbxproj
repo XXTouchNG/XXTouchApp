@@ -7,22 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0FD1C2A01D73CC6D000A784E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD1C29F1D73CC6D000A784E /* main.m */; };
-		0FD1C2A31D73CC6D000A784E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD1C2A21D73CC6D000A784E /* AppDelegate.m */; };
-		0FD1C2A61D73CC6D000A784E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD1C2A51D73CC6D000A784E /* ViewController.m */; };
-		0FD1C2A91D73CC6D000A784E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FD1C2A71D73CC6D000A784E /* Main.storyboard */; };
-		0FD1C2AB1D73CC6D000A784E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FD1C2AA1D73CC6D000A784E /* Assets.xcassets */; };
+		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
+		0FB0A79C1D73DAF900129E83 /* XXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A79B1D73DAF900129E83 /* XXNavigationViewController.m */; };
+		0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A79E1D73DB7600129E83 /* Assets.xcassets */; };
+		0FB0A7A71D73DB9F00129E83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A7A11D73DB9F00129E83 /* Main.storyboard */; };
+		0FB0A7AD1D73DBE400129E83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7AC1D73DBE400129E83 /* main.m */; };
+		0FB0A7B11D73DC2800129E83 /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7B01D73DC2800129E83 /* UINavigationController+StatusBar.m */; };
+		0FB0A7C81D73E46C00129E83 /* XXScriptListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */; };
+		0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C51D73E46C00129E83 /* XXSettingsTableViewController.m */; };
+		0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C71D73E46C00129E83 /* XXMainTabbarViewController.m */; };
+		0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FB0A7891D73D80D00129E83 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0FB0A78A1D73D80D00129E83 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0FB0A79A1D73DAF900129E83 /* XXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXNavigationViewController.h; sourceTree = "<group>"; };
+		0FB0A79B1D73DAF900129E83 /* XXNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXNavigationViewController.m; sourceTree = "<group>"; };
+		0FB0A79E1D73DB7600129E83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0FB0A7A21D73DB9F00129E83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0FB0A7AC1D73DBE400129E83 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0FB0A7AF1D73DC2800129E83 /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
+		0FB0A7B01D73DC2800129E83 /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
+		0FB0A7C11D73E46C00129E83 /* XXScriptListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScriptListTableViewController.h; sourceTree = "<group>"; };
+		0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScriptListTableViewController.m; sourceTree = "<group>"; };
+		0FB0A7C41D73E46C00129E83 /* XXSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXSettingsTableViewController.h; sourceTree = "<group>"; };
+		0FB0A7C51D73E46C00129E83 /* XXSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXSettingsTableViewController.m; sourceTree = "<group>"; };
+		0FB0A7C61D73E46C00129E83 /* XXMainTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMainTabbarViewController.h; sourceTree = "<group>"; };
+		0FB0A7C71D73E46C00129E83 /* XXMainTabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMainTabbarViewController.m; sourceTree = "<group>"; };
+		0FB0A7CB1D7411CE00129E83 /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalSettings.h; sourceTree = "<group>"; };
+		0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalSettings.m; sourceTree = "<group>"; };
+		0FB0A7D21D741BA200129E83 /* SystemVersionDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemVersionDefines.h; sourceTree = "<group>"; };
+		0FB0A7D31D741C9F00129E83 /* SystemConstantsDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemConstantsDefines.h; sourceTree = "<group>"; };
+		0FB0A7D41D741CFB00129E83 /* AppDefines.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDefines.pch; path = Defines/AppDefines.pch; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FD1C29F1D73CC6D000A784E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0FD1C2A11D73CC6D000A784E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		0FD1C2A21D73CC6D000A784E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		0FD1C2A41D73CC6D000A784E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0FD1C2A51D73CC6D000A784E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		0FD1C2A81D73CC6D000A784E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0FD1C2AA1D73CC6D000A784E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FD1C2AF1D73CC6D000A784E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,6 +55,102 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FB0A7881D73D80D00129E83 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7D41D741CFB00129E83 /* AppDefines.pch */,
+				0FB0A7AE1D73DC1F00129E83 /* Style */,
+				0FB0A7D01D741BA200129E83 /* Defines */,
+				0FB0A7891D73D80D00129E83 /* AppDelegate.h */,
+				0FB0A78A1D73D80D00129E83 /* AppDelegate.m */,
+				0FB0A7CB1D7411CE00129E83 /* GlobalSettings.h */,
+				0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		0FB0A78B1D73D80D00129E83 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7961D73DA9400129E83 /* XX Navigation */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0FB0A7961D73DA9400129E83 /* XX Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A79A1D73DAF900129E83 /* XXNavigationViewController.h */,
+				0FB0A79B1D73DAF900129E83 /* XXNavigationViewController.m */,
+				0FB0A7BF1D73E46C00129E83 /* XX Main Tabbar */,
+			);
+			path = "XX Navigation";
+			sourceTree = "<group>";
+		};
+		0FB0A79D1D73DB7600129E83 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A79E1D73DB7600129E83 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0FB0A7A01D73DB9F00129E83 /* International */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7A11D73DB9F00129E83 /* Main.storyboard */,
+			);
+			name = International;
+			path = Resources/International;
+			sourceTree = "<group>";
+		};
+		0FB0A7AE1D73DC1F00129E83 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7AF1D73DC2800129E83 /* UINavigationController+StatusBar.h */,
+				0FB0A7B01D73DC2800129E83 /* UINavigationController+StatusBar.m */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
+		0FB0A7BF1D73E46C00129E83 /* XX Main Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7C01D73E46C00129E83 /* XX Script List */,
+				0FB0A7C31D73E46C00129E83 /* XX Settings */,
+				0FB0A7C61D73E46C00129E83 /* XXMainTabbarViewController.h */,
+				0FB0A7C71D73E46C00129E83 /* XXMainTabbarViewController.m */,
+			);
+			path = "XX Main Tabbar";
+			sourceTree = "<group>";
+		};
+		0FB0A7C01D73E46C00129E83 /* XX Script List */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7C11D73E46C00129E83 /* XXScriptListTableViewController.h */,
+				0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */,
+			);
+			path = "XX Script List";
+			sourceTree = "<group>";
+		};
+		0FB0A7C31D73E46C00129E83 /* XX Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7C41D73E46C00129E83 /* XXSettingsTableViewController.h */,
+				0FB0A7C51D73E46C00129E83 /* XXSettingsTableViewController.m */,
+			);
+			path = "XX Settings";
+			sourceTree = "<group>";
+		};
+		0FB0A7D01D741BA200129E83 /* Defines */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0A7D21D741BA200129E83 /* SystemVersionDefines.h */,
+				0FB0A7D31D741C9F00129E83 /* SystemConstantsDefines.h */,
+			);
+			path = Defines;
+			sourceTree = "<group>";
+		};
 		0FD1C2921D73CC6C000A784E = {
 			isa = PBXGroup;
 			children = (
@@ -56,24 +170,14 @@
 		0FD1C29D1D73CC6D000A784E /* XXTouchApp */ = {
 			isa = PBXGroup;
 			children = (
-				0FD1C2A11D73CC6D000A784E /* AppDelegate.h */,
-				0FD1C2A21D73CC6D000A784E /* AppDelegate.m */,
-				0FD1C2A41D73CC6D000A784E /* ViewController.h */,
-				0FD1C2A51D73CC6D000A784E /* ViewController.m */,
-				0FD1C2A71D73CC6D000A784E /* Main.storyboard */,
-				0FD1C2AA1D73CC6D000A784E /* Assets.xcassets */,
+				0FB0A7A01D73DB9F00129E83 /* International */,
+				0FB0A79D1D73DB7600129E83 /* Resources */,
+				0FB0A7881D73D80D00129E83 /* Global */,
+				0FB0A78B1D73D80D00129E83 /* ViewControllers */,
 				0FD1C2AF1D73CC6D000A784E /* Info.plist */,
-				0FD1C29E1D73CC6D000A784E /* Supporting Files */,
+				0FB0A7AC1D73DBE400129E83 /* main.m */,
 			);
 			path = XXTouchApp;
-			sourceTree = "<group>";
-		};
-		0FD1C29E1D73CC6D000A784E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				0FD1C29F1D73CC6D000A784E /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +222,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 0FD1C2921D73CC6C000A784E;
 			productRefGroup = 0FD1C29C1D73CC6D000A784E /* Products */;
@@ -134,8 +240,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FD1C2AB1D73CC6D000A784E /* Assets.xcassets in Resources */,
-				0FD1C2A91D73CC6D000A784E /* Main.storyboard in Resources */,
+				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
+				0FB0A7A71D73DB9F00129E83 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,19 +252,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FD1C2A61D73CC6D000A784E /* ViewController.m in Sources */,
-				0FD1C2A31D73CC6D000A784E /* AppDelegate.m in Sources */,
-				0FD1C2A01D73CC6D000A784E /* main.m in Sources */,
+				0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */,
+				0FB0A7AD1D73DBE400129E83 /* main.m in Sources */,
+				0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */,
+				0FB0A79C1D73DAF900129E83 /* XXNavigationViewController.m in Sources */,
+				0FB0A7C81D73E46C00129E83 /* XXScriptListTableViewController.m in Sources */,
+				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
+				0FB0A7B11D73DC2800129E83 /* UINavigationController+StatusBar.m in Sources */,
+				0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0FD1C2A71D73CC6D000A784E /* Main.storyboard */ = {
+		0FB0A7A11D73DB9F00129E83 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0FD1C2A81D73CC6D000A784E /* Base */,
+				0FB0A7A21D73DB9F00129E83 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -194,6 +305,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -238,6 +350,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

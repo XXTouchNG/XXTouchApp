@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  XXScriptListTableViewController.h
 //  XXTouchApp
 //
 //  Created by Zheng on 8/29/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface XXScriptListTableViewController : UITableViewController
 
 @end
-
