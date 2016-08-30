@@ -9,7 +9,7 @@
 #import "XXLocalCommandDefines.h"
 #import <Foundation/Foundation.h>
 
-@interface XXLocalCommandBaseRequest : NSObject
+@interface XXLocalCommandBaseRequest : JSONModel
 @property (nonatomic, assign) XXLocalCommandMethod requestMethod;
 @property (nonatomic, strong) NSString *requestUrl;
 @property (nonatomic, strong) NSString *requestBody;

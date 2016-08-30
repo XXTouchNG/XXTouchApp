@@ -10,5 +10,6 @@
 #define StyleDefines_h
 
 #define STYLE_TINT_COLOR [UIColor colorWithRed:26.f/255.f green:161.f/255.f blue:230.f/255.f alpha:1.f]
+#define STYLE_TOAST_DURATION 2.f
 
 #endif /* StyleDefines_h */

@@ -18,6 +18,7 @@ PODS:
     - Colours/ObjC (= 5.13.0)
   - Colours/ObjC (5.13.0)
   - FLEX (2.1.1)
+  - JSONModel (1.4.0)
   - LBXScan (1.1.1):
     - ZXingObjC (~> 3.0)
   - Masonry (1.0.1)
@@ -29,6 +30,9 @@ PODS:
   - NJKWebViewProgress/ProgressView (0.2.3)
   - SIAlertView (1.3)
   - Toast (3.0)
+  - YYKit (1.0.7):
+    - YYKit/no-arc (= 1.0.7)
+  - YYKit/no-arc (1.0.7)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -37,26 +41,30 @@ DEPENDENCIES:
   - AFNetworking
   - Colours
   - FLEX (~> 2.0)
+  - JSONModel
   - LBXScan (~> 1.1.1)
   - Masonry
   - MJRefresh
   - NJKWebViewProgress
   - SIAlertView
   - Toast
+  - YYKit
   - ZXingObjC
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
   FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
+  JSONModel: 58fe3f8c29ff95ed94e7ee7dde87e807f5da5371
   LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   SIAlertView: 20c794b55eaf44d888773ea51647cf8907723919
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
+  YYKit: 843d1b26e20b82c695790c9a89907eaa1e99907f
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: 1b240d92728a92d9e8e285fa635645ee251d6c1d
+PODFILE CHECKSUM: cc2fdd4e3c840ef99e166ee53cef79072e4290f4
 
 COCOAPODS: 1.0.0.beta.4

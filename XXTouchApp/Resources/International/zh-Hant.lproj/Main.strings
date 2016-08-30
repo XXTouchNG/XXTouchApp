@@ -1,0 +1,114 @@
+
+/* Class = "UILabel"; text = "Third Party Credits"; ObjectID = "1TU-p3-pin"; */
+"1TU-p3-pin.text" = "Third Party Credits";
+
+/* Class = "UILabel"; text = "Recording Config"; ObjectID = "1ec-ON-3EL"; */
+"1ec-ON-3EL.text" = "Recording Config";
+
+/* Class = "UITableViewSection"; headerTitle = "Service"; ObjectID = "3MQ-v2-ZnB"; */
+"3MQ-v2-ZnB.headerTitle" = "Service";
+
+/* Class = "UITabBarController"; title = "XX Main Tabbar"; ObjectID = "4El-EF-saE"; */
+"4El-EF-saE.title" = "XX Main Tabbar";
+
+/* Class = "UINavigationItem"; title = "My Scripts"; ObjectID = "7N1-fh-DWA"; */
+"7N1-fh-DWA.title" = "My Scripts";
+
+/* Class = "UILabel"; text = "User Agreement"; ObjectID = "9Zs-zp-0m9"; */
+"9Zs-zp-0m9.text" = "User Agreement";
+
+/* Class = "UILabel"; text = "Respring Device"; ObjectID = "BtK-tj-bPf"; */
+"BtK-tj-bPf.text" = "Respring Device";
+
+/* Class = "UITableViewController"; title = "XX Script List"; ObjectID = "CS5-5g-f5g"; */
+"CS5-5g-f5g.title" = "XX Script List";
+
+/* Class = "UILabel"; text = "Application List"; ObjectID = "Drp-4y-k3T"; */
+"Drp-4y-k3T.text" = "Application List";
+
+/* Class = "UILabel"; text = "1970-01-01 00:00:00"; ObjectID = "KQT-T4-c4a"; */
+"KQT-T4-c4a.text" = "1970-01-01 00:00:00";
+
+/* Class = "UILabel"; text = "Remote Service"; ObjectID = "MUB-4A-9kj"; */
+"MUB-4A-9kj.text" = "Remote Service";
+
+/* Class = "UITableViewController"; title = "XX Settings"; ObjectID = "N8f-qW-ado"; */
+"N8f-qW-ado.title" = "XX Settings";
+
+/* Class = "UINavigationItem"; title = "My Scripts"; ObjectID = "RNa-Eb-Qye"; */
+"RNa-Eb-Qye.title" = "My Scripts";
+
+/* Class = "UILabel"; text = "Restart Device"; ObjectID = "ThR-2p-aVL"; */
+"ThR-2p-aVL.text" = "Restart Device";
+
+/* Class = "UITableViewSection"; headerTitle = "System"; ObjectID = "UUE-ka-Dlu"; */
+"UUE-ka-Dlu.headerTitle" = "System";
+
+/* Class = "UILabel"; text = "Clean All Caches"; ObjectID = "UtZ-F7-Gzb"; */
+"UtZ-F7-Gzb.text" = "Clean All Caches";
+
+/* Class = "UILabel"; text = "Designed By i_82"; ObjectID = "Wal-0t-niS"; */
+"Wal-0t-niS.text" = "Designed By i_82";
+
+/* Class = "UITabBarItem"; title = "More"; ObjectID = "Zam-rg-gDP"; */
+"Zam-rg-gDP.title" = "More";
+
+/* Class = "UILabel"; text = "This application needs Jailbreak environment.\nhttp://www.xxtouch.com\n2016 © XXTouch Team\nAll Rights Reserved."; ObjectID = "aXR-li-dmB"; */
+"aXR-li-dmB.text" = "This application needs Jailbreak environment.\nhttp://www.xxtouch.com\n2016 © XXTouch Team\nAll Rights Reserved.";
+
+/* Class = "UILabel"; text = "Clean GPS Caches"; ObjectID = "c2r-nx-1CI"; */
+"c2r-nx-1CI.text" = "Clean GPS Caches";
+
+/* Class = "UITableViewSection"; headerTitle = "Auth"; ObjectID = "cda-eP-Cd7"; */
+"cda-eP-Cd7.headerTitle" = "Auth";
+
+/* Class = "UILabel"; text = "XXTouch\nV1.0 (1)"; ObjectID = "dp7-rb-o1s"; */
+"dp7-rb-o1s.text" = "XXTouch\nV1.0 (1)";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "dry-eX-pHi"; */
+"dry-eX-pHi.text" = "About";
+
+/* Class = "UILabel"; text = "Startup Config"; ObjectID = "f9B-1Z-u15"; */
+"f9B-1Z-u15.text" = "Startup Config";
+
+/* Class = "UITableViewSection"; headerTitle = "Config"; ObjectID = "ipj-rb-f7w"; */
+"ipj-rb-f7w.headerTitle" = "Config";
+
+/* Class = "UILabel"; text = "Restart Daemon"; ObjectID = "jMb-PR-yw5"; */
+"jMb-PR-yw5.text" = "Restart Daemon";
+
+/* Class = "UILabel"; text = "Mail Feedback"; ObjectID = "jPa-6V-etE"; */
+"jPa-6V-etE.text" = "Mail Feedback";
+
+/* Class = "UILabel"; text = "User Defaults Config"; ObjectID = "jjZ-Pc-SRj"; */
+"jjZ-Pc-SRj.text" = "User Defaults Config";
+
+/* Class = "UINavigationItem"; title = "More"; ObjectID = "jo4-6i-7xk"; */
+"jo4-6i-7xk.title" = "More";
+
+/* Class = "UILabel"; text = "Documents"; ObjectID = "k8F-5K-eC7"; */
+"k8F-5K-eC7.text" = "Documents";
+
+/* Class = "UILabel"; text = "Key Press Config"; ObjectID = "ly3-Qe-OcM"; */
+"ly3-Qe-OcM.text" = "Key Press Config";
+
+/* Class = "UILabel"; text = "Authorization"; ObjectID = "nm7-nn-0JE"; */
+"nm7-nn-0JE.text" = "Authorization";
+
+/* Class = "UITabBarItem"; title = "My Scripts"; ObjectID = "rxv-io-rl7"; */
+"rxv-io-rl7.title" = "My Scripts";
+
+/* Class = "UILabel"; text = "Clean UI Caches"; ObjectID = "s0N-Ml-bkH"; */
+"s0N-Ml-bkH.text" = "Clean UI Caches";
+
+/* Class = "UITableViewSection"; headerTitle = "Help"; ObjectID = "scs-BP-UCX"; */
+"scs-BP-UCX.headerTitle" = "Help";
+
+/* Class = "UINavigationController"; title = "XX Navigation"; ObjectID = "szv-sl-aZ6"; */
+"szv-sl-aZ6.title" = "XX Navigation";
+
+/* Class = "UILabel"; text = "Filename"; ObjectID = "to9-MC-Ca6"; */
+"to9-MC-Ca6.text" = "Filename";
+
+/* Class = "UILabel"; text = "Official Site"; ObjectID = "yP0-T4-BER"; */
+"yP0-T4-BER.text" = "Official Site";

@@ -9,5 +9,6 @@
 #import "XXLocalCommandBaseRequest.h"
 
 @interface XXLocalCommandGetFileList : XXLocalCommandBaseRequest
+@property (nonatomic, strong) NSString *directory;
 
 @end

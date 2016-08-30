@@ -1,0 +1,114 @@
+
+/* Class = "UILabel"; text = "Third Party Credits"; ObjectID = "1TU-p3-pin"; */
+"1TU-p3-pin.text" = "第三方协议";
+
+/* Class = "UILabel"; text = "Recording Config"; ObjectID = "1ec-ON-3EL"; */
+"1ec-ON-3EL.text" = "录制设置";
+
+/* Class = "UITableViewSection"; headerTitle = "Service"; ObjectID = "3MQ-v2-ZnB"; */
+"3MQ-v2-ZnB.headerTitle" = "服务";
+
+/* Class = "UITabBarController"; title = "XX Main Tabbar"; ObjectID = "4El-EF-saE"; */
+"4El-EF-saE.title" = "XXTouch 主标签视图";
+
+/* Class = "UINavigationItem"; title = "My Scripts"; ObjectID = "7N1-fh-DWA"; */
+"7N1-fh-DWA.title" = "我的脚本";
+
+/* Class = "UILabel"; text = "User Agreement"; ObjectID = "9Zs-zp-0m9"; */
+"9Zs-zp-0m9.text" = "用户协议及隐私声明";
+
+/* Class = "UILabel"; text = "Respring Device"; ObjectID = "BtK-tj-bPf"; */
+"BtK-tj-bPf.text" = "注销设备";
+
+/* Class = "UITableViewController"; title = "XX Script List"; ObjectID = "CS5-5g-f5g"; */
+"CS5-5g-f5g.title" = "XXTouch 脚本列表";
+
+/* Class = "UILabel"; text = "Application List"; ObjectID = "Drp-4y-k3T"; */
+"Drp-4y-k3T.text" = "应用列表";
+
+/* Class = "UILabel"; text = "1970-01-01 00:00:00"; ObjectID = "KQT-T4-c4a"; */
+"KQT-T4-c4a.text" = "1970-01-01 00:00:00";
+
+/* Class = "UILabel"; text = "Remote Service"; ObjectID = "MUB-4A-9kj"; */
+"MUB-4A-9kj.text" = "远程服务";
+
+/* Class = "UITableViewController"; title = "XX Settings"; ObjectID = "N8f-qW-ado"; */
+"N8f-qW-ado.title" = "XXTouch 设置";
+
+/* Class = "UINavigationItem"; title = "My Scripts"; ObjectID = "RNa-Eb-Qye"; */
+"RNa-Eb-Qye.title" = "我的脚本";
+
+/* Class = "UILabel"; text = "Restart Device"; ObjectID = "ThR-2p-aVL"; */
+"ThR-2p-aVL.text" = "重启设备";
+
+/* Class = "UITableViewSection"; headerTitle = "System"; ObjectID = "UUE-ka-Dlu"; */
+"UUE-ka-Dlu.headerTitle" = "系统";
+
+/* Class = "UILabel"; text = "Clean All Caches"; ObjectID = "UtZ-F7-Gzb"; */
+"UtZ-F7-Gzb.text" = "清理所有缓存";
+
+/* Class = "UILabel"; text = "Designed By i_82"; ObjectID = "Wal-0t-niS"; */
+"Wal-0t-niS.text" = "Designed By i_82";
+
+/* Class = "UITabBarItem"; title = "More"; ObjectID = "Zam-rg-gDP"; */
+"Zam-rg-gDP.title" = "更多";
+
+/* Class = "UILabel"; text = "This application needs Jailbreak environment.\nhttp://www.xxtouch.com\n2016 © XXTouch Team\nAll Rights Reserved."; ObjectID = "aXR-li-dmB"; */
+"aXR-li-dmB.text" = "请在越狱环境下运行本应用程序。\nhttp://www.xxtouch.com\n2016 © XXTouch Team\n版权所有";
+
+/* Class = "UILabel"; text = "Clean GPS Caches"; ObjectID = "c2r-nx-1CI"; */
+"c2r-nx-1CI.text" = "清理 GPS 缓存";
+
+/* Class = "UITableViewSection"; headerTitle = "Auth"; ObjectID = "cda-eP-Cd7"; */
+"cda-eP-Cd7.headerTitle" = "授权";
+
+/* Class = "UILabel"; text = "XXTouch\nV1.0 (1)"; ObjectID = "dp7-rb-o1s"; */
+"dp7-rb-o1s.text" = "XXTouch\nV1.0 (1)";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "dry-eX-pHi"; */
+"dry-eX-pHi.text" = "关于";
+
+/* Class = "UILabel"; text = "Startup Config"; ObjectID = "f9B-1Z-u15"; */
+"f9B-1Z-u15.text" = "开机启动项";
+
+/* Class = "UITableViewSection"; headerTitle = "Config"; ObjectID = "ipj-rb-f7w"; */
+"ipj-rb-f7w.headerTitle" = "设置";
+
+/* Class = "UILabel"; text = "Restart Daemon"; ObjectID = "jMb-PR-yw5"; */
+"jMb-PR-yw5.text" = "重启守护进程";
+
+/* Class = "UILabel"; text = "Mail Feedback"; ObjectID = "jPa-6V-etE"; */
+"jPa-6V-etE.text" = "邮件反馈";
+
+/* Class = "UILabel"; text = "User Defaults Config"; ObjectID = "jjZ-Pc-SRj"; */
+"jjZ-Pc-SRj.text" = "偏好设置";
+
+/* Class = "UINavigationItem"; title = "More"; ObjectID = "jo4-6i-7xk"; */
+"jo4-6i-7xk.title" = "更多";
+
+/* Class = "UILabel"; text = "Documents"; ObjectID = "k8F-5K-eC7"; */
+"k8F-5K-eC7.text" = "开发文档";
+
+/* Class = "UILabel"; text = "Key Press Config"; ObjectID = "ly3-Qe-OcM"; */
+"ly3-Qe-OcM.text" = "按键设置";
+
+/* Class = "UILabel"; text = "Authorization"; ObjectID = "nm7-nn-0JE"; */
+"nm7-nn-0JE.text" = "查看授权";
+
+/* Class = "UITabBarItem"; title = "My Scripts"; ObjectID = "rxv-io-rl7"; */
+"rxv-io-rl7.title" = "我的脚本";
+
+/* Class = "UILabel"; text = "Clean UI Caches"; ObjectID = "s0N-Ml-bkH"; */
+"s0N-Ml-bkH.text" = "清理 UI 缓存";
+
+/* Class = "UITableViewSection"; headerTitle = "Help"; ObjectID = "scs-BP-UCX"; */
+"scs-BP-UCX.headerTitle" = "帮助";
+
+/* Class = "UINavigationController"; title = "XX Navigation"; ObjectID = "szv-sl-aZ6"; */
+"szv-sl-aZ6.title" = "XXTouch 导航视图";
+
+/* Class = "UILabel"; text = "Filename"; ObjectID = "to9-MC-Ca6"; */
+"to9-MC-Ca6.text" = "Filename";
+
+/* Class = "UILabel"; text = "Official Site"; ObjectID = "yP0-T4-BER"; */
+"yP0-T4-BER.text" = "官方网站";

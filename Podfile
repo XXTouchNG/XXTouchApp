@@ -2,6 +2,8 @@ target 'XXTouchApp' do
     platform :ios, '7.0'
     inhibit_all_warnings!
     use_frameworks!
+    pod 'YYKit'
+    pod 'JSONModel'
     pod 'Toast'
     pod 'Masonry'
     pod 'Colours'

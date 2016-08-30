@@ -15,7 +15,14 @@
 }
 
 - (NSString *)requestUrl {
-    return @"/get_file_list";
+    return @"get_file_list";
+}
+
+- (NSString *)directory {
+    if (!_directory) {
+        _directory = @"/lua/scripts/";
+    }
+    return _directory;
 }
 
 @end

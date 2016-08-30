@@ -6,6 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#import "XXSwipeableCell.h"
 #import "XXScriptListTableViewController.h"
 #import <MJRefresh/MJRefresh.h>
 
@@ -15,7 +16,8 @@ enum {
     kXXScriptListCellSection = 0,
 };
 
-@interface XXScriptListTableViewController ()
+@interface XXScriptListTableViewController () <UITableViewDelegate>
+@property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 
 @end
@@ -25,8 +27,10 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"My Scripts", nil); // Override
+    self.title = NSLocalizedStringFromTable(@"My Scripts", @"XXTouch", nil); // Override
     self.clearsSelectionOnViewWillAppear = YES; // Override
+    
+    self.tableView.delegate = self;
     
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
@@ -45,9 +49,9 @@ enum {
     if (!_refreshHeader) {
         /* Init of MJRefresh */
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadScriptListTableView)];
-        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
+        [normalHeader setTitle:NSLocalizedStringFromTable(@"Pull down", @"XXTouch", nil) forState:MJRefreshStateIdle];
+        [normalHeader setTitle:NSLocalizedStringFromTable(@"Release", @"XXTouch", nil) forState:MJRefreshStatePulling];
+        [normalHeader setTitle:NSLocalizedStringFromTable(@"Loading...", @"XXTouch", nil) forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         normalHeader.lastUpdatedTimeLabel.hidden = YES;
@@ -86,9 +90,13 @@ enum {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
+    XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    if (_selectedIndex == indexPath.row) {
+        cell.checked = YES;
+    } else {
+        cell.checked = NO;
+    }
     
     return cell;
 }
@@ -96,22 +104,39 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    if (_selectedIndex != indexPath.row) {
+        NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
+        XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
+        lastCell.checked = NO;
+        
+        XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+        currentCell.checked = YES;
+        
+        _selectedIndex = indexPath.row;
+    }
+    
 }
 
-// Override to support conditional editing of the table view.
+#pragma mark - Override and disable edit row
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
 
-// Override to support editing the table view.
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedStringFromTable(@"Edit", @"XXTouch", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+    }];
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedStringFromTable(@"Delete", @"XXTouch", nil) handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        
+    }];
+    editAction.backgroundColor = STYLE_TINT_COLOR;
+    deleteAction.backgroundColor = [UIColor dangerColor];
+    return @[deleteAction, editAction];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    
 }
 
 @end

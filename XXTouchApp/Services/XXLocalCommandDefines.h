@@ -9,7 +9,7 @@
 #ifndef XXLocalCommandDefines_h
 #define XXLocalCommandDefines_h
 
-#define XXLocalCommandPort 46952
+static NSString * const apiUrl = @"http://127.0.0.1:46952/";
 
 typedef enum : NSUInteger {
     kXXLocalCommandMethodGET  = 0,

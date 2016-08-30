@@ -60,19 +60,12 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"More", nil); // Override
+    self.title = NSLocalizedStringFromTable(@"More", @"XXTouch", nil); // Override
     self.clearsSelectionOnViewWillAppear = YES; // Override
     
-    if (SYSTEM_VERSION_GREATER_THAN(@"8.0")) {
-        self.tableView.scrollIndicatorInsets =
-        self.tableView.contentInset =
-        UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-    } else {
-        self.tableView.scrollIndicatorInsets =
-        self.tableView.contentInset =
-        UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height + UI_STATUSBAR_HEIGHT, 0,
-                         self.tabBarController.tabBar.frame.size.height, 0);
-    }
+    self.tableView.scrollIndicatorInsets =
+    self.tableView.contentInset =
+    UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,4 +10,19 @@
 
 @implementation XXLocalCommandBaseRequest
 
++ (BOOL)propertyIsIgnored:(NSString *)propertyName {
+    if (
+        [propertyName isEqualToString:@"requestMethod"] ||
+        [propertyName isEqualToString:@"requestUrl"] ||
+        [propertyName isEqualToString:@"requestBody"]
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSString *)requestBody {
+    return [self toJSONString];
+}
+
 @end

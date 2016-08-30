@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"My Scripts", nil);
+    self.title = NSLocalizedStringFromTable(@"My Scripts", @"XXTouch", nil);
     self.delegate = self;
     
     self.tabBar.selectedImageTintColor = STYLE_TINT_COLOR;
