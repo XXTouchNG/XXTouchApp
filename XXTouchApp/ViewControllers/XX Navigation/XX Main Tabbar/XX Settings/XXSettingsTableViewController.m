@@ -7,6 +7,7 @@
 //
 
 #import "XXSettingsTableViewController.h"
+#import "XXWebViewController.h"
 
 enum {
     kServiceSection = 0,
@@ -124,7 +125,7 @@ enum {
             break;
         case kHelpSection:
             switch (indexPath.row) {
-                case kHelpReferencesIndex:
+                case kHelpReferencesIndex: // Next Controller
                 case kHelpAboutIndex: // Next controller
                 default:
                     break;
@@ -133,6 +134,13 @@ enum {
         default:
             break;
     }
+}
+
+- (void)openReferencesUrl {
+    XXWebViewController *viewController = [[XXWebViewController alloc] init];
+    viewController.title = NSLocalizedStringFromTable(@"Documents", @"XXTouch", nil);
+    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"]];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end

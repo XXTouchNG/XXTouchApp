@@ -16,16 +16,16 @@
 #define APP_NAME_CN @"XXTouch"
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
-#define SERVICE_EMAIL @"jct@82flex.com"
-#define OFFICIAL_SITE @"http://www.xxtouch.com"
-#define DOCUMENT_URL @"http://127.0.0.1:46952/help.html"
 
 #import <JSONModel/JSONModel.h>
 #import <YYKit/YYKit.h>
 #import <Colours/Colours.h>
+#import <Masonry/Masonry.h>
+
 #import "UIView+Toast.h"
-#import "SystemDebugDefines.h"
+#import "UrlDefines.h"
 #import "StyleDefines.h"
+#import "SystemDebugDefines.h"
 #import "SystemVersionDefines.h"
 #import "SystemConstantsDefines.h"
 

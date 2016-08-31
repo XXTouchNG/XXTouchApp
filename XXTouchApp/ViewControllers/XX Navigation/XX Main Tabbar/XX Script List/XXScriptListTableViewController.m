@@ -6,6 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#import "XXToolbar.h"
 #import "XXSwipeableCell.h"
 #import "XXScriptListTableViewController.h"
 #import <MJRefresh/MJRefresh.h>
@@ -19,6 +20,7 @@ enum {
 @interface XXScriptListTableViewController () <UITableViewDelegate>
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
+@property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
 @end
 
@@ -37,6 +39,12 @@ enum {
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
     self.tableView.mj_header = self.refreshHeader;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.tableView.allowsSelection = YES;
+    self.tableView.allowsMultipleSelection = NO;
+    self.tableView.allowsSelectionDuringEditing = YES;
+    self.tableView.allowsMultipleSelectionDuringEditing = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,6 +110,11 @@ enum {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([tableView isEditing]) {
+        return;
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (_selectedIndex != indexPath.row) {
@@ -123,16 +136,24 @@ enum {
     return YES;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedStringFromTable(@"Edit", @"XXTouch", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        
-    }];
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedStringFromTable(@"Delete", @"XXTouch", nil) handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         
     }];
-    editAction.backgroundColor = STYLE_TINT_COLOR;
     deleteAction.backgroundColor = [UIColor dangerColor];
-    return @[deleteAction, editAction];
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedStringFromTable(@"Edit", @"XXTouch", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+    }];
+    editAction.backgroundColor = STYLE_TINT_COLOR;
+    return @[editAction, deleteAction];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

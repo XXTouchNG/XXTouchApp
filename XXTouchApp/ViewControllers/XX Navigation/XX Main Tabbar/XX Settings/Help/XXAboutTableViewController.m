@@ -6,6 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#import "XXWebViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "XXAboutTableViewController.h"
 
@@ -40,30 +41,6 @@ enum {
     
     self.title = NSLocalizedStringFromTable(@"About", @"XXTouch", nil);
     _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_CN, VERSION_STRING, VERSION_BUILD];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    switch (indexPath.section) {
-        case kOptionSection:
-            switch (indexPath.row) {
-                case kOptionOfficialSiteIndex:
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:OFFICIAL_SITE]];
-                    break;
-                case kOptionMailFeedbackIndex:
-                    [self displayComposerSheet];
-                    break;
-                case kOptionUserAgreementIndex:
-                    break;
-                case kOptionThirdPartyIndex:
-                    break;
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
 }
 
 - (UIBarButtonItem *)debugItem {
@@ -112,6 +89,53 @@ enum {
                         error:(NSError*)error
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case kOptionSection:
+            switch (indexPath.row) {
+                case kOptionOfficialSiteIndex:
+                    [self openOfficialSite];
+                    break;
+                case kOptionMailFeedbackIndex:
+                    [self displayComposerSheet];
+                    break;
+                case kOptionUserAgreementIndex:
+                    [self openUserAgreement];
+                    break;
+                case kOptionThirdPartyIndex:
+                    [self openThirdParty];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)openOfficialSite {
+    XXWebViewController *viewController = [[XXWebViewController alloc] init];
+    viewController.title = NSLocalizedStringFromTable(@"Official Site", @"XXTouch", nil);
+    viewController.url = [NSURL URLWithString:OFFICIAL_SITE];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)openUserAgreement {
+    XXWebViewController *viewController = [[XXWebViewController alloc] init];
+    viewController.title = NSLocalizedStringFromTable(@"User Agreement", @"XXTouch", nil);
+    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"tos" ofType:@"html"]];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)openThirdParty {
+    XXWebViewController *viewController = [[XXWebViewController alloc] init];
+    viewController.title = NSLocalizedStringFromTable(@"Third Party Credits", @"XXTouch", nil);
+    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"open" ofType:@"html"]];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end
