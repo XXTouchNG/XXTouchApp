@@ -9,22 +9,47 @@
 #import "XXToolbar.h"
 #import "XXSwipeableCell.h"
 #import "XXScriptListTableViewController.h"
+#import "XXLocalDataService.h"
 #import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
+static NSString * const kXXItemPathKey = @"kXXItemPathKey";
+static NSString * const kXXItemNameKey = @"kXXItemNameKey";
+static NSString * const kXXItemUpperKey = @"kXXItemUpperKey";
 
 enum {
     kXXScriptListCellSection = 0,
 };
 
-@interface XXScriptListTableViewController () <UITableViewDelegate>
+typedef enum : NSUInteger {
+    kXXScriptListSortByNameAsc,
+    kXXScriptListSortByModificationDesc,
+} kXXScriptListSortMethod;
+
+@interface XXScriptListTableViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
+@property (nonatomic, strong) NSString *rootDirectory;
+@property (nonatomic, strong) NSString *currentDirectory;
+@property (nonatomic, strong) NSString *upperDirectory;
+@property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
+
+@property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
+
 @end
 
 @implementation XXScriptListTableViewController
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    _rootDirectory = [[XXLocalDataService sharedInstance] rootPath];
+    _currentDirectory = [_rootDirectory mutableCopy];
+    _upperDirectory = nil;
+    _rootItemsDictionaryArr = @[];
+    _sortMethod = kXXScriptListSortByNameAsc;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,6 +58,7 @@ enum {
     self.clearsSelectionOnViewWillAppear = YES; // Override
     
     self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
@@ -69,8 +95,91 @@ enum {
     return _refreshHeader;
 }
 
+- (void)setCurrentDirectory:(NSString *)currentDirectory {
+    _currentDirectory = currentDirectory;
+    if ([currentDirectory isEqualToString:_rootDirectory]) {
+        _upperDirectory = nil;
+    } else {
+        _upperDirectory = [currentDirectory stringByDeletingLastPathComponent];
+    }
+}
+
 - (void)reloadScriptListTableView {
-    [self performSelector:@selector(endScriptListRefresh) withObject:nil afterDelay:1.0];
+    
+    if ([self.tableView isEditing]) {
+        [self endScriptListRefresh];
+        return;
+    }
+    
+    [self reloadScriptListTableData];
+    [self.tableView reloadData];
+    [self endScriptListRefresh];
+}
+
+- (void)reloadScriptListTableData {
+    NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[FCFileManager listItemsInDirectoryAtPath:self.currentDirectory deep:NO]];
+    
+    NSMutableArray *attrArr = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *dirArr = [[NSMutableArray alloc] init];
+    NSMutableArray *fileArr = [[NSMutableArray alloc] init];
+    
+    // Fetch Attributes
+    for (NSString *itemPath in pathArr) {
+        NSError *err = nil;
+        NSDictionary *attrs = [FCFileManager attributesOfItemAtPath:itemPath
+                                                              error:&err];
+        NSMutableDictionary *mutAttrs = [[NSMutableDictionary alloc] initWithDictionary:attrs];
+        [mutAttrs setObject:itemPath forKey:kXXItemPathKey];
+        [mutAttrs setObject:[itemPath lastPathComponent] forKey:kXXItemNameKey];
+        if (err == nil) {
+            if ([mutAttrs objectForKey:NSFileType] == NSFileTypeDirectory) {
+                [dirArr addObject:mutAttrs];
+            } else {
+                [fileArr addObject:mutAttrs];
+            }
+        }
+    }
+    
+    // Sort
+    if (self.sortMethod == kXXScriptListSortByNameAsc) {
+        [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+            return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
+        }];
+        [fileArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+            return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
+        }];
+    } else if (self.sortMethod == kXXScriptListSortByModificationDesc) {
+        [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+            return [obj1[NSFileModificationDate] compare:obj2[NSFileModificationDate]];
+        }];
+        [fileArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+            return [obj1[NSFileModificationDate] compare:obj2[NSFileModificationDate]];
+        }];
+    }
+    
+    // Combine
+    [attrArr addObjectsFromArray:dirArr];
+    [attrArr addObjectsFromArray:fileArr];
+    
+    // ..
+    if (_upperDirectory != nil) {
+        NSString *itemPath = _upperDirectory;
+        [pathArr insertObject:itemPath atIndex:0];
+        NSError *err = nil;
+        NSDictionary *attrs = [FCFileManager attributesOfItemAtPath:itemPath
+                                                              error:&err];
+        NSMutableDictionary *mutAttrs = [[NSMutableDictionary alloc] initWithDictionary:attrs];
+        [mutAttrs setObject:itemPath forKey:kXXItemPathKey];
+        if (err == nil) {
+            if ([mutAttrs objectForKey:NSFileType] == NSFileTypeDirectory) {
+                [attrArr insertObject:mutAttrs atIndex:0];
+            }
+        }
+    }
+    
+    CYLog(@"%@", pathArr);
+    _rootItemsDictionaryArr = attrArr;
 }
 
 - (void)endScriptListRefresh {
@@ -85,7 +194,7 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == kXXScriptListCellSection) {
-        return 12;
+        return self.rootItemsDictionaryArr.count;
     }
     return 0;
 }
@@ -99,11 +208,29 @@ enum {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
+    NSDictionary *attrs = self.rootItemsDictionaryArr[indexPath.row];
+    NSString *itemPath = [attrs objectForKey:kXXItemPathKey];
+    NSString *itemName = [attrs objectForKey:kXXItemNameKey];
+    CYLog(@"%@", attrs);
     
-    if (_selectedIndex == indexPath.row) {
-        cell.checked = YES;
+    if ([itemPath isEqualToString:_upperDirectory]) {
+        cell.isUpperDirectory = YES;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     } else {
-        cell.checked = NO;
+        cell.isUpperDirectory = NO;
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+    }
+    
+    cell.itemPath = itemPath;
+    cell.displayName = itemName;
+    cell.itemAttrs = attrs;
+    
+    if (cell.selectable) {
+        if (_selectedIndex == indexPath.row) {
+            cell.checked = YES;
+        } else {
+            cell.checked = NO;
+        }
     }
     
     return cell;
@@ -117,22 +244,35 @@ enum {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (_selectedIndex != indexPath.row) {
-        NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
-        XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
-        lastCell.checked = NO;
-        
-        XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
-        currentCell.checked = YES;
-        
-        _selectedIndex = indexPath.row;
-    }
+    XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
+    if (currentCell.selectable) {
+        if (_selectedIndex != indexPath.row) {
+            NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
+            XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
+            
+            lastCell.checked = NO;
+            currentCell.checked = YES;
+            
+            _selectedIndex = indexPath.row;
+        }
+    } else {
+        if (currentCell.isDirectory) {
+            self.currentDirectory = currentCell.itemPath;
+            [self reloadScriptListTableView];
+        } else {
+            [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unknown File Type", @"XXTouch", nil)];
+        }
+    }
 }
 
 #pragma mark - Override and disable edit row
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell.isUpperDirectory) {
+        return NO;
+    }
     return YES;
 }
 
@@ -146,18 +286,34 @@ enum {
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedStringFromTable(@"Delete", @"XXTouch", nil) handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        
+        XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        __block NSString *itemPath = cell.itemPath;
+        NSString *displayName = cell.displayName;
+        NSString *formatString = NSLocalizedStringFromTable(@"Delete %@?\nThis operation cannot be revoked.", @"XXTouch", nil);
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
+                                                         andMessage:[NSString stringWithFormat:formatString, displayName]];
+        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            NSError *err = nil;
+            [FCFileManager removeItemAtPath:itemPath error:&err];
+            [self reloadScriptListTableData];
+            [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
+            [tableView setEditing:NO animated:YES];
+        }];
+        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            [tableView setEditing:NO animated:YES];
+        }];
+        [alertView show];
     }];
     deleteAction.backgroundColor = [UIColor dangerColor];
-    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedStringFromTable(@"Edit", @"XXTouch", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        
-    }];
-    editAction.backgroundColor = STYLE_TINT_COLOR;
-    return @[editAction, deleteAction];
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell.editable) {
+        UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedStringFromTable(@"Edit", @"XXTouch", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+            
+        }];
+        editAction.backgroundColor = STYLE_TINT_COLOR;
+        return @[editAction, deleteAction];
+    }
+    return @[deleteAction];
 }
 
 @end

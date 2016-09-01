@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "XXLocalCommandDefines.h"
+#import "XXLocalDefines.h"
 #import <Foundation/Foundation.h>
 
 @interface XXLocalCommandBaseRequest : JSONModel

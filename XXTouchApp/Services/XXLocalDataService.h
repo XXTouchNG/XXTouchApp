@@ -13,5 +13,9 @@
 + (id)sharedInstance;
 
 @property (nonatomic, strong) NSArray <XXLocalFileModel *> *localFiles;
+@property (nonatomic, strong) NSString *rootPath;
+@property (nonatomic, strong) NSString *libraryPath;
+@property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
+@property (nonatomic, strong) NSString *selectedItem;
 
 @end

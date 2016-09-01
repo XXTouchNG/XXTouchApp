@@ -20,4 +20,23 @@
     return sharedInstance;
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        [self setupStyle];
+    }
+    return self;
+}
+
+- (void)setupStyle {
+    [CSToastManager setTapToDismissEnabled:YES];
+    [CSToastManager setDefaultDuration:STYLE_TOAST_DURATION];
+    [CSToastManager setQueueEnabled:NO];
+    [CSToastManager setDefaultPosition:CSToastPositionCenter];
+    
+    [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleBounce;
+    [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];
+    [SIAlertView appearance].messageFont = [UIFont systemFontOfSize:14.f];
+    [SIAlertView appearance].buttonFont = [UIFont systemFontOfSize:14.f];
+}
+
 @end

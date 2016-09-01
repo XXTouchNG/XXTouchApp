@@ -19,4 +19,27 @@
     return sharedInstance;
 }
 
+- (NSString *)rootPath {
+    if (!_rootPath) {
+        _rootPath = [[UIApplication sharedApplication] documentsPath];
+    }
+    return _rootPath;
+}
+
+- (NSString *)libraryPath {
+    if (!_libraryPath) {
+        _libraryPath = [[UIApplication sharedApplication] libraryPath];
+    }
+    return _libraryPath;
+}
+
+- (NSDateFormatter *)defaultDateFormatter {
+    if (!_defaultDateFormatter) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        _defaultDateFormatter = dateFormatter;
+    }
+    return _defaultDateFormatter;
+}
+
 @end

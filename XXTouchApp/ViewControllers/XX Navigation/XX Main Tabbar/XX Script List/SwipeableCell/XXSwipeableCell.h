@@ -10,5 +10,12 @@
 
 @interface XXSwipeableCell : UITableViewCell
 @property (nonatomic, assign) BOOL checked;
+@property (nonatomic, assign) BOOL selectable;
+@property (nonatomic, assign) BOOL editable;
+@property (nonatomic, assign) BOOL isDirectory;
+@property (nonatomic, assign) BOOL isUpperDirectory;
+@property (nonatomic, strong) NSString *displayName;
+@property (nonatomic, strong) NSString *itemPath;
+@property (nonatomic, strong) NSDictionary *itemAttrs;
 
 @end

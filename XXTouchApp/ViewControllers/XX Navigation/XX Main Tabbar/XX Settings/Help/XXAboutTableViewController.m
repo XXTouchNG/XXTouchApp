@@ -54,10 +54,10 @@ enum {
 }
 
 - (void)debugViaFlex:(id)sender {
-    [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Enable Debug Mode", @"XXTouch", nil)
-                                     duration:STYLE_TOAST_DURATION
-                                     position:CSToastPositionCenter];
+    [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Enable Debug Mode", @"XXTouch", nil)];
+#ifdef DEBUG
     [[FLEXManager sharedManager] showExplorer];
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
