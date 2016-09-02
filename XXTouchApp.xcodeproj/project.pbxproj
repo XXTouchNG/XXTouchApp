@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F14738D1D798A08003F4A90 /* XXItemAttributesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F14738C1D798A08003F4A90 /* XXItemAttributesTableViewController.m */; };
+		0F2935F21D797E0400E41A29 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2935F11D797E0400E41A29 /* NSString+Regexp.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
+		0F50290A1D79910B0019FC8D /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5029091D79910B0019FC8D /* NSString+Mime.m */; };
 		0F6C99121D79240200505040 /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */; };
 		0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */; };
 		0F98527B1D746718001323AA /* XXAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98527A1D746718001323AA /* XXAboutTableViewController.m */; };
@@ -39,11 +42,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F14738B1D798A08003F4A90 /* XXItemAttributesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXItemAttributesTableViewController.h; sourceTree = "<group>"; };
+		0F14738C1D798A08003F4A90 /* XXItemAttributesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXItemAttributesTableViewController.m; sourceTree = "<group>"; };
+		0F2935F01D797E0400E41A29 /* NSString+Regexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regexp.h"; sourceTree = "<group>"; };
+		0F2935F11D797E0400E41A29 /* NSString+Regexp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regexp.m"; sourceTree = "<group>"; };
 		0F302D2A1D745751001E566A /* StyleDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
 		0F302D2C1D74578E001E566A /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
 		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
 		0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		0F5029081D79910B0019FC8D /* NSString+Mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Mime.h"; sourceTree = "<group>"; };
+		0F5029091D79910B0019FC8D /* NSString+Mime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Mime.m"; sourceTree = "<group>"; };
 		0F6C99101D79240200505040 /* XXCreateItemTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCreateItemTableViewController.h; sourceTree = "<group>"; };
 		0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCreateItemTableViewController.m; sourceTree = "<group>"; };
 		0F98526E1D745CC3001323AA /* XXLocalCommandBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalCommandBaseRequest.h; sourceTree = "<group>"; };
@@ -117,10 +126,14 @@
 		0F302D2B1D74578E001E566A /* Catalogs */ = {
 			isa = PBXGroup;
 			children = (
+				0F5029081D79910B0019FC8D /* NSString+Mime.h */,
+				0F5029091D79910B0019FC8D /* NSString+Mime.m */,
 				0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */,
 				0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */,
 				0F302D2C1D74578E001E566A /* UINavigationController+StatusBar.h */,
 				0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */,
+				0F2935F01D797E0400E41A29 /* NSString+Regexp.h */,
+				0F2935F11D797E0400E41A29 /* NSString+Regexp.m */,
 			);
 			path = Catalogs;
 			sourceTree = "<group>";
@@ -255,6 +268,8 @@
 				0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */,
 				0F6C99101D79240200505040 /* XXCreateItemTableViewController.h */,
 				0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */,
+				0F14738B1D798A08003F4A90 /* XXItemAttributesTableViewController.h */,
+				0F14738C1D798A08003F4A90 /* XXItemAttributesTableViewController.m */,
 				0FC47E811D7673DE0076590B /* Toolbar */,
 				0FD7DC261D75BAFE00F84181 /* SwipeableCell */,
 			);
@@ -519,6 +534,7 @@
 				0FC47E971D769C160076590B /* XXDocumentsTableViewController.m in Sources */,
 				0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */,
 				0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */,
+				0F14738D1D798A08003F4A90 /* XXItemAttributesTableViewController.m in Sources */,
 				0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0F98527B1D746718001323AA /* XXAboutTableViewController.m in Sources */,
 				0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */,
@@ -526,8 +542,10 @@
 				0FB0A79C1D73DAF900129E83 /* XXNavigationViewController.m in Sources */,
 				0FB0A7C81D73E46C00129E83 /* XXScriptListTableViewController.m in Sources */,
 				0F9A83241D77ED1B0076ECDE /* SIAlertView.m in Sources */,
+				0F50290A1D79910B0019FC8D /* NSString+Mime.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0FC47E8C1D7690890076590B /* XXWebViewController.m in Sources */,
+				0F2935F21D797E0400E41A29 /* NSString+Regexp.m in Sources */,
 				0FC47E841D7673F70076590B /* XXToolbar.m in Sources */,
 				0F6C99121D79240200505040 /* XXCreateItemTableViewController.m in Sources */,
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,

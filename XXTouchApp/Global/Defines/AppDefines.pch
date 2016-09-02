@@ -33,6 +33,8 @@
 #import "SystemVersionDefines.h"
 #import "SystemConstantsDefines.h"
 
+#import "NSString+Mime.h"
+#import "NSString+Regexp.h"
 #import "UINavigationController+StatusBar.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 

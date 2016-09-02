@@ -35,6 +35,7 @@
 }
 
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {
+    _itemAttrs = itemAttrs;
     id fileType = [itemAttrs objectForKey:NSFileType];
     if (fileType == NSFileTypeDirectory || fileType == NSFileTypeSymbolicLink) {
         // directory

@@ -17,20 +17,58 @@ typedef enum : NSUInteger {
 @interface XXCreateItemTableViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *itemNameTextField;
 @property (nonatomic, assign) kXXCreateItemType selectedType;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 
 @end
 
 @implementation XXCreateItemTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     CYLog(@"%@", self.currentDirectory);
+    {
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+        tapGesture.cancelsTouchesInView = NO;
+        [self.view addGestureRecognizer:tapGesture];
+    }
+}
+
+- (void)viewTapped:(UITapGestureRecognizer *)tapGesture {
+    if ([_itemNameTextField isFirstResponder]) {
+        [_itemNameTextField resignFirstResponder];
+    }
+}
+
+- (IBAction)nameTextFieldChanged:(UITextField *)sender {
+    NSString *itemName = sender.text;
+    if (itemName.length == 0 || itemName.length > 255) {
+        self.doneButton.enabled = NO;
+    } else if ([itemName containsString:@"/"]) {
+        self.doneButton.enabled = NO;
+    } else {
+        self.doneButton.enabled = YES;
+    }
+}
+
+- (IBAction)cancel:(id)sender {
+    if ([self.itemNameTextField isFirstResponder]) {
+        [self.itemNameTextField resignFirstResponder];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)done:(id)sender {
     NSString *itemName = _itemNameTextField.text;
     if (itemName.length == 0) {
-        [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Name cannot be empty.", @"XXTouch", nil)];
+        [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Item name cannot be empty.", @"XXTouch", nil)];
+        return;
+    } else if ([itemName containsString:@"/"]) {
+        [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Invalid item name.", @"XXTouch", nil)];
         return;
     }
     NSError *err = nil;
@@ -46,7 +84,10 @@ typedef enum : NSUInteger {
         [FCFileManager createDirectoriesForPath:itemPath error:&err];
     }
     if (err == nil) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.itemNameTextField isFirstResponder]) {
+            [self.itemNameTextField resignFirstResponder];
+        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         [self.navigationController.view makeToast:[err localizedDescription]];
     }

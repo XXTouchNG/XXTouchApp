@@ -8,15 +8,18 @@
 
 #import "XXToolbar.h"
 #import "XXSwipeableCell.h"
+#import "XXCreateItemTableViewController.h"
+#import "XXItemAttributesTableViewController.h"
 #import "XXScriptListTableViewController.h"
 #import "XXLocalDataService.h"
 #import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
+static NSString * const kXXCreateItemTableViewControllerStoryboardID = @"kXXCreateItemTableViewControllerStoryboardID";
+static NSString * const kXXItemAttributesTableViewControllerStoryboardID = @"kXXItemAttributesTableViewControllerStoryboardID";
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXItemPathKey = @"kXXItemPathKey";
 static NSString * const kXXItemNameKey = @"kXXItemNameKey";
-//static NSString * const kXXItemUpperKey = @"kXXItemUpperKey";
 
 enum {
     kXXScriptListCellSection = 0,
@@ -34,7 +37,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, copy) NSString *rootDirectory;
 @property (nonatomic, copy) NSString *currentDirectory;
-//@property (nonatomic, copy) NSString *upperDirectory;
 @property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
 
 @property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
@@ -53,10 +55,8 @@ typedef enum : NSUInteger {
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-//    _rootDirectory = [[XXLocalDataService sharedInstance] rootPath];
     _rootDirectory = ROOT_PATH;
     _currentDirectory = [_rootDirectory mutableCopy];
-//    _upperDirectory = nil;
     _rootItemsDictionaryArr = @[];
     _sortMethod = kXXScriptListSortByNameAsc;
 }
@@ -64,9 +64,6 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self reloadScriptListTableData];
-    
-//    self.title = NSLocalizedStringFromTable(@"My Scripts", @"XXTouch", nil); // Override
     self.clearsSelectionOnViewWillAppear = YES;
     
     self.tableView.delegate = self;
@@ -85,10 +82,11 @@ typedef enum : NSUInteger {
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     
     [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
-//    UIView *view = [[UIView alloc] init];
-//    view.backgroundColor = [UIColor clearColor];
-//    [self.tableView setTableFooterView:view];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self reloadScriptListTableView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,7 +97,6 @@ typedef enum : NSUInteger {
 
 - (MJRefreshNormalHeader *)refreshHeader {
     if (!_refreshHeader) {
-        /* Init of MJRefresh */
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadScriptListTableView)];
         [normalHeader setTitle:NSLocalizedStringFromTable(@"Pull down", @"XXTouch", nil) forState:MJRefreshStateIdle];
         [normalHeader setTitle:NSLocalizedStringFromTable(@"Release", @"XXTouch", nil) forState:MJRefreshStatePulling];
@@ -107,7 +104,6 @@ typedef enum : NSUInteger {
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         normalHeader.lastUpdatedTimeLabel.hidden = YES;
-//        [normalHeader beginRefreshing];
         _refreshHeader = normalHeader;
     }
     return _refreshHeader;
@@ -116,15 +112,9 @@ typedef enum : NSUInteger {
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
     _currentDirectory = currentDirectory;
     self.title = [currentDirectory lastPathComponent];
-//    if ([currentDirectory isEqualToString:_rootDirectory]) {
-//        _upperDirectory = nil;
-//    } else {
-//        _upperDirectory = [currentDirectory stringByDeletingLastPathComponent];
-//    }
 }
 
 - (void)reloadScriptListTableView {
-    
     if ([self.tableView isEditing]) {
         [self endScriptListRefresh];
         return;
@@ -151,7 +141,6 @@ typedef enum : NSUInteger {
     NSMutableArray *dirArr = [[NSMutableArray alloc] init];
     NSMutableArray *fileArr = [[NSMutableArray alloc] init];
     
-    // Fetch Attributes
     for (NSString *itemPath in pathArr) {
         NSError *err = nil;
         NSDictionary *attrs = [FCFileManager attributesOfItemAtPath:itemPath
@@ -168,7 +157,6 @@ typedef enum : NSUInteger {
         }
     }
     
-    // Sort
     if (self.sortMethod == kXXScriptListSortByNameAsc) {
         [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
@@ -185,34 +173,16 @@ typedef enum : NSUInteger {
         }];
     }
     
-    // Combine
     [attrArr addObjectsFromArray:dirArr];
     [attrArr addObjectsFromArray:fileArr];
     
-    // ..
-    /*
-    if (_upperDirectory != nil) {
-        NSString *itemPath = _upperDirectory;
-        [pathArr insertObject:itemPath atIndex:0];
-        NSError *err = nil;
-        NSDictionary *attrs = [FCFileManager attributesOfItemAtPath:itemPath
-                                                              error:&err];
-        NSMutableDictionary *mutAttrs = [[NSMutableDictionary alloc] initWithDictionary:attrs];
-        [mutAttrs setObject:itemPath forKey:kXXItemPathKey];
-        if (err == nil) {
-            if ([mutAttrs objectForKey:NSFileType] == NSFileTypeDirectory) {
-                [attrArr insertObject:mutAttrs atIndex:0];
-            }
-        }
-    }
-     */
-    
-    CYLog(@"%@", pathArr);
     _rootItemsDictionaryArr = attrArr;
 }
 
 - (void)endScriptListRefresh {
-    [self.refreshHeader endRefreshing];
+    if ([self.refreshHeader isRefreshing]) {
+        [self.refreshHeader endRefreshing];
+    }
 }
 
 #pragma mark - Table view data source
@@ -240,15 +210,6 @@ typedef enum : NSUInteger {
     NSDictionary *attrs = self.rootItemsDictionaryArr[indexPath.row];
     NSString *itemPath = [attrs objectForKey:kXXItemPathKey];
     NSString *itemName = [attrs objectForKey:kXXItemNameKey];
-    CYLog(@"%@", attrs);
-    
-//    if ([itemPath isEqualToString:_upperDirectory]) {
-//        cell.isUpperDirectory = YES;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    } else {
-//        cell.isUpperDirectory = NO;
-//        cell.accessoryType = UITableViewCellAccessoryDetailButton;
-//    }
     
     cell.itemPath = itemPath;
     cell.displayName = itemName;
@@ -313,8 +274,6 @@ typedef enum : NSUInteger {
             XXScriptListTableViewController *newController = [self.storyboard instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
             newController.currentDirectory = currentCell.itemPath;
             [self.navigationController pushViewController:newController animated:YES];
-//            self.currentDirectory = currentCell.itemPath;
-//            [self reloadScriptListTableView];
         } else {
             [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unknown File Type", @"XXTouch", nil)];
         }
@@ -324,10 +283,6 @@ typedef enum : NSUInteger {
 #pragma mark - Override and disable edit row
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    if (cell.isUpperDirectory) {
-//        return NO;
-//    }
     return YES;
 }
 
@@ -373,11 +328,23 @@ typedef enum : NSUInteger {
     return @[deleteAction];
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
+    XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
+    viewController.currentName = [cell.itemAttrs objectForKey:kXXItemNameKey];
+    viewController.currentPath = [cell.itemAttrs objectForKey:kXXItemPathKey];
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
+}
+
 - (IBAction)toolbarButtonTapped:(id)sender {
     if (sender == _scanButton) {
         
     } else if (sender == _addItemButton) {
-        
+        UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
+        XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
+        viewController.currentDirectory = self.currentDirectory;
+        [self.navigationController presentViewController:navController animated:YES completion:nil];
     } else if (sender == _addDirectoryButton) {
         
     } else if (sender == _sortByButton) {
@@ -431,11 +398,6 @@ typedef enum : NSUInteger {
 - (void)itemCountLabelTapped:(id)sender {
     [[UIPasteboard generalPasteboard] setString:self.currentDirectory];
     [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"The absolute path has been copied to the clipboard.", @"XXTouch", nil)];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    id viewController = segue.destinationViewController;
-    [viewController setValue:self.currentDirectory forKey:@"currentDirectory"];
 }
 
 @end
