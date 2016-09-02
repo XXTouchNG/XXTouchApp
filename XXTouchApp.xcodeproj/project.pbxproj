@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
+		0F6C99121D79240200505040 /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */; };
 		0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */; };
 		0F98527B1D746718001323AA /* XXAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98527A1D746718001323AA /* XXAboutTableViewController.m */; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
@@ -43,6 +44,8 @@
 		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
 		0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		0F6C99101D79240200505040 /* XXCreateItemTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCreateItemTableViewController.h; sourceTree = "<group>"; };
+		0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCreateItemTableViewController.m; sourceTree = "<group>"; };
 		0F98526E1D745CC3001323AA /* XXLocalCommandBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalCommandBaseRequest.h; sourceTree = "<group>"; };
 		0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalCommandBaseRequest.m; sourceTree = "<group>"; };
 		0F9852711D745D15001323AA /* XXLocalDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalDefines.h; sourceTree = "<group>"; };
@@ -250,6 +253,8 @@
 			children = (
 				0FB0A7C11D73E46C00129E83 /* XXScriptListTableViewController.h */,
 				0FB0A7C21D73E46C00129E83 /* XXScriptListTableViewController.m */,
+				0F6C99101D79240200505040 /* XXCreateItemTableViewController.h */,
+				0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */,
 				0FC47E811D7673DE0076590B /* Toolbar */,
 				0FD7DC261D75BAFE00F84181 /* SwipeableCell */,
 			);
@@ -524,6 +529,7 @@
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0FC47E8C1D7690890076590B /* XXWebViewController.m in Sources */,
 				0FC47E841D7673F70076590B /* XXToolbar.m in Sources */,
+				0F6C99121D79240200505040 /* XXCreateItemTableViewController.m in Sources */,
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,

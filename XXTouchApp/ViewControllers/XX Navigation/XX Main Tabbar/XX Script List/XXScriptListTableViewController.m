@@ -12,10 +12,11 @@
 #import "XXLocalDataService.h"
 #import <MJRefresh/MJRefresh.h>
 
+static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXItemPathKey = @"kXXItemPathKey";
 static NSString * const kXXItemNameKey = @"kXXItemNameKey";
-static NSString * const kXXItemUpperKey = @"kXXItemUpperKey";
+//static NSString * const kXXItemUpperKey = @"kXXItemUpperKey";
 
 enum {
     kXXScriptListCellSection = 0,
@@ -31,12 +32,20 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
-@property (nonatomic, strong) NSString *rootDirectory;
-@property (nonatomic, strong) NSString *currentDirectory;
-@property (nonatomic, strong) NSString *upperDirectory;
+@property (nonatomic, copy) NSString *rootDirectory;
+@property (nonatomic, copy) NSString *currentDirectory;
+//@property (nonatomic, copy) NSString *upperDirectory;
 @property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
 
 @property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *scanButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addItemButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addDirectoryButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortByButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteRangeButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *footerLabel;
 
 @end
 
@@ -44,9 +53,10 @@ typedef enum : NSUInteger {
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _rootDirectory = [[XXLocalDataService sharedInstance] rootPath];
+//    _rootDirectory = [[XXLocalDataService sharedInstance] rootPath];
+    _rootDirectory = ROOT_PATH;
     _currentDirectory = [_rootDirectory mutableCopy];
-    _upperDirectory = nil;
+//    _upperDirectory = nil;
     _rootItemsDictionaryArr = @[];
     _sortMethod = kXXScriptListSortByNameAsc;
 }
@@ -54,8 +64,10 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedStringFromTable(@"My Scripts", @"XXTouch", nil); // Override
-    self.clearsSelectionOnViewWillAppear = YES; // Override
+    [self reloadScriptListTableData];
+    
+//    self.title = NSLocalizedStringFromTable(@"My Scripts", @"XXTouch", nil); // Override
+    self.clearsSelectionOnViewWillAppear = YES;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -71,6 +83,12 @@ typedef enum : NSUInteger {
     self.tableView.allowsMultipleSelection = NO;
     self.tableView.allowsSelectionDuringEditing = YES;
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
+    
+    [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    UIView *view = [[UIView alloc] init];
+//    view.backgroundColor = [UIColor clearColor];
+//    [self.tableView setTableFooterView:view];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,7 +107,7 @@ typedef enum : NSUInteger {
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         normalHeader.lastUpdatedTimeLabel.hidden = YES;
-        [normalHeader beginRefreshing];
+//        [normalHeader beginRefreshing];
         _refreshHeader = normalHeader;
     }
     return _refreshHeader;
@@ -97,11 +115,12 @@ typedef enum : NSUInteger {
 
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
     _currentDirectory = currentDirectory;
-    if ([currentDirectory isEqualToString:_rootDirectory]) {
-        _upperDirectory = nil;
-    } else {
-        _upperDirectory = [currentDirectory stringByDeletingLastPathComponent];
-    }
+    self.title = [currentDirectory lastPathComponent];
+//    if ([currentDirectory isEqualToString:_rootDirectory]) {
+//        _upperDirectory = nil;
+//    } else {
+//        _upperDirectory = [currentDirectory stringByDeletingLastPathComponent];
+//    }
 }
 
 - (void)reloadScriptListTableView {
@@ -118,6 +137,14 @@ typedef enum : NSUInteger {
 
 - (void)reloadScriptListTableData {
     NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[FCFileManager listItemsInDirectoryAtPath:self.currentDirectory deep:NO]];
+    
+    if (pathArr.count == 0) {
+        [_footerLabel setTitle:NSLocalizedStringFromTable(@"No Item", @"XXTouch", nil) forState:UIControlStateNormal];
+    } else if (pathArr.count == 1) {
+        [_footerLabel setTitle:NSLocalizedStringFromTable(@"1 Item", @"XXTouch", nil) forState:UIControlStateNormal];
+    } else {
+        [_footerLabel setTitle:[NSString stringWithFormat:NSLocalizedStringFromTable(@"%d Items", @"XXTouch", nil), pathArr.count] forState:UIControlStateNormal];
+    }
     
     NSMutableArray *attrArr = [[NSMutableArray alloc] init];
     
@@ -163,6 +190,7 @@ typedef enum : NSUInteger {
     [attrArr addObjectsFromArray:fileArr];
     
     // ..
+    /*
     if (_upperDirectory != nil) {
         NSString *itemPath = _upperDirectory;
         [pathArr insertObject:itemPath atIndex:0];
@@ -177,6 +205,7 @@ typedef enum : NSUInteger {
             }
         }
     }
+     */
     
     CYLog(@"%@", pathArr);
     _rootItemsDictionaryArr = attrArr;
@@ -213,13 +242,13 @@ typedef enum : NSUInteger {
     NSString *itemName = [attrs objectForKey:kXXItemNameKey];
     CYLog(@"%@", attrs);
     
-    if ([itemPath isEqualToString:_upperDirectory]) {
-        cell.isUpperDirectory = YES;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else {
-        cell.isUpperDirectory = NO;
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
-    }
+//    if ([itemPath isEqualToString:_upperDirectory]) {
+//        cell.isUpperDirectory = YES;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    } else {
+//        cell.isUpperDirectory = NO;
+//        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+//    }
     
     cell.itemPath = itemPath;
     cell.displayName = itemName;
@@ -236,9 +265,32 @@ typedef enum : NSUInteger {
     return cell;
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    if (editing) {
+        _scanButton.enabled =
+        _addItemButton.enabled =
+        _addDirectoryButton.enabled =
+        _sortByButton.enabled =
+        _deleteRangeButton.enabled = NO;
+    } else {
+        _scanButton.enabled =
+        _addItemButton.enabled =
+        _addDirectoryButton.enabled =
+        _sortByButton.enabled = YES;
+        _deleteRangeButton.enabled = NO;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView indexPathsForSelectedRows].count == 0) {
+        _deleteRangeButton.enabled = NO;
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if ([tableView isEditing]) {
+        _deleteRangeButton.enabled = YES;
         return;
     }
     
@@ -258,8 +310,11 @@ typedef enum : NSUInteger {
         }
     } else {
         if (currentCell.isDirectory) {
-            self.currentDirectory = currentCell.itemPath;
-            [self reloadScriptListTableView];
+            XXScriptListTableViewController *newController = [self.storyboard instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
+            newController.currentDirectory = currentCell.itemPath;
+            [self.navigationController pushViewController:newController animated:YES];
+//            self.currentDirectory = currentCell.itemPath;
+//            [self reloadScriptListTableView];
         } else {
             [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unknown File Type", @"XXTouch", nil)];
         }
@@ -269,10 +324,10 @@ typedef enum : NSUInteger {
 #pragma mark - Override and disable edit row
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.isUpperDirectory) {
-        return NO;
-    }
+//    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    if (cell.isUpperDirectory) {
+//        return NO;
+//    }
     return YES;
 }
 
@@ -292,15 +347,17 @@ typedef enum : NSUInteger {
         NSString *formatString = NSLocalizedStringFromTable(@"Delete %@?\nThis operation cannot be revoked.", @"XXTouch", nil);
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
                                                          andMessage:[NSString stringWithFormat:formatString, displayName]];
+        __weak typeof(self) weakSelf = self;
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            __strong typeof(self) strongSelf = weakSelf;
             NSError *err = nil;
             [FCFileManager removeItemAtPath:itemPath error:&err];
-            [self reloadScriptListTableData];
+            [strongSelf reloadScriptListTableData];
             [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
-            [tableView setEditing:NO animated:YES];
+            [strongSelf setEditing:NO animated:YES];
         }];
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-            [tableView setEditing:NO animated:YES];
+            
         }];
         [alertView show];
     }];
@@ -314,6 +371,71 @@ typedef enum : NSUInteger {
         return @[editAction, deleteAction];
     }
     return @[deleteAction];
+}
+
+- (IBAction)toolbarButtonTapped:(id)sender {
+    if (sender == _scanButton) {
+        
+    } else if (sender == _addItemButton) {
+        
+    } else if (sender == _addDirectoryButton) {
+        
+    } else if (sender == _sortByButton) {
+        if (_sortMethod == kXXScriptListSortByNameAsc) {
+            self.sortMethod = kXXScriptListSortByModificationDesc;
+            [self.sortByButton setImage:[UIImage imageNamed:@"sort-number"]];
+        } else if (_sortMethod == kXXScriptListSortByModificationDesc) {
+            self.sortMethod = kXXScriptListSortByNameAsc;
+            [self.sortByButton setImage:[UIImage imageNamed:@"sort-alpha"]];
+        }
+    } else if (sender == _deleteRangeButton) {
+        __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+        
+        NSString *formatString = nil;
+        if (selectedIndexPaths.count == 1) {
+            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Delete 1 item?\nThis operation cannot be revoked.", @"XXTouch", nil)];
+        } else {
+            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Delete %d items?\nThis operation cannot be revoked.", @"XXTouch", nil), selectedIndexPaths.count];
+        }
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
+                                                         andMessage:formatString];
+        __weak typeof(self) weakSelf = self;
+        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf deleteSelectedRowsAndItems:selectedIndexPaths];
+            [strongSelf reloadScriptListTableData];
+            [strongSelf.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            [strongSelf setEditing:NO animated:YES];
+        }];
+        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            
+        }];
+        [alertView show];
+    }
+}
+
+- (void)setSortMethod:(kXXScriptListSortMethod)sortMethod {
+    _sortMethod = sortMethod;
+    [self reloadScriptListTableView];
+}
+
+- (void)deleteSelectedRowsAndItems:(NSArray <NSIndexPath *> *)indexPaths {
+    for (NSIndexPath *indexPath in indexPaths) {
+        XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        NSString *itemPath = cell.itemPath;
+        NSError *err = nil;
+        [FCFileManager removeItemAtPath:itemPath error:&err];
+    }
+}
+
+- (void)itemCountLabelTapped:(id)sender {
+    [[UIPasteboard generalPasteboard] setString:self.currentDirectory];
+    [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"The absolute path has been copied to the clipboard.", @"XXTouch", nil)];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    id viewController = segue.destinationViewController;
+    [viewController setValue:self.currentDirectory forKey:@"currentDirectory"];
 }
 
 @end

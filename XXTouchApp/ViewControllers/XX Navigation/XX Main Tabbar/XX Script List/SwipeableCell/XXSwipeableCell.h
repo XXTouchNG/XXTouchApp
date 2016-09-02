@@ -13,9 +13,9 @@
 @property (nonatomic, assign) BOOL selectable;
 @property (nonatomic, assign) BOOL editable;
 @property (nonatomic, assign) BOOL isDirectory;
-@property (nonatomic, assign) BOOL isUpperDirectory;
-@property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong) NSString *itemPath;
+//@property (nonatomic, assign) BOOL isUpperDirectory;
+@property (nonatomic, copy) NSString *displayName;
+@property (nonatomic, copy) NSString *itemPath;
 @property (nonatomic, strong) NSDictionary *itemAttrs;
 
 @end

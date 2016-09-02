@@ -25,6 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.agreementWebView];
+    [self.agreementWebView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
 }
 
 - (NSURL *)url {

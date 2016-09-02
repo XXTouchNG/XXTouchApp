@@ -11,7 +11,7 @@
 
 @interface XXLocalCommandBaseRequest : JSONModel
 @property (nonatomic, assign) XXLocalCommandMethod requestMethod;
-@property (nonatomic, strong) NSString *requestUrl;
-@property (nonatomic, strong) NSString *requestBody;
+@property (nonatomic, copy) NSString *requestUrl;
+@property (nonatomic, copy) NSString *requestBody;
 
 @end

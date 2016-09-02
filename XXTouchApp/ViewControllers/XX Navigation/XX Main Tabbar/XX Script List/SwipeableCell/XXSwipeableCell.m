@@ -25,13 +25,13 @@
 
 - (void)setDisplayName:(NSString *)displayName {
     _displayName = displayName;
-    if (self.isUpperDirectory) {
-        self.fileNameLabel.text = NSLocalizedStringFromTable(@"..", @"XXTouch", nil);
-        self.fileNameLabel.textColor = STYLE_TINT_COLOR;
-    } else {
+//    if (self.isUpperDirectory) {
+//        self.fileNameLabel.text = NSLocalizedStringFromTable(@"..", @"XXTouch", nil);
+//        self.fileNameLabel.textColor = STYLE_TINT_COLOR;
+//    } else {
         self.fileNameLabel.text = displayName;
         self.fileNameLabel.textColor = [UIColor blackColor];
-    }
+//    }
 }
 
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {
