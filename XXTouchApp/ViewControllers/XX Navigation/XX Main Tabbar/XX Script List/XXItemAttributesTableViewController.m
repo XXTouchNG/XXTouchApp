@@ -10,6 +10,8 @@
 #import "XXLocalDataService.h"
 #import <MJRefresh/MJRefresh.h>
 
+static char * const kXXTouchCalculatingDirectorySizeIdentifier = "com.xxtouch.calculating-directory-size";
+
 @interface XXItemAttributesTableViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
@@ -33,6 +35,8 @@
 
 @implementation XXItemAttributesTableViewController
 
+int cancelFlag = 0;
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -41,7 +45,9 @@
     if ([_nameTextField isFirstResponder]) {
         [_nameTextField resignFirstResponder];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^() {
+        cancelFlag = 1;
+    }];
 }
 
 - (IBAction)done:(id)sender {
@@ -62,7 +68,9 @@
     if ([_nameTextField isFirstResponder]) {
         [_nameTextField resignFirstResponder];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^() {
+        cancelFlag = 1;
+    }];
 }
 
 - (IBAction)nameTextFieldChanged:(UITextField *)sender {
@@ -80,6 +88,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    cancelFlag = 0;
     self.tableView.mj_header = self.refreshHeader;
     [self reloadItemInfo];
     {
@@ -93,11 +102,6 @@
     if ([_nameTextField isFirstResponder]) {
         [_nameTextField resignFirstResponder];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [_nameTextField becomeFirstResponder];
 }
 
 - (MJRefreshNormalHeader *)refreshHeader {
@@ -115,21 +119,28 @@
 }
 
 - (void)reloadItemInfo {
-    NSError *err = nil;
     NSString *itemName = self.currentName;
     self.nameTextField.text = itemName;
     self.originalName = [itemName mutableCopy];
-    NSString *itemPath = self.currentPath;
+    __block NSString *itemPath = self.currentPath;
     self.absolutePathDetailLabel.text = [itemPath mutableCopy];
     self.originalPath = itemPath;
+    NSError *err = nil;
     self.currentAttributes = [FCFileManager attributesOfItemAtPath:itemPath error:&err];
+    if (err != nil) {
+        return;
+    }
     NSString *itemType = [self.currentAttributes objectForKey:NSFileType];
     if (itemType == NSFileTypeDirectory) {
         self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Directory", @"XXTouch", nil);
         self.itemSizeLabel.text = NSLocalizedStringFromTable(@"Calculating...", @"XXTouch", nil);
         __weak typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            weakSelf.itemSizeLabel.text = [FCFileManager sizeFormattedOfDirectoryAtPath:itemPath];
+        dispatch_queue_t concurrentQueue = dispatch_queue_create(kXXTouchCalculatingDirectorySizeIdentifier, DISPATCH_QUEUE_CONCURRENT);
+        dispatch_async(concurrentQueue, ^{
+            NSString *formattedSize = [FCFileManager sizeFormattedOfDirectoryAtPath:itemPath cancelFlag:&cancelFlag];
+            dispatch_async_on_main_queue(^{
+                weakSelf.itemSizeLabel.text = formattedSize;
+            });
         });
     } else if (itemType == NSFileTypeRegular) {
         self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Regular File", @"XXTouch", nil);
@@ -158,6 +169,10 @@
         [[UIPasteboard generalPasteboard] setString:self.originalPath];
         [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"The absolute path has been copied to the clipboard.", @"XXTouch", nil)];
     }
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

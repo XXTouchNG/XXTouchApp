@@ -26,6 +26,7 @@
 		0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C51D73E46C00129E83 /* XXSettingsTableViewController.m */; };
 		0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7C71D73E46C00129E83 /* XXMainTabbarViewController.m */; };
 		0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */; };
+		0FBC87981D7AC54600C9E419 /* NSFileManager+realDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBC87971D7AC54600C9E419 /* NSFileManager+realDestination.m */; };
 		0FC47E841D7673F70076590B /* XXToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC47E831D7673F70076590B /* XXToolbar.m */; };
 		0FC47E8C1D7690890076590B /* XXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC47E8B1D7690890076590B /* XXWebViewController.m */; };
 		0FC47E921D7698140076590B /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FC47E911D7698140076590B /* tos.html */; };
@@ -82,6 +83,8 @@
 		0FB0A7D21D741BA200129E83 /* SystemVersionDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemVersionDefines.h; sourceTree = "<group>"; };
 		0FB0A7D31D741C9F00129E83 /* SystemConstantsDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemConstantsDefines.h; sourceTree = "<group>"; };
 		0FB0A7D41D741CFB00129E83 /* AppDefines.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDefines.pch; path = Defines/AppDefines.pch; sourceTree = "<group>"; };
+		0FBC87961D7AC54600C9E419 /* NSFileManager+realDestination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+realDestination.h"; sourceTree = "<group>"; };
+		0FBC87971D7AC54600C9E419 /* NSFileManager+realDestination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+realDestination.m"; sourceTree = "<group>"; };
 		0FC47E821D7673F70076590B /* XXToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXToolbar.h; sourceTree = "<group>"; };
 		0FC47E831D7673F70076590B /* XXToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXToolbar.m; sourceTree = "<group>"; };
 		0FC47E8A1D7690890076590B /* XXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXWebViewController.h; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */,
 				0F2935F01D797E0400E41A29 /* NSString+Regexp.h */,
 				0F2935F11D797E0400E41A29 /* NSString+Regexp.m */,
+				0FBC87961D7AC54600C9E419 /* NSFileManager+realDestination.h */,
+				0FBC87971D7AC54600C9E419 /* NSFileManager+realDestination.m */,
 			);
 			path = Catalogs;
 			sourceTree = "<group>";
@@ -534,6 +539,7 @@
 				0FC47E971D769C160076590B /* XXDocumentsTableViewController.m in Sources */,
 				0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */,
 				0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */,
+				0FBC87981D7AC54600C9E419 /* NSFileManager+realDestination.m in Sources */,
 				0F14738D1D798A08003F4A90 /* XXItemAttributesTableViewController.m in Sources */,
 				0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0F98527B1D746718001323AA /* XXAboutTableViewController.m in Sources */,

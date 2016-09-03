@@ -35,6 +35,7 @@
 
 #import "NSString+Mime.h"
 #import "NSString+Regexp.h"
+#import "NSFileManager+realDestination.h"
 #import "UINavigationController+StatusBar.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 

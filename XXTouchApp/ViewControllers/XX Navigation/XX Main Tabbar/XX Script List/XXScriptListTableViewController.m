@@ -43,7 +43,7 @@ typedef enum : NSUInteger {
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *scanButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addItemButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *addDirectoryButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *pasteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortByButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteRangeButton;
 
@@ -87,6 +87,11 @@ typedef enum : NSUInteger {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self reloadScriptListTableView];
+    if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
+        _pasteButton.enabled = NO;
+    } else {
+        _pasteButton.enabled = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,11 +120,6 @@ typedef enum : NSUInteger {
 }
 
 - (void)reloadScriptListTableView {
-    if ([self.tableView isEditing]) {
-        [self endScriptListRefresh];
-        return;
-    }
-    
     [self reloadScriptListTableData];
     [self.tableView reloadData];
     [self endScriptListRefresh];
@@ -231,13 +231,14 @@ typedef enum : NSUInteger {
     if (editing) {
         _scanButton.enabled =
         _addItemButton.enabled =
-        _addDirectoryButton.enabled =
         _sortByButton.enabled =
         _deleteRangeButton.enabled = NO;
     } else {
+        if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
+            _pasteButton.enabled = NO;
+        }
         _scanButton.enabled =
         _addItemButton.enabled =
-        _addDirectoryButton.enabled =
         _sortByButton.enabled = YES;
         _deleteRangeButton.enabled = NO;
     }
@@ -245,12 +246,16 @@ typedef enum : NSUInteger {
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView indexPathsForSelectedRows].count == 0) {
+        if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
+            _pasteButton.enabled = NO;
+        }
         _deleteRangeButton.enabled = NO;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEditing]) {
+        _pasteButton.enabled =
         _deleteRangeButton.enabled = YES;
         return;
     }
@@ -302,14 +307,26 @@ typedef enum : NSUInteger {
         NSString *formatString = NSLocalizedStringFromTable(@"Delete %@?\nThis operation cannot be revoked.", @"XXTouch", nil);
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
                                                          andMessage:[NSString stringWithFormat:formatString, displayName]];
+        __block NSError *err = nil;
         __weak typeof(self) weakSelf = self;
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             __strong typeof(self) strongSelf = weakSelf;
-            NSError *err = nil;
-            [FCFileManager removeItemAtPath:itemPath error:&err];
-            [strongSelf reloadScriptListTableData];
-            [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
-            [strongSelf setEditing:NO animated:YES];
+            strongSelf.navigationController.view.userInteractionEnabled = NO;
+            [strongSelf.navigationController.view makeToastActivity:CSToastPositionCenter];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
+                dispatch_async_on_main_queue(^{
+                    strongSelf.navigationController.view.userInteractionEnabled = YES;
+                    [strongSelf.navigationController.view hideToastActivity];
+                    if (err == nil) {
+                        [strongSelf reloadScriptListTableData];
+                        [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
+                        [strongSelf setEditing:NO animated:YES];
+                    } else {
+                        [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                    }
+                });
+            });
         }];
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
@@ -345,8 +362,8 @@ typedef enum : NSUInteger {
         XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
         viewController.currentDirectory = self.currentDirectory;
         [self.navigationController presentViewController:navController animated:YES completion:nil];
-    } else if (sender == _addDirectoryButton) {
-        
+    } else if (sender == _pasteButton) {
+        [self pasteButtonTapped];
     } else if (sender == _sortByButton) {
         if (_sortMethod == kXXScriptListSortByNameAsc) {
             self.sortMethod = kXXScriptListSortByModificationDesc;
@@ -395,9 +412,126 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)pasteButtonTapped {
+    // Start Alert View
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:nil];
+    
+    // Set Paste / Link Action
+    NSString *pasteStr = nil;
+    NSString *linkStr = nil;
+    __block NSMutableArray *pasteArr = [[XXLocalDataService sharedInstance] pasteboardArr];
+    if (pasteArr.count != 0) {
+        if (pasteArr.count == 1) {
+            pasteStr = NSLocalizedStringFromTable(@"Paste 1 item", @"XXTouch", nil);
+            linkStr = NSLocalizedStringFromTable(@"Create 1 link", @"XXTouch", nil);
+        } else {
+            pasteStr = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Paste %d items", @"XXTouch", nil), pasteArr.count];
+            linkStr = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Create %d links", @"XXTouch", nil), pasteArr.count];
+        }
+        __block NSError *err = nil;
+        __block NSString *currentPath = self.currentDirectory;
+        __block kXXPasteboardType pasteboardType = [[XXLocalDataService sharedInstance] pasteboardType];
+        __weak typeof(self) weakSelf = self;
+        [alertView addButtonWithTitle:pasteStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.navigationController.view.userInteractionEnabled = NO;
+            [strongSelf.navigationController.view makeToastActivity:CSToastPositionCenter];
+            if (pasteboardType == kXXPasteboardTypeCut) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    for (NSString *originPath in pasteArr) {
+                        NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
+                        [FCFileManager moveItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
+                    }
+                    dispatch_async_on_main_queue(^{
+                        strongSelf.navigationController.view.userInteractionEnabled = YES;
+                        [strongSelf.navigationController.view hideToastActivity];
+                        if (err != nil) {
+                            [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                        } else {
+                            [pasteArr removeAllObjects];
+                            [strongSelf reloadScriptListTableView];
+                        }
+                    });
+                });
+            } else if (pasteboardType == kXXPasteboardTypeCopy) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    for (NSString *originPath in pasteArr) {
+                        NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
+                        [FCFileManager copyItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
+                    }
+                    dispatch_async_on_main_queue(^{
+                        strongSelf.navigationController.view.userInteractionEnabled = YES;
+                        [strongSelf.navigationController.view hideToastActivity];
+                        if (err != nil) {
+                            [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                        } else {
+                            [strongSelf reloadScriptListTableView];
+                        }
+                    });
+                });
+            }
+        }];
+        if (pasteboardType == kXXPasteboardTypeCopy) {
+            __weak typeof(self) weakSelf = self;
+            [alertView addButtonWithTitle:linkStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                __strong typeof(self) strongSelf = weakSelf;
+                for (NSString *originPath in pasteArr) {
+                    NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
+                    [[NSFileManager defaultManager] createSymbolicLinkAtPath:destPath withDestinationPath:originPath error:&err];
+                }
+                if (err != nil) {
+                    [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                } else {
+                    [strongSelf reloadScriptListTableView];
+                }
+            }];
+        }
+    }
+    
+    // Set Copy / Cut Action
+    NSString *copyStr = nil;
+    NSString *cutStr = nil;
+    NSArray <NSIndexPath *> *selectedIndexes = [self.tableView indexPathsForSelectedRows];
+    if (selectedIndexes.count != 0) {
+        __block NSMutableArray <NSString *> *selectedPaths = [[NSMutableArray alloc] init];
+        for (NSIndexPath *path in selectedIndexes) {
+            XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:path];
+            [selectedPaths addObject:cell.itemPath];
+        }
+        if (selectedIndexes.count == 1) {
+            copyStr = NSLocalizedStringFromTable(@"Copy 1 item", @"XXTouch", nil);
+            cutStr = NSLocalizedStringFromTable(@"Cut 1 item", @"XXTouch", nil);
+        } else {
+            copyStr = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Copy %d items", @"XXTouch", nil), selectedIndexes.count];
+            cutStr = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Cut %d items", @"XXTouch", nil), selectedIndexes.count];
+        }
+        if ([self isEditing]) {
+            [alertView addButtonWithTitle:copyStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCopy];
+                [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
+            }];
+            [alertView addButtonWithTitle:cutStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCut];
+                [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
+            }];
+        }
+    }
+    
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        
+    }];
+    
+    // Show Alert
+    [alertView show];
+}
+
 - (void)itemCountLabelTapped:(id)sender {
     [[UIPasteboard generalPasteboard] setString:self.currentDirectory];
     [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"The absolute path has been copied to the clipboard.", @"XXTouch", nil)];
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

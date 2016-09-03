@@ -18,40 +18,55 @@
 @end
 
 @implementation XXSwipeableCell
+
 - (void)setChecked:(BOOL)checked {
     _checked = checked;
-    self.checkmarkImageView.hidden = !checked;
+    _checkmarkImageView.hidden = !checked;
 }
 
 - (void)setDisplayName:(NSString *)displayName {
     _displayName = displayName;
-//    if (self.isUpperDirectory) {
-//        self.fileNameLabel.text = NSLocalizedStringFromTable(@"..", @"XXTouch", nil);
-//        self.fileNameLabel.textColor = STYLE_TINT_COLOR;
-//    } else {
-        self.fileNameLabel.text = displayName;
-        self.fileNameLabel.textColor = [UIColor blackColor];
-//    }
+    _fileNameLabel.text = displayName;
 }
 
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {
     _itemAttrs = itemAttrs;
     id fileType = [itemAttrs objectForKey:NSFileType];
-    if (fileType == NSFileTypeDirectory || fileType == NSFileTypeSymbolicLink) {
-        // directory
-        self.fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
+    if (fileType == NSFileTypeDirectory) {
+        _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
         _isDirectory = YES;
         _selectable = NO;
         _editable = NO;
+        _fileNameLabel.textColor = [UIColor blackColor];
+    } else if (fileType == NSFileTypeSymbolicLink) { // Should Follow To Determine
+        NSError *err = nil;
+        NSString *destPath = [[NSFileManager defaultManager] realDestinationOfSymbolicLinkAtPath:self.itemPath error:&err];
+        if (err == nil) {
+            NSDictionary *destAttrs = [FCFileManager attributesOfItemAtPath:destPath error:&err];
+            if (err == nil) {
+                id destFileType = [destAttrs objectForKey:NSFileType];
+                if (destFileType == NSFileTypeDirectory) {
+                    _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
+                    _isDirectory = YES;
+                } else {
+                    _fileTypeImageView.image = [UIImage imageNamed:@"file-unknown"];
+                    _isDirectory = NO;
+                }
+            }
+        }
+        _selectable = NO;
+        _editable = NO;
+        _fileNameLabel.textColor = STYLE_TINT_COLOR;
     } else {
-        self.fileTypeImageView.image = [UIImage imageNamed:@"file-unknown"];
+        _fileTypeImageView.image = [UIImage imageNamed:@"file-unknown"];
         _isDirectory = NO;
         _selectable = NO;
         _editable = NO;
+        _fileNameLabel.textColor = [UIColor blackColor];
     }
     NSDate *modificationDate = [itemAttrs objectForKey:NSFileModificationDate];
     NSString *formattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modificationDate];
-    self.fileModifiedTimeLabel.text = formattedDate;
+    _fileModifiedTimeLabel.text = formattedDate;
 }
 
 @end

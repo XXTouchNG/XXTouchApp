@@ -95,7 +95,9 @@ typedef enum : NSUInteger {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_itemNameTextField becomeFirstResponder];
+    if (![_itemNameTextField isFirstResponder]) {
+        [_itemNameTextField becomeFirstResponder];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -108,6 +110,10 @@ typedef enum : NSUInteger {
         newCell.accessoryType = UITableViewCellAccessoryCheckmark;
         self.selectedType = indexPath.row;
     }
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "XXLocalFileModel.h"
 
+typedef enum : NSUInteger {
+    kXXPasteboardTypeCopy,
+    kXXPasteboardTypeCut,
+} kXXPasteboardType;
+
 @interface XXLocalDataService : NSObject
 + (id)sharedInstance;
 
@@ -17,5 +22,7 @@
 @property (nonatomic, copy) NSString *libraryPath;
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
 @property (nonatomic, copy) NSString *selectedItem;
+@property (nonatomic, assign) kXXPasteboardType pasteboardType;
+@property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
 
 @end

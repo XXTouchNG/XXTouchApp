@@ -122,4 +122,8 @@
     [_progressView setProgress:progress animated:YES];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

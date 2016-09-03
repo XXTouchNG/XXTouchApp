@@ -42,4 +42,11 @@
     return _defaultDateFormatter;
 }
 
+- (NSMutableArray <NSString *> *)pasteboardArr {
+    if (!_pasteboardArr) {
+        _pasteboardArr = [[NSMutableArray alloc] init];
+    }
+    return _pasteboardArr;
+}
+
 @end
