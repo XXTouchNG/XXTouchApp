@@ -32,6 +32,7 @@
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {
     _itemAttrs = itemAttrs;
     id fileType = [itemAttrs objectForKey:NSFileType];
+    NSString *fileExt = [_itemPath pathExtension];
     if (fileType == NSFileTypeDirectory) {
         _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
         _isDirectory = YES;
@@ -49,19 +50,19 @@
                     _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
                     _isDirectory = YES;
                 } else {
-                    _fileTypeImageView.image = [UIImage imageNamed:@"file-unknown"];
+                    _fileTypeImageView.image = [XXLocalDataService fetchDisplayImageForFileExtension:fileExt];
                     _isDirectory = NO;
                 }
             }
         }
-        _selectable = NO;
-        _editable = NO;
+        _selectable = [XXLocalDataService isSelectableFileExtension:fileExt];
+        _editable = [XXLocalDataService isEditableFileExtension:fileExt];
         _fileNameLabel.textColor = STYLE_TINT_COLOR;
     } else {
-        _fileTypeImageView.image = [UIImage imageNamed:@"file-unknown"];
+        _fileTypeImageView.image = [XXLocalDataService fetchDisplayImageForFileExtension:fileExt];
         _isDirectory = NO;
-        _selectable = NO;
-        _editable = NO;
+        _selectable = [XXLocalDataService isSelectableFileExtension:fileExt];
+        _editable = [XXLocalDataService isEditableFileExtension:fileExt];
         _fileNameLabel.textColor = [UIColor blackColor];
     }
     NSDate *modificationDate = [itemAttrs objectForKey:NSFileModificationDate];

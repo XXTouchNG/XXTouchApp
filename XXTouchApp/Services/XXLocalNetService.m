@@ -19,4 +19,11 @@
     return sharedInstance;
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        // Init Local Network Configure
+    }
+    return self;
+}
+
 @end

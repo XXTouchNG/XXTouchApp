@@ -7,6 +7,8 @@
 //
 
 #import "GlobalSettings.h"
+#import "XXLocalNetService.h"
+#import "XXLocalDataService.h"
 
 @implementation GlobalSettings
 
@@ -23,6 +25,8 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self setupStyle];
+        [XXLocalNetService sharedInstance];
+        [XXLocalDataService sharedInstance];
     }
     return self;
 }

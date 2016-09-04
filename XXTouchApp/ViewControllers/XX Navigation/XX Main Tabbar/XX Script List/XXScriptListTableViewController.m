@@ -46,6 +46,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *pasteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortByButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteRangeButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
 
@@ -55,6 +56,7 @@ typedef enum : NSUInteger {
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    _selectedIndex = -1;
     _rootDirectory = ROOT_PATH;
     _currentDirectory = [_rootDirectory mutableCopy];
     _rootItemsDictionaryArr = @[];
@@ -218,9 +220,14 @@ typedef enum : NSUInteger {
     if (cell.selectable) {
         if (_selectedIndex == indexPath.row) {
             cell.checked = YES;
+            [[XXLocalDataService sharedInstance] setSelectedScript:cell.itemPath];
+        } else if ([cell.itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
+            cell.checked = YES;
         } else {
             cell.checked = NO;
         }
+    } else if (cell.isDirectory) {
+        cell.checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
     }
     
     return cell;
@@ -232,6 +239,7 @@ typedef enum : NSUInteger {
         _scanButton.enabled =
         _addItemButton.enabled =
         _sortByButton.enabled =
+        _shareButton.enabled =
         _deleteRangeButton.enabled = NO;
     } else {
         if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
@@ -240,6 +248,7 @@ typedef enum : NSUInteger {
         _scanButton.enabled =
         _addItemButton.enabled =
         _sortByButton.enabled = YES;
+        _shareButton.enabled =
         _deleteRangeButton.enabled = NO;
     }
 }
@@ -249,6 +258,7 @@ typedef enum : NSUInteger {
         if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
             _pasteButton.enabled = NO;
         }
+        _shareButton.enabled =
         _deleteRangeButton.enabled = NO;
     }
 }
@@ -256,6 +266,7 @@ typedef enum : NSUInteger {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEditing]) {
         _pasteButton.enabled =
+        _shareButton.enabled =
         _deleteRangeButton.enabled = YES;
         return;
     }
@@ -273,6 +284,8 @@ typedef enum : NSUInteger {
             currentCell.checked = YES;
             
             _selectedIndex = indexPath.row;
+            
+            [[XXLocalDataService sharedInstance] setSelectedScript:currentCell.itemPath];
         }
     } else {
         if (currentCell.isDirectory) {
@@ -308,22 +321,22 @@ typedef enum : NSUInteger {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
                                                          andMessage:[NSString stringWithFormat:formatString, displayName]];
         __block NSError *err = nil;
-        __weak typeof(self) weakSelf = self;
+        weakify(self);
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.navigationController.view.userInteractionEnabled = NO;
-            [strongSelf.navigationController.view makeToastActivity:CSToastPositionCenter];
+            strongify(self);
+            self.navigationController.view.userInteractionEnabled = NO;
+            [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
                 dispatch_async_on_main_queue(^{
-                    strongSelf.navigationController.view.userInteractionEnabled = YES;
-                    [strongSelf.navigationController.view hideToastActivity];
+                    self.navigationController.view.userInteractionEnabled = YES;
+                    [self.navigationController.view hideToastActivity];
                     if (err == nil) {
-                        [strongSelf reloadScriptListTableData];
+                        [self reloadScriptListTableData];
                         [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
-                        [strongSelf setEditing:NO animated:YES];
+                        [self setEditing:NO animated:YES];
                     } else {
-                        [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                        [self.navigationController.view makeToast:[err localizedDescription]];
                     }
                 });
             });
@@ -383,18 +396,33 @@ typedef enum : NSUInteger {
         }
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
                                                          andMessage:formatString];
-        __weak typeof(self) weakSelf = self;
+        weakify(self);
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-            __strong typeof(self) strongSelf = weakSelf;
-            [strongSelf deleteSelectedRowsAndItems:selectedIndexPaths];
-            [strongSelf reloadScriptListTableData];
-            [strongSelf.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-            [strongSelf setEditing:NO animated:YES];
+            strongify(self);
+            [self deleteSelectedRowsAndItems:selectedIndexPaths];
+            [self reloadScriptListTableData];
+            [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self setEditing:NO animated:YES];
         }];
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
         }];
         [alertView show];
+    } else if (sender == _shareButton) {
+        NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+        NSMutableArray <NSURL *> *pathsArr = [[NSMutableArray alloc] init];
+        for (NSIndexPath *indexPath in selectedIndexPaths) {
+            XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            if (!cell.isDirectory) {
+                [pathsArr addObject:[NSURL fileURLWithPath:cell.itemPath]];
+            }
+        }
+        if (pathsArr.count != 0) {
+            UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:nil];
+            [self.navigationController presentViewController:controller animated:YES completion:nil];
+        } else {
+            [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"You cannot share directory.", @"XXTouch", nil)];
+        }
     }
 }
 
@@ -431,11 +459,11 @@ typedef enum : NSUInteger {
         __block NSError *err = nil;
         __block NSString *currentPath = self.currentDirectory;
         __block kXXPasteboardType pasteboardType = [[XXLocalDataService sharedInstance] pasteboardType];
-        __weak typeof(self) weakSelf = self;
+        weakify(self);
         [alertView addButtonWithTitle:pasteStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.navigationController.view.userInteractionEnabled = NO;
-            [strongSelf.navigationController.view makeToastActivity:CSToastPositionCenter];
+            strongify(self);
+            self.navigationController.view.userInteractionEnabled = NO;
+            [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             if (pasteboardType == kXXPasteboardTypeCut) {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                     for (NSString *originPath in pasteArr) {
@@ -443,13 +471,14 @@ typedef enum : NSUInteger {
                         [FCFileManager moveItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
                     }
                     dispatch_async_on_main_queue(^{
-                        strongSelf.navigationController.view.userInteractionEnabled = YES;
-                        [strongSelf.navigationController.view hideToastActivity];
+                        self.navigationController.view.userInteractionEnabled = YES;
+                        [self.navigationController.view hideToastActivity];
                         if (err != nil) {
-                            [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                            [self.navigationController.view makeToast:[err localizedDescription]];
                         } else {
                             [pasteArr removeAllObjects];
-                            [strongSelf reloadScriptListTableView];
+                            self.pasteButton.enabled = NO;
+                            [self reloadScriptListTableView];
                         }
                     });
                 });
@@ -460,29 +489,29 @@ typedef enum : NSUInteger {
                         [FCFileManager copyItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
                     }
                     dispatch_async_on_main_queue(^{
-                        strongSelf.navigationController.view.userInteractionEnabled = YES;
-                        [strongSelf.navigationController.view hideToastActivity];
+                        self.navigationController.view.userInteractionEnabled = YES;
+                        [self.navigationController.view hideToastActivity];
                         if (err != nil) {
-                            [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                            [self.navigationController.view makeToast:[err localizedDescription]];
                         } else {
-                            [strongSelf reloadScriptListTableView];
+                            [self reloadScriptListTableView];
                         }
                     });
                 });
             }
         }];
         if (pasteboardType == kXXPasteboardTypeCopy) {
-            __weak typeof(self) weakSelf = self;
+            weakify(self);
             [alertView addButtonWithTitle:linkStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                __strong typeof(self) strongSelf = weakSelf;
+                strongify(self);
                 for (NSString *originPath in pasteArr) {
                     NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
                     [[NSFileManager defaultManager] createSymbolicLinkAtPath:destPath withDestinationPath:originPath error:&err];
                 }
                 if (err != nil) {
-                    [strongSelf.navigationController.view makeToast:[err localizedDescription]];
+                    [self.navigationController.view makeToast:[err localizedDescription]];
                 } else {
-                    [strongSelf reloadScriptListTableView];
+                    [self reloadScriptListTableView];
                 }
             }];
         }
@@ -506,13 +535,22 @@ typedef enum : NSUInteger {
             cutStr = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Cut %d items", @"XXTouch", nil), selectedIndexes.count];
         }
         if ([self isEditing]) {
+            weakify(self);
             [alertView addButtonWithTitle:copyStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                strongify(self);
                 [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCopy];
                 [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
+                if (self.isEditing) {
+                    [self setEditing:NO animated:YES];
+                }
             }];
             [alertView addButtonWithTitle:cutStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                strongify(self);
                 [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCut];
                 [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
+                if (self.isEditing) {
+                    [self setEditing:NO animated:YES];
+                }
             }];
         }
     }

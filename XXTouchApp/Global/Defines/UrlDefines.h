@@ -9,7 +9,7 @@
 #ifndef UrlDefines_h
 #define UrlDefines_h
 
-#define ROOT_PATH [[XXLocalDataService sharedInstance] libraryPath]
+#define ROOT_PATH [[XXLocalDataService sharedInstance] rootPath]
 #define SERVICE_EMAIL @"jct@82flex.com"
 #define OFFICIAL_SITE @"http://www.xxtouch.com"
 #define DOCUMENT_USERS_GUIDE @"https://www.zybuluo.com/xxtouch/note/378784"

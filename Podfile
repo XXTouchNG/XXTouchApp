@@ -9,6 +9,7 @@ target 'XXTouchApp' do
     pod 'Masonry'
     pod 'Colours'
     pod 'MJRefresh'
+    pod 'JTSImageViewController'
     pod 'ZXingObjC'
     pod 'AFNetworking'
     pod 'NJKWebViewProgress'

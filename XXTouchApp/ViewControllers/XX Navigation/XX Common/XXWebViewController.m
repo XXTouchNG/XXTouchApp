@@ -10,7 +10,6 @@
 #import "NJKWebViewProgressView.h"
 #import "XXWebViewController.h"
 #import "ARSafariActivity.h"
-#import <Social/Social.h>
 
 @interface XXWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 @property (nonatomic, strong) UIWebView *agreementWebView;
@@ -91,8 +90,8 @@
 
 - (void)openDocumentSafari:(id)sender {
     ARSafariActivity *safariActivity = [[ARSafariActivity alloc] init];
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:@[safariActivity ]];
-    [self presentViewController:controller animated:YES completion:nil];
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:@[safariActivity]];
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

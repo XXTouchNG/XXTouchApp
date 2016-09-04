@@ -38,6 +38,12 @@
                                     </connections>
                                 </barButtonItem>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="rPo-jK-Dpq"/>
+                                <barButtonItem enabled="NO" image="list-share" id="RdN-g2-kO3">
+                                    <connections>
+                                        <action selector="toolbarButtonTapped:" destination="CS5-5g-f5g" id="n3s-Rq-Y0x"/>
+                                    </connections>
+                                </barButtonItem>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="MHW-FY-C9P"/>
                                 <barButtonItem enabled="NO" image="list-paste" id="8Rm-NJ-DmX">
                                     <connections>
                                         <action selector="toolbarButtonTapped:" destination="CS5-5g-f5g" id="bvp-DH-s0H"/>
@@ -156,6 +162,7 @@
                         <outlet property="footerLabel" destination="NHt-Sl-xFM" id="3NR-zS-Tao"/>
                         <outlet property="pasteButton" destination="8Rm-NJ-DmX" id="N2Q-qK-B8Q"/>
                         <outlet property="scanButton" destination="Bom-nR-MhP" id="YYm-7p-1tl"/>
+                        <outlet property="shareButton" destination="RdN-g2-kO3" id="LPM-fl-aos"/>
                         <outlet property="sortByButton" destination="3qO-bP-Uwe" id="2Yr-k3-KEn"/>
                         <outlet property="topToolbar" destination="fek-MU-Icw" id="Ydp-Ka-vx5"/>
                     </connections>
@@ -1497,6 +1504,7 @@ All Rights Reserved.</string>
         <image name="list-add" width="21" height="21"/>
         <image name="list-paste" width="22" height="22"/>
         <image name="list-scan" width="21" height="21"/>
+        <image name="list-share" width="21" height="21"/>
         <image name="more-selected" width="21" height="21"/>
         <image name="remote-switch" width="32" height="32"/>
         <image name="restart-service" width="32" height="32"/>

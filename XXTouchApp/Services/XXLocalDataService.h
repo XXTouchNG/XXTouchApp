@@ -21,8 +21,23 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *rootPath;
 @property (nonatomic, copy) NSString *libraryPath;
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
-@property (nonatomic, copy) NSString *selectedItem;
+@property (nonatomic, copy) NSString *selectedScript;
+
+- (BOOL)isSelectedScriptInPath:(NSString *)path;
+
 @property (nonatomic, assign) kXXPasteboardType pasteboardType;
 @property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
+
++ (UIImage *)fetchDisplayImageForFileExtension:(NSString *)ext;
+
++ (NSArray <NSString *> *)selectableFileExtensions;
++ (BOOL)isSelectableFileExtension:(NSString *)ext;
++ (NSArray <NSString *> *)editableFileExtensions;
++ (BOOL)isEditableFileExtension:(NSString *)ext;
++ (NSArray <NSString *> *)viewableFileExtensions;
++ (BOOL)isViewableFileExtension:(NSString *)ext;
+
++ (NSArray <NSString *> *)imageFileExtensions;
++ (void)viewFileWithStandardViewer:(NSString *)filePath parentViewController:(UIViewController *)viewController;
 
 @end
