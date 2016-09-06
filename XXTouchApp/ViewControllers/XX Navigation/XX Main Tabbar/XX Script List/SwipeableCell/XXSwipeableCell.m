@@ -8,6 +8,7 @@
 
 #import "XXSwipeableCell.h"
 #import "XXLocalDataService.h"
+#import "XXQuickLookService.h"
 
 @interface XXSwipeableCell()
 @property (weak, nonatomic) IBOutlet UIImageView *fileTypeImageView;
@@ -50,19 +51,19 @@
                     _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
                     _isDirectory = YES;
                 } else {
-                    _fileTypeImageView.image = [XXLocalDataService fetchDisplayImageForFileExtension:fileExt];
+                    _fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];
                     _isDirectory = NO;
                 }
             }
         }
-        _selectable = [XXLocalDataService isSelectableFileExtension:fileExt];
-        _editable = [XXLocalDataService isEditableFileExtension:fileExt];
+        _selectable = [XXQuickLookService isSelectableFileExtension:fileExt];
+        _editable = [XXQuickLookService isEditableFileExtension:fileExt];
         _fileNameLabel.textColor = STYLE_TINT_COLOR;
     } else {
-        _fileTypeImageView.image = [XXLocalDataService fetchDisplayImageForFileExtension:fileExt];
+        _fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];
         _isDirectory = NO;
-        _selectable = [XXLocalDataService isSelectableFileExtension:fileExt];
-        _editable = [XXLocalDataService isEditableFileExtension:fileExt];
+        _selectable = [XXQuickLookService isSelectableFileExtension:fileExt];
+        _editable = [XXQuickLookService isEditableFileExtension:fileExt];
         _fileNameLabel.textColor = [UIColor blackColor];
     }
     NSDate *modificationDate = [itemAttrs objectForKey:NSFileModificationDate];

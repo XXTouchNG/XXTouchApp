@@ -134,12 +134,12 @@ int cancelFlag = 0;
     if (itemType == NSFileTypeDirectory) {
         self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Directory", @"XXTouch", nil);
         self.itemSizeLabel.text = NSLocalizedStringFromTable(@"Calculating...", @"XXTouch", nil);
-        weakify(self);
+        @weakify(self);
         dispatch_queue_t concurrentQueue = dispatch_queue_create(kXXTouchCalculatingDirectorySizeIdentifier, DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
             NSString *formattedSize = [FCFileManager sizeFormattedOfDirectoryAtPath:itemPath cancelFlag:&cancelFlag];
             dispatch_async_on_main_queue(^{
-                strongify(self);
+                @strongify(self);
                 self.itemSizeLabel.text = formattedSize;
             });
         });

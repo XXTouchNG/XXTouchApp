@@ -12,6 +12,7 @@
 #import "XXItemAttributesTableViewController.h"
 #import "XXScriptListTableViewController.h"
 #import "XXLocalDataService.h"
+#import "XXQuickLookService.h"
 #import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
@@ -222,12 +223,17 @@ typedef enum : NSUInteger {
             cell.checked = YES;
             [[XXLocalDataService sharedInstance] setSelectedScript:cell.itemPath];
         } else if ([cell.itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
+            _selectedIndex = indexPath.row;
             cell.checked = YES;
         } else {
             cell.checked = NO;
         }
     } else if (cell.isDirectory) {
-        cell.checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+        BOOL checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+        cell.checked = checked;
+        if (checked) {
+            _selectedIndex = indexPath.row;
+        }
     }
     
     return cell;
@@ -293,7 +299,11 @@ typedef enum : NSUInteger {
             newController.currentDirectory = currentCell.itemPath;
             [self.navigationController pushViewController:newController animated:YES];
         } else {
-            [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unknown File Type", @"XXTouch", nil)];
+            BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
+                                                    parentViewController:self.navigationController];
+            if (!result) {
+                [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unknown File Type", @"XXTouch", nil)];
+            }
         }
     }
 }
@@ -321,9 +331,9 @@ typedef enum : NSUInteger {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
                                                          andMessage:[NSString stringWithFormat:formatString, displayName]];
         __block NSError *err = nil;
-        weakify(self);
+        @weakify(self);
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-            strongify(self);
+            @strongify(self);
             self.navigationController.view.userInteractionEnabled = NO;
             [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -396,9 +406,9 @@ typedef enum : NSUInteger {
         }
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
                                                          andMessage:formatString];
-        weakify(self);
+        @weakify(self);
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-            strongify(self);
+            @strongify(self);
             [self deleteSelectedRowsAndItems:selectedIndexPaths];
             [self reloadScriptListTableData];
             [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -459,9 +469,9 @@ typedef enum : NSUInteger {
         __block NSError *err = nil;
         __block NSString *currentPath = self.currentDirectory;
         __block kXXPasteboardType pasteboardType = [[XXLocalDataService sharedInstance] pasteboardType];
-        weakify(self);
+        @weakify(self);
         [alertView addButtonWithTitle:pasteStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-            strongify(self);
+            @strongify(self);
             self.navigationController.view.userInteractionEnabled = NO;
             [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             if (pasteboardType == kXXPasteboardTypeCut) {
@@ -501,9 +511,9 @@ typedef enum : NSUInteger {
             }
         }];
         if (pasteboardType == kXXPasteboardTypeCopy) {
-            weakify(self);
+            @weakify(self);
             [alertView addButtonWithTitle:linkStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                strongify(self);
+                @strongify(self);
                 for (NSString *originPath in pasteArr) {
                     NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
                     [[NSFileManager defaultManager] createSymbolicLinkAtPath:destPath withDestinationPath:originPath error:&err];
@@ -535,9 +545,9 @@ typedef enum : NSUInteger {
             cutStr = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Cut %d items", @"XXTouch", nil), selectedIndexes.count];
         }
         if ([self isEditing]) {
-            weakify(self);
+            @weakify(self);
             [alertView addButtonWithTitle:copyStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                strongify(self);
+                @strongify(self);
                 [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCopy];
                 [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
                 if (self.isEditing) {
@@ -545,7 +555,7 @@ typedef enum : NSUInteger {
                 }
             }];
             [alertView addButtonWithTitle:cutStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                strongify(self);
+                @strongify(self);
                 [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCut];
                 [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
                 if (self.isEditing) {

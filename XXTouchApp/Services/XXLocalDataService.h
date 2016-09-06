@@ -28,16 +28,4 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) kXXPasteboardType pasteboardType;
 @property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
 
-+ (UIImage *)fetchDisplayImageForFileExtension:(NSString *)ext;
-
-+ (NSArray <NSString *> *)selectableFileExtensions;
-+ (BOOL)isSelectableFileExtension:(NSString *)ext;
-+ (NSArray <NSString *> *)editableFileExtensions;
-+ (BOOL)isEditableFileExtension:(NSString *)ext;
-+ (NSArray <NSString *> *)viewableFileExtensions;
-+ (BOOL)isViewableFileExtension:(NSString *)ext;
-
-+ (NSArray <NSString *> *)imageFileExtensions;
-+ (void)viewFileWithStandardViewer:(NSString *)filePath parentViewController:(UIViewController *)viewController;
-
 @end

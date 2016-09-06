@@ -35,8 +35,11 @@
 
 #import "NSString+Mime.h"
 #import "NSString+Regexp.h"
-#import "NSFileManager+realDestination.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "ALAssetsLibrary+SingleInstance.h"
+#import "NSFileManager+RealDestination.h"
 #import "UINavigationController+StatusBar.h"
+#import "PHPhotoLibrary+CustomPhotoCollection.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 
 #endif /* AppDefines_pch */

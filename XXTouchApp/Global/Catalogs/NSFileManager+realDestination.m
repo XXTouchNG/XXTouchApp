@@ -1,5 +1,5 @@
 //
-//  NSFileManager+realDestination.m
+//  NSFileManager+RealDestination.m
 //  XXTouchApp
 //
 //  Created by Zheng on 9/3/16.
@@ -8,7 +8,7 @@
 
 #import "NSFileManager+realDestination.h"
 
-@implementation NSFileManager (realDestination)
+@implementation NSFileManager (RealDestination)
 
 - (NSString *)realDestinationOfSymbolicLinkAtPath:(NSString *)path error:(NSError **)error {
     NSError *err = nil;
