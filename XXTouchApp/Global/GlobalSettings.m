@@ -25,6 +25,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self setupStyle];
+        [self setupMedia];
         [XXLocalNetService sharedInstance];
         [XXLocalDataService sharedInstance];
     }
@@ -41,6 +42,10 @@
     [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];
     [SIAlertView appearance].messageFont = [UIFont systemFontOfSize:14.f];
     [SIAlertView appearance].buttonFont = [UIFont systemFontOfSize:14.f];
+}
+
+- (void)setupMedia {
+    
 }
 
 @end

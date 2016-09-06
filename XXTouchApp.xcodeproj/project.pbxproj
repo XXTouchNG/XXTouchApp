@@ -21,6 +21,9 @@
 		0F5D1F531D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5D1F521D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F581D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5D1F571D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m */; };
+		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
+		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; };
+		0F5D1F5F1D7E64360061A954 /* XXNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5D1F5E1D7E64360061A954 /* XXNavigationController.m */; };
 		0F6C99121D79240200505040 /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */; };
 		0F8B49731D7BC15B00AC4DA7 /* ARSafariActivity.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F8B49701D7BC15B00AC4DA7 /* ARSafariActivity.bundle */; };
 		0F8B49741D7BC15B00AC4DA7 /* ARSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8B49721D7BC15B00AC4DA7 /* ARSafariActivity.m */; };
@@ -78,6 +81,10 @@
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F5D1F561D7E41190061A954 /* ALAssetsLibrary+SingleInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+SingleInstance.h"; sourceTree = "<group>"; };
 		0F5D1F571D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+SingleInstance.m"; sourceTree = "<group>"; };
+		0F5D1F591D7E51020061A954 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0F5D1F5B1D7E525F0061A954 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		0F5D1F5D1D7E64360061A954 /* XXNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXNavigationController.h; sourceTree = "<group>"; };
+		0F5D1F5E1D7E64360061A954 /* XXNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXNavigationController.m; sourceTree = "<group>"; };
 		0F6C99101D79240200505040 /* XXCreateItemTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCreateItemTableViewController.h; sourceTree = "<group>"; };
 		0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCreateItemTableViewController.m; sourceTree = "<group>"; };
 		0F8B49701D7BC15B00AC4DA7 /* ARSafariActivity.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ARSafariActivity.bundle; sourceTree = "<group>"; };
@@ -142,6 +149,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */,
+				0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */,
 				0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */,
 				0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */,
 				95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */,
@@ -382,6 +391,8 @@
 		0FC47E891D7690770076590B /* XX Common */ = {
 			isa = PBXGroup;
 			children = (
+				0F5D1F5D1D7E64360061A954 /* XXNavigationController.h */,
+				0F5D1F5E1D7E64360061A954 /* XXNavigationController.m */,
 				0FC47E8A1D7690890076590B /* XXWebViewController.h */,
 				0FC47E8B1D7690890076590B /* XXWebViewController.m */,
 			);
@@ -433,6 +444,8 @@
 		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F5D1F5B1D7E525F0061A954 /* AVKit.framework */,
+				0F5D1F591D7E51020061A954 /* MediaPlayer.framework */,
 				0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */,
 				0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */,
 				0FC47E991D76A2420076590B /* Social.framework */,
@@ -613,6 +626,7 @@
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0FB0A7CA1D73E46C00129E83 /* XXMainTabbarViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
+				0F5D1F5F1D7E64360061A954 /* XXNavigationController.m in Sources */,
 				0FD7DC291D75BB2100F84181 /* XXSwipeableCell.m in Sources */,
 				0F5553981D7D513400D8A8A6 /* FYPhotoAsset.m in Sources */,
 			);

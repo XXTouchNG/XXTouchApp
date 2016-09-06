@@ -30,6 +30,7 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
+  - SSZipArchive (1.5)
   - Toast (3.0)
   - YYKit (1.0.7):
     - YYKit/no-arc (= 1.0.7)
@@ -49,6 +50,7 @@ DEPENDENCIES:
   - Masonry
   - MJRefresh
   - NJKWebViewProgress
+  - SSZipArchive
   - Toast
   - YYKit
   - ZXingObjC
@@ -64,10 +66,11 @@ SPEC CHECKSUMS:
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  SSZipArchive: 29daace2bccb90a47de2837744da397728ff9207
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   YYKit: 843d1b26e20b82c695790c9a89907eaa1e99907f
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: cd6121bb94bb352530f7734b26737f3a6db4b05d
+PODFILE CHECKSUM: 53dc31b147a64f3e9429ea1931955e6396a33fa6
 
 COCOAPODS: 1.0.0.beta.4

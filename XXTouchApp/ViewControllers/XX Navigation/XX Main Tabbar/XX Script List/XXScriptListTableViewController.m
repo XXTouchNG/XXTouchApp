@@ -31,7 +31,9 @@ typedef enum : NSUInteger {
     kXXScriptListSortByModificationDesc,
 } kXXScriptListSortMethod;
 
-@interface XXScriptListTableViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface XXScriptListTableViewController ()
+<UITableViewDelegate, UITableViewDataSource, SSZipArchiveDelegate>
+
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
@@ -42,12 +44,17 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *scanButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *addItemButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *pasteButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortByButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteRangeButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
+@property (nonatomic, strong) UIBarButtonItem *scanButton;
+@property (nonatomic, strong) UIBarButtonItem *compressButton;
+@property (nonatomic, strong) UIBarButtonItem *addItemButton;
+@property (nonatomic, strong) UIBarButtonItem *pasteButton;
+@property (nonatomic, strong) UIBarButtonItem *sortByButton;
+@property (nonatomic, strong) UIBarButtonItem *trashButton;
+@property (nonatomic, strong) UIBarButtonItem *shareButton;
+@property (nonatomic, strong) UIBarButtonItem *flexibleSpace;
+
+@property (nonatomic, strong) NSArray <UIBarButtonItem *> *defaultToolbarButtons;
+@property (nonatomic, strong) NSArray <UIBarButtonItem *> *editingToolbarButtons;
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
 
@@ -84,12 +91,14 @@ typedef enum : NSUInteger {
     self.tableView.allowsSelectionDuringEditing = YES;
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     
+    [self.topToolbar setItems:self.defaultToolbarButtons animated:YES];
     [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self reloadScriptListTableView];
+    // Pasteboard Event - ViewWillAppear
     if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
         _pasteButton.enabled = NO;
     } else {
@@ -99,6 +108,114 @@ typedef enum : NSUInteger {
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Top Toolbar
+
+- (NSArray <UIBarButtonItem *> *)defaultToolbarButtons {
+    if (!_defaultToolbarButtons) {
+        _defaultToolbarButtons = @[self.scanButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
+    }
+    return _defaultToolbarButtons;
+}
+
+- (NSArray <UIBarButtonItem *> *)editingToolbarButtons {
+    if (!_editingToolbarButtons) {
+        _editingToolbarButtons = @[self.shareButton, self.flexibleSpace, self.compressButton, self.flexibleSpace, self.trashButton, self.flexibleSpace, self.pasteButton];
+    }
+    return _editingToolbarButtons;
+}
+
+- (UIBarButtonItem *)flexibleSpace {
+    if (!_flexibleSpace) {
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        _flexibleSpace = flexibleSpace;
+    }
+    return _flexibleSpace;
+}
+
+- (UIBarButtonItem *)scanButton {
+    if (!_scanButton) {
+        UIBarButtonItem *scanButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-scan"]
+                                                                       style:UIBarButtonItemStyleBordered
+                                                                      target:self
+                                                                      action:@selector(toolbarButtonTapped:)];
+        scanButton.enabled = YES;
+        _scanButton = scanButton;
+    }
+    return _scanButton;
+}
+
+- (UIBarButtonItem *)compressButton {
+    if (!_compressButton) {
+        UIBarButtonItem *compressButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-compress"]
+                                                                           style:UIBarButtonItemStyleBordered
+                                                                          target:self
+                                                                          action:@selector(toolbarButtonTapped:)];
+        compressButton.enabled = NO;
+        _compressButton = compressButton;
+    }
+    return _compressButton;
+}
+
+- (UIBarButtonItem *)addItemButton {
+    if (!_addItemButton) {
+        UIBarButtonItem *addItemButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-add"]
+                                                                          style:UIBarButtonItemStyleBordered
+                                                                         target:self
+                                                                         action:@selector(toolbarButtonTapped:)];
+        addItemButton.enabled = YES;
+        _addItemButton = addItemButton;
+    }
+    return _addItemButton;
+}
+
+- (UIBarButtonItem *)sortByButton {
+    if (!_sortByButton) {
+        UIBarButtonItem *sortByButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sort-alpha"]
+                                                                         style:UIBarButtonItemStyleBordered
+                                                                        target:self
+                                                                        action:@selector(toolbarButtonTapped:)];
+        sortByButton.enabled = YES;
+        _sortByButton = sortByButton;
+    }
+    return _sortByButton;
+}
+
+- (UIBarButtonItem *)shareButton {
+    if (!_shareButton) {
+        UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-share"]
+                                                                        style:UIBarButtonItemStyleBordered
+                                                                       target:self
+                                                                       action:@selector(toolbarButtonTapped:)];
+        shareButton.enabled = NO;
+        _shareButton = shareButton;
+    }
+    return _shareButton;
+}
+
+- (UIBarButtonItem *)pasteButton {
+    if (!_pasteButton) {
+        UIBarButtonItem *pasteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-paste"]
+                                                                        style:UIBarButtonItemStyleBordered
+                                                                       target:self
+                                                                       action:@selector(toolbarButtonTapped:)];
+        pasteButton.enabled = NO;
+        _pasteButton = pasteButton;
+    }
+    return _pasteButton;
+}
+
+- (UIBarButtonItem *)trashButton {
+    if (!_trashButton) {
+        UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-trash"]
+                                                                        style:UIBarButtonItemStyleBordered
+                                                                       target:self
+                                                                       action:@selector(toolbarButtonTapped:)];
+        trashButton.enabled = NO;
+        _trashButton = trashButton;
+    }
+    return _trashButton;
 }
 
 #pragma mark - MJRefresh Header
@@ -241,21 +358,17 @@ typedef enum : NSUInteger {
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
+    // Pasteboard Event - setEditing
     if (editing) {
-        _scanButton.enabled =
-        _addItemButton.enabled =
-        _sortByButton.enabled =
-        _shareButton.enabled =
-        _deleteRangeButton.enabled = NO;
+        [self.topToolbar setItems:self.editingToolbarButtons animated:YES];
     } else {
+        _shareButton.enabled =
+        _compressButton.enabled =
+        _trashButton.enabled = NO;
+        [self.topToolbar setItems:self.defaultToolbarButtons animated:YES];
         if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
             _pasteButton.enabled = NO;
         }
-        _scanButton.enabled =
-        _addItemButton.enabled =
-        _sortByButton.enabled = YES;
-        _shareButton.enabled =
-        _deleteRangeButton.enabled = NO;
     }
 }
 
@@ -265,7 +378,8 @@ typedef enum : NSUInteger {
             _pasteButton.enabled = NO;
         }
         _shareButton.enabled =
-        _deleteRangeButton.enabled = NO;
+        _compressButton.enabled =
+        _trashButton.enabled = NO;
     }
 }
 
@@ -273,7 +387,8 @@ typedef enum : NSUInteger {
     if ([tableView isEditing]) {
         _pasteButton.enabled =
         _shareButton.enabled =
-        _deleteRangeButton.enabled = YES;
+        _compressButton.enabled =
+        _trashButton.enabled = YES;
         return;
     }
     
@@ -300,9 +415,9 @@ typedef enum : NSUInteger {
             [self.navigationController pushViewController:newController animated:YES];
         } else {
             BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
-                                                    parentViewController:self.navigationController];
+                                                    parentViewController:self];
             if (!result) {
-                [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unknown File Type", @"XXTouch", nil)];
+                [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unsupported File Type", @"XXTouch", nil)];
             }
         }
     }
@@ -377,7 +492,7 @@ typedef enum : NSUInteger {
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
-- (IBAction)toolbarButtonTapped:(id)sender {
+- (void)toolbarButtonTapped:(id)sender {
     if (sender == _scanButton) {
         
     } else if (sender == _addItemButton) {
@@ -395,7 +510,7 @@ typedef enum : NSUInteger {
             self.sortMethod = kXXScriptListSortByNameAsc;
             [self.sortByButton setImage:[UIImage imageNamed:@"sort-alpha"]];
         }
-    } else if (sender == _deleteRangeButton) {
+    } else if (sender == _trashButton) {
         __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         
         NSString *formatString = nil;
@@ -433,6 +548,35 @@ typedef enum : NSUInteger {
         } else {
             [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"You cannot share directory.", @"XXTouch", nil)];
         }
+    } else if (sender == _compressButton) {
+        __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+        NSString *formatString = nil;
+        if (selectedIndexPaths.count == 1) {
+            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Archive 1 item?", @"XXTouch", nil)];
+        } else {
+            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Archive %d items?", @"XXTouch", nil), selectedIndexPaths.count];
+        }
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Archive Confirm", @"XXTouch", nil)
+                                                         andMessage:formatString];
+        @weakify(self);
+        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            @strongify(self);
+            if (self.isEditing) {
+                [self setEditing:NO animated:YES];
+            }
+            NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
+            for (NSIndexPath *indexPath in selectedIndexPaths) {
+                XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                [pathsArr addObject:cell.itemPath];
+            }
+            if (pathsArr.count != 0) {
+                [XXQuickLookService archiveItems:pathsArr parentViewController:self];
+            }
+        }];
+        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            
+        }];
+        [alertView show];
     }
 }
 
@@ -580,6 +724,23 @@ typedef enum : NSUInteger {
 
 - (void)dealloc {
     CYLog(@"");
+}
+
+#pragma mark - SSZipArchiveDelegate
+
+- (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path
+                                zipInfo:(unz_global_info)zipInfo
+                           unzippedPath:(NSString *)unzippedPath
+{
+    dispatch_async_on_main_queue(^{
+        [self reloadScriptListTableView];
+    });
+}
+
+- (void)zipArchiveDidCreatedArchiveAtPath:(NSString *)path {
+    dispatch_async_on_main_queue(^{
+        [self reloadScriptListTableView];
+    });
 }
 
 @end

@@ -13,6 +13,7 @@ target 'XXTouchApp' do
     pod 'ZXingObjC'
     pod 'AFNetworking'
     pod 'NJKWebViewProgress'
+    pod 'SSZipArchive'
     pod 'LBXScan','~> 1.1.1'
     pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 end

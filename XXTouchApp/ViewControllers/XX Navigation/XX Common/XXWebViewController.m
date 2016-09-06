@@ -29,11 +29,8 @@
     }];
 }
 
-- (NSURL *)url {
-    if (!_url) {
-        _url = [NSURL URLWithString:OFFICIAL_SITE];
-    }
-    return _url;
+- (IBAction)close:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NJKWebViewProgress *)progressProxy {
@@ -114,6 +111,7 @@
     if (webView == _agreementWebView && _progressView) {
         [_progressView setProgress:0.0 animated:YES];
     }
+    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 #pragma mark - NJKWebViewProgressDelegate

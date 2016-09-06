@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface XXScriptListTableViewController : UITableViewController
+- (void)reloadScriptListTableView;
 
 @end
