@@ -27,9 +27,7 @@
 + (NSArray <NSString *> *)videoFileExtensions;
 + (NSArray <NSString *> *)archiveFileExtensions;
 + (NSArray <NSString *> *)webViewFileExtensions;
-+ (NSArray <NSString *> *)supportedArchiveFileExtensions;
+
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
               parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController;
-+ (void)archiveItems:(NSArray <NSString *> *)items
-parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController;
 @end

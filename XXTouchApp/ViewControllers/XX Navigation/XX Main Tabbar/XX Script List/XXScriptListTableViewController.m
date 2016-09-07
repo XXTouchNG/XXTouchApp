@@ -12,7 +12,9 @@
 #import "XXItemAttributesTableViewController.h"
 #import "XXScriptListTableViewController.h"
 #import "XXLocalDataService.h"
+#import "XXLocalNetService.h"
 #import "XXQuickLookService.h"
+#import "XXArchiveService.h"
 #import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
@@ -32,7 +34,12 @@ typedef enum : NSUInteger {
 } kXXScriptListSortMethod;
 
 @interface XXScriptListTableViewController ()
-<UITableViewDelegate, UITableViewDataSource, SSZipArchiveDelegate>
+<
+UITableViewDelegate,
+UITableViewDataSource,
+SSZipArchiveDelegate,
+UIGestureRecognizerDelegate
+>
 
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -338,7 +345,7 @@ typedef enum : NSUInteger {
     if (cell.selectable) {
         if (_selectedIndex == indexPath.row) {
             cell.checked = YES;
-            [[XXLocalDataService sharedInstance] setSelectedScript:cell.itemPath];
+            [[XXLocalNetService sharedInstance] localSetSelectedScript:cell.itemPath];
         } else if ([cell.itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
             _selectedIndex = indexPath.row;
             cell.checked = YES;
@@ -353,7 +360,24 @@ typedef enum : NSUInteger {
         }
     }
     
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
+    longPressGesture.delegate = self;
+    [cell addGestureRecognizer:longPressGesture];
+    
     return cell;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([self isEditing]) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)cellLongPress:(UIGestureRecognizer *)recognizer {
+    if (![self isEditing]) {
+        [self setEditing:YES animated:YES];
+    }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -394,19 +418,32 @@ typedef enum : NSUInteger {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    __block XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (currentCell.selectable) {
         if (_selectedIndex != indexPath.row) {
             NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
-            XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
+            __block XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
             
-            lastCell.checked = NO;
-            currentCell.checked = YES;
-            
-            _selectedIndex = indexPath.row;
-            
-            [[XXLocalDataService sharedInstance] setSelectedScript:currentCell.itemPath];
+            self.navigationController.view.userInteractionEnabled = NO;
+            [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+            @weakify(self);
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                @strongify(self);
+                BOOL result = [[XXLocalNetService sharedInstance] localSetSelectedScript:currentCell.itemPath];
+                dispatch_async_on_main_queue(^{
+                    self.navigationController.view.userInteractionEnabled = YES;
+                    [self.navigationController.view hideToastActivity];
+                    if (result) {
+                        lastCell.checked = NO;
+                        currentCell.checked = YES;
+                        
+                        _selectedIndex = indexPath.row;
+                    } else {
+                        [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+                    }
+                });
+            });
         }
     } else {
         if (currentCell.isDirectory) {
@@ -416,6 +453,11 @@ typedef enum : NSUInteger {
         } else {
             BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
                                                     parentViewController:self];
+            if (!result) {
+                result = [XXArchiveService unArchiveZip:currentCell.itemPath
+                                            toDirectory:self.currentDirectory
+                                   parentViewController:self];
+            }
             if (!result) {
                 [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Unsupported File Type", @"XXTouch", nil)];
             }
@@ -467,7 +509,8 @@ typedef enum : NSUInteger {
             });
         }];
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-            
+            @strongify(self);
+            [self setEditing:NO animated:YES];
         }];
         [alertView show];
     }];
@@ -552,9 +595,9 @@ typedef enum : NSUInteger {
         __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         NSString *formatString = nil;
         if (selectedIndexPaths.count == 1) {
-            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Archive 1 item?", @"XXTouch", nil)];
+            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Compress 1 item?", @"XXTouch", nil)];
         } else {
-            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Archive %d items?", @"XXTouch", nil), selectedIndexPaths.count];
+            formatString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Compress %d items?", @"XXTouch", nil), selectedIndexPaths.count];
         }
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Archive Confirm", @"XXTouch", nil)
                                                          andMessage:formatString];
@@ -570,7 +613,9 @@ typedef enum : NSUInteger {
                 [pathsArr addObject:cell.itemPath];
             }
             if (pathsArr.count != 0) {
-                [XXQuickLookService archiveItems:pathsArr parentViewController:self];
+                [XXArchiveService archiveItems:pathsArr
+                                   toDirectory:self.currentDirectory
+                          parentViewController:self];
             }
         }];
         [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {

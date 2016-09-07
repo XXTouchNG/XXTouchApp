@@ -27,7 +27,7 @@
 		0F6C99121D79240200505040 /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6C99111D79240200505040 /* XXCreateItemTableViewController.m */; };
 		0F8B49731D7BC15B00AC4DA7 /* ARSafariActivity.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F8B49701D7BC15B00AC4DA7 /* ARSafariActivity.bundle */; };
 		0F8B49741D7BC15B00AC4DA7 /* ARSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8B49721D7BC15B00AC4DA7 /* ARSafariActivity.m */; };
-		0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */; };
+		0F95A3931D805DBF009DF3D1 /* XXArchiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F95A3921D805DBF009DF3D1 /* XXArchiveService.m */; };
 		0F98527B1D746718001323AA /* XXAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F98527A1D746718001323AA /* XXAboutTableViewController.m */; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0F9A83231D77ED1B0076ECDE /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F9A83201D77ED1B0076ECDE /* SIAlertView.bundle */; };
@@ -49,7 +49,6 @@
 		0FD7DC291D75BB2100F84181 /* XXSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD7DC281D75BB2100F84181 /* XXSwipeableCell.m */; };
 		0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D01D75A9AD003907A7 /* XXLocalNetService.m */; };
 		0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */; };
-		0FE881D71D75ADE1003907A7 /* XXLocalFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D61D75ADE1003907A7 /* XXLocalFileModel.m */; };
 		95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,8 +89,8 @@
 		0F8B49701D7BC15B00AC4DA7 /* ARSafariActivity.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ARSafariActivity.bundle; sourceTree = "<group>"; };
 		0F8B49711D7BC15B00AC4DA7 /* ARSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARSafariActivity.h; sourceTree = "<group>"; };
 		0F8B49721D7BC15B00AC4DA7 /* ARSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARSafariActivity.m; sourceTree = "<group>"; };
-		0F98526E1D745CC3001323AA /* XXLocalCommandBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalCommandBaseRequest.h; sourceTree = "<group>"; };
-		0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalCommandBaseRequest.m; sourceTree = "<group>"; };
+		0F95A3911D805DBF009DF3D1 /* XXArchiveService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXArchiveService.h; sourceTree = "<group>"; };
+		0F95A3921D805DBF009DF3D1 /* XXArchiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXArchiveService.m; sourceTree = "<group>"; };
 		0F9852711D745D15001323AA /* XXLocalDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalDefines.h; sourceTree = "<group>"; };
 		0F9852791D746718001323AA /* XXAboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAboutTableViewController.h; sourceTree = "<group>"; };
 		0F98527A1D746718001323AA /* XXAboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAboutTableViewController.m; sourceTree = "<group>"; };
@@ -137,8 +136,6 @@
 		0FE881D01D75A9AD003907A7 /* XXLocalNetService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalNetService.m; sourceTree = "<group>"; };
 		0FE881D21D75ABE9003907A7 /* XXLocalDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalDataService.h; sourceTree = "<group>"; };
 		0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalDataService.m; sourceTree = "<group>"; };
-		0FE881D51D75ADE1003907A7 /* XXLocalFileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalFileModel.h; sourceTree = "<group>"; };
-		0FE881D61D75ADE1003907A7 /* XXLocalFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalFileModel.m; sourceTree = "<group>"; };
 		6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.release.xcconfig"; sourceTree = "<group>"; };
 		AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XXTouchApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,8 +206,6 @@
 		0F9852681D745B84001323AA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0FE881D51D75ADE1003907A7 /* XXLocalFileModel.h */,
-				0FE881D61D75ADE1003907A7 /* XXLocalFileModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -225,18 +220,10 @@
 				0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */,
 				0F5553881D7D4A8800D8A8A6 /* XXQuickLookService.h */,
 				0F5553891D7D4A8800D8A8A6 /* XXQuickLookService.m */,
-				0F98526D1D745CB3001323AA /* Requests */,
+				0F95A3911D805DBF009DF3D1 /* XXArchiveService.h */,
+				0F95A3921D805DBF009DF3D1 /* XXArchiveService.m */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		0F98526D1D745CB3001323AA /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				0F98526E1D745CC3001323AA /* XXLocalCommandBaseRequest.h */,
-				0F98526F1D745CC3001323AA /* XXLocalCommandBaseRequest.m */,
-			);
-			path = Requests;
 			sourceTree = "<group>";
 		};
 		0F9852751D7466AC001323AA /* Help */ = {
@@ -604,13 +591,12 @@
 				0F55538A1D7D4A8800D8A8A6 /* XXQuickLookService.m in Sources */,
 				0F5553921D7D50DB00D8A8A6 /* UIImage+ProportionalFill.m in Sources */,
 				0FB0A7C91D73E46C00129E83 /* XXSettingsTableViewController.m in Sources */,
+				0F95A3931D805DBF009DF3D1 /* XXArchiveService.m in Sources */,
 				0FBC87981D7AC54600C9E419 /* NSFileManager+RealDestination.m in Sources */,
 				0F14738D1D798A08003F4A90 /* XXItemAttributesTableViewController.m in Sources */,
 				0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0F98527B1D746718001323AA /* XXAboutTableViewController.m in Sources */,
-				0F9852701D745CC3001323AA /* XXLocalCommandBaseRequest.m in Sources */,
 				0F5D1F531D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
-				0FE881D71D75ADE1003907A7 /* XXLocalFileModel.m in Sources */,
 				0FB0A79C1D73DAF900129E83 /* XXNavigationViewController.m in Sources */,
 				0FB0A7C81D73E46C00129E83 /* XXScriptListTableViewController.m in Sources */,
 				0F5553991D7D513400D8A8A6 /* FYPhotoLibrary.m in Sources */,
@@ -748,6 +734,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxtouch.XXTouchApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bec83291-9960-4e34-8faf-7970ad61f015";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -765,6 +752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxtouch.XXTouchApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bec83291-9960-4e34-8faf-7970ad61f015";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};

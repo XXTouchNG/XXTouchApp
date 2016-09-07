@@ -111,7 +111,10 @@
     if (webView == _agreementWebView && _progressView) {
         [_progressView setProgress:0.0 animated:YES];
     }
-    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (title.length > 0) {
+        self.title = title;
+    }
 }
 
 #pragma mark - NJKWebViewProgressDelegate

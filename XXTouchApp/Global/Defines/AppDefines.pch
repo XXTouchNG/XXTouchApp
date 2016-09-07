@@ -18,7 +18,6 @@
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 
 #import <YYKit/YYKit.h>
-#import <JSONModel/JSONModel.h>
 #import <FCFileManager/FCFileManager.h>
 #import <Colours/Colours.h>
 #import <Masonry/Masonry.h>

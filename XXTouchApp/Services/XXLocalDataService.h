@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XXLocalFileModel.h"
 
 typedef enum : NSUInteger {
     kXXPasteboardTypeCopy,
@@ -17,7 +16,6 @@ typedef enum : NSUInteger {
 @interface XXLocalDataService : NSObject
 + (id)sharedInstance;
 
-@property (nonatomic, strong) NSArray <XXLocalFileModel *> *localFiles;
 @property (nonatomic, copy) NSString *rootPath;
 @property (nonatomic, copy) NSString *libraryPath;
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;

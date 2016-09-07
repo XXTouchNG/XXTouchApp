@@ -23,7 +23,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         // Init Local Data Configure
-        // Get Selected Script
+        
     }
     return self;
 }

@@ -7,8 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XXLocalDefines.h"
 
 @interface XXLocalNetService : NSObject
-+ (id)sharedInstance;
+@property (nonatomic, assign) BOOL serverAlive;
+@property (nonatomic, strong) NSError *lastError;
 
++ (id)sharedInstance;
+- (BOOL)localSetSelectedScript:(NSString *)scriptPath;
+- (BOOL)localGetSelectedScript;
 @end

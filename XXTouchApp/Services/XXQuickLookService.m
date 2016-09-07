@@ -99,10 +99,6 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
     return @[ @"zip", @"bz2", @"tar", @"gz", @"rar" ];
 }
 
-+ (NSArray <NSString *> *)supportedArchiveFileExtensions {
-    return @[ @"zip" ];
-}
-
 + (NSArray <NSString *> *)webViewFileExtensions {
     return @[ @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub" ];
 }
@@ -130,7 +126,8 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
                                                                                                    mode:JTSImageViewControllerMode_Image
                                                                                         backgroundStyle:JTSImageViewControllerBackgroundOption_Scaled];
         imageViewController.interactionsDelegate = [self sharedInstance];
-        [imageViewController showFromViewController:viewController.navigationController transition:JTSImageViewControllerTransition_FromOffscreen];
+        [imageViewController showFromViewController:viewController.navigationController
+                                         transition:JTSImageViewControllerTransition_FromOffscreen];
         return YES;
     } else if ([[self mediaFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Media File
         NSURL *sourceMovieURL = [NSURL fileURLWithPath:filePath];
@@ -152,36 +149,8 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         XXNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
         XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
         webController.url = [NSURL fileURLWithPath:filePath];
+        webController.title = [filePath lastPathComponent];
         [viewController.navigationController presentViewController:navController animated:YES completion:nil];
-        return YES;
-    } else if ([[self supportedArchiveFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Zip Archive
-        __block UINavigationController *navController = viewController.navigationController;
-        navController.view.userInteractionEnabled = NO;
-        [navController.view makeToastActivity:CSToastPositionCenter];
-        __block NSError *error = nil;
-        __block NSString *destination = [filePath stringByDeletingLastPathComponent];
-        [FCFileManager createDirectoriesForPath:destination error:&error];
-        if (error) {
-            navController.view.userInteractionEnabled = YES;
-            [navController.view hideToastActivity];
-            [navController.view makeToast:[error localizedDescription]];
-        } else {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [SSZipArchive unzipFileAtPath:filePath
-                                toDestination:destination
-                                    overwrite:YES
-                                     password:nil
-                                        error:&error
-                                     delegate:viewController];
-                dispatch_async_on_main_queue(^{
-                    navController.view.userInteractionEnabled = YES;
-                    [navController.view hideToastActivity];
-                    if (error) {
-                        [navController.view makeToast:[error localizedDescription]];
-                    }
-                });
-            });
-        }
         return YES;
     }
     return NO;
@@ -243,61 +212,6 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
             }
         }];
     }
-}
-
-+ (void)archiveItems:(NSArray <NSString *> *)items
-parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
-    if (items.count <= 0) {
-        return;
-    }
-    
-    __block NSError *error = nil;
-    __block UINavigationController *navController = viewController.navigationController;
-    navController.view.userInteractionEnabled = NO;
-    [navController.view makeToastActivity:CSToastPositionCenter];
-    
-    NSString *destination = [items[0] stringByDeletingLastPathComponent];
-    NSString *archiveName = nil;
-    NSString *archivePath = nil;
-    if (items.count == 1) {
-        archiveName = [[items[0] lastPathComponent] stringByAppendingPathExtension:@"zip"];
-        archivePath = [destination stringByAppendingPathComponent:archiveName];
-    } else {
-        archiveName = @"Archive.zip";
-        if ([FCFileManager existsItemAtPath:[destination stringByAppendingPathComponent:archiveName]]) {
-            NSUInteger testIndex = 2;
-            do {
-                archivePath = [destination stringByAppendingPathComponent:[NSString stringWithFormat:@"Archive %lu.zip", testIndex]];
-                testIndex++;
-            } while ([FCFileManager existsItemAtPath:archivePath]);
-        } else {
-            archivePath = [destination stringByAppendingPathComponent:archiveName];
-        }
-    }
-    CYLog(@"%@", archivePath);
-    
-    NSMutableArray *allPaths = [[NSMutableArray alloc] init];
-    for (NSString *itemPath in items) {
-        if ([FCFileManager isDirectoryItemAtPath:itemPath error:&error]) {
-            [allPaths addObjectsFromArray:[FCFileManager listFilesInDirectoryAtPath:itemPath deep:YES]];
-        } else {
-            [allPaths addObject:itemPath];
-        }
-    }
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        BOOL result = [SSZipArchive createZipFileAtPath:archivePath
-                                       withFilesAtPaths:allPaths
-                                           withPassword:nil
-                                               delegate:viewController];
-        dispatch_async_on_main_queue(^{
-            navController.view.userInteractionEnabled = YES;
-            [navController.view hideToastActivity];
-            if (!result) {
-                [navController.view makeToast:NSLocalizedStringFromTable(@"Cannot create zip file", @"XXTouch", nil)];
-            }
-        });
-    });
 }
 
 @end

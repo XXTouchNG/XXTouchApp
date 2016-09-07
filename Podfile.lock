@@ -1,25 +1,9 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
-    - AFNetworking/NSURLSession
   - Colours (5.13.0):
     - Colours/ObjC (= 5.13.0)
   - Colours/ObjC (5.13.0)
   - FCFileManager (1.0.18)
   - FLEX (2.1.1)
-  - JSONModel (1.4.0)
   - JTSImageViewController (1.5.1)
   - LBXScan (1.1.1):
     - ZXingObjC (~> 3.0)
@@ -40,11 +24,9 @@ PODS:
   - ZXingObjC/All (3.1.0)
 
 DEPENDENCIES:
-  - AFNetworking
   - Colours
   - FCFileManager
   - FLEX (~> 2.0)
-  - JSONModel
   - JTSImageViewController
   - LBXScan (~> 1.1.1)
   - Masonry
@@ -56,11 +38,9 @@ DEPENDENCIES:
   - ZXingObjC
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
   FCFileManager: 3d13576da1f709d37460bd7669cdf07b9d6d8bc3
   FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
-  JSONModel: 58fe3f8c29ff95ed94e7ee7dde87e807f5da5371
   JTSImageViewController: 1f8ce1cc93dab0d0af8e53badeea7528560cfec9
   LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
@@ -71,6 +51,6 @@ SPEC CHECKSUMS:
   YYKit: 843d1b26e20b82c695790c9a89907eaa1e99907f
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: 53dc31b147a64f3e9429ea1931955e6396a33fa6
+PODFILE CHECKSUM: 09b28893c79ed837433c3281e0f8caf2590bea11
 
 COCOAPODS: 1.0.0.beta.4

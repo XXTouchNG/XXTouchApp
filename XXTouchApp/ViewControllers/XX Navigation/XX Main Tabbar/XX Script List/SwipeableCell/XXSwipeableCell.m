@@ -31,6 +31,7 @@
 }
 
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {
+    self.checked = NO;
     _itemAttrs = itemAttrs;
     id fileType = [itemAttrs objectForKey:NSFileType];
     NSString *fileExt = [_itemPath pathExtension];

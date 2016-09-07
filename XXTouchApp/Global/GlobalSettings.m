@@ -9,6 +9,7 @@
 #import "GlobalSettings.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
+#import "XXQuickLookService.h"
 
 @implementation GlobalSettings
 
@@ -28,6 +29,7 @@
         [self setupMedia];
         [XXLocalNetService sharedInstance];
         [XXLocalDataService sharedInstance];
+        [XXQuickLookService sharedInstance];
     }
     return self;
 }
