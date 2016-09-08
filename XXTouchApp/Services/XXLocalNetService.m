@@ -9,10 +9,10 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 
-#define SAVE_ERROR() \
+#define SAVE_ERROR(ret) \
 if (error != nil) { \
     _lastError = error; \
-    return nil; \
+    return ret; \
 }
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
@@ -31,9 +31,13 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 - (instancetype)init {
     if (self = [super init]) {
         // Init Local Network Configure
-        self.serverAlive = [self localGetSelectedScript];
+        _serverAlive = NO;
     }
     return self;
+}
+
++ (void)respringDevice {
+    system("killall -9 SpringBoard");
 }
 
 - (NSDictionary *)sendSynchronousRequest:(NSString *)command
@@ -48,16 +52,17 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     
     if (requestParams) {
         NSData *sendData = [NSJSONSerialization dataWithJSONObject:requestParams options:0 error:&error];
-        SAVE_ERROR();
+        SAVE_ERROR(nil);
         [request setHTTPBody:sendData];
     }
     
     NSData *received = [NSURLConnection sendSynchronousRequest:request
                                              returningResponse:nil
                                                          error:&error];
-    SAVE_ERROR();
+    SAVE_ERROR(nil);
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:&error];
-    SAVE_ERROR();
+    _serverAlive = YES;
+    SAVE_ERROR(nil);
     return result;
 }
 
@@ -76,7 +81,7 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
                                     code:[code integerValue]
                                 userInfo:@{ NSLocalizedDescriptionKey:message }];
     }
-    SAVE_ERROR();
+    SAVE_ERROR(NO);
     return NO;
 }
 
@@ -97,7 +102,7 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
                                     code:[code integerValue]
                                 userInfo:@{ NSLocalizedDescriptionKey:message }];
     }
-    SAVE_ERROR();
+    SAVE_ERROR(NO);
     return NO;
 }
 

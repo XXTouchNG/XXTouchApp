@@ -13,6 +13,11 @@ typedef enum : NSUInteger {
     kXXPasteboardTypeCut,
 } kXXPasteboardType;
 
+typedef enum : NSUInteger {
+    kXXScriptListSortByNameAsc,
+    kXXScriptListSortByModificationDesc,
+} kXXScriptListSortMethod;
+
 @interface XXLocalDataService : NSObject
 + (id)sharedInstance;
 
@@ -25,5 +30,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) kXXPasteboardType pasteboardType;
 @property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
+
+@property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
 
 @end

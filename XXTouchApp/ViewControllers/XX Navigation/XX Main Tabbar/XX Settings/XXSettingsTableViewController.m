@@ -8,6 +8,7 @@
 
 #import "XXSettingsTableViewController.h"
 #import "XXWebViewController.h"
+#import "XXLocalNetService.h"
 
 enum {
     kServiceSection = 0,
@@ -115,6 +116,7 @@ enum {
                 case kSystemCleanAllCachesIndex:
                     break;
                 case kSystemDeviceRespringIndex:
+                    [self respringIndexSelected];
                     break;
                 case kSystemDeviceRestartIndex:
                     break;
@@ -134,6 +136,22 @@ enum {
         default:
             break;
     }
+}
+
+- (void)respringIndexSelected {
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Respring Confirm", @"XXTouch", nil)
+                                                     andMessage:NSLocalizedStringFromTable(@"Tap \"Respring Now\" to continue", @"XXTouch", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Respring Now", @"XXTouch", nil)
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              [XXLocalNetService respringDevice];
+                          }];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil)
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                          }];
+    [alertView show];
 }
 
 - (void)openReferencesUrl {

@@ -60,7 +60,9 @@
 
 - (void)setSelectedScript:(NSString *)selectedScript {
     _selectedScript = selectedScript;
-    CYLog(@"%@", selectedScript);
+    if (selectedScript) {
+        CYLog(@"%@", selectedScript);
+    }
 }
 
 - (BOOL)isSelectedScriptInPath:(NSString *)path {

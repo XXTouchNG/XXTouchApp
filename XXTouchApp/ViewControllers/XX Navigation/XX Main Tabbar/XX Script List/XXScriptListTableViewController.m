@@ -28,11 +28,6 @@ enum {
     kXXScriptListCellSection = 0,
 };
 
-typedef enum : NSUInteger {
-    kXXScriptListSortByNameAsc,
-    kXXScriptListSortByModificationDesc,
-} kXXScriptListSortMethod;
-
 @interface XXScriptListTableViewController ()
 <
 UITableViewDelegate,
@@ -48,8 +43,6 @@ UIGestureRecognizerDelegate
 @property (nonatomic, copy) NSString *rootDirectory;
 @property (nonatomic, copy) NSString *currentDirectory;
 @property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
-
-@property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
 
 @property (nonatomic, strong) UIBarButtonItem *scanButton;
 @property (nonatomic, strong) UIBarButtonItem *compressButton;
@@ -75,7 +68,6 @@ UIGestureRecognizerDelegate
     _rootDirectory = ROOT_PATH;
     _currentDirectory = [_rootDirectory mutableCopy];
     _rootItemsDictionaryArr = @[];
-    _sortMethod = kXXScriptListSortByNameAsc;
 }
 
 - (void)viewDidLoad {
@@ -284,14 +276,16 @@ UIGestureRecognizerDelegate
         }
     }
     
-    if (self.sortMethod == kXXScriptListSortByNameAsc) {
+    if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByNameAsc) {
+        [self.sortByButton setImage:[UIImage imageNamed:@"sort-alpha"]];
         [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
         }];
         [fileArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
         }];
-    } else if (self.sortMethod == kXXScriptListSortByModificationDesc) {
+    } else if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByModificationDesc) {
+        [self.sortByButton setImage:[UIImage imageNamed:@"sort-number"]];
         [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj1[NSFileModificationDate] compare:obj2[NSFileModificationDate]];
         }];
@@ -342,7 +336,13 @@ UIGestureRecognizerDelegate
     cell.displayName = itemName;
     cell.itemAttrs = attrs;
     
-    if (cell.selectable) {
+    if (cell.isDirectory) {
+        BOOL checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+        cell.checked = checked;
+        if (checked) {
+            _selectedIndex = indexPath.row;
+        }
+    } else if (cell.selectable) {
         if (_selectedIndex == indexPath.row) {
             cell.checked = YES;
             [[XXLocalNetService sharedInstance] localSetSelectedScript:cell.itemPath];
@@ -351,12 +351,6 @@ UIGestureRecognizerDelegate
             cell.checked = YES;
         } else {
             cell.checked = NO;
-        }
-    } else if (cell.isDirectory) {
-        BOOL checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
-        cell.checked = checked;
-        if (checked) {
-            _selectedIndex = indexPath.row;
         }
     }
     
@@ -481,7 +475,7 @@ UIGestureRecognizerDelegate
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedStringFromTable(@"Delete", @"XXTouch", nil) handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        __block XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         __block NSString *itemPath = cell.itemPath;
         NSString *displayName = cell.displayName;
         NSString *formatString = NSLocalizedStringFromTable(@"Delete %@?\nThis operation cannot be revoked.", @"XXTouch", nil);
@@ -495,6 +489,9 @@ UIGestureRecognizerDelegate
             [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
+                if (cell.checked) {
+                    [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                }
                 dispatch_async_on_main_queue(^{
                     self.navigationController.view.userInteractionEnabled = YES;
                     [self.navigationController.view hideToastActivity];
@@ -546,13 +543,14 @@ UIGestureRecognizerDelegate
     } else if (sender == _pasteButton) {
         [self pasteButtonTapped];
     } else if (sender == _sortByButton) {
-        if (_sortMethod == kXXScriptListSortByNameAsc) {
-            self.sortMethod = kXXScriptListSortByModificationDesc;
+        if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByNameAsc) {
+            [[XXLocalDataService sharedInstance] setSortMethod:kXXScriptListSortByModificationDesc];
             [self.sortByButton setImage:[UIImage imageNamed:@"sort-number"]];
-        } else if (_sortMethod == kXXScriptListSortByModificationDesc) {
-            self.sortMethod = kXXScriptListSortByNameAsc;
+        } else if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByModificationDesc) {
+            [[XXLocalDataService sharedInstance] setSortMethod:kXXScriptListSortByNameAsc];
             [self.sortByButton setImage:[UIImage imageNamed:@"sort-alpha"]];
         }
+        [self reloadScriptListTableView];
     } else if (sender == _trashButton) {
         __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         
@@ -625,16 +623,14 @@ UIGestureRecognizerDelegate
     }
 }
 
-- (void)setSortMethod:(kXXScriptListSortMethod)sortMethod {
-    _sortMethod = sortMethod;
-    [self reloadScriptListTableView];
-}
-
 - (void)deleteSelectedRowsAndItems:(NSArray <NSIndexPath *> *)indexPaths {
     for (NSIndexPath *indexPath in indexPaths) {
         XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         NSString *itemPath = cell.itemPath;
         NSError *err = nil;
+        if (cell.checked) {
+            [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+        }
         [FCFileManager removeItemAtPath:itemPath error:&err];
     }
 }
@@ -767,10 +763,6 @@ UIGestureRecognizerDelegate
     [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"The absolute path has been copied to the clipboard.", @"XXTouch", nil)];
 }
 
-- (void)dealloc {
-    CYLog(@"");
-}
-
 #pragma mark - SSZipArchiveDelegate
 
 - (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path
@@ -786,6 +778,10 @@ UIGestureRecognizerDelegate
     dispatch_async_on_main_queue(^{
         [self reloadScriptListTableView];
     });
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

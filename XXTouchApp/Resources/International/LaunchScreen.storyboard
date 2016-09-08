@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="I9h-hq-03V">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--XX Launch Screen-->
+        <scene sceneID="30W-km-aVd">
+            <objects>
+                <viewController storyboardIdentifier="kXXLaunchScreenStoryboardID" title="XX Launch Screen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="I9h-hq-03V" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CxC-HB-s7N"/>
+                        <viewControllerLayoutGuide type="bottom" id="zt9-2S-qvW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6XZ-kd-EPq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenImage" translatesAutoresizingMaskIntoConstraints="NO" id="hJZ-vg-RJE">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hJZ-vg-RJE" firstAttribute="leading" secondItem="6XZ-kd-EPq" secondAttribute="leading" id="9p2-IQ-p25"/>
+                            <constraint firstItem="hJZ-vg-RJE" firstAttribute="top" secondItem="6XZ-kd-EPq" secondAttribute="top" id="LLG-7X-9qs"/>
+                            <constraint firstAttribute="trailing" secondItem="hJZ-vg-RJE" secondAttribute="trailing" id="TkK-QI-Iyd"/>
+                            <constraint firstAttribute="bottom" secondItem="hJZ-vg-RJE" secondAttribute="bottom" id="hpP-WK-Gil"/>
+                        </constraints>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KTj-N8-3jC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1163" y="521"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LaunchScreenImage" width="375" height="667"/>
+    </resources>
+</document>

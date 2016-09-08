@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSError *lastError;
 
 + (id)sharedInstance;
++ (void)respringDevice;
 - (BOOL)localSetSelectedScript:(NSString *)scriptPath;
 - (BOOL)localGetSelectedScript;
 @end
