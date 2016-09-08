@@ -39,32 +39,36 @@ static NSString * const kXXLaunchScreenStoryboardID = @"kXXLaunchScreenStoryboar
     [super viewDidAppear:animated];
     if (!_firstLaunched) {
         _firstLaunched = YES;
-        [self launchSetup];
+        [self resetLaunchScreen];
         self.view.hidden = NO;
     }
 }
 
-- (void)launchSetup {
+- (void)resetLaunchScreen {
     UIViewController *viewController = [[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil] instantiateViewControllerWithIdentifier:kXXLaunchScreenStoryboardID];
-    
-    __block UIView *launchView = viewController.view;
+    UIView *launchView = viewController.view;
     UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
     launchView.frame = [UIApplication sharedApplication].keyWindow.frame;
     [mainWindow addSubview:launchView];
-    
+    [self launchSetup:launchView];
+}
+
+- (void)launchSetup:(UIView *)launchView {
     [launchView makeToastActivity:CSToastPositionCenter];
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
         sleep(1);
         BOOL result = [[XXLocalNetService sharedInstance] localGetSelectedScript];
         dispatch_async_on_main_queue(^{
             if (!result) {
                 [launchView hideToastActivity];
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Launch Failure", @"XXTouch", nil)
-                                                                 andMessage:NSLocalizedStringFromTable(@"Failed to sync with daemon.\nTap to respring.", @"XXTouch", nil)];
-                [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Respring", @"XXTouch", nil)
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Launch Failure")
+                                                                 andMessage:XXLString(@"Failed to sync with daemon.\nTap to retry.")];
+                [alertView addButtonWithTitle:XXLString(@"Retry")
                                          type:SIAlertViewButtonTypeDestructive
                                       handler:^(SIAlertView *alertView) {
-                                          [XXLocalNetService respringDevice];
+                                          [self performSelector:@selector(launchSetup:) withObject:launchView afterDelay:0.5];
                                       }];
                 [alertView show];
             } else {

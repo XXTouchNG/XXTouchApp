@@ -9,6 +9,6 @@
 #ifndef SystemConstantsDefines_h
 #define SystemConstantsDefines_h
 
-#define UI_STATUSBAR_HEIGHT [[UIApplication sharedApplication] statusBarFrame].size.height
+#define XXLString(string) NSLocalizedStringFromTable(string, @"XXTouch", nil)
 
 #endif /* SystemConstantsDefines_h */

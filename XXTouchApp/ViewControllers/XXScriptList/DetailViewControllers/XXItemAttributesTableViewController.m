@@ -53,10 +53,10 @@ int cancelFlag = 0;
 - (IBAction)done:(id)sender {
     NSString *itemName = _nameTextField.text;
     if (itemName.length == 0) {
-        [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Item name cannot be empty.", @"XXTouch", nil)];
+        [self.navigationController.view makeToast:XXLString(@"Item name cannot be empty.")];
         return;
     } else if ([itemName containsString:@"/"]) {
-        [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Invalid item name.", @"XXTouch", nil)];
+        [self.navigationController.view makeToast:XXLString(@"Invalid item name.")];
         return;
     }
     NSError *err = nil;
@@ -107,9 +107,9 @@ int cancelFlag = 0;
 - (MJRefreshNormalHeader *)refreshHeader {
     if (!_refreshHeader) {
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadItemInfo)];
-        [normalHeader setTitle:NSLocalizedStringFromTable(@"Pull down", @"XXTouch", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedStringFromTable(@"Release", @"XXTouch", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedStringFromTable(@"Loading...", @"XXTouch", nil) forState:MJRefreshStateRefreshing];
+        [normalHeader setTitle:XXLString(@"Pull down") forState:MJRefreshStateIdle];
+        [normalHeader setTitle:XXLString(@"Release") forState:MJRefreshStatePulling];
+        [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         normalHeader.lastUpdatedTimeLabel.hidden = YES;
@@ -132,8 +132,8 @@ int cancelFlag = 0;
     }
     NSString *itemType = [self.currentAttributes objectForKey:NSFileType];
     if (itemType == NSFileTypeDirectory) {
-        self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Directory", @"XXTouch", nil);
-        self.itemSizeLabel.text = NSLocalizedStringFromTable(@"Calculating...", @"XXTouch", nil);
+        self.itemTypeLabel.text = XXLString(@"Directory");
+        self.itemSizeLabel.text = XXLString(@"Calculating...");
         @weakify(self);
         dispatch_queue_t concurrentQueue = dispatch_queue_create(kXXTouchCalculatingDirectorySizeIdentifier, DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
@@ -144,14 +144,14 @@ int cancelFlag = 0;
             });
         });
     } else if (itemType == NSFileTypeRegular) {
-        self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Regular File", @"XXTouch", nil);
+        self.itemTypeLabel.text = XXLString(@"Regular File");
         self.mimeTypeLabel.text = [itemPath mime];
         self.itemSizeLabel.text = [FCFileManager sizeFormattedOfItemAtPath:itemPath error:&err];
     } else if (itemType == NSFileTypeSymbolicLink) {
-        self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Symbolic Link", @"XXTouch", nil);
+        self.itemTypeLabel.text = XXLString(@"Symbolic Link");
         self.itemSizeLabel.text = [FCFileManager sizeFormattedOfItemAtPath:itemPath error:&err];
     } else {
-        self.itemTypeLabel.text = NSLocalizedStringFromTable(@"Unsupported", @"XXTouch", nil);
+        self.itemTypeLabel.text = XXLString(@"Unsupported");
     }
     NSDate *creationDate = [self.currentAttributes objectForKey:NSFileCreationDate];
     NSString *creationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:creationDate];
@@ -168,7 +168,7 @@ int cancelFlag = 0;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 1) {
         [[UIPasteboard generalPasteboard] setString:self.originalPath];
-        [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"The absolute path has been copied to the clipboard.", @"XXTouch", nil)];
+        [self.navigationController.view makeToast:XXLString(@"Absolute path copied to the clipboard.")];
     }
 }
 

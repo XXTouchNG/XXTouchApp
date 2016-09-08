@@ -52,16 +52,16 @@ enum {
     if (indexPath.section == kDocumentSection) {
         XXWebViewController *viewController = [[XXWebViewController alloc] init];
         if (indexPath.row == kUsersGuideIndex) {
-            viewController.title = NSLocalizedStringFromTable(@"User's Guide", @"XXTouch", nil);
+            viewController.title = XXLString(@"User's Guide");
             viewController.url = [NSURL URLWithString:DOCUMENT_USERS_GUIDE];
         } else if (indexPath.row == kUpdateLogsIndex) {
-            viewController.title = NSLocalizedStringFromTable(@"Update Logs", @"XXTouch", nil);
+            viewController.title = XXLString(@"Update Logs");
             viewController.url = [NSURL URLWithString:DOCUMENT_UPDATE_LOGS];
         } else if (indexPath.row == kDeveloperReferencesIndex) {
-            viewController.title = NSLocalizedStringFromTable(@"Developer References", @"XXTouch", nil);
+            viewController.title = XXLString(@"Developer References");
             viewController.url = [NSURL URLWithString:DOCUMENT_DEVELOPER_REFERENCES];
         } else if (indexPath.row == kOpenApiReferencesIndex) {
-            viewController.title = NSLocalizedStringFromTable(@"OpenAPI References", @"XXTouch", nil);
+            viewController.title = XXLString(@"OpenAPI References");
             viewController.url = [NSURL URLWithString:DOCUMENT_OPEN_API_REFERENCES];
         }
         [self.navigationController pushViewController:viewController animated:YES];

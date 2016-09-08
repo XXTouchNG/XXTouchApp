@@ -12,7 +12,7 @@
 #import "XXQuickLookService.h"
 #import "JTSImageViewController.h"
 #import "FYPhotoLibrary.h"
-#import "XXNavigationController.h"
+#import "XXEmptyNavigationController.h"
 #import "XXWebViewController.h"
 
 static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
@@ -146,7 +146,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         }
         return YES;
     } else if ([[self webViewFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Web View File
-        XXNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
+        XXEmptyNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
         XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
         webController.url = [NSURL fileURLWithPath:filePath];
         webController.title = [filePath lastPathComponent];
@@ -170,7 +170,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
                                                 dispatch_async_on_main_queue(^{
                                                     imageViewer.view.userInteractionEnabled = YES;
                                                     [imageViewer.view hideToastActivity];
-                                                    [imageViewer.view makeToast:NSLocalizedStringFromTable(@"Image has been saved to the album.", @"XXTouch", nil)];
+                                                    [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
                                                 });
                                             }
                                         } failure:^(NSError *error) {
@@ -188,7 +188,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
             if (statusResult == FYPhotoLibraryPermissionStatusDenied) {
                 imageViewer.view.userInteractionEnabled = YES;
                 [imageViewer.view hideToastActivity];
-                [imageViewer.view makeToast:NSLocalizedStringFromTable(@"Failed to request photo library access.", @"XXTouch", nil)];
+                [imageViewer.view makeToast:XXLString(@"Failed to request photo library access.")];
             } else if (statusResult == FYPhotoLibraryPermissionStatusGranted) {
                 [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
                                                        toAlbum:@"XXTouch"
@@ -197,7 +197,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
                                                             dispatch_async_on_main_queue(^{
                                                                 imageViewer.view.userInteractionEnabled = YES;
                                                                 [imageViewer.view hideToastActivity];
-                                                                [imageViewer.view makeToast:NSLocalizedStringFromTable(@"Image has been saved to the album.", @"XXTouch", nil)];
+                                                                [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
                                                             });
                                                         }
                                                     } failure:^(NSError * _Nullable error) {

@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, LoadAlbumFailure) {
     NSInteger status = [PHPhotoLibrary authorizationStatus];
     if (status != PHAuthorizationStatusAuthorized) {
         if (failure) {
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Permission Denied", @"XXTouch", nil) forKey:NSLocalizedDescriptionKey];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:XXLString(@"Permission Denied") forKey:NSLocalizedDescriptionKey];
             saveImageError = [NSError errorWithDomain:CustomErrorDomainForSave code:SaveImageFailureFromDenied userInfo:userInfo];
             failure(saveImageError);
         }
@@ -45,7 +45,7 @@ typedef NS_ENUM(NSInteger, LoadAlbumFailure) {
     //判断图片是否为空
     if (image == nil) {
         if (failure) {
-            NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Image cannot be empty.", @"XXTouch", nil) forKey:NSLocalizedFailureReasonErrorKey];
+            NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:XXLString(@"Image cannot be empty.") forKey:NSLocalizedFailureReasonErrorKey];
             saveImageError = [NSError errorWithDomain:CustomErrorDomainForSave code:SaveImageFailureFromImageIsEmpty userInfo:userInfo];
             failure(saveImageError);
         }
@@ -60,7 +60,7 @@ typedef NS_ENUM(NSInteger, LoadAlbumFailure) {
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (error) {
             if (failure) {
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Image cannot be saved to system album.", @"XXTouch", nil) forKey:NSLocalizedDescriptionKey];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:XXLString(@"Image cannot be saved to system album.") forKey:NSLocalizedDescriptionKey];
                 saveImageError = [NSError errorWithDomain:CustomErrorDomainForSave code:SaveImageFailureFromCameraRoll userInfo:userInfo];
                 failure(saveImageError);
             }
@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger, LoadAlbumFailure) {
             } completionHandler:^(BOOL success, NSError * _Nullable error) {
                 if (error) {
                     if (failure) {
-                        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedStringFromTable(@"Image cannot be saved to custom album.", @"XXTouch", nil) forKey:NSLocalizedDescriptionKey];
+                        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:XXLString(@"Image cannot be saved to custom album.") forKey:NSLocalizedDescriptionKey];
                         saveImageError = [NSError errorWithDomain:CustomErrorDomainForSave code:SaveImageFailureFromCustomPhotoCollection userInfo:userInfo];
                         failure(saveImageError);
                     }

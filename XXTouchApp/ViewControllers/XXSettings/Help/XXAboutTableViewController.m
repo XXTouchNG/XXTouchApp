@@ -39,7 +39,7 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedStringFromTable(@"About", @"XXTouch", nil);
+    self.title = XXLString(@"About");
     _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_CN, VERSION_STRING, VERSION_BUILD];
 }
 
@@ -54,7 +54,7 @@ enum {
 }
 
 - (void)debugViaFlex:(id)sender {
-    [self.navigationController.view makeToast:NSLocalizedStringFromTable(@"Enable Debug Mode", @"XXTouch", nil)];
+    [self.navigationController.view makeToast:XXLString(@"Enable Debug Mode")];
 #ifdef DEBUG
     [[FLEXManager sharedManager] showExplorer];
 #endif
@@ -76,7 +76,7 @@ enum {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     if (!picker) return;
     picker.mailComposeDelegate = self;
-    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedStringFromTable(@"Feedback", @"XXTouch", nil), APP_NAME_CN, VERSION_STRING, VERSION_BUILD]];
+    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", XXLString(@"Feedback"), APP_NAME_CN, VERSION_STRING, VERSION_BUILD]];
     NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];
@@ -119,21 +119,21 @@ enum {
 
 - (void)openOfficialSite {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = NSLocalizedStringFromTable(@"Official Site", @"XXTouch", nil);
+    viewController.title = XXLString(@"Official Site");
     viewController.url = [NSURL URLWithString:OFFICIAL_SITE];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)openUserAgreement {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = NSLocalizedStringFromTable(@"User Agreement", @"XXTouch", nil);
+    viewController.title = XXLString(@"User Agreement");
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"tos" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)openThirdParty {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = NSLocalizedStringFromTable(@"Third Party Credits", @"XXTouch", nil);
+    viewController.title = XXLString(@"Third Party Credits");
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"open" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }

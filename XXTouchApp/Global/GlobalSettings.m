@@ -40,6 +40,10 @@
     [CSToastManager setQueueEnabled:NO];
     [CSToastManager setDefaultPosition:CSToastPositionCenter];
     
+    [CSToastManager sharedStyle].backgroundColor = [UIColor colorWithWhite:0.f alpha:.6f];
+    [CSToastManager sharedStyle].titleFont = [UIFont boldSystemFontOfSize:14.f];
+    [CSToastManager sharedStyle].messageFont = [UIFont systemFontOfSize:14.f];
+    
     [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleBounce;
     [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];
     [SIAlertView appearance].messageFont = [UIFont systemFontOfSize:14.f];

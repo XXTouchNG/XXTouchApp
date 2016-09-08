@@ -15,6 +15,8 @@ if (error != nil) { \
     return ret; \
 }
 
+#define GENERATE_ERROR(c, m, d) (error = [NSError errorWithDomain:kXXErrorDomain code:[c integerValue] userInfo:@{ NSLocalizedDescriptionKey:m, NSLocalizedFailureReasonErrorKey:d }])
+
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
 @implementation XXLocalNetService
@@ -66,6 +68,22 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     return result;
 }
 
+- (BOOL)sendOneTimeAction:(NSString *)action {
+    NSError *error = nil;
+    NSDictionary *result = [self sendSynchronousRequest:action
+                                         withDictionary:nil];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    if ([code isEqualToNumber:@0]) {
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    SAVE_ERROR(NO);
+    return NO;
+}
+
 - (BOOL)localSetSelectedScript:(NSString *)scriptPath {
     NSError *error = nil;
     NSDictionary *result = [self sendSynchronousRequest:@"select_script_file"
@@ -77,9 +95,7 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
         [[XXLocalDataService sharedInstance] setSelectedScript:scriptPath];
         return YES;
     } else {
-        error = [NSError errorWithDomain:kXXErrorDomain
-                                    code:[code integerValue]
-                                userInfo:@{ NSLocalizedDescriptionKey:message }];
+        GENERATE_ERROR(code, message, @"");
     }
     SAVE_ERROR(NO);
     return NO;
@@ -98,12 +114,49 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
         [[XXLocalDataService sharedInstance] setSelectedScript:filename];
         return YES;
     } else {
-        error = [NSError errorWithDomain:kXXErrorDomain
-                                    code:[code integerValue]
-                                userInfo:@{ NSLocalizedDescriptionKey:message }];
+        GENERATE_ERROR(code, message, @"");
     }
     SAVE_ERROR(NO);
     return NO;
+}
+
+- (BOOL)localLaunchSelectedScript:(NSString *)scriptPath {
+    NSError *error = nil;
+    NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file"
+                                         withDictionary:@{ @"filename": scriptPath }];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    if ([code isEqualToNumber:@0]) {
+        return YES;
+    } else if ([code isEqualToNumber:@2]) {
+        NSString *detail = [result objectForKey:@"detail"];
+        GENERATE_ERROR(code, message, detail);
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    SAVE_ERROR(NO);
+    return NO;
+}
+
+- (BOOL)localCleanGPSCaches {
+    return [self sendOneTimeAction:@"clear_gps"];
+}
+
+- (BOOL)localCleanUICaches {
+    return [self sendOneTimeAction:@"uicache"];
+}
+
+- (BOOL)localCleanAllCaches {
+    return [self sendOneTimeAction:@"clear_all"];
+}
+
+- (BOOL)localRespringDevice {
+    return [self sendOneTimeAction:@"respring"];
+}
+
+- (BOOL)localRestartDevice {
+    return [self sendOneTimeAction:@"reboot2"];
 }
 
 @end

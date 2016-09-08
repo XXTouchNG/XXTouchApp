@@ -1,5 +1,5 @@
 //
-//  XXNavigationController.h
+//  XXEmptyNavigationController.h
 //  XXTouchApp
 //
 //  Created by Zheng on 9/6/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface XXNavigationController : UINavigationController
+@interface XXEmptyNavigationController : UINavigationController
 
 @end

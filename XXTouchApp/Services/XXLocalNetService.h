@@ -14,7 +14,19 @@
 @property (nonatomic, strong) NSError *lastError;
 
 + (id)sharedInstance;
++ (void)cleanGPSCaches;
++ (void)cleanUICaches;
++ (void)cleanAllCaches;
 + (void)respringDevice;
++ (void)restartDevice;
+
 - (BOOL)localSetSelectedScript:(NSString *)scriptPath;
 - (BOOL)localGetSelectedScript;
+- (BOOL)localLaunchSelectedScript:(NSString *)scriptPath;
+- (BOOL)localCleanGPSCaches;
+- (BOOL)localCleanUICaches;
+- (BOOL)localCleanAllCaches;
+- (BOOL)localRespringDevice;
+- (BOOL)localRestartDevice;
+
 @end
