@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="szv-sl-aZ6">
     <dependencies>
+        <deployment identifier="iOS"/>
         <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -156,6 +157,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2Y9-GO-BZk">
                                                     <rect key="frame" x="535" y="17" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="remoteAccessSwitched:" destination="N8f-qW-ado" eventType="valueChanged" id="sLB-Cw-j0p"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remote Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUB-4A-9kj">
                                                     <rect key="frame" x="60" y="22" width="113" height="20"/>
@@ -768,6 +772,11 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="More" image="more-selected" id="Zam-rg-gDP"/>
                     <navigationItem key="navigationItem" title="More" id="jo4-6i-7xk"/>
+                    <connections>
+                        <outlet property="remoteAccessLabel" destination="MUB-4A-9kj" id="Cau-yb-lJv"/>
+                        <outlet property="remoteAccessSwitch" destination="2Y9-GO-BZk" id="j4M-Mu-Jvs"/>
+                        <outlet property="restartIndicator" destination="c6F-g7-UgY" id="9oV-Dr-pjQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B4v-qZ-Faw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

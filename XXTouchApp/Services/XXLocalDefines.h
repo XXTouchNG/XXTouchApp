@@ -10,6 +10,7 @@
 #define XXLocalDefines_h
 
 static NSString * const apiUrl = @"http://127.0.0.1:46952/";
+static NSString * const remoteAccessUrl = @"http://%@:46952/";
 
 typedef enum : NSUInteger {
     kXXLocalCommandMethodGET  = 0,

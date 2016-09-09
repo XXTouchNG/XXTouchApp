@@ -19,7 +19,6 @@
 		0F5D1F581D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5D1F571D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m */; };
 		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
 		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; };
-		0F5DDDA61D80E68F00BC4BDE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DDDA51D80E68F00BC4BDE /* LaunchScreen.storyboard */; };
 		0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE0B1D81496800BC4BDE /* XXCreateItemTableViewController.m */; };
 		0F5DDE171D81496800BC4BDE /* XXItemAttributesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE0D1D81496800BC4BDE /* XXItemAttributesTableViewController.m */; };
 		0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE101D81496800BC4BDE /* XXSwipeableCell.m */; };
@@ -75,7 +74,6 @@
 		0F5D1F571D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+SingleInstance.m"; sourceTree = "<group>"; };
 		0F5D1F591D7E51020061A954 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0F5D1F5B1D7E525F0061A954 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		0F5DDDA51D80E68F00BC4BDE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F5DDE0A1D81496800BC4BDE /* XXCreateItemTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCreateItemTableViewController.h; sourceTree = "<group>"; };
 		0F5DDE0B1D81496800BC4BDE /* XXCreateItemTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCreateItemTableViewController.m; sourceTree = "<group>"; };
 		0F5DDE0C1D81496800BC4BDE /* XXItemAttributesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXItemAttributesTableViewController.h; sourceTree = "<group>"; };
@@ -378,7 +376,6 @@
 		0FB0A7A01D73DB9F00129E83 /* International */ = {
 			isa = PBXGroup;
 			children = (
-				0F5DDDA51D80E68F00BC4BDE /* LaunchScreen.storyboard */,
 				0F98529B1D748072001323AA /* Main.storyboard */,
 				0FC47E881D7690540076590B /* Scenes */,
 			);
@@ -534,7 +531,6 @@
 				0FC47E921D7698140076590B /* tos.html in Resources */,
 				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
 				0F98529D1D748072001323AA /* Main.storyboard in Resources */,
-				0F5DDDA61D80E68F00BC4BDE /* LaunchScreen.storyboard in Resources */,
 				0F5DDE4A1D814B7E00BC4BDE /* ARSafariActivity.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

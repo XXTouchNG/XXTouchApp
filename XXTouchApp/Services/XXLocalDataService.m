@@ -6,6 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#import "XXLocalDefines.h"
 #import "XXLocalDataService.h"
 #import "JTSImageViewController.h"
 
@@ -70,6 +71,14 @@
         path = [path stringByAppendingString:@"/"];
     }
     return [_selectedScript hasPrefix:path];
+}
+
+- (NSString *)remoteAccessURL {
+    NSString *wifiAddress = [[UIDevice currentDevice] ipAddressWIFI];
+    if (wifiAddress == nil) {
+        return nil;
+    }
+    return [NSString stringWithFormat:remoteAccessUrl, wifiAddress];
 }
 
 @end

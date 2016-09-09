@@ -9,9 +9,12 @@
 #import "XXSettingsTableViewController.h"
 #import "XXWebViewController.h"
 #import "XXLocalNetService.h"
+#import "XXLocalDataService.h"
+#import <MJRefresh/MJRefresh.h>
 
 #define commonHandler(command) \
 ^(SIAlertView *alertView) { \
+    @strongify(self); \
     self.navigationController.view.userInteractionEnabled = NO; \
     [self.navigationController.view makeToastActivity:CSToastPositionCenter]; \
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{ \
@@ -25,6 +28,10 @@
         }); \
     }); \
 }
+
+#define alertViewConfirm(title, command) \
+weakify(self); \
+([alertView addButtonWithTitle:XXLString(title) type:SIAlertViewButtonTypeDestructive handler:commonHandler(command)]);
 
 enum {
     kServiceSection = 0,
@@ -70,6 +77,10 @@ enum {
 };
 
 @interface XXSettingsTableViewController ()
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
+@property (weak, nonatomic) IBOutlet UISwitch *remoteAccessSwitch;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *restartIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *remoteAccessLabel;
 
 @end
 
@@ -84,11 +95,119 @@ enum {
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
+    
+    self.tableView.mj_header = self.refreshHeader;
+    [self.refreshHeader beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (MJRefreshNormalHeader *)refreshHeader {
+    if (!_refreshHeader) {
+        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(startMJRefreshing)];
+        [normalHeader setTitle:XXLString(@"Pull down") forState:MJRefreshStateIdle];
+        [normalHeader setTitle:XXLString(@"Release") forState:MJRefreshStatePulling];
+        [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
+        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
+        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
+        normalHeader.lastUpdatedTimeLabel.hidden = YES;
+        _refreshHeader = normalHeader;
+    }
+    return _refreshHeader;
+}
+
+- (void)startMJRefreshing {
+    [self fetchRemoteAccessStatus];
+}
+
+- (void)fetchRemoteAccessStatus {
+    self.remoteAccessSwitch.enabled = NO;
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        BOOL result = [[XXLocalNetService sharedInstance] localGetRemoteAccessStatus];
+        dispatch_async_on_main_queue(^{
+            [self endMJRefreshing];
+            if (!result) {
+                [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+            } else {
+                [self changeRemoteAccessUI];
+            }
+            self.remoteAccessSwitch.enabled = YES;
+        });
+    });
+}
+
+- (void)endMJRefreshing {
+    if ([self.refreshHeader isRefreshing]) {
+        [self.refreshHeader endRefreshing];
+    }
+}
+
+- (IBAction)remoteAccessSwitched:(UISwitch *)sender {
+    BOOL status = [[XXLocalDataService sharedInstance] remoteAccessStatus];
+    if (sender.on) {
+        if (!status) {
+            self.remoteAccessSwitch.enabled = NO;
+            @weakify(self);
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                @strongify(self);
+                BOOL result = [[XXLocalNetService sharedInstance] localOpenRemoteAccess];
+                dispatch_async_on_main_queue(^{
+                    if (!result) {
+                        [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+                    } else {
+                        if ([self changeRemoteAccessUI]) {
+                            NSURL *wifiPrefs = [NSURL URLWithString:@"prefs:root=WIFI"];
+                            if ([[UIApplication sharedApplication] canOpenURL:wifiPrefs]) {
+                                [[UIApplication sharedApplication] openURL:wifiPrefs];
+                            }
+                        }
+                    }
+                    self.remoteAccessSwitch.enabled = YES;
+                });
+            });
+        }
+    } else {
+        if (status) {
+            self.remoteAccessSwitch.enabled = NO;
+            @weakify(self);
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                @strongify(self);
+                BOOL result = [[XXLocalNetService sharedInstance] localCloseRemoteAccess];
+                dispatch_async_on_main_queue(^{
+                    if (!result) {
+                        [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+                    } else {
+                        [self changeRemoteAccessUI];
+                    }
+                    self.remoteAccessSwitch.enabled = YES;
+                });
+            });
+        }
+    }
+}
+
+- (BOOL)changeRemoteAccessUI {
+    BOOL on = [[XXLocalDataService sharedInstance] remoteAccessStatus];
+    [self.remoteAccessSwitch setOn:on animated:YES];
+    if (on) {
+        self.remoteAccessLabel.textColor = STYLE_TINT_COLOR;
+        NSString *wifiAccess = [[XXLocalDataService sharedInstance] remoteAccessURL];
+        if (wifiAccess == nil) {
+            self.remoteAccessLabel.text = XXLString(@"Connect to Wi-Fi");
+            return YES;
+        } else {
+            self.remoteAccessLabel.text = [XXLString(@"Access via ") stringByAppendingString:wifiAccess];
+        }
+    } else {
+        self.remoteAccessLabel.text = XXLString(@"Remote Service");
+        self.remoteAccessLabel.textColor = [UIColor blackColor];
+    }
+    return NO;
 }
 
 #pragma mark - Table view data source
@@ -101,6 +220,7 @@ enum {
                 case kServiceRemoteSwitchIndex:
                     break;
                 case kServiceRestartIndex:
+                    [self restartServiceIndexSelected];
                     break;
                 default:
                     break;
@@ -158,12 +278,53 @@ enum {
     }
 }
 
+- (void)waitUntilDaemonUp {
+    sleep(3);
+    BOOL detect = [[XXLocalNetService sharedInstance] localGetSelectedScript];
+    if (!detect) {
+        sleep(1);
+        [self waitUntilDaemonUp];
+    }
+}
+
+- (void)restartServiceIndexSelected {
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Restart Daemon")
+                                                     andMessage:XXLString(@"This operation will restart daemon, and wait until it launched.")];
+    @weakify(self);
+    [alertView addButtonWithTitle:XXLString(@"Restart Now")
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              @strongify(self);
+                              [self.restartIndicator startAnimating];
+                              self.navigationController.view.userInteractionEnabled = NO;
+                              [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+                              dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                  BOOL result = [[XXLocalNetService sharedInstance] localRestartDaemon];
+                                  if (result) {
+                                      [self waitUntilDaemonUp];
+                                  }
+                                  dispatch_async_on_main_queue(^{
+                                      [self.restartIndicator stopAnimating];
+                                      self.navigationController.view.userInteractionEnabled = YES;
+                                      [self.navigationController.view hideToastActivity];
+                                      if (!result) {
+                                          [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+                                      }
+                                  });
+                              });
+                          }];
+    [alertView addButtonWithTitle:XXLString(@"Cancel")
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                          }];
+    [alertView show];
+}
+
 - (void)cleanGPSCachesSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean GPS Caches")
                                                      andMessage:XXLString(@"This operation will reset location caches.")];
-    [alertView addButtonWithTitle:XXLString(@"Clean Now")
-                             type:SIAlertViewButtonTypeDestructive
-                          handler:commonHandler([[XXLocalNetService sharedInstance] localCleanGPSCaches])];
+    @alertViewConfirm(@"Clean Now", [[XXLocalNetService sharedInstance] localCleanGPSCaches]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -175,9 +336,7 @@ enum {
 - (void)cleanUICachesSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean UI Caches")
                                                      andMessage:XXLString(@"This operation will kill all applications and reset icon caches.\nIt may cause icons to disappear.")];
-    [alertView addButtonWithTitle:XXLString(@"Clean Now")
-                             type:SIAlertViewButtonTypeDestructive
-                          handler:commonHandler([[XXLocalNetService sharedInstance] localCleanUICaches])];
+    @alertViewConfirm(@"Clean Now", [[XXLocalNetService sharedInstance] localCleanUICaches]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -189,9 +348,7 @@ enum {
 - (void)cleanAllCachesSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean All Caches")
                                                      andMessage:XXLString(@"This operation will kill all applications, and remove all documents and caches of them.")];
-    [alertView addButtonWithTitle:XXLString(@"Clean Now")
-                             type:SIAlertViewButtonTypeDestructive
-                          handler:commonHandler([[XXLocalNetService sharedInstance] localCleanAllCaches])];
+    @alertViewConfirm(@"Clean Now", [[XXLocalNetService sharedInstance] localCleanAllCaches]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -203,9 +360,7 @@ enum {
 - (void)respringIndexSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Respring Confirm")
                                                      andMessage:XXLString(@"Tap \"Respring Now\" to continue.")];
-    [alertView addButtonWithTitle:XXLString(@"Respring Now")
-                             type:SIAlertViewButtonTypeDestructive
-                          handler:commonHandler([[XXLocalNetService sharedInstance] localRespringDevice])];
+    @alertViewConfirm(@"Respring Now", [[XXLocalNetService sharedInstance] localRespringDevice]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -217,9 +372,7 @@ enum {
 - (void)rebootIndexSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Reboot Confirm")
                                                      andMessage:XXLString(@"Tap \"Reboot Now\" to continue.")];
-    [alertView addButtonWithTitle:XXLString(@"Reboot Now")
-                             type:SIAlertViewButtonTypeDestructive
-                          handler:commonHandler([[XXLocalNetService sharedInstance] localRestartDevice])];
+    @alertViewConfirm(@"Reboot Now", [[XXLocalNetService sharedInstance] localRestartDevice]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {

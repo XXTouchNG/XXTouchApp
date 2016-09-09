@@ -38,8 +38,24 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     return self;
 }
 
++ (void)cleanGPSCaches {
+    
+}
+
++ (void)cleanUICaches {
+    
+}
+
++ (void)cleanAllCaches {
+    
+}
+
 + (void)respringDevice {
     system("killall -9 SpringBoard");
+}
+
++ (void)restartDevice {
+    
 }
 
 - (NSDictionary *)sendSynchronousRequest:(NSString *)command
@@ -139,6 +155,25 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     return NO;
 }
 
+- (BOOL)localGetRemoteAccessStatus {
+    NSError *error = nil;
+    NSDictionary *result = [self sendSynchronousRequest:@"is_remote_access_opened"
+                                         withDictionary:nil];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    NSDictionary *data = [result objectForKey:@"data"];
+    if ([code isEqualToNumber:@0]) {
+        NSNumber *opened = [data objectForKey:@"opened"];
+        [[XXLocalDataService sharedInstance] setRemoteAccessStatus:[opened boolValue]];
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    SAVE_ERROR(NO);
+    return NO;
+}
+
 - (BOOL)localCleanGPSCaches {
     return [self sendOneTimeAction:@"clear_gps"];
 }
@@ -157,6 +192,26 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
 - (BOOL)localRestartDevice {
     return [self sendOneTimeAction:@"reboot2"];
+}
+
+- (BOOL)localRestartDaemon {
+    return [self sendOneTimeAction:@"restart"];
+}
+
+- (BOOL)localOpenRemoteAccess {
+    BOOL result = [self sendOneTimeAction:@"open_remote_access"];
+    if (result) {
+        [[XXLocalDataService sharedInstance] setRemoteAccessStatus:YES];
+    }
+    return result;
+}
+
+- (BOOL)localCloseRemoteAccess {
+    BOOL result = [self sendOneTimeAction:@"close_remote_access"];
+    if (result) {
+        [[XXLocalDataService sharedInstance] setRemoteAccessStatus:NO];
+    }
+    return result;
 }
 
 @end

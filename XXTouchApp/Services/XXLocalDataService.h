@@ -25,6 +25,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *libraryPath;
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
 @property (nonatomic, copy) NSString *selectedScript;
+@property (nonatomic, assign) BOOL remoteAccessStatus;
+@property (nonatomic, copy) NSString *remoteAccessURL;
 
 - (BOOL)isSelectedScriptInPath:(NSString *)path;
 

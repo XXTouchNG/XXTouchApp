@@ -29,4 +29,9 @@
 - (BOOL)localRespringDevice;
 - (BOOL)localRestartDevice;
 
+- (BOOL)localGetRemoteAccessStatus;
+- (BOOL)localOpenRemoteAccess;
+- (BOOL)localCloseRemoteAccess;
+- (BOOL)localRestartDaemon;
+
 @end

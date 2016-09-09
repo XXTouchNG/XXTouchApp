@@ -82,6 +82,10 @@ XXToolbarDelegate
     self.topToolbar.tapDelegate = self;
     [self.topToolbar setItems:self.topToolbar.defaultToolbarButtons animated:YES];
     [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([[XXLocalDataService sharedInstance] selectedScript] == nil) {
+        [self.refreshHeader beginRefreshing];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -123,13 +127,32 @@ XXToolbarDelegate
 }
 
 - (void)startMJRefreshing {
+    [self launchSetup];
+}
+
+- (void)launchSetup {
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
         BOOL result = [[XXLocalNetService sharedInstance] localGetSelectedScript];
         dispatch_async_on_main_queue(^{
-            [self reloadScriptListTableView];
-            [self endMJRefreshing];
             if (!result) {
-                [self.navigationController.view makeToast:XXLString(@"Failed to sync with daemon.")];
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Sync Failure")
+                                                                 andMessage:XXLString(@"Failed to sync with daemon.\nTap to retry.")];
+                [alertView addButtonWithTitle:XXLString(@"Retry")
+                                         type:SIAlertViewButtonTypeDestructive
+                                      handler:^(SIAlertView *alertView) {
+                                          [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
+                                      }];
+                [alertView addButtonWithTitle:XXLString(@"Cancel")
+                                         type:SIAlertViewButtonTypeCancel
+                                      handler:^(SIAlertView *alertView) {
+                                          [self endMJRefreshing];
+                                      }];
+                [alertView show];
+            } else {
+                [self reloadScriptListTableView];
+                [self endMJRefreshing];
             }
         });
     });
@@ -232,18 +255,18 @@ XXToolbarDelegate
     cell.displayName = itemName;
     cell.itemAttrs = attrs;
     
-    if (cell.isDirectory) {
-        BOOL checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
-        cell.checked = checked;
-        if (checked) {
-            _selectedIndex = indexPath.row;
-        }
-    } else if (cell.selectable) {
+    if (cell.selectable) {
         if ([cell.itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
             _selectedIndex = indexPath.row;
             cell.checked = YES;
         } else {
             cell.checked = NO;
+        }
+    } else if (cell.isDirectory) {
+        BOOL checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+        cell.checked = checked;
+        if (checked) {
+            _selectedIndex = indexPath.row;
         }
     }
     
