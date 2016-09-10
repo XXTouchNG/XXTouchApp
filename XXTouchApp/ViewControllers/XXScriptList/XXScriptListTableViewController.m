@@ -134,7 +134,8 @@ XXToolbarDelegate
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
-        BOOL result = [[XXLocalNetService sharedInstance] localGetSelectedScript];
+        NSError *err = nil;
+        BOOL result = [[XXLocalNetService sharedInstance] localGetSelectedScriptWithError:&err];
         dispatch_async_on_main_queue(^{
             if (!result) {
                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Sync Failure")
@@ -346,7 +347,8 @@ XXToolbarDelegate
             @weakify(self);
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 @strongify(self);
-                BOOL result = [[XXLocalNetService sharedInstance] localSetSelectedScript:currentCell.itemPath];
+                __block NSError *err = nil;
+                BOOL result = [[XXLocalNetService sharedInstance] localSetSelectedScript:currentCell.itemPath error:&err];
                 dispatch_async_on_main_queue(^{
                     self.navigationController.view.userInteractionEnabled = YES;
                     [self.navigationController.view hideToastActivity];
@@ -356,7 +358,7 @@ XXToolbarDelegate
                         
                         _selectedIndex = indexPath.row;
                     } else {
-                        [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+                        [self.navigationController.view makeToast:[err localizedDescription]];
                     }
                 });
             });
@@ -401,16 +403,17 @@ XXToolbarDelegate
         @weakify(self);
         UITableViewRowAction *runAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:XXLString(@"Run") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             @strongify(self);
+            __block NSError *err = nil;
             [self setEditing:NO animated:YES];
             self.navigationController.view.userInteractionEnabled = NO;
             [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                BOOL result = [[XXLocalNetService sharedInstance] localLaunchSelectedScript:cell.itemPath];
+                BOOL result = [[XXLocalNetService sharedInstance] localLaunchSelectedScript:cell.itemPath error:&err];
                 dispatch_async_on_main_queue(^{
                     self.navigationController.view.userInteractionEnabled = YES;
                     [self.navigationController.view hideToastActivity];
                     if (!result) {
-                        [self.navigationController.view makeToast:[[[XXLocalNetService sharedInstance] lastError] localizedDescription]];
+                        [self.navigationController.view makeToast:[err localizedDescription]];
                     }
                 });
             });

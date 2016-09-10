@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */; };
 		0F2935F21D797E0400E41A29 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2935F11D797E0400E41A29 /* NSString+Regexp.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
@@ -53,6 +54,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F25D7DF1D83A0290056826B /* XXAuthorizationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAuthorizationTableViewController.h; sourceTree = "<group>"; };
+		0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAuthorizationTableViewController.m; sourceTree = "<group>"; };
 		0F2935F01D797E0400E41A29 /* NSString+Regexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regexp.h"; sourceTree = "<group>"; };
 		0F2935F11D797E0400E41A29 /* NSString+Regexp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regexp.m"; sourceTree = "<group>"; };
 		0F302D2A1D745751001E566A /* StyleDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
@@ -157,6 +160,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F25D7DE1D83A0170056826B /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				0F25D7DF1D83A0290056826B /* XXAuthorizationTableViewController.h */,
+				0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
 		0F302D2B1D74578E001E566A /* Catalogs */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +246,7 @@
 		0F5DDE1B1D8149B100BC4BDE /* XXSettings */ = {
 			isa = PBXGroup;
 			children = (
+				0F25D7DE1D83A0170056826B /* Authorization */,
 				0F5DDE1C1D8149B100BC4BDE /* Help */,
 				0F5DDE211D8149B100BC4BDE /* XXSettingsTableViewController.h */,
 				0F5DDE221D8149B100BC4BDE /* XXSettingsTableViewController.m */,
@@ -612,6 +625,7 @@
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
 				0F50290A1D79910B0019FC8D /* NSString+Mime.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
+				0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
 				0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,

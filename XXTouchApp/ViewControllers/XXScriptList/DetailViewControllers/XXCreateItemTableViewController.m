@@ -71,25 +71,28 @@ typedef enum : NSUInteger {
         [self.navigationController.view makeToast:XXLString(@"Invalid item name.")];
         return;
     }
+    BOOL result = NO;
     NSError *err = nil;
     kXXCreateItemType itemType = self.selectedType;
     NSString *itemPath = [self.currentDirectory stringByAppendingPathComponent:itemName];
     if (itemType == kXXCreateItemTypeRegularLuaFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"lua"];
-        [FCFileManager createFileAtPath:itemPath error:&err];
+        result = [FCFileManager createFileAtPath:itemPath error:&err];
     } else if (itemType == kXXCreateItemTypeRegulatTextFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"txt"];
-        [FCFileManager createFileAtPath:itemPath error:&err];
+        result = [FCFileManager createFileAtPath:itemPath error:&err];
     } else if (itemType == kXXCreateItemTypeDirectory) {
-        [FCFileManager createDirectoriesForPath:itemPath error:&err];
+        result = [FCFileManager createDirectoriesForPath:itemPath error:&err];
     }
-    if (err == nil) {
+    if (result == YES) {
         if ([self.itemNameTextField isFirstResponder]) {
             [self.itemNameTextField resignFirstResponder];
         }
         [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
+    } else if (err != nil) {
         [self.navigationController.view makeToast:[err localizedDescription]];
+    } else {
+        [self.navigationController.view makeToast:XXLString(@"Unknown error")];
     }
 }
 

@@ -9,13 +9,12 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 
-#define SAVE_ERROR(ret) \
-if (error != nil) { \
-    _lastError = error; \
+#define CHECK_ERROR(ret) \
+if (*error != nil) { \
     return ret; \
 }
 
-#define GENERATE_ERROR(c, m, d) (error = [NSError errorWithDomain:kXXErrorDomain code:[c integerValue] userInfo:@{ NSLocalizedDescriptionKey:m, NSLocalizedFailureReasonErrorKey:d }])
+#define GENERATE_ERROR(c, m, d) (*error = [NSError errorWithDomain:kXXErrorDomain code:[c integerValue] userInfo:@{ NSLocalizedDescriptionKey:m, NSLocalizedFailureReasonErrorKey:d }])
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
@@ -59,36 +58,58 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 }
 
 - (NSDictionary *)sendSynchronousRequest:(NSString *)command
-                          withDictionary:(NSDictionary *)requestParams {
-    NSError *error = nil;
-    
+                                withData:(NSData *)data
+                                   error:(NSError **)error
+{
     NSURL *url = [NSURL URLWithString:[apiUrl stringByAppendingString:command]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    if (requestParams) {
-        NSData *sendData = [NSJSONSerialization dataWithJSONObject:requestParams options:0 error:&error];
-        SAVE_ERROR(nil);
-        [request setHTTPBody:sendData];
+    if (data) {
+        [request setHTTPBody:data];
     }
     
     NSData *received = [NSURLConnection sendSynchronousRequest:request
                                              returningResponse:nil
-                                                         error:&error];
-    SAVE_ERROR(nil);
-    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:&error];
+                                                         error:error];
+    CHECK_ERROR(nil);
+    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error];
     _serverAlive = YES;
-    SAVE_ERROR(nil);
+    CHECK_ERROR(nil);
     return result;
 }
 
-- (BOOL)sendOneTimeAction:(NSString *)action {
-    NSError *error = nil;
+- (NSDictionary *)sendSynchronousRequest:(NSString *)command
+                              withString:(NSString *)string
+                                   error:(NSError **)error
+{
+    NSData *sendData = nil;
+    if (string) {
+        sendData = [[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    return [self sendSynchronousRequest:command withData:sendData error:error];
+}
+
+- (NSDictionary *)sendSynchronousRequest:(NSString *)command
+                          withDictionary:(NSDictionary *)requestParams
+                                   error:(NSError **)error
+{
+    NSData *sendData = nil;
+    if (requestParams) {
+        sendData = [NSJSONSerialization dataWithJSONObject:requestParams options:0 error:error];
+        CHECK_ERROR(nil);
+    }
+    return [self sendSynchronousRequest:command withData:sendData error:error];
+}
+
+- (BOOL)sendOneTimeAction:(NSString *)action
+                    error:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:action
-                                         withDictionary:nil];
+                                         withDictionary:nil
+                                                  error:error];
     if (!result) return NO;
+    CHECK_ERROR(NO);
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
     if ([code isEqualToNumber:@0]) {
@@ -96,15 +117,17 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     } else {
         GENERATE_ERROR(code, message, @"");
     }
-    SAVE_ERROR(NO);
+    CHECK_ERROR(NO);
     return NO;
 }
 
-- (BOOL)localSetSelectedScript:(NSString *)scriptPath {
-    NSError *error = nil;
+- (BOOL)localSetSelectedScript:(NSString *)scriptPath
+                         error:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"select_script_file"
-                                         withDictionary:@{ @"filename": scriptPath }];
+                                         withDictionary:@{ @"filename": scriptPath }
+                                                  error:error];
     if (!result) return NO;
+    CHECK_ERROR(NO);
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
     if ([code isEqualToNumber:@0]) {
@@ -113,14 +136,14 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     } else {
         GENERATE_ERROR(code, message, @"");
     }
-    SAVE_ERROR(NO);
+    CHECK_ERROR(NO);
     return NO;
 }
 
-- (BOOL)localGetSelectedScript {
-    NSError *error = nil;
+- (BOOL)localGetSelectedScriptWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"get_selected_script_file"
-                                         withDictionary:nil];
+                                         withDictionary:nil
+                                                  error:error];
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
@@ -132,14 +155,15 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     } else {
         GENERATE_ERROR(code, message, @"");
     }
-    SAVE_ERROR(NO);
+    CHECK_ERROR(NO);
     return NO;
 }
 
-- (BOOL)localLaunchSelectedScript:(NSString *)scriptPath {
-    NSError *error = nil;
+- (BOOL)localLaunchSelectedScript:(NSString *)scriptPath
+                            error:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file"
-                                         withDictionary:@{ @"filename": scriptPath }];
+                                         withDictionary:@{ @"filename": scriptPath }
+                                                  error:error];
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
@@ -151,14 +175,14 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     } else {
         GENERATE_ERROR(code, message, @"");
     }
-    SAVE_ERROR(NO);
+    CHECK_ERROR(NO);
     return NO;
 }
 
-- (BOOL)localGetRemoteAccessStatus {
-    NSError *error = nil;
+- (BOOL)localGetRemoteAccessStatusWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"is_remote_access_opened"
-                                         withDictionary:nil];
+                                         withDictionary:nil
+                                                  error:error];
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
@@ -170,48 +194,102 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     } else {
         GENERATE_ERROR(code, message, @"");
     }
-    SAVE_ERROR(NO);
+    CHECK_ERROR(NO);
     return NO;
 }
 
-- (BOOL)localCleanGPSCaches {
-    return [self sendOneTimeAction:@"clear_gps"];
+- (BOOL)localCleanGPSCachesWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"clear_gps" error:error];
 }
 
-- (BOOL)localCleanUICaches {
-    return [self sendOneTimeAction:@"uicache"];
+- (BOOL)localCleanUICachesWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"uicache" error:error];
 }
 
-- (BOOL)localCleanAllCaches {
-    return [self sendOneTimeAction:@"clear_all"];
+- (BOOL)localCleanAllCachesWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"clear_all" error:error];
 }
 
-- (BOOL)localRespringDevice {
-    return [self sendOneTimeAction:@"respring"];
+- (BOOL)localRespringDeviceWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"respring" error:error];
 }
 
-- (BOOL)localRestartDevice {
-    return [self sendOneTimeAction:@"reboot2"];
+- (BOOL)localRestartDeviceWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"reboot2" error:error];
 }
 
-- (BOOL)localRestartDaemon {
-    return [self sendOneTimeAction:@"restart"];
+- (BOOL)localRestartDaemonWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"restart" error:error];
 }
 
-- (BOOL)localOpenRemoteAccess {
-    BOOL result = [self sendOneTimeAction:@"open_remote_access"];
+- (BOOL)localOpenRemoteAccessWithError:(NSError **)error {
+    BOOL result = [self sendOneTimeAction:@"open_remote_access" error:error];
     if (result) {
         [[XXLocalDataService sharedInstance] setRemoteAccessStatus:YES];
     }
     return result;
 }
 
-- (BOOL)localCloseRemoteAccess {
-    BOOL result = [self sendOneTimeAction:@"close_remote_access"];
+- (BOOL)localCloseRemoteAccessWithError:(NSError **)error {
+    BOOL result = [self sendOneTimeAction:@"close_remote_access" error:error];
     if (result) {
         [[XXLocalDataService sharedInstance] setRemoteAccessStatus:NO];
     }
     return result;
+}
+
+- (BOOL)localGetDeviceAuthInfoWithError:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"device_auth_info"
+                                         withDictionary:nil
+                                                  error:error];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    NSDictionary *data = [result objectForKey:@"data"];
+    if ([code isEqualToNumber:@0]) {
+        NSNumber *expireDate = [data objectForKey:@"expireDate"];
+        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[expireDate unsignedIntegerValue]]];
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    CHECK_ERROR(NO);
+    return NO;
+}
+
+- (BOOL)localGetDeviceInfoWithError:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"deviceinfo"
+                                         withDictionary:nil
+                                                  error:error];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    NSDictionary *data = [result objectForKey:@"data"];
+    if ([code isEqualToNumber:@0]) {
+        [[XXLocalDataService sharedInstance] setDeviceInfo:[data copy]];
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    CHECK_ERROR(NO);
+    return NO;
+}
+
+- (BOOL)localBindCode:(NSString *)bind
+                error:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"bind_code"
+                                             withString:bind
+                                                  error:error];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    if ([code isEqualToNumber:@0]) {
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    CHECK_ERROR(NO);
+    return NO;
 }
 
 @end
