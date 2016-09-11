@@ -123,6 +123,9 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
 - (BOOL)localSetSelectedScript:(NSString *)scriptPath
                          error:(NSError **)error {
+    if (scriptPath == nil) {
+        return NO;
+    }
     NSDictionary *result = [self sendSynchronousRequest:@"select_script_file"
                                          withDictionary:@{ @"filename": scriptPath }
                                                   error:error];
@@ -147,8 +150,8 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
-    NSDictionary *data = [result objectForKey:@"data"];
     if ([code isEqualToNumber:@0]) {
+        NSDictionary *data = [result objectForKey:@"data"];
         NSString *filename = [data objectForKey:@"filename"];
         [[XXLocalDataService sharedInstance] setSelectedScript:filename];
         return YES;
@@ -161,6 +164,9 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
 - (BOOL)localLaunchSelectedScript:(NSString *)scriptPath
                             error:(NSError **)error {
+    if (scriptPath == nil) {
+        return NO;
+    }
     NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file"
                                          withDictionary:@{ @"filename": scriptPath }
                                                   error:error];
@@ -186,8 +192,8 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
-    NSDictionary *data = [result objectForKey:@"data"];
     if ([code isEqualToNumber:@0]) {
+        NSDictionary *data = [result objectForKey:@"data"];
         NSNumber *opened = [data objectForKey:@"opened"];
         [[XXLocalDataService sharedInstance] setRemoteAccessStatus:[opened boolValue]];
         return YES;
@@ -245,8 +251,8 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
-    NSDictionary *data = [result objectForKey:@"data"];
     if ([code isEqualToNumber:@0]) {
+        NSDictionary *data = [result objectForKey:@"data"];
         NSNumber *expireDate = [data objectForKey:@"expireDate"];
         [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[expireDate unsignedIntegerValue]]];
         return YES;
@@ -264,8 +270,8 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
-    NSDictionary *data = [result objectForKey:@"data"];
     if ([code isEqualToNumber:@0]) {
+        NSDictionary *data = [result objectForKey:@"data"];
         [[XXLocalDataService sharedInstance] setDeviceInfo:[data copy]];
         return YES;
     } else {
@@ -279,6 +285,44 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
                 error:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"bind_code"
                                              withString:bind
+                                                  error:error];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    if ([code isEqualToNumber:@0]) {
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    CHECK_ERROR(NO);
+    return NO;
+}
+
+- (BOOL)localGetApplicationListWithError:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"applist"
+                                         withDictionary:nil
+                                                  error:error];
+    if (!result) return NO;
+    NSNumber *code = [result objectForKey:@"code"];
+    NSString *message = [result objectForKey:@"message"];
+    if ([code isEqualToNumber:@0]) {
+        NSArray *applist = [result objectForKey:@"data"];
+        [[XXLocalDataService sharedInstance] setBundles:applist];
+        return YES;
+    } else {
+        GENERATE_ERROR(code, message, @"");
+    }
+    CHECK_ERROR(NO);
+    return NO;
+}
+
+- (BOOL)localClearAppData:(NSString *)bid
+                    error:(NSError **)error {
+    if (bid == nil) {
+        return NO;
+    }
+    NSDictionary *result = [self sendSynchronousRequest:@"clear_app_data"
+                                         withDictionary:@{ @"bid": bid }
                                                   error:error];
     if (!result) return NO;
     NSNumber *code = [result objectForKey:@"code"];

@@ -29,7 +29,7 @@ static NSString * const kXXDeviceInfoClientIP = @"ipaddr";
 static NSString * const kXXDeviceInfoLocalIP = @"wifi_ip";
 static NSString * const kXXDeviceInfoLocalPort = @"port";
 
-@interface XXLocalDataService : NSObject
+@interface XXLocalDataService : YYCache
 + (id)sharedInstance;
 
 @property (nonatomic, copy) NSString *rootPath;
@@ -39,8 +39,8 @@ static NSString * const kXXDeviceInfoLocalPort = @"port";
 @property (nonatomic, assign) BOOL remoteAccessStatus;
 @property (nonatomic, copy) NSString *remoteAccessURL;
 
-@property (nonatomic, strong) NSDictionary *deviceInfo;
-@property (nonatomic, strong) NSDate *expirationDate;
+@property (nonatomic, strong) NSDictionary *deviceInfo; // Cached
+@property (nonatomic, strong) NSDate *expirationDate; // Cached
 
 - (BOOL)isSelectedScriptInPath:(NSString *)path;
 
@@ -48,5 +48,7 @@ static NSString * const kXXDeviceInfoLocalPort = @"port";
 @property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
 
 @property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
+
+@property (nonatomic, strong) NSArray *bundles; // Cached
 
 @end

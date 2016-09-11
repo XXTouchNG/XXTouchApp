@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */; };
+		0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */; };
+		0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */; };
+		0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */; };
 		0F2935F21D797E0400E41A29 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2935F11D797E0400E41A29 /* NSString+Regexp.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
@@ -56,6 +59,12 @@
 /* Begin PBXFileReference section */
 		0F25D7DF1D83A0290056826B /* XXAuthorizationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAuthorizationTableViewController.h; sourceTree = "<group>"; };
 		0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAuthorizationTableViewController.m; sourceTree = "<group>"; };
+		0F25D7E31D84F5B00056826B /* XXApplicationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationListTableViewController.h; sourceTree = "<group>"; };
+		0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationListTableViewController.m; sourceTree = "<group>"; };
+		0F25D7E61D84FED90056826B /* XXApplicationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationTableViewCell.h; sourceTree = "<group>"; };
+		0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationTableViewCell.m; sourceTree = "<group>"; };
+		0F25D7E91D8501C40056826B /* XXApplicationDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationDetailTableViewController.h; sourceTree = "<group>"; };
+		0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationDetailTableViewController.m; sourceTree = "<group>"; };
 		0F2935F01D797E0400E41A29 /* NSString+Regexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regexp.h"; sourceTree = "<group>"; };
 		0F2935F11D797E0400E41A29 /* NSString+Regexp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regexp.m"; sourceTree = "<group>"; };
 		0F302D2A1D745751001E566A /* StyleDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
@@ -169,6 +178,19 @@
 			path = Authorization;
 			sourceTree = "<group>";
 		};
+		0F25D7E21D84F5A50056826B /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				0F25D7E61D84FED90056826B /* XXApplicationTableViewCell.h */,
+				0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */,
+				0F25D7E31D84F5B00056826B /* XXApplicationListTableViewController.h */,
+				0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */,
+				0F25D7E91D8501C40056826B /* XXApplicationDetailTableViewController.h */,
+				0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		0F302D2B1D74578E001E566A /* Catalogs */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +268,7 @@
 		0F5DDE1B1D8149B100BC4BDE /* XXSettings */ = {
 			isa = PBXGroup;
 			children = (
+				0F25D7E21D84F5A50056826B /* Application */,
 				0F25D7DE1D83A0170056826B /* Authorization */,
 				0F5DDE1C1D8149B100BC4BDE /* Help */,
 				0F5DDE211D8149B100BC4BDE /* XXSettingsTableViewController.h */,
@@ -609,6 +632,7 @@
 				0F5DDE4B1D814B7E00BC4BDE /* ARSafariActivity.m in Sources */,
 				0FB0A7AD1D73DBE400129E83 /* main.m in Sources */,
 				0F5DDE3F1D814ACE00BC4BDE /* FYPhotoAsset.m in Sources */,
+				0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */,
 				0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */,
 				0F5DDE231D8149B100BC4BDE /* XXAboutTableViewController.m in Sources */,
 				0F5D1F581D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m in Sources */,
@@ -617,6 +641,7 @@
 				0F5DDE311D8149BE00BC4BDE /* XXNavigationViewController.m in Sources */,
 				0FBC87981D7AC54600C9E419 /* NSFileManager+RealDestination.m in Sources */,
 				0F5DDE1A1D81496800BC4BDE /* XXScriptListTableViewController.m in Sources */,
+				0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */,
 				0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0F5DDE171D81496800BC4BDE /* XXItemAttributesTableViewController.m in Sources */,
 				0F5DDE2F1D8149BE00BC4BDE /* XXEmptyNavigationController.m in Sources */,
@@ -626,6 +651,7 @@
 				0F50290A1D79910B0019FC8D /* NSString+Mime.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */,
+				0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
 				0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,

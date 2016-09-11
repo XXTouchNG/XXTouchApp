@@ -10,12 +10,14 @@
 #import "XXLocalDataService.h"
 #import "JTSImageViewController.h"
 
+static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
+
 @implementation XXLocalDataService
 + (id)sharedInstance {
     static XXLocalDataService *sharedInstance = nil;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        sharedInstance = [[self alloc] init];
+        sharedInstance = [[self alloc] initWithName:kXXTouchStorageDB];
     });
     
     return sharedInstance;
@@ -79,6 +81,34 @@
         return nil;
     }
     return [NSString stringWithFormat:remoteAccessUrl, wifiAddress];
+}
+
+- (NSDictionary *)deviceInfo {
+    return (NSDictionary *)[self objectForKey:@"deviceInfo"];
+}
+
+- (void)setDeviceInfo:(NSDictionary *)deviceInfo {
+    [self setObject:deviceInfo forKey:@"deviceInfo"];
+}
+
+- (NSDate *)expirationDate {
+    return (NSDate *)[self objectForKey:@"expirationDate"];
+}
+
+- (void)setExpirationDate:(NSDate *)expirationDate {
+    [self setObject:expirationDate forKey:@"expirationDate"];
+}
+
+- (NSArray *)bundles {
+    NSArray *bundles = (NSArray *)[self objectForKey:@"bundles"];
+    if (!bundles) {
+        return @[];
+    }
+    return bundles;
+}
+
+- (void)setBundles:(NSArray *)bundles {
+    [self setObject:bundles forKey:@"bundles"];
 }
 
 @end
