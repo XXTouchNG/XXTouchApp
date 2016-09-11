@@ -122,7 +122,8 @@ enum {
         [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        normalHeader.lastUpdatedTimeLabel.hidden = YES;
+        normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
+        normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
         _refreshHeader = normalHeader;
     }
     return _refreshHeader;

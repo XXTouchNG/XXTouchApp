@@ -151,7 +151,7 @@
                                         <rect key="frame" x="0.0" y="50" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u52-qU-0WS" id="SWf-CJ-84P">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2Y9-GO-BZk">
@@ -161,8 +161,8 @@
                                                         <action selector="remoteAccessSwitched:" destination="N8f-qW-ado" eventType="valueChanged" id="sLB-Cw-j0p"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remote Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUB-4A-9kj">
-                                                    <rect key="frame" x="60" y="22" width="113" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remote Service" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUB-4A-9kj">
+                                                    <rect key="frame" x="60" y="22" width="467" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -187,6 +187,7 @@
                                                 <constraint firstItem="YjN-0S-dAj" firstAttribute="leading" secondItem="SWf-CJ-84P" secondAttribute="leadingMargin" constant="8" id="B6d-Og-pVb"/>
                                                 <constraint firstItem="MUB-4A-9kj" firstAttribute="leading" secondItem="YjN-0S-dAj" secondAttribute="trailing" constant="12" id="B76-Fx-WCE"/>
                                                 <constraint firstItem="2Y9-GO-BZk" firstAttribute="centerY" secondItem="SWf-CJ-84P" secondAttribute="centerY" id="H4E-RT-5lB"/>
+                                                <constraint firstItem="2Y9-GO-BZk" firstAttribute="leading" secondItem="MUB-4A-9kj" secondAttribute="trailing" constant="8" id="UWx-A1-PAf"/>
                                                 <constraint firstItem="YjN-0S-dAj" firstAttribute="centerY" secondItem="SWf-CJ-84P" secondAttribute="centerY" id="m15-eW-33M"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="2Y9-GO-BZk" secondAttribute="trailing" constant="8" id="xCA-oj-ixX"/>
                                                 <constraint firstItem="MUB-4A-9kj" firstAttribute="centerY" secondItem="SWf-CJ-84P" secondAttribute="centerY" id="xY6-Aw-XOd"/>
@@ -198,11 +199,11 @@
                                         <rect key="frame" x="0.0" y="114" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g4g-d4-Vox" id="quP-hR-ul5">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restart Daemon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMb-PR-yw5">
-                                                    <rect key="frame" x="60" y="22" width="116" height="20"/>
+                                                    <rect key="frame" x="60" y="22" width="483" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -231,6 +232,7 @@
                                                 <constraint firstItem="c6F-g7-UgY" firstAttribute="centerY" secondItem="quP-hR-ul5" secondAttribute="centerY" id="9ME-Cu-a2M"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="c6F-g7-UgY" secondAttribute="trailing" constant="21" id="GWt-Wb-W9d"/>
                                                 <constraint firstItem="jMb-PR-yw5" firstAttribute="centerY" secondItem="quP-hR-ul5" secondAttribute="centerY" id="OSc-kX-RUe"/>
+                                                <constraint firstItem="c6F-g7-UgY" firstAttribute="leading" secondItem="jMb-PR-yw5" secondAttribute="trailing" constant="8" id="Ry6-5v-XkQ"/>
                                                 <constraint firstItem="7N9-hP-nKk" firstAttribute="leading" secondItem="quP-hR-ul5" secondAttribute="leadingMargin" constant="8" id="Xpm-Pc-L1O"/>
                                                 <constraint firstItem="7N9-hP-nKk" firstAttribute="centerY" secondItem="quP-hR-ul5" secondAttribute="centerY" id="XtH-vL-ql6"/>
                                                 <constraint firstItem="jMb-PR-yw5" firstAttribute="leading" secondItem="7N9-hP-nKk" secondAttribute="trailing" constant="12" id="btV-h0-r7O"/>
