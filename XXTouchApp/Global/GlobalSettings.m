@@ -27,9 +27,7 @@
     if (self = [super init]) {
         [self setupStyle];
         [self setupMedia];
-        [XXLocalNetService sharedInstance];
         [XXLocalDataService sharedInstance];
-        [XXQuickLookService sharedInstance];
     }
     return self;
 }

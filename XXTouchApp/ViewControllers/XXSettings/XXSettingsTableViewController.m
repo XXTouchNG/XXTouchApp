@@ -130,7 +130,7 @@ enum {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         __block NSError *err = nil;
-        BOOL result = [[XXLocalNetService sharedInstance] localGetRemoteAccessStatusWithError:&err];
+        BOOL result = [XXLocalNetService localGetRemoteAccessStatusWithError:&err];
         dispatch_async_on_main_queue(^{
             [self endMJRefreshing];
             if (!result) {
@@ -158,7 +158,7 @@ enum {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 @strongify(self);
                 __block NSError *err = nil;
-                BOOL result = [[XXLocalNetService sharedInstance] localOpenRemoteAccessWithError:&err];
+                BOOL result = [XXLocalNetService localOpenRemoteAccessWithError:&err];
                 dispatch_async_on_main_queue(^{
                     if (!result) {
                         [self.navigationController.view makeToast:[err localizedDescription]];
@@ -181,7 +181,7 @@ enum {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 @strongify(self);
                 __block NSError *err = nil;
-                BOOL result = [[XXLocalNetService sharedInstance] localCloseRemoteAccessWithError:&err];
+                BOOL result = [XXLocalNetService localCloseRemoteAccessWithError:&err];
                 dispatch_async_on_main_queue(^{
                     if (!result) {
                         [self.navigationController.view makeToast:[err localizedDescription]];
@@ -285,7 +285,7 @@ enum {
 - (void)waitUntilDaemonUp {
     sleep(3);
     NSError *err = nil;
-    BOOL detect = [[XXLocalNetService sharedInstance] localGetSelectedScriptWithError:&err];
+    BOOL detect = [XXLocalNetService localGetSelectedScriptWithError:&err];
     if (!detect) {
         sleep(1);
         [self waitUntilDaemonUp];
@@ -305,7 +305,7 @@ enum {
                               [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                                   __block NSError *err = nil;
-                                  BOOL result = [[XXLocalNetService sharedInstance] localRestartDaemonWithError:&err];
+                                  BOOL result = [XXLocalNetService localRestartDaemonWithError:&err];
                                   if (result) {
                                       [self waitUntilDaemonUp];
                                   }
@@ -333,7 +333,7 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean GPS Caches")
                                                      andMessage:XXLString(@"This operation will reset location caches.")];
     __block NSError *err = nil;
-    @alertViewConfirm(@"Clean Now", [[XXLocalNetService sharedInstance] localCleanGPSCachesWithError:&err]);
+    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanGPSCachesWithError:&err]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -346,7 +346,7 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean UI Caches")
                                                      andMessage:XXLString(@"This operation will kill all applications and reset icon caches.\nIt may cause icons to disappear.")];
     __block NSError *err = nil;
-    @alertViewConfirm(@"Clean Now", [[XXLocalNetService sharedInstance] localCleanUICachesWithError:&err]);
+    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanUICachesWithError:&err]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -359,7 +359,7 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean All Caches")
                                                      andMessage:XXLString(@"This operation will kill all applications, and remove all documents and caches of them.")];
     __block NSError *err = nil;
-    @alertViewConfirm(@"Clean Now", [[XXLocalNetService sharedInstance] localCleanAllCachesWithError:&err]);
+    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanAllCachesWithError:&err]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -372,7 +372,7 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Respring Confirm")
                                                      andMessage:XXLString(@"Tap \"Respring Now\" to continue.")];
     __block NSError *err = nil;
-    @alertViewConfirm(@"Respring Now", [[XXLocalNetService sharedInstance] localRespringDeviceWithError:&err]);
+    @alertViewConfirm(@"Respring Now", [XXLocalNetService localRespringDeviceWithError:&err]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -385,7 +385,7 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Reboot Confirm")
                                                      andMessage:XXLString(@"Tap \"Reboot Now\" to continue.")];
     __block NSError *err = nil;
-    @alertViewConfirm(@"Reboot Now", [[XXLocalNetService sharedInstance] localRestartDeviceWithError:&err]);
+    @alertViewConfirm(@"Reboot Now", [XXLocalNetService localRestartDeviceWithError:&err]);
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {

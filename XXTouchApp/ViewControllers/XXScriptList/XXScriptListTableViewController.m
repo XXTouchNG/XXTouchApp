@@ -135,7 +135,7 @@ XXToolbarDelegate
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
-        BOOL result = [[XXLocalNetService sharedInstance] localGetSelectedScriptWithError:&err];
+        BOOL result = [XXLocalNetService localGetSelectedScriptWithError:&err];
         dispatch_async_on_main_queue(^{
             if (!result) {
                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Sync Failure")
@@ -348,7 +348,7 @@ XXToolbarDelegate
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 @strongify(self);
                 __block NSError *err = nil;
-                BOOL result = [[XXLocalNetService sharedInstance] localSetSelectedScript:currentCell.itemPath error:&err];
+                BOOL result = [XXLocalNetService localSetSelectedScript:currentCell.itemPath error:&err];
                 dispatch_async_on_main_queue(^{
                     self.navigationController.view.userInteractionEnabled = YES;
                     [self.navigationController.view hideToastActivity];
@@ -408,7 +408,7 @@ XXToolbarDelegate
             self.navigationController.view.userInteractionEnabled = NO;
             [self.navigationController.view makeToastActivity:CSToastPositionCenter];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                BOOL result = [[XXLocalNetService sharedInstance] localLaunchSelectedScript:cell.itemPath error:&err];
+                BOOL result = [XXLocalNetService localLaunchSelectedScript:cell.itemPath error:&err];
                 dispatch_async_on_main_queue(^{
                     self.navigationController.view.userInteractionEnabled = YES;
                     [self.navigationController.view hideToastActivity];

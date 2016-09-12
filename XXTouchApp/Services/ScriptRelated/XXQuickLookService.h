@@ -10,7 +10,6 @@
 #import <SSZipArchive/SSZipArchive.h>
 
 @interface XXQuickLookService : NSObject
-+ (id)sharedInstance;
 
 + (UIImage *)fetchDisplayImageForFileExtension:(NSString *)ext;
 

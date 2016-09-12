@@ -85,7 +85,7 @@ UITableViewDataSource
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
-        BOOL result = [[XXLocalNetService sharedInstance] localGetApplicationListWithError:&err];
+        BOOL result = [XXLocalNetService localGetApplicationListWithError:&err];
         dispatch_async_on_main_queue(^{
             [self endMJRefreshing];
             if (!result) {

@@ -81,9 +81,9 @@ enum {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         __block NSError *err = nil;
-        BOOL result = [[XXLocalNetService sharedInstance] localBindCode:codeText error:&err];
+        BOOL result = [XXLocalNetService localBindCode:codeText error:&err];
         if (result) {
-            result = [[XXLocalNetService sharedInstance] localGetDeviceAuthInfoWithError:&err];
+            result = [XXLocalNetService localGetDeviceAuthInfoWithError:&err];
         }
         dispatch_async_on_main_queue(^{
             self.navigationController.view.userInteractionEnabled = YES;
@@ -134,9 +134,9 @@ enum {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         __block NSError *err = nil;
-        BOOL result = [[XXLocalNetService sharedInstance] localGetDeviceInfoWithError:&err];
+        BOOL result = [XXLocalNetService localGetDeviceInfoWithError:&err];
         if (result) {
-            result = [[XXLocalNetService sharedInstance] localGetDeviceAuthInfoWithError:&err];
+            result = [XXLocalNetService localGetDeviceAuthInfoWithError:&err];
         }
         dispatch_async_on_main_queue(^{
             if ([self.refreshHeader isRefreshing]) {

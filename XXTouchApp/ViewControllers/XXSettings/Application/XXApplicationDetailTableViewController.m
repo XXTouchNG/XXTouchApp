@@ -92,7 +92,7 @@ enum {
                               [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                                   __block NSError *err = nil;
-                                  BOOL result = [[XXLocalNetService sharedInstance] localClearAppData:bid error:&err];
+                                  BOOL result = [XXLocalNetService localClearAppData:bid error:&err];
                                   dispatch_async_on_main_queue(^{
                                       self.navigationController.view.userInteractionEnabled = YES;
                                       [self.navigationController.view hideToastActivity];

@@ -18,6 +18,12 @@ typedef enum : NSUInteger {
     kXXScriptListSortByModificationDesc,
 } kXXScriptListSortMethod;
 
+typedef enum : NSUInteger {
+    kXXKeyPressConfigPopup,
+    kXXKeyPressConfigSilence,
+    kXXKeyPressConfigNoAction,
+} kXXKeyPressConfig;
+
 static NSString * const kXXDeviceInfoSoftwareVersion = @"zeversion";
 static NSString * const kXXDeviceInfoSystemVersion = @"sysversion";
 static NSString * const kXXDeviceInfoDeviceType = @"devtype";
@@ -29,8 +35,26 @@ static NSString * const kXXDeviceInfoClientIP = @"ipaddr";
 static NSString * const kXXDeviceInfoLocalIP = @"wifi_ip";
 static NSString * const kXXDeviceInfoLocalPort = @"port";
 
+static NSString * const kXXKeyPressConfigHoldVolumeUp = @"hold_volume_up";
+static NSString * const kXXKeyPressConfigHoldVolumeDown = @"hold_volume_down";
+static NSString * const kXXKeyPressConfigPressVolumeUp = @"click_volume_up";
+static NSString * const kXXKeyPressConfigPressVolumeDown = @"click_volume_down";
+static NSString * const kXXKeyPressConfigActivatorInstalled = @"activator_installed";
+
+static NSString * const kXXRecordConfigRecordVolumeUp = @"record_volume_up";
+static NSString * const kXXRecordConfigRecordVolumeDown = @"record_volume_down";
+
 @interface XXLocalDataService : YYCache
 + (id)sharedInstance;
+
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeUp;
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeDown;
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeUp;
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeDown;
+@property (nonatomic, assign) BOOL keyPressConfigActivatorInstalled;
+
+@property (nonatomic, assign) BOOL recordConfigRecordVolumeUp;
+@property (nonatomic, assign) BOOL recordConfigRecordVolumeDown;
 
 @property (nonatomic, copy) NSString *rootPath;
 @property (nonatomic, copy) NSString *libraryPath;

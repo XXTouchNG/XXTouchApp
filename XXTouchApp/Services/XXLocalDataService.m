@@ -9,10 +9,18 @@
 #import "XXLocalDefines.h"
 #import "XXLocalDataService.h"
 #import "JTSImageViewController.h"
+#import "FYPhotoLibrary.h"
 
 static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
+@interface XXLocalDataService () <
+    JTSImageViewControllerInteractionsDelegate
+>
+
+@end
+
 @implementation XXLocalDataService
+
 + (id)sharedInstance {
     static XXLocalDataService *sharedInstance = nil;
     static dispatch_once_t once;
@@ -109,6 +117,64 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
 - (void)setBundles:(NSArray *)bundles {
     [self setObject:bundles forKey:@"bundles"];
+}
+
+#pragma mark - JTSImageViewControllerInteractionsDelegate
+
+- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer atRect:(CGRect)rect {
+    imageViewer.view.userInteractionEnabled = NO;
+    [imageViewer.view makeToastActivity:CSToastPositionCenter];
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        // 7.x
+        [[ALAssetsLibrary sharedLibrary] saveImage:imageViewer.image
+                                           toAlbum:@"XXTouch"
+                                        completion:^(NSURL *assetURL, NSError *error) {
+                                            if (error == nil) {
+                                                dispatch_async_on_main_queue(^{
+                                                    imageViewer.view.userInteractionEnabled = YES;
+                                                    [imageViewer.view hideToastActivity];
+                                                    [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
+                                                });
+                                            }
+                                        } failure:^(NSError *error) {
+                                            if (error != nil) {
+                                                dispatch_async_on_main_queue(^{
+                                                    imageViewer.view.userInteractionEnabled = YES;
+                                                    [imageViewer.view hideToastActivity];
+                                                    [imageViewer.view makeToast:[error localizedDescription]];
+                                                });
+                                            }
+                                        }];
+    } else {
+        // 8.0+
+        [[FYPhotoLibrary sharedInstance] requestLibraryAccessHandler:^(FYPhotoLibraryPermissionStatus statusResult) {
+            if (statusResult == FYPhotoLibraryPermissionStatusDenied) {
+                imageViewer.view.userInteractionEnabled = YES;
+                [imageViewer.view hideToastActivity];
+                [imageViewer.view makeToast:XXLString(@"Failed to request photo library access.")];
+            } else if (statusResult == FYPhotoLibraryPermissionStatusGranted) {
+                [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
+                                                       toAlbum:@"XXTouch"
+                                                    completion:^(BOOL success) {
+                                                        if (success) {
+                                                            dispatch_async_on_main_queue(^{
+                                                                imageViewer.view.userInteractionEnabled = YES;
+                                                                [imageViewer.view hideToastActivity];
+                                                                [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
+                                                            });
+                                                        }
+                                                    } failure:^(NSError * _Nullable error) {
+                                                        if (error != nil) {
+                                                            dispatch_async_on_main_queue(^{
+                                                                imageViewer.view.userInteractionEnabled = YES;
+                                                                [imageViewer.view hideToastActivity];
+                                                                [imageViewer.view makeToast:[error localizedDescription]];
+                                                            });
+                                                        }
+                                                    }];
+            }
+        }];
+    }
 }
 
 @end

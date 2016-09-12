@@ -10,29 +10,14 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVKit/AVPlayerViewController.h>
 #import "XXQuickLookService.h"
+#import "XXLocalDataService.h"
 #import "JTSImageViewController.h"
-#import "FYPhotoLibrary.h"
 #import "XXEmptyNavigationController.h"
 #import "XXWebViewController.h"
 
 static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
 
-@interface XXQuickLookService () <
-    JTSImageViewControllerInteractionsDelegate
->
-
-@end
-
 @implementation XXQuickLookService
-+ (id)sharedInstance {
-    static XXQuickLookService *sharedInstance = nil;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    
-    return sharedInstance;
-}
 
 + (UIImage *)fetchDisplayImageForFileExtension:(NSString *)ext {
     NSString *fileExt = [ext lowercaseString];
@@ -125,7 +110,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
                                                                                                    mode:JTSImageViewControllerMode_Image
                                                                                         backgroundStyle:JTSImageViewControllerBackgroundOption_Scaled];
-        imageViewController.interactionsDelegate = [self sharedInstance];
+        imageViewController.interactionsDelegate = [XXLocalDataService sharedInstance];
         [imageViewController showFromViewController:viewController.navigationController
                                          transition:JTSImageViewControllerTransition_FromOffscreen];
         return YES;
@@ -154,64 +139,6 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         return YES;
     }
     return NO;
-}
-
-#pragma mark - JTSImageViewControllerInteractionsDelegate
-
-- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer atRect:(CGRect)rect {
-    imageViewer.view.userInteractionEnabled = NO;
-    [imageViewer.view makeToastActivity:CSToastPositionCenter];
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        // 7.x
-        [[ALAssetsLibrary sharedLibrary] saveImage:imageViewer.image
-                                           toAlbum:@"XXTouch"
-                                        completion:^(NSURL *assetURL, NSError *error) {
-                                            if (error == nil) {
-                                                dispatch_async_on_main_queue(^{
-                                                    imageViewer.view.userInteractionEnabled = YES;
-                                                    [imageViewer.view hideToastActivity];
-                                                    [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
-                                                });
-                                            }
-                                        } failure:^(NSError *error) {
-                                            if (error != nil) {
-                                                dispatch_async_on_main_queue(^{
-                                                    imageViewer.view.userInteractionEnabled = YES;
-                                                    [imageViewer.view hideToastActivity];
-                                                    [imageViewer.view makeToast:[error localizedDescription]];
-                                                });
-                                            }
-                                        }];
-    } else {
-        // 8.0+
-        [[FYPhotoLibrary sharedInstance] requestLibraryAccessHandler:^(FYPhotoLibraryPermissionStatus statusResult) {
-            if (statusResult == FYPhotoLibraryPermissionStatusDenied) {
-                imageViewer.view.userInteractionEnabled = YES;
-                [imageViewer.view hideToastActivity];
-                [imageViewer.view makeToast:XXLString(@"Failed to request photo library access.")];
-            } else if (statusResult == FYPhotoLibraryPermissionStatusGranted) {
-                [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
-                                                       toAlbum:@"XXTouch"
-                                                    completion:^(BOOL success) {
-                                                        if (success) {
-                                                            dispatch_async_on_main_queue(^{
-                                                                imageViewer.view.userInteractionEnabled = YES;
-                                                                [imageViewer.view hideToastActivity];
-                                                                [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
-                                                            });
-                                                        }
-                                                    } failure:^(NSError * _Nullable error) {
-                                                        if (error != nil) {
-                                                            dispatch_async_on_main_queue(^{
-                                                                imageViewer.view.userInteractionEnabled = YES;
-                                                                [imageViewer.view hideToastActivity];
-                                                                [imageViewer.view makeToast:[error localizedDescription]];
-                                                            });
-                                                        }
-                                                    }];
-            }
-        }];
-    }
 }
 
 @end
