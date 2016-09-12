@@ -51,7 +51,7 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 + (NSDictionary *)sendSynchronousRequest:(NSString *)command
                         withIntegerValue:(NSInteger)value
                                    error:(NSError **)error {
-    NSString *sendString = [NSString stringWithFormat:@"%lu", value]; CHECK_ERROR(nil);
+    NSString *sendString = [NSString stringWithFormat:@"%lu", (long)value]; CHECK_ERROR(nil);
     return [self sendSynchronousRequest:command withString:sendString error:error];
 }
 
@@ -214,10 +214,9 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 }
 
 + (BOOL)localSetHoldVolumeUpAction:(NSUInteger)option error:(NSError **)error {
-    BOOL result = [self sendSynchronousRequest:@"set_hold_volume_up_action" withIntegerValue:option error:error];
-    CHECK_ERROR(NO);
+    [self sendSynchronousRequest:@"set_hold_volume_up_action" withIntegerValue:option error:error]; CHECK_ERROR(NO);
     [[XXLocalDataService sharedInstance] setKeyPressConfigHoldVolumeUp:option];
-    return result;
+    return YES;
 }
 
 + (BOOL)localSetHoldVolumeDownAction:(NSUInteger)option error:(NSError **)error {
