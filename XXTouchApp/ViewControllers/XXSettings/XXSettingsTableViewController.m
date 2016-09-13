@@ -86,7 +86,7 @@ enum {
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
     self.tableView.mj_header = self.refreshHeader;
-    [self.refreshHeader beginRefreshing];
+    [self fetchRemoteAccessStatus];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

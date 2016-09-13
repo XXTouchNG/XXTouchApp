@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "XXLocalNetService.h"
+#import "XXNavigationViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +24,19 @@
     // Override point for customization after application launch.
     [GlobalSettings sharedInstance];
     return YES;
+}
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+    if (shortcutItem) {
+        XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
+        [rootVC performSelector:@selector(handleShortCut:) withObject:shortcutItem.type afterDelay:0.6];
+        if (completionHandler) {
+            completionHandler(YES);
+        }
+        return;
+    } else if (completionHandler) {
+        completionHandler(NO);
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

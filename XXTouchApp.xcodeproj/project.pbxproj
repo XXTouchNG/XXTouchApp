@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */; };
+		0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */; };
+		0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */; };
 		0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */; };
 		0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */; };
 		0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */; };
@@ -61,6 +64,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
+		0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; };
+		0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
+		0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewCell.m; sourceTree = "<group>"; };
+		0F13EAFC1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigOptionTableViewController.h; sourceTree = "<group>"; };
+		0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigOptionTableViewController.m; sourceTree = "<group>"; };
 		0F25D7DF1D83A0290056826B /* XXAuthorizationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAuthorizationTableViewController.h; sourceTree = "<group>"; };
 		0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAuthorizationTableViewController.m; sourceTree = "<group>"; };
 		0F25D7E31D84F5B00056826B /* XXApplicationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationListTableViewController.h; sourceTree = "<group>"; };
@@ -181,6 +190,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F13EAF21D88412000DA8A25 /* UserConfig */ = {
+			isa = PBXGroup;
+			children = (
+				0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */,
+				0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */,
+				0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */,
+				0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */,
+				0F13EAFC1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.h */,
+				0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */,
+			);
+			path = UserConfig;
+			sourceTree = "<group>";
+		};
 		0F25D7DE1D83A0170056826B /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +311,7 @@
 		0F5DDE1B1D8149B100BC4BDE /* XXSettings */ = {
 			isa = PBXGroup;
 			children = (
+				0F13EAF21D88412000DA8A25 /* UserConfig */,
 				0F41C6C81D87806B00535F72 /* Startup */,
 				0F6459A41D85B36E00194057 /* Record */,
 				0F6459A01D85B36B00194057 /* KeyPress */,
@@ -674,6 +697,7 @@
 				0F5DDE391D814A3100BC4BDE /* XXQuickLookService.m in Sources */,
 				0F5DDE251D8149B100BC4BDE /* XXSettingsTableViewController.m in Sources */,
 				0F5DDE4B1D814B7E00BC4BDE /* ARSafariActivity.m in Sources */,
+				0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */,
 				0FB0A7AD1D73DBE400129E83 /* main.m in Sources */,
 				0F5DDE3F1D814ACE00BC4BDE /* FYPhotoAsset.m in Sources */,
 				0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */,
@@ -710,6 +734,8 @@
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,
+				0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */,
+				0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

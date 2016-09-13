@@ -22,7 +22,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (void)killBackboardd {
     __block int status = 0;
-    double delayInSeconds = 3.0f;
+    double delayInSeconds = 1.0f;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
         pid_t pid;
@@ -106,10 +106,25 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     return NO;
 }
 
-+ (BOOL)localLaunchSelectedScript:(NSString *)scriptPath
-                            error:(NSError **)error {
++ (BOOL)localLaunchScript:(NSString *)scriptPath
+                    error:(NSError **)error {
     NSAssert(scriptPath != nil, @"scriptPath cannot be nil");
     NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file" withDictionary:@{ @"filename": scriptPath } error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        return YES;
+    } else if ([result[@"code"] isEqualToNumber:@2]) {
+        GENERATE_ERROR(result[@"detail"]);
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
+}
+
++ (BOOL)localStopCurrentRunningScriptWithError:(NSError **)error {
+    return [self sendOneTimeAction:@"recycle" error:error];
+}
+
++ (BOOL)localLaunchSelectedScriptWithError:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         return YES;
     } else if ([result[@"code"] isEqualToNumber:@2]) {
@@ -332,6 +347,29 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     [self sendOneTimeAction:@"set_startup_run_off" error:error]; CHECK_ERROR(NO);
     [[XXLocalDataService sharedInstance] setStartUpConfigSwitch:NO];
     return YES;
+}
+
++ (BOOL)localGetUserConfWithError:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"get_user_conf" withDictionary:nil error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        NSDictionary *data = result[@"data"];
+        XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+        [sharedDataService setUserConfig:[[NSMutableDictionary alloc] initWithDictionary:data]];
+        return YES;
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
+}
+
++ (BOOL)localSetUserConfWithError:(NSError **)error {
+    XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+    NSDictionary *dict = sharedDataService.userConfig;
+    NSDictionary *result = [self sendSynchronousRequest:@"set_user_conf" withDictionary:dict error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        return YES;
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
 }
 
 @end

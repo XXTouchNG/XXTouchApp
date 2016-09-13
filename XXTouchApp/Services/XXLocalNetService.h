@@ -15,7 +15,9 @@
 
 + (BOOL)localSetSelectedScript:(NSString *)scriptPath error:(NSError **)error;
 + (BOOL)localGetSelectedScriptWithError:(NSError **)error;
-+ (BOOL)localLaunchSelectedScript:(NSString *)scriptPath error:(NSError **)error;
++ (BOOL)localLaunchScript:(NSString *)scriptPath error:(NSError **)error;
++ (BOOL)localLaunchSelectedScriptWithError:(NSError **)error;
++ (BOOL)localStopCurrentRunningScriptWithError:(NSError **)error;
 + (BOOL)localCleanGPSCachesWithError:(NSError **)error;
 + (BOOL)localCleanUICachesWithError:(NSError **)error;
 + (BOOL)localCleanAllCachesWithError:(NSError **)error;
@@ -51,4 +53,6 @@
 + (BOOL)localSetStartUpRunOffWithError:(NSError **)error;
 + (BOOL)localSetSelectedStartUpScript:(NSString *)scriptPath error:(NSError **)error;
 
++ (BOOL)localGetUserConfWithError:(NSError **)error;
++ (BOOL)localSetUserConfWithError:(NSError **)error;
 @end

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface XXNavigationViewController : UINavigationController
+- (void)handleShortCut:(NSString *)type;
 
 @end

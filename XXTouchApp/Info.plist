@@ -36,7 +36,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>8</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -52,7 +52,7 @@
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>停止脚本</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>Share</string>
+			<string>Stop</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
 			<dict>
 				<key>firstShorcutKey3</key>
@@ -65,7 +65,7 @@
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>启动脚本</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>Compose</string>
+			<string>Launch</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
 			<dict>
 				<key>firstShorcutKey2</key>

@@ -432,7 +432,7 @@ XXToolbarDelegate
         UITableViewRowAction *runAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:XXLString(@"Run") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             @strongify(self);
             [self setEditing:NO animated:YES];
-            SendConfigAction([XXLocalNetService localLaunchSelectedScript:cell.itemPath error:&err], nil);
+            SendConfigAction([XXLocalNetService localLaunchScript:cell.itemPath error:&err], nil);
         }];
         runAction.backgroundColor = [UIColor blueberryColor];
         [actionsArr addObject:runAction];

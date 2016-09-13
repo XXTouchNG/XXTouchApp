@@ -123,6 +123,14 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
     [self setObject:deviceInfo forKey:@"deviceInfo"];
 }
 
+- (NSDictionary *)userConfig {
+    return (NSDictionary *)[self objectForKey:@"userConfig"];
+}
+
+- (void)setUserConfig:(NSDictionary *)userConfig {
+    [self setObject:userConfig forKey:@"userConfig"];
+}
+
 - (NSDate *)expirationDate {
     return (NSDate *)[self objectForKey:@"expirationDate"];
 }
