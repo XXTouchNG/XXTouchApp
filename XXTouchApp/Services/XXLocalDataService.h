@@ -50,24 +50,26 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 @interface XXLocalDataService : YYCache
 + (id)sharedInstance;
 
-@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeUp;
-@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeDown;
-@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeUp;
-@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeDown;
-@property (nonatomic, assign) BOOL keyPressConfigActivatorInstalled;
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeUp; // Cached
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeDown; // Cached
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeUp; // Cached
+@property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeDown; // Cached
+@property (nonatomic, assign) BOOL keyPressConfigActivatorInstalled; // Cached
 
-@property (nonatomic, assign) BOOL recordConfigRecordVolumeUp;
-@property (nonatomic, assign) BOOL recordConfigRecordVolumeDown;
+@property (nonatomic, assign) BOOL recordConfigRecordVolumeUp; // Cached
+@property (nonatomic, assign) BOOL recordConfigRecordVolumeDown; // Cached
 
-@property (nonatomic, assign) BOOL startUpConfigSwitch;
-@property (nonatomic, copy) NSString *startUpConfigScriptPath;
+@property (nonatomic, assign) BOOL startUpConfigSwitch; // Cached
+@property (nonatomic, copy) NSString *startUpConfigScriptPath; // Cached
 
-@property (nonatomic, copy) NSString *rootPath;
-@property (nonatomic, copy) NSString *libraryPath;
-@property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
-@property (nonatomic, copy) NSString *selectedScript;
-@property (nonatomic, assign) BOOL remoteAccessStatus;
-@property (nonatomic, copy) NSString *remoteAccessURL;
+- (BOOL)isSelectedStartUpScriptInPath:(NSString *)path;
+
+@property (nonatomic, copy) NSString *rootPath; // Installed
+@property (nonatomic, copy) NSString *libraryPath; // Installed
+@property (nonatomic, strong) NSDateFormatter *defaultDateFormatter; // Static
+@property (nonatomic, copy) NSString *selectedScript; // Cached
+@property (nonatomic, assign) BOOL remoteAccessStatus; // Cached
+@property (nonatomic, copy) NSString *remoteAccessURL; // Installed
 
 @property (nonatomic, strong) NSDictionary *deviceInfo; // Cached
 @property (nonatomic, strong) NSDate *expirationDate; // Cached
@@ -77,7 +79,7 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 @property (nonatomic, assign) kXXPasteboardType pasteboardType;
 @property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
 
-@property (nonatomic, assign) kXXScriptListSortMethod sortMethod;
+@property (nonatomic, assign) kXXScriptListSortMethod sortMethod; // Cached
 
 @property (nonatomic, strong) NSArray *bundles; // Cached
 

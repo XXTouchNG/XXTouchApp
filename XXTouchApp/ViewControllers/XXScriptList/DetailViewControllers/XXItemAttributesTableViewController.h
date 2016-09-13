@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXItemAttributesTableViewControllerStoryboardID = @"kXXItemAttributesTableViewControllerStoryboardID";
+
 @interface XXItemAttributesTableViewController : UITableViewController
 @property (nonatomic, strong) NSString *currentName;
 @property (nonatomic, strong) NSString *currentPath;

@@ -25,6 +25,13 @@
     return _editingToolbarButtons;
 }
 
+- (NSArray <UIBarButtonItem *> *)selectingBootscriptButtons {
+    if (!_selectingBootscriptButtons) {
+        _selectingBootscriptButtons = @[self.flexibleSpace, self.sortByButton, self.flexibleSpace];
+    }
+    return _selectingBootscriptButtons;
+}
+
 - (UIBarButtonItem *)flexibleSpace {
     if (!_flexibleSpace) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];

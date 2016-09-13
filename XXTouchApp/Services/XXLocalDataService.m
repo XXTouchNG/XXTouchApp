@@ -69,18 +69,34 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
     return _pasteboardArr;
 }
 
+- (NSString *)selectedScript {
+    return (NSString *)[self objectForKey:@"selectedScript"];
+}
+
 - (void)setSelectedScript:(NSString *)selectedScript {
-    _selectedScript = selectedScript;
-    if (selectedScript) {
-        CYLog(@"%@", selectedScript);
-    }
+    [self setObject:selectedScript forKey:@"selectedScript"];
+}
+
+- (NSString *)startUpConfigScriptPath {
+    return (NSString *)[self objectForKey:@"startUpConfigScriptPath"];
+}
+
+- (void)setStartUpConfigScriptPath:(NSString *)startUpConfigScriptPath {
+    [self setObject:startUpConfigScriptPath forKey:@"startUpConfigScriptPath"];
 }
 
 - (BOOL)isSelectedScriptInPath:(NSString *)path {
     if (![path hasSuffix:@"/"]) {
         path = [path stringByAppendingString:@"/"];
     }
-    return [_selectedScript hasPrefix:path];
+    return [self.selectedScript hasPrefix:path];
+}
+
+- (BOOL)isSelectedStartUpScriptInPath:(NSString *)path {
+    if (![path hasSuffix:@"/"]) {
+        path = [path stringByAppendingString:@"/"];
+    }
+    return [self.startUpConfigScriptPath hasPrefix:path];
 }
 
 - (NSString *)remoteAccessURL {
@@ -89,6 +105,14 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
         return nil;
     }
     return [NSString stringWithFormat:remoteAccessUrl, wifiAddress];
+}
+
+- (BOOL)remoteAccessStatus {
+    return [(NSNumber *)[self objectForKey:@"remoteAccessStatus"] boolValue];
+}
+
+- (void)setRemoteAccessStatus:(BOOL)remoteAccessStatus {
+    [self setObject:[NSNumber numberWithBool:remoteAccessStatus] forKey:@"remoteAccessStatus"];
 }
 
 - (NSDictionary *)deviceInfo {
@@ -109,9 +133,8 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
 - (NSArray *)bundles {
     NSArray *bundles = (NSArray *)[self objectForKey:@"bundles"];
-    if (!bundles) {
+    if (!bundles)
         return @[];
-    }
     return bundles;
 }
 
@@ -175,6 +198,78 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
             }
         }];
     }
+}
+
+- (kXXScriptListSortMethod)sortMethod {
+    return [(NSNumber *)[self objectForKey:@"sortMethod"] integerValue];
+}
+
+- (void)setSortMethod:(kXXScriptListSortMethod)sortMethod {
+    [self setObject:[NSNumber numberWithInteger:sortMethod] forKey:@"sortMethod"];
+}
+
+- (BOOL)startUpConfigSwitch {
+    return [(NSNumber *)[self objectForKey:@"startUpConfigSwitch"] boolValue];
+}
+
+- (void)setStartUpConfigSwitch:(BOOL)startUpConfigSwitch {
+    [self setObject:[NSNumber numberWithBool:startUpConfigSwitch] forKey:@"startUpConfigSwitch"];
+}
+
+- (BOOL)keyPressConfigActivatorInstalled {
+    return [(NSNumber *)[self objectForKey:@"keyPressConfigActivatorInstalled"] boolValue];
+}
+
+- (void)setKeyPressConfigActivatorInstalled:(BOOL)keyPressConfigActivatorInstalled {
+    [self setObject:[NSNumber numberWithBool:keyPressConfigActivatorInstalled] forKey:@"keyPressConfigActivatorInstalled"];
+}
+
+- (BOOL)recordConfigRecordVolumeUp {
+    return [(NSNumber *)[self objectForKey:@"recordConfigRecordVolumeUp"] boolValue];
+}
+
+- (void)setRecordConfigRecordVolumeUp:(BOOL)recordConfigRecordVolumeUp {
+    [self setObject:[NSNumber numberWithBool:recordConfigRecordVolumeUp] forKey:@"recordConfigRecordVolumeUp"];
+}
+
+- (BOOL)recordConfigRecordVolumeDown {
+    return [(NSNumber *)[self objectForKey:@"recordConfigRecordVolumeDown"] boolValue];
+}
+
+- (void)setRecordConfigRecordVolumeDown:(BOOL)recordConfigRecordVolumeDown {
+    [self setObject:[NSNumber numberWithBool:recordConfigRecordVolumeDown] forKey:@"recordConfigRecordVolumeDown"];
+}
+
+- (kXXKeyPressConfig)keyPressConfigHoldVolumeUp {
+    return [(NSNumber *)[self objectForKey:@"keyPressConfigHoldVolumeUp"] integerValue];
+}
+
+- (void)setKeyPressConfigHoldVolumeUp:(kXXKeyPressConfig)keyPressConfigHoldVolumeUp {
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeUp] forKey:@"keyPressConfigHoldVolumeUp"];
+}
+
+- (kXXKeyPressConfig)keyPressConfigHoldVolumeDown {
+    return [(NSNumber *)[self objectForKey:@"keyPressConfigHoldVolumeDown"] integerValue];
+}
+
+- (void)setKeyPressConfigHoldVolumeDown:(kXXKeyPressConfig)keyPressConfigHoldVolumeDown {
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeDown] forKey:@"keyPressConfigHoldVolumeDown"];
+}
+
+- (kXXKeyPressConfig)keyPressConfigPressVolumeUp {
+    return [(NSNumber *)[self objectForKey:@"keyPressConfigPressVolumeUp"] integerValue];
+}
+
+- (void)setKeyPressConfigPressVolumeUp:(kXXKeyPressConfig)keyPressConfigPressVolumeUp {
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeUp] forKey:@"keyPressConfigPressVolumeUp"];
+}
+
+- (kXXKeyPressConfig)keyPressConfigPressVolumeDown {
+    return [(NSNumber *)[self objectForKey:@"keyPressConfigPressVolumeDown"] integerValue];
+}
+
+- (void)setKeyPressConfigPressVolumeDown:(kXXKeyPressConfig)keyPressConfigPressVolumeDown {
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeDown] forKey:@"keyPressConfigPressVolumeDown"];
 }
 
 @end

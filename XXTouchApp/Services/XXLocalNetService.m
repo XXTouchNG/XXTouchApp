@@ -6,6 +6,8 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#import <spawn.h>
+#import <sys/stat.h>
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 
@@ -14,8 +16,25 @@
 #define GENERATE_ERROR(d) (*error = [NSError errorWithDomain:kXXErrorDomain code:[result[@"code"] integerValue] userInfo:@{ NSLocalizedDescriptionKey:result[@"message"], NSLocalizedFailureReasonErrorKey:d }])
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
+static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME=/var/mobile", "USER=mobile", "LOGNAME=mobile", NULL};
 
 @implementation XXLocalNetService
+
++ (void)killBackboardd {
+    __block int status = 0;
+    double delayInSeconds = 3.0f;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
+        pid_t pid;
+        const char* binary = "/var/mobile/Media/1ferver/bin/add1s";
+        const char* args[] = {binary, "killall", "-9", "backboardd", NULL};
+        posix_spawn(&pid, binary, NULL, NULL, (char* const*)args, (char* const*)envp);
+        waitpid(pid, &status, 0);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
 
 + (NSDictionary *)sendSynchronousRequest:(NSString *)command
                                 withData:(NSData *)data
@@ -285,6 +304,18 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
         XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
         [sharedDataService setStartUpConfigSwitch:[(NSNumber *)[data objectForKey:kXXStartUpConfigSwitch] boolValue]];
         [sharedDataService setStartUpConfigScriptPath:[data objectForKey:kXXStartUpConfigScriptPath]];
+        return YES;
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
+}
+
++ (BOOL)localSetSelectedStartUpScript:(NSString *)scriptPath
+                                error:(NSError **)error {
+    NSAssert(scriptPath != nil, @"scriptPath cannot be nil");
+    NSDictionary *result = [self sendSynchronousRequest:@"select_startup_script_file" withDictionary:@{ @"filename": scriptPath } error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:scriptPath];
         return YES;
     } else
         GENERATE_ERROR(@"");

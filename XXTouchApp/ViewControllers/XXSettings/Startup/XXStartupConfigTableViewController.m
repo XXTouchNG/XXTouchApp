@@ -7,6 +7,7 @@
 //
 
 #import "XXStartupConfigTableViewController.h"
+#import "XXScriptListTableViewController.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 
@@ -23,13 +24,24 @@
     SendConfigAction([XXLocalNetService localGetStartUpConfWithError:&err], [self loadStartupConfig]);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadStartupConfig];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (void)loadStartupConfig {
-    self.startupSwitch.on = [[XXLocalDataService sharedInstance] startUpConfigSwitch];
+    BOOL switchedOn = [[XXLocalDataService sharedInstance] startUpConfigSwitch];
+    self.startupSwitch.on = switchedOn;
+    if (switchedOn) {
+        self.bootScriptPathLabel.textColor = STYLE_TINT_COLOR;
+    } else {
+        self.bootScriptPathLabel.textColor = [UIColor grayColor];
+    }
     NSString *selectedBootScript = [[XXLocalDataService sharedInstance] startUpConfigScriptPath];
     if (selectedBootScript && selectedBootScript.length != 0) {
         self.bootScriptPathLabel.text = selectedBootScript;
@@ -44,9 +56,15 @@
     }
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        XXScriptListTableViewController *newController = [self.storyboard instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
+        newController.selectBootscript = YES;
+        newController.selectViewController = self;
+        newController.title = XXLString(@"Select Bootscript");
+        [self.navigationController pushViewController:newController animated:YES];
+    }
 }
 
 @end

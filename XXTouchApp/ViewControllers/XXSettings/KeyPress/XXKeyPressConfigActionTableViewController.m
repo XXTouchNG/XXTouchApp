@@ -40,12 +40,16 @@
     XXKeyPressConfigOperationTableViewController *destinationController = segue.destinationViewController;
     if (row == kXXKeyPressConfigPressVolumeUpSection) {
         destinationController.title = XXLString(@"Up Press");
+        destinationController.operationDescription = XXLString(@"Press Volume Up Button");
     } else if (row == kXXKeyPressConfigPressVolumeDownSection) {
         destinationController.title = XXLString(@"Down Press");
+        destinationController.operationDescription = XXLString(@"Press Volume Down Button");
     } else if (row == kXXKeyPressConfigHoldVolumeUpSection) {
         destinationController.title = XXLString(@"Up Short Hold");
+        destinationController.operationDescription = XXLString(@"Hold Volume Up Button");
     } else if (row == kXXKeyPressConfigHoldVolumeDownSection) {
         destinationController.title = XXLString(@"Down Short Hold");
+        destinationController.operationDescription = XXLString(@"Hold Volume Down Button");
     }
     destinationController.currentSection = row;
 }

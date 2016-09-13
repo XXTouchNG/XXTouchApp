@@ -16,6 +16,7 @@
 @interface XXToolbar : UIToolbar
 @property (nonatomic, strong) NSArray <UIBarButtonItem *> *defaultToolbarButtons;
 @property (nonatomic, strong) NSArray <UIBarButtonItem *> *editingToolbarButtons;
+@property (nonatomic, strong) NSArray <UIBarButtonItem *> *selectingBootscriptButtons;
 @property (nonatomic, strong) UIBarButtonItem *flexibleSpace;
 @property (nonatomic, strong) UIBarButtonItem *scanButton;
 @property (nonatomic, strong) UIBarButtonItem *compressButton;

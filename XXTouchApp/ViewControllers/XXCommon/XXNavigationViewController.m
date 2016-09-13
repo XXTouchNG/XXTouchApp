@@ -7,6 +7,9 @@
 //
 
 #import "XXNavigationViewController.h"
+#import "XXLocalNetService.h"
+
+static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
 
 @interface XXNavigationViewController ()
 
@@ -24,6 +27,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    if ([FCFileManager existsItemAtPath:tmpLockedItemPath]) {
+        self.view.userInteractionEnabled = NO;
+        @weakify(self);
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Needs Respring") andMessage:XXLString(@"You should resping your device to continue to use this application.")];
+        [alertView addButtonWithTitle:XXLString(@"Respring Now") type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            @strongify(self);
+            [self.view makeToastActivity:CSToastPositionCenter];
+            [XXLocalNetService killBackboardd];
+        }];
+        [alertView show];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

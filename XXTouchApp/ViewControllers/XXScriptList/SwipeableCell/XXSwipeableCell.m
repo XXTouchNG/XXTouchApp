@@ -30,6 +30,15 @@
     }
 }
 
+- (void)setSelectBootscript:(BOOL)selectBootscript {
+    _selectBootscript = selectBootscript;
+    if (selectBootscript) {
+        [_checkmarkImageView setImage:[UIImage imageNamed:@"checkmark-boot"]];
+    } else {
+        [_checkmarkImageView setImage:[UIImage imageNamed:@"checkmark"]];
+    }
+}
+
 - (void)setDisplayName:(NSString *)displayName {
     _displayName = displayName;
     _fileNameLabel.text = displayName;

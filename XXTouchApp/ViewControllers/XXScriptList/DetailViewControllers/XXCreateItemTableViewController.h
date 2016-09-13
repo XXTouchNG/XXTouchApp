@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXCreateItemTableViewControllerStoryboardID = @"kXXCreateItemTableViewControllerStoryboardID";
+
 @interface XXCreateItemTableViewController : UITableViewController
 @property (nonatomic, copy) NSString *currentDirectory;
 

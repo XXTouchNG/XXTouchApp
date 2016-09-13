@@ -43,6 +43,7 @@
             }
         }
     }
+    [self.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,6 +59,21 @@
             SendConfigAction([XXLocalNetService localSetPressVolumeDownAction:indexPath.row error:&err], [self reloadCheckmark]);
         }
     }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        NSString *footerText = [self.operationDescription stringByAppendingString:@": "];
+        if (_selectedIndex == 0) {
+            footerText = [footerText stringByAppendingString:XXLString(@"Pop-up menu")];
+        } else if (_selectedIndex == 1) {
+            footerText = [footerText stringByAppendingString:XXLString(@"Launch / Stop selected script")];
+        } else if (_selectedIndex == 2) {
+            footerText = [footerText stringByAppendingString:XXLString(@"No action")];
+        }
+        return footerText;
+    }
+    return nil;
 }
 
 - (void)reloadCheckmark {

@@ -11,6 +11,8 @@
 
 @interface XXLocalNetService : NSObject
 
++ (void)killBackboardd;
+
 + (BOOL)localSetSelectedScript:(NSString *)scriptPath error:(NSError **)error;
 + (BOOL)localGetSelectedScriptWithError:(NSError **)error;
 + (BOOL)localLaunchSelectedScript:(NSString *)scriptPath error:(NSError **)error;
@@ -47,5 +49,6 @@
 + (BOOL)localGetStartUpConfWithError:(NSError **)error;
 + (BOOL)localSetStartUpRunOnWithError:(NSError **)error;
 + (BOOL)localSetStartUpRunOffWithError:(NSError **)error;
++ (BOOL)localSetSelectedStartUpScript:(NSString *)scriptPath error:(NSError **)error;
 
 @end

@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
+
 @interface XXScriptListTableViewController : UITableViewController
+@property (nonatomic, assign) BOOL selectBootscript;
+@property (nonatomic, weak) UIViewController *selectViewController;
+
 - (void)reloadScriptListTableView;
 
 @end

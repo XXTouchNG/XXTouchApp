@@ -51,6 +51,7 @@ enum {
             }
         }
     }
+    [self.tableView reloadData];
 }
 
 - (void)loadRecordConfig {
@@ -82,6 +83,23 @@ enum {
             SendConfigAction([XXLocalNetService localSetRecordVolumeUpOffWithError:&err]; if (result) [XXLocalNetService localSetRecordVolumeDownOffWithError:&err], [self loadRecordConfig]);
         }
     }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        NSString *footerText = nil;
+        if (_selectedIndex == 0) {
+            footerText = XXLString(@"Both Volume + and Volume - button press operation will be recorded during recording process.");
+        } else if (_selectedIndex == 1) {
+            footerText = XXLString(@"Only Volume + button press operation will be recorded during recording process.");
+        } else if (_selectedIndex == 2) {
+            footerText = XXLString(@"Only Volume - button press operation will be recorded during recording process.");
+        } else if (_selectedIndex == 3) {
+            footerText = XXLString(@"No volume button press operation will be recorded during recording process.");
+        }
+        return footerText;
+    }
+    return nil;
 }
 
 @end

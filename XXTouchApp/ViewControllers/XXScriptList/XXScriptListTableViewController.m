@@ -17,9 +17,6 @@
 #import "XXArchiveService.h"
 #import <MJRefresh/MJRefresh.h>
 
-static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
-static NSString * const kXXCreateItemTableViewControllerStoryboardID = @"kXXCreateItemTableViewControllerStoryboardID";
-static NSString * const kXXItemAttributesTableViewControllerStoryboardID = @"kXXItemAttributesTableViewControllerStoryboardID";
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXItemPathKey = @"kXXItemPathKey";
 static NSString * const kXXItemNameKey = @"kXXItemNameKey";
@@ -72,7 +69,6 @@ XXToolbarDelegate
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
     self.tableView.mj_header = self.refreshHeader;
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.tableView.allowsSelection = YES;
     self.tableView.allowsMultipleSelection = NO;
@@ -80,7 +76,13 @@ XXToolbarDelegate
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     
     self.topToolbar.tapDelegate = self;
-    [self.topToolbar setItems:self.topToolbar.defaultToolbarButtons animated:YES];
+    if (_selectBootscript) {
+        self.navigationItem.rightBarButtonItem = nil;
+        [self.topToolbar setItems:self.topToolbar.selectingBootscriptButtons animated:YES];
+    } else {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+        [self.topToolbar setItems:self.topToolbar.defaultToolbarButtons animated:YES];
+    }
     [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     if ([[XXLocalDataService sharedInstance] selectedScript] == nil) {
@@ -135,7 +137,12 @@ XXToolbarDelegate
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
-        BOOL result = [XXLocalNetService localGetSelectedScriptWithError:&err];
+        BOOL result = NO;
+        if (_selectBootscript) {
+            result = [XXLocalNetService localGetStartUpConfWithError:&err];
+        } else {
+            result = [XXLocalNetService localGetSelectedScriptWithError:&err];
+        }
         dispatch_async_on_main_queue(^{
             if (!result) {
                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Sync Failure")
@@ -152,6 +159,7 @@ XXToolbarDelegate
                                       }];
                 [alertView show];
             } else {
+                _selectedIndex = -1;
                 [self reloadScriptListTableView];
                 [self endMJRefreshing];
             }
@@ -255,25 +263,42 @@ XXToolbarDelegate
     cell.itemPath = itemPath;
     cell.displayName = itemName;
     cell.itemAttrs = attrs;
+    cell.selectBootscript = self.selectBootscript;
     
     if (cell.selectable) {
-        if ([cell.itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
+        NSString *highlightedItemPath = nil;
+        if (_selectBootscript) {
+            highlightedItemPath = [[XXLocalDataService sharedInstance] startUpConfigScriptPath];
+        } else {
+            highlightedItemPath = [[XXLocalDataService sharedInstance] selectedScript];
+        }
+        if ([cell.itemPath isEqualToString:highlightedItemPath]) {
             _selectedIndex = indexPath.row;
             cell.checked = YES;
         } else {
             cell.checked = NO;
         }
     } else if (cell.isDirectory) {
-        BOOL checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+        BOOL checked = NO;
+        if (_selectBootscript) {
+            checked = [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:cell.itemPath];
+        } else {
+            checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+        }
         cell.checked = checked;
         if (checked) {
             _selectedIndex = indexPath.row;
         }
     }
     
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
-    longPressGesture.delegate = self;
-    [cell addGestureRecognizer:longPressGesture];
+    if (_selectBootscript) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
+        longPressGesture.delegate = self;
+        [cell addGestureRecognizer:longPressGesture];
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+    }
     
     return cell;
 }
@@ -281,6 +306,9 @@ XXToolbarDelegate
 #pragma mark - Long Press Gesture for Block
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (_selectBootscript) {
+        return NO;
+    }
     if ([self isEditing]) {
         return NO;
     }
@@ -297,6 +325,7 @@ XXToolbarDelegate
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
+    if (_selectBootscript) return;
     // Pasteboard Event - setEditing
     if (editing) {
         [self.topToolbar setItems:self.topToolbar.editingToolbarButtons animated:YES];
@@ -309,6 +338,10 @@ XXToolbarDelegate
             self.topToolbar.pasteButton.enabled = NO;
         }
     }
+}
+
+- (void)popToSelectViewController {
+    [self.navigationController popToViewController:self.selectViewController animated:YES];
 }
 
 #pragma mark - Table View Delegate
@@ -341,29 +374,44 @@ XXToolbarDelegate
         if (_selectedIndex != indexPath.row) {
             NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
             __block XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
-            SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemPath error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row;);
+            if (_selectBootscript) {
+                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemPath error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row; [self popToSelectViewController];);
+            } else {
+                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemPath error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row;);
+            }
         }
     } else {
         if (currentCell.isDirectory) {
             XXScriptListTableViewController *newController = [self.storyboard instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
             newController.currentDirectory = currentCell.itemPath;
+            if (_selectBootscript) {
+                newController.selectBootscript = self.selectBootscript;
+                newController.selectViewController = self.selectViewController;
+            }
             [self.navigationController pushViewController:newController animated:YES];
         } else {
-            BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
-                                                    parentViewController:self];
-            if (!result) {
-                result = [XXArchiveService unArchiveZip:currentCell.itemPath
-                                            toDirectory:self.currentDirectory
-                                   parentViewController:self];
-            }
-            if (!result) {
-                [self.navigationController.view makeToast:XXLString(@"Unsupported File Type")];
+            if (_selectBootscript) {
+                [self.navigationController.view makeToast:XXLString(@"You can only select executable script type: lua, xxt")];
+            } else {
+                BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
+                                                        parentViewController:self];
+                if (!result) {
+                    result = [XXArchiveService unArchiveZip:currentCell.itemPath
+                                                toDirectory:self.currentDirectory
+                                       parentViewController:self];
+                }
+                if (!result) {
+                    [self.navigationController.view makeToast:XXLString(@"Unsupported file type")];
+                }
             }
         }
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_selectBootscript) {
+        return NO;
+    }
     return YES;
 }
 
@@ -407,7 +455,11 @@ XXToolbarDelegate
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
             if (cell.checked) {
-                [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                if (_selectBootscript) {
+                    [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
+                } else {
+                    [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                }
             }
             dispatch_async_on_main_queue(^{
                 self.navigationController.view.userInteractionEnabled = YES;
@@ -599,7 +651,11 @@ XXToolbarDelegate
                 NSString *itemPath = cell.itemPath;
                 NSError *err = nil;
                 if (cell.checked) {
-                    [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                    if (_selectBootscript) {
+                        [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
+                    } else {
+                        [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                    }
                 }
                 [FCFileManager removeItemAtPath:itemPath error:&err];
             }

@@ -10,6 +10,7 @@
 
 @interface XXSwipeableCell : UITableViewCell
 @property (nonatomic, assign) BOOL checked;
+@property (nonatomic, assign) BOOL selectBootscript;
 @property (nonatomic, assign) BOOL selectable;
 @property (nonatomic, assign) BOOL editable;
 @property (nonatomic, assign) BOOL isDirectory;

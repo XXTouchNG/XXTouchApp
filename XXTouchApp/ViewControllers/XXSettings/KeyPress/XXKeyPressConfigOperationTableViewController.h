@@ -18,5 +18,6 @@ typedef enum : NSUInteger {
 
 @interface XXKeyPressConfigOperationTableViewController : UITableViewController
 @property (nonatomic, assign) kXXKeyPressConfigSection currentSection;
+@property (nonatomic, copy) NSString *operationDescription;
 
 @end

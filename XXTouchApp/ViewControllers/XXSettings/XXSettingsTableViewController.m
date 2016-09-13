@@ -89,6 +89,11 @@ enum {
     [self.refreshHeader beginRefreshing];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self changeRemoteAccessUI];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
