@@ -58,6 +58,7 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.clearsSelectionOnViewWillAppear = YES; // Override
     self.tableView.mj_header = self.refreshHeader;
     if (![self loadDeviceAndAuthorizationInfo]) {
         [self.refreshHeader beginRefreshing];
@@ -70,33 +71,26 @@ enum {
     }
 }
 
+- (BOOL)bindCodeAndGetDeviceInfo:(NSString *)codeText error:(NSError **)error {
+    BOOL result = [XXLocalNetService localBindCode:codeText error:error];
+    if (result) {
+        result = [XXLocalNetService localGetDeviceAuthInfoWithError:error];
+    }
+    return result;
+}
+
+- (void)endBindingCodeAndGetDeviceInfo {
+    _authorizationField.text = @"";
+    [self.navigationController.view makeToast:XXLString(@"Code binding succeed.")];
+    [self loadDeviceAndAuthorizationInfo];
+}
+
 - (IBAction)submit:(id)sender {
     if ([_authorizationField isFirstResponder]) {
         [_authorizationField resignFirstResponder];
     }
     __block NSString *codeText = self.authorizationField.text;
-    self.navigationController.view.userInteractionEnabled = NO;
-    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-    @weakify(self);
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        @strongify(self);
-        __block NSError *err = nil;
-        BOOL result = [XXLocalNetService localBindCode:codeText error:&err];
-        if (result) {
-            result = [XXLocalNetService localGetDeviceAuthInfoWithError:&err];
-        }
-        dispatch_async_on_main_queue(^{
-            self.navigationController.view.userInteractionEnabled = YES;
-            [self.navigationController.view hideToastActivity];
-            if (!result) {
-                [self.navigationController.view makeToast:[err localizedDescription]];
-            } else {
-                _authorizationField.text = @"";
-                [self.navigationController.view makeToast:XXLString(@"Code binding succeed.")];
-                [self loadDeviceAndAuthorizationInfo];
-            }
-        });
-    });
+    SendConfigAction([self bindCodeAndGetDeviceInfo:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
 }
 
 - (IBAction)authorizationFieldChanged:(UITextField *)sender {

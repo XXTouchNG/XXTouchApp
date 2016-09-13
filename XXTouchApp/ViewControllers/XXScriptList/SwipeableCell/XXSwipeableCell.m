@@ -23,6 +23,11 @@
 - (void)setChecked:(BOOL)checked {
     _checked = checked;
     _checkmarkImageView.hidden = !checked;
+    if (checked) {
+        _fileNameLabel.textColor = STYLE_TINT_COLOR;
+    } else {
+        _fileNameLabel.textColor = [UIColor blackColor];
+    }
 }
 
 - (void)setDisplayName:(NSString *)displayName {

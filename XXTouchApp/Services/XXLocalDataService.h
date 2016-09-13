@@ -44,6 +44,9 @@ static NSString * const kXXKeyPressConfigActivatorInstalled = @"activator_instal
 static NSString * const kXXRecordConfigRecordVolumeUp = @"record_volume_up";
 static NSString * const kXXRecordConfigRecordVolumeDown = @"record_volume_down";
 
+static NSString * const kXXStartUpConfigSwitch = @"startup_run";
+static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
+
 @interface XXLocalDataService : YYCache
 + (id)sharedInstance;
 
@@ -55,6 +58,9 @@ static NSString * const kXXRecordConfigRecordVolumeDown = @"record_volume_down";
 
 @property (nonatomic, assign) BOOL recordConfigRecordVolumeUp;
 @property (nonatomic, assign) BOOL recordConfigRecordVolumeDown;
+
+@property (nonatomic, assign) BOOL startUpConfigSwitch;
+@property (nonatomic, copy) NSString *startUpConfigScriptPath;
 
 @property (nonatomic, copy) NSString *rootPath;
 @property (nonatomic, copy) NSString *libraryPath;

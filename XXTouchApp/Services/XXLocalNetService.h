@@ -44,4 +44,8 @@
 + (BOOL)localSetRecordVolumeDownOnWithError:(NSError **)error;
 + (BOOL)localSetRecordVolumeDownOffWithError:(NSError **)error;
 
++ (BOOL)localGetStartUpConfWithError:(NSError **)error;
++ (BOOL)localSetStartUpRunOnWithError:(NSError **)error;
++ (BOOL)localSetStartUpRunOffWithError:(NSError **)error;
+
 @end

@@ -38,7 +38,7 @@ enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.clearsSelectionOnViewWillAppear = YES; // Override
     self.title = 
     self.appNameLabel.text = [self.appInfo objectForKey:kXXApplicationKeyAppName];
     self.bundleIDLabel.text = [self.appInfo objectForKey:kXXApplicationKeyBundleID];
@@ -88,21 +88,7 @@ enum {
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
-                              self.navigationController.view.userInteractionEnabled = NO;
-                              [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-                              dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                                  __block NSError *err = nil;
-                                  BOOL result = [XXLocalNetService localClearAppData:bid error:&err];
-                                  dispatch_async_on_main_queue(^{
-                                      self.navigationController.view.userInteractionEnabled = YES;
-                                      [self.navigationController.view hideToastActivity];
-                                      if (!result) {
-                                          [self.navigationController.view makeToast:[err localizedDescription]];
-                                      } else {
-                                          [self.navigationController.view makeToast:XXLString(@"Operation completed")];
-                                      }
-                                  });
-                              });
+                              SendConfigAction([XXLocalNetService localClearAppData:bid error:&err], [self.navigationController.view makeToast:XXLString(@"Operation completed")]);
                           }];
     [alertView addButtonWithTitle:XXLString(@"Cancel")
                              type:SIAlertViewButtonTypeCancel

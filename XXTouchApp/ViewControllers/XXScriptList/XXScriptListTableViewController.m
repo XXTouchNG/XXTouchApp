@@ -341,27 +341,7 @@ XXToolbarDelegate
         if (_selectedIndex != indexPath.row) {
             NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
             __block XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
-            
-            self.navigationController.view.userInteractionEnabled = NO;
-            [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-            @weakify(self);
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                @strongify(self);
-                __block NSError *err = nil;
-                BOOL result = [XXLocalNetService localSetSelectedScript:currentCell.itemPath error:&err];
-                dispatch_async_on_main_queue(^{
-                    self.navigationController.view.userInteractionEnabled = YES;
-                    [self.navigationController.view hideToastActivity];
-                    if (result) {
-                        lastCell.checked = NO;
-                        currentCell.checked = YES;
-                        
-                        _selectedIndex = indexPath.row;
-                    } else {
-                        [self.navigationController.view makeToast:[err localizedDescription]];
-                    }
-                });
-            });
+            SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemPath error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row;);
         }
     } else {
         if (currentCell.isDirectory) {
@@ -403,20 +383,8 @@ XXToolbarDelegate
         @weakify(self);
         UITableViewRowAction *runAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:XXLString(@"Run") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             @strongify(self);
-            __block NSError *err = nil;
             [self setEditing:NO animated:YES];
-            self.navigationController.view.userInteractionEnabled = NO;
-            [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                BOOL result = [XXLocalNetService localLaunchSelectedScript:cell.itemPath error:&err];
-                dispatch_async_on_main_queue(^{
-                    self.navigationController.view.userInteractionEnabled = YES;
-                    [self.navigationController.view hideToastActivity];
-                    if (!result) {
-                        [self.navigationController.view makeToast:[err localizedDescription]];
-                    }
-                });
-            });
+            SendConfigAction([XXLocalNetService localLaunchSelectedScript:cell.itemPath error:&err], nil);
         }];
         runAction.backgroundColor = [UIColor blueberryColor];
         [actionsArr addObject:runAction];

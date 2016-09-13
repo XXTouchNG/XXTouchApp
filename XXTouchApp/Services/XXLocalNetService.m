@@ -119,18 +119,22 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 }
 
 + (BOOL)localCleanAllCachesWithError:(NSError **)error {
+    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"clear_all" error:error];
 }
 
 + (BOOL)localRespringDeviceWithError:(NSError **)error {
+    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"respring" error:error];
 }
 
 + (BOOL)localRestartDeviceWithError:(NSError **)error {
+    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"reboot2" error:error];
 }
 
 + (BOOL)localRestartDaemonWithError:(NSError **)error {
+    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"restart" error:error];
 }
 
@@ -271,6 +275,31 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 + (BOOL)localSetRecordVolumeDownOffWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_record_volume_down_off" error:error]; CHECK_ERROR(NO);
     [[XXLocalDataService sharedInstance] setRecordConfigRecordVolumeDown:NO];
+    return YES;
+}
+
++ (BOOL)localGetStartUpConfWithError:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"get_startup_conf" withDictionary:nil error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        NSDictionary *data = result[@"data"];
+        XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+        [sharedDataService setStartUpConfigSwitch:[(NSNumber *)[data objectForKey:kXXStartUpConfigSwitch] boolValue]];
+        [sharedDataService setStartUpConfigScriptPath:[data objectForKey:kXXStartUpConfigScriptPath]];
+        return YES;
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
+}
+
++ (BOOL)localSetStartUpRunOnWithError:(NSError **)error {
+    [self sendOneTimeAction:@"set_startup_run_on" error:error]; CHECK_ERROR(NO);
+    [[XXLocalDataService sharedInstance] setStartUpConfigSwitch:YES];
+    return YES;
+}
+
++ (BOOL)localSetStartUpRunOffWithError:(NSError **)error {
+    [self sendOneTimeAction:@"set_startup_run_off" error:error]; CHECK_ERROR(NO);
+    [[XXLocalDataService sharedInstance] setStartUpConfigSwitch:NO];
     return YES;
 }
 

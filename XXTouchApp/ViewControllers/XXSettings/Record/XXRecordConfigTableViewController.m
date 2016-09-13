@@ -17,46 +17,8 @@ enum {
     kXXRecordConfigRecordNoneIndex
 };
 
-#define SendConfigAction(command) \
-self.navigationController.view.userInteractionEnabled = NO; \
-[self.navigationController.view makeToastActivity:CSToastPositionCenter]; \
-@weakify(self); \
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{ \
-    @strongify(self); \
-    __block NSError *err = nil; \
-    BOOL result = command; \
-    dispatch_async_on_main_queue(^{ \
-        self.navigationController.view.userInteractionEnabled = YES; \
-        [self.navigationController.view hideToastActivity]; \
-        if (!result) { \
-            [self.navigationController.view makeToast:[err localizedDescription]]; \
-        } else { \
-            [self loadRecordConfig]; \
-        } \
-    }); \
-});
-
-#define SendDoubleConfigAction(command1, command2) \
-self.navigationController.view.userInteractionEnabled = NO; \
-[self.navigationController.view makeToastActivity:CSToastPositionCenter]; \
-@weakify(self); \
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{ \
-    @strongify(self); \
-    __block NSError *err = nil; \
-    BOOL result = command1; \
-    if (result) result = command2; \
-    dispatch_async_on_main_queue(^{ \
-        self.navigationController.view.userInteractionEnabled = YES; \
-        [self.navigationController.view hideToastActivity]; \
-        if (!result) { \
-            [self.navigationController.view makeToast:[err localizedDescription]]; \
-        } else { \
-            [self loadRecordConfig]; \
-        } \
-    }); \
-});
-
 @interface XXRecordConfigTableViewController ()
+@property (nonatomic, assign) NSUInteger selectedIndex;
 
 @end
 
@@ -64,8 +26,8 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    SendConfigAction([XXLocalNetService localGetRecordConfWithError:&err]);
+    self.clearsSelectionOnViewWillAppear = YES; // Override
+    SendConfigAction([XXLocalNetService localGetRecordConfWithError:&err], [self loadRecordConfig]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,10 +39,13 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
     for (int i = 0; i <= [self.tableView numberOfRowsInSection:indexPath.section]; i++) {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
         if (i == indexPath.row) {
+            _selectedIndex = i;
+            cell.textLabel.textColor = STYLE_TINT_COLOR;
             if (cell.accessoryType != UITableViewCellAccessoryCheckmark) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         } else {
+            cell.textLabel.textColor = [UIColor blackColor];
             if (cell.accessoryType != UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
@@ -106,15 +71,15 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
+    if (_selectedIndex != indexPath.row && indexPath.section == 0) {
         if (indexPath.row == kXXRecordConfigRecordBothIndex) {
-            SendDoubleConfigAction([XXLocalNetService localSetRecordVolumeUpOnWithError:&err], [XXLocalNetService localSetRecordVolumeDownOnWithError:&err]);
+            SendConfigAction([XXLocalNetService localSetRecordVolumeUpOnWithError:&err]; if (result) [XXLocalNetService localSetRecordVolumeDownOnWithError:&err], [self loadRecordConfig]);
         } else if (indexPath.row == kXXRecordConfigRecordVolumeUpIndex) {
-            SendDoubleConfigAction([XXLocalNetService localSetRecordVolumeUpOnWithError:&err], [XXLocalNetService localSetRecordVolumeDownOffWithError:&err]);
+            SendConfigAction([XXLocalNetService localSetRecordVolumeUpOnWithError:&err]; if (result) [XXLocalNetService localSetRecordVolumeDownOffWithError:&err], [self loadRecordConfig]);
         } else if (indexPath.row == kXXRecordConfigRecordVolumeDownIndex) {
-            SendDoubleConfigAction([XXLocalNetService localSetRecordVolumeDownOnWithError:&err], [XXLocalNetService localSetRecordVolumeUpOffWithError:&err]);
+            SendConfigAction([XXLocalNetService localSetRecordVolumeDownOnWithError:&err]; if (result) [XXLocalNetService localSetRecordVolumeUpOffWithError:&err], [self loadRecordConfig]);
         } else if (indexPath.row == kXXRecordConfigRecordNoneIndex) {
-            SendDoubleConfigAction([XXLocalNetService localSetRecordVolumeUpOffWithError:&err], [XXLocalNetService localSetRecordVolumeDownOffWithError:&err]);
+            SendConfigAction([XXLocalNetService localSetRecordVolumeUpOffWithError:&err]; if (result) [XXLocalNetService localSetRecordVolumeDownOffWithError:&err], [self loadRecordConfig]);
         }
     }
 }

@@ -14,10 +14,13 @@
 		0F2935F21D797E0400E41A29 /* NSString+Regexp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2935F11D797E0400E41A29 /* NSString+Regexp.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
+		0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */; };
 		0F50290A1D79910B0019FC8D /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5029091D79910B0019FC8D /* NSString+Mime.m */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F55538F1D7D4E6000D8A8A6 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55538E1D7D4E6000D8A8A6 /* PHPhotoLibrary+CustomPhotoCollection.m */; };
 		0F5553921D7D50DB00D8A8A6 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5553911D7D50DB00D8A8A6 /* UIImage+ProportionalFill.m */; };
+		0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */; };
+		0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5777731D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m */; };
 		0F5D1F531D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5D1F521D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F581D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5D1F571D7E41190061A954 /* ALAssetsLibrary+SingleInstance.m */; };
@@ -43,7 +46,6 @@
 		0F5DDE4B1D814B7E00BC4BDE /* ARSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE451D814B7E00BC4BDE /* ARSafariActivity.m */; };
 		0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DDE471D814B7E00BC4BDE /* SIAlertView.bundle */; };
 		0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */; };
-		0F6459A31D85B36B00194057 /* XXKeyPressConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6459A21D85B36B00194057 /* XXKeyPressConfigTableViewController.m */; };
 		0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
@@ -74,6 +76,8 @@
 		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
 		0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		0F41C6C91D8780A300535F72 /* XXStartupConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXStartupConfigTableViewController.h; sourceTree = "<group>"; };
+		0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXStartupConfigTableViewController.m; sourceTree = "<group>"; };
 		0F5029081D79910B0019FC8D /* NSString+Mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Mime.h"; sourceTree = "<group>"; };
 		0F5029091D79910B0019FC8D /* NSString+Mime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Mime.m"; sourceTree = "<group>"; };
 		0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
@@ -81,6 +85,10 @@
 		0F55538E1D7D4E6000D8A8A6 /* PHPhotoLibrary+CustomPhotoCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PHPhotoLibrary+CustomPhotoCollection.m"; sourceTree = "<group>"; };
 		0F5553901D7D50DB00D8A8A6 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
 		0F5553911D7D50DB00D8A8A6 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
+		0F57776C1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigActionTableViewController.h; sourceTree = "<group>"; };
+		0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyPressConfigActionTableViewController.m; sourceTree = "<group>"; };
+		0F5777721D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigOperationTableViewController.h; sourceTree = "<group>"; };
+		0F5777731D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyPressConfigOperationTableViewController.m; sourceTree = "<group>"; };
 		0F5D1F511D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		0F5D1F521D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -126,8 +134,6 @@
 		0F5DDE471D814B7E00BC4BDE /* SIAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SIAlertView.bundle; sourceTree = "<group>"; };
 		0F5DDE481D814B7E00BC4BDE /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertView.h; sourceTree = "<group>"; };
 		0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
-		0F6459A11D85B36B00194057 /* XXKeyPressConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigTableViewController.h; sourceTree = "<group>"; };
-		0F6459A21D85B36B00194057 /* XXKeyPressConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyPressConfigTableViewController.m; sourceTree = "<group>"; };
 		0F6459A51D85B37D00194057 /* XXRecordConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXRecordConfigTableViewController.h; sourceTree = "<group>"; };
 		0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXRecordConfigTableViewController.m; sourceTree = "<group>"; };
 		0F9852711D745D15001323AA /* XXLocalDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalDefines.h; sourceTree = "<group>"; };
@@ -222,6 +228,15 @@
 			path = Catalogs;
 			sourceTree = "<group>";
 		};
+		0F41C6C81D87806B00535F72 /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				0F41C6C91D8780A300535F72 /* XXStartupConfigTableViewController.h */,
+				0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */,
+			);
+			path = Startup;
+			sourceTree = "<group>";
+		};
 		0F5553931D7D512600D8A8A6 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +289,7 @@
 		0F5DDE1B1D8149B100BC4BDE /* XXSettings */ = {
 			isa = PBXGroup;
 			children = (
+				0F41C6C81D87806B00535F72 /* Startup */,
 				0F6459A41D85B36E00194057 /* Record */,
 				0F6459A01D85B36B00194057 /* KeyPress */,
 				0F25D7E21D84F5A50056826B /* Application */,
@@ -366,8 +382,10 @@
 		0F6459A01D85B36B00194057 /* KeyPress */ = {
 			isa = PBXGroup;
 			children = (
-				0F6459A11D85B36B00194057 /* XXKeyPressConfigTableViewController.h */,
-				0F6459A21D85B36B00194057 /* XXKeyPressConfigTableViewController.m */,
+				0F57776C1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.h */,
+				0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */,
+				0F5777721D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.h */,
+				0F5777731D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m */,
 			);
 			path = KeyPress;
 			sourceTree = "<group>";
@@ -673,7 +691,7 @@
 				0F5DDE171D81496800BC4BDE /* XXItemAttributesTableViewController.m in Sources */,
 				0F5DDE2F1D8149BE00BC4BDE /* XXEmptyNavigationController.m in Sources */,
 				0F5D1F531D7E3F610061A954 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
-				0F6459A31D85B36B00194057 /* XXKeyPressConfigTableViewController.m in Sources */,
+				0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */,
 				0F5DDE191D81496800BC4BDE /* XXToolbar.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
 				0F50290A1D79910B0019FC8D /* NSString+Mime.m in Sources */,
@@ -682,6 +700,7 @@
 				0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
 				0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */,
+				0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,
 				0F5DDE381D814A3100BC4BDE /* XXArchiveService.m in Sources */,
 				0F2935F21D797E0400E41A29 /* NSString+Regexp.m in Sources */,
@@ -690,6 +709,7 @@
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
+				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
