@@ -11,11 +11,14 @@
 #import "XXUserDefaultsConfigOptionTableViewController.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
+#import "XXUserDefaultsModel.h"
+
+#define USER_DEFAULTS_SWITCH_CHOICES @[XXLString(@"Disable"), XXLString(@"Enable")]
 
 static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"kXXUserDefaultsConfigTableViewCellIReuseIdentifier";
 
 @interface XXUserDefaultsConfigTableViewController ()
-@property (nonatomic, strong) NSMutableArray <NSMutableDictionary *> *userConfigArray;
+@property (nonatomic, strong) NSMutableArray <XXUserDefaultsModel *> *userConfigArray;
 
 @end
 
@@ -38,7 +41,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
     [self reloadConfigList];
 }
 
-- (NSMutableArray <NSMutableDictionary *> *)userConfigArray {
+- (NSMutableArray <XXUserDefaultsModel *> *)userConfigArray {
     if (!_userConfigArray) {
         _userConfigArray = [[NSMutableArray alloc] init];
     }
@@ -50,18 +53,17 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
     NSDictionary *config = [[XXLocalDataService sharedInstance] userConfig];
     NSArray <NSString *> *allKeys = [config allKeysSorted];
     for (NSString *cKey in allKeys) {
-        NSNumber *cVal = [config objectForKey:cKey];
-        NSString *title = [self fetchTitleForKey:cKey];
-        NSString *description = [self fetchDescriptionForKey:cKey];
-        NSArray *choices = [self fetchChoicesForKey:cKey];
-        if (!title || !description || !choices) continue;
-        [self.userConfigArray addObject:[[NSMutableDictionary alloc] initWithDictionary:@{
-                                                                                          kXXUserDefaultsConfigTitle: title,
-                                                                                          kXXUserDefaultsConfigDescription: description,
-                                                                                          kXXUserDefaultsConfigChoices: choices,
-                                                                                          kXXUserDefaultsConfigKey: cKey,
-                                                                                          kXXUserDefaultsConfigValue: cVal,
-                                                                                          }]];
+        XXUserDefaultsModel *model = [XXUserDefaultsModel new];
+        model.configTitle = [self fetchTitleForKey:cKey];
+        if (model.configTitle == nil) {
+            continue;
+        }
+        model.configDescription = [self fetchDescriptionForKey:cKey];
+        model.configChoices = [self fetchChoicesForKey:cKey];
+        model.configValue = [[config objectForKey:cKey] integerValue];
+        model.configKey = [cKey copy];
+        model.configType = [self fetchTypeForKey:cKey];
+        [self.userConfigArray addObject:model];
     }
     [self.tableView reloadData];
 }
@@ -70,10 +72,10 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
     NSDictionary *titleKey = @{
                                @"no_nosim_alert": XXLString(@"Hide \"No SIM\" Alert"),
                                @"no_low_power_alert": XXLString(@"Hide \"Low Power\" Alert"),
-                               @"no_idle": XXLString(@"Disable Auto-Lock"),
-                               @"script_on_daemon": XXLString(@"Enable Daemon Mode"),
-                               @"script_end_hint": XXLString(@"Enable Script Ended Toast"),
-                               @"no_need_pushid_alert": XXLString(@"Hide \"Connect to iTunes to Use Push Notifications\" Alert"),
+                               @"no_idle": XXLString(@"Never Auto-Lock"),
+                               @"script_on_daemon": XXLString(@"Daemon Mode"),
+                               @"script_end_hint": XXLString(@"Script Ended Toast"),
+                               @"no_need_pushid_alert": XXLString(@"Hide \"Connect to iTunes...\" Alert"),
                                @"no_nosim_statusbar": XXLString(@"Hide \"No SIM\" On Status Bar"),
                                @"use_classic_control_alert": XXLString(@"Use Classical Alert View"),
                                };
@@ -96,16 +98,30 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
 
 - (NSArray *)fetchChoicesForKey:(NSString *)key {
     NSDictionary *choicesKey = @{
-                                     @"no_nosim_alert": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"no_low_power_alert": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"no_idle": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"script_on_daemon": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"script_end_hint": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"no_need_pushid_alert": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"no_nosim_statusbar": @[XXLString(@"Enable"), XXLString(@"Disable")],
-                                     @"use_classic_control_alert": @[XXLString(@"Enable"), XXLString(@"Disable")],
+                                     @"no_nosim_alert": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"no_low_power_alert": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"no_idle": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"script_on_daemon": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"script_end_hint": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"no_need_pushid_alert": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"no_nosim_statusbar": USER_DEFAULTS_SWITCH_CHOICES,
+                                     @"use_classic_control_alert": USER_DEFAULTS_SWITCH_CHOICES,
                                      };
     return [choicesKey objectForKey:key];
+}
+
+- (kXXUserDefaultsType)fetchTypeForKey:(NSString *)key {
+    NSDictionary *typesKey = @{
+                                 @"no_nosim_alert": @(kXXUserDefaultsTypeSwitch),
+                                 @"no_low_power_alert": @(kXXUserDefaultsTypeSwitch),
+                                 @"no_idle": @(kXXUserDefaultsTypeSwitch),
+                                 @"script_on_daemon": @(kXXUserDefaultsTypeSwitch),
+                                 @"script_end_hint": @(kXXUserDefaultsTypeSwitch),
+                                 @"no_need_pushid_alert": @(kXXUserDefaultsTypeSwitch),
+                                 @"no_nosim_statusbar": @(kXXUserDefaultsTypeSwitch),
+                                 @"use_classic_control_alert": @(kXXUserDefaultsTypeSwitch),
+                                 };
+    return [(NSNumber *)[typesKey objectForKey:key] integerValue];
 }
 
 #pragma mark - Table view data source
@@ -145,6 +161,10 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(XXUserDefaultsConfigTableViewCell *)sender {
     ((XXUserDefaultsConfigOptionTableViewController *)segue.destinationViewController).configInfo = sender.configInfo;
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

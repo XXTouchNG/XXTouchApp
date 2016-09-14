@@ -14,7 +14,7 @@ typedef enum : NSUInteger {
     kXXCreateItemTypeDirectory,
 } kXXCreateItemType;
 
-@interface XXCreateItemTableViewController ()
+@interface XXCreateItemTableViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *itemNameTextField;
 @property (nonatomic, assign) kXXCreateItemType selectedType;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
@@ -30,7 +30,8 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CYLog(@"%@", self.currentDirectory);
+    self.clearsSelectionOnViewWillAppear = YES;
+    self.itemNameTextField.delegate = self;
     {
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
         tapGesture.cancelsTouchesInView = NO;
@@ -101,6 +102,13 @@ typedef enum : NSUInteger {
     if (![_itemNameTextField isFirstResponder]) {
         [_itemNameTextField becomeFirstResponder];
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isFirstResponder]) {
+        [textField resignFirstResponder];
+    }
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

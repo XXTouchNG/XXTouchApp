@@ -156,4 +156,8 @@ UITableViewDataSource
     ((XXApplicationDetailTableViewController *)segue.destinationViewController).appInfo = [sender.appInfo copy];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

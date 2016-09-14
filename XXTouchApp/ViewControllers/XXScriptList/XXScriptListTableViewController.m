@@ -44,6 +44,8 @@ XXToolbarDelegate
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
 
+@property (nonatomic, strong) UIDocumentInteractionController *documentController;
+
 @end
 
 @implementation XXScriptListTableViewController
@@ -677,8 +679,15 @@ XXToolbarDelegate
             }
         }
         if (pathsArr.count != 0) {
-            UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:nil];
-            [self.navigationController presentViewController:controller animated:YES completion:nil];
+            BOOL didPresentOpenIn = NO;
+            if (pathsArr.count == 1) {
+                self.documentController.URL = pathsArr[0];
+                didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
+            }
+            if (didPresentOpenIn == NO || pathsArr.count > 1) {
+                UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:nil];
+                [self.navigationController presentViewController:controller animated:YES completion:nil];
+            }
         } else {
             [self.navigationController.view makeToast:XXLString(@"You cannot share directory.")];
         }
@@ -714,6 +723,16 @@ XXToolbarDelegate
         }];
         [alertView show];
     }
+}
+
+#pragma mark - DocumentInteractionController
+
+- (UIDocumentInteractionController *)documentController {
+    if (!_documentController) {
+        UIDocumentInteractionController *documentController = [[UIDocumentInteractionController alloc] init];
+        _documentController = documentController;
+    }
+    return _documentController;
 }
 
 #pragma mark - SSZipArchiveDelegate

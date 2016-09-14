@@ -102,4 +102,8 @@ enum {
     return nil;
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

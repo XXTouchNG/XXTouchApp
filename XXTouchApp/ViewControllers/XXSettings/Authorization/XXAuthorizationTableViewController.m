@@ -35,7 +35,7 @@ enum {
     kXXAuthorizationUniqueIDIndex,
 };
 
-@interface XXAuthorizationTableViewController ()
+@interface XXAuthorizationTableViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *submitButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *authorizationField;
@@ -60,6 +60,7 @@ enum {
     
     self.clearsSelectionOnViewWillAppear = YES; // Override
     self.tableView.mj_header = self.refreshHeader;
+    self.authorizationField.delegate = self;
     if (![self loadDeviceAndAuthorizationInfo]) {
         [self.refreshHeader beginRefreshing];
     }
@@ -69,14 +70,6 @@ enum {
         tapGesture.cancelsTouchesInView = NO;
         [self.view addGestureRecognizer:tapGesture];
     }
-}
-
-- (BOOL)bindCodeAndGetDeviceInfo:(NSString *)codeText error:(NSError **)error {
-    BOOL result = [XXLocalNetService localBindCode:codeText error:error];
-    if (result) {
-        result = [XXLocalNetService localGetDeviceAuthInfoWithError:error];
-    }
-    return result;
 }
 
 - (void)endBindingCodeAndGetDeviceInfo {
@@ -90,7 +83,7 @@ enum {
         [_authorizationField resignFirstResponder];
     }
     __block NSString *codeText = self.authorizationField.text;
-    SendConfigAction([self bindCodeAndGetDeviceInfo:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
+    SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
 }
 
 - (IBAction)authorizationFieldChanged:(UITextField *)sender {
@@ -106,6 +99,13 @@ enum {
     if ([_authorizationField isFirstResponder]) {
         [_authorizationField resignFirstResponder];
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isFirstResponder]) {
+        [textField resignFirstResponder];
+    }
+    return YES;
 }
 
 - (MJRefreshNormalHeader *)refreshHeader {
@@ -130,7 +130,7 @@ enum {
         __block NSError *err = nil;
         BOOL result = [XXLocalNetService localGetDeviceInfoWithError:&err];
         if (result) {
-            result = [XXLocalNetService localGetDeviceAuthInfoWithError:&err];
+            result = [XXLocalNetService remoteGetDeviceAuthInfoWithError:&err];
         }
         dispatch_async_on_main_queue(^{
             if ([self.refreshHeader isRefreshing]) {
@@ -150,6 +150,7 @@ enum {
     NSDate *expirationDate = [[XXLocalDataService sharedInstance] expirationDate];
     if (deviceInfo != nil &&
         expirationDate != nil) {
+        _authorizationField.enabled = YES;
         self.expiredAtLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:expirationDate];
         self.softwareVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSoftwareVersion];
         self.systemVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSystemVersion];
@@ -159,6 +160,8 @@ enum {
         self.macAddressLabel.text = [deviceInfo objectForKey:kXXDeviceInfoMacAddress];
         self.uniqueIDLabel.text = [deviceInfo objectForKey:kXXDeviceInfoUniqueID];
         return YES;
+    } else {
+        _authorizationField.enabled = NO;
     }
     return NO;
 }

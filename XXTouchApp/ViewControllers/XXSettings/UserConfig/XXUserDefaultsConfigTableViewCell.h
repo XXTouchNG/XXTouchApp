@@ -7,14 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-static NSString * const kXXUserDefaultsConfigTitle = @"kXXUserDefaultsConfigTitle";
-static NSString * const kXXUserDefaultsConfigDescription = @"kXXUserDefaultsConfigDescription";
-static NSString * const kXXUserDefaultsConfigChoices = @"kXXUserDefaultsConfigChoices";
-static NSString * const kXXUserDefaultsConfigKey = @"kXXUserDefaultsConfigKey";
-static NSString * const kXXUserDefaultsConfigValue = @"kXXUserDefaultsConfigValue";
+#import "XXUserDefaultsModel.h"
 
 @interface XXUserDefaultsConfigTableViewCell : UITableViewCell
-@property (nonatomic, strong) NSMutableDictionary *configInfo;
+@property (nonatomic, strong) XXUserDefaultsModel *configInfo;
 
 @end

@@ -16,6 +16,9 @@
 @property (nonatomic, strong) NJKWebViewProgressView *progressView;
 @property (nonatomic, strong) NJKWebViewProgress *progressProxy;
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
+@property (nonatomic, strong) UIBarButtonItem *transferItem;
+
+@property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
 @end
 
@@ -80,9 +83,19 @@
 - (UIBarButtonItem *)shareItem {
     if (!_shareItem) {
         UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openDocumentSafari:) ];
+        anotherButton.tintColor = [UIColor whiteColor];
         _shareItem = anotherButton;
     }
     return _shareItem;
+}
+
+- (UIBarButtonItem *)transferItem {
+    if (!_transferItem) {
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(transferDocument:)];
+        anotherButton.tintColor = [UIColor whiteColor];
+        _transferItem = anotherButton;
+    }
+    return _transferItem;
 }
 
 - (void)openDocumentSafari:(id)sender {
@@ -91,11 +104,21 @@
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
+- (void)transferDocument:(id)sender {
+    self.documentController.URL = self.url;
+    BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
+    if (!didPresentOpenIn) {
+        [self.navigationController.view makeToast:XXLString(@"No apps available")];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
     if ([[UIApplication sharedApplication] canOpenURL:self.url]) {
         self.navigationItem.rightBarButtonItem = self.shareItem;
+    } else {
+        self.navigationItem.rightBarButtonItem = self.transferItem;
     }
 }
 
@@ -117,7 +140,18 @@
     }
 }
 
+#pragma mark - DocumentInteractionController
+
+- (UIDocumentInteractionController *)documentController {
+    if (!_documentController) {
+        UIDocumentInteractionController *documentController = [[UIDocumentInteractionController alloc] init];
+        _documentController = documentController;
+    }
+    return _documentController;
+}
+
 #pragma mark - NJKWebViewProgressDelegate
+
 - (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress {
     [_progressView setProgress:progress animated:YES];
 }

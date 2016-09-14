@@ -68,4 +68,8 @@ enum {
     }
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

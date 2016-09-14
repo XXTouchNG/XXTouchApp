@@ -67,4 +67,8 @@
     }
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

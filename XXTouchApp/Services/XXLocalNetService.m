@@ -10,6 +10,7 @@
 #import <sys/stat.h>
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
+#import "XQueryComponents.h"
 
 #define CHECK_ERROR(ret) if (*error != nil) return ret;
 
@@ -45,6 +46,20 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     if (data) [request setHTTPBody:data];
+    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error]; CHECK_ERROR(nil);
+    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error]; CHECK_ERROR(nil);
+    return result;
+}
+
++ (NSDictionary *)sendRemoteSynchronousRequest:(NSString *)command
+                                      withForm:(NSDictionary *)dict
+                                         error:(NSError **)error
+{
+    NSURL *url = [NSURL URLWithString:[remoteUrl stringByAppendingString:command]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.f];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    if (dict) [request setHTTPBody:[[dict stringFromQueryComponents] dataUsingEncoding:NSUTF8StringEncoding]];
     NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error]; CHECK_ERROR(nil);
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error]; CHECK_ERROR(nil);
     return result;
@@ -194,6 +209,26 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     return NO;
 }
 
++ (BOOL)remoteGetDeviceAuthInfoWithError:(NSError **)error {
+    NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+    NSMutableDictionary *sendDict = [[NSMutableDictionary alloc] initWithDictionary:@{
+                                                                                      @"did": deviceInfo[kXXDeviceInfoUniqueID],
+                                                                                      @"sv": deviceInfo[kXXDeviceInfoSystemVersion],
+                                                                                      @"v": deviceInfo[kXXDeviceInfoSoftwareVersion],
+                                                                                      @"dt": deviceInfo[kXXDeviceInfoDeviceType],
+                                                                                      @"ts": @((int)[[NSDate date] timeIntervalSince1970])
+                                                                                      }];
+    NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
+    [sendDict setObject:checkStr forKey:@"sign"];
+    NSDictionary *result = [self sendRemoteSynchronousRequest:@"device_info" withForm:sendDict error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"expireDate"] unsignedIntegerValue]]];
+        return YES;
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
+}
+
 + (BOOL)localGetDeviceInfoWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"deviceinfo" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
@@ -209,6 +244,29 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"bind_code" withString:bind error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0])
         return YES;
+    else
+        GENERATE_ERROR(@"");
+    return NO;
+}
+
++ (BOOL)remoteBindCode:(NSString *)bind
+                 error:(NSError **)error {
+    NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+    NSMutableDictionary *sendDict = [[NSMutableDictionary alloc] initWithDictionary:@{
+                                                                                      @"did": deviceInfo[kXXDeviceInfoUniqueID],
+                                                                                      @"code": bind,
+                                                                                      @"sv": deviceInfo[kXXDeviceInfoSystemVersion],
+                                                                                      @"v": deviceInfo[kXXDeviceInfoSoftwareVersion],
+                                                                                      @"dt": deviceInfo[kXXDeviceInfoDeviceType],
+                                                                                      @"ts": @((int)[[NSDate date] timeIntervalSince1970])
+                                                                                      }];
+    NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
+    [sendDict setObject:checkStr forKey:@"sign"];
+    NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code_with_device" withForm:sendDict error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"expireDate"] unsignedIntegerValue]]];
+        return YES;
+    }
     else
         GENERATE_ERROR(@"");
     return NO;

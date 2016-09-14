@@ -14,11 +14,6 @@
 static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier = @"kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier";
 
 @interface XXUserDefaultsConfigOptionTableViewController ()
-@property (strong, nonatomic) NSString *configTitle;
-@property (strong, nonatomic) NSString *configDescription;
-@property (strong, nonatomic) NSString *configKey;
-@property (nonatomic, strong) NSArray <NSString *>* configArray;
-@property (nonatomic, assign) NSInteger configIndex;
 
 @end
 
@@ -30,12 +25,7 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 }
 
 - (void)loadConfigInfo {
-    self.title =
-    _configTitle = (NSString *)_configInfo[kXXUserDefaultsConfigTitle];
-    _configDescription = (NSString *)_configInfo[kXXUserDefaultsConfigDescription];
-    _configArray = (NSArray *)_configInfo[kXXUserDefaultsConfigChoices];
-    _configIndex = [(NSNumber *)_configInfo[kXXUserDefaultsConfigValue] integerValue];
-    _configKey = (NSString *)_configInfo[kXXUserDefaultsConfigKey];
+    self.title = _configInfo.configTitle;
     [self.tableView reloadData];
 }
 
@@ -51,19 +41,23 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _configArray.count;
+    return _configInfo.configChoices.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return XXLString(@"User Defined Options");
+        if (_configInfo.configType == kXXUserDefaultsTypeSwitch) {
+            return XXLString(@"Switch");
+        } else if (_configInfo.configType == kXXUserDefaultsTypeChoice) {
+            return XXLString(@"Choice");
+        }
     }
     return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return _configDescription;
+        return _configInfo.configDescription;
     }
     return nil;
 }
@@ -71,15 +65,15 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier forIndexPath:indexPath];
     if (indexPath.section == 0) {
-        if (indexPath.row == _configIndex) {
+        if (indexPath.row == _configInfo.configValue) {
             cell.textLabel.textColor = STYLE_TINT_COLOR;
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         } else {
             cell.textLabel.textColor = [UIColor blackColor];
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        if (_configArray.count > indexPath.row) {
-            cell.textLabel.text = _configArray[indexPath.row];
+        if (_configInfo.configChoices.count > indexPath.row) {
+            cell.textLabel.text = _configInfo.configChoices[indexPath.row];
         }
     }
     
@@ -89,16 +83,26 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        if (_configArray.count > indexPath.row) {
-            if (_configIndex != indexPath.row) {
-                _configIndex = indexPath.row;
-                [_configInfo setObject:[NSNumber numberWithInteger:_configIndex] forKey:kXXUserDefaultsConfigValue];
-                NSInteger choice = _configIndex;
-                [[[XXLocalDataService sharedInstance] userConfig] setObject:[NSNumber numberWithInteger:choice] forKey:_configKey];
+        if (_configInfo.configChoices.count > indexPath.row) {
+            if (_configInfo.configValue != indexPath.row) {
+                _configInfo.configValue = indexPath.row;
+                if (_configInfo.configType == kXXUserDefaultsTypeSwitch) {
+                    if (_configInfo.configValue == YES) {
+                        [[[XXLocalDataService sharedInstance] userConfig] setObject:@YES forKey:_configInfo.configKey];
+                    } else {
+                        [[[XXLocalDataService sharedInstance] userConfig] setObject:@NO forKey:_configInfo.configKey];
+                    }
+                } else if (_configInfo.configType == kXXUserDefaultsTypeChoice) {
+                    [[[XXLocalDataService sharedInstance] userConfig] setObject:@(_configInfo.configValue) forKey:_configInfo.configKey];
+                }
                 SendConfigAction([XXLocalNetService localSetUserConfWithError:&err], [self loadConfigInfo]);
             }
         }
     }
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

@@ -13,9 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *configDescription;
 @property (weak, nonatomic) IBOutlet UILabel *configValue;
 
-@property (nonatomic, strong) NSArray <NSString *>* configArray;
-@property (nonatomic, assign) NSInteger configIndex;
-
 @end
 
 @implementation XXUserDefaultsConfigTableViewCell
@@ -31,15 +28,13 @@
     // Configure the view for the selected state
 }
 
-- (void)setConfigInfo:(NSMutableDictionary *)configInfo {
+- (void)setConfigInfo:(XXUserDefaultsModel *)configInfo {
     _configInfo = configInfo;
     if (configInfo) {
-        _configTitle.text = (NSString *)configInfo[kXXUserDefaultsConfigTitle];
-        _configDescription.text = (NSString *)configInfo[kXXUserDefaultsConfigDescription];
-        _configArray = (NSArray *)configInfo[kXXUserDefaultsConfigChoices];
-        _configIndex = [(NSNumber *)configInfo[kXXUserDefaultsConfigValue] integerValue];
-        if (_configArray.count > _configIndex) {
-            _configValue.text = _configArray[_configIndex];
+        _configTitle.text = _configInfo.configTitle;
+        _configDescription.text = _configInfo.configDescription;
+        if (_configInfo.configChoices.count > _configInfo.configValue) {
+            _configValue.text = _configInfo.configChoices[_configInfo.configValue];
         }
     }
 }

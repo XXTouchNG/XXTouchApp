@@ -98,4 +98,8 @@ enum {
     [alertView show];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

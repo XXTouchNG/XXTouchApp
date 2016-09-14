@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XXUserDefaultsModel.h"
 
 @interface XXUserDefaultsConfigOptionTableViewController : UITableViewController
-@property (nonatomic, strong) NSMutableDictionary *configInfo;
+@property (nonatomic, strong) XXUserDefaultsModel *configInfo;
 
 @end

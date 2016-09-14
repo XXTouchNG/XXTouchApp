@@ -12,7 +12,7 @@
 
 static char * const kXXTouchCalculatingDirectorySizeIdentifier = "com.xxtouch.calculating-directory-size";
 
-@interface XXItemAttributesTableViewController ()
+@interface XXItemAttributesTableViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -89,6 +89,8 @@ int cancelFlag = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     cancelFlag = 0;
+    self.clearsSelectionOnViewWillAppear = YES;
+    self.nameTextField.delegate = self;
     self.tableView.mj_header = self.refreshHeader;
     [self reloadItemInfo];
     {
@@ -102,6 +104,13 @@ int cancelFlag = 0;
     if ([_nameTextField isFirstResponder]) {
         [_nameTextField resignFirstResponder];
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isFirstResponder]) {
+        [textField resignFirstResponder];
+    }
+    return YES;
 }
 
 - (MJRefreshNormalHeader *)refreshHeader {

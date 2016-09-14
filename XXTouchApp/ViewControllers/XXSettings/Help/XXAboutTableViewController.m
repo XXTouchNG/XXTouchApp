@@ -138,4 +138,8 @@ enum {
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

@@ -62,4 +62,8 @@
     self.tableView.allowsSelection = ![[XXLocalDataService sharedInstance] keyPressConfigActivatorInstalled];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

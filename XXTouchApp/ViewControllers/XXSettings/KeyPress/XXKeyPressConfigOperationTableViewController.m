@@ -90,4 +90,8 @@
     [self displayCheckmarkForIndexPath:[NSIndexPath indexPathForRow:configValue inSection:0]];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end
