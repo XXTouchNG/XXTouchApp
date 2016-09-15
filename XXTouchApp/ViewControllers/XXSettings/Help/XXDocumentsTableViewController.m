@@ -53,16 +53,16 @@ enum {
         XXWebViewController *viewController = [[XXWebViewController alloc] init];
         if (indexPath.row == kUsersGuideIndex) {
             viewController.title = XXLString(@"User's Guide");
-            viewController.url = [NSURL URLWithString:DOCUMENT_USERS_GUIDE];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_USERS_GUIDE stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else if (indexPath.row == kUpdateLogsIndex) {
             viewController.title = XXLString(@"Update Logs");
-            viewController.url = [NSURL URLWithString:DOCUMENT_UPDATE_LOGS];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_UPDATE_LOGS stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else if (indexPath.row == kDeveloperReferencesIndex) {
             viewController.title = XXLString(@"Developer References");
-            viewController.url = [NSURL URLWithString:DOCUMENT_DEVELOPER_REFERENCES];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_DEVELOPER_REFERENCES stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else if (indexPath.row == kOpenApiReferencesIndex) {
             viewController.title = XXLString(@"OpenAPI References");
-            viewController.url = [NSURL URLWithString:DOCUMENT_OPEN_API_REFERENCES];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_OPEN_API_REFERENCES stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         }
         [self.navigationController pushViewController:viewController animated:YES];
     }

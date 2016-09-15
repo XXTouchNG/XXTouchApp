@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */; };
 		0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */; };
 		0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */; };
 		0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */; };
@@ -23,7 +24,7 @@
 		0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5777731D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m */; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
-		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; };
+		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE0B1D81496800BC4BDE /* XXCreateItemTableViewController.m */; };
 		0F5DDE171D81496800BC4BDE /* XXItemAttributesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE0D1D81496800BC4BDE /* XXItemAttributesTableViewController.m */; };
 		0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE101D81496800BC4BDE /* XXSwipeableCell.m */; };
@@ -63,10 +64,13 @@
 		0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */; };
 		0FE93CDF1D8A7601004496BC /* XXEmptyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE93CDE1D8A7601004496BC /* XXEmptyNavigationController.m */; };
 		0FE93CE11D8A8391004496BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE01D8A8391004496BC /* MobileCoreServices.framework */; };
+		0FE93CE31D8A8895004496BC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE21D8A8895004496BC /* CoreImage.framework */; };
 		95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F00D8A91D8AE7320000C8E8 /* XXScanDownloadTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadTaskViewController.h; sourceTree = "<group>"; };
+		0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanDownloadTaskViewController.m; sourceTree = "<group>"; };
 		0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
 		0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; };
 		0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 		0FE93CDD1D8A7601004496BC /* XXEmptyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEmptyNavigationController.h; sourceTree = "<group>"; };
 		0FE93CDE1D8A7601004496BC /* XXEmptyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEmptyNavigationController.m; sourceTree = "<group>"; };
 		0FE93CE01D8A8391004496BC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		0FE93CE21D8A8895004496BC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.release.xcconfig"; sourceTree = "<group>"; };
 		AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XXTouchApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FE93CE31D8A8895004496BC /* CoreImage.framework in Frameworks */,
 				0FE93CE11D8A8391004496BC /* MobileCoreServices.framework in Frameworks */,
 				0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */,
 				0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */,
@@ -225,6 +231,8 @@
 			children = (
 				0F1819A61D8A4BA400309E23 /* XXScanViewController.h */,
 				0F1819A71D8A4BA400309E23 /* XXScanViewController.m */,
+				0F00D8A91D8AE7320000C8E8 /* XXScanDownloadTaskViewController.h */,
+				0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -602,6 +610,7 @@
 		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FE93CE21D8A8895004496BC /* CoreImage.framework */,
 				0FE93CE01D8A8391004496BC /* MobileCoreServices.framework */,
 				0F5D1F5B1D7E525F0061A954 /* AVKit.framework */,
 				0F5D1F591D7E51020061A954 /* MediaPlayer.framework */,
@@ -785,6 +794,7 @@
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */,
 				0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */,
+				0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */,
 				0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
 				0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */,
@@ -838,7 +848,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -861,6 +871,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -885,7 +896,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -902,6 +913,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};
@@ -911,7 +923,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				ASSETCATALOG_COMPILER_OPTIMIZATION = space;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
@@ -932,7 +944,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				ASSETCATALOG_COMPILER_OPTIMIZATION = space;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;

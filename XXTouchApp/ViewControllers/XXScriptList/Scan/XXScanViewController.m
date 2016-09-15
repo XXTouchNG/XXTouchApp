@@ -11,13 +11,15 @@
 #import "XXWebViewController.h"
 #import "XXEmptyNavigationController.h"
 #import "XXAuthorizationTableViewController.h"
+#import "XXScanDownloadTaskViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 
 static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
 static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXAuthorizationTableViewControllerStoryboardID";
+static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXDownloadTaskNavigationControllerStoryboardID";
 
-@interface XXScanViewController () <AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface XXScanViewController () <AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, XXScanDownloadTaskDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *session;
 @property (nonatomic, strong) AVCaptureDevice *device;
@@ -304,7 +306,9 @@ static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXA
 }
 
 - (void)close:(UIBarButtonItem *)sender {
-    [self.session stopRunning];
+    if (_session) {
+        [_session stopRunning];
+    }
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -313,7 +317,9 @@ static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXA
         [self.navigationController.view makeToast:@"Source type unavailable: UIImagePickerControllerSourceTypePhotoLibrary"];
         return;
     }
-    [self.session stopRunning];
+    if (_session) {
+        [_session stopRunning];
+    }
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[ (NSString *)kUTTypeImage ];
@@ -365,16 +371,16 @@ static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXA
     if (metadataObjects.count > 0) {
         AVMetadataMachineReadableCodeObject * metadataObject = metadataObjects[0];
         CYLog(@"%@", metadataObject.stringValue);
-        if ([self.session isRunning]) {
-            [self.session stopRunning];
+        if (_session && [_session isRunning]) {
+            [_session stopRunning];
         }
         [self handleOutput:metadataObject.stringValue];
     }
 }
 
 - (void)continueScanning {
-    if (![self.session isRunning]) {
-        [self.session startRunning];
+    if (_session && ![_session isRunning]) {
+        [_session startRunning];
     }
 }
 
@@ -404,17 +410,32 @@ static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXA
 
 - (NSString *)scanImage:(UIImage *)image {
     NSString *scannedResult = nil;
-    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
-    NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
-    for (int index = 0; index < features.count; index ++) {
-        CIQRCodeFeature *feature = features[index];
-        scannedResult = feature.messageString;
-        if (scannedResult) {
-            CYLog(@"%@", scannedResult);
-            break;
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        
+    } else {
+        CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
+        NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
+        for (int index = 0; index < features.count; index ++) {
+            CIQRCodeFeature *feature = features[index];
+            scannedResult = feature.messageString;
+            if (scannedResult) {
+                CYLog(@"%@", scannedResult);
+                break;
+            }
         }
     }
     return scannedResult;
+}
+
+- (void)confirmDownloadingTask:(NSDictionary *)downloadObj {
+    UINavigationController *navController = [[[AppDelegate globalDelegate] rootViewController].storyboard instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
+    XXScanDownloadTaskViewController *downloadController = (XXScanDownloadTaskViewController *)navController.topViewController;
+    downloadController.sourceUrl = downloadObj[@"url"];
+    downloadController.destinationUrl = downloadObj[@"path"];
+    downloadController.delegate = self;
+    [self.navigationController presentViewController:navController animated:YES completion:^{
+        
+    }];
 }
 
 - (void)handleOutput:(NSString *)output {
@@ -447,8 +468,8 @@ static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXA
                 [self.navigationController.view makeToast:XXLString(@"Binding code...")];
                 [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
             } else if ([event isEqualToString:@"down_script"]) {
-                [self.navigationController.view makeToast:XXLString(@"Operation not implemented")];
-                [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
+                [self.navigationController.view makeToast:XXLString(@"Download Task...")];
+                [self performSelector:@selector(confirmDownloadingTask:) withObject:jsonObj afterDelay:2.f];
             } else {
                 [self.navigationController.view makeToast:XXLString(@"Invalid event")];
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
@@ -485,12 +506,50 @@ static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXA
                 [self.navigationController.view hideToastActivity];
                 if (!scannedResult) {
                     [self.navigationController.view makeToast:XXLString(@"Cannot find QR Code in that image")];
+                    [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
                 } else {
                     [self handleOutput:scannedResult];
                 }
             });
         });
     }
+}
+
+- (void)confirmDownloadTask:(XXScanDownloadTaskViewController *)vc
+                     source:(NSString *)sourcePath
+                destination:(NSString *)destinationPath {
+    [vc dismissViewControllerAnimated:YES completion:nil];
+    
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURL *url = [NSURL URLWithString:sourcePath];
+    NSURLSessionDownloadTask *task = [session downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
+        NSError *error = nil;
+        if (!err) {
+            [FCFileManager moveItemAtPath:[location path] toPath:[destinationPath stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] error:&error];
+        } else {
+            error = err;
+        }
+        dispatch_async_on_main_queue(^{
+            [self.navigationController.view hideToastActivity];
+            self.navigationController.view.userInteractionEnabled = YES;
+            if (error == nil) {
+                [self.navigationController.view makeToast:XXLString(@"Download Task Completed")];
+                [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
+            } else {
+                [self.navigationController.view makeToast:[error localizedDescription]];
+                [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
+            }
+        });
+    }];
+    [task resume];
+}
+
+- (void)cancelDownloadTask:(XXScanDownloadTaskViewController *)vc {
+    [vc dismissViewControllerAnimated:YES completion:^{
+        [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
+    }];
 }
 
 @end
