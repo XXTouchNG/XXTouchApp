@@ -72,7 +72,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
     NSDictionary *titleKey = @{
                                @"no_nosim_alert": XXLString(@"Hide \"No SIM\" Alert"),
                                @"no_low_power_alert": XXLString(@"Hide \"Low Power\" Alert"),
-                               @"no_idle": XXLString(@"Never Auto-Lock"),
+                               @"no_idle": XXLString(@"Insomnia Mode"),
                                @"script_on_daemon": XXLString(@"Daemon Mode"),
                                @"script_end_hint": XXLString(@"Script Ended Toast"),
                                @"no_need_pushid_alert": XXLString(@"Hide \"Connect to iTunes...\" Alert"),
@@ -86,7 +86,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
     NSDictionary *descriptionKey = @{
                                      @"no_nosim_alert": XXLString(@"Prevent \"No SIM\" alert from showing"),
                                      @"no_low_power_alert": XXLString(@"Prevent \"Low Power\" alert from showing"),
-                                     @"no_idle": XXLString(@"Prevent device from auto-screen lock"),
+                                     @"no_idle": XXLString(@"Prevent device from real sleep (offline)"),
                                      @"script_on_daemon": XXLString(@"Launch the last executed script again if the daemon quitted unexpectedly"),
                                      @"script_end_hint": XXLString(@"Show \"Script stopped\" hint"),
                                      @"no_need_pushid_alert": XXLString(@"Prevent \"Connect to iTunes to Use Push Notifications\" alert from showing"),

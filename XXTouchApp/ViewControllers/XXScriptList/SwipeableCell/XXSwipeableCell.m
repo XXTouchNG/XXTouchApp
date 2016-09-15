@@ -9,6 +9,7 @@
 #import "XXSwipeableCell.h"
 #import "XXLocalDataService.h"
 #import "XXQuickLookService.h"
+#import "NSFileManager+RealDestination.h"
 
 @interface XXSwipeableCell()
 @property (weak, nonatomic) IBOutlet UIImageView *fileTypeImageView;

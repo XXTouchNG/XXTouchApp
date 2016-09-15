@@ -10,5 +10,6 @@
 
 @interface XXNavigationViewController : UINavigationController
 - (void)handleShortCut:(NSString *)type;
+- (void)handleItemTransfer:(NSURL *)url;
 
 @end

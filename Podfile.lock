@@ -1,12 +1,6 @@
 PODS:
-  - Colours (5.13.0):
-    - Colours/ObjC (= 5.13.0)
-  - Colours/ObjC (5.13.0)
   - FCFileManager (1.0.18)
-  - FLEX (2.1.1)
   - JTSImageViewController (1.5.1)
-  - LBXScan (1.1.1):
-    - ZXingObjC (~> 3.0)
   - Masonry (1.0.1)
   - MJRefresh (3.1.12)
   - NJKWebViewProgress (0.2.3):
@@ -16,41 +10,33 @@ PODS:
   - NJKWebViewProgress/ProgressView (0.2.3)
   - SSZipArchive (1.5)
   - Toast (3.0)
-  - YYKit (1.0.7):
-    - YYKit/no-arc (= 1.0.7)
-  - YYKit/no-arc (1.0.7)
-  - ZXingObjC (3.1.0):
-    - ZXingObjC/All (= 3.1.0)
-  - ZXingObjC/All (3.1.0)
+  - YYCache (1.0.4)
+  - YYCategories (1.0.4):
+    - YYCategories/no-arc (= 1.0.4)
+  - YYCategories/no-arc (1.0.4)
 
 DEPENDENCIES:
-  - Colours
   - FCFileManager
-  - FLEX (~> 2.0)
   - JTSImageViewController
-  - LBXScan (~> 1.1.1)
   - Masonry
   - MJRefresh
   - NJKWebViewProgress
   - SSZipArchive
   - Toast
-  - YYKit
-  - ZXingObjC
+  - YYCache
+  - YYCategories
 
 SPEC CHECKSUMS:
-  Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
   FCFileManager: 3d13576da1f709d37460bd7669cdf07b9d6d8bc3
-  FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
   JTSImageViewController: 1f8ce1cc93dab0d0af8e53badeea7528560cfec9
-  LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   SSZipArchive: 29daace2bccb90a47de2837744da397728ff9207
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
-  YYKit: 843d1b26e20b82c695790c9a89907eaa1e99907f
-  ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+  YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
 
-PODFILE CHECKSUM: 09b28893c79ed837433c3281e0f8caf2590bea11
+PODFILE CHECKSUM: c74522a071e8168e0fd45cf3b3dfd6f39c21f9c7
 
 COCOAPODS: 1.0.0.beta.4

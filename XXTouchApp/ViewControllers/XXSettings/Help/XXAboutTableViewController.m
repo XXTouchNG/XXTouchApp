@@ -30,7 +30,6 @@ enum {
 
 @interface XXAboutTableViewController () <MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *appLabel;
-@property (nonatomic, strong) UIBarButtonItem *debugItem;
 
 @end
 
@@ -41,28 +40,6 @@ enum {
     
     self.title = XXLString(@"About");
     _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_CN, VERSION_STRING, VERSION_BUILD];
-}
-
-- (UIBarButtonItem *)debugItem {
-    if (!_debugItem) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                                                       target:self
-                                                                                       action:@selector(debugViaFlex:) ];
-        _debugItem = anotherButton;
-    }
-    return _debugItem;
-}
-
-- (void)debugViaFlex:(id)sender {
-    [self.navigationController.view makeToast:XXLString(@"Enable Debug Mode")];
-#ifdef DEBUG
-    [[FLEXManager sharedManager] showExplorer];
-#endif
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationItem.rightBarButtonItem = self.debugItem;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

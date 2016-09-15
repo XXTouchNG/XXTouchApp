@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "XXNavigationViewController.h"
+#import "XXScriptListTableViewController.h"
 #import "XXLocalNetService.h"
 
 static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
@@ -61,6 +62,14 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
             
         }
     });
+}
+
+- (void)handleItemTransfer:(NSURL *)url {
+    UIViewController *topVC = self.topViewController;
+    if ([topVC isMemberOfClass:[XXScriptListTableViewController class]]) {
+        [topVC performSelector:@selector(reloadScriptListTableView) withObject:nil];
+    }
+    [self.view makeToast:[NSString stringWithFormat:XXLString(@"File \"%@\" saved to Inbox."), [url lastPathComponent]]];
 }
 
 @end

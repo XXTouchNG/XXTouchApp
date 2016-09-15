@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "NSFileManager+realDestination.h"
+#import "NSFileManager+RealDestination.h"
 
 @implementation NSFileManager (RealDestination)
 

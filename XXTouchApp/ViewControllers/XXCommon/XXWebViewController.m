@@ -10,6 +10,7 @@
 #import "NJKWebViewProgressView.h"
 #import "XXWebViewController.h"
 #import "ARSafariActivity.h"
+#import <Masonry/Masonry.h>
 
 @interface XXWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 @property (nonatomic, strong) UIWebView *agreementWebView;
@@ -23,6 +24,10 @@
 @end
 
 @implementation XXWebViewController
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

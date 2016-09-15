@@ -17,10 +17,8 @@
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 
-#import <YYKit/YYKit.h>
 #import <FCFileManager/FCFileManager.h>
-#import <Colours/Colours.h>
-#import <Masonry/Masonry.h>
+#import <YYCategories/YYCategories.h>
 
 #import "AppDelegate.h"
 #import "GlobalSettings.h"
@@ -31,14 +29,7 @@
 #import "SystemDebugDefines.h"
 #import "SystemVersionDefines.h"
 #import "SystemConstantsDefines.h"
-
-#import "NSString+Mime.h"
-#import "NSString+Regexp.h"
-#import "ALAssetsLibrary+CustomPhotoAlbum.h"
-#import "ALAssetsLibrary+SingleInstance.h"
-#import "NSFileManager+RealDestination.h"
 #import "UINavigationController+StatusBar.h"
-#import "PHPhotoLibrary+CustomPhotoCollection.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 
 #endif /* AppDefines_pch */

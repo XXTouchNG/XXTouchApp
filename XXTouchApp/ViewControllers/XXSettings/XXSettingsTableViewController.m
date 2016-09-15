@@ -107,7 +107,11 @@ enum {
         [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
+            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
+        } else {
+            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
+        }
         normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
         _refreshHeader = normalHeader;
     }
@@ -199,7 +203,7 @@ enum {
             self.remoteAccessLabel.text = XXLString(@"Connect to Wi-Fi");
             return YES;
         } else {
-            self.remoteAccessLabel.text = [XXLString(@"Access via ") stringByAppendingString:wifiAccess];
+            self.remoteAccessLabel.text = wifiAccess;
         }
     } else {
         self.remoteAccessLabel.text = XXLString(@"Remote Service");

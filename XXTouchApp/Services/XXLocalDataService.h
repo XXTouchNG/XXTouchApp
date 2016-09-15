@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <YYCache/YYCache.h>
 
 typedef enum : NSUInteger {
     kXXPasteboardTypeCopy,

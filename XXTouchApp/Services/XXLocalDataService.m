@@ -10,6 +10,9 @@
 #import "XXLocalDataService.h"
 #import "JTSImageViewController.h"
 #import "FYPhotoLibrary.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "ALAssetsLibrary+SingleInstance.h"
+#import "PHPhotoLibrary+CustomPhotoCollection.h"
 
 static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
@@ -41,14 +44,14 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
 - (NSString *)rootPath {
     if (!_rootPath) {
-        _rootPath = [[UIApplication sharedApplication] documentsPath];
+        _rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     }
     return _rootPath;
 }
 
 - (NSString *)libraryPath {
     if (!_libraryPath) {
-        _libraryPath = [[UIApplication sharedApplication] libraryPath];
+        _libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject];
     }
     return _libraryPath;
 }

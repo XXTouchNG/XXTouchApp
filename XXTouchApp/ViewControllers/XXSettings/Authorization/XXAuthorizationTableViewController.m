@@ -55,12 +55,21 @@ enum {
 
 @implementation XXAuthorizationTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName: [UIColor whiteColor] };
+    self.submitButton.tintColor = [UIColor whiteColor];
+    
     self.clearsSelectionOnViewWillAppear = YES; // Override
     self.tableView.mj_header = self.refreshHeader;
+    self.authorizationField.text = self.code;
     self.authorizationField.delegate = self;
+    
     if (![self loadDeviceAndAuthorizationInfo]) {
         [self.refreshHeader beginRefreshing];
     }
@@ -70,6 +79,8 @@ enum {
         tapGesture.cancelsTouchesInView = NO;
         [self.view addGestureRecognizer:tapGesture];
     }
+    
+    self.submitButton.enabled = (self.authorizationField.text.length != 0);
 }
 
 - (void)endBindingCodeAndGetDeviceInfo {
@@ -116,7 +127,11 @@ enum {
         [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
+            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
+        } else {
+            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
+        }
         normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
         _refreshHeader = normalHeader;
     }
@@ -196,6 +211,13 @@ enum {
         }
         [self.navigationController.view makeToast:XXLString(@"Copied to the clipboard.")];
     }
+}
+
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    if ([_authorizationField isFirstResponder]) {
+        [_authorizationField resignFirstResponder];
+    }
+    [super dismissViewControllerAnimated:flag completion:completion];
 }
 
 - (void)dealloc {

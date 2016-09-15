@@ -10,8 +10,13 @@
 #import "XXKeyPressConfigOperationTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
+#import <objc/runtime.h>	
+#import <dlfcn.h>
+
+static NSString * const kXXActivatorLibraryPath = @"/usr/lib/libactivator.dylib";
 
 @interface XXKeyPressConfigActionTableViewController ()
+@property (nonatomic, assign) BOOL activatorExists;
 
 @end
 
@@ -22,7 +27,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.clearsSelectionOnViewWillAppear = YES; // Override
-    SendConfigAction([XXLocalNetService localGetVolumeActionConfWithError:&err], [self reloadCheckmark]);
+    if ([FCFileManager existsItemAtPath:kXXActivatorLibraryPath]) {
+        self.activatorExists = YES;
+    } else {
+        self.activatorExists = NO;
+        SendConfigAction([XXLocalNetService localGetVolumeActionConfWithError:&err], [self reloadCheckmark]);
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,12 +64,29 @@
     destinationController.currentSection = row;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (self.activatorExists) {
+        return 2;
+    }
+    return 1;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)reloadCheckmark {
-    self.tableView.allowsSelection = ![[XXLocalDataService sharedInstance] keyPressConfigActivatorInstalled];
+    
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(UITableViewCell *)sender {
+    if (self.activatorExists) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        if (indexPath.section == 0) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (void)dealloc {

@@ -10,6 +10,15 @@
 
 @implementation UINavigationController (StatusBar)
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [[self topViewController] preferredStatusBarStyle];
+    return self.topViewController.preferredStatusBarStyle;
+}
+- (BOOL)shouldAutorotate {
+    return self.topViewController.shouldAutorotate;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return self.topViewController.supportedInterfaceOrientations;
+}
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return self.topViewController.preferredInterfaceOrientationForPresentation;
 }
 @end

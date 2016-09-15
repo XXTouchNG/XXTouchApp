@@ -9,6 +9,7 @@
 #import "XXItemAttributesTableViewController.h"
 #import "XXLocalDataService.h"
 #import <MJRefresh/MJRefresh.h>
+#import "NSString+Mime.h"
 
 static char * const kXXTouchCalculatingDirectorySizeIdentifier = "com.xxtouch.calculating-directory-size";
 

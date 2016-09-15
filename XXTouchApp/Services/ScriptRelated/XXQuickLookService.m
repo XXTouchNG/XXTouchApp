@@ -8,6 +8,7 @@
 
 #import <Photos/PHPhotoLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVPlayer.h>
 #import <AVKit/AVPlayerViewController.h>
 #import "XXQuickLookService.h"
 #import "XXLocalDataService.h"

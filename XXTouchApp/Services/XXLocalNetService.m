@@ -22,6 +22,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 @implementation XXLocalNetService
 
 + (void)killBackboardd {
+    [[XXLocalDataService sharedInstance] removeAllObjects];
     __block int status = 0;
     double delayInSeconds = 1.0f;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

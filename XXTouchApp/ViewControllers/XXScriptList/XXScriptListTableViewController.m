@@ -15,6 +15,7 @@
 #import "XXLocalNetService.h"
 #import "XXQuickLookService.h"
 #import "XXArchiveService.h"
+#import "XXScanViewController.h"
 #import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
@@ -436,7 +437,7 @@ XXToolbarDelegate
             [self setEditing:NO animated:YES];
             SendConfigAction([XXLocalNetService localLaunchScript:cell.itemPath error:&err], nil);
         }];
-        runAction.backgroundColor = [UIColor blueberryColor];
+        runAction.backgroundColor = [UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f];
         [actionsArr addObject:runAction];
     }
     if (cell.editable) {
@@ -475,7 +476,7 @@ XXToolbarDelegate
             });
         });
     }];
-    deleteAction.backgroundColor = [UIColor dangerColor];
+    deleteAction.backgroundColor = [UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f];
     [actionsArr addObject:deleteAction];
     return actionsArr;
 }
@@ -498,7 +499,9 @@ XXToolbarDelegate
 
 - (void)toolbarButtonTapped:(UIBarButtonItem *)sender {
     if (sender == self.topToolbar.scanButton) {
-        
+        XXScanViewController *scanController = [[XXScanViewController alloc] init];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scanController];
+        [self.navigationController presentViewController:navController animated:YES completion:nil];
     } else if (sender == self.topToolbar.addItemButton) {
         UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
         XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;

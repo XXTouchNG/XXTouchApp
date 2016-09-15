@@ -9,15 +9,10 @@
 #ifndef SystemDebugDefines_h
 #define SystemDebugDefines_h
 
-#ifndef DEBUG
-#define NSLog(...);
-#else
-#import "FLEXManager.h"
-#endif
-
 #ifdef DEBUG
 #define CYLog(fmt, ...) NSLog((@"\n[%@:%d]\n%s\n" fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
 #else
+#define NSLog(...);
 #define CYLog(...);
 #endif
 
