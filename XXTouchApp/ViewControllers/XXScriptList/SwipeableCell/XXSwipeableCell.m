@@ -87,4 +87,8 @@
     _fileModifiedTimeLabel.text = formattedDate;
 }
 
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+}
+
 @end

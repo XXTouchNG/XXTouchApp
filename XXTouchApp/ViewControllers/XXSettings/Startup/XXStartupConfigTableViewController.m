@@ -19,6 +19,10 @@
 
 @implementation XXStartupConfigTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     SendConfigAction([XXLocalNetService localGetStartUpConfWithError:&err], [self loadStartupConfig]);

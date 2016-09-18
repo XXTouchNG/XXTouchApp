@@ -12,8 +12,10 @@
 #import "XXEmptyNavigationController.h"
 #import "XXAuthorizationTableViewController.h"
 #import "XXScanDownloadTaskViewController.h"
+#import "XXScanLineAnimation.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
+#import <ZBarSDK/ZBarImageScanner.h>
 
 static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
 static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXAuthorizationTableViewControllerStoryboardID";
@@ -43,6 +45,9 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 
 @property (nonatomic, weak) UIImagePickerController *picker;
 
+@property (nonatomic, strong) ZBarImageScanner *scanner;
+@property (nonatomic, strong) XXScanLineAnimation *scanAnimation;
+
 @end
 
 @implementation XXScanViewController
@@ -55,18 +60,15 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     return UIModalTransitionStyleFlipHorizontal;
 }
 
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate {
     return NO;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
 }
 
@@ -131,7 +133,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 
 - (UIBarButtonItem *)closeItem {
     if (!_closeItem) {
-        UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(close:)];
+        UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scan-back"] style:UIBarButtonItemStyleBordered target:self action:@selector(close:)];
         closeItem.tintColor = [UIColor whiteColor];
         _closeItem = closeItem;
     }
@@ -305,6 +307,24 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     }
 }
 
+- (ZBarImageScanner *)scanner {
+    if (!_scanner) {
+        ZBarImageScanner *scanner = [[ZBarImageScanner alloc] init];
+        [scanner setSymbology:ZBAR_QRCODE config:ZBAR_CFG_POSITION to:1];
+        [scanner setEnableCache:YES];
+        _scanner = scanner;
+    }
+    return _scanner;
+}
+
+- (XXScanLineAnimation *)scanAnimation {
+    if (!_scanAnimation) {
+        XXScanLineAnimation *scanAnimation = [[XXScanLineAnimation alloc] initWithImage:[UIImage imageNamed:@"scan-full-net"]];
+        _scanAnimation = scanAnimation;
+    }
+    return _scanAnimation;
+}
+
 - (void)close:(UIBarButtonItem *)sender {
     if (_session) {
         [_session stopRunning];
@@ -361,6 +381,28 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     [self fetchPermission];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self performSelector:@selector(startAnimation) withObject:nil afterDelay:0.2f];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self stopAnimation];
+}
+
+- (void)startAnimation {
+    if (!self.scanAnimation.isAnimating) {
+        [self.scanAnimation startAnimatingWithRect:self.cropRect parentView:self.maskView];
+    }
+}
+
+- (void)stopAnimation {
+    if (self.scanAnimation.isAnimating) {
+        [self.scanAnimation stopAnimating];
+    }
+}
+
 - (void)dealloc {
     CYLog(@"");
 }
@@ -411,7 +453,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 - (NSString *)scanImage:(UIImage *)image {
     NSString *scannedResult = nil;
     if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        
+        return [self scanImageWithZBar:image];
     } else {
         CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
         NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
@@ -465,10 +507,10 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             NSString *event = [jsonObj objectForKey:@"event"];
             if ([event isEqualToString:@"bind_code"]) {
                 NSString *code = [jsonObj objectForKey:@"code"];
-                [self.navigationController.view makeToast:XXLString(@"Binding code...")];
+                [self.navigationController.view makeToast:XXLString(@"Binding code")];
                 [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
             } else if ([event isEqualToString:@"down_script"]) {
-                [self.navigationController.view makeToast:XXLString(@"Download Task...")];
+                [self.navigationController.view makeToast:XXLString(@"Download Task")];
                 [self performSelector:@selector(confirmDownloadingTask:) withObject:jsonObj afterDelay:2.f];
             } else {
                 [self.navigationController.view makeToast:XXLString(@"Invalid event")];
@@ -524,7 +566,10 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURL *url = [NSURL URLWithString:sourcePath];
-    NSURLSessionDownloadTask *task = [session downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
+    NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.f];
+    @weakify(self);
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
+        @strongify(self);
         NSError *error = nil;
         if (!err) {
             [FCFileManager moveItemAtPath:[location path] toPath:[destinationPath stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] error:&error];
@@ -550,6 +595,19 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     [vc dismissViewControllerAnimated:YES completion:^{
         [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
     }];
+}
+
+- (NSString *)scanImageWithZBar:(UIImage *)image {
+    ZBarImage *zImage = [[ZBarImage alloc] initWithCGImage:image.CGImage];
+    [self.scanner scanImage:zImage];
+    NSString *result = nil;
+    for (ZBarSymbol *symbol in self.scanner.results) {
+        result = [symbol data];
+        if (result) {
+            break;
+        }
+    }
+    return result;
 }
 
 @end

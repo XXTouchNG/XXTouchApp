@@ -19,6 +19,10 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 
 @implementation XXUserDefaultsConfigOptionTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadConfigInfo];

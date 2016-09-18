@@ -14,6 +14,10 @@
 
 @implementation XXMainTabbarViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = XXLString(@"My Scripts");

@@ -7,6 +7,7 @@
 //
 
 #import "XXScanDownloadTaskViewController.h"
+#import "XXScanDownloadSourceHeadersTableViewController.h"
 #import "XXLocalDataService.h"
 
 @interface XXScanDownloadTaskViewController ()
@@ -25,10 +26,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.sourceLabel.text = self.sourceUrl;
     self.destinationLabel.text = self.destinationUrl;
     
-    
+    self.clearsSelectionOnViewWillAppear = YES;
     NSURL *url = [NSURL URLWithString:[self.sourceUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (!url) {
         self.sourceLabel.textColor = [UIColor redColor];
@@ -65,6 +67,23 @@
     if (_delegate && [_delegate respondsToSelector:@selector(cancelDownloadTask:)]) {
         [_delegate cancelDownloadTask:self];
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            [[UIPasteboard generalPasteboard] setString:self.sourceUrl];
+            [self.navigationController.view makeToast:XXLString(@"Source URL has been copied to the clipboard.")];
+        } else if (indexPath.row == 1) {
+            [[UIPasteboard generalPasteboard] setString:self.destinationUrl];
+            [self.navigationController.view makeToast:XXLString(@"Destination path has been copied to the clipboard.")];
+        }
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(UITableViewCell *)sender {
+    ((XXScanDownloadSourceHeadersTableViewController *)segue.destinationViewController).url = self.sourceUrl;
 }
 
 @end

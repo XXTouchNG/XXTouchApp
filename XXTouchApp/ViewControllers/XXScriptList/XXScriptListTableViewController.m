@@ -19,6 +19,7 @@
 #import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
+static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
 static NSString * const kXXItemPathKey = @"kXXItemPathKey";
 static NSString * const kXXItemNameKey = @"kXXItemNameKey";
 
@@ -50,6 +51,10 @@ XXToolbarDelegate
 @end
 
 @implementation XXScriptListTableViewController
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -321,6 +326,13 @@ XXToolbarDelegate
 - (void)cellLongPress:(UIGestureRecognizer *)recognizer {
     if (![self isEditing]) {
         [self setEditing:YES animated:YES];
+        CGPoint location = [recognizer locationInView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        self.topToolbar.pasteButton.enabled =
+        self.topToolbar.shareButton.enabled =
+        self.topToolbar.compressButton.enabled =
+        self.topToolbar.trashButton.enabled = YES;
     }
 }
 
@@ -360,8 +372,30 @@ XXToolbarDelegate
     }
 }
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:kXXRewindSegueIdentifier]) {
+        __block XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
+        if (currentCell.selectable) return NO;
+        if (!currentCell.isDirectory) return NO;
+        if (self.isEditing) return NO;
+    }
+    return YES;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kXXRewindSegueIdentifier]) {
+        XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
+        XXScriptListTableViewController *newController = (XXScriptListTableViewController *)segue.destinationViewController;
+        newController.currentDirectory = currentCell.itemPath;
+        if (_selectBootscript) {
+            newController.selectBootscript = self.selectBootscript;
+            newController.selectViewController = self.selectViewController;
+        }
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEditing]) {
+    if (self.isEditing) {
         self.topToolbar.pasteButton.enabled =
         self.topToolbar.shareButton.enabled =
         self.topToolbar.compressButton.enabled =
@@ -385,13 +419,7 @@ XXToolbarDelegate
         }
     } else {
         if (currentCell.isDirectory) {
-            XXScriptListTableViewController *newController = [self.storyboard instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
-            newController.currentDirectory = currentCell.itemPath;
-            if (_selectBootscript) {
-                newController.selectBootscript = self.selectBootscript;
-                newController.selectViewController = self.selectViewController;
-            }
-            [self.navigationController pushViewController:newController animated:YES];
+            // Perform Segue
         } else {
             if (_selectBootscript) {
                 [self.navigationController.view makeToast:XXLString(@"You can only select executable script type: lua, xxt")];

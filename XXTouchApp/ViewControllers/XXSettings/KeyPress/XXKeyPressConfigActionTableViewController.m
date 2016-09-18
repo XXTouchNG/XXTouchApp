@@ -24,6 +24,10 @@ static NSString * const kXXActivatorLibraryPath = @"/usr/lib/libactivator.dylib"
 
 @implementation XXKeyPressConfigActionTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.clearsSelectionOnViewWillAppear = YES; // Override

@@ -10,6 +10,7 @@ target 'XXTouchApp' do
     pod 'MJRefresh'
     pod 'JTSImageViewController'
     pod 'NJKWebViewProgress'
+    pod 'ZBarSDK'
     pod 'SSZipArchive'
 end
 

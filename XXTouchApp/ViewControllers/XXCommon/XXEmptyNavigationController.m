@@ -10,4 +10,8 @@
 
 @implementation XXEmptyNavigationController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 @end
