@@ -11,6 +11,8 @@ target 'XXTouchApp' do
     pod 'JTSImageViewController'
     pod 'NJKWebViewProgress'
     pod 'ZBarSDK'
+    pod 'CYRTextView'
+    pod 'MGSwipeTableCell'
     pod 'SSZipArchive'
 end
 

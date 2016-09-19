@@ -12,4 +12,5 @@
 - (void)handleShortCut:(NSString *)type;
 - (void)handleItemTransfer:(NSURL *)url;
 
+- (void)transitionToScanViewController;
 @end

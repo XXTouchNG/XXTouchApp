@@ -114,9 +114,10 @@
                                     <outlet property="fileModifiedTimeLabel" destination="KQT-T4-c4a" id="Vec-RX-W4R"/>
                                     <outlet property="fileNameLabel" destination="to9-MC-Ca6" id="x8a-pt-Wua"/>
                                     <outlet property="fileTypeImageView" destination="n69-eN-gem" id="3FZ-A8-tN3"/>
-                                    <segue destination="CS5-5g-f5g" kind="show" identifier="kXXRewindSegueIdentifier" id="x1A-0C-I0S">
-                                        <segue key="commit" inheritsFrom="parent" id="zZW-Cq-5Yz"/>
-                                        <segue key="preview" inheritsFrom="commit" id="BVl-jy-v0i"/>
+                                    <segue destination="CS5-5g-f5g" kind="show" identifier="kXXRewindSegueIdentifier" id="x1A-0C-I0S"/>
+                                    <segue destination="H8U-yH-wIP" kind="presentation" identifier="kXXDetailSegueIdentifier" trigger="accessoryAction" id="fr1-vR-pG7">
+                                        <segue key="commit" inheritsFrom="parent" id="Voh-ot-KcF"/>
+                                        <segue key="preview" inheritsFrom="commit" id="RKF-mT-myg"/>
                                     </segue>
                                 </connections>
                             </tableViewCell>
@@ -3059,18 +3060,19 @@ All Rights Reserved.</string>
         <image name="system-uicache" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="g40-1Y-9Sd"/>
         <segue reference="bHY-Ru-cpH"/>
         <segue reference="vDM-3W-V4c"/>
-        <segue reference="kye-if-oLn"/>
         <segue reference="i08-HM-MCO"/>
-        <segue reference="bL1-m6-aoZ"/>
-        <segue reference="51S-BY-oWk"/>
         <segue reference="pQE-Cg-WET"/>
+        <segue reference="kye-if-oLn"/>
+        <segue reference="bL1-m6-aoZ"/>
+        <segue reference="g40-1Y-9Sd"/>
         <segue reference="uzu-e2-DnI"/>
+        <segue reference="51S-BY-oWk"/>
         <segue reference="xHs-x8-9ka"/>
-        <segue reference="Auq-nk-pDz"/>
         <segue reference="C6U-49-F7E"/>
+        <segue reference="Rev-YV-8p5"/>
+        <segue reference="fr1-vR-pG7"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
 </document>

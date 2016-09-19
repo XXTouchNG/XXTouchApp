@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MGSwipeTableCell/MGSwipeTableCell.h>
 
-@interface XXSwipeableCell : UITableViewCell
+@interface XXSwipeableCell : MGSwipeTableCell
 @property (nonatomic, assign) BOOL checked;
 @property (nonatomic, assign) BOOL selectBootscript;
 @property (nonatomic, assign) BOOL selectable;

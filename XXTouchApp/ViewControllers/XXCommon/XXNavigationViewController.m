@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "XXNavigationViewController.h"
 #import "XXScriptListTableViewController.h"
+#import "XXScanViewController.h"
 #import "XXLocalNetService.h"
 
 static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
@@ -59,7 +60,9 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
         } else if ([type isEqualToString:@"Stop"]) {
             SendConfigAction([XXLocalNetService localStopCurrentRunningScriptWithError:&err], nil);
         } else if ([type isEqualToString:@"Scan"]) {
-            
+            dispatch_async_on_main_queue(^{
+                [self transitionToScanViewController];
+            });
         }
     });
 }
@@ -70,6 +73,12 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
         [topVC performSelector:@selector(reloadScriptListTableView) withObject:nil];
     }
     [self.view makeToast:[NSString stringWithFormat:XXLString(@"File \"%@\" saved to Inbox."), [url lastPathComponent]]];
+}
+
+- (void)transitionToScanViewController {
+    XXScanViewController *scanController = [[XXScanViewController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scanController];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 @end

@@ -6,20 +6,24 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "XXToolbar.h"
-#import "XXSwipeableCell.h"
-#import "XXCreateItemTableViewController.h"
-#import "XXItemAttributesTableViewController.h"
-#import "XXScriptListTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXQuickLookService.h"
 #import "XXArchiveService.h"
-#import "XXScanViewController.h"
+
 #import <MJRefresh/MJRefresh.h>
+#import "XXToolbar.h"
+#import "XXSwipeableCell.h"
+
+#import "XXNavigationViewController.h"
+#import "XXScriptListTableViewController.h"
+#import "XXBaseTextEditorViewController.h"
+#import "XXCreateItemTableViewController.h"
+#import "XXItemAttributesTableViewController.h"
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
+static NSString * const kXXDetailSegueIdentifier = @"kXXDetailSegueIdentifier";
 static NSString * const kXXItemPathKey = @"kXXItemPathKey";
 static NSString * const kXXItemNameKey = @"kXXItemNameKey";
 
@@ -106,6 +110,9 @@ XXToolbarDelegate
         self.topToolbar.pasteButton.enabled = NO;
     } else {
         self.topToolbar.pasteButton.enabled = YES;
+    }
+    if (self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
 
@@ -305,7 +312,107 @@ XXToolbarDelegate
         UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
         longPressGesture.delegate = self;
         [cell addGestureRecognizer:longPressGesture];
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        if (cell.isDirectory) {
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        }
+        NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
+        NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
+        if (cell.selectable) {
+            @weakify(self);
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:XXLString(@"Run")
+                                                     backgroundColor:[UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f]
+                                                            callback:^BOOL(MGSwipeTableCell *sender) {
+                                                                @strongify(self);
+                                                                [self setEditing:NO animated:YES];
+                                                                self.navigationController.view.userInteractionEnabled = NO;
+                                                                [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+                                                                @weakify(self);
+                                                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                                                    @strongify(self);
+                                                                    __block NSError *err = nil;
+                                                                    BOOL result = [XXLocalNetService localLaunchScript:cell.itemPath error:&err];
+                                                                    dispatch_async_on_main_queue(^{
+                                                                        self.navigationController.view.userInteractionEnabled = YES;
+                                                                        [self.navigationController.view hideToastActivity];
+                                                                        if (!result) {
+                                                                            if (err.code == 2) {
+                                                                                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
+                                                                                [alertView addButtonWithTitle:XXLString(@"OK") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                                                                                    
+                                                                                }];
+                                                                                [alertView show];
+                                                                            } else {
+                                                                                [self.navigationController.view makeToast:[err localizedDescription]];
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                });
+                                                                return YES;
+                                                            }]];
+        }
+        if (cell.editable) {
+            @weakify(self);
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:XXLString(@"Edit")
+                                                     backgroundColor:STYLE_TINT_COLOR
+                                                            callback:^BOOL(MGSwipeTableCell *sender) {
+                                                                @strongify(self);
+                                                                [self setEditing:NO animated:YES];
+                                                                NSString *itemPath = cell.itemPath;
+                                                                NSString *displayName = cell.displayName;
+                                                                XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
+                                                                baseController.filePath = itemPath;
+                                                                baseController.displayName = displayName;
+                                                                [self.navigationController pushViewController:baseController animated:YES];
+                                                                return YES;
+                                                            }]];
+        }
+        @weakify(self);
+        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:XXLString(@"Delete")
+                                                  backgroundColor:[UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f]
+                                                         callback:^BOOL(MGSwipeTableCell *sender) {
+                                                             @strongify(self);
+                                                             [self setEditing:NO animated:YES];
+                                                             __block NSString *itemPath = cell.itemPath;
+                                                             NSString *displayName = cell.displayName;
+                                                             NSString *formatString = NSLocalizedStringFromTable(@"Delete %@?\nThis operation cannot be revoked.", @"XXTouch", nil);
+                                                             SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
+                                                                                                              andMessage:[NSString stringWithFormat:formatString, displayName]];
+                                                             [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+                                                                 __block NSError *err = nil;
+                                                                 self.navigationController.view.userInteractionEnabled = NO;
+                                                                 [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+                                                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                                                     [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
+                                                                     if (cell.checked) {
+                                                                         if (_selectBootscript) {
+                                                                             [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
+                                                                         } else {
+                                                                             [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                                                                         }
+                                                                     }
+                                                                     dispatch_async_on_main_queue(^{
+                                                                         self.navigationController.view.userInteractionEnabled = YES;
+                                                                         [self.navigationController.view hideToastActivity];
+                                                                         if (err == nil) {
+                                                                             [self reloadScriptListTableData];
+                                                                             [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
+                                                                         } else {
+                                                                             [self.navigationController.view makeToast:[err localizedDescription]];
+                                                                         }
+                                                                     });
+                                                                 });
+                                                             }];
+                                                             [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                                                                 
+                                                             }];
+                                                             [alertView show];
+                                                             return YES;
+                                                         }]];
+        cell.rightButtons = rightActionsArr;
+        cell.leftButtons = leftActionsArr;
+        cell.rightSwipeSettings.transition = MGSwipeTransitionBorder;
     }
     
     return cell;
@@ -373,24 +480,32 @@ XXToolbarDelegate
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if (self.isEditing) return NO;
     if ([identifier isEqualToString:kXXRewindSegueIdentifier]) {
         __block XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
         if (currentCell.selectable) return NO;
         if (!currentCell.isDirectory) return NO;
-        if (self.isEditing) return NO;
+        return YES;
+    } else if ([identifier isEqualToString:kXXDetailSegueIdentifier]) {
+        return YES;
     }
-    return YES;
+    return NO;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
     if ([segue.identifier isEqualToString:kXXRewindSegueIdentifier]) {
-        XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
         XXScriptListTableViewController *newController = (XXScriptListTableViewController *)segue.destinationViewController;
         newController.currentDirectory = currentCell.itemPath;
         if (_selectBootscript) {
             newController.selectBootscript = self.selectBootscript;
             newController.selectViewController = self.selectViewController;
         }
+    } else if ([segue.identifier isEqualToString:kXXDetailSegueIdentifier]) {
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
+        viewController.currentName = [currentCell.itemAttrs objectForKey:kXXItemNameKey];
+        viewController.currentPath = [currentCell.itemAttrs objectForKey:kXXItemPathKey];
     }
 }
 
@@ -451,71 +566,20 @@ XXToolbarDelegate
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
 }
 
-- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    NSMutableArray <UITableViewRowAction *> *actionsArr = [[NSMutableArray alloc] init];
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    __block XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.selectable) {
-        @weakify(self);
-        UITableViewRowAction *runAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:XXLString(@"Run") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            @strongify(self);
-            [self setEditing:NO animated:YES];
-            SendConfigAction([XXLocalNetService localLaunchScript:cell.itemPath error:&err], nil);
-        }];
-        runAction.backgroundColor = [UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f];
-        [actionsArr addObject:runAction];
-    }
-    if (cell.editable) {
-        UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:XXLString(@"Edit") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            
-        }];
-        editAction.backgroundColor = STYLE_TINT_COLOR;
-        [actionsArr addObject:editAction];
-    }
-    @weakify(self);
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:XXLString(@"Delete") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        @strongify(self);
-        [self setEditing:NO animated:YES];
-        __block NSString *itemPath = cell.itemPath;
-        __block NSError *err = nil;
-        self.navigationController.view.userInteractionEnabled = NO;
-        [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
-            if (cell.checked) {
-                if (_selectBootscript) {
-                    [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
-                } else {
-                    [[XXLocalDataService sharedInstance] setSelectedScript:nil];
-                }
-            }
-            dispatch_async_on_main_queue(^{
-                self.navigationController.view.userInteractionEnabled = YES;
-                [self.navigationController.view hideToastActivity];
-                if (err == nil) {
-                    [self reloadScriptListTableData];
-                    [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
-                } else {
-                    [self.navigationController.view makeToast:[err localizedDescription]];
-                }
-            });
-        });
-    }];
-    deleteAction.backgroundColor = [UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f];
-    [actionsArr addObject:deleteAction];
-    return actionsArr;
+}
+
+- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Replaced by MGSwipeTableCell
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
-    XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
-    viewController.currentName = [cell.itemAttrs objectForKey:kXXItemNameKey];
-    viewController.currentPath = [cell.itemAttrs objectForKey:kXXItemPathKey];
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
+    // Perform Segue
 }
 
 #pragma mark - Actions
@@ -527,9 +591,7 @@ XXToolbarDelegate
 
 - (void)toolbarButtonTapped:(UIBarButtonItem *)sender {
     if (sender == self.topToolbar.scanButton) {
-        XXScanViewController *scanController = [[XXScanViewController alloc] init];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scanController];
-        [self.navigationController presentViewController:navController animated:YES completion:nil];
+        [((XXNavigationViewController *)self.navigationController) transitionToScanViewController];
     } else if (sender == self.topToolbar.addItemButton) {
         UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
         XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
@@ -679,10 +741,11 @@ XXToolbarDelegate
         @weakify(self);
         [alertView addButtonWithTitle:XXLString(@"Yes") type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
+            BOOL result = YES;
+            NSError *err = nil;
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 NSString *itemPath = cell.itemPath;
-                NSError *err = nil;
                 if (cell.checked) {
                     if (_selectBootscript) {
                         [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
@@ -691,9 +754,17 @@ XXToolbarDelegate
                     }
                 }
                 [FCFileManager removeItemAtPath:itemPath error:&err];
+                if (err) {
+                    result = NO;
+                    break;
+                }
             }
-            [self reloadScriptListTableData];
-            [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (result) {
+                [self reloadScriptListTableData];
+                [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+            } else {
+                [self.navigationController.view makeToast:[err localizedDescription]];
+            }
             [self setEditing:NO animated:YES];
         }];
         [alertView addButtonWithTitle:XXLString(@"Cancel") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {

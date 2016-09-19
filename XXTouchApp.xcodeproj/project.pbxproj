@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */; };
+		0F055E5F1D8EE30A00176B33 /* XXBaseTextEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F055E5E1D8EE30A00176B33 /* XXBaseTextEditorViewController.m */; };
 		0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */; };
 		0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */; };
 		0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */; };
@@ -44,6 +45,7 @@
 		0F5DDE4B1D814B7E00BC4BDE /* ARSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE451D814B7E00BC4BDE /* ARSafariActivity.m */; };
 		0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DDE471D814B7E00BC4BDE /* SIAlertView.bundle */; };
 		0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */; };
+		0F5EB62E1D8F7FBF00775BFE /* XXBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EB62D1D8F7FBF00775BFE /* XXBaseTextView.m */; };
 		0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */; };
 		0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */; };
 		0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C3A1D88CA26005C3A22 /* XXUserDefaultsModel.m */; };
@@ -73,6 +75,8 @@
 /* Begin PBXFileReference section */
 		0F00D8A91D8AE7320000C8E8 /* XXScanDownloadTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadTaskViewController.h; sourceTree = "<group>"; };
 		0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanDownloadTaskViewController.m; sourceTree = "<group>"; };
+		0F055E5D1D8EE30A00176B33 /* XXBaseTextEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextEditorViewController.h; sourceTree = "<group>"; };
+		0F055E5E1D8EE30A00176B33 /* XXBaseTextEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextEditorViewController.m; sourceTree = "<group>"; };
 		0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
 		0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; };
 		0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 		0F5DDE471D814B7E00BC4BDE /* SIAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SIAlertView.bundle; sourceTree = "<group>"; };
 		0F5DDE481D814B7E00BC4BDE /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertView.h; sourceTree = "<group>"; };
 		0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
+		0F5EB62C1D8F7FBF00775BFE /* XXBaseTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextView.h; sourceTree = "<group>"; };
+		0F5EB62D1D8F7FBF00775BFE /* XXBaseTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextView.m; sourceTree = "<group>"; };
 		0F6459A51D85B37D00194057 /* XXRecordConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXRecordConfigTableViewController.h; sourceTree = "<group>"; };
 		0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXRecordConfigTableViewController.m; sourceTree = "<group>"; };
 		0F7D85CE1D8E85D4006CEC88 /* XXScanLineAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanLineAnimation.h; sourceTree = "<group>"; };
@@ -219,6 +225,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F055E5C1D8EE2BB00176B33 /* XXEditor */ = {
+			isa = PBXGroup;
+			children = (
+				0F055E5D1D8EE30A00176B33 /* XXBaseTextEditorViewController.h */,
+				0F055E5E1D8EE30A00176B33 /* XXBaseTextEditorViewController.m */,
+				0F5EB62C1D8F7FBF00775BFE /* XXBaseTextView.h */,
+				0F5EB62D1D8F7FBF00775BFE /* XXBaseTextView.m */,
+			);
+			path = XXEditor;
+			sourceTree = "<group>";
+		};
 		0F13EAF21D88412000DA8A25 /* UserConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -539,6 +556,7 @@
 		0FB0A78B1D73D80D00129E83 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0F055E5C1D8EE2BB00176B33 /* XXEditor */,
 				0F5DDE261D8149BE00BC4BDE /* XXCommon */,
 				0F5DDE081D81496800BC4BDE /* XXScriptList */,
 				0F5DDE1B1D8149B100BC4BDE /* XXSettings */,
@@ -805,6 +823,7 @@
 				0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */,
 				0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */,
 				0FC71C751D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m in Sources */,
+				0F055E5F1D8EE30A00176B33 /* XXBaseTextEditorViewController.m in Sources */,
 				0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */,
 				0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
@@ -815,6 +834,7 @@
 				0F5DDE381D814A3100BC4BDE /* XXArchiveService.m in Sources */,
 				0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */,
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
+				0F5EB62E1D8F7FBF00775BFE /* XXBaseTextView.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,

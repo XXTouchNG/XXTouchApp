@@ -1,7 +1,9 @@
 PODS:
+  - CYRTextView (0.4.0)
   - FCFileManager (1.0.18)
   - JTSImageViewController (1.5.1)
   - Masonry (1.0.1)
+  - MGSwipeTableCell (1.5.5)
   - MJRefresh (3.1.12)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
@@ -17,9 +19,11 @@ PODS:
   - ZBarSDK (1.3.1)
 
 DEPENDENCIES:
+  - CYRTextView
   - FCFileManager
   - JTSImageViewController
   - Masonry
+  - MGSwipeTableCell
   - MJRefresh
   - NJKWebViewProgress
   - SSZipArchive
@@ -29,9 +33,11 @@ DEPENDENCIES:
   - ZBarSDK
 
 SPEC CHECKSUMS:
+  CYRTextView: 1c1a4d708eee54ecad66b8ad42dbfe73083bdfce
   FCFileManager: 3d13576da1f709d37460bd7669cdf07b9d6d8bc3
   JTSImageViewController: 1f8ce1cc93dab0d0af8e53badeea7528560cfec9
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MGSwipeTableCell: bafeb5f351124544c9364ecbdf24c7b06a37d340
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   SSZipArchive: 29daace2bccb90a47de2837744da397728ff9207
@@ -40,6 +46,6 @@ SPEC CHECKSUMS:
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   ZBarSDK: 4c1b5daeb7d6cc67dc9355e690af0230a661f6ec
 
-PODFILE CHECKSUM: 10a94b15cd4211e9510cf32190c5d11681e22228
+PODFILE CHECKSUM: 31ceb2560a44aaa03561ed5218426a29d4fa2973
 
 COCOAPODS: 1.0.0.beta.4
