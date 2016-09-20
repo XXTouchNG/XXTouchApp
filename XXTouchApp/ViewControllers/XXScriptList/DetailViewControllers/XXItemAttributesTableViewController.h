@@ -11,7 +11,7 @@
 static NSString * const kXXItemAttributesTableViewControllerStoryboardID = @"kXXItemAttributesTableViewControllerStoryboardID";
 
 @interface XXItemAttributesTableViewController : UITableViewController
-@property (nonatomic, strong) NSString *currentName;
-@property (nonatomic, strong) NSString *currentPath;
+@property (nonatomic, copy) NSString *currentName;
+@property (nonatomic, copy) NSString *currentPath;
 
 @end

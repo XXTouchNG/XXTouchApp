@@ -25,8 +25,8 @@ static char * const kXXTouchCalculatingDirectorySizeIdentifier = "com.xxtouch.ca
 @property (weak, nonatomic) IBOutlet UILabel *createdAtLabel;
 @property (weak, nonatomic) IBOutlet UILabel *modifiedAtLabel;
 
-@property (nonatomic, strong) NSString *originalName;
-@property (nonatomic, strong) NSString *originalPath;
+@property (nonatomic, copy) NSString *originalName;
+@property (nonatomic, copy) NSString *originalPath;
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 

@@ -6,15 +6,23 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#define GENERATE_ERROR(m) (*err = [NSError errorWithDomain:kXXErrorDomain code:0 userInfo:@{ NSLocalizedDescriptionKey:m }])
+
 #import "XXBaseTextEditorViewController.h"
+#import "XXBaseTextEditorPropertiesTableViewController.h"
 #import "XXBaseTextView.h"
+#import "XXLocalNetService.h"
 #import <Masonry/Masonry.h>
+#import "UITextView+ConsideringInsets.h"
+
+static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
+static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
 
 @interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIView *fakeStatusBar;
 @property (nonatomic, strong) XXBaseTextView *textView;
 @property (nonatomic, strong) UIToolbar *toolBar;
-@property (nonatomic, strong) NSString *fileContent;
+@property (nonatomic, copy) NSString *fileContent;
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
@@ -27,25 +35,60 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = self.displayName;
     self.fd_interactivePopDisabled = YES;
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    NSError *err = nil;
-    self.fileContent = [FCFileManager readFileAtPath:self.filePath error:&err];
-    if (!_fileContent) {
-        [self.navigationController.view makeToast:[err localizedDescription]];
-    }
+    self.navigationItem.rightBarButtonItem = self.shareItem;
     
     [self.view addSubview:self.fakeStatusBar];
     [self.view addSubview:self.textView];
     [self.view addSubview:self.bottomBar];
-    
-    self.navigationItem.rightBarButtonItem = self.shareItem;
-    
     [self updateViewConstraints];
+    
+    @weakify(self);
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        NSError *err = nil;
+        BOOL result = [self loadFileWithError:&err];
+        dispatch_async_on_main_queue(^{
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self.navigationController.view hideToastActivity];
+            if (!result) {
+                self.bottomBar.userInteractionEnabled = NO;
+                [self.navigationController.view makeToast:[err localizedDescription]];
+            } else {
+                self.bottomBar.userInteractionEnabled = YES;
+            }
+        });
+    });
+}
+
+- (BOOL)loadFileWithError:(NSError **)err {
+    NSNumber *fileSize = [FCFileManager sizeOfFileAtPath:self.filePath error:err];
+    if (*err) {
+        return NO;
+    }
+    
+    // Size Limit
+    NSUInteger fileSizeU = [fileSize unsignedIntegerValue];
+    if (fileSizeU > 1024000) {
+        GENERATE_ERROR(([NSString stringWithFormat:XXLString(@"The file \"%@\" is too large to load into the memory."), [self.filePath lastPathComponent]]));
+        return NO;
+    }
+    
+    self.fileContent = [FCFileManager readFileAtPath:self.filePath error:err];
+    if (*err) {
+        return NO;
+    }
+    
+    // Set Text
+    dispatch_async_on_main_queue(^{
+        self.textView.text = self.fileContent;
+    });
+    return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,7 +123,12 @@
     [super viewDidDisappear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     NSError *err = nil;
-    [FCFileManager writeFileAtPath:self.filePath content:self.textView.text error:&err];
+    [self saveFileWithError:&err];
+}
+
+- (void)saveFileWithError:(NSError **)err {
+    self.fileContent = self.textView.text;
+    [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
 }
 
 - (void)updateViewConstraints {
@@ -123,7 +171,7 @@
 
 - (UITextView *)textView {
     if (!_textView) {
-        UIFont *font = [UIFont fontWithName:@"Courier New" size:14.0f];
+        UIFont *font = [UIFont fontWithName:@"Menlo" size:14.0f];
         
         XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds];
         textView.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -134,15 +182,13 @@
         textView.delegate = self;
         textView.inputAccessoryView = self.toolBar;
         textView.tintColor = STYLE_TINT_COLOR;
-        if (self.fileContent)
-            textView.text = self.fileContent;
         textView.selectedRange = NSMakeRange(0, 0);
         textView.contentOffset = CGPointZero;
         textView.contentInset =
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
         
-        NSString *fileExt = [self.filePath pathExtension];
+        NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
         if ([fileExt isEqualToString:@"lua"]) {
             textView.highlightLuaSymbols = YES;
         } else {
@@ -174,8 +220,22 @@
 
 - (UIToolbar *)bottomBar {
     if (!_bottomBar) {
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        NSMutableArray *myToolBarItems = [NSMutableArray array];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-search"] style:UIBarButtonItemStyleBordered target:self action:@selector(search:)]];
+        [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-reading"] style:UIBarButtonItemStyleBordered target:self action:@selector(reading:)]];
+        [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-statistics"] style:UIBarButtonItemStyleBordered target:self action:@selector(statistics:)]];
+        [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-settings"] style:UIBarButtonItemStyleBordered target:self action:@selector(settings:)]];
+        
         UIToolbar *bottomBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - 44, self.view.width, 44)];
-        bottomBar.tintColor = STYLE_TINT_COLOR;
+        bottomBar.barStyle = UIBarStyleDefault;
+        bottomBar.userInteractionEnabled = NO;
+        [bottomBar setTintColor:STYLE_TINT_COLOR];
+        [bottomBar setItems:myToolBarItems animated:YES];
+        
         _bottomBar = bottomBar;
     }
     return _bottomBar;
@@ -223,6 +283,70 @@
     [self.textView insertText:@"    "];
 }
 
+- (void)search:(UIBarButtonItem *)sender {
+    
+}
+
+- (void)reading:(UIBarButtonItem *)sender {
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        __block NSError *err = nil;
+        BOOL result = [XXLocalNetService localCheckSyntax:self.fileContent error:&err];
+        dispatch_async_on_main_queue(^{
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self.navigationController.view hideToastActivity];
+            if (!result) {
+                if (err.code == 2) {
+                    NSString *reason = [err localizedFailureReason];
+                    [self.navigationController.view makeToast:reason];
+                    [self scrollToLineByReason:reason];
+                } else {
+                    [self.navigationController.view makeToast:[err localizedDescription]];
+                }
+            } else {
+                if (err.code == 0) {
+                    [self.navigationController.view makeToast:XXLString(@"Syntax Check Passed")];
+                }
+            }
+        });
+    });
+}
+
+- (void)scrollToLineByReason:(NSString *)reason {
+    NSArray <NSString *> *arr = [reason componentsSeparatedByString:@":"];
+    if (arr.count < 2) {
+        return;
+    }
+    NSUInteger lineRange = [arr[0] unsignedIntegerValue] - 1;
+    NSString *s = self.fileContent;
+    NSUInteger index = 0;
+    NSUInteger count = 0;
+    NSUInteger l = [s length];
+    for (int i = 0; i < l; i++) {
+        char cc = [s characterAtIndex:i];
+        if (cc == '\n') {
+            count++;
+            if (count == lineRange) {
+                index = i;
+            }
+        }
+    }
+}
+
+- (void)statistics:(UIBarButtonItem *)sender {
+    XXBaseTextEditorPropertiesTableViewController *propertiesController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXBaseTextEditorPropertiesTableViewControllerStoryboardID];
+    propertiesController.filePath = self.filePath;
+    propertiesController.fileContent = self.fileContent;
+    [self.navigationController pushViewController:propertiesController animated:YES];
+}
+
+- (void)settings:(UIBarButtonItem *)sender {
+    [self.navigationController.view makeToast:XXLString(@"Advanced Settings are not provided to XXTouch App Lite.")];
+}
+
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
     NSValue *keyboardRectAsObject = [[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = CGRectNull;
@@ -248,6 +372,12 @@
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     [self updateViewConstraints];
+    
+    NSError *err = nil;
+    [self saveFileWithError:&err];
+    if (err) {
+        [self.navigationController.view makeToast:[err localizedDescription]];
+    }
 }
 
 

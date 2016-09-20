@@ -17,7 +17,6 @@
 
 #import "XXNavigationViewController.h"
 #import "XXScriptListTableViewController.h"
-#import "XXBaseTextEditorViewController.h"
 #import "XXCreateItemTableViewController.h"
 #import "XXItemAttributesTableViewController.h"
 
@@ -359,13 +358,11 @@ XXToolbarDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 [self setEditing:NO animated:YES];
-                                                                NSString *itemPath = cell.itemPath;
-                                                                NSString *displayName = cell.displayName;
-                                                                XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
-                                                                baseController.filePath = itemPath;
-                                                                baseController.displayName = displayName;
-                                                                [self.navigationController pushViewController:baseController animated:YES];
-                                                                return YES;
+                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:cell.itemPath parentViewController:self];
+                                                                if (!result) {
+                                                                    [self.navigationController.view makeToast:XXLString(@"Unsupported file type")];
+                                                                }
+                                                                return result;
                                                             }]];
         }
         @weakify(self);

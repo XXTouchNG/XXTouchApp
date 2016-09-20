@@ -57,4 +57,6 @@
 
 + (BOOL)localGetUserConfWithError:(NSError **)error;
 + (BOOL)localSetUserConfWithError:(NSError **)error;
+
++ (BOOL)localCheckSyntax:(NSString *)content error:(NSError **)error;
 @end

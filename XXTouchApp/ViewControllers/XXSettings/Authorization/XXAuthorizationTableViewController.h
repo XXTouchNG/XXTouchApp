@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface XXAuthorizationTableViewController : UITableViewController
-@property (nonatomic, strong) NSString *code;
+@property (nonatomic, copy) NSString *code;
 
 @end

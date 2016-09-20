@@ -431,4 +431,13 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     return NO;
 }
 
++ (BOOL)localCheckSyntax:(NSString *)content error:(NSError **)error {
+    NSDictionary *result = [self sendSynchronousRequest:@"check_syntax" withData:[content dataUsingEncoding:NSUTF8StringEncoding] error:error]; CHECK_ERROR(NO);
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        return YES;
+    } else
+        GENERATE_ERROR(result[@"detail"]);
+    return NO;
+}
+
 @end

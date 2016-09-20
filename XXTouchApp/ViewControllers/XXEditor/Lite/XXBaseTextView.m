@@ -26,9 +26,9 @@
 
 - (void)commonSetup
 {
-    _defaultFont = [UIFont fontWithName:@"Courier New" size:14.f];
-    _boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:14.f];
-    _italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:14.f];
+    _defaultFont = [UIFont fontWithName:@"Menlo" size:14.f];
+    _boldFont = [UIFont fontWithName:@"Menlo-Bold" size:14.f];
+    _italicFont = [UIFont fontWithName:@"Menlo-Italic" size:14.f];
     
     self.font = _defaultFont;
     self.textColor = [UIColor blackColor];
@@ -58,7 +58,7 @@
             [CYRToken tokenWithName:@"number"
                          expression:@"\\b(0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?|\\.\\d+(?:[eE][+-]?\\d+)?)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(0, 0, 255)
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0F20F6"]
                                       }],
             [CYRToken tokenWithName:@"round_brackets"
                          expression:@"[\\(\\)]"
@@ -73,36 +73,36 @@
             [CYRToken tokenWithName:@"constants"
                          expression:@"\\b(false|true|nil)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(250, 128, 10)
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"916319"]
                                       }],
             [CYRToken tokenWithName:@"reserved_words"
-                         expression:@"\\b(and|break|do|else|elseif|end|for|function|goto|if|in|local|not|or|repeat|return|then|until|while)\\b"
+                         expression:@"\\b(seand|break|do|else|elseif|end|for|function|goto|if|in|local|not|or|repeat|return|then|until|while)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(104, 0, 111),
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"AA2063"],
                                       NSFontAttributeName : self.boldFont
                                       }],
             [CYRToken tokenWithName:@"string_multi"
                          expression:@"\\[\\[.*?(\\]\\]|$)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(24, 110, 109),
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"ED7722"],
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"string_single"
                          expression:@"([\"'])(?:[^\1\\\\]|\\\\[\\d\\D])*?(\\1|$)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(24, 110, 109),
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"ED7722"],
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"comment_single"
                          expression:@"--[^\\n]*"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(31, 131, 0),
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"3C802C"],
                                       NSFontAttributeName : self.italicFont
                                       }],
             [CYRToken tokenWithName:@"comment_multi"
                          expression:@"--\\[\\[.*?\\]\\]"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(31, 131, 0),
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"3C802C"],
                                       NSFontAttributeName : self.italicFont
                                       }]
             ];

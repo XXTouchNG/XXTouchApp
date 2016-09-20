@@ -12,7 +12,6 @@
 #import <UIKit/UIKit.h>
 
 @interface XXBaseTextEditorViewController : UIViewController
-@property (nonatomic, strong) NSString *filePath;
-@property (nonatomic, strong) NSString *displayName;
+@property (nonatomic, copy) NSString *filePath;
 
 @end

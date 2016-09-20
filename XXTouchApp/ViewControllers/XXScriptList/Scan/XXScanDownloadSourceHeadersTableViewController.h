@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface XXScanDownloadSourceHeadersTableViewController : UITableViewController
-@property (nonatomic, strong) NSString *url;
+@property (nonatomic, copy) NSString *url;
 
 @end

@@ -20,6 +20,7 @@
 + (NSArray <NSString *> *)viewableFileExtensions;
 + (BOOL)isViewableFileExtension:(NSString *)ext;
 
++ (NSArray <NSString *> *)textFileExtensions;
 + (NSArray <NSString *> *)imageFileExtensions;
 + (NSArray <NSString *> *)mediaFileExtensions;
 + (NSArray <NSString *> *)audioFileExtensions;
@@ -29,4 +30,6 @@
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
               parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController;
++ (BOOL)editFileWithStandardEditor:(NSString *)filePath
+              parentViewController:(UIViewController *)viewController;
 @end
