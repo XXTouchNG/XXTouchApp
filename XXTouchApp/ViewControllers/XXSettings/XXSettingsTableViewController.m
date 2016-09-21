@@ -20,7 +20,7 @@
 
 #define alertViewConfirm(title, command) \
 weakify(self); \
-([alertView addButtonWithTitle:XXLString(title) type:SIAlertViewButtonTypeDestructive handler:commonHandler(command)]);
+([alertView addButtonWithTitle:NSLocalizedString(title, nil) type:SIAlertViewButtonTypeDestructive handler:commonHandler(command)]);
 
 enum {
     kServiceSection = 0,
@@ -82,7 +82,7 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = XXLString(@"More"); // Override
+    self.title = NSLocalizedString(@"More", nil); // Override
     self.clearsSelectionOnViewWillAppear = YES; // Override
     
     self.tableView.scrollIndicatorInsets =
@@ -106,9 +106,9 @@ enum {
 - (MJRefreshNormalHeader *)refreshHeader {
     if (!_refreshHeader) {
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(startMJRefreshing)];
-        [normalHeader setTitle:XXLString(@"Pull down") forState:MJRefreshStateIdle];
-        [normalHeader setTitle:XXLString(@"Release") forState:MJRefreshStatePulling];
-        [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
+        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
+        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
+        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
@@ -204,13 +204,13 @@ enum {
         self.remoteAccessLabel.textColor = STYLE_TINT_COLOR;
         NSString *wifiAccess = [[XXLocalDataService sharedInstance] remoteAccessURL];
         if (wifiAccess == nil) {
-            self.remoteAccessLabel.text = XXLString(@"Connect to Wi-Fi");
+            self.remoteAccessLabel.text = NSLocalizedString(@"Connect to Wi-Fi", nil);
             return YES;
         } else {
             self.remoteAccessLabel.text = wifiAccess;
         }
     } else {
-        self.remoteAccessLabel.text = XXLString(@"Remote Service");
+        self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
         self.remoteAccessLabel.textColor = [UIColor blackColor];
     }
     return NO;
@@ -295,17 +295,17 @@ enum {
 }
 
 - (void)restartServiceIndexSelected {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Restart Daemon")
-                                                     andMessage:XXLString(@"This operation will restart daemon, and wait until it launched.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Restart Daemon", nil)
+                                                     andMessage:NSLocalizedString(@"This operation will restart daemon, and wait until it launched.", nil)];
     @weakify(self);
-    [alertView addButtonWithTitle:XXLString(@"Restart Now")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Restart Now", nil)
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
                               [self.restartIndicator startAnimating];
-                              SendConfigAction([XXLocalNetService localRestartDaemonWithError:&err]; if (result) [self waitUntilDaemonUp], [self.restartIndicator stopAnimating]; [self.navigationController.view makeToast:XXLString(@"Operation completed")]);
+                              SendConfigAction([XXLocalNetService localRestartDaemonWithError:&err]; if (result) [self waitUntilDaemonUp], [self.restartIndicator stopAnimating]; [self.navigationController.view makeToast:NSLocalizedString(@"Operation completed", nil)]);
                           }];
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
@@ -314,10 +314,10 @@ enum {
 }
 
 - (void)cleanGPSCachesSelected {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean GPS Caches")
-                                                     andMessage:XXLString(@"This operation will reset location caches.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clean GPS Caches", nil)
+                                                     andMessage:NSLocalizedString(@"This operation will reset location caches.", nil)];
     @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanGPSCachesWithError:&err]);
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
@@ -326,10 +326,10 @@ enum {
 }
 
 - (void)cleanUICachesSelected {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean UI Caches")
-                                                     andMessage:XXLString(@"This operation will kill all applications and reset icon caches.\nIt may cause icons to disappear.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clean UI Caches", nil)
+                                                     andMessage:NSLocalizedString(@"This operation will kill all applications and reset icon caches.\nIt may cause icons to disappear.", nil)];
     @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanUICachesWithError:&err]);
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
@@ -338,10 +338,10 @@ enum {
 }
 
 - (void)cleanAllCachesSelected {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clean All Caches")
-                                                     andMessage:XXLString(@"This operation will kill all applications, and remove all documents and caches of them.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear All", nil)
+                                                     andMessage:NSLocalizedString(@"This operation will kill all applications, and remove all documents and caches of them.", nil)];
     @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanAllCachesWithError:&err]);
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
@@ -350,10 +350,10 @@ enum {
 }
 
 - (void)respringIndexSelected {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Respring Confirm")
-                                                     andMessage:XXLString(@"Tap \"Respring Now\" to continue.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Respring Confirm", nil)
+                                                     andMessage:NSLocalizedString(@"Tap \"Respring Now\" to continue.", nil)];
     @alertViewConfirm(@"Respring Now", [XXLocalNetService localRespringDeviceWithError:&err]);
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
@@ -362,10 +362,10 @@ enum {
 }
 
 - (void)rebootIndexSelected {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Reboot Confirm")
-                                                     andMessage:XXLString(@"Tap \"Reboot Now\" to continue.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Reboot Confirm", nil)
+                                                     andMessage:NSLocalizedString(@"Tap \"Reboot Now\" to continue.", nil)];
     @alertViewConfirm(@"Reboot Now", [XXLocalNetService localRestartDeviceWithError:&err]);
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
@@ -375,7 +375,7 @@ enum {
 
 - (void)openReferencesUrl {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = XXLString(@"Documents");
+    viewController.title = NSLocalizedString(@"Documents", nil);
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }

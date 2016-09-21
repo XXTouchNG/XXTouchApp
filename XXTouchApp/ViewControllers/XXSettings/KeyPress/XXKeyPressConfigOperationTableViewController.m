@@ -69,11 +69,11 @@
     if (section == 0) {
         NSString *footerText = [self.operationDescription stringByAppendingString:@": "];
         if (_selectedIndex == 0) {
-            footerText = [footerText stringByAppendingString:XXLString(@"Pop-up menu")];
+            footerText = [footerText stringByAppendingString:NSLocalizedString(@"Pop-up menu", nil)];
         } else if (_selectedIndex == 1) {
-            footerText = [footerText stringByAppendingString:XXLString(@"Launch / Stop selected script")];
+            footerText = [footerText stringByAppendingString:NSLocalizedString(@"Launch / Stop selected script", nil)];
         } else if (_selectedIndex == 2) {
-            footerText = [footerText stringByAppendingString:XXLString(@"No action")];
+            footerText = [footerText stringByAppendingString:NSLocalizedString(@"No action", nil)];
         }
         return footerText;
     }

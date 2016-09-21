@@ -8,9 +8,11 @@
 
 #import "AppDelegate.h"
 #import "XXNavigationViewController.h"
+#import "XXMainTabbarViewController.h"
 #import "XXScriptListTableViewController.h"
 #import "XXScanViewController.h"
 #import "XXLocalNetService.h"
+#import "XXLocalDataService.h"
 
 static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
 
@@ -43,8 +45,8 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
     if ([FCFileManager existsItemAtPath:tmpLockedItemPath]) {
         self.view.userInteractionEnabled = NO;
         @weakify(self);
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Needs Respring") andMessage:XXLString(@"You should resping your device to continue to use this application.")];
-        [alertView addButtonWithTitle:XXLString(@"Respring Now") type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Needs Respring", nil) andMessage:NSLocalizedString(@"You should resping your device to continue to use this application.", nil)];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Respring Now", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
             [self.view makeToastActivity:CSToastPositionCenter];
             [XXLocalNetService killBackboardd];
@@ -69,10 +71,31 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
 
 - (void)handleItemTransfer:(NSURL *)url {
     UIViewController *topVC = self.topViewController;
+    __block XXScriptListTableViewController *scriptController = nil;
     if ([topVC isMemberOfClass:[XXScriptListTableViewController class]]) {
-        [topVC performSelector:@selector(reloadScriptListTableView) withObject:nil];
+        scriptController = (XXScriptListTableViewController *)topVC;
+    } else if ([topVC isMemberOfClass:[XXMainTabbarViewController class]]) {
+        scriptController = (XXScriptListTableViewController *)(((XXMainTabbarViewController *)topVC).viewControllers[0]);
     }
-    [self.view makeToast:[NSString stringWithFormat:XXLString(@"File \"%@\" saved to Inbox."), [url lastPathComponent]]];
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        NSError *err = nil;
+        NSString *lastComponent = [url lastPathComponent];
+        NSString *formerPath = [url path];
+        NSString *latterPath = [ROOT_PATH stringByAppendingPathComponent:lastComponent];
+        BOOL result = [FCFileManager moveItemAtPath:formerPath toPath:latterPath overwrite:NO error:&err];
+        dispatch_async_on_main_queue(^{
+            if ([scriptController respondsToSelector:@selector(reloadScriptListTableView)]) {
+                [scriptController performSelector:@selector(reloadScriptListTableView) withObject:nil];
+            }
+            if (result && err == nil) {
+                [self.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" saved", nil), lastComponent]];
+            } else {
+                [self.view makeToast:[err localizedDescription]];
+            }
+        });
+    });
 }
 
 - (void)transitionToScanViewController {

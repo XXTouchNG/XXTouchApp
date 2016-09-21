@@ -44,16 +44,13 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
 - (NSString *)rootPath {
     if (!_rootPath) {
-        _rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        if ([[NSFileManager defaultManager] isReadableFileAtPath:FEVER_PATH]) {
+            _rootPath = FEVER_PATH;
+        } else {
+            _rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        }
     }
     return _rootPath;
-}
-
-- (NSString *)libraryPath {
-    if (!_libraryPath) {
-        _libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject];
-    }
-    return _libraryPath;
 }
 
 - (NSDateFormatter *)defaultDateFormatter {
@@ -70,14 +67,6 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
         _pasteboardArr = [[NSMutableArray alloc] init];
     }
     return _pasteboardArr;
-}
-
-- (NSString *)selectedScript {
-    return (NSString *)[self objectForKey:@"selectedScript"];
-}
-
-- (void)setSelectedScript:(NSString *)selectedScript {
-    [self setObject:selectedScript forKey:@"selectedScript"];
 }
 
 - (NSString *)startUpConfigScriptPath {
@@ -167,7 +156,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
                                                 dispatch_async_on_main_queue(^{
                                                     imageViewer.view.userInteractionEnabled = YES;
                                                     [imageViewer.view hideToastActivity];
-                                                    [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
+                                                    [imageViewer.view makeToast:NSLocalizedString(@"Image saved to the album", nil)];
                                                 });
                                             }
                                         } failure:^(NSError *error) {
@@ -185,7 +174,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
             if (statusResult == FYPhotoLibraryPermissionStatusDenied) {
                 imageViewer.view.userInteractionEnabled = YES;
                 [imageViewer.view hideToastActivity];
-                [imageViewer.view makeToast:XXLString(@"Failed to request photo library access.")];
+                [imageViewer.view makeToast:NSLocalizedString(@"Failed to request photo library access", nil)];
             } else if (statusResult == FYPhotoLibraryPermissionStatusGranted) {
                 [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
                                                        toAlbum:@"XXTouch"
@@ -194,7 +183,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
                                                             dispatch_async_on_main_queue(^{
                                                                 imageViewer.view.userInteractionEnabled = YES;
                                                                 [imageViewer.view hideToastActivity];
-                                                                [imageViewer.view makeToast:XXLString(@"Image saved to the album.")];
+                                                                [imageViewer.view makeToast:NSLocalizedString(@"Image saved to the album", nil)];
                                                             });
                                                         }
                                                     } failure:^(NSError * _Nullable error) {

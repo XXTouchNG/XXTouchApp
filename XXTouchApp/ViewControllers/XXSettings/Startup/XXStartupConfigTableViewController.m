@@ -66,7 +66,7 @@
         XXScriptListTableViewController *newController = [self.storyboard instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
         newController.selectBootscript = YES;
         newController.selectViewController = self;
-        newController.title = XXLString(@"Select Bootscript");
+        newController.title = NSLocalizedString(@"Select Bootscript", nil);
         [self.navigationController pushViewController:newController animated:YES];
     }
 }

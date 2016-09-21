@@ -45,8 +45,15 @@
     }
     self.rootDirectory = [ROOT_PATH copy];
     NSURL *rootUrl = [NSURL fileURLWithPath:[self.rootDirectory stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSURL *destination = [NSURL fileURLWithPath:[self.destinationUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                                  relativeToURL:rootUrl];
+    NSString *relativePath = [self.destinationUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *destination = nil;
+    if ([relativePath hasPrefix:@"/"]) {
+        destination = [NSURL fileURLWithPath:relativePath];
+    } else {
+        destination = [NSURL fileURLWithPath:relativePath
+                                 isDirectory:NO
+                               relativeToURL:rootUrl];
+    }
     if (!destination) {
         self.destinationLabel.textColor = [UIColor redColor];
         self.downloadButton.enabled = NO;
@@ -74,10 +81,10 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             [[UIPasteboard generalPasteboard] setString:self.sourceUrl];
-            [self.navigationController.view makeToast:XXLString(@"Source URL has been copied to the clipboard.")];
+            [self.navigationController.view makeToast:NSLocalizedString(@"Source URL has been copied to the clipboard", nil)];
         } else if (indexPath.row == 1) {
             [[UIPasteboard generalPasteboard] setString:self.destinationUrl];
-            [self.navigationController.view makeToast:XXLString(@"Destination path has been copied to the clipboard.")];
+            [self.navigationController.view makeToast:NSLocalizedString(@"Destination path has been copied to the clipboard", nil)];
         }
     }
 }

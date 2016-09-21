@@ -75,7 +75,7 @@ enum {
             default:
                 break;
         }
-        [self.navigationController.view makeToast:XXLString(@"Copied to the clipboard.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Copied to the clipboard", nil)];
     } else if (indexPath.section == kXXApplicationClearAllCellSection) {
         if (indexPath.row == kXXApplicationClearAllIndex) {
             [self clearAppDataIndexSelected];
@@ -85,16 +85,16 @@ enum {
 
 - (void)clearAppDataIndexSelected {
     NSString *bid = [_appInfo objectForKey:kXXApplicationKeyBundleID];
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Clear Application Data")
-                                                     andMessage:XXLString(@"This operation will clear all data of the application, and it cannot be revoked.")];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear Application Data", nil)
+                                                     andMessage:NSLocalizedString(@"This operation will clear all data of the application, and it cannot be revoked.", nil)];
     @weakify(self);
-    [alertView addButtonWithTitle:XXLString(@"Clean Now")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Clean Now", nil)
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
-                              SendConfigAction([XXLocalNetService localClearAppData:bid error:&err], [self.navigationController.view makeToast:XXLString(@"Operation completed")]);
+                              SendConfigAction([XXLocalNetService localClearAppData:bid error:&err], [self.navigationController.view makeToast:NSLocalizedString(@"Operation completed", nil)]);
                           }];
-    [alertView addButtonWithTitle:XXLString(@"Cancel")
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               

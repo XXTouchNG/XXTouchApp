@@ -113,7 +113,7 @@
     self.documentController.URL = self.url;
     BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
     if (!didPresentOpenIn) {
-        [self.navigationController.view makeToast:XXLString(@"No apps available")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"No apps available", nil)];
     }
 }
 

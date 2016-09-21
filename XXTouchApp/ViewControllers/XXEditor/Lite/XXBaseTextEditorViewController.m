@@ -18,7 +18,7 @@
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
 
-@interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating>
 @property (nonatomic, strong) UIView *fakeStatusBar;
 @property (nonatomic, strong) XXBaseTextView *textView;
 @property (nonatomic, strong) UIToolbar *toolBar;
@@ -27,6 +27,9 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
+
+@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, assign) BOOL searchMode;
 
 @end
 
@@ -75,7 +78,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     // Size Limit
     NSUInteger fileSizeU = [fileSize unsignedIntegerValue];
     if (fileSizeU > 1024000) {
-        GENERATE_ERROR(([NSString stringWithFormat:XXLString(@"The file \"%@\" is too large to load into the memory."), [self.filePath lastPathComponent]]));
+        GENERATE_ERROR(([NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" is too large to fit in the memory", nil), [self.filePath lastPathComponent]]));
         return NO;
     }
     
@@ -204,7 +207,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
         /* Elements of tool bar items */
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         NSMutableArray *myToolBarItems = [NSMutableArray array];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithTitle:XXLString(@"Tab") style:UIBarButtonItemStyleBordered target:self action:@selector(insertTab:)]];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(insertTab:)]];
         [myToolBarItems addObject:flexibleSpace];
         [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissKeyboard:)]];
         
@@ -250,6 +253,46 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     return _shareItem;
 }
 
+- (UISearchController *)searchController {
+    if (!_searchController) {
+        UISearchController *searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+        searchController.delegate = self;
+        searchController.searchBar.delegate = self;
+        searchController.searchResultsUpdater = self;
+        searchController.dimsBackgroundDuringPresentation = NO;
+        searchController.hidesNavigationBarDuringPresentation = NO;
+        searchController.searchBar.frame = CGRectMake(searchController.searchBar.frame.origin.x, searchController.searchBar.frame.origin.y, searchController.searchBar.frame.size.width, 44.0);
+        _searchController = searchController;
+    }
+    return _searchController;
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    return NO;
+}
+
+- (void)willPresentSearchController:(UISearchController *)searchController {
+    
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController {
+    
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController {
+    
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController{
+    
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    
+}
+
 #pragma mark - DocumentInteractionController
 
 - (UIDocumentInteractionController *)documentController {
@@ -264,7 +307,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     self.documentController.URL = [NSURL fileURLWithPath:self.filePath];
     BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
     if (!didPresentOpenIn) {
-        [self.navigationController.view makeToast:XXLString(@"Cannot find supporting application")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot find supporting application", nil)];
     }
 }
 
@@ -280,7 +323,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     if (![self.textView isFirstResponder]) {
         return;
     }
-    [self.textView insertText:@"    "];
+    [self.textView insertText:@"\t"];
 }
 
 - (void)search:(UIBarButtonItem *)sender {
@@ -308,7 +351,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
                 }
             } else {
                 if (err.code == 0) {
-                    [self.navigationController.view makeToast:XXLString(@"Syntax Check Passed")];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Syntax Check Passed", nil)];
                 }
             }
         });
@@ -334,6 +377,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
             }
         }
     }
+    [self.textView scrollRangeToVisible:NSMakeRange(index, 0)];
 }
 
 - (void)statistics:(UIBarButtonItem *)sender {
@@ -344,7 +388,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 }
 
 - (void)settings:(UIBarButtonItem *)sender {
-    [self.navigationController.view makeToast:XXLString(@"Advanced Settings are not provided to XXTouch App Lite.")];
+    [self.navigationController.view makeToast:NSLocalizedString(@"Advanced Settings are not provided to XXTouch App Lite", nil)];
 }
 
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
@@ -354,9 +398,12 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
-    if (!self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    if (!self.searchMode) {
+        if (!self.navigationController.navigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
     }
+    
     [self updateViewConstraints];
 }
 
@@ -368,8 +415,10 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
-    if (self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    if (!self.searchMode) {
+        if (self.navigationController.navigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
     }
     [self updateViewConstraints];
     

@@ -85,7 +85,7 @@ enum {
 
 - (void)endBindingCodeAndGetDeviceInfo {
     _authorizationField.text = @"";
-    [self.navigationController.view makeToast:XXLString(@"Code binding succeed.")];
+    [self.navigationController.view makeToast:NSLocalizedString(@"Code binding succeed", nil)];
     [self loadDeviceAndAuthorizationInfo];
 }
 
@@ -122,9 +122,9 @@ enum {
 - (MJRefreshNormalHeader *)refreshHeader {
     if (!_refreshHeader) {
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadDeviceAndAuthorizationInfo)];
-        [normalHeader setTitle:XXLString(@"Pull down") forState:MJRefreshStateIdle];
-        [normalHeader setTitle:XXLString(@"Release") forState:MJRefreshStatePulling];
-        [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
+        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
+        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
+        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
@@ -209,7 +209,7 @@ enum {
             default:
                 break;
         }
-        [self.navigationController.view makeToast:XXLString(@"Copied to the clipboard.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Copied to the clipboard", nil)];
     }
 }
 

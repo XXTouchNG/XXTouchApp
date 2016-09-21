@@ -11,8 +11,6 @@
 #ifndef SystemConstantsDefines_h
 #define SystemConstantsDefines_h
 
-#define XXLString(string) NSLocalizedStringFromTable(string, @"XXTouch", nil)
-
 #define SendConfigAction(command, reload) \
 self.navigationController.view.userInteractionEnabled = NO; \
 [self.navigationController.view makeToastActivity:CSToastPositionCenter]; \

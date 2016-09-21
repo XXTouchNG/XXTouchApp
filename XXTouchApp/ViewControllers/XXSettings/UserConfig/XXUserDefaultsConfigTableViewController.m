@@ -13,7 +13,7 @@
 #import "XXLocalDataService.h"
 #import "XXUserDefaultsModel.h"
 
-#define USER_DEFAULTS_SWITCH_CHOICES @[XXLString(@"Disable"), XXLString(@"Enable")]
+#define USER_DEFAULTS_SWITCH_CHOICES @[NSLocalizedString(@"Disable", nil), NSLocalizedString(@"Enable", nil)]
 
 static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"kXXUserDefaultsConfigTableViewCellIReuseIdentifier";
 
@@ -74,28 +74,28 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
 
 - (NSString *)fetchTitleForKey:(NSString *)key {
     NSDictionary *titleKey = @{
-                               @"no_nosim_alert": XXLString(@"Hide \"No SIM\" Alert"),
-                               @"no_low_power_alert": XXLString(@"Hide \"Low Power\" Alert"),
-                               @"no_idle": XXLString(@"Insomnia Mode"),
-                               @"script_on_daemon": XXLString(@"Daemon Mode"),
-                               @"script_end_hint": XXLString(@"Script Ended Toast"),
-                               @"no_need_pushid_alert": XXLString(@"Hide \"Connect to iTunes...\" Alert"),
-                               @"no_nosim_statusbar": XXLString(@"Hide \"No SIM\" On Status Bar"),
-                               @"use_classic_control_alert": XXLString(@"Use Classical Alert View"),
+                               @"no_nosim_alert": NSLocalizedString(@"Hide \"No SIM\" Alert", nil),
+                               @"no_low_power_alert": NSLocalizedString(@"Hide \"Low Power\" Alert", nil),
+                               @"no_idle": NSLocalizedString(@"Insomnia Mode", nil),
+                               @"script_on_daemon": NSLocalizedString(@"Daemon Mode", nil),
+                               @"script_end_hint": NSLocalizedString(@"Script Ended Toast", nil),
+                               @"no_need_pushid_alert": NSLocalizedString(@"Hide \"Connect to iTunes...\" Alert", nil),
+                               @"no_nosim_statusbar": NSLocalizedString(@"Hide \"No SIM\" On Status Bar", nil),
+                               @"use_classic_control_alert": NSLocalizedString(@"Use Classical Alert View", nil),
                                };
     return [titleKey objectForKey:key];
 }
 
 - (NSString *)fetchDescriptionForKey:(NSString *)key {
     NSDictionary *descriptionKey = @{
-                                     @"no_nosim_alert": XXLString(@"Prevent \"No SIM\" alert from showing"),
-                                     @"no_low_power_alert": XXLString(@"Prevent \"Low Power\" alert from showing"),
-                                     @"no_idle": XXLString(@"Prevent device from real sleep (offline)"),
-                                     @"script_on_daemon": XXLString(@"Launch the last executed script again if the daemon quitted unexpectedly"),
-                                     @"script_end_hint": XXLString(@"Show \"Script stopped\" hint"),
-                                     @"no_need_pushid_alert": XXLString(@"Prevent \"Connect to iTunes to Use Push Notifications\" alert from showing"),
-                                     @"no_nosim_statusbar": XXLString(@"Prevent \"No SIM\" text on status bar from displaying"),
-                                     @"use_classic_control_alert": XXLString(@"Use classical alert view instead of animated SIAlertView"),
+                                     @"no_nosim_alert": NSLocalizedString(@"Prevent \"No SIM\" alert from showing", nil),
+                                     @"no_low_power_alert": NSLocalizedString(@"Prevent \"Low Power\" alert from showing", nil),
+                                     @"no_idle": NSLocalizedString(@"Prevent device from real sleep (offline)", nil),
+                                     @"script_on_daemon": NSLocalizedString(@"Launch the last executed script again if the daemon quitted unexpectedly", nil),
+                                     @"script_end_hint": NSLocalizedString(@"Show \"Script stopped\" hint", nil),
+                                     @"no_need_pushid_alert": NSLocalizedString(@"Prevent \"Connect to iTunes to Use Push Notifications\" alert from showing", nil),
+                                     @"no_nosim_statusbar": NSLocalizedString(@"Prevent \"No SIM\" text on status bar from displaying", nil),
+                                     @"use_classic_control_alert": NSLocalizedString(@"Use classical alert view instead of animated SIAlertView", nil),
                                      };
     return [descriptionKey objectForKey:key];
 }

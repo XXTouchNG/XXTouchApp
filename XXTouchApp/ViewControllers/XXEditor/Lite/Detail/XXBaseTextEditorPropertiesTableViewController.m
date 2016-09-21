@@ -43,18 +43,18 @@
     self.modificationLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modifiedAt];
     self.encodingLabel.text = @"Unicode (UTF-8)";
     self.lineEndingsLabel.text = @"Unix (LF)";
-    NSString *fileExt = [[self.filePath lastPathComponent] lowercaseString];
+    NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     if ([fileExt isEqualToString:@"lua"]) {
         self.syntaxDefinitionLabel.text = @"Lua (*.lua)";
     } else if ([fileExt isEqualToString:@"txt"] || [fileExt isEqualToString:@"log"]) {
         self.syntaxDefinitionLabel.text = @"Plain Text (*.txt, *.log)";
     }
     NSUInteger lineCount = [self countChar:self.fileContent cchar:'\n'];
-    self.lineCountLabel.text = [NSString stringWithFormat:@"%lu", lineCount];
+    self.lineCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)lineCount];
     NSUInteger charCount = [self countCharacters:self.fileContent];
-    self.characterCountLabel.text = [NSString stringWithFormat:@"%lu", charCount];
+    self.characterCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)charCount];
     NSUInteger wordCount = [self wordCount:self.fileContent];
-    self.wordCountLabel.text = [NSString stringWithFormat:@"%lu", wordCount];
+    self.wordCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)wordCount];
 }
 
 - (NSUInteger)countChar:(NSString *)s cchar:(char)c

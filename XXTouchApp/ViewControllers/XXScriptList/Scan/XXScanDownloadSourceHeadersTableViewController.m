@@ -58,7 +58,7 @@ static NSString * const kXXScanDownloadSourceHeadersTableViewCellReuseIdentifier
     if (indexPath.section == 0) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [[UIPasteboard generalPasteboard] setString:cell.detailTextLabel.text];
-        [self.navigationController.view makeToast:XXLString(@"Copied to the clipboard.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Copied to the clipboard", nil)];
     }
 }
 
@@ -75,7 +75,7 @@ static NSString * const kXXScanDownloadSourceHeadersTableViewCellReuseIdentifier
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return XXLString(@"Headers");
+        return NSLocalizedString(@"Headers", nil);
     }
     return nil;
 }
@@ -93,7 +93,7 @@ static NSString * const kXXScanDownloadSourceHeadersTableViewCellReuseIdentifier
 - (IBAction)buttonCopyTapped:(id)sender {
     NSString *jsonPrinted = [self.headers jsonPrettyStringEncoded];
     [[UIPasteboard generalPasteboard] setString:jsonPrinted];
-    [self.navigationController.view makeToast:XXLString(@"All header fields have been copied to the clipboard.")];
+    [self.navigationController.view makeToast:NSLocalizedString(@"All header fields have been copied to the clipboard", nil)];
 }
 
 @end

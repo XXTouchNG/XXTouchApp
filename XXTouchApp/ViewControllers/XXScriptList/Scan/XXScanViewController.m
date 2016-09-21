@@ -160,7 +160,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 
 - (UIBarButtonItem *)albumItem {
     if (!_albumItem) {
-        UIBarButtonItem *albumItem = [[UIBarButtonItem alloc] initWithTitle:XXLString(@"Album") style:UIBarButtonItemStyleBordered target:self action:@selector(album:)];
+        UIBarButtonItem *albumItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Album", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(album:)];
         albumItem.tintColor = [UIColor whiteColor];
         _albumItem = albumItem;
     }
@@ -178,20 +178,20 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             });
         } else if (status == AVAuthorizationStatusDenied) {
             dispatch_async_on_main_queue(^{
-                self.title = XXLString(@"Access Denied");
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Access Denied")
-                                                                 andMessage:XXLString(@"Turn to \"Settings > Privacy > Camera\" and enable XXTouch to use your camera.")];
-                [alertView addButtonWithTitle:XXLString(@"OK") type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                self.title = NSLocalizedString(@"Access Denied", nil);
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied", nil)
+                                                                 andMessage:NSLocalizedString(@"Turn to \"Settings > Privacy > Camera\" and enable XXTouch to use your camera.", nil)];
+                [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
                     
                 }];
                 [alertView show];
             });
         } else if (status == AVAuthorizationStatusRestricted) {
             dispatch_async_on_main_queue(^{
-                self.title = XXLString(@"Access Restricted");
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Access Restricted")
-                                                                 andMessage:XXLString(@"Turn to \"Settings > Privacy > Camera\" and enable XXTouch to use your camera.")];
-                [alertView addButtonWithTitle:XXLString(@"OK") type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                self.title = NSLocalizedString(@"Access Restricted", nil);
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Restricted", nil)
+                                                                 andMessage:NSLocalizedString(@"Turn to \"Settings > Privacy > Camera\" and enable XXTouch to use your camera.", nil)];
+                [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
                     
                 }];
                 [alertView show];
@@ -204,10 +204,10 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
                     });
                 } else {
                     dispatch_async_on_main_queue(^{
-                        self.title = XXLString(@"Access Denied");
-                        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Access Denied")
-                                                                         andMessage:XXLString(@"Turn to \"Settings > Privacy > Camera\" and enable XXTouch to use your camera.")];
-                        [alertView addButtonWithTitle:XXLString(@"OK") type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                        self.title = NSLocalizedString(@"Access Denied", nil);
+                        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied", nil)
+                                                                         andMessage:NSLocalizedString(@"Turn to \"Settings > Privacy > Camera\" and enable XXTouch to use your camera.", nil)];
+                        [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
                             
                         }];
                         [alertView show];
@@ -376,7 +376,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     self.navigationItem.leftBarButtonItem = self.closeItem;
     self.navigationItem.rightBarButtonItem = self.albumItem;
     [self.view addSubview:self.maskView];
-    self.title = XXLString(@"Scan QR Code");
+    self.title = NSLocalizedString(@"Scan QR Code", nil);
     
     [self fetchPermission];
 }
@@ -430,7 +430,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     XXEmptyNavigationController *navController = [[[AppDelegate globalDelegate] rootViewController].storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
     XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
     webController.url = url;
-    webController.title = XXLString(@"Redirecting...");
+    webController.title = NSLocalizedString(@"Redirecting...", nil);
     _webController = webController;
     webController.navigationItem.leftBarButtonItem = self.closeWebItem;
     [self.navigationController presentViewController:navController animated:YES completion:^() {
@@ -490,10 +490,10 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     if (url) {
         [self.navigationController.view hideToastActivity];
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
-            [self.navigationController.view makeToast:XXLString(@"Redirecting to url...")];
+            [self.navigationController.view makeToast:NSLocalizedString(@"Redirecting to url...", nil)];
             [self performSelector:@selector(redirectingToUrl:) withObject:url afterDelay:2.f];
         } else {
-            [self.navigationController.view makeToast:XXLString(@"Invalid url")];
+            [self.navigationController.view makeToast:NSLocalizedString(@"Invalid url", nil)];
             [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
         }
         return;
@@ -507,13 +507,13 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             NSString *event = [jsonObj objectForKey:@"event"];
             if ([event isEqualToString:@"bind_code"]) {
                 NSString *code = [jsonObj objectForKey:@"code"];
-                [self.navigationController.view makeToast:XXLString(@"Binding code")];
+                [self.navigationController.view makeToast:NSLocalizedString(@"Binding code", nil)];
                 [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
             } else if ([event isEqualToString:@"down_script"]) {
-                [self.navigationController.view makeToast:XXLString(@"Download Task")];
+                [self.navigationController.view makeToast:NSLocalizedString(@"Download Task", nil)];
                 [self performSelector:@selector(confirmDownloadingTask:) withObject:jsonObj afterDelay:2.f];
             } else {
-                [self.navigationController.view makeToast:XXLString(@"Invalid event")];
+                [self.navigationController.view makeToast:NSLocalizedString(@"Invalid event", nil)];
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
             }
         }
@@ -523,7 +523,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     // PLAIN TEXT?
     [self.navigationController.view hideToastActivity];
     [[UIPasteboard generalPasteboard] setString:output];
-    [self.navigationController.view makeToast:XXLString(@"Text copied to the pasteboard")];
+    [self.navigationController.view makeToast:NSLocalizedString(@"Text copied to the pasteboard", nil)];
     [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
 }
 
@@ -547,7 +547,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             dispatch_async_on_main_queue(^{
                 [self.navigationController.view hideToastActivity];
                 if (!scannedResult) {
-                    [self.navigationController.view makeToast:XXLString(@"Cannot find QR Code in that image")];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Cannot find QR Code in that image", nil)];
                     [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
                 } else {
                     [self handleOutput:scannedResult];
@@ -580,7 +580,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             [self.navigationController.view hideToastActivity];
             self.navigationController.view.userInteractionEnabled = YES;
             if (error == nil) {
-                [self.navigationController.view makeToast:XXLString(@"Download Task Completed")];
+                [self.navigationController.view makeToast:NSLocalizedString(@"Download Task Completed", nil)];
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
                 [self.navigationController.view makeToast:[error localizedDescription]];

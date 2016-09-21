@@ -54,10 +54,10 @@ int cancelFlag = 0;
 - (IBAction)done:(id)sender {
     NSString *itemName = _nameTextField.text;
     if (itemName.length == 0) {
-        [self.navigationController.view makeToast:XXLString(@"Item name cannot be empty.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Item name cannot be empty", nil)];
         return;
     } else if ([itemName containsString:@"/"]) {
-        [self.navigationController.view makeToast:XXLString(@"Invalid item name.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Invalid item name", nil)];
         return;
     }
     NSError *err = nil;
@@ -117,9 +117,9 @@ int cancelFlag = 0;
 - (MJRefreshNormalHeader *)refreshHeader {
     if (!_refreshHeader) {
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadItemInfo)];
-        [normalHeader setTitle:XXLString(@"Pull down") forState:MJRefreshStateIdle];
-        [normalHeader setTitle:XXLString(@"Release") forState:MJRefreshStatePulling];
-        [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
+        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
+        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
+        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         normalHeader.lastUpdatedTimeLabel.hidden = YES;
@@ -142,8 +142,8 @@ int cancelFlag = 0;
     }
     NSString *itemType = [self.currentAttributes objectForKey:NSFileType];
     if (itemType == NSFileTypeDirectory) {
-        self.itemTypeLabel.text = XXLString(@"Directory");
-        self.itemSizeLabel.text = XXLString(@"Calculating...");
+        self.itemTypeLabel.text = NSLocalizedString(@"Directory", nil);
+        self.itemSizeLabel.text = NSLocalizedString(@"Calculating...", nil);
         @weakify(self);
         dispatch_queue_t concurrentQueue = dispatch_queue_create(kXXTouchCalculatingDirectorySizeIdentifier, DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
@@ -154,14 +154,14 @@ int cancelFlag = 0;
             });
         });
     } else if (itemType == NSFileTypeRegular) {
-        self.itemTypeLabel.text = XXLString(@"Regular File");
+        self.itemTypeLabel.text = NSLocalizedString(@"Regular File", nil);
         self.mimeTypeLabel.text = [itemPath mime];
         self.itemSizeLabel.text = [FCFileManager sizeFormattedOfItemAtPath:itemPath error:&err];
     } else if (itemType == NSFileTypeSymbolicLink) {
-        self.itemTypeLabel.text = XXLString(@"Symbolic Link");
+        self.itemTypeLabel.text = NSLocalizedString(@"Symbolic Link", nil);
         self.itemSizeLabel.text = [FCFileManager sizeFormattedOfItemAtPath:itemPath error:&err];
     } else {
-        self.itemTypeLabel.text = XXLString(@"Unsupported");
+        self.itemTypeLabel.text = NSLocalizedString(@"Unsupported file type", nil);
     }
     NSDate *creationDate = [self.currentAttributes objectForKey:NSFileCreationDate];
     NSString *creationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:creationDate];
@@ -178,7 +178,7 @@ int cancelFlag = 0;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 1) {
         [[UIPasteboard generalPasteboard] setString:self.originalPath];
-        [self.navigationController.view makeToast:XXLString(@"Absolute path copied to the clipboard.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Absolute path copied to the clipboard", nil)];
     }
 }
 

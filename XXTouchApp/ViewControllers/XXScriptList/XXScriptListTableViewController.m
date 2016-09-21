@@ -44,7 +44,6 @@ XXToolbarDelegate
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
 @property (nonatomic, copy) NSString *rootDirectory;
-@property (nonatomic, copy) NSString *currentDirectory;
 @property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
@@ -61,8 +60,8 @@ XXToolbarDelegate
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _selectedIndex = -1;
     _rootDirectory = ROOT_PATH;
+    _selectedIndex = -1;
     _currentDirectory = [_rootDirectory mutableCopy];
     _rootItemsDictionaryArr = @[];
 }
@@ -124,9 +123,9 @@ XXToolbarDelegate
 - (MJRefreshNormalHeader *)refreshHeader {
     if (!_refreshHeader) {
         MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(startMJRefreshing)];
-        [normalHeader setTitle:XXLString(@"Pull down") forState:MJRefreshStateIdle];
-        [normalHeader setTitle:XXLString(@"Release") forState:MJRefreshStatePulling];
-        [normalHeader setTitle:XXLString(@"Loading...") forState:MJRefreshStateRefreshing];
+        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
+        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
+        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
         normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
         normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
         normalHeader.lastUpdatedTimeLabel.hidden = YES;
@@ -159,14 +158,14 @@ XXToolbarDelegate
         }
         dispatch_async_on_main_queue(^{
             if (!result) {
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Sync Failure")
-                                                                 andMessage:XXLString(@"Failed to sync with daemon.\nTap to retry.")];
-                [alertView addButtonWithTitle:XXLString(@"Retry")
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync Failure", nil)
+                                                                 andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
+                [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
                                          type:SIAlertViewButtonTypeDestructive
                                       handler:^(SIAlertView *alertView) {
                                           [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
                                       }];
-                [alertView addButtonWithTitle:XXLString(@"Cancel")
+                [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                                          type:SIAlertViewButtonTypeCancel
                                       handler:^(SIAlertView *alertView) {
                                           [self endMJRefreshing];
@@ -190,11 +189,11 @@ XXToolbarDelegate
     NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[FCFileManager listItemsInDirectoryAtPath:self.currentDirectory deep:NO]];
     
     if (pathArr.count == 0) {
-        [_footerLabel setTitle:XXLString(@"No Item") forState:UIControlStateNormal];
+        [_footerLabel setTitle:NSLocalizedString(@"No Item", nil) forState:UIControlStateNormal];
     } else if (pathArr.count == 1) {
-        [_footerLabel setTitle:XXLString(@"1 Item") forState:UIControlStateNormal];
+        [_footerLabel setTitle:NSLocalizedString(@"1 Item", nil) forState:UIControlStateNormal];
     } else {
-        [_footerLabel setTitle:[NSString stringWithFormat:XXLString(@"%d Items"), pathArr.count] forState:UIControlStateNormal];
+        [_footerLabel setTitle:[NSString stringWithFormat:NSLocalizedString(@"%d Items", nil), pathArr.count] forState:UIControlStateNormal];
     }
     
     NSMutableArray *attrArr = [[NSMutableArray alloc] init];
@@ -320,7 +319,7 @@ XXToolbarDelegate
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
         if (cell.selectable) {
             @weakify(self);
-            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:XXLString(@"Run")
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Run", nil)
                                                      backgroundColor:[UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f]
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
@@ -338,7 +337,7 @@ XXToolbarDelegate
                                                                         if (!result) {
                                                                             if (err.code == 2) {
                                                                                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
-                                                                                [alertView addButtonWithTitle:XXLString(@"OK") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                                                                                [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
                                                                                     
                                                                                 }];
                                                                                 [alertView show];
@@ -353,46 +352,47 @@ XXToolbarDelegate
         }
         if (cell.editable) {
             @weakify(self);
-            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:XXLString(@"Edit")
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Edit", nil)
                                                      backgroundColor:STYLE_TINT_COLOR
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 [self setEditing:NO animated:YES];
                                                                 BOOL result = [XXQuickLookService editFileWithStandardEditor:cell.itemPath parentViewController:self];
                                                                 if (!result) {
-                                                                    [self.navigationController.view makeToast:XXLString(@"Unsupported file type")];
+                                                                    [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                                                                 }
                                                                 return result;
                                                             }]];
         }
         @weakify(self);
-        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:XXLString(@"Delete")
+        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Delete", nil)
                                                   backgroundColor:[UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f]
                                                          callback:^BOOL(MGSwipeTableCell *sender) {
                                                              @strongify(self);
                                                              [self setEditing:NO animated:YES];
                                                              __block NSString *itemPath = cell.itemPath;
                                                              NSString *displayName = cell.displayName;
-                                                             NSString *formatString = NSLocalizedStringFromTable(@"Delete %@?\nThis operation cannot be revoked.", @"XXTouch", nil);
-                                                             SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Delete Confirm", @"XXTouch", nil)
+                                                             NSString *formatString = NSLocalizedString(@"Delete %@?\nThis operation cannot be revoked.", nil);
+                                                             SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
                                                                                                               andMessage:[NSString stringWithFormat:formatString, displayName]];
-                                                             [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Yes", @"XXTouch", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
                                                                  __block NSError *err = nil;
                                                                  self.navigationController.view.userInteractionEnabled = NO;
                                                                  [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                                                                  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                                                                     [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
+                                                                     BOOL result = [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
                                                                      if (cell.checked) {
                                                                          if (_selectBootscript) {
                                                                              [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                                                                          } else {
                                                                              [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                                                                          }
+                                                                         _selectedIndex = -1;
                                                                      }
                                                                      dispatch_async_on_main_queue(^{
                                                                          self.navigationController.view.userInteractionEnabled = YES;
                                                                          [self.navigationController.view hideToastActivity];
-                                                                         if (err == nil) {
+                                                                         if (result && err == nil) {
                                                                              [self reloadScriptListTableData];
                                                                              [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
                                                                          } else {
@@ -401,7 +401,7 @@ XXToolbarDelegate
                                                                      });
                                                                  });
                                                              }];
-                                                             [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"XXTouch", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
                                                                  
                                                              }];
                                                              [alertView show];
@@ -534,7 +534,7 @@ XXToolbarDelegate
             // Perform Segue
         } else {
             if (_selectBootscript) {
-                [self.navigationController.view makeToast:XXLString(@"You can only select executable script type: lua, xxt")];
+                [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
                 BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
                                                         parentViewController:self];
@@ -544,7 +544,7 @@ XXToolbarDelegate
                                        parentViewController:self];
                 }
                 if (!result) {
-                    [self.navigationController.view makeToast:XXLString(@"Unsupported file type")];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                 }
             }
         }
@@ -583,7 +583,7 @@ XXToolbarDelegate
 
 - (void)itemCountLabelTapped:(id)sender {
     [[UIPasteboard generalPasteboard] setString:self.currentDirectory];
-    [self.navigationController.view makeToast:XXLString(@"Absolute path copied to the clipboard.")];
+    [self.navigationController.view makeToast:NSLocalizedString(@"Absolute path copied to the clipboard", nil)];
 }
 
 - (void)toolbarButtonTapped:(UIBarButtonItem *)sender {
@@ -604,11 +604,11 @@ XXToolbarDelegate
         __block NSMutableArray *pasteArr = [[XXLocalDataService sharedInstance] pasteboardArr];
         if (pasteArr.count != 0) {
             if (pasteArr.count == 1) {
-                pasteStr = XXLString(@"Paste 1 item");
-                linkStr = XXLString(@"Create 1 link");
+                pasteStr = NSLocalizedString(@"Paste 1 item", nil);
+                linkStr = NSLocalizedString(@"Create 1 link", nil);
             } else {
-                pasteStr = [NSString stringWithFormat:XXLString(@"Paste %d items"), pasteArr.count];
-                linkStr = [NSString stringWithFormat:XXLString(@"Create %d links"), pasteArr.count];
+                pasteStr = [NSString stringWithFormat:NSLocalizedString(@"Paste %d items", nil), pasteArr.count];
+                linkStr = [NSString stringWithFormat:NSLocalizedString(@"Create %d links", nil), pasteArr.count];
             }
             __block NSError *err = nil;
             __block NSString *currentPath = self.currentDirectory;
@@ -682,11 +682,11 @@ XXToolbarDelegate
                 [selectedPaths addObject:cell.itemPath];
             }
             if (selectedIndexes.count == 1) {
-                copyStr = XXLString(@"Copy 1 item");
-                cutStr = XXLString(@"Cut 1 item");
+                copyStr = NSLocalizedString(@"Copy 1 item", nil);
+                cutStr = NSLocalizedString(@"Cut 1 item", nil);
             } else {
-                copyStr = [NSString stringWithFormat:XXLString(@"Copy %d items"), selectedIndexes.count];
-                cutStr = [NSString stringWithFormat:XXLString(@"Cut %d items"), selectedIndexes.count];
+                copyStr = [NSString stringWithFormat:NSLocalizedString(@"Copy %d items", nil), selectedIndexes.count];
+                cutStr = [NSString stringWithFormat:NSLocalizedString(@"Cut %d items", nil), selectedIndexes.count];
             }
             if ([self isEditing]) {
                 @weakify(self);
@@ -709,7 +709,7 @@ XXToolbarDelegate
             }
         }
         
-        [alertView addButtonWithTitle:XXLString(@"Cancel") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
         }];
         
@@ -729,14 +729,14 @@ XXToolbarDelegate
         
         NSString *formatString = nil;
         if (selectedIndexPaths.count == 1) {
-            formatString = [NSString stringWithFormat:XXLString(@"Delete 1 item?\nThis operation cannot be revoked.")];
+            formatString = [NSString stringWithFormat:NSLocalizedString(@"Delete 1 item?\nThis operation cannot be revoked.", nil)];
         } else {
-            formatString = [NSString stringWithFormat:XXLString(@"Delete %d items?\nThis operation cannot be revoked."), selectedIndexPaths.count];
+            formatString = [NSString stringWithFormat:NSLocalizedString(@"Delete %d items?\nThis operation cannot be revoked.", nil), selectedIndexPaths.count];
         }
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Delete Confirm")
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
                                                          andMessage:formatString];
         @weakify(self);
-        [alertView addButtonWithTitle:XXLString(@"Yes") type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
             BOOL result = YES;
             NSError *err = nil;
@@ -749,6 +749,7 @@ XXToolbarDelegate
                     } else {
                         [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                     }
+                    _selectedIndex = -1;
                 }
                 [FCFileManager removeItemAtPath:itemPath error:&err];
                 if (err) {
@@ -764,7 +765,7 @@ XXToolbarDelegate
             }
             [self setEditing:NO animated:YES];
         }];
-        [alertView addButtonWithTitle:XXLString(@"Cancel") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
         }];
         [alertView show];
@@ -788,20 +789,20 @@ XXToolbarDelegate
                 [self.navigationController presentViewController:controller animated:YES completion:nil];
             }
         } else {
-            [self.navigationController.view makeToast:XXLString(@"You cannot share directory.")];
+            [self.navigationController.view makeToast:NSLocalizedString(@"You cannot share directory", nil)];
         }
     } else if (sender == self.topToolbar.compressButton) {
         __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         NSString *formatString = nil;
         if (selectedIndexPaths.count == 1) {
-            formatString = [NSString stringWithFormat:XXLString(@"Compress 1 item?")];
+            formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress 1 item?", nil)];
         } else {
-            formatString = [NSString stringWithFormat:XXLString(@"Compress %d items?"), selectedIndexPaths.count];
+            formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress %d items?", nil), selectedIndexPaths.count];
         }
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:XXLString(@"Archive Confirm")
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Archive Confirm", nil)
                                                          andMessage:formatString];
         @weakify(self);
-        [alertView addButtonWithTitle:XXLString(@"Yes") type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
             if (self.isEditing) {
                 [self setEditing:NO animated:YES];
@@ -817,7 +818,7 @@ XXToolbarDelegate
                           parentViewController:self];
             }
         }];
-        [alertView addButtonWithTitle:XXLString(@"Cancel") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
         }];
         [alertView show];

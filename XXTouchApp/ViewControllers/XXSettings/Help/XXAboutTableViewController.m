@@ -42,7 +42,7 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = XXLString(@"About");
+    self.title = NSLocalizedString(@"About", nil);
     _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_CN, VERSION_STRING, VERSION_BUILD];
 }
 
@@ -57,7 +57,7 @@ enum {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     if (!picker) return;
     picker.mailComposeDelegate = self;
-    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", XXLString(@"Feedback"), APP_NAME_CN, VERSION_STRING, VERSION_BUILD]];
+    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), APP_NAME_CN, VERSION_STRING, VERSION_BUILD]];
     NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];
@@ -100,21 +100,21 @@ enum {
 
 - (void)openOfficialSite {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = XXLString(@"Official Site");
+    viewController.title = NSLocalizedString(@"Official Site", nil);
     viewController.url = [NSURL URLWithString:OFFICIAL_SITE];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)openUserAgreement {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = XXLString(@"User Agreement");
+    viewController.title = NSLocalizedString(@"User Agreement", nil);
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"tos" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)openThirdParty {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
-    viewController.title = XXLString(@"Third Party Credits");
+    viewController.title = NSLocalizedString(@"Third Party Credits", nil);
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"open" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }

@@ -51,9 +51,9 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         if (_configInfo.configType == kXXUserDefaultsTypeSwitch) {
-            return XXLString(@"Switch");
+            return NSLocalizedString(@"Switch", nil);
         } else if (_configInfo.configType == kXXUserDefaultsTypeChoice) {
-            return XXLString(@"Choice");
+            return NSLocalizedString(@"Choice", nil);
         }
     }
     return nil;

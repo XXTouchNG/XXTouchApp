@@ -66,10 +66,10 @@ typedef enum : NSUInteger {
 - (IBAction)done:(id)sender {
     NSString *itemName = _itemNameTextField.text;
     if (itemName.length == 0) {
-        [self.navigationController.view makeToast:XXLString(@"Item name cannot be empty.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Item name cannot be empty", nil)];
         return;
     } else if ([itemName containsString:@"/"]) {
-        [self.navigationController.view makeToast:XXLString(@"Invalid item name.")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Invalid item name", nil)];
         return;
     }
     BOOL result = NO;
@@ -93,7 +93,7 @@ typedef enum : NSUInteger {
     } else if (err != nil) {
         [self.navigationController.view makeToast:[err localizedDescription]];
     } else {
-        [self.navigationController.view makeToast:XXLString(@"Unknown error")];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Unknown error", nil)];
     }
 }
 

@@ -68,9 +68,8 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 @property (nonatomic, strong) NSMutableDictionary *userConfig; // Cached
 
 @property (nonatomic, copy) NSString *rootPath; // Installed
-@property (nonatomic, copy) NSString *libraryPath; // Installed
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter; // Static
-@property (nonatomic, copy) NSString *selectedScript; // Cached
+@property (nonatomic, copy) NSString *selectedScript;
 @property (nonatomic, assign) BOOL remoteAccessStatus; // Cached
 @property (nonatomic, copy) NSString *remoteAccessURL; // Installed
 

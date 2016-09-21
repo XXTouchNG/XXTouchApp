@@ -13,6 +13,7 @@ static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScri
 @interface XXScriptListTableViewController : UITableViewController
 @property (nonatomic, assign) BOOL selectBootscript;
 @property (nonatomic, weak) UIViewController *selectViewController;
+@property (nonatomic, copy) NSString *currentDirectory;
 
 - (void)reloadScriptListTableView;
 

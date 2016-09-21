@@ -19,8 +19,8 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
     NSString *fileExt = [filePath pathExtension];
     if ([[self supportedArchiveFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Zip Archive
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Unarchive"
-                                                         andMessage:XXLString(@"Extract to the current directory?\nItem with the same name will be overwritten.")];
-        [alertView addButtonWithTitle:XXLString(@"Yes") type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+                                                         andMessage:NSLocalizedString(@"Extract to the current directory?\nItem with the same name will be overwritten.", nil)];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             __block UINavigationController *navController = viewController.navigationController;
             navController.view.userInteractionEnabled = NO;
             [navController.view makeToastActivity:CSToastPositionCenter];
@@ -49,7 +49,7 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
                 });
             }
         }];
-        [alertView addButtonWithTitle:XXLString(@"Cancel") type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
         }];
         [alertView show];
@@ -108,7 +108,7 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
             navController.view.userInteractionEnabled = YES;
             [navController.view hideToastActivity];
             if (!result) {
-                [navController.view makeToast:XXLString(@"Cannot create zip file")];
+                [navController.view makeToast:NSLocalizedString(@"Cannot create zip file", nil)];
             }
         });
     });

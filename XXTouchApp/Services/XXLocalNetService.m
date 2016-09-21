@@ -115,7 +115,12 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)localGetSelectedScriptWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"get_selected_script_file" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setSelectedScript:result[@"data"][@"filename"]];
+        if ([result[@"data"][@"filename"] hasPrefix:@"/"]) {
+            [[XXLocalDataService sharedInstance] setSelectedScript:result[@"data"][@"filename"]];
+        } else {
+            NSURL *absolutePath = [NSURL fileURLWithPath:result[@"data"][@"filename"] isDirectory:NO relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            [[XXLocalDataService sharedInstance] setSelectedScript:[absolutePath path]];
+        }
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -376,8 +381,13 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSDictionary *data = result[@"data"];
         XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
-        [sharedDataService setStartUpConfigSwitch:[(NSNumber *)[data objectForKey:kXXStartUpConfigSwitch] boolValue]];
-        [sharedDataService setStartUpConfigScriptPath:[data objectForKey:kXXStartUpConfigScriptPath]];
+        [sharedDataService setStartUpConfigSwitch:[(NSNumber *)data[kXXStartUpConfigSwitch] boolValue]];
+        if ([data[kXXStartUpConfigScriptPath] hasPrefix:@"/"]) {
+            [sharedDataService setStartUpConfigScriptPath:data[kXXStartUpConfigScriptPath]];
+        } else {
+            NSURL *absolutePath = [NSURL fileURLWithPath:data[kXXStartUpConfigScriptPath] isDirectory:NO relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            [sharedDataService setStartUpConfigScriptPath:[absolutePath path]];
+        }
         return YES;
     } else
         GENERATE_ERROR(@"");
