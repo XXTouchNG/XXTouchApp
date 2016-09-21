@@ -87,7 +87,7 @@ static NSString * const kXXScanDownloadSourceHeadersTableViewCellReuseIdentifier
         cell.detailTextLabel.text = self.headerValues[indexPath.row];
         return cell;
     }
-    return nil;
+    return [UITableViewCell new];
 }
 
 - (IBAction)buttonCopyTapped:(id)sender {

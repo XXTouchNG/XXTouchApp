@@ -9,6 +9,9 @@
 #import "XXWebViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "XXAboutTableViewController.h"
+#ifdef DEBUG
+#import <FLEX/FLEXManager.h>
+#endif
 
 enum {
     kInformationSection = 0,
@@ -117,6 +120,14 @@ enum {
     viewController.title = NSLocalizedString(@"Third Party Credits", nil);
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"open" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)flexDebugging:(UIBarButtonItem *)sender {
+#ifdef DEBUG
+    [[FLEXManager sharedManager] setNetworkDebuggingEnabled:YES];
+    [[FLEXManager sharedManager] showExplorer];
+    [self.navigationController.view makeToast:NSLocalizedString(@"Debug Mode", nil)];
+#endif
 }
 
 - (void)dealloc {

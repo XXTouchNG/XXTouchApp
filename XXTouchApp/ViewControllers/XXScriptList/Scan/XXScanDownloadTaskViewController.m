@@ -35,13 +35,14 @@
     if (!url) {
         self.sourceLabel.textColor = [UIColor redColor];
         self.downloadButton.enabled = NO;
-    }
-    BOOL urlAccess = [[UIApplication sharedApplication] canOpenURL:url];
-    if (!urlAccess) {
-        self.sourceLabel.textColor = [UIColor redColor];
-        self.downloadButton.enabled = NO;
     } else {
-        self.sourceUrl = [url absoluteString];
+        BOOL urlAccess = [[UIApplication sharedApplication] canOpenURL:url];
+        if (!urlAccess) {
+            self.sourceLabel.textColor = [UIColor redColor];
+            self.downloadButton.enabled = NO;
+        } else {
+            self.sourceUrl = [url absoluteString];
+        }
     }
     self.rootDirectory = [ROOT_PATH copy];
     NSURL *rootUrl = [NSURL fileURLWithPath:[self.rootDirectory stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -50,9 +51,7 @@
     if ([relativePath hasPrefix:@"/"]) {
         destination = [NSURL fileURLWithPath:relativePath];
     } else {
-        destination = [NSURL fileURLWithPath:relativePath
-                                 isDirectory:NO
-                               relativeToURL:rootUrl];
+        destination = [NSURL URLWithString:relativePath relativeToURL:rootUrl];
     }
     if (!destination) {
         self.destinationLabel.textColor = [UIColor redColor];

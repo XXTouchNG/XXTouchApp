@@ -16,6 +16,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ZBarSDK/ZBarImageScanner.h>
+#import <Masonry/Masonry.h>
 
 static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
 static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXAuthorizationTableViewControllerStoryboardID";
@@ -221,8 +222,11 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 - (UIImage *)maskImage {
     if (!_maskImage) {
         
-        CGSize size = self.navigationController.view.size;
-        CGFloat rectWidth = size.width / 3 * 2;
+        CGSize oldSize = self.navigationController.view.size;
+        CGFloat maxLength = MAX(oldSize.width, oldSize.height);
+        CGFloat minLength = MIN(oldSize.width, oldSize.height);
+        CGSize size = CGSizeMake(maxLength, maxLength);
+        CGFloat rectWidth = minLength / 3 * 2;
         
         CGPoint pA = CGPointMake(size.width / 2 - rectWidth / 2, size.height / 2 - rectWidth / 2);
         CGPoint pD = CGPointMake(size.width / 2 + rectWidth / 2, size.height / 2 + rectWidth / 2);
@@ -285,6 +289,13 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
         _cropRect = cropRect;
     }
     return _maskImage;
+}
+
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+    [self.maskView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
 }
 
 - (UIImageView *)maskView {
@@ -384,6 +395,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self performSelector:@selector(startAnimation) withObject:nil afterDelay:0.2f];
+    [self updateViewConstraints];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -88,7 +88,7 @@
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"string_single"
-                         expression:@"([\"'])(?:[^\1\\\\]|\\\\[\\d\\D])*?(\\1|$)"
+                         expression:@"([\"'])(?:[^\1\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithHexString:@"ED7722"],
                                       NSFontAttributeName : self.defaultFont

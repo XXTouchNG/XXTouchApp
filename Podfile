@@ -13,6 +13,7 @@ target 'XXTouchApp' do
     pod 'ZBarSDK'
     pod 'CYRTextView'
     pod 'MGSwipeTableCell'
+    pod 'FLEX', '~> 2.0', :configurations => ['Debug']
     pod 'SSZipArchive'
 end
 

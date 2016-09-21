@@ -713,7 +713,7 @@
 				0FD1C2991D73CC6D000A784E /* Resources */,
 				2E957E7B84CDEB356ECD3E6F /* Embed Pods Frameworks */,
 				F90C0599FF4662AB633741D6 /* Copy Pods Resources */,
-				0FD9AD391D920763007B4CEC /* ShellScript */,
+				0F5E9A841D92E7CB00967EE7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -784,9 +784,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0FD9AD391D920763007B4CEC /* ShellScript */ = {
+		0F5E9A841D92E7CB00967EE7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
@@ -1041,10 +1041,10 @@
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;
 				iOSOpenDevInstallOnAnyBuild = NO;
-				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevInstallOnProfiling = YES;
 				iOSOpenDevPath = /opt/iOSOpenDev;
 				iOSOpenDevPort = 2222;
-				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevRespringOnInstall = YES;
 				iOSOpenDevUsePackageVersionPList = YES;
 			};
 			name = Debug;
@@ -1073,10 +1073,10 @@
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;
 				iOSOpenDevInstallOnAnyBuild = NO;
-				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevInstallOnProfiling = YES;
 				iOSOpenDevPath = /opt/iOSOpenDev;
 				iOSOpenDevPort = 2222;
-				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevRespringOnInstall = YES;
 				iOSOpenDevUsePackageVersionPList = YES;
 			};
 			name = Release;

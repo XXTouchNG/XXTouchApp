@@ -19,10 +19,10 @@
 
 #import <FCFileManager/FCFileManager.h>
 #import <YYCategories/YYCategories.h>
+#import <Toast/UIView+Toast.h>
 
 #import "AppDelegate.h"
 #import "GlobalSettings.h"
-#import "UIView+Toast.h"
 #import "SIAlertView.h"
 #import "UrlDefines.h"
 #import "StyleDefines.h"

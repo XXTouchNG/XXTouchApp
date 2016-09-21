@@ -1,6 +1,7 @@
 PODS:
   - CYRTextView (0.4.0)
   - FCFileManager (1.0.18)
+  - FLEX (2.1.1)
   - JTSImageViewController (1.5.1)
   - Masonry (1.0.1)
   - MGSwipeTableCell (1.5.5)
@@ -21,6 +22,7 @@ PODS:
 DEPENDENCIES:
   - CYRTextView
   - FCFileManager
+  - FLEX (~> 2.0)
   - JTSImageViewController
   - Masonry
   - MGSwipeTableCell
@@ -35,6 +37,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   CYRTextView: 1c1a4d708eee54ecad66b8ad42dbfe73083bdfce
   FCFileManager: 3d13576da1f709d37460bd7669cdf07b9d6d8bc3
+  FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
   JTSImageViewController: 1f8ce1cc93dab0d0af8e53badeea7528560cfec9
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MGSwipeTableCell: bafeb5f351124544c9364ecbdf24c7b06a37d340
@@ -46,6 +49,6 @@ SPEC CHECKSUMS:
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   ZBarSDK: 4c1b5daeb7d6cc67dc9355e690af0230a661f6ec
 
-PODFILE CHECKSUM: 31ceb2560a44aaa03561ed5218426a29d4fa2973
+PODFILE CHECKSUM: e3a5ccfc70adb0af8422c7d69048b451e006c5e7
 
 COCOAPODS: 1.0.0.beta.4

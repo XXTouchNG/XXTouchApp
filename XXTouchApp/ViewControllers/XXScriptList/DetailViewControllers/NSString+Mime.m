@@ -23,7 +23,9 @@
     if (!MIMEType) {
         return @"application/octet-stream";
     }
-    return (__bridge NSString *)(MIMEType);
+    NSString *type = (__bridge NSString *)(MIMEType);
+    CFRelease(MIMEType);
+    return type;
 }
 
 - (NSUInteger)filesize {

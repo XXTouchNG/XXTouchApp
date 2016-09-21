@@ -34,12 +34,12 @@
     }
 }
 
-- (void)loadFilePropertiesWithError:(NSError **)err {
+- (BOOL)loadFilePropertiesWithError:(NSError **)err {
     self.filenameLabel.text = [self.filePath lastPathComponent];
     self.filesizeLabel.text = [FCFileManager sizeFormattedOfFileAtPath:self.filePath error:err];
-    if (*err) return;
+    if (*err) return NO;
     NSDate *modifiedAt = [FCFileManager modificationDateOfItemAtPath:self.filePath error:err];
-    if (*err) return;
+    if (*err) return NO;
     self.modificationLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modifiedAt];
     self.encodingLabel.text = @"Unicode (UTF-8)";
     self.lineEndingsLabel.text = @"Unix (LF)";
@@ -55,6 +55,7 @@
     self.characterCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)charCount];
     NSUInteger wordCount = [self wordCount:self.fileContent];
     self.wordCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)wordCount];
+    return YES;
 }
 
 - (NSUInteger)countChar:(NSString *)s cchar:(char)c

@@ -118,7 +118,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         if ([result[@"data"][@"filename"] hasPrefix:@"/"]) {
             [[XXLocalDataService sharedInstance] setSelectedScript:result[@"data"][@"filename"]];
         } else {
-            NSURL *absolutePath = [NSURL fileURLWithPath:result[@"data"][@"filename"] isDirectory:NO relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            NSURL *absolutePath = [NSURL URLWithString:result[@"data"][@"filename"] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
             [[XXLocalDataService sharedInstance] setSelectedScript:[absolutePath path]];
         }
         return YES;
@@ -385,7 +385,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         if ([data[kXXStartUpConfigScriptPath] hasPrefix:@"/"]) {
             [sharedDataService setStartUpConfigScriptPath:data[kXXStartUpConfigScriptPath]];
         } else {
-            NSURL *absolutePath = [NSURL fileURLWithPath:data[kXXStartUpConfigScriptPath] isDirectory:NO relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            NSURL *absolutePath = [NSURL URLWithString:data[kXXStartUpConfigScriptPath] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
             [sharedDataService setStartUpConfigScriptPath:[absolutePath path]];
         }
         return YES;

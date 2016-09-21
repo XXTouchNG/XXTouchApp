@@ -129,9 +129,13 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     [self saveFileWithError:&err];
 }
 
-- (void)saveFileWithError:(NSError **)err {
+- (BOOL)saveFileWithError:(NSError **)err {
     self.fileContent = self.textView.text;
     [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
+    if (*err) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)updateViewConstraints {
