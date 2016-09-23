@@ -45,8 +45,8 @@
         }
     }
     self.rootDirectory = [ROOT_PATH copy];
-    NSURL *rootUrl = [NSURL fileURLWithPath:[self.rootDirectory stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSString *relativePath = [self.destinationUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *rootUrl = [NSURL fileURLWithPath:[self.rootDirectory stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+    NSString *relativePath = [self.destinationUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
     NSURL *destination = nil;
     if ([relativePath hasPrefix:@"/"]) {
         destination = [NSURL fileURLWithPath:relativePath];

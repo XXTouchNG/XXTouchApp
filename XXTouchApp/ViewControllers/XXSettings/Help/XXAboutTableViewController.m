@@ -29,6 +29,7 @@ enum {
     kOptionMailFeedbackIndex   = 1,
     kOptionUserAgreementIndex  = 2,
     kOptionThirdPartyIndex     = 3,
+    kOptionOnlineUpdateIndex   = 4,
 };
 
 @interface XXAboutTableViewController () <MFMailComposeViewControllerDelegate>
@@ -92,6 +93,9 @@ enum {
                 case kOptionThirdPartyIndex:
                     [self openThirdParty];
                     break;
+                case kOptionOnlineUpdateIndex:
+                    [self openCydia];
+                    break;
                 default:
                     break;
             }
@@ -120,6 +124,15 @@ enum {
     viewController.title = NSLocalizedString(@"Third Party Credits", nil);
     viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"open" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)openCydia {
+    NSURL *cydiaURL = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://apt.xxtouch.com/&package=com.1func.xxtouch.ios"];
+    if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
+        [[UIApplication sharedApplication] openURL:cydiaURL];
+    } else {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Cydia", nil)];
+    }
 }
 
 - (IBAction)flexDebugging:(UIBarButtonItem *)sender {

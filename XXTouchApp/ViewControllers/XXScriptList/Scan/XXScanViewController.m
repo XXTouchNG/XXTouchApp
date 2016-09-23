@@ -286,7 +286,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
         UIGraphicsEndImageContext();
         
         _maskImage = returnImage;
-        _cropRect = cropRect;
+        _cropRect = CGRectMake(oldSize.width / 2 - rectWidth / 2, oldSize.height / 2 - rectWidth / 2, rectWidth, rectWidth);
     }
     return _maskImage;
 }
@@ -583,15 +583,16 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
         @strongify(self);
         NSError *error = nil;
+        BOOL result = NO;
         if (!err) {
-            [FCFileManager moveItemAtPath:[location path] toPath:[destinationPath stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] error:&error];
+            result = [FCFileManager moveItemAtPath:[location path] toPath:[destinationPath stringByRemovingPercentEncoding] error:&error];
         } else {
             error = err;
         }
         dispatch_async_on_main_queue(^{
             [self.navigationController.view hideToastActivity];
             self.navigationController.view.userInteractionEnabled = YES;
-            if (error == nil) {
+            if (result && error == nil) {
                 [self.navigationController.view makeToast:NSLocalizedString(@"Download Task Completed", nil)];
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {

@@ -56,8 +56,7 @@ static NSString * const kXXScanDownloadSourceHeadersTableViewCellReuseIdentifier
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        [[UIPasteboard generalPasteboard] setString:cell.detailTextLabel.text];
+        [[UIPasteboard generalPasteboard] setString:self.headerValues[indexPath.row]];
         [self.navigationController.view makeToast:NSLocalizedString(@"Copied to the clipboard", nil)];
     }
 }

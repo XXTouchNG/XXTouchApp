@@ -39,6 +39,7 @@ enum {
     // Dispose of any resources that can be recreated.
 }
 
+// Static Cells
 - (void)displayCheckmarkForIndexPath:(NSIndexPath *)indexPath {
     for (int i = 0; i <= [self.tableView numberOfRowsInSection:indexPath.section]; i++) {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];

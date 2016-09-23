@@ -23,8 +23,6 @@
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
 static NSString * const kXXDetailSegueIdentifier = @"kXXDetailSegueIdentifier";
-static NSString * const kXXItemPathKey = @"kXXItemPathKey";
-static NSString * const kXXItemNameKey = @"kXXItemNameKey";
 
 enum {
     kXXScriptListCellSection = 0,
@@ -270,22 +268,22 @@ XXToolbarDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
     NSDictionary *attrs = self.rootItemsDictionaryArr[indexPath.row];
-    NSString *itemPath = [attrs objectForKey:kXXItemPathKey];
-    NSString *itemName = [attrs objectForKey:kXXItemNameKey];
     
-    cell.itemPath = itemPath;
-    cell.displayName = itemName;
     cell.itemAttrs = attrs;
     cell.selectBootscript = self.selectBootscript;
+    NSString *fileExt = [[attrs[kXXItemNameKey] pathExtension] lowercaseString];
+    cell.isSelectable = [XXQuickLookService isSelectableFileExtension:fileExt];
+    cell.isEditable = [XXQuickLookService isEditableFileExtension:fileExt];
+    cell.isDirectory = [attrs[NSFileType] isEqualToString:NSFileTypeDirectory];
     
-    if (cell.selectable) {
+    if (cell.isSelectable) {
         NSString *highlightedItemPath = nil;
         if (_selectBootscript) {
             highlightedItemPath = [[XXLocalDataService sharedInstance] startUpConfigScriptPath];
         } else {
             highlightedItemPath = [[XXLocalDataService sharedInstance] selectedScript];
         }
-        if ([cell.itemPath isEqualToString:highlightedItemPath]) {
+        if ([attrs[kXXItemPathKey] isEqualToString:highlightedItemPath]) {
             _selectedIndex = indexPath.row;
             cell.checked = YES;
         } else {
@@ -294,9 +292,9 @@ XXToolbarDelegate
     } else if (cell.isDirectory) {
         BOOL checked = NO;
         if (_selectBootscript) {
-            checked = [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:cell.itemPath];
+            checked = [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:attrs[kXXItemPathKey]];
         } else {
-            checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:cell.itemPath];
+            checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:attrs[kXXItemPathKey]];
         }
         cell.checked = checked;
         if (checked) {
@@ -307,17 +305,13 @@ XXToolbarDelegate
     if (_selectBootscript) {
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else {
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
         longPressGesture.delegate = self;
         [cell addGestureRecognizer:longPressGesture];
-        if (cell.isDirectory) {
-            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        } else {
-            cell.accessoryType = UITableViewCellAccessoryDetailButton;
-        }
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
-        if (cell.selectable) {
+        if (cell.isSelectable) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Run", nil)
                                                      backgroundColor:[UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f]
@@ -330,7 +324,7 @@ XXToolbarDelegate
                                                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                                                                     @strongify(self);
                                                                     __block NSError *err = nil;
-                                                                    BOOL result = [XXLocalNetService localLaunchScript:cell.itemPath error:&err];
+                                                                    BOOL result = [XXLocalNetService localLaunchScript:attrs[kXXItemPathKey] error:&err];
                                                                     dispatch_async_on_main_queue(^{
                                                                         self.navigationController.view.userInteractionEnabled = YES;
                                                                         [self.navigationController.view hideToastActivity];
@@ -350,14 +344,14 @@ XXToolbarDelegate
                                                                 return YES;
                                                             }]];
         }
-        if (cell.editable) {
+        if (cell.isEditable) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Edit", nil)
                                                      backgroundColor:STYLE_TINT_COLOR
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 [self setEditing:NO animated:YES];
-                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:cell.itemPath parentViewController:self];
+                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:attrs[kXXItemPathKey] parentViewController:self];
                                                                 if (!result) {
                                                                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                                                                 }
@@ -370,8 +364,8 @@ XXToolbarDelegate
                                                          callback:^BOOL(MGSwipeTableCell *sender) {
                                                              @strongify(self);
                                                              [self setEditing:NO animated:YES];
-                                                             __block NSString *itemPath = cell.itemPath;
-                                                             NSString *displayName = cell.displayName;
+                                                             __block NSString *itemPath = attrs[kXXItemPathKey];
+                                                             NSString *displayName = attrs[kXXItemNameKey];
                                                              NSString *formatString = NSLocalizedString(@"Delete %@?\nThis operation cannot be revoked.", nil);
                                                              SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
                                                                                                               andMessage:[NSString stringWithFormat:formatString, displayName]];
@@ -479,8 +473,8 @@ XXToolbarDelegate
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if (self.isEditing) return NO;
     if ([identifier isEqualToString:kXXRewindSegueIdentifier]) {
-        __block XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-        if (currentCell.selectable) return NO;
+        XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
+        if (currentCell.isSelectable) return NO;
         if (!currentCell.isDirectory) return NO;
         return YES;
     } else if ([identifier isEqualToString:kXXDetailSegueIdentifier]) {
@@ -493,7 +487,7 @@ XXToolbarDelegate
     XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
     if ([segue.identifier isEqualToString:kXXRewindSegueIdentifier]) {
         XXScriptListTableViewController *newController = (XXScriptListTableViewController *)segue.destinationViewController;
-        newController.currentDirectory = currentCell.itemPath;
+        newController.currentDirectory = currentCell.itemAttrs[kXXItemPathKey];
         if (_selectBootscript) {
             newController.selectBootscript = self.selectBootscript;
             newController.selectViewController = self.selectViewController;
@@ -517,16 +511,18 @@ XXToolbarDelegate
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    // It is OK if the last cell is not in display cuz the lastCell may be nil and nothing will happen if a message be sent to the nil
     __block XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (currentCell.selectable) {
+    if (currentCell.isSelectable) {
         if (_selectedIndex != indexPath.row) {
             NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
+            
             __block XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
             if (_selectBootscript) {
-                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemPath error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row; [self popToSelectViewController];);
+                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row; [self popToSelectViewController];);
             } else {
-                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemPath error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row;);
+                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row;);
             }
         }
     } else {
@@ -536,10 +532,10 @@ XXToolbarDelegate
             if (_selectBootscript) {
                 [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
-                BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemPath
+                BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
                                                         parentViewController:self];
                 if (!result) {
-                    result = [XXArchiveService unArchiveZip:currentCell.itemPath
+                    result = [XXArchiveService unArchiveZip:currentCell.itemAttrs[kXXItemPathKey]
                                                 toDirectory:self.currentDirectory
                                        parentViewController:self];
                 }
@@ -678,8 +674,7 @@ XXToolbarDelegate
         if (selectedIndexes.count != 0) {
             __block NSMutableArray <NSString *> *selectedPaths = [[NSMutableArray alloc] init];
             for (NSIndexPath *path in selectedIndexes) {
-                XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:path];
-                [selectedPaths addObject:cell.itemPath];
+                [selectedPaths addObject:self.rootItemsDictionaryArr[path.row][kXXItemPathKey]];
             }
             if (selectedIndexes.count == 1) {
                 copyStr = NSLocalizedString(@"Copy 1 item", nil);
@@ -741,9 +736,8 @@ XXToolbarDelegate
             BOOL result = YES;
             NSError *err = nil;
             for (NSIndexPath *indexPath in selectedIndexPaths) {
-                XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                NSString *itemPath = cell.itemPath;
-                if (cell.checked) {
+                NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
+                if (indexPath.row == _selectedIndex) {
                     if (_selectBootscript) {
                         [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                     } else {
@@ -773,9 +767,9 @@ XXToolbarDelegate
         NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         NSMutableArray <NSURL *> *pathsArr = [[NSMutableArray alloc] init];
         for (NSIndexPath *indexPath in selectedIndexPaths) {
-            XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            if (!cell.isDirectory) {
-                [pathsArr addObject:[NSURL fileURLWithPath:cell.itemPath]];
+            NSDictionary *infoDict = self.rootItemsDictionaryArr[indexPath.row];
+            if (![infoDict[NSFileType] isEqualToString:NSFileTypeDirectory]) {
+                [pathsArr addObject:[NSURL fileURLWithPath:infoDict[kXXItemPathKey]]];
             }
         }
         if (pathsArr.count != 0) {
@@ -809,8 +803,7 @@ XXToolbarDelegate
             }
             NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
             for (NSIndexPath *indexPath in selectedIndexPaths) {
-                XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                [pathsArr addObject:cell.itemPath];
+                [pathsArr addObject:self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey]];
             }
             if (pathsArr.count != 0) {
                 [XXArchiveService archiveItems:pathsArr

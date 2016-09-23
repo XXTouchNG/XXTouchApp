@@ -118,8 +118,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         if ([result[@"data"][@"filename"] hasPrefix:@"/"]) {
             [[XXLocalDataService sharedInstance] setSelectedScript:result[@"data"][@"filename"]];
         } else {
-            NSURL *absolutePath = [NSURL URLWithString:result[@"data"][@"filename"] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
-            [[XXLocalDataService sharedInstance] setSelectedScript:[absolutePath path]];
+            NSURL *absolutePath = [NSURL URLWithString:[result[@"data"][@"filename"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            [[XXLocalDataService sharedInstance] setSelectedScript:[[absolutePath path] stringByRemovingPercentEncoding]];
         }
         return YES;
     } else

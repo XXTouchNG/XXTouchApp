@@ -2504,6 +2504,23 @@ All Rights Reserved.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="yLy-0l-xZq" style="IBUITableViewCellStyleDefault" id="2MJ-02-yko">
+                                        <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2MJ-02-yko" id="9oq-8U-jQh">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Online Update" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yLy-0l-xZq">
+                                                    <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -2891,7 +2908,7 @@ All Rights Reserved.</string>
                             <tableViewSection headerTitle="Activator" id="zch-XT-7bc">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="66" id="abx-ev-hel">
-                                        <rect key="frame" x="0.0" y="380" width="600" height="66"/>
+                                        <rect key="frame" x="0.0" y="379.5" width="600" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="abx-ev-hel" id="67k-kv-eOJ">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="65.5"/>
@@ -2948,7 +2965,7 @@ All Rights Reserved.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="66" id="Kw0-je-9f4">
-                                        <rect key="frame" x="0.0" y="446" width="600" height="66"/>
+                                        <rect key="frame" x="0.0" y="445.5" width="600" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kw0-je-9f4" id="26c-fZ-Tvc">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="65.5"/>
@@ -3176,7 +3193,7 @@ All Rights Reserved.</string>
                             <tableViewSection id="DcZ-S6-hvE">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="GpA-4c-rcs" detailTextLabel="eOa-rJ-5px" style="IBUITableViewCellStyleValue1" id="so9-wo-nSG">
-                                        <rect key="frame" x="0.0" y="160" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="157.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="so9-wo-nSG" id="P92-Fx-pgz">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>

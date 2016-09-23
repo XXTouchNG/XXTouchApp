@@ -91,7 +91,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 }
 
 + (NSArray <NSString *> *)webViewFileExtensions { // OK
-    return @[ @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub" ];
+    return @[ @"txt", @"log", @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub" ];
 }
 
 #pragma mark - Archives

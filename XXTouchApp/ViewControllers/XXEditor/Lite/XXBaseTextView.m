@@ -26,12 +26,12 @@
 
 - (void)commonSetup
 {
-    _defaultFont = [UIFont fontWithName:@"Menlo" size:14.f];
-    _boldFont = [UIFont fontWithName:@"Menlo-Bold" size:14.f];
-    _italicFont = [UIFont fontWithName:@"Menlo-Italic" size:14.f];
+    _defaultFont = [UIFont fontWithName:@"CourierNewPSMT" size:14.f];
+    _boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:14.f];
+    _italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:14.f];
     
     self.font = _defaultFont;
-    self.textColor = [UIColor blackColor];
+    self.textColor = [UIColor colorWithWhite:.25f alpha:1.f];
     
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(defaultFont)) options:NSKeyValueObservingOptionNew context:0];
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(boldFont)) options:NSKeyValueObservingOptionNew context:0];
@@ -58,27 +58,22 @@
             [CYRToken tokenWithName:@"number"
                          expression:@"\\b(0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?|\\.\\d+(?:[eE][+-]?\\d+)?)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0F20F6"]
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"A8017E"]
                                       }],
             [CYRToken tokenWithName:@"round_brackets"
-                         expression:@"[\\(\\)]"
+                         expression:@"[\\(\\)\\[\\]\\{\\}]"
                          attributes:@{
                                       NSForegroundColorAttributeName : RGB(161, 75, 0)
                                       }],
-            [CYRToken tokenWithName:@"square_brackets"
-                         expression:@"[\\[\\]\\{\\}]"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : RGB(105, 0, 0)
-                                      }],
             [CYRToken tokenWithName:@"constants"
-                         expression:@"\\b(false|true|nil)\\b"
+                         expression:@"\\b(false|true|nil|_G|_VERSION)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"916319"]
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"A535AE"]
                                       }],
             [CYRToken tokenWithName:@"reserved_words"
-                         expression:@"\\b(seand|break|do|else|elseif|end|for|function|goto|if|in|local|not|or|repeat|return|then|until|while)\\b"
+                         expression:@"\\b(and|break|do|else|elseif|end|for|function|goto|if|in|local|not|or|repeat|return|then|until|while)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"AA2063"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"006699"],
                                       NSFontAttributeName : self.boldFont
                                       }],
             [CYRToken tokenWithName:@"string_multi"
@@ -96,13 +91,13 @@
             [CYRToken tokenWithName:@"comment_single"
                          expression:@"--[^\\n]*"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"3C802C"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"AF82D4"],
                                       NSFontAttributeName : self.italicFont
                                       }],
             [CYRToken tokenWithName:@"comment_multi"
                          expression:@"--\\[\\[.*?\\]\\]"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"3C802C"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"AF82D4"],
                                       NSFontAttributeName : self.italicFont
                                       }]
             ];

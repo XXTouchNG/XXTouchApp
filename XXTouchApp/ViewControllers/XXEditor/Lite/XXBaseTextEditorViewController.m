@@ -14,6 +14,7 @@
 #import "XXLocalNetService.h"
 #import <Masonry/Masonry.h>
 #import "UITextView+ConsideringInsets.h"
+#import "KOKeyboardRow.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
@@ -29,7 +30,8 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, assign) BOOL searchMode;
+
+@property (nonatomic, assign) BOOL isLuaCode;
 
 @end
 
@@ -37,6 +39,14 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
+    if ([fileExt isEqualToString:@"lua"]) {
+        self.isLuaCode = YES;
+    } else {
+        self.isLuaCode = NO;
+    }
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_interactivePopDisabled = YES;
     
@@ -187,7 +197,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
         textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
         textView.alwaysBounceVertical = YES;
         textView.delegate = self;
-        textView.inputAccessoryView = self.toolBar;
+        [KOKeyboardRow applyToTextView:textView];
         textView.tintColor = STYLE_TINT_COLOR;
         textView.selectedRange = NSMakeRange(0, 0);
         textView.contentOffset = CGPointZero;
@@ -195,8 +205,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
         
-        NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
-        if ([fileExt isEqualToString:@"lua"]) {
+        if (self.isLuaCode) {
             textView.highlightLuaSymbols = YES;
         } else {
             textView.highlightLuaSymbols = NO;
@@ -335,6 +344,10 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 }
 
 - (void)reading:(UIBarButtonItem *)sender {
+    if (!self.isLuaCode) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
+        return;
+    }
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     @weakify(self);
@@ -402,10 +415,8 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
-    if (!self.searchMode) {
-        if (!self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-        }
+    if (!self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     
     [self updateViewConstraints];
@@ -419,18 +430,10 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
-    if (!self.searchMode) {
-        if (self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-        }
+    if (self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     [self updateViewConstraints];
-    
-    NSError *err = nil;
-    [self saveFileWithError:&err];
-    if (err) {
-        [self.navigationController.view makeToast:[err localizedDescription]];
-    }
 }
 
 

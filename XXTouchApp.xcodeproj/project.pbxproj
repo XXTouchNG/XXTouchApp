@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */; };
+		0F06A8DF1D939F9B00BAA589 /* KOKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8DC1D939F9B00BAA589 /* KOKeyboardRow.m */; };
+		0F06A8E01D939F9B00BAA589 /* KOSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */; };
+		0F06A8E61D939FB300BAA589 /* UIImageExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */; };
 		0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */; };
 		0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */; };
 		0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */; };
@@ -79,6 +82,12 @@
 /* Begin PBXFileReference section */
 		0F00D8A91D8AE7320000C8E8 /* XXScanDownloadTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadTaskViewController.h; sourceTree = "<group>"; };
 		0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXScanDownloadTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F06A8DB1D939F9B00BAA589 /* KOKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOKeyboardRow.h; sourceTree = "<group>"; };
+		0F06A8DC1D939F9B00BAA589 /* KOKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOKeyboardRow.m; sourceTree = "<group>"; };
+		0F06A8DD1D939F9B00BAA589 /* KOSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOSwipeButton.h; sourceTree = "<group>"; };
+		0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOSwipeButton.m; sourceTree = "<group>"; };
+		0F06A8E31D939FB300BAA589 /* UIImageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageExtensions.h; sourceTree = "<group>"; };
+		0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageExtensions.m; sourceTree = "<group>"; };
 		0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
 		0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
@@ -246,6 +255,19 @@
 			path = XXEditor;
 			sourceTree = "<group>";
 		};
+		0F06A8D21D937F8900BAA589 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				0F06A8E31D939FB300BAA589 /* UIImageExtensions.h */,
+				0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */,
+				0F06A8DB1D939F9B00BAA589 /* KOKeyboardRow.h */,
+				0F06A8DC1D939F9B00BAA589 /* KOKeyboardRow.m */,
+				0F06A8DD1D939F9B00BAA589 /* KOSwipeButton.h */,
+				0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
 		0F13EAF21D88412000DA8A25 /* UserConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +350,7 @@
 		0F58A41E1D90B95F0013806C /* Lite */ = {
 			isa = PBXGroup;
 			children = (
+				0F06A8D21D937F8900BAA589 /* Keyboard */,
 				0F58A42B1D90BECA0013806C /* Detail */,
 				0F58A41F1D90B95F0013806C /* XXBaseTextEditorViewController.h */,
 				0F58A4201D90B95F0013806C /* XXBaseTextEditorViewController.m */,
@@ -795,7 +818,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+			shellScript = "#/opt/iOSOpenDev/bin/iosod --xcbp";
 		};
 		2E957E7B84CDEB356ECD3E6F /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -895,12 +918,15 @@
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
+				0F06A8E61D939FB300BAA589 /* UIImageExtensions.m in Sources */,
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,
 				0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */,
 				0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */,
 				0F58A4311D90DB420013806C /* UITextView+ConsideringInsets.m in Sources */,
 				0F8F7C5D1D89198D005C3A22 /* ALAssetsLibrary+SingleInstance.m in Sources */,
 				0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */,
+				0F06A8E01D939F9B00BAA589 /* KOSwipeButton.m in Sources */,
+				0F06A8DF1D939F9B00BAA589 /* KOKeyboardRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

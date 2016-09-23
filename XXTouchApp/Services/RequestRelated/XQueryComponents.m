@@ -12,14 +12,14 @@
 - (NSString *)stringByDecodingURLFormat
 {
     NSString *result = [self stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    result = [result stringByRemovingPercentEncoding];
     return result;
 }
 
 - (NSString *)stringByEncodingURLFormat
 {
     NSString *result = [self stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    result = [result stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    result = [result stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
     return result;
 }
 
