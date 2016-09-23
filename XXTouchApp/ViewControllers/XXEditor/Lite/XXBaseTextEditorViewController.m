@@ -59,9 +59,9 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     [self.view addSubview:self.bottomBar];
     [self updateViewConstraints];
     
-    @weakify(self);
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;

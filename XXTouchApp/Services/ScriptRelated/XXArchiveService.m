@@ -22,16 +22,14 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
                                                          andMessage:NSLocalizedString(@"Extract to the current directory?\nItem with the same name will be overwritten.", nil)];
         [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             __block UINavigationController *navController = viewController.navigationController;
-            navController.view.userInteractionEnabled = NO;
-            [navController.view makeToastActivity:CSToastPositionCenter];
             __block NSError *error = nil;
             __block NSString *destination = path;
             [FCFileManager createDirectoriesForPath:destination error:&error];
             if (error) {
-                navController.view.userInteractionEnabled = YES;
-                [navController.view hideToastActivity];
                 [navController.view makeToast:[error localizedDescription]];
             } else {
+                navController.view.userInteractionEnabled = NO;
+                [navController.view makeToastActivity:CSToastPositionCenter];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                     [SSZipArchive unzipFileAtPath:filePath
                                     toDestination:destination

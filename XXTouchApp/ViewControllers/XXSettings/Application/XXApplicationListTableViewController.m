@@ -48,9 +48,7 @@ UITableViewDataSource
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
-    if ([[XXLocalDataService sharedInstance] bundles].count == 0) {
-        [self fetchApplicationList];
-    }
+    [self fetchApplicationList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,11 +58,15 @@ UITableViewDataSource
 
 - (void)fetchApplicationList {
     @weakify(self);
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
         BOOL result = [XXLocalNetService localGetApplicationListWithError:&err];
         dispatch_async_on_main_queue(^{
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self.navigationController.view hideToastActivity];
             if (!result) {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {

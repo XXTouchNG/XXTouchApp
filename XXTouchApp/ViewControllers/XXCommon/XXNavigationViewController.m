@@ -78,6 +78,8 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
         scriptController = (XXScriptListTableViewController *)(((XXMainTabbarViewController *)topVC).viewControllers[0]);
     }
     @weakify(self);
+    self.view.userInteractionEnabled = NO;
+    [self.view makeToastActivity:CSToastPositionCenter];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
@@ -86,6 +88,8 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
         NSString *latterPath = [ROOT_PATH stringByAppendingPathComponent:lastComponent];
         BOOL result = [FCFileManager moveItemAtPath:formerPath toPath:latterPath overwrite:NO error:&err];
         dispatch_async_on_main_queue(^{
+            self.view.userInteractionEnabled = YES;
+            [self.view hideToastActivity];
             if ([scriptController respondsToSelector:@selector(reloadScriptListTableView)]) {
                 [scriptController performSelector:@selector(reloadScriptListTableView) withObject:nil];
             }
