@@ -582,10 +582,11 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     @weakify(self);
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
         @strongify(self);
+        NSString *destination = [destinationPath stringByRemovingPercentEncoding];
         NSError *error = nil;
         BOOL result = NO;
         if (!err) {
-            result = [FCFileManager moveItemAtPath:[location path] toPath:[destinationPath stringByRemovingPercentEncoding] error:&error];
+            result = [FCFileManager moveItemAtPath:[location path] toPath:destination error:&error];
         } else {
             error = err;
         }
@@ -596,7 +597,11 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
                 [self.navigationController.view makeToast:NSLocalizedString(@"Download Task Completed", nil)];
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
-                [self.navigationController.view makeToast:[error localizedDescription]];
+                if (error) {
+                    [self.navigationController.view makeToast:[error localizedDescription]];
+                } else {
+                    [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" already exists.", nil), [destination lastPathComponent]]];
+                }
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
             }
         });

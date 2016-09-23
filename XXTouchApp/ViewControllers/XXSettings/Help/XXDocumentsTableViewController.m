@@ -57,16 +57,16 @@ enum {
         XXWebViewController *viewController = [[XXWebViewController alloc] init];
         if (indexPath.row == kUsersGuideIndex) {
             viewController.title = NSLocalizedString(@"User's Guide", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_USERS_GUIDE stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_USERS_GUIDE stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
         } else if (indexPath.row == kUpdateLogsIndex) {
             viewController.title = NSLocalizedString(@"Update Logs", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_UPDATE_LOGS stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_UPDATE_LOGS stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
         } else if (indexPath.row == kDeveloperReferencesIndex) {
             viewController.title = NSLocalizedString(@"Developer References", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_DEVELOPER_REFERENCES stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_DEVELOPER_REFERENCES stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
         } else if (indexPath.row == kOpenApiReferencesIndex) {
             viewController.title = NSLocalizedString(@"OpenAPI References", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_OPEN_API_REFERENCES stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+            viewController.url = [NSURL URLWithString:[DOCUMENT_OPEN_API_REFERENCES stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
         }
         [self.navigationController pushViewController:viewController animated:YES];
     }

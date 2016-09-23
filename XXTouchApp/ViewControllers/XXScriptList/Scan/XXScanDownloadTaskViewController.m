@@ -31,7 +31,7 @@
     self.destinationLabel.text = self.destinationUrl;
     
     self.clearsSelectionOnViewWillAppear = YES;
-    NSURL *url = [NSURL URLWithString:[self.sourceUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [NSURL URLWithString:[self.sourceUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     if (!url) {
         self.sourceLabel.textColor = [UIColor redColor];
         self.downloadButton.enabled = NO;

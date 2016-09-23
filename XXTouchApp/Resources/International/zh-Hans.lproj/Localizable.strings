@@ -150,3 +150,4 @@ More = "更多";
 "Debug Mode" = "调试模式";
 "Cannot open Cydia" = "无法打开 Cydia";
 Unarchive = "解压缩";
+"File \"%@\" already exists." = "文件 \"%@\" 已经存在。";
