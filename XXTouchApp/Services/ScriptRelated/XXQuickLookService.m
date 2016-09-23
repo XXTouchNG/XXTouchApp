@@ -50,7 +50,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 }
 
 + (NSArray <NSString *> *)editableFileExtensions {
-    return @[ @"lua", @"txt", @"log", // Text Editor
+    return @[ @"lua", @"txt", // Text Editor
               @"db", @"sqlite", @"sqlitedb", // SQLite 3 Editor
               @"plist", @"strings", // Plist Editor
               @"hex", @"dat", // Hex Editor
@@ -69,7 +69,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 #pragma mark - Editors
 
 + (NSArray <NSString *> *)textFileExtensions { // OK
-    return @[ @"lua", @"txt", @"log" ];
+    return @[ @"lua", @"txt" ];
 }
 
 #pragma mark - Viewers

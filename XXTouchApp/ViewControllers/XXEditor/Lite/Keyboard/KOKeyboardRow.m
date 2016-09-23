@@ -88,6 +88,7 @@
     return v;
 }
 
+/*
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetRGBStrokeColor(ctx, 1, 1, 1, 1.0);
@@ -102,6 +103,7 @@
     CGContextAddLines(ctx, bPoints, 2);
     CGContextDrawPath(ctx, kCGPathStroke);
 }
+ */
 
 - (void)insertText:(NSString *)text {
     [textView insertText:text];

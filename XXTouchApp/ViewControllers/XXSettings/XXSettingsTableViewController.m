@@ -10,7 +10,6 @@
 #import "XXWebViewController.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
-#import <MJRefresh/MJRefresh.h>
 
 #define commonHandler(command) \
 ^(SIAlertView *alertView) { \
@@ -66,7 +65,6 @@ enum {
 };
 
 @interface XXSettingsTableViewController ()
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (weak, nonatomic) IBOutlet UISwitch *remoteAccessSwitch;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *restartIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *remoteAccessLabel;
@@ -89,7 +87,6 @@ enum {
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
-    self.tableView.mj_header = self.refreshHeader;
     [self fetchRemoteAccessStatus];
 }
 
@@ -103,29 +100,6 @@ enum {
     // Dispose of any resources that can be recreated.
 }
 
-- (MJRefreshNormalHeader *)refreshHeader {
-    if (!_refreshHeader) {
-        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(startMJRefreshing)];
-        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
-        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
-        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
-            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
-        } else {
-            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
-        }
-        normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
-        _refreshHeader = normalHeader;
-    }
-    return _refreshHeader;
-}
-
-- (void)startMJRefreshing {
-    [self fetchRemoteAccessStatus];
-}
-
 - (void)fetchRemoteAccessStatus {
     self.remoteAccessSwitch.enabled = NO;
     @weakify(self);
@@ -134,7 +108,6 @@ enum {
         __block NSError *err = nil;
         BOOL result = [XXLocalNetService localGetRemoteAccessStatusWithError:&err];
         dispatch_async_on_main_queue(^{
-            [self endMJRefreshing];
             if (!result) {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
@@ -143,12 +116,6 @@ enum {
             self.remoteAccessSwitch.enabled = YES;
         });
     });
-}
-
-- (void)endMJRefreshing {
-    if ([self.refreshHeader isRefreshing]) {
-        [self.refreshHeader endRefreshing];
-    }
 }
 
 - (IBAction)remoteAccessSwitched:(UISwitch *)sender {

@@ -18,7 +18,7 @@
 parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
     NSString *fileExt = [filePath pathExtension];
     if ([[self supportedArchiveFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Zip Archive
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Unarchive"
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Unarchive", nil)
                                                          andMessage:NSLocalizedString(@"Extract to the current directory?\nItem with the same name will be overwritten.", nil)];
         [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             __block UINavigationController *navController = viewController.navigationController;

@@ -116,8 +116,8 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
                                                  name:UIKeyboardWillChangeFrameNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillDismiss:)
-                                                 name:UIKeyboardWillHideNotification
+                                             selector:@selector(keyboardDidDismiss:)
+                                                 name:UIKeyboardDidHideNotification
                                                object:nil];
 }
 
@@ -426,10 +426,11 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     
 }
 
-- (void)keyboardWillDismiss:(NSNotification *)aNotification {
+- (void)keyboardDidDismiss:(NSNotification *)aNotification {
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
+    self.fileContent = self.textView.text;
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }

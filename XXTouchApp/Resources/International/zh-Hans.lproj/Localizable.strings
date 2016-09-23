@@ -149,3 +149,4 @@ More = "更多";
 "This operation will restart daemon, and wait until it launched." = "该操作将重启服务，并等待其重新启动。";
 "Debug Mode" = "调试模式";
 "Cannot open Cydia" = "无法打开 Cydia";
+Unarchive = "解压缩";

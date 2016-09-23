@@ -47,6 +47,7 @@ XXToolbarDelegate
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
 
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -66,8 +67,6 @@ XXToolbarDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.clearsSelectionOnViewWillAppear = YES;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -438,6 +437,7 @@ XXToolbarDelegate
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:animated];
     if (_selectBootscript) return;
     // Pasteboard Event - setEditing
     if (editing) {

@@ -46,7 +46,6 @@
 "GpA-4c-rcs.text" = "选择 Bootscript";
 "u0A-Jw-aZJ.title" = "加载中";
 "Hrd-Xj-cgz.text" = "设备名称";
-"NHt-Sl-xFM.normalTitle" = "1 个文件";
 "EoA-28-Hhz.text" = "更新日志";
 "eUL-h3-VPK.text" = "唯一标识符";
 "BGh-xs-eeZ.text" = "GettingStarted.textastic";
@@ -96,7 +95,6 @@
 "htV-bp-2A6.text" = "N/A";
 "0Ge-8U-fc5.placeholder" = "文件名称";
 "7Fo-bj-ehW.title" = "下载";
-"RNa-Eb-Qye.title" = "我的脚本";
 "QeW-3C-x8a.text" = "N/A";
 "O8C-lb-hqG.text" = "N/A";
 "41S-kp-tkp.text" = "无";
@@ -185,3 +183,8 @@
 "um5-FL-5nu.text" = "语法定义";
 "8t7-Am-2i5.text" = "N/A";
 "yLy-0l-xZq.text" = "在线更新";
+"0dU-k3-ZNA.title" = "我的脚本";
+"RNa-Eb-Qye.title" = "我的脚本";
+"dnn-Vv-urg.title" = "我的脚本";
+"htb-y1-7Vv.title" = "我的脚本";
+"6z0-fm-uNm.normalTitle" = "1 个文件";

@@ -88,6 +88,7 @@
 		0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOSwipeButton.m; sourceTree = "<group>"; };
 		0F06A8E31D939FB300BAA589 /* UIImageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageExtensions.h; sourceTree = "<group>"; };
 		0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageExtensions.m; sourceTree = "<group>"; };
+		0F08A9E21D9522950066BCE0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
 		0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
@@ -204,7 +205,6 @@
 		0FB0A7D21D741BA200129E83 /* SystemVersionDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemVersionDefines.h; sourceTree = "<group>"; };
 		0FB0A7D31D741C9F00129E83 /* SystemConstantsDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemConstantsDefines.h; sourceTree = "<group>"; };
 		0FB48B771D922B9400CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
-		0FB48B7D1D92363000CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		0FC47E911D7698140076590B /* tos.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tos.html; sourceTree = "<group>"; };
 		0FC47E931D7698220076590B /* open.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = open.html; sourceTree = "<group>"; };
 		0FC47E981D769EEF0076590B /* UrlDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UrlDefines.h; sourceTree = "<group>"; };
@@ -937,7 +937,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0F98529C1D748072001323AA /* Base */,
-				0FB48B7D1D92363000CE9019 /* zh-Hans */,
+				0F08A9E21D9522950066BCE0 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

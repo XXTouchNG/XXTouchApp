@@ -11,7 +11,6 @@
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXApplicationTableViewCell.h"
-#import <MJRefresh/MJRefresh.h>
 
 static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 
@@ -29,7 +28,6 @@ enum {
 UITableViewDelegate,
 UITableViewDataSource
 >
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) NSArray *showData;
 
 @end
@@ -43,7 +41,6 @@ UITableViewDataSource
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.clearsSelectionOnViewWillAppear = YES;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -51,41 +48,14 @@ UITableViewDataSource
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
-    self.tableView.mj_header = self.refreshHeader;
-    
     if ([[XXLocalDataService sharedInstance] bundles].count == 0) {
-        [self.refreshHeader beginRefreshing];
+        [self fetchApplicationList];
     }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - MJRefresh Header
-
-- (MJRefreshNormalHeader *)refreshHeader {
-    if (!_refreshHeader) {
-        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(startMJRefreshing)];
-        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
-        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
-        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
-            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
-        } else {
-            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
-        }
-        normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
-        _refreshHeader = normalHeader;
-    }
-    return _refreshHeader;
-}
-
-- (void)startMJRefreshing {
-    [self fetchApplicationList];
 }
 
 - (void)fetchApplicationList {
@@ -95,7 +65,6 @@ UITableViewDataSource
         NSError *err = nil;
         BOOL result = [XXLocalNetService localGetApplicationListWithError:&err];
         dispatch_async_on_main_queue(^{
-            [self endMJRefreshing];
             if (!result) {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
@@ -103,12 +72,6 @@ UITableViewDataSource
             }
         });
     });
-}
-
-- (void)endMJRefreshing {
-    if ([self.refreshHeader isRefreshing]) {
-        [self.refreshHeader endRefreshing];
-    }
 }
 
 #pragma mark - Table view data source

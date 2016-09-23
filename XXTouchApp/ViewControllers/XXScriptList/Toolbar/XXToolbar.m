@@ -9,7 +9,25 @@
 #import "XXToolbar.h"
 
 @implementation XXToolbar
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.backgroundColor = [UIColor whiteColor];
+}
+
 #pragma mark - Top Toolbar
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(ctx, 0.85, 0.85, 0.85, 1.0);
+    CGContextSetLineWidth(ctx, 1.0f);
+    CGPoint aPoint[2] = {
+        CGPointMake(0.0, self.frame.size.height),
+        CGPointMake(self.frame.size.width, self.frame.size.height)
+    };
+    CGContextAddLines(ctx, aPoint, 2);
+    CGContextStrokePath(ctx);
+}
 
 - (NSArray <UIBarButtonItem *> *)defaultToolbarButtons {
     if (!_defaultToolbarButtons) {
