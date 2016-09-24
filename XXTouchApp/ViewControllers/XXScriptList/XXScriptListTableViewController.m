@@ -317,13 +317,14 @@ XXToolbarDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 [self setEditing:NO animated:YES];
+                                                                XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
                                                                 self.navigationController.view.userInteractionEnabled = NO;
                                                                 [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                                                                 @weakify(self);
                                                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                                                                     @strongify(self);
-                                                                    __block NSError *err = nil;
-                                                                    BOOL result = [XXLocalNetService localLaunchScript:attrs[kXXItemPathKey] error:&err];
+                                                                    NSError *err = nil;
+                                                                    BOOL result = [XXLocalNetService localLaunchScript:currentCell.itemAttrs[kXXItemPathKey] error:&err];
                                                                     dispatch_async_on_main_queue(^{
                                                                         self.navigationController.view.userInteractionEnabled = YES;
                                                                         [self.navigationController.view hideToastActivity];
@@ -349,8 +350,9 @@ XXToolbarDelegate
                                                      backgroundColor:STYLE_TINT_COLOR
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
+                                                                XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
                                                                 [self setEditing:NO animated:YES];
-                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:attrs[kXXItemPathKey] parentViewController:self];
+                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:currentCell.itemAttrs[kXXItemPathKey] parentViewController:self];
                                                                 if (!result) {
                                                                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                                                                 }
@@ -363,18 +365,17 @@ XXToolbarDelegate
                                                          callback:^BOOL(MGSwipeTableCell *sender) {
                                                              @strongify(self);
                                                              [self setEditing:NO animated:YES];
-                                                             __block NSString *itemPath = attrs[kXXItemPathKey];
-                                                             NSString *displayName = attrs[kXXItemNameKey];
-                                                             NSString *formatString = NSLocalizedString(@"Delete %@?\nThis operation cannot be revoked.", nil);
+                                                             XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
+                                                             NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:currentCell];
                                                              SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
-                                                                                                              andMessage:[NSString stringWithFormat:formatString, displayName]];
+                                                                                                              andMessage:[NSString stringWithFormat:NSLocalizedString(@"Delete %@?\nThis operation cannot be revoked.", nil), currentCell.itemAttrs[kXXItemNameKey]]];
                                                              [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-                                                                 __block NSError *err = nil;
                                                                  self.navigationController.view.userInteractionEnabled = NO;
                                                                  [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                                                                  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                                                                     BOOL result = [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
-                                                                     if (cell.checked) {
+                                                                     NSError *err = nil;
+                                                                     BOOL result = [FCFileManager removeItemAtPath:currentCell.itemAttrs[kXXItemPathKey] error:&err]; // This may be time comsuming
+                                                                     if (currentCell.checked) {
                                                                          if (self->_selectBootscript) {
                                                                              [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                                                                          } else {
@@ -387,7 +388,9 @@ XXToolbarDelegate
                                                                          [self.navigationController.view hideToastActivity];
                                                                          if (result && err == nil) {
                                                                              [self reloadScriptListTableData];
-                                                                             [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationFade];
+                                                                             [self.tableView beginUpdates];
+                                                                             [self.tableView deleteRowAtIndexPath:currentIndexPath withRowAnimation:UITableViewRowAnimationFade];
+                                                                             [self.tableView endUpdates];
                                                                          } else {
                                                                              [self.navigationController.view makeToast:[err localizedDescription]];
                                                                          }
@@ -402,7 +405,6 @@ XXToolbarDelegate
                                                          }]];
         cell.rightButtons = rightActionsArr;
         cell.leftButtons = leftActionsArr;
-        cell.rightSwipeSettings.transition = MGSwipeTransitionBorder;
     }
     
     return cell;
@@ -512,13 +514,13 @@ XXToolbarDelegate
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     // It is OK if the last cell is not in display cuz the lastCell may be nil and nothing will happen if a message be sent to the nil
-    __block XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (currentCell.isSelectable) {
         if (_selectedIndex != indexPath.row) {
             NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
             
-            __block XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
+            XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
             if (_selectBootscript) {
                 SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; self->_selectedIndex = indexPath.row; [self popToSelectViewController];);
             } else {
@@ -597,7 +599,7 @@ XXToolbarDelegate
         // Set Paste / Link Action
         NSString *pasteStr = nil;
         NSString *linkStr = nil;
-        __block NSMutableArray *pasteArr = [[XXLocalDataService sharedInstance] pasteboardArr];
+        NSMutableArray *pasteArr = [[XXLocalDataService sharedInstance] pasteboardArr];
         if (pasteArr.count != 0) {
             if (pasteArr.count == 1) {
                 pasteStr = NSLocalizedString(@"Paste 1 item", nil);
@@ -606,16 +608,16 @@ XXToolbarDelegate
                 pasteStr = [NSString stringWithFormat:NSLocalizedString(@"Paste %d items", nil), pasteArr.count];
                 linkStr = [NSString stringWithFormat:NSLocalizedString(@"Create %d links", nil), pasteArr.count];
             }
-            __block NSError *err = nil;
-            __block NSString *currentPath = self.currentDirectory;
-            __block kXXPasteboardType pasteboardType = [[XXLocalDataService sharedInstance] pasteboardType];
+            kXXPasteboardType pasteboardType = [[XXLocalDataService sharedInstance] pasteboardType];
             @weakify(self);
             [alertView addButtonWithTitle:pasteStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
                 @strongify(self);
+                NSString *currentPath = self.currentDirectory;
                 self.navigationController.view.userInteractionEnabled = NO;
                 [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                 if (pasteboardType == kXXPasteboardTypeCut) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        NSError *err = nil;
                         for (NSString *originPath in pasteArr) {
                             NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
                             [FCFileManager moveItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
@@ -634,6 +636,7 @@ XXToolbarDelegate
                     });
                 } else if (pasteboardType == kXXPasteboardTypeCopy) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        NSError *err = nil;
                         for (NSString *originPath in pasteArr) {
                             NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
                             [FCFileManager copyItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
@@ -654,6 +657,8 @@ XXToolbarDelegate
                 @weakify(self);
                 [alertView addButtonWithTitle:linkStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
                     @strongify(self);
+                    NSError *err = nil;
+                    NSString *currentPath = self.currentDirectory;
                     for (NSString *originPath in pasteArr) {
                         NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
                         [[NSFileManager defaultManager] createSymbolicLinkAtPath:destPath withDestinationPath:originPath error:&err];
@@ -672,7 +677,7 @@ XXToolbarDelegate
         NSString *cutStr = nil;
         NSArray <NSIndexPath *> *selectedIndexes = [self.tableView indexPathsForSelectedRows];
         if (selectedIndexes.count != 0) {
-            __block NSMutableArray <NSString *> *selectedPaths = [[NSMutableArray alloc] init];
+            NSMutableArray <NSString *> *selectedPaths = [[NSMutableArray alloc] init];
             for (NSIndexPath *path in selectedIndexes) {
                 [selectedPaths addObject:self.rootItemsDictionaryArr[path.row][kXXItemPathKey]];
             }
@@ -720,7 +725,7 @@ XXToolbarDelegate
         }
         [self reloadScriptListTableView];
     } else if (sender == self.topToolbar.trashButton) {
-        __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+        NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         
         NSString *formatString = nil;
         if (selectedIndexPaths.count == 1) {
@@ -745,15 +750,16 @@ XXToolbarDelegate
                     }
                     self->_selectedIndex = -1;
                 }
-                [FCFileManager removeItemAtPath:itemPath error:&err];
-                if (err) {
-                    result = NO;
+                result = [FCFileManager removeItemAtPath:itemPath error:&err];
+                if (err || result == NO) {
                     break;
                 }
             }
             if (result) {
+                [self.tableView beginUpdates];
                 [self reloadScriptListTableData];
                 [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
             } else {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             }
@@ -786,7 +792,7 @@ XXToolbarDelegate
             [self.navigationController.view makeToast:NSLocalizedString(@"You cannot share directory", nil)];
         }
     } else if (sender == self.topToolbar.compressButton) {
-        __block NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
+        NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
         NSString *formatString = nil;
         if (selectedIndexPaths.count == 1) {
             formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress 1 item?", nil)];

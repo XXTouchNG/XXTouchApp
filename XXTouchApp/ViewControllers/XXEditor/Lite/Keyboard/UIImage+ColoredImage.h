@@ -5,6 +5,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface UIImage (Extensions)
+@interface UIImage (ColoredImage)
 + (UIImage *)imageWithUIColor:(UIColor *)color;
 @end

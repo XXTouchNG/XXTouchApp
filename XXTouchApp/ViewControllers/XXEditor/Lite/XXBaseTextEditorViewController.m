@@ -13,8 +13,7 @@
 #import "XXBaseTextView.h"
 #import "XXLocalNetService.h"
 #import <Masonry/Masonry.h>
-#import "UITextView+ConsideringInsets.h"
-#import "KOKeyboardRow.h"
+#import "XXKeyboardRow.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
@@ -22,7 +21,6 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 @interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating>
 @property (nonatomic, strong) UIView *fakeStatusBar;
 @property (nonatomic, strong) XXBaseTextView *textView;
-@property (nonatomic, strong) UIToolbar *toolBar;
 @property (nonatomic, copy) NSString *fileContent;
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
@@ -197,13 +195,13 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
         textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
         textView.alwaysBounceVertical = YES;
         textView.delegate = self;
-        [KOKeyboardRow applyToTextView:textView];
         textView.tintColor = STYLE_TINT_COLOR;
         textView.selectedRange = NSMakeRange(0, 0);
         textView.contentOffset = CGPointZero;
         textView.contentInset =
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
+        textView.inputAccessoryView = [[XXKeyboardRow alloc] initWithTextView:textView];
         
         if (self.isLuaCode) {
             textView.highlightLuaSymbols = YES;
@@ -213,25 +211,6 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
         _textView = textView;
     }
     return _textView;
-}
-
-- (UIToolbar *)toolBar {
-    if (!_toolBar) {
-        /* Elements of tool bar items */
-        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        NSMutableArray *myToolBarItems = [NSMutableArray array];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(insertTab:)]];
-        [myToolBarItems addObject:flexibleSpace];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissKeyboard:)]];
-        
-        /* Init of toolBar */
-        UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
-        toolBar.barStyle = UIBarStyleDefault;
-        [toolBar setTintColor:STYLE_TINT_COLOR];
-        [toolBar setItems:myToolBarItems animated:YES];
-        _toolBar = toolBar;
-    }
-    return _toolBar;
 }
 
 - (UIToolbar *)bottomBar {
@@ -325,19 +304,6 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 }
 
 #pragma mark - Toolbar Actions
-
-- (void)dismissKeyboard:(UIBarButtonItem *)sender {
-    if ([self.textView isFirstResponder]) {
-        [self.textView resignFirstResponder];
-    }
-}
-
-- (void)insertTab:(UIBarButtonItem *)sender {
-    if (![self.textView isFirstResponder]) {
-        return;
-    }
-    [self.textView insertText:@"\t"];
-}
 
 - (void)search:(UIBarButtonItem *)sender {
     

@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */; };
-		0F06A8DF1D939F9B00BAA589 /* KOKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8DC1D939F9B00BAA589 /* KOKeyboardRow.m */; };
-		0F06A8E01D939F9B00BAA589 /* KOSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */; };
-		0F06A8E61D939FB300BAA589 /* UIImageExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */; };
+		0F06A8DF1D939F9B00BAA589 /* XXKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8DC1D939F9B00BAA589 /* XXKeyboardRow.m */; };
+		0F06A8E61D939FB300BAA589 /* UIImage+ColoredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8E41D939FB300BAA589 /* UIImage+ColoredImage.m */; };
+		0F0C9A191D966E52000E184C /* XXKeyboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0C9A161D966E52000E184C /* XXKeyboardButton.m */; };
+		0F0C9A1A1D966E52000E184C /* XXKeyboardButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0C9A181D966E52000E184C /* XXKeyboardButtonView.m */; };
+		0F0C9A1D1D966F00000E184C /* TurtleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0C9A1C1D966F00000E184C /* TurtleBezierPath.m */; };
 		0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */; };
 		0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */; };
 		0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */; };
@@ -28,7 +30,6 @@
 		0F58A4231D90B95F0013806C /* XXBaseTextEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A4201D90B95F0013806C /* XXBaseTextEditorViewController.m */; };
 		0F58A4241D90B95F0013806C /* XXBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A4221D90B95F0013806C /* XXBaseTextView.m */; };
 		0F58A42E1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A42D1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m */; };
-		0F58A4311D90DB420013806C /* UITextView+ConsideringInsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A4301D90DB420013806C /* UITextView+ConsideringInsets.m */; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
 		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -83,13 +84,17 @@
 /* Begin PBXFileReference section */
 		0F00D8A91D8AE7320000C8E8 /* XXScanDownloadTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadTaskViewController.h; sourceTree = "<group>"; };
 		0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXScanDownloadTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0F06A8DB1D939F9B00BAA589 /* KOKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOKeyboardRow.h; sourceTree = "<group>"; };
-		0F06A8DC1D939F9B00BAA589 /* KOKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOKeyboardRow.m; sourceTree = "<group>"; };
-		0F06A8DD1D939F9B00BAA589 /* KOSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOSwipeButton.h; sourceTree = "<group>"; };
-		0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOSwipeButton.m; sourceTree = "<group>"; };
-		0F06A8E31D939FB300BAA589 /* UIImageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageExtensions.h; sourceTree = "<group>"; };
-		0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageExtensions.m; sourceTree = "<group>"; };
+		0F06A8DB1D939F9B00BAA589 /* XXKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardRow.h; sourceTree = "<group>"; };
+		0F06A8DC1D939F9B00BAA589 /* XXKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardRow.m; sourceTree = "<group>"; };
+		0F06A8E31D939FB300BAA589 /* UIImage+ColoredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColoredImage.h"; sourceTree = "<group>"; };
+		0F06A8E41D939FB300BAA589 /* UIImage+ColoredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColoredImage.m"; sourceTree = "<group>"; };
 		0F08A9E21D9522950066BCE0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		0F0C9A151D966E52000E184C /* XXKeyboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardButton.h; sourceTree = "<group>"; };
+		0F0C9A161D966E52000E184C /* XXKeyboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardButton.m; sourceTree = "<group>"; };
+		0F0C9A171D966E52000E184C /* XXKeyboardButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardButtonView.h; sourceTree = "<group>"; };
+		0F0C9A181D966E52000E184C /* XXKeyboardButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardButtonView.m; sourceTree = "<group>"; };
+		0F0C9A1B1D966F00000E184C /* TurtleBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TurtleBezierPath.h; sourceTree = "<group>"; };
+		0F0C9A1C1D966F00000E184C /* TurtleBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TurtleBezierPath.m; sourceTree = "<group>"; };
 		0F13EAF31D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
 		0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F13EAF61D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
@@ -124,8 +129,6 @@
 		0F58A4221D90B95F0013806C /* XXBaseTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextView.m; sourceTree = "<group>"; };
 		0F58A42C1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextEditorPropertiesTableViewController.h; sourceTree = "<group>"; };
 		0F58A42D1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextEditorPropertiesTableViewController.m; sourceTree = "<group>"; };
-		0F58A42F1D90DB420013806C /* UITextView+ConsideringInsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+ConsideringInsets.h"; sourceTree = "<group>"; };
-		0F58A4301D90DB420013806C /* UITextView+ConsideringInsets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+ConsideringInsets.m"; sourceTree = "<group>"; };
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F5D1F591D7E51020061A954 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0F5D1F5B1D7E525F0061A954 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
@@ -253,8 +256,6 @@
 			isa = PBXGroup;
 			children = (
 				0F58A41E1D90B95F0013806C /* Lite */,
-				0F58A42F1D90DB420013806C /* UITextView+ConsideringInsets.h */,
-				0F58A4301D90DB420013806C /* UITextView+ConsideringInsets.m */,
 			);
 			path = XXEditor;
 			sourceTree = "<group>";
@@ -262,12 +263,16 @@
 		0F06A8D21D937F8900BAA589 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				0F06A8E31D939FB300BAA589 /* UIImageExtensions.h */,
-				0F06A8E41D939FB300BAA589 /* UIImageExtensions.m */,
-				0F06A8DB1D939F9B00BAA589 /* KOKeyboardRow.h */,
-				0F06A8DC1D939F9B00BAA589 /* KOKeyboardRow.m */,
-				0F06A8DD1D939F9B00BAA589 /* KOSwipeButton.h */,
-				0F06A8DE1D939F9B00BAA589 /* KOSwipeButton.m */,
+				0F06A8E31D939FB300BAA589 /* UIImage+ColoredImage.h */,
+				0F06A8E41D939FB300BAA589 /* UIImage+ColoredImage.m */,
+				0F0C9A1B1D966F00000E184C /* TurtleBezierPath.h */,
+				0F0C9A1C1D966F00000E184C /* TurtleBezierPath.m */,
+				0F06A8DB1D939F9B00BAA589 /* XXKeyboardRow.h */,
+				0F06A8DC1D939F9B00BAA589 /* XXKeyboardRow.m */,
+				0F0C9A151D966E52000E184C /* XXKeyboardButton.h */,
+				0F0C9A161D966E52000E184C /* XXKeyboardButton.m */,
+				0F0C9A171D966E52000E184C /* XXKeyboardButtonView.h */,
+				0F0C9A181D966E52000E184C /* XXKeyboardButtonView.m */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -894,6 +899,7 @@
 				0F5DDE4B1D814B7E00BC4BDE /* ARSafariActivity.m in Sources */,
 				0F58A4241D90B95F0013806C /* XXBaseTextView.m in Sources */,
 				0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */,
+				0F0C9A1A1D966E52000E184C /* XXKeyboardButtonView.m in Sources */,
 				0FB0A7AD1D73DBE400129E83 /* main.m in Sources */,
 				0F5DDE3F1D814ACE00BC4BDE /* FYPhotoAsset.m in Sources */,
 				0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */,
@@ -901,6 +907,7 @@
 				0F8F7C5E1D89198D005C3A22 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */,
 				0F5DDE231D8149B100BC4BDE /* XXAboutTableViewController.m in Sources */,
 				0F1819A81D8A4BA400309E23 /* XXScanViewController.m in Sources */,
+				0F0C9A1D1D966F00000E184C /* TurtleBezierPath.m in Sources */,
 				0F5DDE401D814ACE00BC4BDE /* FYPhotoLibrary.m in Sources */,
 				0F8F7C611D8919AC005C3A22 /* NSString+Mime.m in Sources */,
 				0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */,
@@ -932,15 +939,14 @@
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
-				0F06A8E61D939FB300BAA589 /* UIImageExtensions.m in Sources */,
+				0F06A8E61D939FB300BAA589 /* UIImage+ColoredImage.m in Sources */,
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,
+				0F0C9A191D966E52000E184C /* XXKeyboardButton.m in Sources */,
 				0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */,
 				0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */,
-				0F58A4311D90DB420013806C /* UITextView+ConsideringInsets.m in Sources */,
 				0F8F7C5D1D89198D005C3A22 /* ALAssetsLibrary+SingleInstance.m in Sources */,
 				0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */,
-				0F06A8E01D939F9B00BAA589 /* KOSwipeButton.m in Sources */,
-				0F06A8DF1D939F9B00BAA589 /* KOKeyboardRow.m in Sources */,
+				0F06A8DF1D939F9B00BAA589 /* XXKeyboardRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1071,6 +1077,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
@@ -1096,7 +1103,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bec83291-9960-4e34-8faf-7970ad61f015";
 				SKIP_INSTALL = NO;
-				VALID_ARCHS = "armv7 arm64";
+				VALID_ARCHS = armv7;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;
@@ -1113,6 +1120,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */;
 			buildSettings = {
+				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
@@ -1138,7 +1146,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bec83291-9960-4e34-8faf-7970ad61f015";
 				SKIP_INSTALL = NO;
-				VALID_ARCHS = "armv7 arm64";
+				VALID_ARCHS = armv7;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;

@@ -2,10 +2,9 @@
  * Jake Sankey - jakesankey@icloud.com
  */
 
-#import "UIImageExtensions.h"
+#import "UIImage+ColoredImage.h"
 
-
-@implementation UIImage (Extensions)
+@implementation UIImage (ColoredImage)
 
 + (UIImage *)imageWithUIColor:(UIColor *)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);

@@ -58,7 +58,7 @@
             [CYRToken tokenWithName:@"number"
                          expression:@"\\b(0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?|\\.\\d+(?:[eE][+-]?\\d+)?)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"A8017E"]
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xA8017E]
                                       }],
             [CYRToken tokenWithName:@"round_brackets"
                          expression:@"[\\(\\)\\[\\]\\{\\}]"
@@ -68,36 +68,36 @@
             [CYRToken tokenWithName:@"constants"
                          expression:@"\\b(false|true|nil|_G|_VERSION)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"A535AE"]
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xA535AE]
                                       }],
             [CYRToken tokenWithName:@"reserved_words"
                          expression:@"\\b(and|break|do|else|elseif|end|for|function|goto|if|in|local|not|or|repeat|return|then|until|while)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"006699"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x006699],
                                       NSFontAttributeName : self.boldFont
                                       }],
             [CYRToken tokenWithName:@"string_multi"
                          expression:@"\\[\\[.*?(\\]\\]|$)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"ED7722"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xED7722],
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"string_single"
                          expression:@"([\"'])(?:[^\1\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"ED7722"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xED7722],
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"comment_single"
                          expression:@"--[^\\n]*"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"AF82D4"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xAF82D4],
                                       NSFontAttributeName : self.italicFont
                                       }],
             [CYRToken tokenWithName:@"comment_multi"
                          expression:@"--\\[\\[.*?\\]\\]"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"AF82D4"],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xAF82D4],
                                       NSFontAttributeName : self.italicFont
                                       }]
             ];
