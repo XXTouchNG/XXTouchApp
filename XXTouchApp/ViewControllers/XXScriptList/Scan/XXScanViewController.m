@@ -594,7 +594,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             [self.navigationController.view hideToastActivity];
             self.navigationController.view.userInteractionEnabled = YES;
             if (result && error == nil) {
-                [self.navigationController.view makeToast:NSLocalizedString(@"Download Task Completed", nil)];
+                [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"Download task completed, file \"%@\" saved.", nil), [destination lastPathComponent]]];
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
                 if (error) {

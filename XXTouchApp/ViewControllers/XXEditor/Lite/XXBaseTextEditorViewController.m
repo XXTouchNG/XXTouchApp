@@ -30,6 +30,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 @property (nonatomic, strong) UISearchController *searchController;
 
 @property (nonatomic, assign) BOOL isLuaCode;
+@property (nonatomic, assign) BOOL loadSucceed;
 
 @end
 
@@ -68,9 +69,11 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
             if (!result) {
+                self.loadSucceed = NO;
                 self.bottomBar.userInteractionEnabled = NO;
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
+                self.loadSucceed = YES;
                 self.bottomBar.userInteractionEnabled = YES;
             }
         });
@@ -139,7 +142,9 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 
 - (BOOL)saveFileWithError:(NSError **)err {
     self.fileContent = self.textView.text;
-    [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
+    if (self.loadSucceed) {
+        [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
+    }
     if (*err) {
         return NO;
     }
@@ -306,7 +311,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 #pragma mark - Toolbar Actions
 
 - (void)search:(UIBarButtonItem *)sender {
-    
+    [self.navigationController.view makeToast:NSLocalizedString(@"Not implemented", nil)];
 }
 
 - (void)reading:(UIBarButtonItem *)sender {

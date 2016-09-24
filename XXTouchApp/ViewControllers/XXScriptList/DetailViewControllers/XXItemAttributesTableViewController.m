@@ -94,17 +94,6 @@ int cancelFlag = 0;
     self.nameTextField.delegate = self;
     self.tableView.mj_header = self.refreshHeader;
     [self reloadItemInfo];
-    {
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-        tapGesture.cancelsTouchesInView = NO;
-        [self.view addGestureRecognizer:tapGesture];
-    }
-}
-
-- (void)viewTapped:(UITapGestureRecognizer *)tapGesture {
-    if ([_nameTextField isFirstResponder]) {
-        [_nameTextField resignFirstResponder];
-    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

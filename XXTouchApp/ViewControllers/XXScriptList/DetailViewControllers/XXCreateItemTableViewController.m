@@ -32,17 +32,6 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     self.clearsSelectionOnViewWillAppear = YES;
     self.itemNameTextField.delegate = self;
-    {
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-        tapGesture.cancelsTouchesInView = NO;
-        [self.view addGestureRecognizer:tapGesture];
-    }
-}
-
-- (void)viewTapped:(UITapGestureRecognizer *)tapGesture {
-    if ([_itemNameTextField isFirstResponder]) {
-        [_itemNameTextField resignFirstResponder];
-    }
 }
 
 - (IBAction)nameTextFieldChanged:(UITextField *)sender {
