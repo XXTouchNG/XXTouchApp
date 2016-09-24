@@ -16,6 +16,7 @@
 enum {
     kInformationSection = 0,
     kOptionSection      = 1,
+    kFeedbackSection    = 2,
 };
 
 // Index - kInformationSection
@@ -26,10 +27,14 @@ enum {
 // Index - kOptionSection
 enum {
     kOptionOfficialSiteIndex   = 0,
-    kOptionMailFeedbackIndex   = 1,
-    kOptionUserAgreementIndex  = 2,
-    kOptionThirdPartyIndex     = 3,
-    kOptionOnlineUpdateIndex   = 4,
+    kOptionUserAgreementIndex  = 1,
+    kOptionThirdPartyIndex     = 2,
+};
+
+enum {
+    kOptionMailFeedbackIndex   = 0,
+    kOptionOnlineUpdateIndex   = 1,
+    kOptionAddQQGroupIndex     = 2,
 };
 
 @interface XXAboutTableViewController () <MFMailComposeViewControllerDelegate>
@@ -71,7 +76,7 @@ enum {
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result
-                        error:(NSError*)error
+                        error:(NSError *)error
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -84,22 +89,30 @@ enum {
                 case kOptionOfficialSiteIndex:
                     [self openOfficialSite];
                     break;
-                case kOptionMailFeedbackIndex:
-                    [self displayComposerSheet];
-                    break;
                 case kOptionUserAgreementIndex:
                     [self openUserAgreement];
                     break;
                 case kOptionThirdPartyIndex:
                     [self openThirdParty];
                     break;
-                case kOptionOnlineUpdateIndex:
-                    [self openCydia];
-                    break;
                 default:
                     break;
             }
             break;
+        case kFeedbackSection:
+            switch (indexPath.row) {
+                case kOptionMailFeedbackIndex:
+                    [self displayComposerSheet];
+                    break;
+                case kOptionOnlineUpdateIndex:
+                    [self openCydia];
+                    break;
+                case kOptionAddQQGroupIndex:
+                    [self openQQGroup];
+                    break;
+                default:
+                    break;
+            }
         default:
             break;
     }
@@ -132,6 +145,15 @@ enum {
         [[UIApplication sharedApplication] openURL:cydiaURL];
     } else {
         [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Cydia", nil)];
+    }
+}
+
+- (void)openQQGroup {
+    NSURL *qqURL = [NSURL URLWithString:@"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=40898074&card_type=group&source=external"];
+    if ([[UIApplication sharedApplication] canOpenURL:qqURL]) {
+        [[UIApplication sharedApplication] openURL:qqURL];
+    } else {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Mobile QQ", nil)];
     }
 }
 

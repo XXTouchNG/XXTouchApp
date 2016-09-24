@@ -15,8 +15,8 @@ typedef enum : NSUInteger {
 } kXXPasteboardType;
 
 typedef enum : NSUInteger {
-    kXXScriptListSortByNameAsc,
-    kXXScriptListSortByModificationDesc,
+    kXXScriptListSortByModificationDesc = 0,
+    kXXScriptListSortByNameAsc = 1,
 } kXXScriptListSortMethod;
 
 typedef enum : NSUInteger {

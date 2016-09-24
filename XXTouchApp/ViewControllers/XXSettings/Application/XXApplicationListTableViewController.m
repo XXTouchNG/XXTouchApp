@@ -35,6 +35,9 @@ UITableViewDataSource
 @implementation XXApplicationListTableViewController
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
+    if (self.searchDisplayController.active) {
+        return UIStatusBarStyleDefault;
+    }
     return UIStatusBarStyleLightContent;
 }
 

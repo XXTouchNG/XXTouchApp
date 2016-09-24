@@ -148,7 +148,7 @@ XXToolbarDelegate
         @strongify(self);
         NSError *err = nil;
         BOOL result = NO;
-        if (_selectBootscript) {
+        if (self->_selectBootscript) {
             result = [XXLocalNetService localGetStartUpConfWithError:&err];
         } else {
             result = [XXLocalNetService localGetSelectedScriptWithError:&err];
@@ -169,7 +169,7 @@ XXToolbarDelegate
                                       }];
                 [alertView show];
             } else {
-                _selectedIndex = -1;
+                self->_selectedIndex = -1;
                 [self reloadScriptListTableView];
                 [self endMJRefreshing];
             }
@@ -225,10 +225,10 @@ XXToolbarDelegate
     } else if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByModificationDesc) {
         [self.topToolbar.sortByButton setImage:[UIImage imageNamed:@"sort-number"]];
         [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
-            return [obj1[NSFileModificationDate] compare:obj2[NSFileModificationDate]];
+            return [obj2[NSFileModificationDate] compare:obj1[NSFileModificationDate]];
         }];
         [fileArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
-            return [obj1[NSFileModificationDate] compare:obj2[NSFileModificationDate]];
+            return [obj2[NSFileModificationDate] compare:obj1[NSFileModificationDate]];
         }];
     }
     
@@ -312,7 +312,7 @@ XXToolbarDelegate
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
         if (cell.isSelectable) {
             @weakify(self);
-            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Run", nil)
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
                                                      backgroundColor:[UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f]
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
@@ -345,7 +345,7 @@ XXToolbarDelegate
         }
         if (cell.isEditable) {
             @weakify(self);
-            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Edit", nil)
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-edit"] imageByTintColor:[UIColor whiteColor]]
                                                      backgroundColor:STYLE_TINT_COLOR
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
@@ -358,7 +358,7 @@ XXToolbarDelegate
                                                             }]];
         }
         @weakify(self);
-        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:NSLocalizedString(@"Delete", nil)
+        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-trash"] imageByTintColor:[UIColor whiteColor]]
                                                   backgroundColor:[UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f]
                                                          callback:^BOOL(MGSwipeTableCell *sender) {
                                                              @strongify(self);
@@ -375,12 +375,12 @@ XXToolbarDelegate
                                                                  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                                                                      BOOL result = [FCFileManager removeItemAtPath:itemPath error:&err]; // This may be time comsuming
                                                                      if (cell.checked) {
-                                                                         if (_selectBootscript) {
+                                                                         if (self->_selectBootscript) {
                                                                              [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                                                                          } else {
                                                                              [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                                                                          }
-                                                                         _selectedIndex = -1;
+                                                                         self->_selectedIndex = -1;
                                                                      }
                                                                      dispatch_async_on_main_queue(^{
                                                                          self.navigationController.view.userInteractionEnabled = YES;
@@ -520,9 +520,9 @@ XXToolbarDelegate
             
             __block XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
             if (_selectBootscript) {
-                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row; [self popToSelectViewController];);
+                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; self->_selectedIndex = indexPath.row; [self popToSelectViewController];);
             } else {
-                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; _selectedIndex = indexPath.row;);
+                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; self->_selectedIndex = indexPath.row;);
             }
         }
     } else {
@@ -737,13 +737,13 @@ XXToolbarDelegate
             NSError *err = nil;
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
-                if (indexPath.row == _selectedIndex) {
-                    if (_selectBootscript) {
+                if (indexPath.row == self->_selectedIndex) {
+                    if (self->_selectBootscript) {
                         [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                     } else {
                         [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                     }
-                    _selectedIndex = -1;
+                    self->_selectedIndex = -1;
                 }
                 [FCFileManager removeItemAtPath:itemPath error:&err];
                 if (err) {

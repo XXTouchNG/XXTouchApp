@@ -385,8 +385,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         if ([data[kXXStartUpConfigScriptPath] hasPrefix:@"/"]) {
             [sharedDataService setStartUpConfigScriptPath:data[kXXStartUpConfigScriptPath]];
         } else {
-            NSURL *absolutePath = [NSURL URLWithString:data[kXXStartUpConfigScriptPath] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
-            [sharedDataService setStartUpConfigScriptPath:[absolutePath path]];
+            NSURL *absolutePath = [NSURL URLWithString:[data[kXXStartUpConfigScriptPath] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            [sharedDataService setStartUpConfigScriptPath:[[absolutePath path] stringByRemovingPercentEncoding]];
         }
         return YES;
     } else

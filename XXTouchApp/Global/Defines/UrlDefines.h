@@ -12,6 +12,7 @@
 #define FEVER_PATH @"/private/var/mobile/Media/1ferver/lua/scripts"
 #define ROOT_PATH [[XXLocalDataService sharedInstance] rootPath]
 #define SERVICE_EMAIL @"jct@82flex.com"
+#define SERVICE_URL @"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=40898074&card_type=group&source=external"
 #define OFFICIAL_SITE @"http://www.xxtouch.com"
 #define DOCUMENT_USERS_GUIDE @"https://www.zybuluo.com/xxtouch/note/378784"
 #define DOCUMENT_UPDATE_LOGS @"https://www.zybuluo.com/xxtouch/note/386289"

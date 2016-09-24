@@ -858,17 +858,7 @@
         <!--Application List-->
         <scene sceneID="OT4-ly-efW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XqN-kY-ddb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController searchResultsTitle="Filtered Applications" id="ht3-P1-5IF">
-                    <connections>
-                        <outlet property="delegate" destination="zp5-fv-J2t" id="N8C-GO-uiG"/>
-                        <outlet property="searchBar" destination="92k-BN-MYt" id="JIQ-Ij-bmy"/>
-                        <outlet property="searchContentsController" destination="zp5-fv-J2t" id="IaV-ur-Zzm"/>
-                        <outlet property="searchResultsDataSource" destination="zp5-fv-J2t" id="4Jw-Fm-KGH"/>
-                        <outlet property="searchResultsDelegate" destination="zp5-fv-J2t" id="yXF-0Z-L3b"/>
-                    </connections>
-                </searchDisplayController>
-                <tableViewController id="zp5-fv-J2t" customClass="XXApplicationListTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Application List" id="zp5-fv-J2t" customClass="XXApplicationListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qnA-6E-UQg">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -965,13 +955,23 @@
                         <outlet property="searchDisplayController" destination="ht3-P1-5IF" id="sqC-Ce-yoN"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XqN-kY-ddb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController searchResultsTitle="Filtered Applications" id="ht3-P1-5IF">
+                    <connections>
+                        <outlet property="delegate" destination="zp5-fv-J2t" id="N8C-GO-uiG"/>
+                        <outlet property="searchBar" destination="92k-BN-MYt" id="JIQ-Ij-bmy"/>
+                        <outlet property="searchContentsController" destination="zp5-fv-J2t" id="IaV-ur-Zzm"/>
+                        <outlet property="searchResultsDataSource" destination="zp5-fv-J2t" id="4Jw-Fm-KGH"/>
+                        <outlet property="searchResultsDelegate" destination="zp5-fv-J2t" id="yXF-0Z-L3b"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1141" y="1617"/>
         </scene>
         <!--Application Detail-->
         <scene sceneID="ueu-gE-LQ5">
             <objects>
-                <tableViewController id="Ytu-F3-vi1" customClass="XXApplicationDetailTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Application Detail" id="Ytu-F3-vi1" customClass="XXApplicationDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="H1a-j2-H7j">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1146,7 +1146,7 @@
         <!--Download Task-->
         <scene sceneID="eYS-3A-Y5c">
             <objects>
-                <tableViewController id="mNb-AJ-xo8" customClass="XXScanDownloadTaskViewController" sceneMemberID="viewController">
+                <tableViewController title="Download Task" id="mNb-AJ-xo8" customClass="XXScanDownloadTaskViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="zML-EP-weP">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1606,7 +1606,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
         <!--Loading-->
         <scene sceneID="dy3-Cp-TXz">
             <objects>
-                <viewController id="Fu5-73-Fc6" customClass="XXWebViewController" sceneMemberID="viewController">
+                <viewController title="Loading" id="Fu5-73-Fc6" customClass="XXWebViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DK3-Xr-Ebu"/>
                         <viewControllerLayoutGuide type="bottom" id="Dv3-XW-eOU"/>
@@ -1632,7 +1632,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
         <!--Item Attributes-->
         <scene sceneID="thx-yY-r5h">
             <objects>
-                <tableViewController id="XQv-b2-LgB" customClass="XXItemAttributesTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Item Attributes" id="XQv-b2-LgB" customClass="XXItemAttributesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="N7m-qE-wSr">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1900,7 +1900,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
         <!--Create Item-->
         <scene sceneID="N7G-Gv-eg7">
             <objects>
-                <tableViewController id="Ffo-nH-FrI" customClass="XXCreateItemTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Create Item" id="Ffo-nH-FrI" customClass="XXCreateItemTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="iD6-Av-cOe">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2022,7 +2022,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
         <!--Authorization-->
         <scene sceneID="1m8-gN-loK">
             <objects>
-                <tableViewController storyboardIdentifier="kXXAuthorizationTableViewControllerStoryboardID" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vld-oN-TUG" customClass="XXAuthorizationTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="kXXAuthorizationTableViewControllerStoryboardID" title="Authorization" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vld-oN-TUG" customClass="XXAuthorizationTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Y9S-Du-5JV">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2290,7 +2290,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
         <!--Documents-->
         <scene sceneID="3DY-Qo-fA9">
             <objects>
-                <tableViewController id="VkG-RE-o2N" customClass="XXDocumentsTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Documents" id="VkG-RE-o2N" customClass="XXDocumentsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="E3E-54-Mnp">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2416,7 +2416,7 @@ V1.0 (1)</string>
                                                     <color key="textColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Designed By i_82" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wal-0t-niS">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Designed By Lessica" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wal-0t-niS">
                                                     <rect key="frame" x="20" y="140" width="560" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="enH-k0-S1j"/>
@@ -2456,10 +2456,10 @@ All Rights Reserved.</string>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="Dnk-vh-gIl">
+                            <tableViewSection headerTitle="Homepage" id="Dnk-vh-gIl">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="yP0-T4-BER" style="IBUITableViewCellStyleDefault" id="fDb-U2-T7j">
-                                        <rect key="frame" x="0.0" y="331" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="345" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fDb-U2-T7j" id="kH1-3h-KJQ">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -2475,25 +2475,8 @@ All Rights Reserved.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="jPa-6V-etE" style="IBUITableViewCellStyleDefault" id="v1j-5Y-kxJ">
-                                        <rect key="frame" x="0.0" y="375" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v1j-5Y-kxJ" id="GXg-eO-mOU">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Mail Feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jPa-6V-etE">
-                                                    <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="9Zs-zp-0m9" style="IBUITableViewCellStyleDefault" id="phL-oj-zdG">
-                                        <rect key="frame" x="0.0" y="419" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="389" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="phL-oj-zdG" id="qpf-Xv-Ff2">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -2510,7 +2493,7 @@ All Rights Reserved.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="1TU-p3-pin" style="IBUITableViewCellStyleDefault" id="b6x-ZJ-N3p">
-                                        <rect key="frame" x="0.0" y="463" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="433" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b6x-ZJ-N3p" id="eWf-fh-gjq">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -2526,14 +2509,52 @@ All Rights Reserved.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="yLy-0l-xZq" style="IBUITableViewCellStyleDefault" id="2MJ-02-yko">
-                                        <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Feedback" id="n1n-he-8Rz">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="s45-pm-lgY" style="IBUITableViewCellStyleDefault" id="XJK-Lp-gJ6">
+                                        <rect key="frame" x="0.0" y="527" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2MJ-02-yko" id="9oq-8U-jQh">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XJK-Lp-gJ6" id="TAz-vz-fba">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Online Update" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yLy-0l-xZq">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Mail Feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s45-pm-lgY">
+                                                    <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="IRj-iK-geI" style="IBUITableViewCellStyleDefault" id="zbb-gK-ezw">
+                                        <rect key="frame" x="0.0" y="571" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zbb-gK-ezw" id="ebh-kO-d4b">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Online Update (Cydia)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IRj-iK-geI">
+                                                    <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Vmf-tu-5HQ" style="IBUITableViewCellStyleDefault" id="yNm-eb-5iI">
+                                        <rect key="frame" x="0.0" y="615" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yNm-eb-5iI" id="KPI-41-EgS">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="QQ Group (40898074)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vmf-tu-5HQ">
                                                     <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
@@ -2589,7 +2610,7 @@ All Rights Reserved.</string>
         <!--Up Press-->
         <scene sceneID="WnX-xL-mM9">
             <objects>
-                <tableViewController id="8MA-fy-CXH" customClass="XXKeyPressConfigOperationTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Up Press" id="8MA-fy-CXH" customClass="XXKeyPressConfigOperationTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="xr0-eP-HP0">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2665,7 +2686,7 @@ All Rights Reserved.</string>
         <!--Key Press Config-->
         <scene sceneID="fha-Ze-MV5">
             <objects>
-                <tableViewController id="SFD-kB-CUe" customClass="XXKeyPressConfigActionTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Key Press Config" id="SFD-kB-CUe" customClass="XXKeyPressConfigActionTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="i5W-Lr-KOi">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3060,7 +3081,7 @@ All Rights Reserved.</string>
         <!--Recording Config-->
         <scene sceneID="G1D-4r-1Aq">
             <objects>
-                <tableViewController id="Blm-NJ-7pf" customClass="XXRecordConfigTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Recording Config" id="Blm-NJ-7pf" customClass="XXRecordConfigTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="VIl-Vf-uLW">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
