@@ -107,7 +107,7 @@
                                     <outlet property="delegate" destination="Y2f-aK-mA9" id="jUt-so-LPW"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GWi-Fx-9gL">
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GWi-Fx-9gL">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="gWa-mi-vAs"/>
@@ -130,13 +130,26 @@
                             <constraint firstItem="R7d-xq-rns" firstAttribute="top" secondItem="RRu-8t-Hnc" secondAttribute="bottom" id="zbV-iK-TUG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Code Snippets" id="MMj-tL-VTu">
+                    <navigationItem key="navigationItem" id="MMj-tL-VTu">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="ASa-kr-3rS">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="close:" destination="Y2f-aK-mA9" id="SgO-IB-7Od"/>
                             </connections>
                         </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4CS-aC-kuN">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Internal"/>
+                                <segment title="Custom"/>
+                            </segments>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="segmentedControlChanged:" destination="Y2f-aK-mA9" eventType="valueChanged" id="0cn-fo-x6Z"/>
+                            </connections>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Xy6-M6-jp7">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
@@ -144,6 +157,7 @@
                     <connections>
                         <outlet property="addItem" destination="23g-C8-bSD" id="3qB-Ua-eS3"/>
                         <outlet property="searchDisplayController" destination="NS6-DN-epi" id="X7t-bq-19O"/>
+                        <outlet property="segmentedControl" destination="4CS-aC-kuN" id="LBS-IX-ENm"/>
                         <outlet property="tableView" destination="R7d-xq-rns" id="FtU-rV-hVJ"/>
                         <outlet property="toolbar" destination="GWi-Fx-9gL" id="nWY-2m-Oei"/>
                         <outlet property="trashItem" destination="hSj-Yg-7nb" id="vBE-Nz-Z9N"/>
@@ -1011,7 +1025,7 @@
         <!--Application List-->
         <scene sceneID="OT4-ly-efW">
             <objects>
-                <tableViewController title="Application List" id="zp5-fv-J2t" customClass="XXApplicationListTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="kXXApplicationListTableViewControllerStoryboardID" title="Application List" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zp5-fv-J2t" customClass="XXApplicationListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qnA-6E-UQg">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

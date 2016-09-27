@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XXCodeBlockModel.h"
+
+static NSString * const kXXApplicationListTableViewControllerStoryboardID = @"kXXApplicationListTableViewControllerStoryboardID";
 
 @interface XXApplicationListTableViewController : UITableViewController
+@property (nonatomic, strong) XXCodeBlockModel *codeBlock;
 
 @end

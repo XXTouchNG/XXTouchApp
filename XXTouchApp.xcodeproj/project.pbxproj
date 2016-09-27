@@ -84,6 +84,7 @@
 		0FE93CE11D8A8391004496BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE01D8A8391004496BC /* MobileCoreServices.framework */; };
 		0FE93CE31D8A8895004496BC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE21D8A8895004496BC /* CoreImage.framework */; };
 		0FEABE861D99F7CB007B96A8 /* XXCodeBlockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */; };
+		0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */; };
 		95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -248,6 +249,8 @@
 		0FE93CE21D8A8895004496BC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		0FEABE841D99F7CB007B96A8 /* XXCodeBlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockModel.h; sourceTree = "<group>"; };
 		0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockModel.m; sourceTree = "<group>"; };
+		0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeMakerService.h; sourceTree = "<group>"; };
+		0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeMakerService.m; sourceTree = "<group>"; };
 		6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.release.xcconfig"; sourceTree = "<group>"; };
 		AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XXTouchApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -644,6 +647,8 @@
 				0FE881D01D75A9AD003907A7 /* XXLocalNetService.m */,
 				0FE881D21D75ABE9003907A7 /* XXLocalDataService.h */,
 				0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */,
+				0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */,
+				0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -987,6 +992,7 @@
 				0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */,
 				0F8F7C5C1D89198D005C3A22 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */,
+				0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,
 				0F5DDE381D814A3100BC4BDE /* XXArchiveService.m in Sources */,
 				0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */,

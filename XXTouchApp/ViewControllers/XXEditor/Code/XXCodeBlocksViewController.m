@@ -8,6 +8,8 @@
 
 #import "XXCodeBlockModel.h"
 #import "XXCodeBlocksViewController.h"
+#import "XXApplicationListTableViewController.h"
+#import "XXCodeMakerService.h"
 
 static NSString * const kXXCodeBlocksTableViewCellReuseIdentifier = @"kXXCodeBlocksTableViewCellReuseIdentifier";
 static NSString * const kXXCodeBlocksTableViewInternalCellReuseIdentifier = @"kXXCodeBlocksTableViewInternalCellReuseIdentifier";
@@ -27,6 +29,8 @@ enum {
 @property (nonatomic, strong) NSArray <XXCodeBlockModel *> *userDefinedFunctions;
 @property (nonatomic, strong) NSArray <XXCodeBlockModel *> *showInternalFunctions;
 @property (nonatomic, strong) NSArray <XXCodeBlockModel *> *showUserDefinedFunctions;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @end
 
@@ -55,7 +59,10 @@ enum {
     self.tableView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
     
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = nil;
+    self.toolbar.hidden = YES;
+    [self.segmentedControl setSelectedSegmentIndex:kXXCodeBlocksInternalFunctionSection];
+    [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:kXXCodeBlocksInternalFunctionSection];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -80,41 +87,47 @@ enum {
                                [XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@)"],
                                [XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@):move(@pos@)"],
                                [XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@, @pos@)"],
-                               [XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@colors@, @slider@)"],
-                               [XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@colors@, @slider@)"],
+                               [XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@, @slider@)"],
+                               [XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@, @slider@)"],
                                [XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(@key@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(@bid@)"],
-                               [XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(@bid@)"],
+                               [XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@\")"],
+                               [XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@\")"],
                                ];
     }
     return _internalFunctions;
 }
 
+#pragma mark - Text replacing
+
+- (void)replaceTextInputSelectedRangeWithString:(NSString *)string {
+    [_textInput replaceRange:[_textInput selectedTextRange] withText:string];
+}
+
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1; // Segmented Control
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
-        if (section == kXXCodeBlocksInternalFunctionSection) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
             return self.internalFunctions.count;
-        } else if (section == kXXCodeBlocksUserDefinedSection) {
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             return self.userDefinedFunctions.count;
         }
     } else {
-        if (section == kXXCodeBlocksInternalFunctionSection) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
             return self.showInternalFunctions.count;
-        } else if (section == kXXCodeBlocksUserDefinedSection) {
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             return self.showUserDefinedFunctions.count;
         }
     }
@@ -123,9 +136,9 @@ enum {
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == kXXCodeBlocksInternalFunctionSection) {
+    if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
         return NSLocalizedString(@"Internal Functions", nil);
-    } else if (section == kXXCodeBlocksUserDefinedSection) {
+    } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         return NSLocalizedString(@"User Defined", nil);
     }
     return @"";
@@ -133,9 +146,9 @@ enum {
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.tableView) {
-        if (indexPath.section == kXXCodeBlocksInternalFunctionSection) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
             return NO;
-        } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             return YES;
         }
     }
@@ -145,9 +158,9 @@ enum {
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.tableView) {
-        if (indexPath.section == kXXCodeBlocksInternalFunctionSection) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
             return NO;
-        } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             return YES;
         }
     }
@@ -158,7 +171,7 @@ enum {
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.tableView) {
-        if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             return UITableViewCellEditingStyleDelete;
         }
     }
@@ -177,7 +190,7 @@ enum {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == kXXCodeBlocksInternalFunctionSection) {
+    if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewInternalCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
             cell.textLabel.text = self.internalFunctions[indexPath.row].title;
@@ -186,7 +199,7 @@ enum {
         }
         
         return cell;
-    } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+    } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
             cell.textLabel.text = self.userDefinedFunctions[indexPath.row].title;
@@ -206,11 +219,24 @@ enum {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.isEditing && indexPath.section != kXXCodeBlocksInternalFunctionSection) {
+    if (self.isEditing && _segmentedControl.selectedSegmentIndex != kXXCodeBlocksInternalFunctionSection) {
         self.trashItem.enabled = YES;
         return;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView == self.tableView) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.internalFunctions[indexPath.row] controller:self];
+        } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.userDefinedFunctions[indexPath.row] controller:self];
+        }
+    } else {
+        if (indexPath.section == kXXCodeBlocksInternalFunctionSection) {
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showInternalFunctions[indexPath.row] controller:self];
+        } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showUserDefinedFunctions[indexPath.row] controller:self];
+        }
+    }
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
@@ -238,6 +264,8 @@ enum {
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    [self.segmentedControl setSelectedSegmentIndex:searchOption];
+    [self.tableView reloadData];
     [self reloadSearch];
     return YES;
 }
@@ -254,6 +282,24 @@ enum {
             self.showUserDefinedFunctions = [[NSArray alloc] initWithArray:[self.userDefinedFunctions filteredArrayUsingPredicate:predicate]];
         }
     }
+}
+
+#pragma mark - Segmented Control
+
+- (IBAction)segmentedControlChanged:(UISegmentedControl *)sender {
+    [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:sender.selectedSegmentIndex];
+    if (sender.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
+        [self.toolbar setHidden:YES];
+        self.navigationItem.rightBarButtonItem = nil;
+    } else if (sender.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
+        [self.toolbar setHidden:NO];
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    }
+    [self.tableView reloadData];
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

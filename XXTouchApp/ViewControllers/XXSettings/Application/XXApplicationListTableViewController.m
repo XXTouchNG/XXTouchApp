@@ -11,6 +11,7 @@
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXApplicationTableViewCell.h"
+#import "XXCodeMakerService.h"
 
 static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 
@@ -116,6 +117,18 @@ UISearchDisplayDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSString *identifier = nil;
+    if (tableView == self.tableView) {
+        identifier = [[XXLocalDataService sharedInstance] bundles][indexPath.row][kXXApplicationKeyBundleID];
+    } else {
+        identifier = _showData[indexPath.row][kXXApplicationKeyBundleID];
+    }
+    if (_codeBlock) {
+        NSString *code = _codeBlock.code;
+        NSRange range = [code rangeOfString:@"@bid@"];
+        _codeBlock.code = [code stringByReplacingCharactersInRange:range withString:identifier];
+        [XXCodeMakerService pushToMakerWithCodeBlockModel:_codeBlock controller:self];
+    }
 }
 
 #pragma mark - UISearchDisplayDelegate
@@ -147,6 +160,13 @@ UISearchDisplayDelegate
 }
 
 #pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(XXApplicationTableViewCell *)sender {
+    if (_codeBlock) {
+        return NO;
+    }
+    return YES;
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(XXApplicationTableViewCell *)sender {

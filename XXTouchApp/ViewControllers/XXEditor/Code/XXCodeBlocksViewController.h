@@ -11,4 +11,5 @@
 @interface XXCodeBlocksViewController : UIViewController
 @property (nonatomic, weak) id<UITextInput> textInput;
 
+- (void)replaceTextInputSelectedRangeWithString:(NSString *)string;
 @end

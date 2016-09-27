@@ -437,6 +437,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 #pragma mark - Menu Actions
 
 - (void)menuActionCodeBlocks:(UIMenuItem *)sender {
+    if ([_textView isFirstResponder]) {
+        [_textView resignFirstResponder];
+    }
     UINavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
     XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
     codeBlocksController.textInput = self.textView;
