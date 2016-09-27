@@ -114,7 +114,7 @@
 "YdZ-Pr-7b9.text" = "N/A";
 "Cdi-KO-AZ9.text" = "N/A";
 "4Vg-xs-Hha.text" = "N/A";
-"92k-BN-MYt.placeholder" = "搜索";
+"92k-BN-MYt.placeholder" = "搜索应用程序";
 "cVC-A4-Kkd.text" = "N/A";
 "386-vd-XLy.text" = "启用";
 "FO9-S1-jTM.text" = "每次询问";
@@ -191,3 +191,7 @@
 "Vmf-tu-5HQ.text" = "QQ 群 (40898074)";
 "Dnk-vh-gIl.headerTitle" = "主页";
 "n1n-he-8Rz.headerTitle" = "反馈";
+"MMj-tL-VTu.title" = "代码片段";
+"oDM-Nz-tH3.scopeButtonTitles[0]" = "内置函数";
+"oDM-Nz-tH3.scopeButtonTitles[1]" = "自定义";
+"oDM-Nz-tH3.placeholder" = "搜索代码片段";

@@ -1,5 +1,4 @@
 PODS:
-  - CYRTextView (0.4.0)
   - FCFileManager (1.0.18)
   - FLEX (2.1.1)
   - JTSImageViewController (1.5.1)
@@ -11,6 +10,7 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
+  - RFKeyboardToolbar (1.3)
   - SSZipArchive (1.5)
   - Toast (3.0)
   - YYCache (1.0.4)
@@ -20,7 +20,6 @@ PODS:
   - ZBarSDK (1.3.1)
 
 DEPENDENCIES:
-  - CYRTextView
   - FCFileManager
   - FLEX (~> 2.0)
   - JTSImageViewController
@@ -28,6 +27,7 @@ DEPENDENCIES:
   - MGSwipeTableCell
   - MJRefresh
   - NJKWebViewProgress
+  - RFKeyboardToolbar
   - SSZipArchive
   - Toast
   - YYCache
@@ -35,7 +35,6 @@ DEPENDENCIES:
   - ZBarSDK
 
 SPEC CHECKSUMS:
-  CYRTextView: 1c1a4d708eee54ecad66b8ad42dbfe73083bdfce
   FCFileManager: 3d13576da1f709d37460bd7669cdf07b9d6d8bc3
   FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
   JTSImageViewController: 1f8ce1cc93dab0d0af8e53badeea7528560cfec9
@@ -43,12 +42,13 @@ SPEC CHECKSUMS:
   MGSwipeTableCell: bafeb5f351124544c9364ecbdf24c7b06a37d340
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  RFKeyboardToolbar: c96a7d9458564d1fedc8ef6844b6c467934aade2
   SSZipArchive: 29daace2bccb90a47de2837744da397728ff9207
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   ZBarSDK: 4c1b5daeb7d6cc67dc9355e690af0230a661f6ec
 
-PODFILE CHECKSUM: e3a5ccfc70adb0af8422c7d69048b451e006c5e7
+PODFILE CHECKSUM: b3598188a5476caadb7f918d7a89082531342b3e
 
 COCOAPODS: 1.0.0.beta.4

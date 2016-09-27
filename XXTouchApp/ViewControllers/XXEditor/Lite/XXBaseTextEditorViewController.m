@@ -10,6 +10,7 @@
 
 #import "XXBaseTextEditorViewController.h"
 #import "XXBaseTextEditorPropertiesTableViewController.h"
+#import "XXCodeBlocksViewController.h"
 #import "XXBaseTextView.h"
 #import "XXLocalNetService.h"
 #import <Masonry/Masonry.h>
@@ -17,6 +18,7 @@
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
+static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCodeBlocksTableViewControllerStoryboardID";
 
 @interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating>
 @property (nonatomic, strong) UIView *fakeStatusBar;
@@ -30,7 +32,8 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 @property (nonatomic, strong) UISearchController *searchController;
 
 @property (nonatomic, assign) BOOL isLuaCode;
-@property (nonatomic, assign) BOOL loadSucceed;
+@property (nonatomic, assign) BOOL isLoaded;
+@property (nonatomic, assign) BOOL isEdited;
 
 @end
 
@@ -39,11 +42,16 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setup];
+}
+
+- (void)setup {
+    
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     if ([fileExt isEqualToString:@"lua"]) {
-        self.isLuaCode = YES;
+        _isLuaCode = YES;
     } else {
-        self.isLuaCode = NO;
+        _isLuaCode = NO;
     }
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -58,6 +66,11 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     [self.view addSubview:self.bottomBar];
     [self updateViewConstraints];
     
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
+    UIMenuItem *keywordsItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Keywords", nil) action:@selector(menuActionKeywords:)];
+    [menuController setMenuItems:@[codeBlocksItem, keywordsItem]];
+    
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     @weakify(self);
@@ -69,15 +82,16 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
             if (!result) {
-                self.loadSucceed = NO;
+                self->_isLoaded = NO;
                 self.bottomBar.userInteractionEnabled = NO;
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
-                self.loadSucceed = YES;
+                self->_isLoaded = YES;
                 self.bottomBar.userInteractionEnabled = YES;
             }
         });
     });
+    
 }
 
 - (BOOL)loadFileWithError:(NSError **)err {
@@ -142,7 +156,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 
 - (BOOL)saveFileWithError:(NSError **)err {
     self.fileContent = self.textView.text;
-    if (self.loadSucceed) {
+    if (_isLoaded && _isEdited) {
         [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
     }
     if (*err) {
@@ -179,6 +193,8 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     }];
 }
 
+#pragma mark - Getters
+
 - (UIView *)fakeStatusBar {
     if (!_fakeStatusBar) {
         CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
@@ -191,7 +207,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 
 - (UITextView *)textView {
     if (!_textView) {
-        UIFont *font = [UIFont fontWithName:@"Menlo" size:14.0f];
+        UIFont *font = [UIFont fontWithName:@"CourierNewPSMT" size:14.0f];
         
         XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds];
         textView.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -206,10 +222,10 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
         textView.contentInset =
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
-        textView.inputAccessoryView = [[XXKeyboardRow alloc] initWithTextView:textView];
         
-        if (self.isLuaCode) {
+        if (_isLuaCode) {
             textView.highlightLuaSymbols = YES;
+            textView.inputAccessoryView = [[XXKeyboardRow alloc] initWithTextView:textView];
         } else {
             textView.highlightLuaSymbols = NO;
         }
@@ -315,7 +331,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 }
 
 - (void)reading:(UIBarButtonItem *)sender {
-    if (!self.isLuaCode) {
+    if (!_isLuaCode) {
         [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
         return;
     }
@@ -379,6 +395,8 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     [self.navigationController.view makeToast:NSLocalizedString(@"Advanced Settings are not provided to XXTouch App Lite", nil)];
 }
 
+#pragma mark - Keyboard Events
+
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
     NSValue *keyboardRectAsObject = [[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = CGRectNull;
@@ -402,6 +420,7 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
     self.fileContent = self.textView.text;
+    if (!_isEdited) _isEdited = YES;
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
@@ -412,6 +431,19 @@ static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboard
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+}
+
+#pragma mark - Menu Actions
+
+- (void)menuActionCodeBlocks:(UIMenuItem *)sender {
+    UINavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+    XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
+    codeBlocksController.textInput = self.textView;
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)menuActionKeywords:(UIMenuItem *)sender {
     
 }
 

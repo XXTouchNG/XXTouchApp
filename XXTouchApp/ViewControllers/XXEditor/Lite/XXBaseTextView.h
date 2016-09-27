@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import <CYRTextView/CYRTextView.h>
+#import "CYRTextView.h"
 
 @interface XXBaseTextView : CYRTextView
 @property (nonatomic, assign) BOOL highlightLuaSymbols;

@@ -78,9 +78,10 @@
     for (int i = 0; i < _buttonCount; i++) {
         XXKeyboardButton *keyboardButton = [[XXKeyboardButton alloc] initWithFrame:CGRectMake(_leftMargin + i * (_buttonSpacing + _buttonWidth), _topMargin + (_barHeight - _buttonHeight) / 2, _buttonWidth, _buttonHeight)];
         keyboardButton.style = self.style;
-        keyboardButton.translatesAutoresizingMaskIntoConstraints = NO;
         keyboardButton.input = [keys substringWithRange:NSMakeRange(i * 5, 5)];
         keyboardButton.textInput = _textView;
+        keyboardButton.translatesAutoresizingMaskIntoConstraints = NO;
+        keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self addSubview:keyboardButton];
     }
 }

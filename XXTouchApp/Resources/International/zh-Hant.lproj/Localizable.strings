@@ -152,3 +152,7 @@ More = "更多";
 Unarchive = "解壓縮";
 "File \"%@\" already exists." = "文件 \"%@\" 已經存在。";
 "Not implemented" = "該功能未實現";
+"Code Snippets" = "代碼片段";
+"Keywords" = "關鍵字";
+"Internal Functions" = "內置函數";
+"User Defined" = "自定義";

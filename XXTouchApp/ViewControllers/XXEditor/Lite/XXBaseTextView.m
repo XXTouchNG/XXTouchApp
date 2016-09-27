@@ -50,56 +50,84 @@
 - (NSArray *)solverTokens
 {
     NSArray *solverTokens = @[
-            [CYRToken tokenWithName:@"operator"
-                         expression:@"[/\\*,\\;:~=<>\\+\\-\\^!\\#%&\\||(\\.\\.)]"
+            [CYRToken tokenWithName:@"keyword.operator.lua"
+                         expression:@"\\+|-|%|#|\\*|\\/|\\^|==?|~=|<=?|>=?|(?<!\\.)\\.{2}(?!\\.)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(245, 0, 110)
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x687687],
+                                      NSFontAttributeName : self.defaultFont
                                       }],
-            [CYRToken tokenWithName:@"number"
-                         expression:@"\\b(0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?|\\.\\d+(?:[eE][+-]?\\d+)?)"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xA8017E]
-                                      }],
-            [CYRToken tokenWithName:@"round_brackets"
+            [CYRToken tokenWithName:@"keyword.brackets.lua"
                          expression:@"[\\(\\)\\[\\]\\{\\}]"
                          attributes:@{
-                                      NSForegroundColorAttributeName : RGB(161, 75, 0)
+                                      NSForegroundColorAttributeName : RGB(161, 75, 0),
+                                      NSFontAttributeName : self.defaultFont
                                       }],
-            [CYRToken tokenWithName:@"constants"
-                         expression:@"\\b(false|true|nil|_G|_VERSION)\\b"
+            [CYRToken tokenWithName:@"constant.numeric.lua"
+                         expression:@"\\b(0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?|\\.\\d+(?:[eE][+-]?\\d+)?)"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xA535AE]
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xA8017E],
+                                      NSFontAttributeName : self.defaultFont
                                       }],
-            [CYRToken tokenWithName:@"reserved_words"
-                         expression:@"\\b(and|break|do|else|elseif|end|for|function|goto|if|in|local|not|or|repeat|return|then|until|while)\\b"
+            [CYRToken tokenWithName:@"variable.language.self.lua"
+                         expression:@"(?<![^.]\\.|:)\\b(self)\\b"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x006699],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x318495],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
+            [CYRToken tokenWithName:@"constant.language.lua"
+                         expression:@"(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION|math\\.(pi|huge))\\b|(?<![.])\\.{3}(?!\\.)"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x585CF6],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
+            [CYRToken tokenWithName:@"keyword.operator.word.lua"
+                         expression:@"\\b(and|or|not)\\b"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x687687],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
+            [CYRToken tokenWithName:@"keyword.control.lua"
+                         expression:@"\\b(break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in)\\b"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x0C450D],
                                       NSFontAttributeName : self.boldFont
                                       }],
-            [CYRToken tokenWithName:@"string_multi"
-                         expression:@"\\[\\[.*?(\\]\\]|$)"
+            [CYRToken tokenWithName:@"support.function.library.lua"
+                         expression:@"(?<![^.]\\.|:)\\b(coroutine\\.(create|resume|running|status|wrap|yield)|string\\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\\.(concat|insert|maxn|remove|sort)|math\\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\\.(cpath|loaded|loadlib|path|preload|seeall)|debug\\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\\b(?=[( {])"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xED7722],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x3C4C72],
                                       NSFontAttributeName : self.defaultFont
                                       }],
-            [CYRToken tokenWithName:@"string_single"
-                         expression:@"([\"'])(?:[^\1\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
+            [CYRToken tokenWithName:@"support.function.lua"
+                         expression:@"(?<![^.]\\.|:)\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b(?=[( {])"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xED7722],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x3C4C72],
                                       NSFontAttributeName : self.defaultFont
                                       }],
-            [CYRToken tokenWithName:@"comment_single"
-                         expression:@"--[^\\n]*"
+            [CYRToken tokenWithName:@"comment.line.double-dash.lua"
+                         expression:@"--(?!\\[\\[)[^\\n]*"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xAF82D4],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x0066FF],
                                       NSFontAttributeName : self.italicFont
                                       }],
-            [CYRToken tokenWithName:@"comment_multi"
-                         expression:@"--\\[\\[.*?\\]\\]"
+            [CYRToken tokenWithName:@"comment.block.lua"
+                         expression:@"--\\[(=*)\\[.*?\\]\\1\\]"
                          attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xAF82D4],
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x0066FF],
                                       NSFontAttributeName : self.italicFont
-                                      }]
+                                      }],
+            [CYRToken tokenWithName:@"string.quoted.double.lua"
+                         expression:@"([\"'])(?:[^\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x036A07],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
+            [CYRToken tokenWithName:@"string.quoted.other.multiline.lua"
+                         expression:@"(?<!--)\\[(=*)\\[.*?(\\]\\1\\]|$)"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x036A07],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
             ];
     return solverTokens;
 }

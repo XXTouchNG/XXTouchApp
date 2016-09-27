@@ -7,7 +7,7 @@
 "ThY-sz-ydd.text" = "值";
 "4am-Yb-GXX.text" = "N/A";
 "ipj-rb-f7w.headerTitle" = "設置";
-"uWQ-5K-tIf.title" = "應用程序列表";
+"uWQ-5K-tIf.title" = "應用程式列表";
 "NHa-3s-w28.text" = "Mime 類型";
 "DvF-JG-f7d.text" = "N/A";
 "f5X-Zy-xZG.title" = "創建文件";
@@ -71,7 +71,7 @@
 "zuY-Xl-r3x.text" = "N/A";
 "Zam-rg-gDP.title" = "更多";
 "bPI-jg-Z0j.text" = "Unix (LF)";
-"ht3-P1-5IF.searchResultsTitle" = "過濾應用程序列表";
+"ht3-P1-5IF.searchResultsTitle" = "過濾應用程式列表";
 "4El-EF-saE.title" = "XX Main Tabbar";
 "ngs-J0-Btn.text" = "N/A";
 "rxv-io-rl7.title" = "我的腳本";
@@ -81,7 +81,7 @@
 "VWI-U8-bbj.footerTitle" = "在這裡設置機身音量鍵在錄製過程中是否錄入腳本。";
 "ly3-Qe-OcM.text" = "按鍵設置";
 "laz-JI-AvF.text" = "長按音量 + 機身按鈕";
-"VNA-8h-pRI.text" = "清空應用程序數據";
+"VNA-8h-pRI.text" = "清空應用程式數據";
 "U8W-eo-Pze.text" = "設置標題";
 "EZO-um-Nd5.text" = "修改時間";
 "VQU-M5-NbT.text" = "監聽：彈出菜單";
@@ -102,7 +102,7 @@
 "bBQ-VR-yGI.headerTitle" = "動作";
 "Dhg-82-cDM.text" = "修改時間";
 "8iA-ZL-uHa.text" = "單詞數";
-"tCe-gk-viR.title" = "應用程序詳情";
+"tCe-gk-viR.title" = "應用程式詳情";
 "cda-eP-Cd7.headerTitle" = "授權";
 "Hgu-8x-Iil.text" = "按住音量 +";
 "CNt-Xu-Yg5.text" = "創建時間";
@@ -114,7 +114,7 @@
 "YdZ-Pr-7b9.text" = "N/A";
 "Cdi-KO-AZ9.text" = "N/A";
 "4Vg-xs-Hha.text" = "N/A";
-"92k-BN-MYt.placeholder" = "搜索";
+"92k-BN-MYt.placeholder" = "搜索應用程式";
 "cVC-A4-Kkd.text" = "N/A";
 "386-vd-XLy.text" = "啟用";
 "FO9-S1-jTM.text" = "每次詢問";
@@ -133,11 +133,11 @@
 "tFj-9o-y2h.text" = "N/A";
 "jMb-PR-yw5.text" = "重啟服務";
 "y7J-X3-ZMb.placeholder" = "文件名";
-"aXR-li-dmB.text" = "該應用程序需要越獄環境\nhttp://www.xxtouch.com\n2016 © XXTouch Team\n版權所有";
+"aXR-li-dmB.text" = "該應用程式需要越獄環境\nhttp://www.xxtouch.com\n2016 © XXTouch Team\n版權所有";
 "Wnl-54-8qV.headerTitle" = "文件屬性";
 "GuI-3V-XMW.headerTitle" = "激活";
 "Wwy-Ye-Bge.text" = "無動作";
-"UtZ-F7-Gzb.text" = "清空應用程序數據";
+"UtZ-F7-Gzb.text" = "清空應用程式數據";
 "j3J-b2-OKu.text" = "Unicode (UTF-8)";
 "9HV-6h-NuT.title" = "源 Headers";
 "mE6-vf-gvW.text" = "Open API 參考文檔";
@@ -153,7 +153,7 @@
 "CS5-5g-f5g.title" = "我的腳本";
 "MUB-4A-9kj.text" = "遠程服務";
 "uyS-dD-zCi.text" = "僅錄製音量 +";
-"rTI-9I-kQY.text" = "程序路徑";
+"rTI-9I-kQY.text" = "程式路徑";
 "Q32-bE-hU4.headerTitle" = "文檔";
 "VWI-U8-bbj.headerTitle" = "錄製";
 "Q32-bE-hU4.footerTitle" = "這些文檔需要訪問互聯網才能查看。";
@@ -191,3 +191,7 @@
 "Vmf-tu-5HQ.text" = "QQ 群 (40898074)";
 "Dnk-vh-gIl.headerTitle" = "主頁";
 "n1n-he-8Rz.headerTitle" = "反饋";
+"MMj-tL-VTu.title" = "代碼片段";
+"oDM-Nz-tH3.scopeButtonTitles[0]" = "內置函數";
+"oDM-Nz-tH3.scopeButtonTitles[1]" = "自定義";
+"oDM-Nz-tH3.placeholder" = "搜索代碼片段";

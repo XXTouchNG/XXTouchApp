@@ -26,7 +26,8 @@ enum {
 @interface XXApplicationListTableViewController ()
 <
 UITableViewDelegate,
-UITableViewDataSource
+UITableViewDataSource,
+UISearchDisplayDelegate
 >
 @property (nonatomic, strong) NSArray *showData;
 
@@ -46,6 +47,7 @@ UITableViewDataSource
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.searchDisplayController.delegate = self;
     
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
@@ -95,15 +97,6 @@ UITableViewDataSource
             return [[XXLocalDataService sharedInstance] bundles].count;
         }
     } else {
-        NSPredicate *predicate = nil;
-        if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeName) {
-            predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
-        } else if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeBundleID) {
-            predicate = [NSPredicate predicateWithFormat:@"bid CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
-        }
-        if (predicate) {
-            self.showData = [[NSArray alloc] initWithArray:[[[XXLocalDataService sharedInstance] bundles] filteredArrayUsingPredicate:predicate]];
-        }
         return self.showData.count;
     }
     
@@ -123,6 +116,34 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UISearchDisplayDelegate
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    [self reloadSearch];
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    [self reloadSearch];
+    return YES;
+}
+
+- (void)reloadSearch {
+    NSPredicate *predicate = nil;
+    if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeName) {
+        predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+    } else if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeBundleID) {
+        predicate = [NSPredicate predicateWithFormat:@"bid CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+    }
+    if (predicate) {
+        self.showData = [[NSArray alloc] initWithArray:[[[XXLocalDataService sharedInstance] bundles] filteredArrayUsingPredicate:predicate]];
+    }
 }
 
 #pragma mark - Navigation
