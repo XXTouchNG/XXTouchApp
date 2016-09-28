@@ -65,9 +65,10 @@ enum {
     UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.toolbar.hidden = YES;
-    [self.segmentedControl setSelectedSegmentIndex:kXXCodeBlocksInternalFunctionSection];
+    [self.segmentedControl setSelectedSegmentIndex:[[XXLocalDataService sharedInstance] selectedCodeBlockSegmentIndex]];
     [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:kXXCodeBlocksInternalFunctionSection];
+    
+    self.toolbar.hidden = (self.segmentedControl.selectedSegmentIndex != kXXCodeBlocksUserDefinedSection);
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -311,6 +312,7 @@ enum {
 - (IBAction)segmentedControlChanged:(UISegmentedControl *)sender {
     [self setEditing:NO animated:YES];
     [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:sender.selectedSegmentIndex];
+    [[XXLocalDataService sharedInstance] setSelectedCodeBlockSegmentIndex:sender.selectedSegmentIndex];
     if (sender.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
         [self.toolbar setHidden:YES];
     } else if (sender.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {

@@ -89,4 +89,6 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 @property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlockInternalFunctions; // Cached
 @property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlockUserDefinedFunctions; // Cached
 
+@property (nonatomic, assign) NSUInteger selectedCodeBlockSegmentIndex;
+
 @end

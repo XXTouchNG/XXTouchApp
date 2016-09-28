@@ -317,4 +317,12 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
     [self setObject:codeBlockUserDefinedFunctions forKey:@"codeBlockUserDefinedFunctions"];
 }
 
+- (NSUInteger)selectedCodeBlockSegmentIndex {
+    return [(NSNumber *)[self objectForKey:@"selectedCodeBlockSegmentIndex"] unsignedIntegerValue];
+}
+
+- (void)setSelectedCodeBlockSegmentIndex:(NSUInteger)selectedCodeBlockSegmentIndex {
+    [self setObject:[NSNumber numberWithUnsignedInteger:selectedCodeBlockSegmentIndex] forKey:@"selectedCodeBlockSegmentIndex"];
+}
+
 @end
