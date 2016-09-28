@@ -6,13 +6,17 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "XXCodeBlockModel.h"
+#import "XXCodeBlockTableViewCell.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXApplicationListTableViewController.h"
+#import "XXAddCodeBlockTableViewController.h"
 #import "XXCodeMakerService.h"
+#import "XXLocalDataService.h"
 
 static NSString * const kXXCodeBlocksTableViewCellReuseIdentifier = @"kXXCodeBlocksTableViewCellReuseIdentifier";
 static NSString * const kXXCodeBlocksTableViewInternalCellReuseIdentifier = @"kXXCodeBlocksTableViewInternalCellReuseIdentifier";
+static NSString * const kXXCodeBlocksAddBlockSegueIdentifier = @"kXXCodeBlocksAddBlockSegueIdentifier";
+static NSString * const kXXCodeBlocksEditBlockSegueIdentifier = @"kXXCodeBlocksEditBlockSegueIdentifier";
 
 enum {
     kXXCodeBlocksInternalFunctionSection = 0,
@@ -25,12 +29,13 @@ enum {
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
-@property (nonatomic, strong) NSArray <XXCodeBlockModel *> *internalFunctions;
-@property (nonatomic, strong) NSArray <XXCodeBlockModel *> *userDefinedFunctions;
+@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *internalFunctions;
+@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *userDefinedFunctions;
 @property (nonatomic, strong) NSArray <XXCodeBlockModel *> *showInternalFunctions;
 @property (nonatomic, strong) NSArray <XXCodeBlockModel *> *showUserDefinedFunctions;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic, assign) BOOL edited;
 
 @end
 
@@ -59,7 +64,7 @@ enum {
     self.tableView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
     
-    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.toolbar.hidden = YES;
     [self.segmentedControl setSelectedSegmentIndex:kXXCodeBlocksInternalFunctionSection];
     [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:kXXCodeBlocksInternalFunctionSection];
@@ -72,7 +77,19 @@ enum {
         
     } else {
         self.trashItem.enabled = NO;
+        
+        if (_edited) {
+            _edited = NO;
+            // Save to Database
+            [[XXLocalDataService sharedInstance] setCodeBlockInternalFunctions:self.internalFunctions];
+            [[XXLocalDataService sharedInstance] setCodeBlockUserDefinedFunctions:self.userDefinedFunctions];
+        }
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (IBAction)close:(UIBarButtonItem *)sender {
@@ -81,34 +98,32 @@ enum {
 
 #pragma mark - Getters
 
-- (NSArray <XXCodeBlockModel *> *)internalFunctions {
-    if (!_internalFunctions) {
-        _internalFunctions = @[
-                               [XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@)"],
-                               [XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@):move(@pos@)"],
-                               [XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@, @pos@)"],
-                               [XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@, @slider@)"],
-                               [XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@, @slider@)"],
-                               [XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(@key@)"],
-                               [XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@\")"],
-                               [XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@\")"],
-                               ];
-    }
-    return _internalFunctions;
+- (NSMutableArray <XXCodeBlockModel *> *)internalFunctions {
+    return [[XXLocalDataService sharedInstance] codeBlockInternalFunctions];
+}
+
+- (NSMutableArray <XXCodeBlockModel *> *)userDefinedFunctions {
+    return [[XXLocalDataService sharedInstance] codeBlockUserDefinedFunctions];
 }
 
 #pragma mark - Text replacing
 
-- (void)replaceTextInputSelectedRangeWithString:(NSString *)string {
-    [_textInput replaceRange:[_textInput selectedTextRange] withText:string];
+- (void)replaceTextInputSelectedRangeWithModel:(XXCodeBlockModel *)model {
+    UITextRange *selectedRange = [_textInput selectedTextRange];
+    [_textInput replaceRange:selectedRange withText:model.code];
+    
+    if (model.offset != -1) {
+        UITextPosition *insertPos = [_textInput positionFromPosition:selectedRange.start offset:model.offset];
+        
+        UITextPosition *beginPos = [_textInput beginningOfDocument];
+        UITextPosition *startPos = [_textInput positionFromPosition:beginPos offset:[_textInput offsetFromPosition:beginPos toPosition:insertPos]];
+        UITextRange *textRange = [_textInput textRangeFromPosition:startPos toPosition:startPos];
+        [_textInput setSelectedTextRange:textRange];
+    }
+    
+    if (![_textInput isFirstResponder]) {
+        [_textInput becomeFirstResponder];
+    }
 }
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
@@ -146,11 +161,7 @@ enum {
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.tableView) {
-        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            return NO;
-        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            return YES;
-        }
+        return YES;
     }
     
     return NO;
@@ -158,11 +169,7 @@ enum {
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.tableView) {
-        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            return NO;
-        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            return YES;
-        }
+        return YES;
     }
     
     return NO;
@@ -180,30 +187,45 @@ enum {
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (tableView == self.tableView) {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
+                _edited = YES;
+                [self.userDefinedFunctions removeObjectAtIndex:indexPath.row];
+                [tableView beginUpdates];
+                [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
+                [tableView endUpdates];
+            }
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     if (self.isEditing) {
         return;
     }
+    // Perform Segue
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewInternalCellReuseIdentifier forIndexPath:indexPath];
+        XXCodeBlockTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewInternalCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
+            cell.codeBlock = self.internalFunctions[indexPath.row];
             cell.textLabel.text = self.internalFunctions[indexPath.row].title;
         } else {
+            cell.codeBlock = self.showInternalFunctions[indexPath.row];
             cell.textLabel.text = self.showInternalFunctions[indexPath.row].title;
         }
         
         return cell;
     } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewCellReuseIdentifier forIndexPath:indexPath];
+        XXCodeBlockTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
+            cell.codeBlock = self.userDefinedFunctions[indexPath.row];
             cell.textLabel.text = self.userDefinedFunctions[indexPath.row].title;
         } else {
+            cell.codeBlock = self.showUserDefinedFunctions[indexPath.row];
             cell.textLabel.text = self.showUserDefinedFunctions[indexPath.row].title;
         }
         
@@ -219,37 +241,36 @@ enum {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.isEditing && _segmentedControl.selectedSegmentIndex != kXXCodeBlocksInternalFunctionSection) {
+    if (self.isEditing) {
         self.trashItem.enabled = YES;
         return;
     }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == self.tableView) {
         if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
             [XXCodeMakerService pushToMakerWithCodeBlockModel:self.internalFunctions[indexPath.row] controller:self];
-        } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             [XXCodeMakerService pushToMakerWithCodeBlockModel:self.userDefinedFunctions[indexPath.row] controller:self];
         }
     } else {
-        if (indexPath.section == kXXCodeBlocksInternalFunctionSection) {
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
             [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showInternalFunctions[indexPath.row] controller:self];
-        } else if (indexPath.section == kXXCodeBlocksUserDefinedSection) {
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
             [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showUserDefinedFunctions[indexPath.row] controller:self];
         }
     }
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
-    
-    if (sourceIndexPath.section != proposedDestinationIndexPath.section) {
-        return sourceIndexPath;
-    }
-    
-    return proposedDestinationIndexPath;
-}
-
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    
+    if (tableView == self.tableView) {
+        _edited = YES;
+        if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
+            [self.internalFunctions exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+        } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
+            [self.userDefinedFunctions exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+        }
+    }
 }
 
 #pragma mark - UISearchDisplayDelegate
@@ -265,6 +286,7 @@ enum {
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     [self.segmentedControl setSelectedSegmentIndex:searchOption];
+    [self segmentedControlChanged:self.segmentedControl];
     [self.tableView reloadData];
     [self reloadSearch];
     return YES;
@@ -287,15 +309,75 @@ enum {
 #pragma mark - Segmented Control
 
 - (IBAction)segmentedControlChanged:(UISegmentedControl *)sender {
+    [self setEditing:NO animated:YES];
     [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:sender.selectedSegmentIndex];
     if (sender.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
         [self.toolbar setHidden:YES];
-        self.navigationItem.rightBarButtonItem = nil;
     } else if (sender.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         [self.toolbar setHidden:NO];
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     [self.tableView reloadData];
+}
+
+#pragma mark - Toolbar Actions
+
+- (IBAction)trashButtonTapped:(UIBarButtonItem *)sender {
+    if (self.searchDisplayController.active || self.segmentedControl.selectedSegmentIndex != kXXCodeBlocksUserDefinedSection) {
+        return;
+    }
+    NSArray <NSIndexPath *> *indexPaths = [self.tableView indexPathsForSelectedRows];
+    if (indexPaths.count == 0) {
+        return;
+    }
+    NSString *messageStr = nil;
+    if (indexPaths.count == 1) {
+        messageStr = NSLocalizedString(@"Delete 1 item?", nil);
+    } else {
+        messageStr = [NSString stringWithFormat:NSLocalizedString(@"Delete %d items?", nil), indexPaths.count];
+    }
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil) andMessage:messageStr];
+    @weakify(self);
+    [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+        @strongify(self);
+        self->_edited = YES;
+        NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+        for (NSIndexPath *indexPath in indexPaths) {
+            [indexSet addIndex:indexPath.row];
+        }
+        [self.userDefinedFunctions removeObjectsAtIndexes:indexSet];
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+        [self setEditing:NO animated:YES];
+    }];
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        
+    }];
+    [alertView show];
+}
+
+#pragma mark - Segue
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:kXXCodeBlocksEditBlockSegueIdentifier]) {
+        if (self.editing || self.segmentedControl.selectedSegmentIndex != kXXCodeBlocksUserDefinedSection) {
+            return NO;
+        }
+    } else if ([identifier isEqualToString:kXXCodeBlocksAddBlockSegueIdentifier]) {
+        
+    }
+    return YES;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(XXCodeBlockTableViewCell *)sender {
+    if ([segue.identifier isEqualToString:kXXCodeBlocksEditBlockSegueIdentifier]) {
+        ((XXAddCodeBlockTableViewController *)segue.destinationViewController).codeBlock = sender.codeBlock;
+        ((XXAddCodeBlockTableViewController *)segue.destinationViewController).editMode = YES;
+    } else if ([segue.identifier isEqualToString:kXXCodeBlocksAddBlockSegueIdentifier]) {
+        if ([self isEditing]) {
+            [self setEditing:NO animated:YES];
+        }
+    }
 }
 
 - (void)dealloc {

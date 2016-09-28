@@ -127,6 +127,7 @@ UISearchDisplayDelegate
         NSString *code = _codeBlock.code;
         NSRange range = [code rangeOfString:@"@bid@"];
         _codeBlock.code = [code stringByReplacingCharactersInRange:range withString:identifier];
+        _codeBlock.offset = -1;
         [XXCodeMakerService pushToMakerWithCodeBlockModel:_codeBlock controller:self];
     }
 }

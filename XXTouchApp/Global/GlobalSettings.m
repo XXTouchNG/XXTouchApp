@@ -33,6 +33,8 @@
 }
 
 - (void)setupStyle {
+    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].leftView = nil;
+    
     [CSToastManager setTapToDismissEnabled:YES];
     [CSToastManager setDefaultDuration:STYLE_TOAST_DURATION];
     [CSToastManager setQueueEnabled:NO];

@@ -397,6 +397,12 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 #pragma mark - Keyboard Events
 
+- (void)showKeyboard {
+    if (![self.textView isFirstResponder]) {
+        [self.textView becomeFirstResponder];
+    }
+}
+
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
     NSValue *keyboardRectAsObject = [[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = CGRectNull;
@@ -416,6 +422,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardDidDismiss:(NSNotification *)aNotification {
+    [self keyboardDidDismiss];
+}
+
+- (void)keyboardDidDismiss {
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
@@ -426,7 +436,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     }
     [self updateViewConstraints];
 }
-
 
 #pragma mark - UIScrollViewDelegate
 
@@ -440,6 +449,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     if ([_textView isFirstResponder]) {
         [_textView resignFirstResponder];
     }
+    [self keyboardDidDismiss];
     UINavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
     XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
     codeBlocksController.textInput = self.textView;

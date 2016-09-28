@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <YYCache/YYCache.h>
+#import "XXCodeBlockModel.h"
 
 typedef enum : NSUInteger {
     kXXPasteboardTypeCopy,
@@ -83,6 +84,9 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 
 @property (nonatomic, assign) kXXScriptListSortMethod sortMethod; // Cached
 
-@property (nonatomic, strong) NSArray *bundles; // Cached
+@property (nonatomic, strong) NSArray <NSDictionary *> *bundles; // Cached
+
+@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlockInternalFunctions; // Cached
+@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlockUserDefinedFunctions; // Cached
 
 @end

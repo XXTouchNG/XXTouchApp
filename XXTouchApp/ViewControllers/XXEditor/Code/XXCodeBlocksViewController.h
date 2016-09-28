@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XXCodeBlockModel.h"
 
 @interface XXCodeBlocksViewController : UIViewController
-@property (nonatomic, weak) id<UITextInput> textInput;
+@property (nonatomic, weak) UITextView *textInput;
 
-- (void)replaceTextInputSelectedRangeWithString:(NSString *)string;
+- (void)replaceTextInputSelectedRangeWithModel:(XXCodeBlockModel *)model;
 @end

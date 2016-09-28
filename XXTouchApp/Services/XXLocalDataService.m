@@ -272,4 +272,49 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
     [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeDown] forKey:@"keyPressConfigPressVolumeDown"];
 }
 
+#pragma mark - Code Snippet
+
+- (NSMutableArray <XXCodeBlockModel *> *)codeBlockInternalFunctions {
+    NSMutableArray <XXCodeBlockModel *> * obj = (NSMutableArray <XXCodeBlockModel *> *)[self objectForKey:@"codeBlockInternalFunctions"];
+    if (!obj) {
+        NSMutableArray <XXCodeBlockModel *> *codeBlocks = [[NSMutableArray alloc] initWithArray:
+  @[
+    [XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@)" offset:10],
+    [XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@):move(@pos@)" offset:9],
+    [XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@, @pos@)" offset:16],
+    [XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@, @slider@)" offset:17],
+    [XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@, @slider@)" offset:18],
+    [XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(@key@)" offset:10],
+    [XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@\")" offset:8],
+    [XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@\")" offset:10],
+    [XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@\")" offset:9],
+    [XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@\")" offset:16],
+    [XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@\")" offset:14],
+    [XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@\")" offset:15],
+    [XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@\")" offset:13],
+    [XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@\")" offset:14],
+    [XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@\")" offset:15],
+    [XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@\")" offset:15],
+    ]];
+        obj = codeBlocks;
+        [self setObject:codeBlocks forKey:@"codeBlockInternalFunctions"];
+    }
+    return obj;
+}
+
+- (void)setCodeBlockInternalFunctions:(NSArray<XXCodeBlockModel *> *)codeBlockInternalFunctions {
+    [self setObject:codeBlockInternalFunctions forKey:@"codeBlockInternalFunctions"];
+}
+
+- (NSMutableArray <XXCodeBlockModel *> *)codeBlockUserDefinedFunctions {
+    NSMutableArray <XXCodeBlockModel *> * obj = (NSMutableArray <XXCodeBlockModel *> *)[self objectForKey:@"codeBlockUserDefinedFunctions"];
+    if (!obj)
+        obj = [[NSMutableArray alloc] init];
+    return obj;
+}
+
+- (void)setCodeBlockUserDefinedFunctions:(NSMutableArray<XXCodeBlockModel *> *)codeBlockUserDefinedFunctions {
+    [self setObject:codeBlockUserDefinedFunctions forKey:@"codeBlockUserDefinedFunctions"];
+}
+
 @end

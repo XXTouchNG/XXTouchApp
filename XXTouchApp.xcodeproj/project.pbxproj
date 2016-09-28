@@ -85,6 +85,8 @@
 		0FE93CE31D8A8895004496BC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE21D8A8895004496BC /* CoreImage.framework */; };
 		0FEABE861D99F7CB007B96A8 /* XXCodeBlockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */; };
 		0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */; };
+		0FFE88181D9B532100F559A2 /* XXAddCodeBlockTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE88171D9B532100F559A2 /* XXAddCodeBlockTableViewController.m */; };
+		0FFE881B1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE881A1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m */; };
 		95055808A81D28EF5D3CB898 /* Pods_XXTouchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -251,6 +253,10 @@
 		0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockModel.m; sourceTree = "<group>"; };
 		0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeMakerService.h; sourceTree = "<group>"; };
 		0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeMakerService.m; sourceTree = "<group>"; };
+		0FFE88161D9B532100F559A2 /* XXAddCodeBlockTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAddCodeBlockTableViewController.h; sourceTree = "<group>"; };
+		0FFE88171D9B532100F559A2 /* XXAddCodeBlockTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAddCodeBlockTableViewController.m; sourceTree = "<group>"; };
+		0FFE88191D9B598A00F559A2 /* XXCodeBlockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockTableViewCell.h; sourceTree = "<group>"; };
+		0FFE881A1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockTableViewCell.m; sourceTree = "<group>"; };
 		6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.release.xcconfig"; sourceTree = "<group>"; };
 		AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		AC6DCBE457CEBB0E56A084B8 /* Pods_XXTouchApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XXTouchApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -420,8 +426,12 @@
 		0F58DB691D97BA2100AEA691 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE88191D9B598A00F559A2 /* XXCodeBlockTableViewCell.h */,
+				0FFE881A1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m */,
 				0FA675DE1D97BBAA006A147A /* XXCodeBlocksViewController.h */,
 				0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */,
+				0FFE88161D9B532100F559A2 /* XXAddCodeBlockTableViewController.h */,
+				0FFE88171D9B532100F559A2 /* XXAddCodeBlockTableViewController.m */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -981,6 +991,7 @@
 				0F5DDE191D81496800BC4BDE /* XXToolbar.m in Sources */,
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
+				0FFE88181D9B532100F559A2 /* XXAddCodeBlockTableViewController.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */,
 				0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */,
@@ -993,6 +1004,7 @@
 				0F8F7C5C1D89198D005C3A22 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */,
 				0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */,
+				0FFE881B1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,
 				0F5DDE381D814A3100BC4BDE /* XXArchiveService.m in Sources */,
 				0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */,

@@ -16,12 +16,12 @@
     NSString *code = model.code;
     if ([code containsString:@"@bid@"]) {
         XXApplicationListTableViewController *vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXApplicationListTableViewControllerStoryboardID];
-        vc.codeBlock = [XXCodeBlockModel modelWithTitle:[model.title mutableCopy] code:[model.code mutableCopy] type:model.type]; // Copy
+        vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
     } else {
         model.code = [model.code stringByReplacingOccurrencesOfString:@"\\@" withString:@"@"]; // unescape
         XXCodeBlocksViewController *codeBlockController = (XXCodeBlocksViewController *)controller.navigationController.viewControllers[0]; // Root View Controller
-        [codeBlockController replaceTextInputSelectedRangeWithString:model.code];
+        [codeBlockController replaceTextInputSelectedRangeWithModel:model];
         [controller.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }
