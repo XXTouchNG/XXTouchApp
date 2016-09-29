@@ -161,7 +161,7 @@
 "6zL-Cu-yNA.title" = "授权";
 "nvT-4v-fTi.text" = "iOS 版本";
 "dnQ-gp-uuY.title" = "按一下音量 +";
-"0pu-U6-QII.footerTitle" = "轻按任何项目以拷贝详情";
+"vav-6i-W0S.footerTitle" = "轻按任何项目以拷贝详情";
 "WR7-A8-eA3.footerTitle" = "警告：开机启动脚本 (Bootscript) 可能会造成系统不稳定。如果系统出现问题，您可以在开机启动时按住音量 +，正常启动后删除相关脚本。";
 "zkS-Tz-zpU.text" = "尺寸";
 "7N1-fh-DWA.title" = "我的脚本";
@@ -197,3 +197,9 @@
 "oDM-Nz-tH3.placeholder" = "搜索代码片段";
 "4CS-aC-kuN.segmentTitles[0]" = "内置函数";
 "4CS-aC-kuN.segmentTitles[1]" = "自定义";
+"1nx-s7-wIe.title" = "添加代码片段";
+"uOs-xg-6RX.headerTitle" = "显示名";
+"hQA-fA-CcB.headerTitle" = "代码";
+"hQA-fA-CcB.footerTitle" = "可用标记：\n@bid@ - 应用程序选择器\n@key@ - 按键事件选择器\n\n转到 \"更多 > 在线文档\" 以获取详细介绍。";
+"bSw-BH-o7C.placeholder" = "在此处填写代码片段名称";
+"wrd-0b-l01.title" = "按键事件";

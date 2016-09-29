@@ -12,6 +12,7 @@
 #import "XXLocalNetService.h"
 #import "XXApplicationTableViewCell.h"
 #import "XXCodeMakerService.h"
+#include "NSString+AddSlashes.h"
 
 static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 
@@ -124,6 +125,8 @@ UISearchDisplayDelegate
         identifier = _showData[indexPath.row][kXXApplicationKeyBundleID];
     }
     if (_codeBlock) {
+        identifier = [identifier addSlashes];
+        
         NSString *code = _codeBlock.code;
         NSRange range = [code rangeOfString:@"@bid@"];
         _codeBlock.code = [code stringByReplacingCharactersInRange:range withString:identifier];

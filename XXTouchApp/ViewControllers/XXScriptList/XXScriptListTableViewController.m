@@ -14,11 +14,14 @@
 #import <MJRefresh/MJRefresh.h>
 #import "XXToolbar.h"
 #import "XXSwipeableCell.h"
+#import "XXInsetsLabel.h"
 
 #import "XXNavigationViewController.h"
 #import "XXScriptListTableViewController.h"
 #import "XXCreateItemTableViewController.h"
 #import "XXItemAttributesTableViewController.h"
+
+#import "UIViewController+MSLayoutSupport.h"
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
@@ -48,6 +51,9 @@ XXToolbarDelegate
 
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic, copy) NSString *relativePath;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topGuideLayoutConstraint;
 
 @end
 
@@ -111,6 +117,11 @@ XXToolbarDelegate
     }
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.topGuideLayoutConstraint.constant = [self.tabBarController.topLayoutGuide length];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -135,6 +146,7 @@ XXToolbarDelegate
 
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
     _currentDirectory = currentDirectory;
+    _relativePath = [currentDirectory stringByReplacingOccurrencesOfString:self.rootDirectory withString:@""];
     self.title = [currentDirectory lastPathComponent];
 }
 
@@ -262,6 +274,33 @@ XXToolbarDelegate
         return 72;
     }
     return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == kXXScriptListCellSection) {
+        return _relativePath;
+    }
+    return @"";
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == kXXScriptListCellSection) {
+        NSString *displayPath = [_relativePath mutableCopy];
+        if (displayPath.length == 0) {
+            displayPath = @"/";
+        }
+        XXInsetsLabel *sectionNameLabel = [[XXInsetsLabel alloc] init];
+        sectionNameLabel.text = displayPath;
+        sectionNameLabel.textColor = [UIColor blackColor];
+        sectionNameLabel.backgroundColor = [UIColor colorWithWhite:.96f alpha:.9f];
+        sectionNameLabel.font = [UIFont italicSystemFontOfSize:14.f];
+        sectionNameLabel.edgeInsets = UIEdgeInsetsMake(0, 12.f, 0, 12.f);
+        sectionNameLabel.numberOfLines = 1;
+        sectionNameLabel.lineBreakMode = NSLineBreakByTruncatingHead;
+        [sectionNameLabel sizeToFit];
+        return sectionNameLabel;
+    }
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

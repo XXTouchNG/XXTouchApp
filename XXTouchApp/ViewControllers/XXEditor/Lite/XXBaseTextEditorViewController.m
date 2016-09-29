@@ -13,6 +13,7 @@
 #import "XXCodeBlocksViewController.h"
 #import "XXBaseTextView.h"
 #import "XXLocalNetService.h"
+#import "XXLocalDataService.h"
 #import <Masonry/Masonry.h>
 #import "XXKeyboardRow.h"
 
@@ -27,6 +28,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
+@property (nonatomic, strong) UIButton *readingItem;
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -240,7 +242,28 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         NSMutableArray *myToolBarItems = [NSMutableArray array];
         [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-search"] style:UIBarButtonItemStyleBordered target:self action:@selector(search:)]];
         [myToolBarItems addObject:flexibleSpace];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-reading"] style:UIBarButtonItemStyleBordered target:self action:@selector(reading:)]];
+        
+        UIButton *readingItem = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 30)];
+        [readingItem setImage:[[UIImage imageNamed:@"toolbar-reading"] imageByTintColor:STYLE_TINT_COLOR]
+                     forState:UIControlStateNormal];
+        [readingItem setImage:[UIImage imageNamed:@"toolbar-reading"]
+                     forState:UIControlStateSelected];
+        [readingItem setTarget:self
+                        action:@selector(tapUpReadingItem:)
+              forControlEvents:UIControlEventTouchUpInside];
+        readingItem.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        
+        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(extendGestureRecognized:)];
+        longGesture.minimumPressDuration = 1.f;
+        longGesture.allowableMovement = 64.f;
+        longGesture.enabled = YES;
+        longGesture.delegate = self;
+        [readingItem addGestureRecognizer:longGesture];
+        _readingItem = readingItem;
+        
+        UIBarButtonItem *readingBarItem = [[UIBarButtonItem alloc] initWithCustomView:readingItem];
+        [myToolBarItems addObject:readingBarItem];
+        
         [myToolBarItems addObject:flexibleSpace];
         [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-statistics"] style:UIBarButtonItemStyleBordered target:self action:@selector(statistics:)]];
         [myToolBarItems addObject:flexibleSpace];
@@ -330,7 +353,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     [self.navigationController.view makeToast:NSLocalizedString(@"Not implemented", nil)];
 }
 
-- (void)reading:(UIBarButtonItem *)sender {
+- (void)reading:(UIButton *)sender {
     if (!_isLuaCode) {
         [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
         return;
@@ -353,13 +376,65 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
                 } else {
                     [self.navigationController.view makeToast:[err localizedDescription]];
                 }
+                if (sender.selected) {
+                    [self extendHisLife:YES];
+                }
             } else {
                 if (err.code == 0) {
-                    [self.navigationController.view makeToast:NSLocalizedString(@"Syntax Check Passed", nil)];
+                    if (sender.selected) {
+                        NSString *myStr = [NSString stringWithBase64EncodedString:[[XXLocalDataService sharedInstance] randString]];
+                        [self.navigationController.view makeToast:myStr];
+                        [self extendHisLife:NO];
+                    } else {
+                        [self.navigationController.view makeToast:NSLocalizedString(@"Syntax Check Passed", nil)];
+                    }
                 }
             }
         });
     });
+}
+
+- (void)tapUpReadingItem:(UIButton *)sender {
+    [self reading:sender];
+}
+
+- (void)extendGestureRecognized:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        UIButton *button = ((UIButton *)sender.view);
+        button.selected = !button.selected;
+        if (button.selected) {
+            [self.navigationController.view makeToast:NSLocalizedString(@"Stay young, stay naive!", nil)];
+        } else {
+            [self.navigationController.view makeToast:NSLocalizedString(@"Excited!", nil)];
+        }
+    }
+}
+
+- (void)extendHisLife:(BOOL)fail {
+    UIButton *barButtonView = self.readingItem;
+    UILabel *addLabel = [[UILabel alloc] init];
+    if (fail) {
+        addLabel.text = @"-1s";
+        addLabel.textColor = [UIColor greenColor];
+    } else {
+        addLabel.text = @"+1s";
+        addLabel.textColor = [UIColor redColor];
+    }
+    
+    addLabel.font = [UIFont boldSystemFontOfSize:12.f];
+    [addLabel sizeToFit];
+    addLabel.center = CGPointMake(barButtonView.bounds.size.width / 2, barButtonView.bounds.size.height / 2);
+    [barButtonView addSubview:addLabel];
+    
+    [UIView animateWithDuration:.8f
+                          delay:.2f
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         addLabel.alpha = 0;
+                         addLabel.centerY = -barButtonView.bounds.size.height;
+                     } completion:^(BOOL finished) {
+                         [addLabel removeFromSuperview];
+                     }];
 }
 
 - (void)scrollToLineByReason:(NSString *)reason {

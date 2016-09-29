@@ -7,6 +7,7 @@
 //
 
 #import "XXCreateItemTableViewController.h"
+#import "XXLocalDataService.h"
 
 typedef enum : NSUInteger {
     kXXCreateItemTypeRegularLuaFile = 0,
@@ -68,6 +69,20 @@ typedef enum : NSUInteger {
     if (itemType == kXXCreateItemTypeRegularLuaFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"lua"];
         result = [FCFileManager createFileAtPath:itemPath error:&err];
+        if (result) {
+            NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+            NSString *deviceName = [deviceInfo objectForKey:kXXDeviceInfoDeviceName];
+            if (!deviceName) {
+                deviceName = @"(Unregistered)";
+            }
+            NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %d %@.\n--  All rights reserved.\n--\n\n",
+                                [itemName stringByAppendingPathExtension:@"lua"],
+                                [NSString stringWithFormat:@"%@ v%@", APP_NAME_EN, VERSION_STRING],
+                                deviceName,
+                                [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
+                                [[NSDate date] year], deviceName];
+            result = [FCFileManager writeFileAtPath:itemPath content:newLua error:&err];
+        }
     } else if (itemType == kXXCreateItemTypeRegulatTextFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"txt"];
         result = [FCFileManager createFileAtPath:itemPath error:&err];

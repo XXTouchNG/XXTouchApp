@@ -70,6 +70,8 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 
 @property (nonatomic, copy) NSString *rootPath; // Installed
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter; // Static
+@property (nonatomic, strong) NSDateFormatter *shortDateFormatter; // Static
+@property (nonatomic, strong) NSDateFormatter *miniDateFormatter;
 @property (nonatomic, copy) NSString *selectedScript;
 @property (nonatomic, assign) BOOL remoteAccessStatus; // Cached
 @property (nonatomic, copy) NSString *remoteAccessURL; // Installed
@@ -90,5 +92,7 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 @property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlockUserDefinedFunctions; // Cached
 
 @property (nonatomic, assign) NSUInteger selectedCodeBlockSegmentIndex;
+
+- (NSString *)randString;
 
 @end

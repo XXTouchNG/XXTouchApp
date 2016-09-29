@@ -52,7 +52,7 @@ enum {
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"About", nil);
-    _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_CN, VERSION_STRING, VERSION_BUILD];
+    _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_EN, VERSION_STRING, VERSION_BUILD];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

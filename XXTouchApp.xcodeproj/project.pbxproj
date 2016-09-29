@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */; };
+		0F04D1001D9BF9FA00B02FFB /* XXInsetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F04D0FF1D9BF9FA00B02FFB /* XXInsetsLabel.m */; };
 		0F06A8DF1D939F9B00BAA589 /* XXKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8DC1D939F9B00BAA589 /* XXKeyboardRow.m */; };
 		0F06A8E61D939FB300BAA589 /* UIImage+ColoredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F06A8E41D939FB300BAA589 /* UIImage+ColoredImage.m */; };
 		0F0C9A191D966E52000E184C /* XXKeyboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0C9A161D966E52000E184C /* XXKeyboardButton.m */; };
@@ -67,12 +68,17 @@
 		0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C641D8919CE005C3A22 /* XQueryComponents.m */; };
 		0F8F7C681D8919DF005C3A22 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C661D8919DF005C3A22 /* UIImage+ProportionalFill.m */; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
+		0F9D7FE81D9D755B001C1809 /* UIViewController+MSLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9D7FE71D9D755B001C1809 /* UIViewController+MSLayoutSupport.m */; };
 		0FA675E01D97BBAA006A147A /* XXCodeBlocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */; };
 		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
 		0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A79E1D73DB7600129E83 /* Assets.xcassets */; };
 		0FB0A7AD1D73DBE400129E83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7AC1D73DBE400129E83 /* main.m */; };
 		0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */; };
 		0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FB48B761D922B9400CE9019 /* Localizable.strings */; };
+		0FBDC6071D9CC06D00F7EB70 /* XXKeyEventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */; };
+		0FBDC6111D9D40E000F7EB70 /* NSString+AddSlashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDC6101D9D40E000F7EB70 /* NSString+AddSlashes.m */; };
+		0FBDC6141D9D49AA00F7EB70 /* XXKeyEventTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDC6131D9D49AA00F7EB70 /* XXKeyEventTableViewController.m */; };
+		0FBDC6171D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDC6161D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.m */; };
 		0FC47E921D7698140076590B /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FC47E911D7698140076590B /* tos.html */; };
 		0FC47E941D7698220076590B /* open.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FC47E931D7698220076590B /* open.html */; };
 		0FC71C751D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC71C741D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m */; };
@@ -93,6 +99,8 @@
 /* Begin PBXFileReference section */
 		0F00D8A91D8AE7320000C8E8 /* XXScanDownloadTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadTaskViewController.h; sourceTree = "<group>"; };
 		0F00D8AA1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXScanDownloadTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F04D0FE1D9BF9FA00B02FFB /* XXInsetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXInsetsLabel.h; sourceTree = "<group>"; };
+		0F04D0FF1D9BF9FA00B02FFB /* XXInsetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXInsetsLabel.m; sourceTree = "<group>"; };
 		0F06A8DB1D939F9B00BAA589 /* XXKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardRow.h; sourceTree = "<group>"; };
 		0F06A8DC1D939F9B00BAA589 /* XXKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardRow.m; sourceTree = "<group>"; };
 		0F06A8E31D939FB300BAA589 /* UIImage+ColoredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColoredImage.h"; sourceTree = "<group>"; };
@@ -219,6 +227,8 @@
 		0F9852711D745D15001323AA /* XXLocalDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalDefines.h; sourceTree = "<group>"; };
 		0F98527F1D747410001323AA /* SystemDebugDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemDebugDefines.h; sourceTree = "<group>"; };
 		0F98529C1D748072001323AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0F9D7FE61D9D755B001C1809 /* UIViewController+MSLayoutSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MSLayoutSupport.h"; sourceTree = "<group>"; };
+		0F9D7FE71D9D755B001C1809 /* UIViewController+MSLayoutSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MSLayoutSupport.m"; sourceTree = "<group>"; };
 		0FA675DE1D97BBAA006A147A /* XXCodeBlocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlocksViewController.h; sourceTree = "<group>"; };
 		0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlocksViewController.m; sourceTree = "<group>"; };
 		0FB0A7891D73D80D00129E83 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -230,6 +240,14 @@
 		0FB0A7D21D741BA200129E83 /* SystemVersionDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemVersionDefines.h; sourceTree = "<group>"; };
 		0FB0A7D31D741C9F00129E83 /* SystemConstantsDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemConstantsDefines.h; sourceTree = "<group>"; };
 		0FB48B771D922B9400CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
+		0FBDC6051D9CC06D00F7EB70 /* XXKeyEventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventModel.h; sourceTree = "<group>"; };
+		0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventModel.m; sourceTree = "<group>"; };
+		0FBDC60F1D9D40E000F7EB70 /* NSString+AddSlashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AddSlashes.h"; sourceTree = "<group>"; };
+		0FBDC6101D9D40E000F7EB70 /* NSString+AddSlashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AddSlashes.m"; sourceTree = "<group>"; };
+		0FBDC6121D9D49AA00F7EB70 /* XXKeyEventTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventTableViewController.h; sourceTree = "<group>"; };
+		0FBDC6131D9D49AA00F7EB70 /* XXKeyEventTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventTableViewController.m; sourceTree = "<group>"; };
+		0FBDC6151D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventTableViewCell.h; sourceTree = "<group>"; };
+		0FBDC6161D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventTableViewCell.m; sourceTree = "<group>"; };
 		0FC47E911D7698140076590B /* tos.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tos.html; sourceTree = "<group>"; };
 		0FC47E931D7698220076590B /* open.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = open.html; sourceTree = "<group>"; };
 		0FC47E981D769EEF0076590B /* UrlDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UrlDefines.h; sourceTree = "<group>"; };
@@ -283,6 +301,7 @@
 		0F055E5C1D8EE2BB00176B33 /* XXEditor */ = {
 			isa = PBXGroup;
 			children = (
+				0FBDC6081D9D31D800F7EB70 /* Picker */,
 				0F58DB691D97BA2100AEA691 /* Code */,
 				0F58A41E1D90B95F0013806C /* Lite */,
 			);
@@ -378,6 +397,8 @@
 				0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */,
 				0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */,
 				0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */,
+				0F9D7FE61D9D755B001C1809 /* UIViewController+MSLayoutSupport.h */,
+				0F9D7FE71D9D755B001C1809 /* UIViewController+MSLayoutSupport.m */,
 			);
 			path = Catalogs;
 			sourceTree = "<group>";
@@ -396,6 +417,8 @@
 			children = (
 				0F8F7C421D88FAC6005C3A22 /* Activator */,
 				0F5DDE3A1D814ACE00BC4BDE /* FYPhotoLibrary */,
+				0FBDC60F1D9D40E000F7EB70 /* NSString+AddSlashes.h */,
+				0FBDC6101D9D40E000F7EB70 /* NSString+AddSlashes.m */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -552,6 +575,8 @@
 		0F5DDE411D814B7E00BC4BDE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0F04D0FE1D9BF9FA00B02FFB /* XXInsetsLabel.h */,
+				0F04D0FF1D9BF9FA00B02FFB /* XXInsetsLabel.m */,
 				0F5DDE421D814B7E00BC4BDE /* ARSafariActivity */,
 				0F5DDE461D814B7E00BC4BDE /* SIAlertView */,
 			);
@@ -642,6 +667,8 @@
 				0F8F7C3A1D88CA26005C3A22 /* XXUserDefaultsModel.m */,
 				0FEABE841D99F7CB007B96A8 /* XXCodeBlockModel.h */,
 				0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */,
+				0FBDC6051D9CC06D00F7EB70 /* XXKeyEventModel.h */,
+				0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -727,6 +754,18 @@
 				0FB48B761D922B9400CE9019 /* Localizable.strings */,
 			);
 			path = "zh-Hans.lproj";
+			sourceTree = "<group>";
+		};
+		0FBDC6081D9D31D800F7EB70 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				0FBDC6121D9D49AA00F7EB70 /* XXKeyEventTableViewController.h */,
+				0FBDC6131D9D49AA00F7EB70 /* XXKeyEventTableViewController.m */,
+				0FBDC6151D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.h */,
+				0FBDC6161D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.m */,
+			);
+			name = Picker;
+			path = Code/Picker;
 			sourceTree = "<group>";
 		};
 		0FC47E881D7690540076590B /* Scenes */ = {
@@ -967,6 +1006,7 @@
 				0F0C9A1A1D966E52000E184C /* XXKeyboardButtonView.m in Sources */,
 				0FB0A7AD1D73DBE400129E83 /* main.m in Sources */,
 				0F5DDE3F1D814ACE00BC4BDE /* FYPhotoAsset.m in Sources */,
+				0F04D1001D9BF9FA00B02FFB /* XXInsetsLabel.m in Sources */,
 				0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */,
 				0FA675E01D97BBAA006A147A /* XXCodeBlocksViewController.m in Sources */,
 				0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */,
@@ -974,6 +1014,7 @@
 				0F5DDE231D8149B100BC4BDE /* XXAboutTableViewController.m in Sources */,
 				0F1819A81D8A4BA400309E23 /* XXScanViewController.m in Sources */,
 				0F0C9A1D1D966F00000E184C /* TurtleBezierPath.m in Sources */,
+				0FBDC6141D9D49AA00F7EB70 /* XXKeyEventTableViewController.m in Sources */,
 				0F5DDE401D814ACE00BC4BDE /* FYPhotoLibrary.m in Sources */,
 				0F0FA9001D9983F5009FD2F8 /* CYRTextView.m in Sources */,
 				0F8F7C611D8919AC005C3A22 /* NSString+Mime.m in Sources */,
@@ -988,6 +1029,7 @@
 				0F5DDE171D81496800BC4BDE /* XXItemAttributesTableViewController.m in Sources */,
 				0F8F7C681D8919DF005C3A22 /* UIImage+ProportionalFill.m in Sources */,
 				0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */,
+				0F9D7FE81D9D755B001C1809 /* UIViewController+MSLayoutSupport.m in Sources */,
 				0F5DDE191D81496800BC4BDE /* XXToolbar.m in Sources */,
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
@@ -1001,6 +1043,7 @@
 				0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
 				0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */,
+				0FBDC6111D9D40E000F7EB70 /* NSString+AddSlashes.m in Sources */,
 				0F8F7C5C1D89198D005C3A22 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */,
 				0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */,
@@ -1010,7 +1053,9 @@
 				0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */,
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
+				0FBDC6071D9CC06D00F7EB70 /* XXKeyEventModel.m in Sources */,
 				0F0FA8FE1D9983F5009FD2F8 /* CYRLayoutManager.m in Sources */,
+				0FBDC6171D9D4BFC00F7EB70 /* XXKeyEventTableViewCell.m in Sources */,
 				0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */,
 				0F06A8E61D939FB300BAA589 /* UIImage+ColoredImage.m in Sources */,
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,

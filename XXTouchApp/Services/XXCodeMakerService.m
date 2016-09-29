@@ -9,6 +9,7 @@
 #import "XXCodeMakerService.h"
 #import "XXApplicationListTableViewController.h"
 #import "XXCodeBlocksViewController.h"
+#import "XXKeyEventTableViewController.h"
 
 @implementation XXCodeMakerService
 
@@ -16,6 +17,10 @@
     NSString *code = model.code;
     if ([code containsString:@"@bid@"]) {
         XXApplicationListTableViewController *vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXApplicationListTableViewControllerStoryboardID];
+        vc.codeBlock = [model mutableCopy]; // Copy
+        [controller.navigationController pushViewController:vc animated:YES];
+    } else if ([code containsString:@"@key@"]) {
+        XXKeyEventTableViewController *vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXKeyEventTableViewControllerStoryboardID];
         vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
     } else {

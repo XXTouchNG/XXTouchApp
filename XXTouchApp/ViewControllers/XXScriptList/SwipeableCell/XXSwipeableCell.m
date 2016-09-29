@@ -69,7 +69,7 @@
         _fileNameLabel.textColor = [UIColor blackColor];
     }
     NSDate *modificationDate = itemAttrs[NSFileModificationDate];
-    NSString *formattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modificationDate];
+    NSString *formattedDate = [[[XXLocalDataService sharedInstance] shortDateFormatter] stringFromDate:modificationDate];
     _fileModifiedTimeLabel.text = formattedDate;
 }
 

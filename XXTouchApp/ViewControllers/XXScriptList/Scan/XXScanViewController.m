@@ -86,7 +86,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             [session addOutput:self.output];
         }
         self.output.metadataObjectTypes = @[ AVMetadataObjectTypeQRCode ];
-        CGSize viewSize = self.navigationController.view.size;
+        CGSize viewSize = self.view.size;
         self.output.rectOfInterest = CGRectMake(_cropRect.origin.y / viewSize.height,
                                                 _cropRect.origin.x / viewSize.width,
                                                 _cropRect.size.height / viewSize.height,
@@ -222,7 +222,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 - (UIImage *)maskImage {
     if (!_maskImage) {
         
-        CGSize oldSize = self.navigationController.view.size;
+        CGSize oldSize = self.view.size;
         CGFloat maxLength = MAX(oldSize.width, oldSize.height);
         CGFloat minLength = MIN(oldSize.width, oldSize.height);
         CGSize size = CGSizeMake(maxLength, maxLength);
@@ -582,11 +582,11 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     @weakify(self);
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
         @strongify(self);
-        NSString *destination = [destinationPath stringByRemovingPercentEncoding];
+        NSString *destination = destinationPath;
         NSError *error = nil;
         BOOL result = NO;
         if (!err) {
-            result = [FCFileManager moveItemAtPath:[location path] toPath:destination error:&error];
+            result = [FCFileManager moveItemAtPath:[location path] toPath:destination overwrite:YES error:&error];
         } else {
             error = err;
         }
@@ -599,8 +599,6 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
             } else {
                 if (error) {
                     [self.navigationController.view makeToast:[error localizedDescription]];
-                } else {
-                    [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" already exists.", nil), [destination lastPathComponent]]];
                 }
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
             }

@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadButton;
 @property (nonatomic, copy) NSString *rootDirectory;
 
+@property (nonatomic, assign) BOOL sameName;
+
 @end
 
 @implementation XXScanDownloadTaskViewController
@@ -41,7 +43,7 @@
             self.sourceLabel.textColor = [UIColor redColor];
             self.downloadButton.enabled = NO;
         } else {
-            self.sourceUrl = [url absoluteString];
+            self.sourceUrl = [url absoluteString]; // Encoded
         }
     }
     self.rootDirectory = [ROOT_PATH copy];
@@ -57,15 +59,35 @@
         self.destinationLabel.textColor = [UIColor redColor];
         self.downloadButton.enabled = NO;
     } else {
-        self.destinationUrl = [destination path];
+        self.destinationUrl = [[destination path] stringByRemovingPercentEncoding]; // Decoded
+        if ([FCFileManager existsItemAtPath:self.destinationUrl]) {
+            self.destinationLabel.textColor = [UIColor redColor];
+            _sameName = YES;
+        }
     }
 }
 
 - (IBAction)download:(id)sender {
+    if (_sameName) {
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Overwrite Confirm", nil)
+                                                         andMessage:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" exists, overwrite it?", nil), self.destinationLabel.text]];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            [self downloadNow];
+        }];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            
+        }];
+        [alertView show];
+    } else {
+        [self downloadNow];
+    }
+}
+
+- (void)downloadNow {
     if (_delegate && [_delegate respondsToSelector:@selector(confirmDownloadTask:source:destination:)]) {
         [_delegate confirmDownloadTask:self
-                                source:self.sourceUrl
-                           destination:self.destinationUrl];
+                                source:self.sourceUrl // Encoded
+                           destination:self.destinationUrl]; // Decoded
     }
 }
 

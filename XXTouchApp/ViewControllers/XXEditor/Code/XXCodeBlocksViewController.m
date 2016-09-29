@@ -196,6 +196,7 @@ enum {
                 [tableView beginUpdates];
                 [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
                 [tableView endUpdates];
+                [self setEditing:NO animated:YES];
             }
         }
     }

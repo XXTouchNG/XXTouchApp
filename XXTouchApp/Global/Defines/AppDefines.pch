@@ -14,6 +14,9 @@
 
 #define APP_NAME_EN @"XXTouch"
 #define APP_NAME_CN @"XXTouch"
+
+#ifdef __OBJC__
+
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 
@@ -31,5 +34,6 @@
 #import "SystemConstantsDefines.h"
 #import "UINavigationController+StatusBar.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
+#endif
 
 #endif /* AppDefines_pch */

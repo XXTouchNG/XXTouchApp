@@ -22,7 +22,6 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 @implementation XXLocalNetService
 
 + (void)killBackboardd {
-    [[XXLocalDataService sharedInstance] removeAllObjects];
     __block int status = 0;
     double delayInSeconds = 1.0f;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -174,22 +173,18 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 }
 
 + (BOOL)localCleanAllCachesWithError:(NSError **)error {
-    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"clear_all" error:error];
 }
 
 + (BOOL)localRespringDeviceWithError:(NSError **)error {
-    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"respring" error:error];
 }
 
 + (BOOL)localRestartDeviceWithError:(NSError **)error {
-    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"reboot2" error:error];
 }
 
 + (BOOL)localRestartDaemonWithError:(NSError **)error {
-    [[XXLocalDataService sharedInstance] removeAllObjects];
     return [self sendOneTimeAction:@"restart" error:error];
 }
 
