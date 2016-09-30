@@ -15,6 +15,10 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 @interface XXKeyEventTableViewController ()
 @property (nonatomic, strong) NSArray <XXKeyEventModel *> *keyEvents;
+@property (nonatomic, strong) NSArray <XXKeyEventModel *> *softKeyEvents;
+@property (nonatomic, strong) NSArray <XXKeyEventModel *> *mediaKeyEvents;
+@property (nonatomic, strong) NSArray <NSArray <XXKeyEventModel *> *> *events;
+@property (nonatomic, strong) NSArray <NSString *> *sectionNames;
 @property (nonatomic, strong) UIBarButtonItem *nextButton;
 
 @end
@@ -69,53 +73,86 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
                        [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Volume +", nil) command:@"VOLUMEUP"],
                        [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Volume -", nil) command:@"VOLUMEDOWN"],
                        [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Power Button", nil) command:@"LOCK"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Return Key", nil) command:@"RETURN"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Esc Key", nil) command:@"ESCAPE"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Backspace Key", nil) command:@"BACKSPACE"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Space Key", nil) command:@"SPACE"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Tab Key", nil) command:@"TAB"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Forward Key", nil) command:@"FORWARD"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Rewind Key", nil) command:@"REWIND"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Forward 2 Key", nil) command:@"FORWARD2"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Rewind 2 Key", nil) command:@"REWIND2"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Play/Pause Key", nil) command:@"PLAYPAUSE"],
                        [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Mute Button", nil) command:@"MUTE"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Spotlight Key", nil) command:@"SPOTLIGHT"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Bright +", nil) command:@"BRIGHTUP"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Bright -", nil) command:@"BRIGHTDOWN"],
-                       [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Show/Hide Keyboard", nil) command:@"SHOW_HIDE_KEYBOARD"],
                        ];
     }
     return _keyEvents;
 }
 
+- (NSArray <XXKeyEventModel *> *)softKeyEvents {
+    if (!_softKeyEvents) {
+        _softKeyEvents = @[
+                           
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Return Key", nil) command:@"RETURN"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Esc Key", nil) command:@"ESCAPE"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Backspace Key", nil) command:@"BACKSPACE"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Space Key", nil) command:@"SPACE"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Tab Key", nil) command:@"TAB"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Spotlight Key", nil) command:@"SPOTLIGHT"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Bright +", nil) command:@"BRIGHTUP"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Bright -", nil) command:@"BRIGHTDOWN"],
+                           [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Show/Hide Keyboard", nil) command:@"SHOW_HIDE_KEYBOARD"],
+                           ];
+    }
+    return _softKeyEvents;
+}
+
+- (NSArray <XXKeyEventModel *> *)mediaKeyEvents {
+    if (!_mediaKeyEvents) {
+        _mediaKeyEvents = @[
+                            [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Forward Key", nil) command:@"FORWARD"],
+                            [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Rewind Key", nil) command:@"REWIND"],
+                            [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Forward 2 Key", nil) command:@"FORWARD2"],
+                            [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Rewind 2 Key", nil) command:@"REWIND2"],
+                            [XXKeyEventModel modelWithTitle:NSLocalizedString(@"Media Play/Pause Key", nil) command:@"PLAYPAUSE"],
+                            ];
+    }
+    return _mediaKeyEvents;
+}
+
+- (NSArray <NSArray <XXKeyEventModel *> *> *)events {
+    if (!_events) {
+        _events = @[self.keyEvents, self.softKeyEvents, self.mediaKeyEvents];
+    }
+    return _events;
+}
+
+- (NSArray <NSString *> *)sectionNames {
+    if (!_sectionNames) {
+        _sectionNames = @[
+                          NSLocalizedString(@"Hardware Keys", nil),
+                          NSLocalizedString(@"Keyboard Keys", nil),
+                          NSLocalizedString(@"Media Keys", nil),
+                          ];
+    }
+    return _sectionNames;
+}
+
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.events.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return self.sectionNames[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.keyEvents.count;
-    }
-    return 0;
+    return self.events[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        XXKeyEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXKeyEventTableViewCellReuseIdentifier forIndexPath:indexPath];
-        cell.keyEvent = self.keyEvents[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", cell.keyEvent.title, cell.keyEvent.command];
-        return cell;
-    }
-    return [UITableViewCell new];
+    XXKeyEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXKeyEventTableViewCellReuseIdentifier forIndexPath:indexPath];
+    cell.keyEvent = self.events[indexPath.section][indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", cell.keyEvent.title, cell.keyEvent.command];
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        [self pushToNextControllerWithKeyword:@"@key@" replacement:self.keyEvents[indexPath.row].command];
+        [self pushToNextControllerWithKeyword:@"@key@" replacement:self.events[indexPath.section][indexPath.row].command];
     }
 }
 

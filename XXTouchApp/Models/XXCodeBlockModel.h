@@ -18,7 +18,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, assign) kXXCodeBlockType type;
-@property (nonatomic, assign) NSUInteger offset;
+@property (nonatomic, assign) NSInteger offset;
 
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code;
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code offset:(NSUInteger)offset;

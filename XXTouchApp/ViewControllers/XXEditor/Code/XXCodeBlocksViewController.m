@@ -60,15 +60,20 @@ enum {
     self.tableView.allowsSelectionDuringEditing = YES;
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     
-    self.tableView.contentInset =
-    self.tableView.scrollIndicatorInsets =
-    UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
-    
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.segmentedControl setSelectedSegmentIndex:[[XXLocalDataService sharedInstance] selectedCodeBlockSegmentIndex]];
     [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:kXXCodeBlocksInternalFunctionSection];
     
     self.toolbar.hidden = (self.segmentedControl.selectedSegmentIndex != kXXCodeBlocksUserDefinedSection);
+    if (self.toolbar.hidden) {
+        self.tableView.contentInset =
+        self.tableView.scrollIndicatorInsets =
+        UIEdgeInsetsZero;
+    } else {
+        self.tableView.contentInset =
+        self.tableView.scrollIndicatorInsets =
+        UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
+    }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -318,6 +323,15 @@ enum {
         [self.toolbar setHidden:YES];
     } else if (sender.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         [self.toolbar setHidden:NO];
+    }
+    if (self.toolbar.hidden) {
+        self.tableView.contentInset =
+        self.tableView.scrollIndicatorInsets =
+        UIEdgeInsetsZero;
+    } else {
+        self.tableView.contentInset =
+        self.tableView.scrollIndicatorInsets =
+        UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
     }
     [self.tableView reloadData];
 }

@@ -296,30 +296,28 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 - (NSMutableArray <XXCodeBlockModel *> *)codeBlockInternalFunctions {
     NSMutableArray <XXCodeBlockModel *> * obj = (NSMutableArray <XXCodeBlockModel *> *)[self objectForKey:[NSString stringWithFormat:@"codeBlockInternalFunctions-%@", VERSION_BUILD]];
     if (!obj) {
-        NSMutableArray <XXCodeBlockModel *> *codeBlocks = [[NSMutableArray alloc] initWithArray:
-  @[
-    [XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@)" offset:10],
-    [XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@):move(@pos@)" offset:9],
-    [XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@, @pos@)" offset:16],
-    [XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@, @slider@)" offset:17],
-    [XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@, @slider@)" offset:18],
-    [XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(\"@key@\")" offset:10],
-    [XXCodeBlockModel modelWithTitle:@"gps.fake(bid, latitude, longitude)" code:@"key.press(\"@bid@\", @loc@)" offset:9],
-    [XXCodeBlockModel modelWithTitle:@"gps.clear([bid])" code:@"key.press(\"@bid@\")" offset:9],
-    [XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@\")" offset:8],
-    [XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@\")" offset:10],
-    [XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@\")" offset:9],
-    [XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@\")" offset:16],
-    [XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@\")" offset:14],
-    [XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@\")" offset:15],
-    [XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@\")" offset:13],
-    [XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@\")" offset:14],
-    [XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@\")" offset:15],
-    [XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@\")" offset:15],
-    
-    ]];
-        obj = codeBlocks;
-        [self setObject:codeBlocks forKey:@"codeBlockInternalFunctions"];
+        obj = [[NSMutableArray alloc] initWithArray:
+@[
+[XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@)" offset:10],
+[XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@):move(@pos@)" offset:9],
+[XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@, @pos@)" offset:16],
+[XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@, @slider@)" offset:17],
+[XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@, @slider@)" offset:18],
+[XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(\"@key@\")" offset:10],
+[XXCodeBlockModel modelWithTitle:@"gps.fake(bid, latitude, longitude)" code:@"key.press(\"@bid@\", @loc@)" offset:9],
+[XXCodeBlockModel modelWithTitle:@"gps.clear([bid])" code:@"key.press(\"@bid@\")" offset:9],
+[XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@\")" offset:8],
+[XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@\")" offset:10],
+[XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@\")" offset:9],
+[XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@\")" offset:16],
+[XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@\")" offset:14],
+[XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@\")" offset:15],
+[XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@\")" offset:13],
+[XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@\")" offset:14],
+[XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@\")" offset:15],
+[XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@\")" offset:15],
+]];
+        [self setObject:obj forKey:[NSString stringWithFormat:@"codeBlockInternalFunctions-%@", VERSION_BUILD]];
     }
     return obj;
 }
@@ -330,8 +328,29 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
 - (NSMutableArray <XXCodeBlockModel *> *)codeBlockUserDefinedFunctions {
     NSMutableArray <XXCodeBlockModel *> * obj = (NSMutableArray <XXCodeBlockModel *> *)[self objectForKey:@"codeBlockUserDefinedFunctions"];
-    if (!obj)
-        obj = [[NSMutableArray alloc] init];
+    if (!obj) {
+        obj = [[NSMutableArray alloc] initWithArray:
+@[
+[XXCodeBlockModel modelWithTitle:@"print()" code:@"print()\n" offset:6],
+[XXCodeBlockModel modelWithTitle:@"print.out()" code:@"print.out()\n" offset:10],
+[XXCodeBlockModel modelWithTitle:@"sys.toast(\"\")" code:@"sys.toast(\"\")\n" offset:11],
+[XXCodeBlockModel modelWithTitle:@"sys.alert(\"\", 0)" code:@"sys.alert(\"\", 0)\n" offset:11],
+[XXCodeBlockModel modelWithTitle:@"if ... then ... end" code:@"if () then\n\nend\n" offset:4],
+[XXCodeBlockModel modelWithTitle:@"for i = 1, 10, 1 do ... end" code:@"for i = 1, 10, 1 do\n\t\nend\n" offset:21],
+[XXCodeBlockModel modelWithTitle:@"while (true) do .. end" code:@"while (true) do\n\t\nend\n" offset:17],
+[XXCodeBlockModel modelWithTitle:@"repeat ... until (false)" code:@"repeat\n\t\nuntil (false)\n" offset:8],
+[XXCodeBlockModel modelWithTitle:@"sys.msleep(1000)" code:@"sys.msleep(1000)\n" offset:15],
+[XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(x, y)\n" offset:11],
+[XXCodeBlockModel modelWithTitle:@"app.input_text(\"\")" code:@"app.input_text(\"\")\n" offset:16],
+[XXCodeBlockModel modelWithTitle:@"accelerometer.shake()" code:@"accelerometer.shake()\n" offset:-1],
+[XXCodeBlockModel modelWithTitle:@"r = sys.input_box(\"\")" code:@"r = sys.input_box(\"\")\n" offset:19],
+[XXCodeBlockModel modelWithTitle:@"pasteboard.write(\"\")" code:@"pasteboard.write(\"\")\n" offset:18],
+[XXCodeBlockModel modelWithTitle:@"r = pasteboard.read()" code:@"r = pasteboard.read()\n" offset:-1],
+[XXCodeBlockModel modelWithTitle:@"os.execute(\"\")" code:@"os.execute(\"\")\n" offset:12],
+]];
+        [self setObject:obj forKey:@"codeBlockUserDefinedFunctions"];
+    }
+    
     return obj;
 }
 
@@ -349,18 +368,21 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 
 - (NSArray <NSString *> *)randStrings {
     if (!_randStrings) {
-        _randStrings = @[@"6ZW/6aOO56C05rWq5Lya5pyJ5pe277yM6Zeu5oiR5ruL56OB5LiN5ruL56OB44CC",
-                         @"5LiA6Lqr5Y675Zu95YWt5Y2D6YeM77yM5oiR5bCx5piO56Gu5ZGK6K+J5L2g44CC",
-                         @"5rit5bed5pac6Ziz54Wn5aKf6JC977yM5ZOq5Liq5Zu95a625rKh5Y676L+H44CC",
-                         @"55m+5aO25LiU6K+V5byA5oCA5oqx77yM54af5oKJ6KW/5pa56YKj5LiA5aWX44CC",
-                         @"5Zyo5aSp5oS/5L2c5q+U57+86bif77yM5Lq655Sf57uP6aqM6L+Y5aSq5bCR44CC",
-                         @"5Y2D6YeR5pWj5bC96L+Y5aSN5p2l77yM5pWZ5L2g6Ze35aOw5Y+R5aSn6LSi44CC",
-                         @"6ZW/5L2/6Iux6ZuE5rOq5ruh6KWf77yM5L2g5Lus6L+Y5piv5aSq5bm06L2744CC",
-                         @"57+g5b2x57qi6Zye5pig5pyd5pel77yM5pyJ5pe255Sa6Iez5b6I5bm856ia44CC",
-                         @"6I6r56yR5Yac5a626IWK6YWS5re377yM5byE5Ye65LiA5Liq5aSn5paw6Ze744CC",
-                         @"5raI5oGv5LiN6YCa5L2V6K6h5piv77yM576O5Zu95pyJ5Liq5Y2O6I6x5aOr44CC",
-                         @"6Zuq5raI6Zeo5aSW5Y2D5bGx57u/77yM5LiN55+l6auY5Yiw5ZOq6YeM5Y6744CC",
-                         @"5q2k5aSc5pyJ5oOF6LCB5LiN5p6B77yM5L2g5Lus6L+Y6KaB5aSa5a2m5Lmg44CC",];
+        _randStrings =
+@[
+@"6ZW/6aOO56C05rWq5Lya5pyJ5pe277yM6Zeu5oiR5ruL56OB5LiN5ruL56OB44CC",
+@"5LiA6Lqr5Y675Zu95YWt5Y2D6YeM77yM5oiR5bCx5piO56Gu5ZGK6K+J5L2g44CC",
+@"5rit5bed5pac6Ziz54Wn5aKf6JC977yM5ZOq5Liq5Zu95a625rKh5Y676L+H44CC",
+@"55m+5aO25LiU6K+V5byA5oCA5oqx77yM54af5oKJ6KW/5pa56YKj5LiA5aWX44CC",
+@"5Zyo5aSp5oS/5L2c5q+U57+86bif77yM5Lq655Sf57uP6aqM6L+Y5aSq5bCR44CC",
+@"5Y2D6YeR5pWj5bC96L+Y5aSN5p2l77yM5pWZ5L2g6Ze35aOw5Y+R5aSn6LSi44CC",
+@"6ZW/5L2/6Iux6ZuE5rOq5ruh6KWf77yM5L2g5Lus6L+Y5piv5aSq5bm06L2744CC",
+@"57+g5b2x57qi6Zye5pig5pyd5pel77yM5pyJ5pe255Sa6Iez5b6I5bm856ia44CC",
+@"6I6r56yR5Yac5a626IWK6YWS5re377yM5byE5Ye65LiA5Liq5aSn5paw6Ze744CC",
+@"5raI5oGv5LiN6YCa5L2V6K6h5piv77yM576O5Zu95pyJ5Liq5Y2O6I6x5aOr44CC",
+@"6Zuq5raI6Zeo5aSW5Y2D5bGx57u/77yM5LiN55+l6auY5Yiw5ZOq6YeM5Y6744CC",
+@"5q2k5aSc5pyJ5oOF6LCB5LiN5p6B77yM5L2g5Lus6L+Y6KaB5aSa5a2m5Lmg44CC",
+];
     }
     return _randStrings;
 }

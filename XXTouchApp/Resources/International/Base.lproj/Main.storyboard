@@ -259,6 +259,34 @@ Visit "More &gt; Documents" for more details.</string>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Offset" footerTitle="The caret will move to the offset automatically after inserting this code snippet, -1 for not moving." id="Lkr-1y-sKU">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="kgc-Yw-uYt">
+                                        <rect key="frame" x="0.0" y="510" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kgc-Yw-uYt" id="msL-TV-je9">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-1" placeholder="Offset" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WwL-T5-SJR">
+                                                    <rect key="frame" x="16" y="8" width="576" height="28"/>
+                                                    <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <action selector="titleFieldChanged:" destination="qdj-7a-mde" eventType="editingChanged" id="KWn-b1-5aP"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WwL-T5-SJR" firstAttribute="leading" secondItem="msL-TV-je9" secondAttribute="leadingMargin" constant="8" id="16g-2c-hb6"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="WwL-T5-SJR" secondAttribute="trailing" id="Qhx-jS-Z8s"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="WwL-T5-SJR" secondAttribute="bottom" id="Uu5-mC-SSa"/>
+                                                <constraint firstItem="WwL-T5-SJR" firstAttribute="top" secondItem="msL-TV-je9" secondAttribute="topMargin" id="f6Z-3o-fGd"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="qdj-7a-mde" id="CMT-3u-Gph"/>
@@ -266,7 +294,7 @@ Visit "More &gt; Documents" for more details.</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Add Snippet" id="1nx-s7-wIe">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="tTB-1u-DAO">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="tTB-1u-DAO">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="done:" destination="qdj-7a-mde" id="aXh-Gm-DSU"/>
@@ -276,6 +304,7 @@ Visit "More &gt; Documents" for more details.</string>
                     <connections>
                         <outlet property="codeTextView" destination="Pm5-Z7-9XK" id="T81-gj-nPn"/>
                         <outlet property="doneButton" destination="tTB-1u-DAO" id="iaA-Hf-Ojh"/>
+                        <outlet property="offsetField" destination="WwL-T5-SJR" id="DAI-YJ-LVd"/>
                         <outlet property="titleField" destination="bSw-BH-o7C" id="QxI-y0-rWG"/>
                     </connections>
                 </tableViewController>
