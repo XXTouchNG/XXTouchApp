@@ -15,6 +15,7 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 @interface XXKeyEventTableViewController ()
 @property (nonatomic, strong) NSArray <XXKeyEventModel *> *keyEvents;
+@property (nonatomic, strong) UIBarButtonItem *nextButton;
 
 @end
 
@@ -27,6 +28,36 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Key Event", nil);
+    
+    if (_codeBlock) {
+        self.navigationItem.rightBarButtonItem = self.nextButton;
+    }
+}
+
+#pragma mark - Getter
+
+- (UIBarButtonItem *)nextButton {
+    if (!_nextButton) {
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
+        nextButton.tintColor = [UIColor whiteColor];
+        _nextButton = nextButton;
+    }
+    return _nextButton;
+}
+
+- (void)next:(UIBarButtonItem *)sender {
+    [self pushToNextControllerWithKeyword:@"@key@" replacement:@""];
+}
+
+- (void)pushToNextControllerWithKeyword:(NSString *)keyword
+                            replacement:(NSString *)replace {
+    XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
+    NSString *code = newBlock.code;
+    NSRange range = [code rangeOfString:keyword];
+    if (range.length == 0) return;
+    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
+    newBlock.offset = -1;
+    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
 }
 
 #pragma mark - Events
@@ -83,12 +114,8 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (_codeBlock) {
-        NSString *code = _codeBlock.code;
-        NSRange range = [code rangeOfString:@"@key@"];
-        _codeBlock.code = [code stringByReplacingCharactersInRange:range withString:self.keyEvents[indexPath.row].command];
-        _codeBlock.offset = -1;
-        [XXCodeMakerService pushToMakerWithCodeBlockModel:_codeBlock controller:self];
+    if (indexPath.section == 0) {
+        [self pushToNextControllerWithKeyword:@"@key@" replacement:self.keyEvents[indexPath.row].command];
     }
 }
 

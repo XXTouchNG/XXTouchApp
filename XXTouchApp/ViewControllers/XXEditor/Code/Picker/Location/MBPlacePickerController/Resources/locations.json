@@ -1,0 +1,374 @@
+[
+ {
+ "name" : "Atlanta, Georgia, USA",
+ "longitude" : -84.38798199999999,
+ "latitude" : 33.748995,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Baltimore, Maryland, USA",
+ "longitude" : -76.612189,
+ "latitude" : 39.290385,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Berlin, Germany",
+ "longitude" : 13.4114,
+ "latitude" : 52.523405,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Boston, Massachusetts, USA",
+ "longitude" : -71.0597732,
+ "latitude" : 42.3584308,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Buenos Aires, Argentina",
+ "longitude" : -58.381593,
+ "latitude" : -734.603723,
+ "continent" : "South America"
+ },
+ {
+ "name" : "Buffalo, New York, USA",
+ "longitude" : -78.8783689,
+ "latitude" : 42.8864468,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Chicago, Illinois, USA",
+ "longitude" : -87.6297982,
+ "latitude" : 41.8781136,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Cincinnati, Ohio, USA",
+ "longitude" : -84.5120196,
+ "latitude" : 39.1031182,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Cleveland, Ohio, USA",
+ "longitude" : -81.6954088,
+ "latitude" : 41.4994954,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Columbus, Ohio, USA",
+ "longitude" : -82.998794,
+ "latitude" : 39.961176,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Dallas, Texas, USA",
+ "longitude" : -96.76992300000001,
+ "latitude" : 32.802955,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Denver, Colorado, USA",
+ "longitude" : -104.9847034,
+ "latitude" : 39.7391536,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Detroit, Michigan, USA",
+ "longitude" : -83.045754,
+ "latitude" : 42.331427,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Dublin, Ireland",
+ "longitude" : -6.2674937,
+ "latitude" : 53.344104,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Far Rockaway, New York, USA",
+ "longitude" : -73.7672222,
+ "latitude" : 40.6102778,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Gateshead, England",
+ "longitude" : -1.6018252,
+ "latitude" : 54.9593729,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Hartford, Connecticut, USA",
+ "longitude" : -72.6850932,
+ "latitude" : 41.7637111,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Houston, Texas, USA",
+ "longitude" : -95.383061,
+ "latitude" : 29.762884,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Jerusalem, Israel",
+ "longitude" : 35.2007,
+ "latitude" : 31.7857,
+ "continent" : "Asia"
+ },
+ {
+ "name" : "Johannesburg, South Africa",
+ "longitude" : 28.047305,
+ "latitude" : -26.204103,
+ "continent" : "Africa"
+ },
+ {
+ "name" : "Kansas City, Kansas, USA",
+ "longitude" : -94.6274636,
+ "latitude" : 39.114053,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Kiev, Lithuania",
+ "longitude" : 30.5233333,
+ "latitude" : 50.45,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Krakow, Poland",
+ "longitude" : 19.9449799,
+ "latitude" : 50.0646501,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Lakewood, New Jersey, USA",
+ "longitude" : -74.217643,
+ "latitude" : 40.097893,
+ "continent" : "North America"
+ },
+ {
+ "name" : "London, England",
+ "longitude" : -0.126236,
+ "latitude" : 51.500152,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Los Angeles, California, USA",
+ "longitude" : -118.243685,
+ "latitude" : 34.052234,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Manchester, England",
+ "longitude" : -2.234376,
+ "latitude" : 53.480713,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Melbourne, Australia",
+ "longitude" : 144.96298,
+ "latitude" : -37.813187,
+ "continent" : "Australia"
+ },
+ {
+ "name" : "Memphis, Tennessee, USA",
+ "longitude" : -90.04898009999999,
+ "latitude" : 35.1495343,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Mexico City, Mexico",
+ "longitude" : -99.1275711,
+ "latitude" : 19.4270499,
+ "continent" : "South America"
+ },
+ {
+ "name" : "Miami, Florida, USA",
+ "longitude" : -80.226439,
+ "latitude" : 25.788969,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Milwaukee, Wisconsin, USA",
+ "longitude" : -87.906474,
+ "latitude" : 43.038903,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Minneapolis, Minnesota, USA",
+ "longitude" : -93.263836,
+ "latitude" : 44.979965,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Montevideo, Uruguay",
+ "longitude" : -56.181944,
+ "latitude" : -34.883611,
+ "continent" : "South America"
+ },
+ {
+ "name" : "Montreal, Canada",
+ "longitude" : -73.55416700000001,
+ "latitude" : 45.508889,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Moscow, Russia",
+ "longitude" : 37.617633,
+ "latitude" : 55.755786,
+ "continent" : "Asia"
+ },
+ {
+ "name" : "New York City, New York, USA",
+ "longitude" : -74.005973,
+ "latitude" : 40.714353,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Newark, New Jersey, USA",
+ "longitude" : -74.1723667,
+ "latitude" : 40.735657,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Ottawa, Canada",
+ "longitude" : -75.698194,
+ "latitude" : 45.411572,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Paris, France",
+ "longitude" : 2.350987,
+ "latitude" : 48.856667,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Perth, Australia",
+ "longitude" : 115.8501434326172,
+ "latitude" : -31.94866649942838,
+ "continent" : "Australia"
+ },
+ {
+ "name" : "Philadelphia, Pennsylvania, USA",
+ "longitude" : -75.16378899999999,
+ "latitude" : 39.952335,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Pittsburgh, Pennsylvania, USA",
+ "longitude" : -79.9958864,
+ "latitude" : 40.4406248,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Ramat Beit Shemesh, Israel",
+ "longitude" : 34.986649,
+ "latitude" : 31.745686,
+ "continent" : "Asia"
+ },
+ {
+ "name" : "Rio De Janeiro, Brazil",
+ "longitude" : -43.197077,
+ "latitude" : -22.908300,
+ "continent" : "South America"
+ },
+ {
+ "name" : "San Diego, California, USA",
+ "longitude" : -117.157255,
+ "latitude" : 32.715329,
+ "continent" : "North America"
+ },
+ {
+ "name" : "San Francisco, California, USA",
+ "longitude" : -122.419415,
+ "latitude" : 37.77493,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Seattle, Washington, USA",
+ "longitude" : -122.3320708,
+ "latitude" : 47.6062095,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Sao Paulo, Brazil",
+ "longitude" : -46.6388182,
+ "latitude" : -23.5489433,
+ "continent" : "South America"
+ },
+ {
+ "name" : "St. Louis, Missouri, USA",
+ "longitude" : -84.60740699999999,
+ "latitude" : 43.408741,
+ "continent" : "North America"
+ },
+ {
+ "name" : "St. Paul, Michigan, USA",
+ "longitude" : -85.8,
+ "latitude" : 43.877176,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Sydney, Australia",
+ "longitude" : 151.207091,
+ "latitude" : -33.868901,
+ "continent" : "Australia"
+ },
+ {
+ "name" : "Tel Aviv, Israel",
+ "longitude" : 34.777821,
+ "latitude" : 32.066157,
+ "continent" : "Asia"
+ },
+ {
+ "name" : "Tokyo, Japan",
+ "longitude" : 139.691706,
+ "latitude" : 35.689488,
+ "continent" : "Asia"
+ },
+ {
+ "name" : "Toronto, Canada",
+ "longitude" : -79.38166699999999,
+ "latitude" : 43.6525,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Vancouver, Canada",
+ "longitude" : -123.113927,
+ "latitude" : 49.261226,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Vienna, Austria",
+ "longitude" : 16.373819,
+ "latitude" : 48.208174,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Williamsburg, Virginia, USA",
+ "longitude" : -76.70745700000001,
+ "latitude" : 37.270702,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Williamsburg, New York, USA",
+ "longitude" : -73.95361629999999,
+ "latitude" : 40.7064461,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Winnipeg, Manitoba, Canada",
+ "longitude" : -97.15292100000001,
+ "latitude" : 49.886083,
+ "continent" : "North America"
+ },
+ {
+ "name" : "Zürich, Switzerland",
+ "longitude" : 8.535325,
+ "latitude" : 47.381791,
+ "continent" : "Europe"
+ },
+ {
+ "name" : "Cape Town, South Africa",
+ "latitude" : -33.926,
+ "longitude" : 18.423,
+ "continent" : "Africa"
+ }
+ ]

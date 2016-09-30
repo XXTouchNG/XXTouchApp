@@ -32,6 +32,7 @@ UITableViewDataSource,
 UISearchDisplayDelegate
 >
 @property (nonatomic, strong) NSArray *showData;
+@property (nonatomic, strong) UIBarButtonItem *nextButton;
 
 @end
 
@@ -54,6 +55,10 @@ UISearchDisplayDelegate
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
+    
+    if (_codeBlock) {
+        self.navigationItem.rightBarButtonItem = self.nextButton;
+    }
     
     [self fetchApplicationList];
 }
@@ -81,6 +86,32 @@ UISearchDisplayDelegate
             }
         });
     });
+}
+
+#pragma mark - Getter
+
+- (UIBarButtonItem *)nextButton {
+    if (!_nextButton) {
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
+        nextButton.tintColor = [UIColor whiteColor];
+        _nextButton = nextButton;
+    }
+    return _nextButton;
+}
+
+- (void)next:(UIBarButtonItem *)sender {
+    [self pushToNextControllerWithKeyword:@"@bid@" replacement:@""];
+}
+
+- (void)pushToNextControllerWithKeyword:(NSString *)keyword
+                            replacement:(NSString *)replace {
+    XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
+    NSString *code = newBlock.code;
+    NSRange range = [code rangeOfString:keyword];
+    if (range.length == 0) return;
+    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
+    newBlock.offset = -1;
+    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
 }
 
 #pragma mark - Table view data source
@@ -126,12 +157,7 @@ UISearchDisplayDelegate
     }
     if (_codeBlock) {
         identifier = [identifier addSlashes];
-        
-        NSString *code = _codeBlock.code;
-        NSRange range = [code rangeOfString:@"@bid@"];
-        _codeBlock.code = [code stringByReplacingCharactersInRange:range withString:identifier];
-        _codeBlock.offset = -1;
-        [XXCodeMakerService pushToMakerWithCodeBlockModel:_codeBlock controller:self];
+        [self pushToNextControllerWithKeyword:@"@bid@" replacement:identifier];
     }
 }
 

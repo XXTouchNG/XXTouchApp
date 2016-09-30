@@ -200,6 +200,14 @@
 "1nx-s7-wIe.title" = "添加代碼片段";
 "uOs-xg-6RX.headerTitle" = "顯示名";
 "hQA-fA-CcB.headerTitle" = "代碼";
-"hQA-fA-CcB.footerTitle" = "可用標記：\n@bid@ - 應用程序選擇器\n@key@ - 按鍵事件選擇器\n\n轉到 \"更多 > 在線文檔\" 以獲取詳細介紹。";
+"hQA-fA-CcB.footerTitle" = "可用標記：\n@bid@ - 應用程序選擇器\n@key@ - 按鍵事件選擇器\n@loc@ - 地理位置選擇器\n\n轉到 \"更多 > 在線文檔\" 以獲取詳細介紹。";
 "bSw-BH-o7C.placeholder" = "在此處填寫代碼片段名稱";
 "wrd-0b-l01.title" = "按鍵事件";
+"KEg-Hn-EgX.title" = "添加位置";
+"IJ6-pd-kyn.title" = "下一步";
+"TI2-xw-4aO.headerTitle" = "位置";
+"C9G-4E-SAa.headerTitle" = "選擇器";
+"fc5-s5-ROB.text" = "緯度";
+"ntF-vj-nCq.text" = "經度";
+"JMJ-za-taY.text" = "選擇預設地理位置";
+"YOp-27-lwR.text" = "清空位置";

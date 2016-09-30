@@ -75,12 +75,12 @@ typedef enum : NSUInteger {
             if (!deviceName) {
                 deviceName = @"(Unregistered)";
             }
-            NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %d %@.\n--  All rights reserved.\n--\n\n",
+            NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %ld %@.\n--  All rights reserved.\n--\n\n",
                                 [itemName stringByAppendingPathExtension:@"lua"],
                                 [NSString stringWithFormat:@"%@ v%@", APP_NAME_EN, VERSION_STRING],
                                 deviceName,
                                 [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
-                                [[NSDate date] year], deviceName];
+                                (long)[[NSDate date] year], deviceName];
             result = [FCFileManager writeFileAtPath:itemPath content:newLua error:&err];
         }
     } else if (itemType == kXXCreateItemTypeRegulatTextFile) {

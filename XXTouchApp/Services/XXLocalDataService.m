@@ -304,6 +304,8 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
     [XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@, @slider@)" offset:17],
     [XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@, @slider@)" offset:18],
     [XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(\"@key@\")" offset:10],
+    [XXCodeBlockModel modelWithTitle:@"gps.fake(bid, latitude, longitude)" code:@"key.press(\"@bid@\", @loc@)" offset:9],
+    [XXCodeBlockModel modelWithTitle:@"gps.clear([bid])" code:@"key.press(\"@bid@\")" offset:9],
     [XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@\")" offset:8],
     [XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@\")" offset:10],
     [XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@\")" offset:9],
