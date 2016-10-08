@@ -48,6 +48,8 @@ UISearchDisplayDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = NSLocalizedString(@"Application List", nil);
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchDisplayController.delegate = self;
@@ -110,7 +112,6 @@ UISearchDisplayDelegate
     NSRange range = [code rangeOfString:keyword];
     if (range.length == 0) return;
     newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    newBlock.offset = -1;
     [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
 }
 

@@ -10,7 +10,7 @@
 #import "XXApplicationListTableViewController.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXKeyEventTableViewController.h"
-#import "XXLocationPicker.h"
+#import "XXLocationPickerController.h"
 
 @implementation XXCodeMakerService
 
@@ -25,7 +25,7 @@
         vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
     } else if ([code containsString:@"@loc@"]) {
-        XXLocationPicker *vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXLocationPickerTableViewControllerStoryboardID];
+        XXKeyEventTableViewController *vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXLocationPickerControllerStoryboardID];
         vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
     } else {

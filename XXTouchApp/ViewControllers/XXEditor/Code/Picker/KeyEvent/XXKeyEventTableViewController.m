@@ -60,7 +60,6 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
     NSRange range = [code rangeOfString:keyword];
     if (range.length == 0) return;
     newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    newBlock.offset = -1;
     [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
 }
 

@@ -115,16 +115,28 @@ enum {
 #pragma mark - Text replacing
 
 - (void)replaceTextInputSelectedRangeWithModel:(XXCodeBlockModel *)model {
+    NSRange selectedNSRange = _textInput.selectedRange;
     UITextRange *selectedRange = [_textInput selectedTextRange];
     [_textInput replaceRange:selectedRange withText:model.code];
     
-    if (model.offset != -1) {
-        UITextPosition *insertPos = [_textInput positionFromPosition:selectedRange.start offset:model.offset];
+    NSRange modelCurPos = [model.code rangeOfString:@"@cur@"];
+    if (modelCurPos.location != NSNotFound) {
+        NSRange curPos = NSMakeRange(
+                                     selectedNSRange.location
+                                     + modelCurPos.location, 5
+                                     );
+        UITextPosition *insertPos = [_textInput positionFromPosition:selectedRange.start offset:curPos.location];
         
         UITextPosition *beginPos = [_textInput beginningOfDocument];
         UITextPosition *startPos = [_textInput positionFromPosition:beginPos offset:[_textInput offsetFromPosition:beginPos toPosition:insertPos]];
         UITextRange *textRange = [_textInput textRangeFromPosition:startPos toPosition:startPos];
         [_textInput setSelectedTextRange:textRange];
+        
+        UITextPosition *curBegin = [_textInput beginningOfDocument];
+        UITextPosition *curStart = [_textInput positionFromPosition:curBegin offset:curPos.location];
+        UITextPosition *curEnd = [_textInput positionFromPosition:curStart offset:curPos.length];
+        UITextRange *curRange = [_textInput textRangeFromPosition:curStart toPosition:curEnd];
+        [_textInput replaceRange:curRange withText:@""];
     }
     
     if (![_textInput isFirstResponder]) {
