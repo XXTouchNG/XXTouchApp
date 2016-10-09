@@ -133,6 +133,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
                                                  name:UIKeyboardWillChangeFrameNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillDismiss:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidDismiss:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
@@ -496,20 +500,28 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     
 }
 
+- (void)keyboardWillDismiss:(NSNotification *)aNotification {
+    [self keyboardWillDismiss];
+}
+
 - (void)keyboardDidDismiss:(NSNotification *)aNotification {
     [self keyboardDidDismiss];
 }
 
-- (void)keyboardDidDismiss {
+- (void)keyboardWillDismiss {
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
     UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
-    self.fileContent = self.textView.text;
-    if (!_isEdited) _isEdited = YES;
+    
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     [self updateViewConstraints];
+}
+
+- (void)keyboardDidDismiss {
+    if (!_isEdited) _isEdited = YES;
+    self.fileContent = self.textView.text;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -521,6 +533,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 #pragma mark - Menu Actions
 
 - (void)menuActionCodeBlocks:(UIMenuItem *)sender {
+    [self keyboardWillDismiss];
     if ([_textView isFirstResponder]) {
         [_textView resignFirstResponder];
     }

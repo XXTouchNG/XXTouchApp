@@ -14,7 +14,24 @@
 #import "ALAssetsLibrary+SingleInstance.h"
 #import "PHPhotoLibrary+CustomPhotoCollection.h"
 
-static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
+static NSString * const kXXStorageAlbumName = @"XXTouch";
+
+static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
+static NSString * const kXXStorageKeyApplicationBundles = @"kXXStorageKeyApplicationBundles-1";
+static NSString * const kXXStorageKeyStartUpConfigScriptPath = @"kXXStorageKeyStartUpConfigScriptPath-1";
+static NSString * const kXXStorageKeyRemoteAccessStatus = @"kXXStorageKeyRemoteAccessStatus-1";
+static NSString * const kXXStorageKeyDeviceInfo = @"kXXStorageKeyDeviceInfo-%@";
+static NSString * const kXXStorageKeyUserConfig = @"kXXStorageKeyUserConfig-1";
+static NSString * const kXXStorageKeyExpirationDate = @"kXXStorageKeyExpirationDate-1";
+static NSString * const kXXStorageKeySortMethod = @"kXXStorageKeySortMethod-1";
+static NSString * const kXXStorageKeyStartUpConfigSwitch = @"kXXStorageKeyStartUpConfigSwitch-1";
+static NSString * const kXXStorageKeyActivatorInstalled = @"kXXStorageKeyActivatorInstalled-1";
+static NSString * const kXXStorageKeyRecordConfigRecordVolumeUp = @"kXXStorageKeyRecordConfigRecordVolumeUp-1";
+static NSString * const kXXStorageKeyRecordConfigRecordVolumeDown = @"kXXStorageKeyRecordConfigRecordVolumeDown-1";
+static NSString * const kXXStorageKeyPressConfigHoldVolumeUp = @"kXXStorageKeyPressConfigHoldVolumeUp-1";
+static NSString * const kXXStorageKeyPressConfigHoldVolumeDown = @"kXXStorageKeyPressConfigHoldVolumeDown-1";
+static NSString * const kXXStorageKeyPressConfigPressVolumeUp = @"kXXStorageKeyPressConfigPressVolumeUp-1";
+static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKeyPressConfigPressVolumeDown-1";
 
 @interface XXLocalDataService () <
     JTSImageViewControllerInteractionsDelegate
@@ -89,11 +106,11 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 }
 
 - (NSString *)startUpConfigScriptPath {
-    return (NSString *)[self objectForKey:@"startUpConfigScriptPath"];
+    return (NSString *)[self objectForKey:kXXStorageKeyStartUpConfigScriptPath];
 }
 
 - (void)setStartUpConfigScriptPath:(NSString *)startUpConfigScriptPath {
-    [self setObject:startUpConfigScriptPath forKey:@"startUpConfigScriptPath"];
+    [self setObject:startUpConfigScriptPath forKey:kXXStorageKeyStartUpConfigScriptPath];
 }
 
 - (BOOL)isSelectedScriptInPath:(NSString *)path {
@@ -119,46 +136,35 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 }
 
 - (BOOL)remoteAccessStatus {
-    return [(NSNumber *)[self objectForKey:@"remoteAccessStatus"] boolValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyRemoteAccessStatus] boolValue];
 }
 
 - (void)setRemoteAccessStatus:(BOOL)remoteAccessStatus {
-    [self setObject:[NSNumber numberWithBool:remoteAccessStatus] forKey:@"remoteAccessStatus"];
+    [self setObject:[NSNumber numberWithBool:remoteAccessStatus] forKey:kXXStorageKeyRemoteAccessStatus];
 }
 
 - (NSDictionary *)deviceInfo {
-    return (NSDictionary *)[self objectForKey:[NSString stringWithFormat:@"deviceInfo-%@", VERSION_BUILD]];
+    return (NSDictionary *)[self objectForKey:[NSString stringWithFormat:kXXStorageKeyDeviceInfo, VERSION_BUILD]];
 }
 
 - (void)setDeviceInfo:(NSDictionary *)deviceInfo {
-    [self setObject:deviceInfo forKey:[NSString stringWithFormat:@"deviceInfo-%@", VERSION_BUILD]];
+    [self setObject:deviceInfo forKey:[NSString stringWithFormat:kXXStorageKeyDeviceInfo, VERSION_BUILD]];
 }
 
 - (NSDictionary *)userConfig {
-    return (NSDictionary *)[self objectForKey:@"userConfig"];
+    return (NSDictionary *)[self objectForKey:kXXStorageKeyUserConfig];
 }
 
 - (void)setUserConfig:(NSDictionary *)userConfig {
-    [self setObject:userConfig forKey:@"userConfig"];
+    [self setObject:userConfig forKey:kXXStorageKeyUserConfig];
 }
 
 - (NSDate *)expirationDate {
-    return (NSDate *)[self objectForKey:@"expirationDate"];
+    return (NSDate *)[self objectForKey:kXXStorageKeyExpirationDate];
 }
 
 - (void)setExpirationDate:(NSDate *)expirationDate {
-    [self setObject:expirationDate forKey:@"expirationDate"];
-}
-
-- (NSArray *)bundles {
-    NSArray *bundles = (NSArray *)[self objectForKey:@"bundles"];
-    if (!bundles)
-        return @[];
-    return bundles;
-}
-
-- (void)setBundles:(NSArray *)bundles {
-    [self setObject:bundles forKey:@"bundles"];
+    [self setObject:expirationDate forKey:kXXStorageKeyExpirationDate];
 }
 
 #pragma mark - JTSImageViewControllerInteractionsDelegate
@@ -169,7 +175,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
     if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         // 7.x
         [[ALAssetsLibrary sharedLibrary] saveImage:imageViewer.image
-                                           toAlbum:@"XXTouch"
+                                           toAlbum:kXXStorageAlbumName
                                         completion:^(NSURL *assetURL, NSError *error) {
                                             if (error == nil) {
                                                 dispatch_async_on_main_queue(^{
@@ -196,7 +202,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
                 [imageViewer.view makeToast:NSLocalizedString(@"Failed to request photo library access", nil)];
             } else if (statusResult == FYPhotoLibraryPermissionStatusGranted) {
                 [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
-                                                       toAlbum:@"XXTouch"
+                                                       toAlbum:kXXStorageAlbumName
                                                     completion:^(BOOL success) {
                                                         if (success) {
                                                             dispatch_async_on_main_queue(^{
@@ -220,150 +226,75 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 }
 
 - (kXXScriptListSortMethod)sortMethod {
-    return [(NSNumber *)[self objectForKey:@"sortMethod"] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeySortMethod] integerValue];
 }
 
 - (void)setSortMethod:(kXXScriptListSortMethod)sortMethod {
-    [self setObject:[NSNumber numberWithInteger:sortMethod] forKey:@"sortMethod"];
+    [self setObject:[NSNumber numberWithInteger:sortMethod] forKey:kXXStorageKeySortMethod];
 }
 
 - (BOOL)startUpConfigSwitch {
-    return [(NSNumber *)[self objectForKey:@"startUpConfigSwitch"] boolValue];
+    return [(NSNumber *)[self objectForKey:kXXStartUpConfigSwitch] boolValue];
 }
 
 - (void)setStartUpConfigSwitch:(BOOL)startUpConfigSwitch {
-    [self setObject:[NSNumber numberWithBool:startUpConfigSwitch] forKey:@"startUpConfigSwitch"];
+    [self setObject:[NSNumber numberWithBool:startUpConfigSwitch] forKey:kXXStartUpConfigSwitch];
 }
 
 - (BOOL)keyPressConfigActivatorInstalled {
-    return [(NSNumber *)[self objectForKey:@"keyPressConfigActivatorInstalled"] boolValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyActivatorInstalled] boolValue];
 }
 
 - (void)setKeyPressConfigActivatorInstalled:(BOOL)keyPressConfigActivatorInstalled {
-    [self setObject:[NSNumber numberWithBool:keyPressConfigActivatorInstalled] forKey:@"keyPressConfigActivatorInstalled"];
+    [self setObject:[NSNumber numberWithBool:keyPressConfigActivatorInstalled] forKey:kXXStorageKeyActivatorInstalled];
 }
 
 - (BOOL)recordConfigRecordVolumeUp {
-    return [(NSNumber *)[self objectForKey:@"recordConfigRecordVolumeUp"] boolValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyRecordConfigRecordVolumeUp] boolValue];
 }
 
 - (void)setRecordConfigRecordVolumeUp:(BOOL)recordConfigRecordVolumeUp {
-    [self setObject:[NSNumber numberWithBool:recordConfigRecordVolumeUp] forKey:@"recordConfigRecordVolumeUp"];
+    [self setObject:[NSNumber numberWithBool:recordConfigRecordVolumeUp] forKey:kXXStorageKeyRecordConfigRecordVolumeUp];
 }
 
 - (BOOL)recordConfigRecordVolumeDown {
-    return [(NSNumber *)[self objectForKey:@"recordConfigRecordVolumeDown"] boolValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyRecordConfigRecordVolumeDown] boolValue];
 }
 
 - (void)setRecordConfigRecordVolumeDown:(BOOL)recordConfigRecordVolumeDown {
-    [self setObject:[NSNumber numberWithBool:recordConfigRecordVolumeDown] forKey:@"recordConfigRecordVolumeDown"];
+    [self setObject:[NSNumber numberWithBool:recordConfigRecordVolumeDown] forKey:kXXStorageKeyRecordConfigRecordVolumeDown];
 }
 
 - (kXXKeyPressConfig)keyPressConfigHoldVolumeUp {
-    return [(NSNumber *)[self objectForKey:@"keyPressConfigHoldVolumeUp"] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigHoldVolumeUp] integerValue];
 }
 
 - (void)setKeyPressConfigHoldVolumeUp:(kXXKeyPressConfig)keyPressConfigHoldVolumeUp {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeUp] forKey:@"keyPressConfigHoldVolumeUp"];
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeUp] forKey:kXXStorageKeyPressConfigHoldVolumeUp];
 }
 
 - (kXXKeyPressConfig)keyPressConfigHoldVolumeDown {
-    return [(NSNumber *)[self objectForKey:@"keyPressConfigHoldVolumeDown"] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigHoldVolumeDown] integerValue];
 }
 
 - (void)setKeyPressConfigHoldVolumeDown:(kXXKeyPressConfig)keyPressConfigHoldVolumeDown {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeDown] forKey:@"keyPressConfigHoldVolumeDown"];
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeDown] forKey:kXXStorageKeyPressConfigHoldVolumeDown];
 }
 
 - (kXXKeyPressConfig)keyPressConfigPressVolumeUp {
-    return [(NSNumber *)[self objectForKey:@"keyPressConfigPressVolumeUp"] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigPressVolumeUp] integerValue];
 }
 
 - (void)setKeyPressConfigPressVolumeUp:(kXXKeyPressConfig)keyPressConfigPressVolumeUp {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeUp] forKey:@"keyPressConfigPressVolumeUp"];
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeUp] forKey:kXXStorageKeyPressConfigPressVolumeUp];
 }
 
 - (kXXKeyPressConfig)keyPressConfigPressVolumeDown {
-    return [(NSNumber *)[self objectForKey:@"keyPressConfigPressVolumeDown"] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigPressVolumeDown] integerValue];
 }
 
 - (void)setKeyPressConfigPressVolumeDown:(kXXKeyPressConfig)keyPressConfigPressVolumeDown {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeDown] forKey:@"keyPressConfigPressVolumeDown"];
-}
-
-#pragma mark - Code Snippet
-
-- (NSMutableArray <XXCodeBlockModel *> *)codeBlockInternalFunctions {
-    NSMutableArray <XXCodeBlockModel *> * obj = (NSMutableArray <XXCodeBlockModel *> *)[self objectForKey:[NSString stringWithFormat:@"codeBlockInternalFunctions-%@", VERSION_BUILD]];
-    if (!obj) {
-        obj = [[NSMutableArray alloc] initWithArray:
-@[
-[XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@@cur@)"],
-[XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@@cur@):move(@pos@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@@cur@, @pos@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@@cur@, @slider@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@@cur@, @slider@)"],
-[XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(\"@key@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"gps.fake(bid, latitude, longitude)" code:@"gps.fake(\"@bid@@cur@\", @loc@)"],
-[XXCodeBlockModel modelWithTitle:@"gps.clear([bid])" code:@"gps.fake(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@@cur@\")"],
-]];
-        [self setObject:obj forKey:[NSString stringWithFormat:@"codeBlockInternalFunctions-%@", VERSION_BUILD]];
-    }
-    return obj;
-}
-
-- (void)setCodeBlockInternalFunctions:(NSArray<XXCodeBlockModel *> *)codeBlockInternalFunctions {
-    [self setObject:codeBlockInternalFunctions forKey:[NSString stringWithFormat:@"codeBlockInternalFunctions-%@", VERSION_BUILD]];
-}
-
-- (NSMutableArray <XXCodeBlockModel *> *)codeBlockUserDefinedFunctions {
-    NSMutableArray <XXCodeBlockModel *> * obj = (NSMutableArray <XXCodeBlockModel *> *)[self objectForKey:@"codeBlockUserDefinedFunctions"];
-    if (!obj) {
-        obj = [[NSMutableArray alloc] initWithArray:
-@[
-[XXCodeBlockModel modelWithTitle:@"print()" code:@"print(@cur@)\n"],
-[XXCodeBlockModel modelWithTitle:@"print.out()" code:@"print.out(@cur@)\n"],
-[XXCodeBlockModel modelWithTitle:@"sys.toast(\"\")" code:@"sys.toast(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"sys.alert(\"\", 0)" code:@"sys.alert(\"@cur@\", 0)\n"],
-[XXCodeBlockModel modelWithTitle:@"if ... then ... end" code:@"if () then\n\nend\n"],
-[XXCodeBlockModel modelWithTitle:@"for i = 1, 10, 1 do ... end" code:@"for i = 1, 10, 1 do\n\t@cur@\nend\n"],
-[XXCodeBlockModel modelWithTitle:@"while (true) do .. end" code:@"while (true) do\n\t@cur@\nend\n"],
-[XXCodeBlockModel modelWithTitle:@"repeat ... until (false)" code:@"repeat\n\t@cur@\nuntil (false)\n"],
-[XXCodeBlockModel modelWithTitle:@"sys.msleep(1000)" code:@"sys.msleep(1000@cur@)\n"],
-[XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(x@cur@, y)\n"],
-[XXCodeBlockModel modelWithTitle:@"app.input_text(\"\")" code:@"app.input_text(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"accelerometer.shake()" code:@"accelerometer.shake()\n"],
-[XXCodeBlockModel modelWithTitle:@"r = sys.input_box(\"\")" code:@"r = sys.input_box(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"pasteboard.write(\"\")" code:@"pasteboard.write(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"r = pasteboard.read()" code:@"r = pasteboard.read()\n"],
-[XXCodeBlockModel modelWithTitle:@"os.execute(\"\")" code:@"os.execute(\"@cur@\")\n"],
-]];
-        [self setObject:obj forKey:@"codeBlockUserDefinedFunctions"];
-    }
-    
-    return obj;
-}
-
-- (void)setCodeBlockUserDefinedFunctions:(NSMutableArray<XXCodeBlockModel *> *)codeBlockUserDefinedFunctions {
-    [self setObject:codeBlockUserDefinedFunctions forKey:@"codeBlockUserDefinedFunctions"];
-}
-
-- (NSUInteger)selectedCodeBlockSegmentIndex {
-    return [(NSNumber *)[self objectForKey:@"selectedCodeBlockSegmentIndex"] unsignedIntegerValue];
-}
-
-- (void)setSelectedCodeBlockSegmentIndex:(NSUInteger)selectedCodeBlockSegmentIndex {
-    [self setObject:[NSNumber numberWithUnsignedInteger:selectedCodeBlockSegmentIndex] forKey:@"selectedCodeBlockSegmentIndex"];
+    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeDown] forKey:kXXStorageKeyPressConfigPressVolumeDown];
 }
 
 - (NSArray <NSString *> *)randStrings {
@@ -390,6 +321,17 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB";
 - (NSString *)randString {
     NSUInteger rand = arc4random() % self.randStrings.count;
     return self.randStrings[rand];
+}
+
+- (NSArray *)bundles {
+    NSArray *bundles = (NSArray *)[self objectForKey:kXXStorageKeyApplicationBundles];
+    if (!bundles)
+        return @[];
+    return bundles;
+}
+
+- (void)setBundles:(NSArray *)bundles {
+    [self setObject:bundles forKey:kXXStorageKeyApplicationBundles];
 }
 
 @end

@@ -12,5 +12,6 @@
 @interface XXAddCodeBlockTableViewController : UITableViewController
 @property (nonatomic, strong) XXCodeBlockModel *codeBlock;
 @property (nonatomic, assign) BOOL editMode;
+@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlocks;
 
 @end

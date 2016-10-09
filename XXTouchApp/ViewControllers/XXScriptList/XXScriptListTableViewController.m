@@ -53,7 +53,6 @@ XXToolbarDelegate
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, copy) NSString *relativePath;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topGuideLayoutConstraint;
 
 @end
 
@@ -115,11 +114,6 @@ XXToolbarDelegate
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    self.topGuideLayoutConstraint.constant = [self.tabBarController.topLayoutGuide length];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -197,13 +191,17 @@ XXToolbarDelegate
 - (void)reloadScriptListTableData {
     NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[FCFileManager listItemsInDirectoryAtPath:self.currentDirectory deep:NO]];
     
+    NSString *freeSpace =  [FCFileManager sizeFormatted:[NSNumber numberWithLongLong:[[UIDevice currentDevice] diskSpaceFree]]];
+    NSString *footerTitle = @"";
     if (pathArr.count == 0) {
-        [_footerLabel setTitle:NSLocalizedString(@"No Item", nil) forState:UIControlStateNormal];
+        footerTitle = NSLocalizedString(@"No Item", nil);
     } else if (pathArr.count == 1) {
-        [_footerLabel setTitle:NSLocalizedString(@"1 Item", nil) forState:UIControlStateNormal];
+        footerTitle = NSLocalizedString(@"1 Item", nil);
     } else {
-        [_footerLabel setTitle:[NSString stringWithFormat:NSLocalizedString(@"%d Items", nil), pathArr.count] forState:UIControlStateNormal];
+        footerTitle = [NSString stringWithFormat:NSLocalizedString(@"%d Items", nil), pathArr.count];
     }
+    footerTitle = [footerTitle stringByAppendingString:[NSString stringWithFormat:NSLocalizedString(@", %@ free", nil), freeSpace]];
+    [_footerLabel setTitle:footerTitle forState:UIControlStateNormal];
     
     NSMutableArray *attrArr = [[NSMutableArray alloc] init];
     

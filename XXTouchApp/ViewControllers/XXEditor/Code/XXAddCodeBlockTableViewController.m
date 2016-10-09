@@ -13,9 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UITextField *titleField;
 @property (weak, nonatomic) IBOutlet UITextView *codeTextView;
-@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *codeBlocks;
-
-@property (nonatomic, assign) BOOL edited;
 
 @end
 
@@ -32,10 +29,6 @@
     return _codeBlock;
 }
 
-- (NSMutableArray <XXCodeBlockModel *> *)codeBlocks {
-    return [[XXLocalDataService sharedInstance] codeBlockUserDefinedFunctions];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,14 +39,6 @@
     _codeTextView.delegate = self;
     
     self.automaticallyAdjustsScrollViewInsets = YES;
-}
-
-- (IBAction)titleFieldChanged:(UITextField *)sender {
-    _edited = YES;
-}
-
-- (void)textViewDidChange:(UITextView *)textView {
-    _edited = YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -84,10 +69,6 @@
     
     if (!_editMode) { // Add New Block
         [self.codeBlocks insertObject:self.codeBlock atIndex:0];
-    }
-    if (_edited) {
-        // Save to Database
-        [[XXLocalDataService sharedInstance] setCodeBlockUserDefinedFunctions:self.codeBlocks];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

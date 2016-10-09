@@ -94,7 +94,7 @@ UISearchDisplayDelegate
 
 - (UIBarButtonItem *)nextButton {
     if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
         nextButton.tintColor = [UIColor whiteColor];
         _nextButton = nextButton;
     }

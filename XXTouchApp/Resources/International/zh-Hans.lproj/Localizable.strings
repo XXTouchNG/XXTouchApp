@@ -191,3 +191,5 @@ Unarchive = "解压缩";
 "Latitude: %f, Longitude: %f" = "纬度：%f, 经度：%f";
 "Location" = "位置";
 "Drag to change position" = "拖拽以改变位置";
+"Skip" = "跳过";
+", %@ free" = ", 可用空间 %@";
