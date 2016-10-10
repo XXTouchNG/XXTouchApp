@@ -73,8 +73,13 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     MKPinAnnotationView *customPinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:kXXMapViewAnnotationIdentifier];
     if (!customPinView) {
         customPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kXXMapViewAnnotationIdentifier];
-        
-        customPinView.pinColor = MKPinAnnotationColorRed;
+
+        if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            customPinView.pinColor = MKPinAnnotationColorRed;
+        } else {
+            customPinView.pinTintColor = STYLE_TINT_COLOR;
+        }
+
         customPinView.animatesDrop = YES;
         customPinView.canShowCallout = YES;
         customPinView.draggable = YES;
@@ -96,8 +101,8 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
             break;
         case MKAnnotationViewDragStateEnding:
             anno.subtitle = [NSString stringWithFormat:NSLocalizedString(kXXMapViewAnnotationFormat, nil), anno.coordinate.latitude, anno.coordinate.longitude];
-            [[XXLocalDataService sharedInstance] setObject:[NSNumber numberWithFloat:anno.coordinate.latitude] forKey:kXXCoordinateRegionLatitudeKey];
-            [[XXLocalDataService sharedInstance] setObject:[NSNumber numberWithFloat:anno.coordinate.longitude] forKey:kXXCoordinateRegionLongitudeKey];
+            [[XXLocalDataService sharedInstance] setObject:@((float) anno.coordinate.latitude) forKey:kXXCoordinateRegionLatitudeKey];
+            [[XXLocalDataService sharedInstance] setObject:@((float) anno.coordinate.longitude) forKey:kXXCoordinateRegionLongitudeKey];
             break;
         default:
             break;
@@ -108,7 +113,7 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 
 - (UIBarButtonItem *)nextButton {
     if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStylePlain target:self action:@selector(next:)];
         nextButton.tintColor = [UIColor whiteColor];
         _nextButton = nextButton;
     }

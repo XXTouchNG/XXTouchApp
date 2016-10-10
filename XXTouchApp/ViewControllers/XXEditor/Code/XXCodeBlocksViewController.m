@@ -90,7 +90,7 @@ enum {
     } else {
         self.trashItem.enabled = NO;
         [self saveInternalFunctions:self.internalFunctions];
-        [self saveInternalFunctions:self.userDefinedFunctions];
+        [self saveUserDefinedFunctions:self.userDefinedFunctions];
     }
 }
 
@@ -110,7 +110,7 @@ enum {
 }
 
 - (void)setSelectedCodeBlockSegmentIndex:(NSUInteger)selectedCodeBlockSegmentIndex {
-    [[XXLocalDataService sharedInstance] setObject:[NSNumber numberWithUnsignedInteger:selectedCodeBlockSegmentIndex] forKey:kXXStorageKeySelectedCodeBlockSegmentIndex];
+    [[XXLocalDataService sharedInstance] setObject:@(selectedCodeBlockSegmentIndex) forKey:kXXStorageKeySelectedCodeBlockSegmentIndex];
 }
 
 - (NSMutableArray <XXCodeBlockModel *> *)internalFunctions {
@@ -257,19 +257,13 @@ enum {
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == self.tableView) {
-        return YES;
-    }
-    
-    return NO;
+    return tableView == self.tableView;
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == self.tableView) {
-        return YES;
-    }
-    
-    return NO;
+    return tableView == self.tableView;
+
 }
 
 
@@ -287,7 +281,7 @@ enum {
     if (tableView == self.tableView) {
         if (editingStyle == UITableViewCellEditingStyleDelete) {
             if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-                [self.userDefinedFunctions removeObjectAtIndex:indexPath.row];
+                [self.userDefinedFunctions removeObjectAtIndex:(NSUInteger) indexPath.row];
                 [tableView beginUpdates];
                 [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
                 [tableView endUpdates];
@@ -308,22 +302,22 @@ enum {
     if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
         XXCodeBlockTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewInternalCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
-            cell.codeBlock = self.internalFunctions[indexPath.row];
-            cell.textLabel.text = self.internalFunctions[indexPath.row].title;
+            cell.codeBlock = self.internalFunctions[(NSUInteger) indexPath.row];
+            cell.textLabel.text = self.internalFunctions[(NSUInteger) indexPath.row].title;
         } else {
-            cell.codeBlock = self.showInternalFunctions[indexPath.row];
-            cell.textLabel.text = self.showInternalFunctions[indexPath.row].title;
+            cell.codeBlock = self.showInternalFunctions[(NSUInteger) indexPath.row];
+            cell.textLabel.text = self.showInternalFunctions[(NSUInteger) indexPath.row].title;
         }
         
         return cell;
     } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         XXCodeBlockTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
-            cell.codeBlock = self.userDefinedFunctions[indexPath.row];
-            cell.textLabel.text = self.userDefinedFunctions[indexPath.row].title;
+            cell.codeBlock = self.userDefinedFunctions[(NSUInteger) indexPath.row];
+            cell.textLabel.text = self.userDefinedFunctions[(NSUInteger) indexPath.row].title;
         } else {
-            cell.codeBlock = self.showUserDefinedFunctions[indexPath.row];
-            cell.textLabel.text = self.showUserDefinedFunctions[indexPath.row].title;
+            cell.codeBlock = self.showUserDefinedFunctions[(NSUInteger) indexPath.row];
+            cell.textLabel.text = self.showUserDefinedFunctions[(NSUInteger) indexPath.row].title;
         }
         
         return cell;
@@ -346,15 +340,15 @@ enum {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == self.tableView) {
         if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.internalFunctions[indexPath.row] controller:self];
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.internalFunctions[(NSUInteger) indexPath.row] controller:self];
         } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.userDefinedFunctions[indexPath.row] controller:self];
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.userDefinedFunctions[(NSUInteger) indexPath.row] controller:self];
         }
     } else {
         if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showInternalFunctions[indexPath.row] controller:self];
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showInternalFunctions[(NSUInteger) indexPath.row] controller:self];
         } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showUserDefinedFunctions[indexPath.row] controller:self];
+            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showUserDefinedFunctions[(NSUInteger) indexPath.row] controller:self];
         }
     }
 }
@@ -362,9 +356,9 @@ enum {
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     if (tableView == self.tableView) {
         if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            [self.internalFunctions exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+            [self.internalFunctions exchangeObjectAtIndex:(NSUInteger) sourceIndexPath.row withObjectAtIndex:(NSUInteger) destinationIndexPath.row];
         } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            [self.userDefinedFunctions exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+            [self.userDefinedFunctions exchangeObjectAtIndex:(NSUInteger) sourceIndexPath.row withObjectAtIndex:(NSUInteger) destinationIndexPath.row];
         }
     }
 }
@@ -447,7 +441,7 @@ enum {
         @strongify(self);
         NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
         for (NSIndexPath *indexPath in indexPaths) {
-            [indexSet addIndex:indexPath.row];
+            [indexSet addIndex:(NSUInteger) indexPath.row];
         }
         [self.userDefinedFunctions removeObjectsAtIndexes:indexSet];
         [self.tableView beginUpdates];

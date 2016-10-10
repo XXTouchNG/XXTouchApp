@@ -42,7 +42,7 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 - (UIBarButtonItem *)nextButton {
     if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
+        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStylePlain target:self action:@selector(next:)];
         nextButton.tintColor = [UIColor whiteColor];
         _nextButton = nextButton;
     }
@@ -134,16 +134,16 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return self.sectionNames[section];
+    return self.sectionNames[(NSUInteger) section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.events[section].count;
+    return ((NSArray *)self.events[(NSUInteger) section]).count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXKeyEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXKeyEventTableViewCellReuseIdentifier forIndexPath:indexPath];
-    cell.keyEvent = self.events[indexPath.section][indexPath.row];
+    cell.keyEvent = self.events[(NSUInteger) indexPath.section][(NSUInteger) indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", cell.keyEvent.title, cell.keyEvent.command];
     return cell;
 }
@@ -151,7 +151,7 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        [self pushToNextControllerWithKeyword:@"@key@" replacement:self.events[indexPath.section][indexPath.row].command];
+        [self pushToNextControllerWithKeyword:@"@key@" replacement:((XXKeyEventModel *)((NSArray *)self.events[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]).command];
     }
 }
 

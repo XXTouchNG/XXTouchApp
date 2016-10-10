@@ -39,11 +39,7 @@ typedef enum : NSUInteger {
     NSString *itemName = sender.text;
     if (itemName.length == 0 || itemName.length > 255) {
         self.doneButton.enabled = NO;
-    } else if ([itemName containsString:@"/"]) {
-        self.doneButton.enabled = NO;
-    } else {
-        self.doneButton.enabled = YES;
-    }
+    } else self.doneButton.enabled = ![itemName containsString:@"/"];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -71,7 +67,7 @@ typedef enum : NSUInteger {
         result = [FCFileManager createFileAtPath:itemPath error:&err];
         if (result) {
             NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
-            NSString *deviceName = [deviceInfo objectForKey:kXXDeviceInfoDeviceName];
+            NSString *deviceName = deviceInfo[kXXDeviceInfoDeviceName];
             if (!deviceName) {
                 deviceName = @"(Unregistered)";
             }
@@ -89,7 +85,7 @@ typedef enum : NSUInteger {
     } else if (itemType == kXXCreateItemTypeDirectory) {
         result = [FCFileManager createDirectoriesForPath:itemPath error:&err];
     }
-    if (result == YES) {
+    if (result) {
         if ([self.itemNameTextField isFirstResponder]) {
             [self.itemNameTextField resignFirstResponder];
         }
@@ -124,7 +120,7 @@ typedef enum : NSUInteger {
         oldCell.accessoryType = UITableViewCellAccessoryNone;
         UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
         newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        self.selectedType = indexPath.row;
+        self.selectedType = (kXXCreateItemType) indexPath.row;
     }
 }
 

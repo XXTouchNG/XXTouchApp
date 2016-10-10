@@ -50,11 +50,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 - (void)setup {
     
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
-    if ([fileExt isEqualToString:@"lua"]) {
-        _isLuaCode = YES;
-    } else {
-        _isLuaCode = NO;
-    }
+    _isLuaCode = [fileExt isEqualToString:@"lua"];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_interactivePopDisabled = YES;
@@ -165,10 +161,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     if (_isLoaded && _isEdited) {
         [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
     }
-    if (*err) {
-        return NO;
-    }
-    return YES;
+    return *err == nil;
 }
 
 - (void)updateViewConstraints {
@@ -244,7 +237,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     if (!_bottomBar) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         NSMutableArray *myToolBarItems = [NSMutableArray array];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-search"] style:UIBarButtonItemStyleBordered target:self action:@selector(search:)]];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-search"] style:UIBarButtonItemStylePlain target:self action:@selector(search:)]];
         [myToolBarItems addObject:flexibleSpace];
         
         UIButton *readingItem = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 30)];
@@ -269,9 +262,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         [myToolBarItems addObject:readingBarItem];
         
         [myToolBarItems addObject:flexibleSpace];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-statistics"] style:UIBarButtonItemStyleBordered target:self action:@selector(statistics:)]];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-statistics"] style:UIBarButtonItemStylePlain target:self action:@selector(statistics:)]];
         [myToolBarItems addObject:flexibleSpace];
-        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-settings"] style:UIBarButtonItemStyleBordered target:self action:@selector(settings:)]];
+        [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settings:)]];
         
         UIToolbar *bottomBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - 44, self.view.width, 44)];
         bottomBar.barStyle = UIBarStyleDefault;
@@ -407,9 +400,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         UIButton *button = ((UIButton *)sender.view);
         button.selected = !button.selected;
         if (button.selected) {
-            [self.navigationController.view makeToast:NSLocalizedString(@"Stay young, stay naive!", nil)];
+            [self.navigationController.view makeToast:@"Stay young, stay naive!"];
         } else {
-            [self.navigationController.view makeToast:NSLocalizedString(@"Excited!", nil)];
+            [self.navigationController.view makeToast:@"Excited!"];
         }
     }
 }
@@ -452,11 +445,11 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     NSUInteger count = 0;
     NSUInteger l = [s length];
     for (int i = 0; i < l; i++) {
-        char cc = [s characterAtIndex:i];
+        char cc = (char) [s characterAtIndex:i];
         if (cc == '\n') {
             count++;
             if (count == lineRange) {
-                index = i;
+                index = (NSUInteger) i;
             }
         }
     }
@@ -483,7 +476,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
-    NSValue *keyboardRectAsObject = [[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
+    NSValue *keyboardRectAsObject = [aNotification userInfo][UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = CGRectNull;
     [keyboardRectAsObject getValue:&keyboardRect];
     self.textView.contentInset =

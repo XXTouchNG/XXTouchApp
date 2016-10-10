@@ -106,11 +106,7 @@ XXToolbarDelegate
     [super viewWillAppear:animated];
     [self reloadScriptListTableView];
     // Pasteboard Event - ViewWillAppear
-    if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
-        self.topToolbar.pasteButton.enabled = NO;
-    } else {
-        self.topToolbar.pasteButton.enabled = YES;
-    }
+    self.topToolbar.pasteButton.enabled = [[XXLocalDataService sharedInstance] pasteboardArr].count != 0;
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
@@ -165,12 +161,12 @@ XXToolbarDelegate
                                                                  andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
                 [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
                                          type:SIAlertViewButtonTypeDestructive
-                                      handler:^(SIAlertView *alertView) {
+                                      handler:^(SIAlertView *alert) {
                                           [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
                                       }];
                 [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                                          type:SIAlertViewButtonTypeCancel
-                                      handler:^(SIAlertView *alertView) {
+                                      handler:^(SIAlertView *alert) {
                                           [self endMJRefreshing];
                                       }];
                 [alertView show];
@@ -191,7 +187,7 @@ XXToolbarDelegate
 - (void)reloadScriptListTableData {
     NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[FCFileManager listItemsInDirectoryAtPath:self.currentDirectory deep:NO]];
     
-    NSString *freeSpace =  [FCFileManager sizeFormatted:[NSNumber numberWithLongLong:[[UIDevice currentDevice] diskSpaceFree]]];
+    NSString *freeSpace = [FCFileManager sizeFormatted:@([[UIDevice currentDevice] diskSpaceFree])];
     NSString *footerTitle = @"";
     if (pathArr.count == 0) {
         footerTitle = NSLocalizedString(@"No Item", nil);
@@ -213,8 +209,8 @@ XXToolbarDelegate
         NSDictionary *attrs = [FCFileManager attributesOfItemAtPath:itemPath
                                                               error:&err];
         NSMutableDictionary *mutAttrs = [[NSMutableDictionary alloc] initWithDictionary:attrs];
-        [mutAttrs setObject:itemPath forKey:kXXItemPathKey];
-        [mutAttrs setObject:[itemPath lastPathComponent] forKey:kXXItemNameKey];
+        mutAttrs[kXXItemPathKey] = itemPath;
+        mutAttrs[kXXItemNameKey] = [itemPath lastPathComponent];
         if (err == nil) {
             if ([mutAttrs objectForKey:NSFileType] == NSFileTypeDirectory) {
                 [dirArr addObject:mutAttrs];
@@ -303,7 +299,7 @@ XXToolbarDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
-    NSDictionary *attrs = self.rootItemsDictionaryArr[indexPath.row];
+    NSDictionary *attrs = self.rootItemsDictionaryArr[(NSUInteger) indexPath.row];
     
     cell.itemAttrs = attrs;
     cell.selectBootscript = self.selectBootscript;
@@ -406,7 +402,7 @@ XXToolbarDelegate
                                                              NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:currentCell];
                                                              SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
                                                                                                               andMessage:[NSString stringWithFormat:NSLocalizedString(@"Delete %@?\nThis operation cannot be revoked.", nil), currentCell.itemAttrs[kXXItemNameKey]]];
-                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alert) {
                                                                  self.navigationController.view.userInteractionEnabled = NO;
                                                                  [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                                                                  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -434,7 +430,7 @@ XXToolbarDelegate
                                                                      });
                                                                  });
                                                              }];
-                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alert) {
                                                                  
                                                              }];
                                                              [alertView show];
@@ -453,10 +449,7 @@ XXToolbarDelegate
     if (_selectBootscript) {
         return NO;
     }
-    if ([self isEditing]) {
-        return NO;
-    }
-    return YES;
+    return ![self isEditing];
 }
 
 - (void)cellLongPress:(UIGestureRecognizer *)recognizer {
@@ -534,8 +527,8 @@ XXToolbarDelegate
     } else if ([segue.identifier isEqualToString:kXXDetailSegueIdentifier]) {
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
         XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
-        viewController.currentName = [currentCell.itemAttrs objectForKey:kXXItemNameKey];
-        viewController.currentPath = [currentCell.itemAttrs objectForKey:kXXItemPathKey];
+        viewController.currentName = currentCell.itemAttrs[kXXItemNameKey];
+        viewController.currentPath = currentCell.itemAttrs[kXXItemPathKey];
     }
 }
 
@@ -587,10 +580,7 @@ XXToolbarDelegate
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_selectBootscript) {
-        return NO;
-    }
-    return YES;
+    return !_selectBootscript;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -788,7 +778,7 @@ XXToolbarDelegate
                     self->_selectedIndex = -1;
                 }
                 result = [FCFileManager removeItemAtPath:itemPath error:&err];
-                if (err || result == NO) {
+                if (err || !result) {
                     break;
                 }
             }
@@ -821,7 +811,7 @@ XXToolbarDelegate
                 self.documentController.URL = pathsArr[0];
                 didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
             }
-            if (didPresentOpenIn == NO || pathsArr.count > 1) {
+            if (!didPresentOpenIn || pathsArr.count > 1) {
                 UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:nil];
                 [self.navigationController presentViewController:controller animated:YES completion:nil];
             }
