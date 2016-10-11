@@ -121,9 +121,9 @@ enum {
 @[
 [XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@@cur@)"],
 [XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@@cur@):move(@pos@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@pos@@cur@, @pos@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolors@@cur@, @slider@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolors@@cur@, @slider@)"],
+[XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@rect@@cur@)"],
+[XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolor@@cur@, @slider@)"],
+[XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolor@@cur@, @slider@)"],
 [XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(\"@key@@cur@\")"],
 [XXCodeBlockModel modelWithTitle:@"gps.fake(bid, latitude, longitude)" code:@"gps.fake(\"@bid@@cur@\", @loc@)"],
 [XXCodeBlockModel modelWithTitle:@"gps.clear([bid])" code:@"gps.fake(\"@bid@@cur@\")"],

@@ -13,6 +13,7 @@ typedef enum : NSUInteger {
     kXXImagePickerTypePosition = 0,
     kXXImagePickerTypeColor = 1,
     kXXImagePickerTypeMixed = 2,
+    kXXImagePickerTypeRect = 3
 } kXXImagePickerType;
 
 @interface XXMixedPickerController : UIViewController

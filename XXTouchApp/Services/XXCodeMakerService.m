@@ -44,6 +44,11 @@
         vc.pickerType = kXXImagePickerTypeMixed;
         vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
+    } else if ([code matchesRegex:@"@rect@" options:0]) {
+        XXMixedPickerController *vc = [[XXMixedPickerController alloc] init];
+        vc.pickerType = kXXImagePickerTypeRect;
+        vc.codeBlock = [model mutableCopy]; // Copy
+        [controller.navigationController pushViewController:vc animated:YES];
     } else {
         model.code = [model.code stringByReplacingOccurrencesOfString:@"\\@" withString:@"@"]; // unescape
         XXCodeBlocksViewController *codeBlockController = (XXCodeBlocksViewController *)controller.navigationController.viewControllers[0]; // Root View Controller
