@@ -334,10 +334,22 @@
     }
     else
     {
-        if (_nResultType == DO_PICKER_RESULT_UIIMAGE)
-            [_delegate didSelectPhotosFromDoImagePickerController:self result:@[[ASSETHELPER getImageAtIndex:indexPath.row type:ASSET_PHOTO_SCREEN_SIZE]]];
-        else
-            [_delegate didSelectPhotosFromDoImagePickerController:self result:@[[ASSETHELPER getAssetAtIndex:indexPath.row]]];
+        if (_nResultType == DO_PICKER_RESULT_UIIMAGE) {
+            UIImage *resultImage = [ASSETHELPER getImageAtIndex:indexPath.row type:ASSET_PHOTO_SCREEN_SIZE];
+            if (resultImage) {
+                [_delegate didSelectPhotosFromDoImagePickerController:self result:@[resultImage]];
+            } else {
+                [self.view makeToast:NSLocalizedString(@"Please download this image from iCloud", nil)];
+            }
+        }
+        else {
+            ALAsset *resultAsset = [ASSETHELPER getAssetAtIndex:indexPath.row];
+            if (resultAsset) {
+                [_delegate didSelectPhotosFromDoImagePickerController:self result:@[resultAsset]];
+            } else {
+                [self.view makeToast:NSLocalizedString(@"Please download this image from iCloud", nil)];
+            }
+        }
     }
 }
 
@@ -597,6 +609,10 @@
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

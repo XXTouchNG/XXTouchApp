@@ -44,6 +44,7 @@
     [CSToastManager sharedStyle].titleFont = [UIFont boldSystemFontOfSize:14.f];
     [CSToastManager sharedStyle].messageFont = [UIFont systemFontOfSize:14.f];
     [CSToastManager sharedStyle].activitySize = CGSizeMake(80.f, 80.f);
+    [CSToastManager sharedStyle].verticalMargin = 16.f;
     
     [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleBounce;
     [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];

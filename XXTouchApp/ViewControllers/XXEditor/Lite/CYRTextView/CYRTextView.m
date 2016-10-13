@@ -94,7 +94,9 @@ static const float kCursorVelocity = 1.0f/8.0f;
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(selectedTextRange)) options:NSKeyValueObservingOptionNew context:CYRTextViewContext];
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(selectedRange)) options:NSKeyValueObservingOptionNew context:CYRTextViewContext];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextViewDidChangeNotification:) name:UITextViewTextDidChangeNotification object:self];
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextViewDidChangeNotification:) name:UITextViewTextDidChangeNotification object:self];
+    }
     
     // Setup defaults
     self.font = [UIFont systemFontOfSize:14.0f];
@@ -129,7 +131,6 @@ static const float kCursorVelocity = 1.0f/8.0f;
     [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(selectedRange))];
 }
 
-
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -157,9 +158,9 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 #pragma mark - Notifications
 
-- (void)handleTextViewDidChangeNotification:(NSNotification *)notification
+- (void)handleTextViewDidChangeNotification:(NSNotification *)notification // iOS 7 Only
 {
-    if (notification.object == self)
+    if (notification.object == self && !CGPointEqualToPoint(self.contentOffset, CGPointZero))
     {
         CGRect line = [self caretRectForPosition: self.selectedTextRange.start];
         CGFloat overflow = line.origin.y + line.size.height - ( self.contentOffset.y + self.bounds.size.height - self.contentInset.bottom - self.contentInset.top );
@@ -171,13 +172,12 @@ static const float kCursorVelocity = 1.0f/8.0f;
             CGPoint offset = self.contentOffset;
             offset.y += overflow + 7; // leave 7 pixels margin
             // Cannot animate with setContentOffset:animated: or caret will not appear
-//            [UIView animateWithDuration:.2 animations:^{
-//                [self setContentOffset:offset];
-//            }];
+            [UIView animateWithDuration:.2 animations:^{
+                [self setContentOffset:offset];
+            }];
         }
     }
 }
-
 
 #pragma mark - Overrides
 
@@ -197,6 +197,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
 {
     UITextRange *textRange = [self textRangeFromPosition:self.beginningOfDocument toPosition:self.endOfDocument];
     [self replaceRange:textRange withText:text];
+//    self.selectedRange = NSMakeRange(0, 0);
 }
 
 

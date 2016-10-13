@@ -10,6 +10,7 @@
 
 #import "XXBaseTextEditorViewController.h"
 #import "XXBaseTextEditorPropertiesTableViewController.h"
+#import "XXCodeBlockNavigationController.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXBaseTextView.h"
 #import "XXLocalNetService.h"
@@ -123,6 +124,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillAppear:)
                                                  name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidAppear:)
+                                                 name:UIKeyboardDidShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillChangeFrame:)
@@ -476,17 +481,40 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
-    NSValue *keyboardRectAsObject = [aNotification userInfo][UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = CGRectNull;
-    [keyboardRectAsObject getValue:&keyboardRect];
-    self.textView.contentInset =
-    self.textView.scrollIndicatorInsets =
-    UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        self.textView.contentInset =
+        self.textView.scrollIndicatorInsets =
+        UIEdgeInsetsZero;
+    } else {
+        NSValue *keyboardRectAsObject = [aNotification userInfo][UIKeyboardFrameEndUserInfoKey];
+        CGRect keyboardRect = [keyboardRectAsObject CGRectValue];
+        self.textView.contentInset =
+        self.textView.scrollIndicatorInsets =
+        UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
+    }
+
     if (!self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     
     [self updateViewConstraints];
+}
+
+- (void)keyboardDidAppear:(NSNotification *)aNotification {
+//    NSDictionary *userInfo = [aNotification userInfo];
+//    CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    CGRect keyboardBeginFrame = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+//    UIViewAnimationCurve animationCurve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+//    NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
+//    
+//    [UIView beginAnimations:nil context:nil];
+//    [UIView setAnimationDuration:animationDuration];
+//    [UIView setAnimationCurve:animationCurve];
+//    
+//    self.view.height = [UIScreen mainScreen].bounds.size.height - keyboardEndFrame.size.height;
+//    [self updateViewConstraints];
+//    
+//    [UIView commitAnimations];
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)aNotification {
@@ -504,7 +532,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 - (void)keyboardWillDismiss {
     self.textView.contentInset =
     self.textView.scrollIndicatorInsets =
-    UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
+    UIEdgeInsetsMake(0, 0, self.bottomBar.frame.size.height, 0);
     
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -531,7 +559,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         [_textView resignFirstResponder];
     }
     [self keyboardDidDismiss];
-    UINavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+    XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
     XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
     codeBlocksController.textInput = self.textView;
     [self.navigationController presentViewController:navController animated:YES completion:nil];

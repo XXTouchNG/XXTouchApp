@@ -48,7 +48,7 @@
 }
 
 - (void)setup {
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor whiteColor];
     
     UIImageView *centerAddImage = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"picker-marquee"] imageByTintColor:[UIColor colorWithWhite:0.94f alpha:1.f]]];
     [self addSubview:centerAddImage];

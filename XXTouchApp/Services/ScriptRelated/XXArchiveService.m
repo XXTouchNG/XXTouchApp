@@ -79,7 +79,7 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
         if ([FCFileManager existsItemAtPath:[destination stringByAppendingPathComponent:archiveName]]) {
             NSUInteger testIndex = 2;
             do {
-                archivePath = [destination stringByAppendingPathComponent:[NSString stringWithFormat:@"Archive %lu.zip", (unsigned long)testIndex]];
+                archivePath = [destination stringByAppendingPathComponent:[NSString stringWithFormat:@"Archive-%lu.zip", (unsigned long)testIndex]];
                 testIndex++;
             } while ([FCFileManager existsItemAtPath:archivePath]);
         } else {

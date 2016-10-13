@@ -39,13 +39,24 @@
     }
 }
 
+- (BOOL)handleUrlTransfer:(NSURL *)url {
+    XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
+    [rootVC performSelector:@selector(handleItemTransfer:) withObject:url afterDelay:0.6];
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        return [self handleUrlTransfer:url];
+    }
+    return NO;
+}
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(nonnull NSDictionary<NSString *,id> *)options
 {
-    XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
-    [rootVC performSelector:@selector(handleItemTransfer:) withObject:url afterDelay:0.6];
-    return YES;
+    return [self handleUrlTransfer:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

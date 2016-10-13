@@ -200,7 +200,7 @@
 "1nx-s7-wIe.title" = "添加代码片段";
 "uOs-xg-6RX.headerTitle" = "显示名";
 "hQA-fA-CcB.headerTitle" = "代码";
-"hQA-fA-CcB.footerTitle" = "可用标记：\n@cur@ - 光标位置\n@bid@ - 应用程序选择器\n@key@ - 按键事件选择器\n@loc@ - 地理位置选择器\n\n转到 \"更多 > 在线文档\" 以获取详细介绍。";
+"hQA-fA-CcB.footerTitle" = "可用标记：\n@cur@ - 光标位置\n@bid@ - 应用程序选择器\n@key@ - 按键事件选择器\n@loc@ - 地理位置选择器\n@rect@ - 矩形区域选择器\n\n转到 \"更多 > 在线文档\" 以获取详细介绍。";
 "bSw-BH-o7C.placeholder" = "代码片段名称";
 "wrd-0b-l01.title" = "按键事件";
 "KEg-Hn-EgX.title" = "添加位置";

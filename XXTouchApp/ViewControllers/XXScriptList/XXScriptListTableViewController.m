@@ -25,7 +25,6 @@
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
-static NSString * const kXXDetailSegueIdentifier = @"kXXDetailSegueIdentifier";
 
 enum {
     kXXScriptListCellSection = 0,
@@ -346,7 +345,7 @@ XXToolbarDelegate
         if (cell.isSelectable) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
-                                                     backgroundColor:[UIColor colorWithRed:89.f/255.0f green:113.f/255.0f blue:173.f/255.0f alpha:1.f]
+                                                     backgroundColor:[STYLE_TINT_COLOR colorWithAlphaComponent:1.f]
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 [self setEditing:NO animated:YES];
@@ -380,7 +379,7 @@ XXToolbarDelegate
         if (cell.isEditable) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-edit"] imageByTintColor:[UIColor whiteColor]]
-                                                     backgroundColor:STYLE_TINT_COLOR
+                                                     backgroundColor:[STYLE_TINT_COLOR colorWithAlphaComponent:.8f]
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
@@ -393,7 +392,22 @@ XXToolbarDelegate
                                                             }]];
         }
         @weakify(self);
-        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-trash"] imageByTintColor:[UIColor whiteColor]]
+        [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
+                                                            icon:[[UIImage imageNamed:@"action-info"] imageByTintColor:[UIColor whiteColor]]
+                                                 backgroundColor:[STYLE_TINT_COLOR colorWithAlphaComponent:.6f]
+                                                        callback:^BOOL(MGSwipeTableCell *sender) {
+                                                            @strongify(self);
+                                                            XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
+                                                            [self setEditing:NO animated:YES];
+                                                            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
+                                                            XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
+                                                            viewController.currentName = currentCell.itemAttrs[kXXItemNameKey];
+                                                            viewController.currentPath = currentCell.itemAttrs[kXXItemPathKey];
+                                                            [self.navigationController presentViewController:navController animated:YES completion:nil];
+                                                            return YES;
+                                                        }]];
+        [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
+                                                             icon:[[UIImage imageNamed:@"action-trash"] imageByTintColor:[UIColor whiteColor]]
                                                   backgroundColor:[UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f]
                                                          callback:^BOOL(MGSwipeTableCell *sender) {
                                                              @strongify(self);
@@ -509,8 +523,6 @@ XXToolbarDelegate
         if (currentCell.isSelectable) return NO;
         if (!currentCell.isDirectory) return NO;
         return YES;
-    } else if ([identifier isEqualToString:kXXDetailSegueIdentifier]) {
-        return YES;
     }
     return NO;
 }
@@ -524,11 +536,6 @@ XXToolbarDelegate
             newController.selectBootscript = self.selectBootscript;
             newController.selectViewController = self.selectViewController;
         }
-    } else if ([segue.identifier isEqualToString:kXXDetailSegueIdentifier]) {
-        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
-        XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
-        viewController.currentName = currentCell.itemAttrs[kXXItemNameKey];
-        viewController.currentPath = currentCell.itemAttrs[kXXItemPathKey];
     }
 }
 
@@ -601,7 +608,8 @@ XXToolbarDelegate
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    // Perform Segue
+    XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [cell showSwipe:MGSwipeDirectionLeftToRight animated:YES];
 }
 
 #pragma mark - Actions

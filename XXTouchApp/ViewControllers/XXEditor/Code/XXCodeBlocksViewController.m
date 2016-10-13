@@ -469,10 +469,15 @@ enum {
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(XXCodeBlockTableViewCell *)sender {
+    XXAddCodeBlockTableViewController *addController = ((XXAddCodeBlockTableViewController *)segue.destinationViewController);
     if ([segue.identifier isEqualToString:kXXCodeBlocksEditBlockSegueIdentifier]) {
-        ((XXAddCodeBlockTableViewController *)segue.destinationViewController).codeBlock = sender.codeBlock;
-        ((XXAddCodeBlockTableViewController *)segue.destinationViewController).editMode = YES;
+        addController.codeBlock = sender.codeBlock;
+        addController.codeBlocks = self.userDefinedFunctions;
+        addController.editMode = YES;
     } else if ([segue.identifier isEqualToString:kXXCodeBlocksAddBlockSegueIdentifier]) {
+        addController.codeBlock = nil;
+        addController.codeBlocks = self.userDefinedFunctions;
+        addController.editMode = NO;
         if ([self isEditing]) {
             [self setEditing:NO animated:YES];
         }

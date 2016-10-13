@@ -45,11 +45,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.9-3</string>
+	<string>1.0.9-4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>39</string>
+	<string>42</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -161,8 +161,6 @@
 			<array>
 				<string>public.text</string>
 			</array>
-			<key>UTTypeDescription</key>
-			<string>Lua script</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.xxtouch.lua</string>
 			<key>UTTypeTagSpecification</key>

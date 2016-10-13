@@ -81,7 +81,7 @@
 
 @end
 
-@protocol DoImagePickerControllerDelegate
+@protocol XXImagePickerControllerDelegate
 
 - (void)didCancelDoImagePickerController;
 - (void)didSelectPhotosFromDoImagePickerController:(XXImagePickerController *)picker result:(NSArray *)aSelected;

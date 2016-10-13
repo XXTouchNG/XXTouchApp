@@ -436,9 +436,7 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesCancelled:touches withEvent:event];
-    
     [self selectLabel:-1];
-    
     [self hideInputView];
 }
 

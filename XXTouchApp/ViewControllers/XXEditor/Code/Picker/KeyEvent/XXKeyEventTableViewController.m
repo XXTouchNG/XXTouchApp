@@ -150,9 +150,7 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        [self pushToNextControllerWithKeyword:@"@key@" replacement:((XXKeyEventModel *)((NSArray *)self.events[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]).command];
-    }
+    [self pushToNextControllerWithKeyword:@"@key@" replacement:((XXKeyEventModel *)((NSArray *)self.events[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]).command];
 }
 
 @end

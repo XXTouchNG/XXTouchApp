@@ -20,6 +20,7 @@
 
 @property (nonatomic) BOOL allowsRotate;
 @property (nonatomic) BOOL keepingCropAspectRatio;
+@property (nonatomic) BOOL allowsOperation;
 @property (nonatomic) CGFloat cropAspectRatio;
 
 @property (nonatomic) CGRect cropRect;
@@ -31,5 +32,7 @@
 - (void)resetCropRectAnimated:(BOOL)animated;
 
 - (void)setRotationAngle:(CGFloat)rotationAngle snap:(BOOL)snap;
+- (void)rotateLeft;
+- (void)rotateRight;
 
 @end

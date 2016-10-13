@@ -11,7 +11,7 @@
 #import "XXCodeBlocksViewController.h"
 #import "XXKeyEventTableViewController.h"
 #import "XXLocationPickerController.h"
-#import "XXMixedPickerController.h"
+#import "XXRectPickerController.h"
 
 @implementation XXCodeMakerService
 
@@ -29,24 +29,8 @@
         XXKeyEventTableViewController *vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXLocationPickerControllerStoryboardID];
         vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
-    } else if ([code matchesRegex:@"@pos(\\([0-9]+\\))?@" options:0]) {
-        XXMixedPickerController *vc = [[XXMixedPickerController alloc] init];
-        vc.pickerType = kXXImagePickerTypePosition;
-        vc.codeBlock = [model mutableCopy]; // Copy
-        [controller.navigationController pushViewController:vc animated:YES];
-    } else if ([code matchesRegex:@"@color(\\([0-9]+\\))?@" options:0]) {
-        XXMixedPickerController *vc = [[XXMixedPickerController alloc] init];
-        vc.pickerType = kXXImagePickerTypeColor;
-        vc.codeBlock = [model mutableCopy]; // Copy
-        [controller.navigationController pushViewController:vc animated:YES];
-    } else if ([code matchesRegex:@"@poscolor(\\([0-9]+\\))?@" options:0]) {
-        XXMixedPickerController *vc = [[XXMixedPickerController alloc] init];
-        vc.pickerType = kXXImagePickerTypeMixed;
-        vc.codeBlock = [model mutableCopy]; // Copy
-        [controller.navigationController pushViewController:vc animated:YES];
     } else if ([code matchesRegex:@"@rect@" options:0]) {
-        XXMixedPickerController *vc = [[XXMixedPickerController alloc] init];
-        vc.pickerType = kXXImagePickerTypeRect;
+        XXRectPickerController *vc = [[XXRectPickerController alloc] init];
         vc.codeBlock = [model mutableCopy]; // Copy
         [controller.navigationController pushViewController:vc animated:YES];
     } else {

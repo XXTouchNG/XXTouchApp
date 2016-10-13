@@ -85,7 +85,9 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
         if ([session canAddOutput:self.output]) {
             [session addOutput:self.output];
         }
-        self.output.metadataObjectTypes = @[ AVMetadataObjectTypeQRCode ];
+        if ([self.output.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
+            self.output.metadataObjectTypes = @[ AVMetadataObjectTypeQRCode ];
+        }
         CGSize viewSize = self.view.size;
         self.output.rectOfInterest = CGRectMake(_cropRect.origin.y / viewSize.height,
                                                 _cropRect.origin.x / viewSize.width,
@@ -108,7 +110,9 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     if (!_input) {
         NSError *err = nil;
         AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:&err];
-        NSAssert(err == nil, @"Cannot create instance of AVCaptureDeviceInput");
+        if (!input) {
+            [self.navigationController.view makeToast:NSLocalizedString(@"Cannot connect to video device", nil)];
+        }
         _input = input;
     }
     return _input;
