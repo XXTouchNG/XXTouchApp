@@ -8,6 +8,7 @@
 
 #import "XXImagePickerPixelPreview.h"
 #import "XXTPixelImage.h"
+#import "XXImagePickerPixelPreviewRootViewController.h"
 
 @interface XXImagePickerPixelPreview ()
 @property (strong, nonatomic) XXTPixelImage *pixelImage;
@@ -47,6 +48,7 @@
     self.layer.borderWidth = .5f;
     self.layer.borderColor = [[UIColor blackColor] CGColor];
     self.windowLevel = UIWindowLevelAlert;
+    self.rootViewController = [XXImagePickerPixelPreviewRootViewController new];
     
     self.frame = self.frame;
 }

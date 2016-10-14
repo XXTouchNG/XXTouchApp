@@ -21,6 +21,8 @@ typedef struct SZ_IMAGE SZ_IMAGE;
 
 + (XXTPixelImage *)imageWithUIImage:(UIImage *)uiimage;
 - (XXTPixelImage *)initWithUIImage:(UIImage *)uiimage;
+- (XXTPixelImage *)crop:(CGRect)rect;
+- (CGSize)size;
 - (XXTColor *)getColorOfPoint:(CGPoint)point;
 - (NSString *)getColorHexOfPoint:(CGPoint)point;
 - (void)setColor:(XXTColor *)color ofPoint:(CGPoint)point;

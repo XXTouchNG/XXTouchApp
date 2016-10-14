@@ -104,6 +104,8 @@ static const CGFloat MarginLeft = 37.f;
     self.bottomOverlayView = [[UIView alloc] init];
     self.bottomOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
     [self addSubview:self.bottomOverlayView];
+    
+    self.previewPosition = -1;
 }
 
 #pragma mark - Layout

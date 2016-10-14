@@ -11,6 +11,6 @@
 @interface UINavigationController (StatusBar)
 - (UIStatusBarStyle)preferredStatusBarStyle;
 - (BOOL)shouldAutorotate;
-- (NSUInteger)supportedInterfaceOrientations;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations;
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation;
 @end

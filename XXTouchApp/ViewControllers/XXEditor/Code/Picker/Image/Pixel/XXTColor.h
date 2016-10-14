@@ -24,8 +24,12 @@
 
 + (XXTColor *)colorWithRed:(uint8_t)red green:(uint8_t)green blue:(uint8_t)blue alpha:(uint8_t)alpha;
 + (XXTColor *)colorWithUIColor:(UIColor *)uicolor;
++ (XXTColor *)colorWithColor:(uint32_t)color;
++ (XXTColor *)colorWithXXTColor:(XXTColor *)xxtcolor;
 - (uint32_t)getColor;
 - (uint32_t)getColorAlpha;
+- (uint32_t)color;
+- (void)setColor:(uint32_t)color;
 - (NSString *)getColorHex;
 - (NSString *)getColorHexAlpha;
 - (UIColor *)getUIColor;

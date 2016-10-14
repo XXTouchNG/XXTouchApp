@@ -12,12 +12,23 @@
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return self.topViewController.preferredStatusBarStyle;
 }
+
+#pragma mark - View Style
+
 - (BOOL)shouldAutorotate {
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        return NO;
+    }
     return self.topViewController.shouldAutorotate;
 }
-- (NSUInteger)supportedInterfaceOrientations {
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        return UIInterfaceOrientationMaskPortrait;
+    }
     return self.topViewController.supportedInterfaceOrientations;
 }
+
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return self.topViewController.preferredInterfaceOrientationForPresentation;
 }

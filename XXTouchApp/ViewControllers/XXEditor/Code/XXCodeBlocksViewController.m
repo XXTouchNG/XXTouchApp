@@ -382,6 +382,10 @@ enum {
     return YES;
 }
 
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    [self segmentedControlChanged:self.segmentedControl];
+}
+
 - (void)reloadSearch {
     NSString *searchText = self.searchDisplayController.searchBar.text;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(title CONTAINS[cd] %@) OR (code CONTAINS[cd] %@)", searchText, searchText];
@@ -407,14 +411,16 @@ enum {
     } else if (sender.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         [self.toolbar setHidden:NO];
     }
-    if (self.toolbar.hidden) {
-        self.tableView.contentInset =
-        self.tableView.scrollIndicatorInsets =
-        UIEdgeInsetsZero;
-    } else {
-        self.tableView.contentInset =
-        self.tableView.scrollIndicatorInsets =
-        UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
+    if (!self.searchDisplayController.active) {
+        if (self.toolbar.hidden) {
+            self.tableView.contentInset =
+            self.tableView.scrollIndicatorInsets =
+            UIEdgeInsetsZero;
+        } else {
+            self.tableView.contentInset =
+            self.tableView.scrollIndicatorInsets =
+            UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
+        }
     }
     [self.tableView reloadData];
 }

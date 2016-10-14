@@ -42,6 +42,8 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 @implementation XXBaseTextEditorViewController
 
+#pragma mark - View & Constraints
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
