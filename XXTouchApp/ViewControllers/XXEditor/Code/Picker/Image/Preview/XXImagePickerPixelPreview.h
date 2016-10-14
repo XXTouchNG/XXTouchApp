@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface XXImagePickerPixelPreview : UIWindow
-@property (nonatomic, strong) UIView *viewToMagnify;
+@property (nonatomic, strong) UIImage *imageToMagnify;
 @property (nonatomic, assign) CGPoint pointToMagnify;
-@property (nonatomic, assign) CGFloat scaleValue;
 
 @end

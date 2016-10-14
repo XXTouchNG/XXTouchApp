@@ -8,15 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    kPEResizeControlPositionTopLeft = 0,
+    kPEResizeControlPositionTopRight,
+    kPEResizeControlPositionBottomLeft,
+    kPEResizeControlPositionBottomRight
+} kPEResizeControlPosition;
+
 @protocol PECropRectViewDelegate;
 
 @interface PECropRectView : UIView
 
 @property (nonatomic, weak) id<PECropRectViewDelegate> delegate;
-@property (nonatomic) BOOL showsGridMajor;
-@property (nonatomic) BOOL showsGridMinor;
+@property (nonatomic, assign) BOOL showsGridMajor;
+@property (nonatomic, assign) BOOL showsGridMinor;
+@property (nonatomic, assign) kPEResizeControlPosition resizeControlPosition;
 
-@property (nonatomic) BOOL keepingAspectRatio;
+@property (nonatomic, assign) BOOL keepingAspectRatio;
 
 @end
 

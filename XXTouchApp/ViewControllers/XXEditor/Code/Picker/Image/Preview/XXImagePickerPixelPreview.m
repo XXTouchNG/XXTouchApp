@@ -7,9 +7,13 @@
 //
 
 #import "XXImagePickerPixelPreview.h"
+#import "XXTPixelImage.h"
 
 @interface XXImagePickerPixelPreview ()
-@property (strong, nonatomic) CALayer *contentLayer;
+@property (strong, nonatomic) XXTPixelImage *pixelImage;
+@property (assign, nonatomic) CGSize pixelSize;
+@property (assign, nonatomic) int hPixelNum;
+@property (assign, nonatomic) int vPixelNum;
 
 @end
 
@@ -19,7 +23,6 @@
     if (self = [super init]) {
         [self setup];
     }
-    
     return self;
 }
 
@@ -31,39 +34,76 @@
     return self;
 }
 
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    self.pixelSize = CGSizeMake(10, 10);
+    self.hPixelNum = (int)(frame.size.width / self.pixelSize.width);
+    self.vPixelNum = (int)(frame.size.height / self.pixelSize.height);
+}
+
 - (void)setup {
-    self.frame = CGRectMake(0, 0, 120, 120);
+    self.frame = CGRectZero;
     self.backgroundColor = [UIColor clearColor];
     self.layer.borderWidth = .5f;
     self.layer.borderColor = [[UIColor blackColor] CGColor];
     self.windowLevel = UIWindowLevelAlert;
     
-    self.contentLayer = [CALayer layer];
-    self.contentLayer.frame = self.bounds;
-    self.contentLayer.delegate = self;
-    self.contentLayer.contentsScale = [[UIScreen mainScreen] scale];
-    [self.layer addSublayer:self.contentLayer];
-    
-    self.scaleValue = 20.f;
+    self.frame = self.frame;
+}
+
+- (void)setImageToMagnify:(UIImage *)imageToMagnify {
+    _imageToMagnify = imageToMagnify;
+    if (!imageToMagnify) {
+        _pixelImage = nil;
+        return;
+    }
+    _pixelImage = [[XXTPixelImage alloc] initWithUIImage:imageToMagnify];
 }
 
 - (void)setPointToMagnify:(CGPoint)pointToMagnify {
     _pointToMagnify = pointToMagnify;
     
-    CGPoint center = CGPointMake(pointToMagnify.x, self.center.y);
-    if (pointToMagnify.y > CGRectGetHeight(self.bounds) * 0.5) {
-        center.y = pointToMagnify.y -  CGRectGetHeight(self.bounds) / 2;
-    }
-    
-    self.center = center;
-    [self.contentLayer setNeedsDisplay];
+    [self setNeedsDisplay];
 }
 
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx {
-    CGContextTranslateCTM(ctx, self.frame.size.width * 0.5, self.frame.size.height * 0.5);
-    CGContextScaleCTM(ctx, self.scaleValue, self.scaleValue);
-    CGContextTranslateCTM(ctx, -1 * self.pointToMagnify.x, -1 * self.pointToMagnify.y);
-    [self.viewToMagnify.layer renderInContext:ctx];
+- (void)drawRect:(CGRect)rect {
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSetLineCap(ctx, kCGLineCapSquare);
+    
+    CGContextSetLineWidth(ctx, 0.5);
+    
+    int hNum = (int)(_hPixelNum / 2);
+    int vNum = (int)(_vPixelNum / 2);
+    CGPoint p = _pointToMagnify;
+    CGSize s = _pixelSize;
+    CGSize m = self.imageToMagnify.size;
+    for (int i = 0; i < hNum * 2; i++) {
+        for (int j = 0; j < vNum * 2; j++) {
+            CGPoint t = CGPointMake(p.x - hNum + i, p.y - vNum + j);
+            if (t.x < 0 || t.y < 0 || t.x > m.width || t.y > m.height) {
+                CGContextSetFillColorWithColor(ctx, [UIColor clearColor].CGColor);
+            } else {
+                XXTColor *c = [_pixelImage getColorOfPoint:t];
+                if (!c) {
+                    CGContextSetFillColorWithColor(ctx, [UIColor clearColor].CGColor);
+                } else {
+                    CGContextSetFillColorWithColor(ctx, [c getUIColor].CGColor);
+                }
+            }
+            if (CGPointEqualToPoint(t, p)) {
+                CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 1.0);
+            } else {
+                CGContextSetRGBStrokeColor(ctx, 1.0, 1.0, 1.0, 1.0);
+            }
+            
+            CGContextAddRect(ctx, CGRectMake(i * s.width, j * s.height, s.width, s.height));
+            CGContextDrawPath(ctx, kCGPathFillStroke);
+        }
+    }
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

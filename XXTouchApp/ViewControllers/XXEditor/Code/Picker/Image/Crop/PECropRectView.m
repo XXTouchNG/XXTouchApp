@@ -169,6 +169,16 @@
 {
     self.initialRect = self.frame;
     
+    if (resizeControlView == self.topLeftCornerView) {
+        _resizeControlPosition = kPEResizeControlPositionTopLeft;
+    } else if (resizeControlView == self.topRightCornerView) {
+        _resizeControlPosition = kPEResizeControlPositionTopRight;
+    } else if (resizeControlView == self.bottomLeftCornerView) {
+        _resizeControlPosition = kPEResizeControlPositionBottomLeft;
+    } else if (resizeControlView == self.bottomRightCornerView) {
+        _resizeControlPosition = kPEResizeControlPositionBottomRight;
+    }
+    
     if ([self.delegate respondsToSelector:@selector(cropRectViewDidBeginEditing:)]) {
         [self.delegate cropRectViewDidBeginEditing:self];
     }

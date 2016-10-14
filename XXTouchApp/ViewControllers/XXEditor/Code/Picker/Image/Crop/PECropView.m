@@ -10,6 +10,7 @@
 #import "PECropRectView.h"
 #import "UIImage+PECrop.h"
 #import <QuartzCore/QuartzCore.h>
+#import "XXImagePickerPixelPreview.h"
 
 static const CGFloat MarginTop = 81.f;
 //static const CGFloat MarginBottom = 37.f;
@@ -34,6 +35,9 @@ static const CGFloat MarginLeft = 37.f;
 @property (nonatomic, getter = isResizing) BOOL resizing;
 @property (nonatomic) UIInterfaceOrientation interfaceOrientation;
 @property (nonatomic, strong) UIRotationGestureRecognizer *rotationGestureRecognizer;
+
+@property (nonatomic, strong) XXImagePickerPixelPreview *imagePreview;
+@property (nonatomic, assign) kPEResizeControlPosition previewPosition;
 
 @end
 
@@ -221,6 +225,8 @@ static const CGFloat MarginLeft = 37.f;
     [self.zoomingView removeFromSuperview];
     self.zoomingView = nil;
     
+    self.imagePreview.imageToMagnify = image;
+    
     [self setNeedsLayout];
 }
 
@@ -384,7 +390,7 @@ static const CGFloat MarginLeft = 37.f;
 {
     if (snap)
     {
-        rotationAngle = nearbyintf(rotationAngle / M_PI_2) * M_PI_2;
+        rotationAngle = (CGFloat) (nearbyintf((float) (rotationAngle / M_PI_2)) * M_PI_2);
     }
     self.rotationAngle = rotationAngle;
 }
@@ -442,21 +448,43 @@ static const CGFloat MarginLeft = 37.f;
 
 #pragma mark - Crop Rect
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches
+           withEvent:(UIEvent *)event {
+    if (touches.count == 1) {
+        UITouch *t = [touches anyObject];
+        [self movePreviewByPoint:[t locationInView:self]];
+    }
+}
+
 - (void)cropRectViewDidBeginEditing:(PECropRectView *)cropRectView
 {
     self.resizing = YES;
+    [self.imagePreview makeKeyAndVisible];
 }
 
 - (void)cropRectViewEditingChanged:(PECropRectView *)cropRectView
 {
     CGRect cropRect = [self cappedCropRectInImageRectWithCropRectView:cropRectView];
     [self layoutCropRectViewWithCropRect:cropRect];
-//    [self automaticZoomIfEdgeTouched:cropRect];
+
+    CGPoint currentPoint = CGPointZero;
+    CGRect zoomedRect = [self zoomedRect:[self convertRect:cropRect toView:self.zoomingView]];
+    if (cropRectView.resizeControlPosition == kPEResizeControlPositionTopLeft) {
+        currentPoint = CGPointMake(zoomedRect.origin.x, zoomedRect.origin.y);
+    } else if (cropRectView.resizeControlPosition == kPEResizeControlPositionTopRight) {
+        currentPoint = CGPointMake(zoomedRect.origin.x + zoomedRect.size.width, zoomedRect.origin.y);
+    } else if (cropRectView.resizeControlPosition == kPEResizeControlPositionBottomLeft) {
+        currentPoint = CGPointMake(zoomedRect.origin.x, zoomedRect.origin.y + zoomedRect.size.height);
+    } else if (cropRectView.resizeControlPosition == kPEResizeControlPositionBottomRight) {
+        currentPoint = CGPointMake(zoomedRect.origin.x + zoomedRect.size.width, zoomedRect.origin.y + zoomedRect.size.height);
+    }
+    [self.imagePreview setPointToMagnify:currentPoint];
 }
 
 - (void)cropRectViewDidEndEditing:(PECropRectView *)cropRectView
 {
     [self zoomToCropRect:self.cropRectView.frame];
+    [self.imagePreview setHidden:YES];
     self.resizing = NO;
 }
 
@@ -533,6 +561,51 @@ static const CGFloat MarginLeft = 37.f;
 {
     CGPoint contentOffset = scrollView.contentOffset;
     *targetContentOffset = contentOffset;
+}
+
+#pragma mark - Preview
+
+- (XXImagePickerPixelPreview *)imagePreview {
+    if (!_imagePreview) {
+        _imagePreview = [[XXImagePickerPixelPreview alloc] init];
+        [_imagePreview setHidden:YES];
+    }
+    return _imagePreview;
+}
+
+- (void)movePreviewByPoint:(CGPoint)p {
+    CGFloat sW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat sH = [UIScreen mainScreen].bounds.size.height;
+    CGFloat width = (int)(MIN(sW, sH) / 20.f) * 10.f;
+    if (p.x < sW / 2.f) {
+        if (p.y < sH / 2.f) {
+            // 2
+            if (_previewPosition != kPEResizeControlPositionBottomRight) {
+                _previewPosition = kPEResizeControlPositionBottomRight;
+                self.imagePreview.frame = CGRectMake(sW - width, sH - width, width, width);
+            }
+        } else {
+            // 4
+            if (_previewPosition != kPEResizeControlPositionTopRight) {
+                _previewPosition = kPEResizeControlPositionTopRight;
+                self.imagePreview.frame = CGRectMake(sW - width, 0, width, width);
+            }
+        }
+    } else {
+        if (p.y < sH / 2.f) {
+            // 1
+            if (_previewPosition != kPEResizeControlPositionBottomLeft) {
+                _previewPosition = kPEResizeControlPositionBottomLeft;
+                self.imagePreview.frame = CGRectMake(0, sH - width, width, width);
+            }
+        } else {
+            // 3
+            if (_previewPosition != kPEResizeControlPositionTopLeft) {
+                _previewPosition = kPEResizeControlPositionTopLeft;
+                self.imagePreview.frame = CGRectMake(0, 0, width, width);
+            }
+        }
+    }
 }
 
 @end

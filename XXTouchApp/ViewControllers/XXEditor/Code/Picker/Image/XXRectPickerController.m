@@ -14,8 +14,6 @@
 #import <Masonry/Masonry.h>
 #import "PECropView.h"
 
-static NSString * const kXXStorageKeyMixedPickerLastPickedImage = @"kXXStorageKeyMixedPickerLastPickedImage";
-
 @interface XXRectPickerController () <XXImagePickerControllerDelegate>
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) XXImagePickerPlaceholderView *placeholderView;
@@ -57,7 +55,8 @@ static NSString * const kXXStorageKeyMixedPickerLastPickedImage = @"kXXStorageKe
 
 #pragma mark - Rotate
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                                duration:(NSTimeInterval)duration {
     if (!self.selectedImage) {
         return;
     }
@@ -102,13 +101,19 @@ static NSString * const kXXStorageKeyMixedPickerLastPickedImage = @"kXXStorageKe
     XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
     NSString *code = newBlock.code;
     NSError *err = nil;
-    NSRegularExpression *pattern = [NSRegularExpression regularExpressionWithPattern:keyword options:0 error:&err];
+    NSRegularExpression *pattern = [NSRegularExpression regularExpressionWithPattern:keyword
+                                                                             options:0
+                                                                               error:&err];
     if (!pattern) return;
-    NSTextCheckingResult *checkResult = [pattern firstMatchInString:code options:0 range:NSMakeRange(0, code.length)];
+    NSTextCheckingResult *checkResult = [pattern firstMatchInString:code
+                                                            options:0
+                                                              range:NSMakeRange(0, code.length)];
     NSRange range = checkResult.range;
     if (range.length == 0) return;
-    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
+    newBlock.code = [code stringByReplacingCharactersInRange:range
+                                                  withString:replace];
+    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock
+                                           controller:self];
 }
 
 #pragma mark - View & Constraints
@@ -222,7 +227,7 @@ static NSString * const kXXStorageKeyMixedPickerLastPickedImage = @"kXXStorageKe
         cropToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         cropToolbar.tintColor = STYLE_TINT_COLOR;
         cropToolbar.backgroundColor = [UIColor clearColor];
-        [cropToolbar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithWhite:1.f alpha:.6f]]
+        [cropToolbar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithWhite:1.f alpha:.75f]]
                      forToolbarPosition:UIBarPositionAny
                              barMetrics:UIBarMetricsDefault];
         

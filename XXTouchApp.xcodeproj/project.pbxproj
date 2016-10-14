@@ -21,6 +21,7 @@
 		0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF41D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m */; };
 		0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */; };
 		0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */; };
+		0F1688881DB05F3500261926 /* libXXTPixelImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1688851DB05F3500261926 /* libXXTPixelImage.a */; };
 		0F1819A81D8A4BA400309E23 /* XXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1819A71D8A4BA400309E23 /* XXScanViewController.m */; };
 		0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E01D83A0290056826B /* XXAuthorizationTableViewController.m */; };
 		0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */; };
@@ -149,6 +150,9 @@
 		0F13EAF71D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewCell.m; sourceTree = "<group>"; };
 		0F13EAFC1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigOptionTableViewController.h; sourceTree = "<group>"; };
 		0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXUserDefaultsConfigOptionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F1688851DB05F3500261926 /* libXXTPixelImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libXXTPixelImage.a; sourceTree = "<group>"; };
+		0F1688861DB05F3500261926 /* XXTColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTColor.h; sourceTree = "<group>"; };
+		0F1688871DB05F3500261926 /* XXTPixelImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPixelImage.h; sourceTree = "<group>"; };
 		0F1819A61D8A4BA400309E23 /* XXScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanViewController.h; sourceTree = "<group>"; };
 		0F1819A71D8A4BA400309E23 /* XXScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXScanViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F25D7DF1D83A0290056826B /* XXAuthorizationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAuthorizationTableViewController.h; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 				0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */,
 				0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */,
 				0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */,
+				0F1688881DB05F3500261926 /* libXXTPixelImage.a in Frameworks */,
 				0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */,
 				B9DBF5BDBBFC4E8EF398289E /* libPods-XXTouchApp.a in Frameworks */,
 			);
@@ -412,6 +417,16 @@
 				0F13EAFD1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m */,
 			);
 			path = UserConfig;
+			sourceTree = "<group>";
+		};
+		0F1688841DB05F3000261926 /* Pixel */ = {
+			isa = PBXGroup;
+			children = (
+				0F1688851DB05F3500261926 /* libXXTPixelImage.a */,
+				0F1688861DB05F3500261926 /* XXTColor.h */,
+				0F1688871DB05F3500261926 /* XXTPixelImage.h */,
+			);
+			path = Pixel;
 			sourceTree = "<group>";
 		};
 		0F1819A51D8A4B5E00309E23 /* Scan */ = {
@@ -957,6 +972,7 @@
 		52512B3F52FBEF198DF14BB3 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				0F1688841DB05F3000261926 /* Pixel */,
 				0F2E035A1DAF286700DA19C7 /* Preview */,
 				0F4AC6201DAC785B00145EB5 /* Crop */,
 				0F8E14941DAB2C4200B2946D /* Placeholder */,
@@ -1397,6 +1413,10 @@
 				INFOPLIST_FILE = XXTouchApp/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel",
+				);
 				LLVM_LTO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxtouch.XXTouchApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1443,6 +1463,10 @@
 				INFOPLIST_FILE = XXTouchApp/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel",
+				);
 				LLVM_LTO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxtouch.XXTouchApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
