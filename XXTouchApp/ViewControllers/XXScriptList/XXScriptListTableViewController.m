@@ -156,24 +156,28 @@ XXToolbarDelegate
         }
         dispatch_async_on_main_queue(^{
             if (!result) {
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync Failure", nil)
-                                                                 andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
-                [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
-                                         type:SIAlertViewButtonTypeDestructive
-                                      handler:^(SIAlertView *alert) {
-                                          [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
-                                      }];
-                [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
-                                         type:SIAlertViewButtonTypeCancel
-                                      handler:^(SIAlertView *alert) {
-                                          [self endMJRefreshing];
-                                      }];
-                [alertView show];
-            } else {
-                self->_selectedIndex = -1;
-                [self reloadScriptListTableView];
-                [self endMJRefreshing];
+                if (self != self.navigationController.topViewController && self.navigationController.topViewController != nil) {
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync Failure", nil)
+                                                                     andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
+                    [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
+                                             type:SIAlertViewButtonTypeDestructive
+                                          handler:^(SIAlertView *alert) {
+                                              [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
+                                          }];
+                    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
+                                             type:SIAlertViewButtonTypeCancel
+                                          handler:^(SIAlertView *alert) {
+                                              [self endMJRefreshing];
+                                          }];
+                    [alertView show];
+                    return;
+                } else {
+                    [self.navigationController.view makeToast:[err localizedDescription]];
+                }
             }
+            self->_selectedIndex = -1;
+            [self reloadScriptListTableView];
+            [self endMJRefreshing];
         });
     });
 }
