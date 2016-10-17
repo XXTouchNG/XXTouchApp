@@ -294,6 +294,13 @@ Visit "More &gt; Documents" for more details.</string>
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FEd-Yr-vZp" customClass="XXToolbar">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="eSs-GU-kdv"/>
+                                </constraints>
+                                <items/>
+                            </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TDr-rf-gRh">
                                 <rect key="frame" x="0.0" y="44" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -402,13 +409,6 @@ Visit "More &gt; Documents" for more details.</string>
                                     <outlet property="delegate" destination="dnn-Vv-urg" id="xrh-Eg-pqH"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FEd-Yr-vZp" customClass="XXToolbar">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="eSs-GU-kdv"/>
-                                </constraints>
-                                <items/>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -452,7 +452,7 @@ Visit "More &gt; Documents" for more details.</string>
                                         <rect key="frame" x="0.0" y="50" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u52-qU-0WS" id="SWf-CJ-84P">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2Y9-GO-BZk">
@@ -1225,6 +1225,7 @@ Visit "More &gt; Documents" for more details.</string>
                     <navigationItem key="navigationItem" title="Application List" id="uWQ-5K-tIf"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="ht3-P1-5IF" id="sqC-Ce-yoN"/>
+                        <outlet property="tableView" destination="qnA-6E-UQg" id="LfS-T7-ek2"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XqN-kY-ddb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3740,6 +3741,9 @@ All Rights Reserved.</string>
                     <navigationItem key="navigationItem" title="Key Event" id="wrd-0b-l01"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableView" destination="gZS-hw-ZV5" id="0iP-qH-KzA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="avY-4O-1fx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

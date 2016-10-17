@@ -285,9 +285,12 @@ static inline CGImageRef create_cgimage_with_pixels_image(SZ_IMAGE *pixels_image
     CGDataProviderRef provider = CGDataProviderCreateWithData(
                                                               NULL, pixels_buffer, (4 * W * H), NULL);
     CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wenum-conversion"
     CGImageRef img = CGImageCreate(W, H, 8, (8 * 4), (4 * W), cspace,
-                                   kCGBitmapAlphaInfoMask,
+                                   kCGImageAlphaPremultipliedLast,
                                    provider, NULL, true, kCGRenderingIntentDefault);
+#pragma clang diagnostic pop
     CFRelease(cspace);
     CFRelease(provider);
     return img;

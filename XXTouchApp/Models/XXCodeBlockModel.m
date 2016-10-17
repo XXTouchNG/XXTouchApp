@@ -18,6 +18,8 @@
     XXCodeBlockModel *newModel = [XXCodeBlockModel new];
     newModel.title = title;
     newModel.code = code;
+    newModel.currentStep = 0;
+    newModel.totalStep = 0;
     return newModel;
 }
 
@@ -33,6 +35,8 @@
         _udid = [aDecoder decodeObjectForKey:@"udid"];
         _title = [aDecoder decodeObjectForKey:@"title"];
         _code = [aDecoder decodeObjectForKey:@"code"];
+        _currentStep = [[aDecoder decodeObjectForKey:@"currentStep"] unsignedIntegerValue];
+        _totalStep = [[aDecoder decodeObjectForKey:@"totalStep"] unsignedIntegerValue];
     }
     return self;
 }
@@ -42,6 +46,8 @@
     [aCoder encodeObject:self.udid forKey:@"udid"];
     [aCoder encodeObject:self.title forKey:@"title"];
     [aCoder encodeObject:self.code forKey:@"code"];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:self.currentStep] forKey:@"currentStep"];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:self.totalStep] forKey:@"totalStep"];
 }
 
 #pragma mark - Copy
@@ -51,6 +57,8 @@
     copy.udid = [self.udid copyWithZone:zone];
     copy.title = [self.title copyWithZone:zone];
     copy.code = [self.code copyWithZone:zone];
+    copy.currentStep = self.currentStep;
+    copy.totalStep = self.totalStep;
     return copy;
 }
 
@@ -59,6 +67,8 @@
     copy.udid = [self.udid mutableCopyWithZone:zone];
     copy.title = [self.title mutableCopyWithZone:zone];
     copy.code = [self.code mutableCopyWithZone:zone];
+    copy.currentStep = self.currentStep;
+    copy.totalStep = self.totalStep;
     return copy;
 }
 

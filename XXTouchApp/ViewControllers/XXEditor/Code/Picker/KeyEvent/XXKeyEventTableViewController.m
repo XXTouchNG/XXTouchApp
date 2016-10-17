@@ -13,17 +13,20 @@
 
 static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventTableViewCellReuseIdentifier";
 
-@interface XXKeyEventTableViewController ()
+@interface XXKeyEventTableViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray <XXKeyEventModel *> *keyEvents;
 @property (nonatomic, strong) NSArray <XXKeyEventModel *> *softKeyEvents;
 @property (nonatomic, strong) NSArray <XXKeyEventModel *> *mediaKeyEvents;
 @property (nonatomic, strong) NSArray <NSArray <XXKeyEventModel *> *> *events;
 @property (nonatomic, strong) NSArray <NSString *> *sectionNames;
-@property (nonatomic, strong) UIBarButtonItem *nextButton;
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation XXKeyEventTableViewController
+@implementation XXKeyEventTableViewController {
+    NSString *_previewString;
+}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -31,36 +34,11 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Key Event", nil);
     
-    if (_codeBlock) {
-        self.navigationItem.rightBarButtonItem = self.nextButton;
-    }
-}
-
-#pragma mark - Getter
-
-- (UIBarButtonItem *)nextButton {
-    if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStylePlain target:self action:@selector(next:)];
-        nextButton.tintColor = [UIColor whiteColor];
-        _nextButton = nextButton;
-    }
-    return _nextButton;
-}
-
-- (void)next:(UIBarButtonItem *)sender {
-    [self pushToNextControllerWithKeyword:@"@key@" replacement:@""];
-}
-
-- (void)pushToNextControllerWithKeyword:(NSString *)keyword
-                            replacement:(NSString *)replace {
-    XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
-    NSString *code = newBlock.code;
-    NSRange range = [code rangeOfString:keyword];
-    if (range.length == 0) return;
-    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
+    _previewString = nil;
+    self.title = NSLocalizedString(@"Key Event", nil);
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
 }
 
 #pragma mark - Events
@@ -150,7 +128,18 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self pushToNextControllerWithKeyword:@"@key@" replacement:((XXKeyEventModel *)((NSArray *)self.events[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]).command];
+    _previewString = ((XXKeyEventModel *)((NSArray *)self.events[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]).command;
+    [self pushToNextControllerWithKeyword:self.keyword replacement:self.previewString];
+}
+
+#pragma mark - Previewing Bar
+
+- (NSString *)previewString {
+    return _previewString;
+}
+
+- (NSString *)subtitle {
+    return NSLocalizedString(@"Select a key event", nil);
 }
 
 @end

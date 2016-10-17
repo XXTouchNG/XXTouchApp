@@ -100,6 +100,9 @@ enum {
 }
 
 - (IBAction)close:(UIBarButtonItem *)sender {
+    // Save when exit
+    [self saveInternalFunctions:self.internalFunctions];
+    [self saveUserDefinedFunctions:self.userDefinedFunctions];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

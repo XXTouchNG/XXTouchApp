@@ -14,12 +14,9 @@
 #import <Masonry/Masonry.h>
 #import "PECropView.h"
 
-@interface XXRectPickerController () <XXImagePickerControllerDelegate>
+@interface XXRectPickerController () <XXImagePickerControllerDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) XXImagePickerPlaceholderView *placeholderView;
-
-@property (nonatomic, strong) UIBarButtonItem *nextButton;
-@property (nonatomic, copy) NSString *keyword;
 
 // Rect
 @property (nonatomic, strong) PECropView *cropView;
@@ -27,15 +24,14 @@
 
 // Rotate
 @property (nonatomic, assign) BOOL locked;
+@property (nonatomic, strong) UIButton *lockButton;
 
 // Temp
 @property (nonatomic, copy) NSString *tempImagePath;
 
 @end
 
-@implementation XXRectPickerController {
-
-}
+@implementation XXRectPickerController
 
 #pragma mark - Status Bar
 
@@ -50,7 +46,8 @@
     if ([self.navigationController isNavigationBarHidden]) {
         return YES;
     }
-    return NO;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    return !UIInterfaceOrientationIsPortrait(orientation);
 }
 
 #pragma mark - Rotate
@@ -86,34 +83,8 @@
     if (!self.selectedImage) {
         [self pushToNextControllerWithKeyword:self.keyword replacement:@""];
     } else {
-        CGRect cropRect = self.cropView.zoomedCropRect;
-        NSString *rectStr = [NSString stringWithFormat:@"%d, %d, %d, %d",
-                             (int)cropRect.origin.x,
-                             (int)cropRect.origin.y,
-                             (int)cropRect.origin.x + (int)cropRect.size.width,
-                             (int)cropRect.origin.y + (int)cropRect.size.height];
-        [self pushToNextControllerWithKeyword:self.keyword replacement:rectStr];
+        [self pushToNextControllerWithKeyword:self.keyword replacement:[self previewString]];
     }
-}
-
-- (void)pushToNextControllerWithKeyword:(NSString *)keyword
-                            replacement:(NSString *)replace {
-    XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
-    NSString *code = newBlock.code;
-    NSError *err = nil;
-    NSRegularExpression *pattern = [NSRegularExpression regularExpressionWithPattern:keyword
-                                                                             options:0
-                                                                               error:&err];
-    if (!pattern) return;
-    NSTextCheckingResult *checkResult = [pattern firstMatchInString:code
-                                                            options:0
-                                                              range:NSMakeRange(0, code.length)];
-    NSRange range = checkResult.range;
-    if (range.length == 0) return;
-    newBlock.code = [code stringByReplacingCharactersInRange:range
-                                                  withString:replace];
-    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock
-                                           controller:self];
 }
 
 #pragma mark - View & Constraints
@@ -121,14 +92,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    
     self.title = NSLocalizedString(@"Rectangle", nil);
-    self.keyword = @"@rect@";
-    
-    if (self.codeBlock) {
-        self.navigationItem.rightBarButtonItem = self.nextButton;
-    }
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void)updateViewConstraints {
@@ -146,10 +111,10 @@
         make.right.equalTo(self.view);
     }];
     [self.cropView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view);
-        make.height.equalTo(self.view);
-        make.width.equalTo(self.view);
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
     }];
 }
 
@@ -165,9 +130,10 @@
     [contentView insertSubview:self.cropView atIndex:0];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(doubleFingerTapped:)];
+                                                                                 action:@selector(tripleFingerTapped:)];
     tapGesture.numberOfTapsRequired = 1;
-    tapGesture.numberOfTouchesRequired = 2;
+    tapGesture.numberOfTouchesRequired = 3;
+    tapGesture.delegate = self;
     [self.cropView addGestureRecognizer:tapGesture];
     
     [self.view addSubview:self.cropToolbar];
@@ -208,18 +174,6 @@
     return _placeholderView;
 }
 
-- (UIBarButtonItem *)nextButton {
-    if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil)
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(next:)];
-        nextButton.tintColor = [UIColor whiteColor];
-        _nextButton = nextButton;
-    }
-    return _nextButton;
-}
-
 - (UIToolbar *)cropToolbar {
     if (!_cropToolbar) {
         UIToolbar *cropToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [[UIApplication sharedApplication] statusBarFrame].size.height, self.view.width, 44)];
@@ -243,6 +197,7 @@
         [lockButton setTarget:self
                        action:@selector(lockButtonTapped:)
              forControlEvents:UIControlEventTouchUpInside];
+        _lockButton = lockButton;
         UIBarButtonItem *lockBtn = [[UIBarButtonItem alloc] initWithCustomView:lockButton];
         
         [cropToolbar setItems:@[picBtn, flexibleSpace, toLeftBtn, flexibleSpace, toRightBtn, flexibleSpace, resetBtn, flexibleSpace, lockBtn]];
@@ -292,8 +247,10 @@
     [self presentViewController:cont animated:YES completion:nil];
 }
 
-- (void)doubleFingerTapped:(UITapGestureRecognizer *)sender {
-    [self.navigationController setNavigationBarHidden:![self.navigationController isNavigationBarHidden] animated:YES];
+- (void)tripleFingerTapped:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [self.navigationController setNavigationBarHidden:![self.navigationController isNavigationBarHidden] animated:YES];
+    }
 }
 
 #pragma mark - Toolbar Actions
@@ -319,43 +276,57 @@
     }
 }
 
-- (void)lockButtonTapped:(UIButton *)lockBtn {
+- (void)lockButtonTapped:(id)sender {
     if (!_selectedImage) return;
-    self.locked = lockBtn.isSelected;
+    self.locked = self.lockButton.isSelected;
     if (self.locked) {
         self.locked = NO;
         self.cropView.allowsOperation = YES;
-        lockBtn.selected = NO;
+        self.lockButton.selected = NO;
         [self.navigationController.view makeToast:NSLocalizedString(@"Canvas unlocked", nil)];
     } else {
         self.locked = YES;
         self.cropView.allowsOperation = NO;
-        lockBtn.selected = YES;
+        self.lockButton.selected = YES;
         [self.navigationController.view makeToast:NSLocalizedString(@"Canvas locked", nil)];
     }
 }
 
+#pragma mark - UIGestureRecognizerDelegate
 #pragma mark - DoImagePickerControllerDelegate
 
 - (void)didCancelDoImagePickerController
 {
     if (self.selectedImage) {
-        self.selectedImage = nil;
-        NSError *err = nil;
-        BOOL result = [FCFileManager removeItemAtPath:self.tempImagePath error:&err];
-        if (!result) {
-            [self.navigationController.view makeToast:NSLocalizedString(@"Cannot remove temporarily file", nil)];
-        }
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Discard Confirm", nil) andMessage:NSLocalizedString(@"Discard all changes and reset the canvas?", nil)];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil)
+                                 type:SIAlertViewButtonTypeDestructive
+                              handler:^(SIAlertView *alertView) {
+                                  [self cleanCanvas];
+                                  [self dismissViewControllerAnimated:YES completion:nil];
+                              }];
+        [alertView addButtonWithTitle:NSLocalizedString(@"No", nil)
+                                 type:SIAlertViewButtonTypeDefault
+                              handler:^(SIAlertView *alertView) {
+                                  [self dismissViewControllerAnimated:YES completion:nil];
+                              }];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
+                                 type:SIAlertViewButtonTypeCancel
+                              handler:^(SIAlertView *alertView) {
+                                  
+                              }];
+        [alertView show];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didSelectPhotosFromDoImagePickerController:(XXImagePickerController *)picker
                                             result:(NSArray *)aSelected
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    if (aSelected.count == 0) {
+    if (!aSelected || aSelected.count == 0) {
+        [self cleanCanvas];
         return;
     }
     NSError *err = nil;
@@ -367,6 +338,31 @@
         [self.navigationController.view makeToast:[err localizedDescription]];
     }
     self.selectedImage = aSelected[0];
+}
+
+- (void)cleanCanvas {
+    self.selectedImage = nil;
+    NSError *err = nil;
+    BOOL result = [FCFileManager removeItemAtPath:self.tempImagePath error:&err];
+    if (!result) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot remove temporarily file", nil)];
+    }
+}
+
+#pragma mark - Previewing Bar
+
+- (NSString *)previewString {
+    CGRect cropRect = self.cropView.zoomedCropRect;
+    NSString *rectStr = [NSString stringWithFormat:@"%d, %d, %d, %d",
+                         (int)cropRect.origin.x,
+                         (int)cropRect.origin.y,
+                         (int)cropRect.origin.x + (int)cropRect.size.width,
+                         (int)cropRect.origin.y + (int)cropRect.size.height];
+    return rectStr;
+}
+
+- (NSString *)subtitle {
+    return NSLocalizedString(@"Select a rectangular area", nil);
 }
 
 #pragma mark - Memory

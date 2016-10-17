@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "XXCodeBlockModel.h"
+#import "XXPickerBaseViewController.h"
 
 static NSString * const kXXKeyEventTableViewControllerStoryboardID = @"kXXKeyEventTableViewControllerStoryboardID";
 
-@interface XXKeyEventTableViewController : UITableViewController
-@property (nonatomic, strong) XXCodeBlockModel *codeBlock;
+@interface XXKeyEventTableViewController : XXPickerBaseViewController <XXPickerController>
 
 @end

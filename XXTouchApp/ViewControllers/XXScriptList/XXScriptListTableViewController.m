@@ -36,10 +36,10 @@ UITableViewDelegate,
 UITableViewDataSource,
 SSZipArchiveDelegate,
 UIGestureRecognizerDelegate,
-XXToolbarDelegate
+XXToolbarDelegate,
+UISearchDisplayDelegate
 >
 
-@property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
@@ -58,13 +58,15 @@ XXToolbarDelegate
 @implementation XXScriptListTableViewController
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
+    if (self.searchDisplayController.active) {
+        return UIStatusBarStyleDefault;
+    }
     return UIStatusBarStyleLightContent;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     _rootDirectory = ROOT_PATH;
-    _selectedIndex = -1;
     _currentDirectory = [_rootDirectory mutableCopy];
     _rootItemsDictionaryArr = @[];
 }
@@ -74,6 +76,7 @@ XXToolbarDelegate
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.searchDisplayController.delegate = self;
     
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
@@ -148,12 +151,9 @@ XXToolbarDelegate
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
-        BOOL result = NO;
-        if (self->_selectBootscript) {
-            result = [XXLocalNetService localGetStartUpConfWithError:&err];
-        } else {
-            result = [XXLocalNetService localGetSelectedScriptWithError:&err];
-        }
+        BOOL result = (_selectBootscript) ?
+        [XXLocalNetService localGetStartUpConfWithError:&err] :
+        [XXLocalNetService localGetSelectedScriptWithError:&err];
         dispatch_async_on_main_queue(^{
             if (!result) {
                 if (self != self.navigationController.topViewController && self.navigationController.topViewController != nil) {
@@ -175,7 +175,6 @@ XXToolbarDelegate
                     [self.navigationController.view makeToast:[err localizedDescription]];
                 }
             }
-            self->_selectedIndex = -1;
             [self reloadScriptListTableView];
             [self endMJRefreshing];
         });
@@ -267,41 +266,33 @@ XXToolbarDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == kXXScriptListCellSection) {
-        return 72;
-    }
-    return 0;
+    return 72;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == kXXScriptListCellSection) {
-        return _relativePath;
-    }
-    return @"";
+    return _relativePath;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == kXXScriptListCellSection) {
-        NSString *displayPath = [_relativePath mutableCopy];
-        if (displayPath.length == 0) {
-            displayPath = @"/";
-        }
-        XXInsetsLabel *sectionNameLabel = [[XXInsetsLabel alloc] init];
-        sectionNameLabel.text = displayPath;
-        sectionNameLabel.textColor = [UIColor blackColor];
-        sectionNameLabel.backgroundColor = [UIColor colorWithWhite:.96f alpha:.9f];
-        sectionNameLabel.font = [UIFont italicSystemFontOfSize:14.f];
-        sectionNameLabel.edgeInsets = UIEdgeInsetsMake(0, 12.f, 0, 12.f);
-        sectionNameLabel.numberOfLines = 1;
-        sectionNameLabel.lineBreakMode = NSLineBreakByTruncatingHead;
-        [sectionNameLabel sizeToFit];
-        return sectionNameLabel;
+    NSString *displayPath = [_relativePath mutableCopy];
+    if (displayPath.length == 0) {
+        displayPath = @"/";
     }
-    return nil;
+    XXInsetsLabel *sectionNameLabel = [[XXInsetsLabel alloc] init];
+    sectionNameLabel.text = displayPath;
+    sectionNameLabel.textColor = [UIColor blackColor];
+    sectionNameLabel.backgroundColor = [UIColor colorWithWhite:.96f alpha:.9f];
+    sectionNameLabel.font = [UIFont italicSystemFontOfSize:14.f];
+    sectionNameLabel.edgeInsets = UIEdgeInsetsMake(0, 12.f, 0, 12.f);
+    sectionNameLabel.numberOfLines = 1;
+    sectionNameLabel.lineBreakMode = NSLineBreakByTruncatingHead;
+    [sectionNameLabel sizeToFit];
+    return sectionNameLabel;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
+    
     NSDictionary *attrs = self.rootItemsDictionaryArr[(NSUInteger) indexPath.row];
     
     cell.itemAttrs = attrs;
@@ -312,29 +303,14 @@ XXToolbarDelegate
     cell.isDirectory = [attrs[NSFileType] isEqualToString:NSFileTypeDirectory];
     
     if (cell.isSelectable) {
-        NSString *highlightedItemPath = nil;
-        if (_selectBootscript) {
-            highlightedItemPath = [[XXLocalDataService sharedInstance] startUpConfigScriptPath];
-        } else {
-            highlightedItemPath = [[XXLocalDataService sharedInstance] selectedScript];
-        }
-        if ([attrs[kXXItemPathKey] isEqualToString:highlightedItemPath]) {
-            _selectedIndex = indexPath.row;
-            cell.checked = YES;
-        } else {
-            cell.checked = NO;
-        }
+        NSString *highlightedItemPath = (_selectBootscript) ?
+        [[XXLocalDataService sharedInstance] startUpConfigScriptPath] :
+        [[XXLocalDataService sharedInstance] selectedScript];
+        cell.checked = [attrs[kXXItemPathKey] isEqualToString:highlightedItemPath];
     } else if (cell.isDirectory) {
-        BOOL checked = NO;
-        if (_selectBootscript) {
-            checked = [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:attrs[kXXItemPathKey]];
-        } else {
-            checked = [[XXLocalDataService sharedInstance] isSelectedScriptInPath:attrs[kXXItemPathKey]];
-        }
-        cell.checked = checked;
-        if (checked) {
-            _selectedIndex = indexPath.row;
-        }
+        cell.checked = (_selectBootscript) ?
+        [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:attrs[kXXItemPathKey]] :
+        [[XXLocalDataService sharedInstance] isSelectedScriptInPath:attrs[kXXItemPathKey]];
     }
     
     if (_selectBootscript) {
@@ -427,12 +403,11 @@ XXToolbarDelegate
                                                                      NSError *err = nil;
                                                                      BOOL result = [FCFileManager removeItemAtPath:currentCell.itemAttrs[kXXItemPathKey] error:&err]; // This may be time comsuming
                                                                      if (currentCell.checked) {
-                                                                         if (self->_selectBootscript) {
+                                                                         if (_selectBootscript) {
                                                                              [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                                                                          } else {
                                                                              [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                                                                          }
-                                                                         self->_selectedIndex = -1;
                                                                      }
                                                                      dispatch_async_on_main_queue(^{
                                                                          self.navigationController.view.userInteractionEnabled = YES;
@@ -558,14 +533,17 @@ XXToolbarDelegate
     XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (currentCell.isSelectable) {
-        if (_selectedIndex != indexPath.row) {
-            NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
-            
-            XXSwipeableCell *lastCell = [tableView cellForRowAtIndexPath:lastIndex];
+        if (!currentCell.checked) {
+            XXSwipeableCell *lastCell = nil;
+            for (XXSwipeableCell *cell in tableView.visibleCells) {
+                if (cell.checked) {
+                    lastCell = cell;
+                }
+            }
             if (_selectBootscript) {
-                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; self->_selectedIndex = indexPath.row; [self popToSelectViewController];);
+                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;  [self popToSelectViewController];);
             } else {
-                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES; self->_selectedIndex = indexPath.row;);
+                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;);
             }
         }
     } else {
@@ -781,13 +759,14 @@ XXToolbarDelegate
             NSError *err = nil;
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
-                if (indexPath.row == self->_selectedIndex) {
-                    if (self->_selectBootscript) {
+                if (_selectBootscript) {
+                    if ([itemPath isEqualToString:[[XXLocalDataService sharedInstance] startUpConfigScriptPath]]) {
                         [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
-                    } else {
+                    }
+                } else {
+                    if ([itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
                         [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                     }
-                    self->_selectedIndex = -1;
                 }
                 result = [FCFileManager removeItemAtPath:itemPath error:&err];
                 if (err || !result) {

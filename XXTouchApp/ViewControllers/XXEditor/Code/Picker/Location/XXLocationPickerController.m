@@ -18,7 +18,6 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 
 @interface XXLocationPickerController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (nonatomic, strong) UIBarButtonItem *nextButton;
 @property (nonatomic, strong) MKPointAnnotation *pointAnnotation;
 
 @end
@@ -31,6 +30,7 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = NSLocalizedString(@"Location", nil);
     
     self.mapView.delegate = self;
@@ -57,10 +57,6 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     [self.mapView addAnnotation:pointAnnotation];
     [self.mapView selectAnnotation:pointAnnotation animated:YES];
     self.pointAnnotation = pointAnnotation;
-    
-    if (_codeBlock) {
-        self.navigationItem.rightBarButtonItem = self.nextButton;
-    }
 }
 
 #pragma mark - MKMapViewDelegate
@@ -74,7 +70,7 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     if (!customPinView) {
         customPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kXXMapViewAnnotationIdentifier];
 
-        if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
             customPinView.pinColor = MKPinAnnotationColorRed;
         } else {
             customPinView.pinTintColor = STYLE_TINT_COLOR;
@@ -109,34 +105,23 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     }
 }
 
-#pragma mark - Getter
-
-- (UIBarButtonItem *)nextButton {
-    if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStylePlain target:self action:@selector(next:)];
-        nextButton.tintColor = [UIColor whiteColor];
-        _nextButton = nextButton;
-    }
-    return _nextButton;
-}
-
-- (void)next:(UIBarButtonItem *)sender {
-    [self pushToNextControllerWithKeyword:@"@loc@" replacement:@""];
-}
-
-- (void)pushToNextControllerWithKeyword:(NSString *)keyword
-                            replacement:(NSString *)replace {
-    XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
-    NSString *code = newBlock.code;
-    NSRange range = [code rangeOfString:keyword];
-    if (range.length == 0) return;
-    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
-}
+#pragma mark - Setter
 
 - (void)selectCoordinate:(UIButton *)sender {
-    [self pushToNextControllerWithKeyword:@"@loc@" replacement:[NSString stringWithFormat:@"%f, %f", self.pointAnnotation.coordinate.latitude, self.pointAnnotation.coordinate.longitude]];
+    [self pushToNextControllerWithKeyword:self.keyword replacement:self.previewString];
 }
+
+#pragma mark - Previewing Bar
+
+- (NSString *)previewString {
+    return [NSString stringWithFormat:@"%f, %f", self.pointAnnotation.coordinate.latitude, self.pointAnnotation.coordinate.longitude];
+}
+
+- (NSString *)subtitle {
+    return NSLocalizedString(@"Select a location by dragging 📌", nil);
+}
+
+#pragma mark - Memory
 
 - (void)dealloc {
     CYLog(@"");

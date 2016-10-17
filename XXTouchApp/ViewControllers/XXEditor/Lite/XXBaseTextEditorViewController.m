@@ -122,7 +122,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.translucent = YES;
+//    self.navigationController.navigationBar.translucent = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillAppear:)
                                                  name:UIKeyboardWillShowNotification
@@ -152,7 +152,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.navigationBar.translucent = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

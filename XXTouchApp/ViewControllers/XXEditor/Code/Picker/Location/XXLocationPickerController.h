@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "XXCodeBlockModel.h"
+#import "XXPickerBaseViewController.h"
 
 static NSString * const kXXLocationPickerControllerStoryboardID = @"kXXLocationPickerControllerStoryboardID";
 
-@interface XXLocationPickerController : UIViewController
-@property (nonatomic, strong) XXCodeBlockModel *codeBlock;
+@interface XXLocationPickerController : XXPickerBaseViewController <XXPickerController>
 
 @end

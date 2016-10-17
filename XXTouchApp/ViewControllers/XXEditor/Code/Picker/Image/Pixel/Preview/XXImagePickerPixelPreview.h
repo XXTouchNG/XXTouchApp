@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface XXImagePickerPixelPreview : UIWindow
+@property (nonatomic, assign) BOOL statusBarHidden;
 @property (nonatomic, strong) UIImage *imageToMagnify;
 @property (nonatomic, assign) CGPoint pointToMagnify;
 

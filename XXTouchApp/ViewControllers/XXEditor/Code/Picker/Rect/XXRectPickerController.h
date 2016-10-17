@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "XXCodeBlockModel.h"
+#import "XXPickerBaseViewController.h"
 
-@interface XXRectPickerController : UIViewController
-@property (nonatomic, strong) XXCodeBlockModel *codeBlock;
+@interface XXRectPickerController : XXPickerBaseViewController <XXPickerController>
 
 @end

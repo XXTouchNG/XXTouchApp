@@ -14,6 +14,8 @@ typedef enum : NSUInteger {
 } kXXCodeBlockType;
 
 @interface XXCodeBlockModel : NSObject <NSCopying, NSMutableCopying, NSCoding>
+@property (nonatomic, assign) NSUInteger currentStep;
+@property (nonatomic, assign) NSUInteger totalStep;
 @property (nonatomic, copy) NSString *udid;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *code;

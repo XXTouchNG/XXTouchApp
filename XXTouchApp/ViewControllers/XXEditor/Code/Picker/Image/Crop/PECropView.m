@@ -17,7 +17,12 @@ static const CGFloat MarginTop = 81.f;
 static const CGFloat MarginLeft = 37.f;
 //static const CGFloat MarginRight = MarginLeft;
 
-@interface PECropView () <UIScrollViewDelegate, UIGestureRecognizerDelegate, PECropRectViewDelegate>
+@interface PECropView ()
+<
+UIScrollViewDelegate,
+UIGestureRecognizerDelegate,
+PECropRectViewDelegate
+>
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIView *zoomingView;
@@ -37,7 +42,8 @@ static const CGFloat MarginLeft = 37.f;
 @property (nonatomic, strong) UIRotationGestureRecognizer *rotationGestureRecognizer;
 
 @property (nonatomic, strong) XXImagePickerPixelPreview *imagePreview;
-@property (nonatomic, assign) kPEResizeControlPosition previewPosition;
+
+@property (nonatomic, assign) CGPoint lastPoint;
 
 @end
 
@@ -45,8 +51,7 @@ static const CGFloat MarginLeft = 37.f;
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         [self commonInit];
     }
     
@@ -55,8 +60,7 @@ static const CGFloat MarginLeft = 37.f;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
-    if (self)
+    if (self = [super initWithCoder:aDecoder])
     {
         [self commonInit];
     }
@@ -104,8 +108,6 @@ static const CGFloat MarginLeft = 37.f;
     self.bottomOverlayView = [[UIView alloc] init];
     self.bottomOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
     [self addSubview:self.bottomOverlayView];
-    
-    self.previewPosition = -1;
 }
 
 #pragma mark - Layout
@@ -214,7 +216,8 @@ static const CGFloat MarginLeft = 37.f;
 
 - (void)setAllowsOperation:(BOOL)allowsOperation {
     _allowsOperation = allowsOperation;
-    self.userInteractionEnabled = allowsOperation;
+    self.scrollView.scrollEnabled = allowsOperation;
+    self.scrollView.pinchGestureRecognizer.enabled = allowsOperation;
 }
 
 - (void)setImage:(UIImage *)image
@@ -228,7 +231,6 @@ static const CGFloat MarginLeft = 37.f;
     self.zoomingView = nil;
     
     self.imagePreview.imageToMagnify = image;
-    
     [self setNeedsLayout];
 }
 
@@ -454,13 +456,16 @@ static const CGFloat MarginLeft = 37.f;
            withEvent:(UIEvent *)event {
     if (touches.count == 1) {
         UITouch *t = [touches anyObject];
-        [self movePreviewByPoint:[t locationInView:self]];
+        CGPoint p = [t locationInView:self];
+        _lastPoint = p;
     }
 }
 
 - (void)cropRectViewDidBeginEditing:(PECropRectView *)cropRectView
 {
     self.resizing = YES;
+    self.imagePreview.statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+    [self movePreviewByPoint:_lastPoint];
     [self.imagePreview makeKeyAndVisible];
 }
 
@@ -485,7 +490,9 @@ static const CGFloat MarginLeft = 37.f;
 
 - (void)cropRectViewDidEndEditing:(PECropRectView *)cropRectView
 {
-    [self zoomToCropRect:self.cropRectView.frame];
+    if (self.scrollView.pinchGestureRecognizer.enabled) {
+        [self zoomToCropRect:self.cropRectView.frame];
+    }
     [self.imagePreview setHidden:YES];
     self.resizing = NO;
 }
@@ -551,7 +558,7 @@ static const CGFloat MarginLeft = 37.f;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    return NO;
+    return YES;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -576,36 +583,25 @@ static const CGFloat MarginLeft = 37.f;
 }
 
 - (void)movePreviewByPoint:(CGPoint)p {
+    CYLog(@"Moved Preview!");
     CGFloat sW = [UIScreen mainScreen].bounds.size.width;
     CGFloat sH = [UIScreen mainScreen].bounds.size.height;
     CGFloat width = (int)(MIN(sW, sH) / 20.f) * 10.f;
     if (p.x < sW / 2.f) {
         if (p.y < sH / 2.f) {
             // 2
-            if (_previewPosition != kPEResizeControlPositionBottomRight) {
-                _previewPosition = kPEResizeControlPositionBottomRight;
-                self.imagePreview.frame = CGRectMake(sW - width, sH - width, width, width);
-            }
+            self.imagePreview.frame = CGRectMake(sW - width, sH - width, width, width);
         } else {
             // 4
-            if (_previewPosition != kPEResizeControlPositionTopRight) {
-                _previewPosition = kPEResizeControlPositionTopRight;
-                self.imagePreview.frame = CGRectMake(sW - width, 0, width, width);
-            }
+            self.imagePreview.frame = CGRectMake(sW - width, 0, width, width);
         }
     } else {
         if (p.y < sH / 2.f) {
             // 1
-            if (_previewPosition != kPEResizeControlPositionBottomLeft) {
-                _previewPosition = kPEResizeControlPositionBottomLeft;
-                self.imagePreview.frame = CGRectMake(0, sH - width, width, width);
-            }
+            self.imagePreview.frame = CGRectMake(0, sH - width, width, width);
         } else {
             // 3
-            if (_previewPosition != kPEResizeControlPositionTopLeft) {
-                _previewPosition = kPEResizeControlPositionTopLeft;
-                self.imagePreview.frame = CGRectMake(0, 0, width, width);
-            }
+            self.imagePreview.frame = CGRectMake(0, 0, width, width);
         }
     }
 }

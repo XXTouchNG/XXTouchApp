@@ -104,6 +104,10 @@
     }
 }
 
+- (void)setStatusBarHidden:(BOOL)statusBarHidden {
+    ((XXImagePickerPixelPreviewRootViewController *)self.rootViewController).statusBarHidden = statusBarHidden;
+}
+
 - (void)dealloc {
     CYLog(@"");
 }

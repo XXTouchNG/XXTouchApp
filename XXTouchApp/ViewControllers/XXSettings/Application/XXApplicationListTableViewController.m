@@ -32,11 +32,13 @@ UITableViewDataSource,
 UISearchDisplayDelegate
 >
 @property (nonatomic, strong) NSArray *showData;
-@property (nonatomic, strong) UIBarButtonItem *nextButton;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation XXApplicationListTableViewController
+@implementation XXApplicationListTableViewController {
+    NSString *_previewString;
+}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     if (self.searchDisplayController.active) {
@@ -48,6 +50,7 @@ UISearchDisplayDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _previewString = nil;
     self.title = NSLocalizedString(@"Application List", nil);
     
     self.tableView.delegate = self;
@@ -57,10 +60,6 @@ UISearchDisplayDelegate
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-    
-    if (_codeBlock) {
-        self.navigationItem.rightBarButtonItem = self.nextButton;
-    }
     
     [self fetchApplicationList];
 }
@@ -88,31 +87,6 @@ UISearchDisplayDelegate
             }
         });
     });
-}
-
-#pragma mark - Getter
-
-- (UIBarButtonItem *)nextButton {
-    if (!_nextButton) {
-        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Skip", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(next:)];
-        nextButton.tintColor = [UIColor whiteColor];
-        _nextButton = nextButton;
-    }
-    return _nextButton;
-}
-
-- (void)next:(UIBarButtonItem *)sender {
-    [self pushToNextControllerWithKeyword:@"@bid@" replacement:@""];
-}
-
-- (void)pushToNextControllerWithKeyword:(NSString *)keyword
-                            replacement:(NSString *)replace {
-    XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
-    NSString *code = newBlock.code;
-    NSRange range = [code rangeOfString:keyword];
-    if (range.length == 0) return;
-    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
 }
 
 #pragma mark - Table view data source
@@ -156,9 +130,10 @@ UISearchDisplayDelegate
     } else {
         identifier = _showData[indexPath.row][kXXApplicationKeyBundleID];
     }
-    if (_codeBlock) {
+    if (self.codeBlock) {
         identifier = [identifier addSlashes];
-        [self pushToNextControllerWithKeyword:@"@bid@" replacement:identifier];
+        _previewString = identifier;
+        [self pushToNextControllerWithKeyword:self.keyword replacement:identifier];
     }
 }
 
@@ -193,7 +168,7 @@ UISearchDisplayDelegate
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(XXApplicationTableViewCell *)sender {
-    if (_codeBlock) {
+    if (self.codeBlock) {
         return NO;
     }
     return YES;
@@ -205,6 +180,18 @@ UISearchDisplayDelegate
     // Pass the selected object to the new view controller.
     ((XXApplicationDetailTableViewController *)segue.destinationViewController).appInfo = [sender.appInfo copy];
 }
+
+#pragma mark - Previewing Bar
+
+- (NSString *)previewString {
+    return _previewString;
+}
+
+- (NSString *)subtitle {
+    return NSLocalizedString(@"Select an application", nil);
+}
+
+#pragma mark - Memory
 
 - (void)dealloc {
     CYLog(@"");

@@ -14,8 +14,8 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (BOOL)shouldAutorotate {
-    return YES;
+- (BOOL)prefersStatusBarHidden {
+    return self.statusBarHidden;
 }
 
 @end
