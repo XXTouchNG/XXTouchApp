@@ -41,7 +41,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                 withData:(NSData *)data
                                    error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[apiUrl stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[apiUrl() stringByAppendingString:command]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -55,7 +55,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                       withForm:(NSDictionary *)dict
                                          error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[remoteUrl stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[remoteUrl() stringByAppendingString:command]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.f];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];

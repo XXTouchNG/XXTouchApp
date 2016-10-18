@@ -113,11 +113,12 @@ union SZ_COLOR {
 
 - (XXTColor *)init
 {
-    self = [super init];
-    _red = 0;
-    _green = 0;
-    _blue = 0;
-    _alpha = 0;
+    if (self = [super init]) {
+        _red = 0;
+        _green = 0;
+        _blue = 0;
+        _alpha = 0;
+    }
     return self;
 }
 

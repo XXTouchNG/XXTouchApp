@@ -11,6 +11,7 @@
 #import "UIImage+PECrop.h"
 #import <QuartzCore/QuartzCore.h>
 #import "XXImagePickerPixelPreview.h"
+#import "XXRectPickerController.h"
 
 static const CGFloat MarginTop = 81.f;
 //static const CGFloat MarginBottom = 37.f;
@@ -128,7 +129,7 @@ PECropRectViewDelegate
         return self.scrollView;
     }
     
-    [self.viewController.navigationController setNavigationBarHidden:![self.viewController.navigationController isNavigationBarHidden] animated:YES];
+    [(UINavigationController *)self.viewController setNavigationBarHidden:![(UINavigationController *)self.viewController isNavigationBarHidden] animated:YES];
     
     return [super hitTest:point withEvent:event];
 }
@@ -334,6 +335,8 @@ PECropRectViewDelegate
     if (animated) {
         [UIView commitAnimations];
     }
+    
+    [self zoomedRectUpdated:CGRectMake(0, 0, self.image.size.width, self.image.size.height)];
 }
 
 - (UIImage *)croppedImage
@@ -351,7 +354,7 @@ PECropRectViewDelegate
     CGSize size = self.image.size;
     
     CGFloat ratio = 1.0f;
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation orientation = self.interfaceOrientation;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || UIInterfaceOrientationIsPortrait(orientation)) {
         ratio = CGRectGetWidth(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.width;
     } else {
@@ -485,7 +488,9 @@ PECropRectViewDelegate
     } else if (cropRectView.resizeControlPosition == kPEResizeControlPositionBottomRight) {
         currentPoint = CGPointMake(zoomedRect.origin.x + zoomedRect.size.width, zoomedRect.origin.y + zoomedRect.size.height);
     }
+    
     [self.imagePreview setPointToMagnify:currentPoint];
+    [self zoomedRectUpdated:zoomedRect];
 }
 
 - (void)cropRectViewDidEndEditing:(PECropRectView *)cropRectView
@@ -495,6 +500,11 @@ PECropRectViewDelegate
     }
     [self.imagePreview setHidden:YES];
     self.resizing = NO;
+}
+
+- (void)zoomedRectUpdated:(CGRect)zoomedRect {
+    XXRectPickerController *pickerController = (XXRectPickerController *)self.viewController;
+    pickerController.currentRect = zoomedRect;
 }
 
 - (void)zoomToCropRect:(CGRect)toRect andCenter:(BOOL)center
@@ -572,6 +582,16 @@ PECropRectViewDelegate
     *targetContentOffset = contentOffset;
 }
 
+#pragma mark - Rect Event
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self zoomedRectUpdated:self.zoomedCropRect];
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    [self zoomedRectUpdated:self.zoomedCropRect];
+}
+
 #pragma mark - Preview
 
 - (XXImagePickerPixelPreview *)imagePreview {
@@ -583,7 +603,6 @@ PECropRectViewDelegate
 }
 
 - (void)movePreviewByPoint:(CGPoint)p {
-    CYLog(@"Moved Preview!");
     CGFloat sW = [UIScreen mainScreen].bounds.size.width;
     CGFloat sH = [UIScreen mainScreen].bounds.size.height;
     CGFloat width = (int)(MIN(sW, sH) / 20.f) * 10.f;

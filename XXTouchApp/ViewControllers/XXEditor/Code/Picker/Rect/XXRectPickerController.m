@@ -13,6 +13,7 @@
 #import "XXLocalDataService.h"
 #import <Masonry/Masonry.h>
 #import "PECropView.h"
+#import "XXCodeBlockNavigationController.h"
 
 @interface XXRectPickerController () <XXImagePickerControllerDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIImage *selectedImage;
@@ -29,21 +30,26 @@
 // Temp
 @property (nonatomic, copy) NSString *tempImagePath;
 
+@property (nonatomic, copy) NSString *subtitle;
+@property (nonatomic, copy) NSString *previewString;
+
 @end
 
-@implementation XXRectPickerController
+@implementation XXRectPickerController {
+
+}
 
 #pragma mark - Status Bar
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    if ([self.navigationController isNavigationBarHidden]) {
+    if ([self isNavigationBarHidden]) {
         return UIStatusBarStyleDefault;
     }
     return UIStatusBarStyleLightContent;
 }
 
 - (BOOL)prefersStatusBarHidden {
-    if ([self.navigationController isNavigationBarHidden]) {
+    if ([self isNavigationBarHidden]) {
         return YES;
     }
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -92,8 +98,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _subtitle = nil;
+    self.selectedImage = nil;
     self.title = NSLocalizedString(@"Rectangle", nil);
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self loadImageFromCache];
 }
 
 - (void)updateViewConstraints {
@@ -138,7 +146,6 @@
     
     [self.view addSubview:self.cropToolbar];
     [self.view addSubview:self.placeholderView];
-    [self loadImageFromCache];
 }
 
 #pragma mark - Image Cache
@@ -154,10 +161,10 @@
             if (image) {
                 self.selectedImage = image;
             } else {
-                [self.navigationController.view makeToast:NSLocalizedString(@"Cannot load image from temporarily file", nil)];
+                self.subtitle = NSLocalizedString(@"Cannot load image from temporarily file", nil);
             }
         } else if (err) {
-            [self.navigationController.view makeToast:[err localizedDescription]];
+            self.subtitle = [err localizedDescription];
         }
     }
 }
@@ -226,13 +233,19 @@
         self.cropToolbar.hidden = YES;
         self.cropView.hidden = YES;
         self.placeholderView.hidden = NO;
+        self.subtitle = NSLocalizedString(@"Select an image from album", nil);
     } else {
         self.fd_interactivePopDisabled = YES;
-        self.nextButton.title = NSLocalizedString(@"Next", nil);
+        if (self.codeBlock.currentStep == self.codeBlock.totalStep) {
+            self.nextButton.title = NSLocalizedString(@"Done", nil);
+        } else {
+            self.nextButton.title = NSLocalizedString(@"Next", nil);
+        }
         self.cropView.image = selectedImage;
         self.cropToolbar.hidden = NO;
         self.cropView.hidden = NO;
         self.placeholderView.hidden = YES;
+        self.subtitle = NSLocalizedString(@"Select a rectangular area", nil);
     }
 }
 
@@ -249,7 +262,20 @@
 
 - (void)tripleFingerTapped:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        [self.navigationController setNavigationBarHidden:![self.navigationController isNavigationBarHidden] animated:YES];
+        [self setNavigationBarHidden:![self isNavigationBarHidden] animated:YES];
+    }
+}
+
+- (BOOL)isNavigationBarHidden {
+    return [self.navigationController isNavigationBarHidden];
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:hidden animated:animated];
+    if (hidden) {
+        self.subtitle = NSLocalizedString(@"Triple touches to exit fullscreen", nil);
+    } else {
+        self.subtitle = NSLocalizedString(@"One finger to drag, two fingers to zoom", nil);
     }
 }
 
@@ -272,7 +298,7 @@
 - (void)resetButtonTapped:(UIBarButtonItem *)sender {
     if (!_selectedImage || self.locked) return;
     if ([self.cropView userHasModifiedCropArea]) {
-        [self.cropView resetCropRectAnimated:YES];
+        [self.cropView resetCropRectAnimated:NO];
     }
 }
 
@@ -283,12 +309,12 @@
         self.locked = NO;
         self.cropView.allowsOperation = YES;
         self.lockButton.selected = NO;
-        [self.navigationController.view makeToast:NSLocalizedString(@"Canvas unlocked", nil)];
+        self.subtitle = NSLocalizedString(@"Canvas unlocked", nil);
     } else {
         self.locked = YES;
         self.cropView.allowsOperation = NO;
         self.lockButton.selected = YES;
-        [self.navigationController.view makeToast:NSLocalizedString(@"Canvas locked", nil)];
+        self.subtitle = NSLocalizedString(@"Canvas locked, it cannot be moved or zoomed", nil);
     }
 }
 
@@ -335,7 +361,7 @@
                                  options:NSDataWritingAtomic
                                    error:&err];
     if (!result) {
-        [self.navigationController.view makeToast:[err localizedDescription]];
+        self.subtitle = [err localizedDescription];
     }
     self.selectedImage = aSelected[0];
 }
@@ -345,24 +371,38 @@
     NSError *err = nil;
     BOOL result = [FCFileManager removeItemAtPath:self.tempImagePath error:&err];
     if (!result) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot remove temporarily file", nil)];
+        self.subtitle = NSLocalizedString(@"Cannot remove temporarily file", nil);
     }
 }
 
 #pragma mark - Previewing Bar
 
-- (NSString *)previewString {
-    CGRect cropRect = self.cropView.zoomedCropRect;
-    NSString *rectStr = [NSString stringWithFormat:@"%d, %d, %d, %d",
-                         (int)cropRect.origin.x,
-                         (int)cropRect.origin.y,
-                         (int)cropRect.origin.x + (int)cropRect.size.width,
-                         (int)cropRect.origin.y + (int)cropRect.size.height];
-    return rectStr;
+- (NSString *)stringFromRect:(CGRect)cropRect tips:(BOOL)tips {
+    NSString *rectFormat = nil;
+    if (tips) {
+        rectFormat = @"x1 = %d, y1 = %d, x2 = %d, y2 = %d";
+    } else {
+        rectFormat = @"%d, %d, %d, %d";
+    }
+    return [NSString stringWithFormat:rectFormat,
+             (int)cropRect.origin.x,
+             (int)cropRect.origin.y,
+             (int)cropRect.origin.x + (int)cropRect.size.width,
+             (int)cropRect.origin.y + (int)cropRect.size.height];
 }
 
-- (NSString *)subtitle {
-    return NSLocalizedString(@"Select a rectangular area", nil);
+- (NSString *)previewString {
+    return [self stringFromRect:self.cropView.zoomedCropRect tips:NO];
+}
+
+- (void)setCurrentRect:(CGRect)currentRect {
+    _currentRect = currentRect;
+    self.subtitle = [self stringFromRect:currentRect tips:YES];
+}
+
+- (void)setSubtitle:(NSString *)subtitle {
+    _subtitle = subtitle;
+    self.navigationController.title = subtitle;
 }
 
 #pragma mark - Memory

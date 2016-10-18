@@ -65,6 +65,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     if (_nResultType == DO_PICKER_RESULT_UIIMAGE)
         [ASSETHELPER clearData];
     
@@ -608,7 +609,7 @@
 
 - (BOOL)prefersStatusBarHidden
 {
-    return YES;
+    return [UIApplication sharedApplication].statusBarHidden;
 }
 
 - (void)dealloc {

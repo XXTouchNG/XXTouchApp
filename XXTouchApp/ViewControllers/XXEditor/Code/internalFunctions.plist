@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>code</key>
+		<string>touch.tap(@pos@@cur@)</string>
+		<key>title</key>
+		<string>touch.tap(x, y)</string>
+		<key>udid</key>
+		<string>09BCB566-4D45-4624-B8A9-C83F74409FC2</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>touch.on(@pos@@cur@):move(@pos@)</string>
+		<key>title</key>
+		<string>touch.on(x, y):move(x1, y1)</string>
+		<key>udid</key>
+		<string>20C5B6D8-31AA-4D00-BD7E-C13DD6BFA813</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>screen.ocr_text(@rect@@cur@)</string>
+		<key>title</key>
+		<string>screen.ocr_text(left, top, right, bottom)</string>
+		<key>udid</key>
+		<string>B87FB2D5-E40B-4249-9914-35F9308433EE</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>screen.is_colors(@poscolor@@cur@, @slider@)</string>
+		<key>title</key>
+		<string>screen.is_colors(colors, similarity)</string>
+		<key>udid</key>
+		<string>4A96843F-CBD2-42B9-BEF4-2F5D421FCB92</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>screen.find_color(@poscolor@@cur@, @slider@)</string>
+		<key>title</key>
+		<string>screen.find_color(colors, similarity)</string>
+		<key>udid</key>
+		<string>A9B408B9-9EBA-4882-8BC1-46BD65FC0E0B</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>key.press(&quot;@key@@cur@&quot;)</string>
+		<key>title</key>
+		<string>key.press(key)</string>
+		<key>udid</key>
+		<string>E34AE792-95A5-4E77-91A5-8A694F2F98A3</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>gps.fake(&quot;@bid@@cur@&quot;, @loc@)</string>
+		<key>title</key>
+		<string>gps.fake(bid, latitude, longitude)</string>
+		<key>udid</key>
+		<string>B8D7252D-20BE-478E-B6B3-BE7B4CEA9674</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>gps.fake(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>gps.clear([bid])</string>
+		<key>udid</key>
+		<string>D3B34C57-12C1-4708-8258-7A38D59525AC</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.run(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.run(bid)</string>
+		<key>udid</key>
+		<string>EE47529B-A9DD-40DB-A0FE-F10378D75B39</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.close(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.close(bid)</string>
+		<key>udid</key>
+		<string>43716157-ADAC-4783-87B6-847C1C8D6059</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.quit(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.quit(bid)</string>
+		<key>udid</key>
+		<string>28398A61-6A9C-4FFB-9DFE-D372061693A6</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.bundle_path(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.bundle_path(bid)</string>
+		<key>udid</key>
+		<string>0203BCFA-A03B-4CA0-BBF7-9820C043D1A2</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.data_path(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.data_path(bid)</string>
+		<key>udid</key>
+		<string>80D9B935-106A-4BD4-B54C-4C3215CA531D</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.is_running(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.is_running(bid)</string>
+		<key>udid</key>
+		<string>06BED8F9-3785-4FD8-AACA-3AD48AB2BD45</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.is_front(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.is_front(bid)</string>
+		<key>udid</key>
+		<string>FDD68978-2B3E-4162-9FA2-3A67195F1D59</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.uninstall(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>app.uninstall(bid)</string>
+		<key>udid</key>
+		<string>02D1458D-A5E8-4BDC-AE1C-F6403AD651B7</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>clear.keychain(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>clear.keychain(bid)</string>
+		<key>udid</key>
+		<string>E0B40876-BF90-40A9-8A15-4AD56E53564A</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>clear.app_data(&quot;@bid@@cur@&quot;)</string>
+		<key>title</key>
+		<string>clear.app_data(bid)</string>
+		<key>udid</key>
+		<string>2B04F068-B930-4DC0-9BE4-2D15429EB400</string>
+	</dict>
+</array>
+</plist>

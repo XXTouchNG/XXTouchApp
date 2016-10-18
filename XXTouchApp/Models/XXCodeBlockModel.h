@@ -22,4 +22,5 @@ typedef enum : NSUInteger {
 
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code;
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type;
++ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type udid:(NSString *)udid;
 @end

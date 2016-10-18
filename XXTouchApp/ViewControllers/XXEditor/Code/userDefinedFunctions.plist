@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>code</key>
+		<string>print(@cur@)
+</string>
+		<key>title</key>
+		<string>print()</string>
+		<key>udid</key>
+		<string>BCB1D74C-FC68-4EF0-A49C-5C4BC2ACAA76</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>print.out(@cur@)
+</string>
+		<key>title</key>
+		<string>print.out()</string>
+		<key>udid</key>
+		<string>9926E718-8984-492C-BFA4-5E44881F9478</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>sys.toast("@cur@")
+</string>
+		<key>title</key>
+		<string>sys.toast("")</string>
+		<key>udid</key>
+		<string>6515527F-5E48-4174-971C-F85B0D1997F4</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>sys.alert("@cur@", 0)
+</string>
+		<key>title</key>
+		<string>sys.alert("", 0)</string>
+		<key>udid</key>
+		<string>43BF4ABA-07B8-4167-910A-2A25907C0B70</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>if () then
+	@cur@
+end
+</string>
+		<key>title</key>
+		<string>if ... then ... end</string>
+		<key>udid</key>
+		<string>E62D9415-8B45-4253-B862-2E37CBC9439F</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>for i = 1, 10, 1 do
+	@cur@
+end
+</string>
+		<key>title</key>
+		<string>for i = 1, 10, 1 do ... end</string>
+		<key>udid</key>
+		<string>31F31346-29D7-43EE-B3C4-E71855C06286</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>while (true) do
+	@cur@
+end
+</string>
+		<key>title</key>
+		<string>while (true) do .. end</string>
+		<key>udid</key>
+		<string>6306B9BA-EFDA-43BC-AD4A-943D541D20E6</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>repeat
+	@cur@
+until (false)
+</string>
+		<key>title</key>
+		<string>repeat ... until (false)</string>
+		<key>udid</key>
+		<string>B6E18730-E55E-4AFC-8CEE-D8AA1F5111A3</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>sys.msleep(1000@cur@)
+</string>
+		<key>title</key>
+		<string>sys.msleep(1000)</string>
+		<key>udid</key>
+		<string>12F63FE5-4B75-46B1-9301-F1E55C60B6B3</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>touch.tap(x@cur@, y)
+</string>
+		<key>title</key>
+		<string>touch.tap(x, y)</string>
+		<key>udid</key>
+		<string>F23F7BD2-006B-4C81-A9A5-F5485DF7D5C3</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>app.input_text("@cur@")
+</string>
+		<key>title</key>
+		<string>app.input_text("")</string>
+		<key>udid</key>
+		<string>3F993527-5460-42CD-BE49-6B522F92E932</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>accelerometer.shake()
+</string>
+		<key>title</key>
+		<string>accelerometer.shake()</string>
+		<key>udid</key>
+		<string>276333A0-0321-461B-99ED-401830BA77E4</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>r = sys.input_box("@cur@")
+</string>
+		<key>title</key>
+		<string>r = sys.input_box("")</string>
+		<key>udid</key>
+		<string>5F067E85-3B0D-4581-BFB3-1B0968FAB7A5</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>pasteboard.write("@cur@")
+</string>
+		<key>title</key>
+		<string>pasteboard.write("")</string>
+		<key>udid</key>
+		<string>71BF1FD1-CE4B-4690-9772-320C76618088</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>r = pasteboard.read()
+</string>
+		<key>title</key>
+		<string>r = pasteboard.read()</string>
+		<key>udid</key>
+		<string>93216AA4-3E16-4339-8407-652B5E33C635</string>
+	</dict>
+	<dict>
+		<key>code</key>
+		<string>os.execute("@cur@")
+</string>
+		<key>title</key>
+		<string>os.execute("")</string>
+		<key>udid</key>
+		<string>8C646ABB-5C17-49F2-88F3-754FD66E3324</string>
+	</dict>
+</array>
+</plist>

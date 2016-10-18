@@ -51,7 +51,11 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     [self.mapView setRegion:region animated:YES];
     
     MKPointAnnotation *pointAnnotation = [[MKPointAnnotation alloc] init];
-    pointAnnotation.title = NSLocalizedString(@"Drag to change position", nil);
+    if (self.codeBlock.currentStep == self.codeBlock.totalStep) {
+        pointAnnotation.title = NSLocalizedString(@"Done", nil);
+    } else {
+        pointAnnotation.title = NSLocalizedString(@"Next", nil);
+    }
     pointAnnotation.subtitle = [NSString stringWithFormat:NSLocalizedString(kXXMapViewAnnotationFormat, nil), defaultCoordinate.latitude, defaultCoordinate.longitude];
     pointAnnotation.coordinate = defaultCoordinate;
     [self.mapView addAnnotation:pointAnnotation];
@@ -90,19 +94,21 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState {
     MKPointAnnotation *anno = ((MKPointAnnotation *)view.annotation);
+    NSString *dragTips = [NSString stringWithFormat:NSLocalizedString(kXXMapViewAnnotationFormat, nil), anno.coordinate.latitude, anno.coordinate.longitude];
     switch (newState) {
         case MKAnnotationViewDragStateStarting:
             break;
         case MKAnnotationViewDragStateDragging:
             break;
         case MKAnnotationViewDragStateEnding:
-            anno.subtitle = [NSString stringWithFormat:NSLocalizedString(kXXMapViewAnnotationFormat, nil), anno.coordinate.latitude, anno.coordinate.longitude];
+            anno.subtitle = dragTips;
             [[XXLocalDataService sharedInstance] setObject:@((float) anno.coordinate.latitude) forKey:kXXCoordinateRegionLatitudeKey];
             [[XXLocalDataService sharedInstance] setObject:@((float) anno.coordinate.longitude) forKey:kXXCoordinateRegionLongitudeKey];
             break;
         default:
             break;
     }
+    self.subtitle = dragTips;
 }
 
 #pragma mark - Setter
@@ -119,6 +125,10 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 
 - (NSString *)subtitle {
     return NSLocalizedString(@"Select a location by dragging 📌", nil);
+}
+
+- (void)setSubtitle:(NSString *)subtitle {
+    self.navigationController.title = subtitle;
 }
 
 #pragma mark - Memory

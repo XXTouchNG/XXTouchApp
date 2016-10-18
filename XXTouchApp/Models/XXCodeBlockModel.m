@@ -15,16 +15,24 @@
 }
 
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type {
+    return [self modelWithTitle:title code:code type:type udid:nil];
+}
+
++ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type udid:(NSString *)udid {
     XXCodeBlockModel *newModel = [XXCodeBlockModel new];
     newModel.title = title;
     newModel.code = code;
     newModel.currentStep = 0;
     newModel.totalStep = 0;
+    newModel.udid = udid;
     return newModel;
 }
 
 - (NSString *)udid {
-    return [NSString stringWithUUID];
+    if (!_udid) {
+        _udid = [NSString stringWithUUID];
+    }
+    return _udid;
 }
 
 #pragma mark - NSCoding

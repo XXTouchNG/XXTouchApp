@@ -9,9 +9,30 @@
 #ifndef XXLocalDefines_h
 #define XXLocalDefines_h
 
-static NSString * const apiUrl = @"http://127.0.0.1:46952/";
-static NSString * const remoteAccessUrl = @"http://%@:46952/";
-static NSString * const remoteUrl = @"http://xxtauth.ttaozi.com/xxtouchee/";
+static NSDictionary *extendApisDict = nil;
+
+static inline void loadExtendApis() {
+    if (!extendApisDict) {
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"extendApis" ofType:@"plist"];
+        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+        extendApisDict = dict;
+    }
+}
+
+static inline NSString *apiUrl() {
+    loadExtendApis();
+    return extendApisDict[@"localApi"];
+}
+
+static inline NSString *remoteAccessUrl() {
+    loadExtendApis();
+    return extendApisDict[@"remoteApi"];
+}
+
+static inline NSString *remoteUrl() {
+    loadExtendApis();
+    return extendApisDict[@"authApi"];
+}
 
 typedef enum : NSUInteger {
     kXXLocalCommandMethodGET  = 0,

@@ -28,6 +28,10 @@
 		0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
+		0F352A991DB5C7670095C57F /* extendApis.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A981DB5C7670095C57F /* extendApis.plist */; };
+		0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A9A1DB5C9530095C57F /* extendHisLife.plist */; };
+		0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A9C1DB5CC350095C57F /* internalFunctions.plist */; };
+		0F352A9F1DB5CC350095C57F /* userDefinedFunctions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A9D1DB5CC350095C57F /* userDefinedFunctions.plist */; };
 		0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */; };
@@ -170,6 +174,10 @@
 		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
 		0F302D2F1D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		0F352A981DB5C7670095C57F /* extendApis.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = extendApis.plist; sourceTree = "<group>"; };
+		0F352A9A1DB5C9530095C57F /* extendHisLife.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = extendHisLife.plist; sourceTree = "<group>"; };
+		0F352A9C1DB5CC350095C57F /* internalFunctions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = internalFunctions.plist; sourceTree = "<group>"; };
+		0F352A9D1DB5CC350095C57F /* userDefinedFunctions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = userDefinedFunctions.plist; sourceTree = "<group>"; };
 		0F41C6C91D8780A300535F72 /* XXStartupConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXStartupConfigTableViewController.h; sourceTree = "<group>"; };
 		0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXStartupConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F4A23E91D9E09FC00633020 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/Info.plist"; sourceTree = "<group>"; };
@@ -537,6 +545,8 @@
 				0FFE881A1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m */,
 				0FA675DE1D97BBAA006A147A /* XXCodeBlocksViewController.h */,
 				0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */,
+				0F352A9C1DB5CC350095C57F /* internalFunctions.plist */,
+				0F352A9D1DB5CC350095C57F /* userDefinedFunctions.plist */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -768,6 +778,8 @@
 				0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */,
 				0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */,
 				0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */,
+				0F352A981DB5C7670095C57F /* extendApis.plist */,
+				0F352A9A1DB5C9530095C57F /* extendHisLife.plist */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1132,14 +1144,18 @@
 				0FC47E941D7698220076590B /* open.html in Resources */,
 				0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */,
 				0FC7BCAC1DB3EC440073D900 /* XXImagePickerPhotoCell.xib in Resources */,
+				0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */,
 				0FD9AD3C1D920A38007B4CEC /* PackageVersion.plist in Resources */,
 				0FC47E921D7698140076590B /* tos.html in Resources */,
 				0FC7BCA31DB3EC440073D900 /* PEPhotoCropEditor.bundle in Resources */,
+				0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */,
 				0FC7BCAA1DB3EC440073D900 /* XXImagePickerController.xib in Resources */,
 				0FE312831D963A0900AB895C /* Localizable.strings in Resources */,
 				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
+				0F352A991DB5C7670095C57F /* extendApis.plist in Resources */,
 				0FC7BCA81DB3EC440073D900 /* XXImagePickerAlbumCell.xib in Resources */,
 				0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */,
+				0F352A9F1DB5CC350095C57F /* userDefinedFunctions.plist in Resources */,
 				0F98529D1D748072001323AA /* Main.storyboard in Resources */,
 				0F5DDE4A1D814B7E00BC4BDE /* ARSafariActivity.bundle in Resources */,
 			);

@@ -13,15 +13,13 @@
 #import "XXCodeMakerService.h"
 #import "XXLocalDataService.h"
 
-#define kXXInternalFunctionsVersion 37
-
 static NSString * const kXXCodeBlocksTableViewCellReuseIdentifier = @"kXXCodeBlocksTableViewCellReuseIdentifier";
 static NSString * const kXXCodeBlocksTableViewInternalCellReuseIdentifier = @"kXXCodeBlocksTableViewInternalCellReuseIdentifier";
 static NSString * const kXXCodeBlocksAddBlockSegueIdentifier = @"kXXCodeBlocksAddBlockSegueIdentifier";
 static NSString * const kXXCodeBlocksEditBlockSegueIdentifier = @"kXXCodeBlocksEditBlockSegueIdentifier";
 
 static NSString * const kXXStorageKeySelectedCodeBlockSegmentIndex = @"kXXStorageKeySelectedCodeBlockSegmentIndex";
-static NSString * const kXXStorageKeyCodeBlockInternalFunctions = @"kXXStorageKeyCodeBlockInternalFunctions-%@";
+static NSString * const kXXStorageKeyCodeBlockInternalFunctions = @"kXXStorageKeyCodeBlockInternalFunctions";
 static NSString * const kXXStorageKeyCodeBlockUserDefinedFunctions = @"kXXStorageKeyCodeBlockUserDefinedFunctions";
 
 enum {
@@ -118,68 +116,86 @@ enum {
 
 - (NSMutableArray <XXCodeBlockModel *> *)internalFunctions {
     if (!_internalFunctions) {
-        NSMutableArray <XXCodeBlockModel *> *internalFunctions = (NSMutableArray <XXCodeBlockModel *> *)[[XXLocalDataService sharedInstance] objectForKey:[NSString stringWithFormat:kXXStorageKeyCodeBlockInternalFunctions, VERSION_BUILD]];
-        if (!internalFunctions) {
-            internalFunctions = [[NSMutableArray alloc] initWithArray:
-@[
-[XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(@pos@@cur@)"],
-[XXCodeBlockModel modelWithTitle:@"touch.on(x, y):move(x1, y1)" code:@"touch.on(@pos@@cur@):move(@pos@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.ocr_text(left, top, right, bottom)" code:@"screen.ocr_text(@rect@@cur@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.is_colors(colors, similarity)" code:@"screen.is_colors(@poscolor@@cur@, @slider@)"],
-[XXCodeBlockModel modelWithTitle:@"screen.find_color(colors, similarity)" code:@"screen.find_color(@poscolor@@cur@, @slider@)"],
-[XXCodeBlockModel modelWithTitle:@"key.press(key)" code:@"key.press(\"@key@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"gps.fake(bid, latitude, longitude)" code:@"gps.fake(\"@bid@@cur@\", @loc@)"],
-[XXCodeBlockModel modelWithTitle:@"gps.clear([bid])" code:@"gps.fake(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.run(bid)" code:@"app.run(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.close(bid)" code:@"app.close(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.quit(bid)" code:@"app.quit(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.bundle_path(bid)" code:@"app.bundle_path(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.data_path(bid)" code:@"app.data_path(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.is_running(bid)" code:@"app.is_running(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.is_front(bid)" code:@"app.is_front(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"app.uninstall(bid)" code:@"app.uninstall(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"clear.keychain(bid)" code:@"clear.keychain(\"@bid@@cur@\")"],
-[XXCodeBlockModel modelWithTitle:@"clear.app_data(bid)" code:@"clear.app_data(\"@bid@@cur@\")"],
-]
-                                 ];
-            [[XXLocalDataService sharedInstance] setObject:internalFunctions
-                                                    forKey:[NSString stringWithFormat:kXXStorageKeyCodeBlockInternalFunctions, VERSION_BUILD]];
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"internalFunctions" ofType:@"plist"];
+        NSArray *plistArr = [[NSArray alloc] initWithContentsOfFile:plistPath];
+        NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
+        for (NSDictionary *m in plistArr)
+        {
+            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"] type:kXXCodeBlockTypeInternalFunction udid:m[@"udid"]]];
         }
+        
+        BOOL edited = NO;
+        NSMutableArray <XXCodeBlockModel *> *internalFunctions = (NSMutableArray <XXCodeBlockModel *> *)[[XXLocalDataService sharedInstance] objectForKey:kXXStorageKeyCodeBlockInternalFunctions];
+        if (!internalFunctions) {
+            internalFunctions = mModelArr;
+            edited = YES;
+        } else {
+            for (XXCodeBlockModel *aModel in mModelArr)
+            {
+                BOOL finded = NO;
+                for (XXCodeBlockModel *bModel in internalFunctions) {
+                    if ([bModel.udid isEqualToString:aModel.udid]) {
+                        bModel.title = aModel.title;
+                        bModel.code = aModel.code;
+                        finded = YES;
+                        break;
+                    }
+                }
+                if (!finded) {
+                    [internalFunctions insertObject:aModel atIndex:0];
+                    edited = YES;
+                }
+            }
+        }
+        if (edited) {
+            [[XXLocalDataService sharedInstance] setObject:internalFunctions
+                                                    forKey:kXXStorageKeyCodeBlockInternalFunctions];
+        }
+        
         _internalFunctions = internalFunctions;
     }
-    
     return _internalFunctions;
 }
 
 - (void)saveInternalFunctions:(NSMutableArray<XXCodeBlockModel *> *)internalFunctions {
     [[XXLocalDataService sharedInstance] setObject:internalFunctions
-                                            forKey:[NSString stringWithFormat:kXXStorageKeyCodeBlockInternalFunctions, VERSION_BUILD]];
+                                            forKey:kXXStorageKeyCodeBlockInternalFunctions];
 }
 
 - (NSMutableArray <XXCodeBlockModel *> *)userDefinedFunctions {
     if (!_userDefinedFunctions) {
-        NSMutableArray <XXCodeBlockModel *> * userDefinedFunctions = (NSMutableArray <XXCodeBlockModel *> *)[[XXLocalDataService sharedInstance] objectForKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"userDefinedFunctions" ofType:@"plist"];
+        NSArray *plistArr = [[NSArray alloc] initWithContentsOfFile:plistPath];
+        NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
+        for (NSDictionary *m in plistArr)
+        {
+            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"] type:kXXCodeBlockTypeUserDefined udid:m[@"udid"]]];
+        }
+        
+        BOOL edited = NO;
+        NSMutableArray <XXCodeBlockModel *> *userDefinedFunctions = (NSMutableArray <XXCodeBlockModel *> *)[[XXLocalDataService sharedInstance] objectForKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
         if (!userDefinedFunctions) {
-            userDefinedFunctions = [[NSMutableArray alloc] initWithArray:
-@[
-[XXCodeBlockModel modelWithTitle:@"print()" code:@"print(@cur@)\n"],
-[XXCodeBlockModel modelWithTitle:@"print.out()" code:@"print.out(@cur@)\n"],
-[XXCodeBlockModel modelWithTitle:@"sys.toast(\"\")" code:@"sys.toast(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"sys.alert(\"\", 0)" code:@"sys.alert(\"@cur@\", 0)\n"],
-[XXCodeBlockModel modelWithTitle:@"if ... then ... end" code:@"if () then\n\t@cur@\nend\n"],
-[XXCodeBlockModel modelWithTitle:@"for i = 1, 10, 1 do ... end" code:@"for i = 1, 10, 1 do\n\t@cur@\nend\n"],
-[XXCodeBlockModel modelWithTitle:@"while (true) do .. end" code:@"while (true) do\n\t@cur@\nend\n"],
-[XXCodeBlockModel modelWithTitle:@"repeat ... until (false)" code:@"repeat\n\t@cur@\nuntil (false)\n"],
-[XXCodeBlockModel modelWithTitle:@"sys.msleep(1000)" code:@"sys.msleep(1000@cur@)\n"],
-[XXCodeBlockModel modelWithTitle:@"touch.tap(x, y)" code:@"touch.tap(x@cur@, y)\n"],
-[XXCodeBlockModel modelWithTitle:@"app.input_text(\"\")" code:@"app.input_text(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"accelerometer.shake()" code:@"accelerometer.shake()\n"],
-[XXCodeBlockModel modelWithTitle:@"r = sys.input_box(\"\")" code:@"r = sys.input_box(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"pasteboard.write(\"\")" code:@"pasteboard.write(\"@cur@\")\n"],
-[XXCodeBlockModel modelWithTitle:@"r = pasteboard.read()" code:@"r = pasteboard.read()\n"],
-[XXCodeBlockModel modelWithTitle:@"os.execute(\"\")" code:@"os.execute(\"@cur@\")\n"],
-]
-                                    ];
+            userDefinedFunctions = mModelArr;
+            edited = YES;
+        } else {
+            for (XXCodeBlockModel *aModel in mModelArr)
+            {
+                BOOL finded = NO;
+                for (XXCodeBlockModel *bModel in userDefinedFunctions) {
+                    if ([bModel.udid isEqualToString:aModel.udid]) {
+                        bModel.title = aModel.title;
+                        bModel.code = aModel.code;
+                        finded = YES;
+                        break;
+                    }
+                }
+                if (!finded) {
+                    [userDefinedFunctions insertObject:aModel atIndex:0];
+                    edited = YES;
+                }
+            }
+        }
+        if (edited) {
             [[XXLocalDataService sharedInstance] setObject:userDefinedFunctions
                                                     forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
         }

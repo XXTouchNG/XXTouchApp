@@ -11,5 +11,6 @@
 #import "XXPickerBaseViewController.h"
 
 @interface XXRectPickerController : XXPickerBaseViewController <XXPickerController>
+@property (nonatomic, assign) CGRect currentRect;
 
 @end

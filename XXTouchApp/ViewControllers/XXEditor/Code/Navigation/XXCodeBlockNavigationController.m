@@ -10,10 +10,8 @@
 #import "XXPickerController.h"
 #import "XXPickerBaseViewController.h"
 #import <Masonry/Masonry.h>
-#import "XXPickerPopupBar.h"
 
 @interface XXCodeBlockNavigationController () <UINavigationControllerDelegate>
-@property (nonatomic, strong) XXPickerPopupBar *popupBar;
 
 @end
 
@@ -29,9 +27,7 @@
 
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
     [super setNavigationBarHidden:hidden animated:animated];
-    if (hidden) {
-        self.popupBar.subtitle = NSLocalizedString(@"Triple touches to exit fullscreen", nil);
-    }
+    
 }
 
 - (void)updateViewConstraints {
@@ -60,12 +56,19 @@
                 tablePickerController.tableView.scrollIndicatorInsets = insets;
             }
             self.popupBar.title = [NSString stringWithFormat:@"%@ (%ld/%ld)", pickerController.title, (unsigned long)pickerController.codeBlock.currentStep, (unsigned long)pickerController.codeBlock.totalStep];
-            self.popupBar.subtitle = pickerController.subtitle;
+            if (pickerController.subtitle) {
+                self.popupBar.subtitle = pickerController.subtitle;
+            }
             self.popupBar.progress = (float)pickerController.codeBlock.currentStep / pickerController.codeBlock.totalStep;
         } else {
             self.popupBar.hidden = YES;
         }
     }
+}
+
+- (void)setTitle:(NSString *)title {
+//    [super setTitle:title];
+    self.popupBar.subtitle = title;
 }
 
 #pragma mark - Popup Bar
