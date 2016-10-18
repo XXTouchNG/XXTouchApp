@@ -7,17 +7,20 @@
 //
 
 #import "XXCodeMakerService.h"
+#import "XXPickerBaseViewController.h"
 #import "XXApplicationListTableViewController.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXKeyEventTableViewController.h"
 #import "XXLocationPickerController.h"
 #import "XXRectPickerController.h"
+#import "XXPositionPickerController.h"
 #import "NSString+countSubstr.h"
 
 #define KEYWORD_BUNDLE_ID @"@bid@"
 #define KEYWORD_KEY_EVENT @"@key@"
 #define KEYWORD_LOCATION @"@loc@"
 #define KEYWORD_RECTANGLE @"@rect@"
+#define KEYWORD_POSITION @"@pos@"
 
 @implementation XXCodeMakerService
 
@@ -25,7 +28,7 @@
     NSString *code = model.code;
     
     NSUInteger keywordCount = 0;
-    UIViewController <XXPickerController> *vc = nil;
+    XXPickerBaseViewController *vc = nil;
     if ([code containsString:KEYWORD_BUNDLE_ID]) {
         if (!vc) {
             vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXApplicationListTableViewControllerStoryboardID];
@@ -54,6 +57,13 @@
             vc.keyword = KEYWORD_RECTANGLE;
         }
         keywordCount += [code occurenceOfString:KEYWORD_RECTANGLE];
+    }
+    if ([code containsString:KEYWORD_POSITION]) {
+        if (!vc) {
+            vc = [[XXPositionPickerController alloc] init];
+            vc.keyword = KEYWORD_POSITION;
+        }
+        keywordCount += [code occurenceOfString:KEYWORD_POSITION];
     }
     
     if (vc != nil && keywordCount != 0) {

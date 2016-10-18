@@ -10,7 +10,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 
+typedef enum : NSUInteger {
+    kPECropViewTypeRect = 0,
+    kPECropViewTypePosition = 1
+} kPECropViewType;
+
 @interface PECropView : UIView
+
+@property (nonatomic, assign) kPECropViewType type;
 
 @property (nonatomic) UIImage *image;
 @property (nonatomic, readonly) UIImage *croppedImage;
@@ -25,7 +32,6 @@
 
 @property (nonatomic) CGRect cropRect;
 @property (nonatomic) CGRect imageCropRect;
-
 @property (nonatomic) CGFloat rotationAngle;
 
 - (void)resetCropRect;

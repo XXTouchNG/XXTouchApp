@@ -12,6 +12,6 @@
 
 static NSString * const kXXApplicationListTableViewControllerStoryboardID = @"kXXApplicationListTableViewControllerStoryboardID";
 
-@interface XXApplicationListTableViewController : XXPickerBaseViewController <XXPickerController>
+@interface XXApplicationListTableViewController : XXPickerBaseViewController
 
 @end

@@ -39,6 +39,8 @@
 		0F58A4231D90B95F0013806C /* XXBaseTextEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A4201D90B95F0013806C /* XXBaseTextEditorViewController.m */; };
 		0F58A4241D90B95F0013806C /* XXBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A4221D90B95F0013806C /* XXBaseTextView.m */; };
 		0F58A42E1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F58A42D1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m */; };
+		0F5C20861DB6576500B69CF5 /* XXPositionPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5C20851DB6576500B69CF5 /* XXPositionPickerController.m */; };
+		0F5C20891DB65B4100B69CF5 /* XXCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5C20881DB65B4100B69CF5 /* XXCanvasViewController.m */; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
 		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -193,6 +195,10 @@
 		0F58A4221D90B95F0013806C /* XXBaseTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextView.m; sourceTree = "<group>"; };
 		0F58A42C1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextEditorPropertiesTableViewController.h; sourceTree = "<group>"; };
 		0F58A42D1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextEditorPropertiesTableViewController.m; sourceTree = "<group>"; };
+		0F5C20841DB6576500B69CF5 /* XXPositionPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPositionPickerController.h; sourceTree = "<group>"; };
+		0F5C20851DB6576500B69CF5 /* XXPositionPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPositionPickerController.m; sourceTree = "<group>"; };
+		0F5C20871DB65B4100B69CF5 /* XXCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCanvasViewController.h; sourceTree = "<group>"; };
+		0F5C20881DB65B4100B69CF5 /* XXCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCanvasViewController.m; sourceTree = "<group>"; };
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F5D1F591D7E51020061A954 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0F5D1F5B1D7E525F0061A954 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
@@ -327,7 +333,6 @@
 		0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAddCodeBlockTableViewController.m; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
-		0FDEFCD91DB44AA600825931 /* XXPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPickerController.h; sourceTree = "<group>"; };
 		0FDEFCDB1DB4572000825931 /* XXImagePickerPixelPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreview.h; sourceTree = "<group>"; };
 		0FDEFCDC1DB4572000825931 /* XXImagePickerPixelPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPixelPreview.m; sourceTree = "<group>"; };
 		0FDEFCDD1DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreviewRootViewController.h; sourceTree = "<group>"; };
@@ -549,6 +554,15 @@
 				0F352A9D1DB5CC350095C57F /* userDefinedFunctions.plist */,
 			);
 			path = Code;
+			sourceTree = "<group>";
+		};
+		0F5C20831DB6574900B69CF5 /* Position */ = {
+			isa = PBXGroup;
+			children = (
+				0F5C20841DB6576500B69CF5 /* XXPositionPickerController.h */,
+				0F5C20851DB6576500B69CF5 /* XXPositionPickerController.m */,
+			);
+			path = Position;
 			sourceTree = "<group>";
 		};
 		0F5DDE081D81496800BC4BDE /* XXScriptList */ = {
@@ -862,13 +876,13 @@
 		0FC7BC551DB3EC440073D900 /* Picker */ = {
 			isa = PBXGroup;
 			children = (
-				0FDEFCD91DB44AA600825931 /* XXPickerController.h */,
 				0FEA4C8C1DB533D30063D2CF /* XXPickerPopupBar.h */,
 				0FEA4C8D1DB533D30063D2CF /* XXPickerPopupBar.m */,
 				0FDEFCEE1DB47BE300825931 /* XXPickerBaseViewController.h */,
 				0FDEFCEF1DB47BE300825931 /* XXPickerBaseViewController.m */,
 				0FC7BC561DB3EC440073D900 /* Image */,
 				0FDEFCEA1DB4604C00825931 /* Rect */,
+				0F5C20831DB6574900B69CF5 /* Position */,
 				0FC7BC961DB3EC440073D900 /* KeyEvent */,
 				0FC7BC9B1DB3EC440073D900 /* Location */,
 			);
@@ -882,6 +896,8 @@
 				0FC7BC631DB3EC440073D900 /* DoImagePicker */,
 				0FC7BC861DB3EC440073D900 /* Pixel */,
 				0FC7BC8B1DB3EC440073D900 /* Placeholder */,
+				0F5C20871DB65B4100B69CF5 /* XXCanvasViewController.h */,
+				0F5C20881DB65B4100B69CF5 /* XXCanvasViewController.m */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1298,6 +1314,7 @@
 				0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */,
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
 				0FC7BCA11DB3EC440073D900 /* PECropView.m in Sources */,
+				0F5C20891DB65B4100B69CF5 /* XXCanvasViewController.m in Sources */,
 				0FC7BCBE1DB3EC440073D900 /* XXLocationPickerController.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0FBDC6071D9CC06D00F7EB70 /* XXKeyEventModel.m in Sources */,
@@ -1311,6 +1328,7 @@
 				0F0C9A191D966E52000E184C /* XXKeyboardButton.m in Sources */,
 				0FC7BCC61DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m in Sources */,
 				0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */,
+				0F5C20861DB6576500B69CF5 /* XXPositionPickerController.m in Sources */,
 				0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */,
 				0F8F7C5D1D89198D005C3A22 /* ALAssetsLibrary+SingleInstance.m in Sources */,
 				0FC7BCB61DB3EC440073D900 /* XXTColor.m in Sources */,

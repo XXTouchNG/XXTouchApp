@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XXCodeBlockModel.h"
-#import "XXPickerBaseViewController.h"
+#import "XXCanvasViewController.h"
 
-@interface XXRectPickerController : XXPickerBaseViewController <XXPickerController>
+@interface XXRectPickerController : XXCanvasViewController
 @property (nonatomic, assign) CGRect currentRect;
 
 @end

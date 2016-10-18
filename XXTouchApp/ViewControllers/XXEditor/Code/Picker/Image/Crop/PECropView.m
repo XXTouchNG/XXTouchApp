@@ -50,6 +50,8 @@ PECropRectViewDelegate
 
 @implementation PECropView
 
+#pragma mark - Init
+
 - (id)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -90,28 +92,30 @@ PECropRectViewDelegate
     self.rotationGestureRecognizer.enabled = self.allowsRotate;
     [self.scrollView addGestureRecognizer:self.rotationGestureRecognizer];
     
-    self.cropRectView = [[PECropRectView alloc] init];
-    self.cropRectView.delegate = self;
-    [self addSubview:self.cropRectView];
-    
-    self.topOverlayView = [[UIView alloc] init];
-    self.topOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
-    [self addSubview:self.topOverlayView];
-    
-    self.leftOverlayView = [[UIView alloc] init];
-    self.leftOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
-    [self addSubview:self.leftOverlayView];
-    
-    self.rightOverlayView = [[UIView alloc] init];
-    self.rightOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
-    [self addSubview:self.rightOverlayView];
-    
-    self.bottomOverlayView = [[UIView alloc] init];
-    self.bottomOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
-    [self addSubview:self.bottomOverlayView];
+    if (self.type == kPECropViewTypeRect) {
+        self.cropRectView = [[PECropRectView alloc] init];
+        self.cropRectView.delegate = self;
+        [self addSubview:self.cropRectView];
+        
+        self.topOverlayView = [[UIView alloc] init];
+        self.topOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
+        [self addSubview:self.topOverlayView];
+        
+        self.leftOverlayView = [[UIView alloc] init];
+        self.leftOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
+        [self addSubview:self.leftOverlayView];
+        
+        self.rightOverlayView = [[UIView alloc] init];
+        self.rightOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
+        [self addSubview:self.rightOverlayView];
+        
+        self.bottomOverlayView = [[UIView alloc] init];
+        self.bottomOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
+        [self addSubview:self.bottomOverlayView];
+    }
 }
 
-#pragma mark - Layout
+#pragma mark - View Layout
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
@@ -119,10 +123,13 @@ PECropRectViewDelegate
         return nil;
     }
     
-    UIView *hitView = [self.cropRectView hitTest:[self convertPoint:point toView:self.cropRectView] withEvent:event];
-    if (hitView) {
-        return hitView;
+    if (self.type == kPECropViewTypeRect) {
+        UIView *hitView = [self.cropRectView hitTest:[self convertPoint:point toView:self.cropRectView] withEvent:event];
+        if (hitView) {
+            return hitView;
+        }
     }
+    
     CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
     CGPoint zoomedPoint = CGPointMake(locationInImageView.x * self.scrollView.zoomScale, locationInImageView.y * self.scrollView.zoomScale);
     if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
@@ -152,7 +159,9 @@ PECropRectViewDelegate
     }
     
     if (!self.isResizing) {
-        [self layoutCropRectViewWithCropRect:self.scrollView.frame];
+        if (self.type == kPECropViewTypeRect) {
+            [self layoutCropRectViewWithCropRect:self.scrollView.frame];
+        }
         
         if (self.interfaceOrientation != interfaceOrientation) {
             [self zoomToCropRect:self.scrollView.frame];
@@ -160,32 +169,6 @@ PECropRectViewDelegate
     }
     
     self.interfaceOrientation = interfaceOrientation;
-}
-
-- (void)layoutCropRectViewWithCropRect:(CGRect)cropRect
-{
-    self.cropRectView.frame = cropRect;
-    [self layoutOverlayViewsWithCropRect:cropRect];
-}
-
-- (void)layoutOverlayViewsWithCropRect:(CGRect)cropRect
-{
-    self.topOverlayView.frame = CGRectMake(0.0f,
-                                           0.0f,
-                                           CGRectGetWidth(self.bounds),
-                                           CGRectGetMinY(cropRect));
-    self.leftOverlayView.frame = CGRectMake(0.0f,
-                                            CGRectGetMinY(cropRect),
-                                            CGRectGetMinX(cropRect),
-                                            CGRectGetHeight(cropRect));
-    self.rightOverlayView.frame = CGRectMake(CGRectGetMaxX(cropRect),
-                                             CGRectGetMinY(cropRect),
-                                             CGRectGetWidth(self.bounds) - CGRectGetMaxX(cropRect),
-                                             CGRectGetHeight(cropRect));
-    self.bottomOverlayView.frame = CGRectMake(0.0f,
-                                              CGRectGetMaxY(cropRect),
-                                              CGRectGetWidth(self.bounds),
-                                              CGRectGetHeight(self.bounds) - CGRectGetMaxY(cropRect));
 }
 
 - (void)setupImageView
@@ -235,147 +218,7 @@ PECropRectViewDelegate
     [self setNeedsLayout];
 }
 
-- (void)setKeepingCropAspectRatio:(BOOL)keepingCropAspectRatio
-{
-    _keepingCropAspectRatio = keepingCropAspectRatio;
-    self.cropRectView.keepingAspectRatio = self.keepingCropAspectRatio;
-}
-
-- (void)setCropAspectRatio:(CGFloat)aspectRatio andCenter:(BOOL)center
-{
-    CGRect cropRect = self.scrollView.frame;
-    CGFloat width = CGRectGetWidth(cropRect);
-    CGFloat height = CGRectGetHeight(cropRect);
-    if (aspectRatio <= 1.0f) {
-        width = height * aspectRatio;
-        if (width > CGRectGetWidth(self.imageView.bounds)) {
-            width = CGRectGetWidth(cropRect);
-            height = width / aspectRatio;
-        }
-    } else {
-        height = width / aspectRatio;
-        if (height > CGRectGetHeight(self.imageView.bounds)) {
-            height = CGRectGetHeight(cropRect);
-            width = height * aspectRatio;
-        }
-    }
-    cropRect.size = CGSizeMake(width, height);
-    [self zoomToCropRect:cropRect andCenter:center];
-}
-
-- (void)setCropAspectRatio:(CGFloat)aspectRatio
-{
-    [self setCropAspectRatio:aspectRatio andCenter:YES];
-}
-
-- (CGFloat)cropAspectRatio
-{
-    CGRect cropRect = self.scrollView.frame;
-    CGFloat width = CGRectGetWidth(cropRect);
-    CGFloat height = CGRectGetHeight(cropRect);
-    return width / height;
-}
-
-- (void)setCropRect:(CGRect)cropRect
-{
-    [self zoomToCropRect:cropRect];
-}
-
-- (CGRect)cropRect
-{
-    return self.scrollView.frame;
-}
-
-- (void)setImageCropRect:(CGRect)imageCropRect
-{
-    [self resetCropRect];
-    
-    CGRect scrollViewFrame = self.scrollView.frame;
-    CGSize imageSize = self.image.size;
-    
-    CGFloat scale = MIN(CGRectGetWidth(scrollViewFrame) / imageSize.width,
-                        CGRectGetHeight(scrollViewFrame) / imageSize.height);
-    
-    CGFloat x = CGRectGetMinX(imageCropRect) * scale + CGRectGetMinX(scrollViewFrame);
-    CGFloat y = CGRectGetMinY(imageCropRect) * scale + CGRectGetMinY(scrollViewFrame);
-    CGFloat width = CGRectGetWidth(imageCropRect) * scale;
-    CGFloat height = CGRectGetHeight(imageCropRect) * scale;
-    
-    CGRect rect = CGRectMake(x, y, width, height);
-    CGRect intersection = CGRectIntersection(rect, scrollViewFrame);
-    
-    if (!CGRectIsNull(intersection)) {
-        self.cropRect = intersection;
-    }
-}
-
-- (void)resetCropRect
-{
-    [self resetCropRectAnimated:NO];
-}
-
-- (void)resetCropRectAnimated:(BOOL)animated
-{
-    if (animated) {
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.25];
-        [UIView setAnimationBeginsFromCurrentState:YES];
-    }
-    
-    self.imageView.transform = CGAffineTransformIdentity;
-    
-    CGSize contentSize = self.scrollView.contentSize;
-    CGRect initialRect = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
-    [self.scrollView zoomToRect:initialRect animated:NO];
-    
-    self.scrollView.bounds = self.imageView.bounds;
-    
-    [self layoutCropRectViewWithCropRect:self.scrollView.bounds];
-    
-    if (animated) {
-        [UIView commitAnimations];
-    }
-    
-    [self zoomedRectUpdated:CGRectMake(0, 0, self.image.size.width, self.image.size.height)];
-}
-
-- (UIImage *)croppedImage
-{
-    return [self.image rotatedImageWithtransform:self.rotation croppedToRect:self.zoomedCropRect];
-}
-
-- (CGRect)zoomedCropRect
-{
-    CGRect cropRect = [self convertRect:self.scrollView.frame toView:self.zoomingView];
-    return [self zoomedRect:cropRect];
-}
-
-- (CGRect)zoomedRect:(CGRect)cropRect {
-    CGSize size = self.image.size;
-    
-    CGFloat ratio = 1.0f;
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || UIInterfaceOrientationIsPortrait(orientation)) {
-        ratio = CGRectGetWidth(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.width;
-    } else {
-        ratio = CGRectGetHeight(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.height;
-    }
-    
-    CGRect zoomedCropRect = CGRectMake(cropRect.origin.x / ratio,
-                                       cropRect.origin.y / ratio,
-                                       cropRect.size.width / ratio,
-                                       cropRect.size.height / ratio);
-    
-    return zoomedCropRect;
-}
-
-- (BOOL)userHasModifiedCropArea
-{
-    CGRect zoomedCropRect = CGRectIntegral(self.zoomedCropRect);
-    return (!CGPointEqualToPoint(zoomedCropRect.origin, CGPointZero) ||
-            !CGSizeEqualToSize(zoomedCropRect.size, self.image.size) ||
-            !CGAffineTransformEqualToTransform(self.rotation, CGAffineTransformIdentity));
-}
+#pragma mark - Rotate
 
 - (CGAffineTransform)rotation
 {
@@ -410,6 +253,153 @@ PECropRectViewDelegate
     self.imageView.transform = CGAffineTransformRotate(self.imageView.transform, M_PI_2);
 }
 
+#pragma mark - Crop Layout
+
+- (void)layoutCropRectViewWithCropRect:(CGRect)cropRect
+{
+    self.cropRectView.frame = cropRect;
+    [self layoutOverlayViewsWithCropRect:cropRect];
+}
+
+- (void)layoutOverlayViewsWithCropRect:(CGRect)cropRect
+{
+    self.topOverlayView.frame = CGRectMake(0.0f,
+                                           0.0f,
+                                           CGRectGetWidth(self.bounds),
+                                           CGRectGetMinY(cropRect));
+    self.leftOverlayView.frame = CGRectMake(0.0f,
+                                            CGRectGetMinY(cropRect),
+                                            CGRectGetMinX(cropRect),
+                                            CGRectGetHeight(cropRect));
+    self.rightOverlayView.frame = CGRectMake(CGRectGetMaxX(cropRect),
+                                             CGRectGetMinY(cropRect),
+                                             CGRectGetWidth(self.bounds) - CGRectGetMaxX(cropRect),
+                                             CGRectGetHeight(cropRect));
+    self.bottomOverlayView.frame = CGRectMake(0.0f,
+                                              CGRectGetMaxY(cropRect),
+                                              CGRectGetWidth(self.bounds),
+                                              CGRectGetHeight(self.bounds) - CGRectGetMaxY(cropRect));
+}
+
+#pragma mark - Crop Setter / Getter
+
+- (void)setKeepingCropAspectRatio:(BOOL)keepingCropAspectRatio
+{
+    _keepingCropAspectRatio = keepingCropAspectRatio;
+    self.cropRectView.keepingAspectRatio = self.keepingCropAspectRatio;
+}
+
+- (CGFloat)cropAspectRatio
+{
+    CGRect cropRect = self.scrollView.frame;
+    CGFloat width = CGRectGetWidth(cropRect);
+    CGFloat height = CGRectGetHeight(cropRect);
+    return width / height;
+}
+
+- (void)setCropAspectRatio:(CGFloat)aspectRatio
+{
+    [self setCropAspectRatio:aspectRatio andCenter:YES];
+}
+
+- (void)setCropAspectRatio:(CGFloat)aspectRatio andCenter:(BOOL)center
+{
+    CGRect cropRect = self.scrollView.frame;
+    CGFloat width = CGRectGetWidth(cropRect);
+    CGFloat height = CGRectGetHeight(cropRect);
+    if (aspectRatio <= 1.0f) {
+        width = height * aspectRatio;
+        if (width > CGRectGetWidth(self.imageView.bounds)) {
+            width = CGRectGetWidth(cropRect);
+            height = width / aspectRatio;
+        }
+    } else {
+        height = width / aspectRatio;
+        if (height > CGRectGetHeight(self.imageView.bounds)) {
+            height = CGRectGetHeight(cropRect);
+            width = height * aspectRatio;
+        }
+    }
+    cropRect.size = CGSizeMake(width, height);
+    [self zoomToCropRect:cropRect andCenter:center];
+}
+
+- (CGRect)cropRect
+{
+    return self.scrollView.frame;
+}
+
+- (void)setCropRect:(CGRect)cropRect
+{
+    [self zoomToCropRect:cropRect];
+}
+
+- (void)setImageCropRect:(CGRect)imageCropRect
+{
+    [self resetCropRect];
+    
+    CGRect scrollViewFrame = self.scrollView.frame;
+    CGSize imageSize = self.image.size;
+    
+    CGFloat scale = MIN(CGRectGetWidth(scrollViewFrame) / imageSize.width,
+                        CGRectGetHeight(scrollViewFrame) / imageSize.height);
+    
+    CGFloat x = CGRectGetMinX(imageCropRect) * scale + CGRectGetMinX(scrollViewFrame);
+    CGFloat y = CGRectGetMinY(imageCropRect) * scale + CGRectGetMinY(scrollViewFrame);
+    CGFloat width = CGRectGetWidth(imageCropRect) * scale;
+    CGFloat height = CGRectGetHeight(imageCropRect) * scale;
+    
+    CGRect rect = CGRectMake(x, y, width, height);
+    CGRect intersection = CGRectIntersection(rect, scrollViewFrame);
+    
+    if (!CGRectIsNull(intersection)) {
+        self.cropRect = intersection;
+    }
+}
+
+#pragma mark - Crop Reset
+
+- (void)resetCropRect
+{
+    [self resetCropRectAnimated:NO];
+}
+
+- (void)resetCropRectAnimated:(BOOL)animated
+{
+    if (animated) {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.25];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+    }
+    
+    self.imageView.transform = CGAffineTransformIdentity;
+    
+    CGSize contentSize = self.scrollView.contentSize;
+    CGRect initialRect = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
+    [self.scrollView zoomToRect:initialRect animated:NO];
+    
+    self.scrollView.bounds = self.imageView.bounds;
+    
+    if (self.type == kPECropViewTypeRect) {
+        [self layoutCropRectViewWithCropRect:self.scrollView.bounds];
+    }
+    
+    if (animated) {
+        [UIView commitAnimations];
+    }
+    
+    if (self.type == kPECropViewTypeRect) {
+        [self zoomedRectUpdated:CGRectMake(0, 0, self.image.size.width, self.image.size.height)];
+    }
+}
+
+#pragma mark - Crop Image
+
+- (UIImage *)croppedImage
+{
+    return [self.image rotatedImageWithtransform:self.rotation croppedToRect:self.zoomedCropRect];
+}
+
 - (CGRect)cappedCropRectInImageRectWithCropRectView:(PECropRectView *)cropRectView
 {
     CGRect cropRect = cropRectView.frame;
@@ -441,6 +431,33 @@ PECropRectViewDelegate
     return cropRect;
 }
 
+#pragma mark - Crop Zoom
+
+- (CGRect)zoomedCropRect
+{
+    CGRect cropRect = [self convertRect:self.scrollView.frame toView:self.zoomingView];
+    return [self zoomedRect:cropRect];
+}
+
+- (CGRect)zoomedRect:(CGRect)cropRect {
+    CGSize size = self.image.size;
+    
+    CGFloat ratio = 1.0f;
+    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || UIInterfaceOrientationIsPortrait(orientation)) {
+        ratio = CGRectGetWidth(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.width;
+    } else {
+        ratio = CGRectGetHeight(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.height;
+    }
+    
+    CGRect zoomedCropRect = CGRectMake(cropRect.origin.x / ratio,
+                                       cropRect.origin.y / ratio,
+                                       cropRect.size.width / ratio,
+                                       cropRect.size.height / ratio);
+    
+    return zoomedCropRect;
+}
+
 - (void)automaticZoomIfEdgeTouched:(CGRect)cropRect
 {
     if (CGRectGetMinX(cropRect) < CGRectGetMinX(self.editingRect) - 5.0f ||
@@ -453,7 +470,16 @@ PECropRectViewDelegate
     }
 }
 
-#pragma mark - Crop Rect
+- (BOOL)userHasModifiedCropArea
+{
+    CGRect zoomedCropRect = CGRectIntegral(self.zoomedCropRect);
+    return (!CGPointEqualToPoint(zoomedCropRect.origin, CGPointZero) ||
+            !CGSizeEqualToSize(zoomedCropRect.size, self.image.size) ||
+            !CGAffineTransformEqualToTransform(self.rotation, CGAffineTransformIdentity));
+}
+
+
+#pragma mark - Crop Gesture
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches
            withEvent:(UIEvent *)event {
@@ -537,7 +563,9 @@ PECropRectViewDelegate
     
     [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.scrollView.bounds = cropRect;
-        [self layoutCropRectViewWithCropRect:cropRect];
+        if (self.type == kPECropViewTypeRect) {
+            [self layoutCropRectViewWithCropRect:cropRect];
+        }
         [self.scrollView zoomToRect:zoomRect animated:NO];
     } completion:NULL];
 }
@@ -557,12 +585,14 @@ PECropRectViewDelegate
     self.imageView.transform = transform;
     gestureRecognizer.rotation = 0.0f;
     
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        self.cropRectView.showsGridMinor = YES;
-    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded ||
-               gestureRecognizer.state == UIGestureRecognizerStateCancelled ||
-               gestureRecognizer.state == UIGestureRecognizerStateFailed) {
-        self.cropRectView.showsGridMinor = NO;
+    if (self.type == kPECropViewTypeRect) {
+        if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+            self.cropRectView.showsGridMinor = YES;
+        } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded ||
+                   gestureRecognizer.state == UIGestureRecognizerStateCancelled ||
+                   gestureRecognizer.state == UIGestureRecognizerStateFailed) {
+            self.cropRectView.showsGridMinor = NO;
+        }
     }
 }
 
@@ -582,14 +612,20 @@ PECropRectViewDelegate
     *targetContentOffset = contentOffset;
 }
 
-#pragma mark - Rect Event
+#pragma mark - Area Event
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self zoomedRectUpdated:self.zoomedCropRect];
+    if (self.type == kPECropViewTypeRect) {
+        [self zoomedRectUpdated:self.zoomedCropRect];
+    }
+    
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    [self zoomedRectUpdated:self.zoomedCropRect];
+    if (self.type == kPECropViewTypeRect) {
+        [self zoomedRectUpdated:self.zoomedCropRect];
+    }
+    
 }
 
 #pragma mark - Preview

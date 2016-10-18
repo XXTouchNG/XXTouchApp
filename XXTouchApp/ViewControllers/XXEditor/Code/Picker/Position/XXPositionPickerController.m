@@ -1,31 +1,31 @@
 //
-//  XXRectPickerController.m
+//  XXPositionPickerController.m
 //  XXTouchApp
 //
-//  Created by Zheng on 10/10/16.
-//  Copyright (c) 2016 Zheng. All rights reserved.
+//  Created by Zheng on 18/10/2016.
+//  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "XXRectPickerController.h"
+#import "XXPositionPickerController.h"
 
-@interface XXRectPickerController ()
+@interface XXPositionPickerController ()
 
 @end
 
-@implementation XXRectPickerController
+@implementation XXPositionPickerController
 
 @synthesize localizedStrings = _localizedStrings;
 
 - (kPECropViewType)cropViewType {
-    return kPECropViewTypeRect;
+    return kPECropViewTypePosition;
 }
 
 - (NSDictionary <NSString *, NSString *> *)localizedStrings {
     if (!_localizedStrings) {
-        _localizedStrings = @{ kXXLocalizedStringKeyTitle: NSLocalizedString(@"Rectangle", nil),
+        _localizedStrings = @{ kXXLocalizedStringKeyTitle: NSLocalizedString(@"Position", nil),
                                kXXLocalizedStringKeyErrorLoadFile: NSLocalizedString(@"Cannot load image from temporarily file", nil),
                                kXXLocalizedStringKeySelectImage: NSLocalizedString(@"Select an image from album", nil),
-                               kXXLocalizedStringKeySelected: NSLocalizedString(@"Select a rectangular area", nil),
+                               kXXLocalizedStringKeySelected: NSLocalizedString(@"Select a position by tapping on image", nil),
                                kXXLocalizedStringKeyEnterFull: NSLocalizedString(@"Triple touches to exit fullscreen", nil),
                                kXXLocalizedStringKeyExitFull: NSLocalizedString(@"One finger to drag, two fingers to zoom", nil),
                                kXXLocalizedStringKeyCanvasLocked: NSLocalizedString(@"Canvas locked, it cannot be moved or zoomed", nil),
@@ -39,28 +39,24 @@
 #pragma mark - Strings
 
 - (NSString *)previewString {
-    return [self stringFromRect:self.cropView.zoomedCropRect tips:NO];
+    return [self stringFromPoint:self.currentPoint tips:NO];
 }
 
-#pragma mark - Rects
+#pragma mark - Points
 
-- (NSString *)stringFromRect:(CGRect)cropRect tips:(BOOL)tips {
-    NSString *rectFormat = nil;
+- (NSString *)stringFromPoint:(CGPoint)p tips:(BOOL)tips {
+    NSString *pFormat = nil;
     if (tips) {
-        rectFormat = @"x1 = %d, y1 = %d, x2 = %d, y2 = %d";
+        pFormat = @"x = %d, y = %d";
     } else {
-        rectFormat = @"%d, %d, %d, %d";
+        pFormat = @"%d, %d";
     }
-    return [NSString stringWithFormat:rectFormat,
-            (int)cropRect.origin.x,
-            (int)cropRect.origin.y,
-            (int)cropRect.origin.x + (int)cropRect.size.width,
-            (int)cropRect.origin.y + (int)cropRect.size.height];
+    return [NSString stringWithFormat:pFormat, p.x, p.y];
 }
 
-- (void)setCurrentRect:(CGRect)currentRect {
-    _currentRect = currentRect;
-    self.subtitle = [self stringFromRect:currentRect tips:YES];
+- (void)setCurrentPoint:(CGPoint)currentPoint {
+    _currentPoint = currentPoint;
+    self.subtitle = [self stringFromPoint:currentPoint tips:YES];
 }
 
 #pragma mark - Memory

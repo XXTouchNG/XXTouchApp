@@ -12,6 +12,6 @@
 
 static NSString * const kXXLocationPickerControllerStoryboardID = @"kXXLocationPickerControllerStoryboardID";
 
-@interface XXLocationPickerController : XXPickerBaseViewController <XXPickerController>
+@interface XXLocationPickerController : XXPickerBaseViewController
 
 @end

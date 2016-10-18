@@ -12,6 +12,6 @@
 
 static NSString * const kXXKeyEventTableViewControllerStoryboardID = @"kXXKeyEventTableViewControllerStoryboardID";
 
-@interface XXKeyEventTableViewController : XXPickerBaseViewController <XXPickerController>
+@interface XXKeyEventTableViewController : XXPickerBaseViewController
 
 @end

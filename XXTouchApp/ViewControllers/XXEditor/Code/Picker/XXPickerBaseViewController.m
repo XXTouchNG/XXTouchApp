@@ -15,8 +15,6 @@
 
 @implementation XXPickerBaseViewController
 
-@synthesize codeBlock = _codeBlock, keyword = _keyword, processController = _processController, nextButton = _nextButton;
-
 #pragma mark - View Events
 
 - (void)viewDidLoad {
@@ -61,19 +59,9 @@
 
 #pragma mark - Strings
 
-- (NSString *)keyword {
-    if (!_keyword) {
-        _keyword = @"@@";
-    }
-    return _keyword;
-}
-
-- (NSString *)subtitle {
-    return @"";
-}
-
-- (NSString *)previewString {
-    return @"";
+- (void)setSubtitle:(NSString *)subtitle {
+    _subtitle = subtitle;
+    self.navigationController.title = subtitle;
 }
 
 @end
