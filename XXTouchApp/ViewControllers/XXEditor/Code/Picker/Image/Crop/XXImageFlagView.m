@@ -28,6 +28,7 @@
         UILabel *hahaLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         hahaLabel.text = @"🐸";
         hahaLabel.textAlignment = NSTextAlignmentCenter;
+        hahaLabel.alpha = .85f;
         [hahaLabel sizeToFit];
         hahaLabel.center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
         _hahaLabel = hahaLabel;

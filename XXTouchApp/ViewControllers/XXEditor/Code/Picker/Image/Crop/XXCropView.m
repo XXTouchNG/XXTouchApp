@@ -54,6 +54,8 @@ XXCropRectViewDelegate
 @property (nonatomic, assign) CGPoint lastPoint;
 @property (nonatomic, strong) NSMutableArray <XXImageFlagView *> *flagViews;
 
+@property (nonatomic, assign) CGFloat ratio;
+
 @end
 
 @implementation XXCropView {
@@ -180,6 +182,13 @@ XXCropRectViewDelegate
         if (self.interfaceOrientation != interfaceOrientation) {
             [self zoomToCropRect:self.scrollView.frame];
         }
+    }
+    
+    CGSize size = self.image.size;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        self.ratio = CGRectGetWidth(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.width;
+    } else {
+        self.ratio = CGRectGetHeight(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.height;
     }
     
     self.interfaceOrientation = interfaceOrientation;
@@ -465,20 +474,10 @@ XXCropRectViewDelegate
 }
 
 - (CGRect)zoomedRect:(CGRect)cropRect {
-    CGSize size = self.image.size;
-    
-    CGFloat ratio = 1.0f;
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || UIInterfaceOrientationIsPortrait(orientation)) {
-        ratio = CGRectGetWidth(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.width;
-    } else {
-        ratio = CGRectGetHeight(AVMakeRectWithAspectRatioInsideRect(size, self.insetRect)) / size.height;
-    }
-    
-    CGRect zoomedCropRect = CGRectMake(cropRect.origin.x / ratio,
-                                       cropRect.origin.y / ratio,
-                                       cropRect.size.width / ratio,
-                                       cropRect.size.height / ratio);
+    CGRect zoomedCropRect = CGRectMake(cropRect.origin.x / _ratio,
+                                       cropRect.origin.y / _ratio,
+                                       cropRect.size.width / _ratio,
+                                       cropRect.size.height / _ratio);
     
     return zoomedCropRect;
 }
@@ -621,6 +620,16 @@ XXCropRectViewDelegate
     }
 }
 
+#pragma mark - Point Fix
+
+- (CGPoint)zoomedPoint:(CGPoint)p {
+    return CGPointMake(p.x / _ratio, p.y / _ratio);
+}
+
+- (CGPoint)restoredPoint:(CGPoint)p {
+    return CGPointMake(p.x * _ratio, p.y * _ratio);
+}
+
 #pragma mark - Tap Gesture
 
 - (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
@@ -628,27 +637,27 @@ XXCropRectViewDelegate
         CGPoint point = [gestureRecognizer locationInView:self];
         CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
         CGFloat zoomScale = self.scrollView.zoomScale;
-        CGPoint zoomedPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
-        
+        CGPoint scaledPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
         for (NSInteger i = self.flagViews.count - 1; i >= 0; i--) {
             XXImageFlagView *v = self.flagViews[i];
-            if (CGRectContainsPoint(v.frame, zoomedPoint)) {
+            if (CGRectContainsPoint(v.frame, scaledPoint)) {
                 [self maskViewTapped:v];
                 return;
             }
         }
-        
-        if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
-            CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
-            CGPoint p = zoomedRect.origin;
+        if (CGRectContainsPoint(self.zoomingView.frame, scaledPoint)) {
+            CGPoint p = [self zoomedPoint:locationInImageView];
+            CGPoint fixedPoint = CGPointMake(floor(p.x) + 0.5, floor(p.y) + 0.5);
+            CGPoint restoredPoint = [self restoredPoint:fixedPoint];
+            
             UIColor *c = [self.imagePreview getColorOfPoint:p];
             if (self.type == kXXCropViewTypeColor ||
                 self.type == kXXCropViewTypePosition ||
                 self.type == kXXCropViewTypePositionColor) {
                 [self removeAllFlagViews];
-                [self addFlagViewAtPoint:locationInImageView andReal:p];
+                [self addFlagViewAtPoint:restoredPoint andReal:p];
             } else if (self.type == kXXCropViewTypeMultiplePositionColor) {
-                [self addFlagViewAtPoint:locationInImageView andReal:p andColor:c];
+                [self addFlagViewAtPoint:restoredPoint andReal:p andColor:c];
                 [self modelArrayUpdated]; // Set Array
             }
             
@@ -671,10 +680,9 @@ XXCropRectViewDelegate
     CGPoint point = [gestureRecognizer locationInView:self];
     CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
     CGFloat zoomScale = self.scrollView.zoomScale;
-    CGPoint zoomedPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
-    if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
-        CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
-        CGPoint p = zoomedRect.origin;
+    CGPoint scaledPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
+    if (CGRectContainsPoint(self.zoomingView.frame, scaledPoint)) {
+        CGPoint p = [self zoomedPoint:locationInImageView];
         [self.imagePreview setPointToMagnify:p];
         UIColor *c = self.imagePreview.colorOfLastPoint;
         if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
@@ -683,15 +691,17 @@ XXCropRectViewDelegate
             self.imagePreview.statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
             [self movePreviewByPoint:point];
             [self.imagePreview makeKeyAndVisible];
-        } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {\
+            CGPoint fixedPoint = CGPointMake(floor(p.x) + 0.5, floor(p.y) + 0.5);
+            CGPoint restoredPoint = [self restoredPoint:fixedPoint];
             // Ended and mark
             if (self.type == kXXCropViewTypeColor ||
                 self.type == kXXCropViewTypePosition ||
                 self.type == kXXCropViewTypePositionColor) {
                 [self removeAllFlagViews];
-                [self addFlagViewAtPoint:locationInImageView andReal:p];
+                [self addFlagViewAtPoint:restoredPoint andReal:p];
             } else if (self.type == kXXCropViewTypeMultiplePositionColor) {
-                [self addFlagViewAtPoint:locationInImageView andReal:p andColor:c];
+                [self addFlagViewAtPoint:restoredPoint andReal:p andColor:c];
                 [self modelArrayUpdated]; // Set Array
             }
         }
