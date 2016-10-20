@@ -26,6 +26,7 @@
 		0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */; };
 		0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */; };
 		0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */; };
+		0F28C23A1DB86EBC006A6E4D /* XXImageFlagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
 		0F352A991DB5C7670095C57F /* extendApis.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A981DB5C7670095C57F /* extendApis.plist */; };
@@ -173,6 +174,8 @@
 		0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationTableViewCell.m; sourceTree = "<group>"; };
 		0F25D7E91D8501C40056826B /* XXApplicationDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationDetailTableViewController.h; sourceTree = "<group>"; };
 		0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXApplicationDetailTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F28C2381DB86EBC006A6E4D /* XXImageFlagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImageFlagView.h; sourceTree = "<group>"; };
+		0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImageFlagView.m; sourceTree = "<group>"; };
 		0F302D2A1D745751001E566A /* StyleDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
 		0F302D2C1D74578E001E566A /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
 		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
@@ -920,6 +923,8 @@
 		0FC7BC571DB3EC440073D900 /* Crop */ = {
 			isa = PBXGroup;
 			children = (
+				0F28C2381DB86EBC006A6E4D /* XXImageFlagView.h */,
+				0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */,
 				0FC7BC581DB3EC440073D900 /* PECropRectView.h */,
 				0FC7BC591DB3EC440073D900 /* PECropRectView.m */,
 				0FC7BC5A1DB3EC440073D900 /* PECropView.h */,
@@ -1266,6 +1271,7 @@
 				0FC7BCA01DB3EC440073D900 /* PECropRectView.m in Sources */,
 				0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */,
 				0FC7BCA21DB3EC440073D900 /* PECropViewController.m in Sources */,
+				0F28C23A1DB86EBC006A6E4D /* XXImageFlagView.m in Sources */,
 				0F0FA8FF1D9983F5009FD2F8 /* CYRTextStorage.m in Sources */,
 				0F8F7C541D89193B005C3A22 /* NSFileManager+RealDestination.m in Sources */,
 				0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */,

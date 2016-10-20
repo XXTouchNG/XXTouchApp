@@ -14,6 +14,7 @@
 #import "XXRectPickerController.h"
 #import "XXPositionPickerController.h"
 #import "XXColorPickerController.h"
+#import "XXImageFlagView.h"
 
 static const CGFloat MarginTop = 81.f;
 //static const CGFloat MarginBottom = 37.f;
@@ -29,6 +30,7 @@ PECropRectViewDelegate
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIView *zoomingView;
+@property (nonatomic) UIView *maskFlagView;
 @property (nonatomic) UIImageView *imageView;
 
 @property (nonatomic) PECropRectView *cropRectView;
@@ -47,8 +49,8 @@ PECropRectViewDelegate
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
 @property (nonatomic, strong) XXImagePickerPixelPreview *imagePreview;
-
 @property (nonatomic, assign) CGPoint lastPoint;
+@property (nonatomic, strong) NSMutableArray <XXImageFlagView *> *flagViews;
 
 @end
 
@@ -191,6 +193,10 @@ PECropRectViewDelegate
     self.zoomingView.backgroundColor = [UIColor clearColor];
     [self.scrollView addSubview:self.zoomingView];
     
+    self.maskFlagView = [[UIView alloc] initWithFrame:self.scrollView.bounds];
+    self.maskFlagView.backgroundColor = [UIColor clearColor];
+    [self.scrollView addSubview:self.maskFlagView];
+    
     self.imageView = [[UIImageView alloc] initWithFrame:self.zoomingView.bounds];
     self.imageView.backgroundColor = [UIColor clearColor];
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -224,6 +230,9 @@ PECropRectViewDelegate
     
     [self.zoomingView removeFromSuperview];
     self.zoomingView = nil;
+    
+    [self.maskFlagView removeFromSuperview];
+    self.maskFlagView = nil;
     
     self.imagePreview.imageToMagnify = image;
     [self setNeedsLayout];
@@ -612,13 +621,16 @@ PECropRectViewDelegate
 - (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         CGPoint point = [gestureRecognizer locationInView:self];
-        
         CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
-        CGPoint zoomedPoint = CGPointMake(locationInImageView.x * self.scrollView.zoomScale, locationInImageView.y * self.scrollView.zoomScale);
+        CGFloat zoomScale = self.scrollView.zoomScale;
+        CGPoint zoomedPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
         if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
             CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
             CGPoint p = zoomedRect.origin;
-            
+            if (self.type == kPECropViewTypeColor || self.type == kPECropViewTypePosition) {
+                [self removeAllFlagViews];
+                [self addFlagViewAtPoint:locationInImageView];
+            }
             if (self.type == kPECropViewTypeColor) {
                 [self colorUpdated:[self.imagePreview getColorOfPoint:p]];
             } else if (self.type == kPECropViewTypePosition) {
@@ -633,11 +645,11 @@ PECropRectViewDelegate
 - (void)handlePan:(UIPanGestureRecognizer *)gestureRecognizer {
     CGPoint point = [gestureRecognizer locationInView:self];
     CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
-    CGPoint zoomedPoint = CGPointMake(locationInImageView.x * self.scrollView.zoomScale, locationInImageView.y * self.scrollView.zoomScale);
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    CGPoint zoomedPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
     if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
         CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
         CGPoint p = zoomedRect.origin;
-        
         [self.imagePreview setPointToMagnify:p];
         if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
             [self movePreviewByPoint:point];
@@ -645,17 +657,53 @@ PECropRectViewDelegate
             self.imagePreview.statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
             [self movePreviewByPoint:point];
             [self.imagePreview makeKeyAndVisible];
+        } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+            // Ended and mark
+            if (self.type == kPECropViewTypeColor || self.type == kPECropViewTypePosition) {
+                [self removeAllFlagViews];
+                [self addFlagViewAtPoint:locationInImageView];
+            }
         }
-        
         if (self.type == kPECropViewTypeColor) {
             [self colorUpdated:self.imagePreview.colorOfLastPoint];
         } else if (self.type == kPECropViewTypePosition) {
             [self zoomedPointUpdated:p];
         }
     }
-    
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         [self.imagePreview setHidden:YES];
+    }
+}
+
+#pragma mark - Flag
+
+- (NSMutableArray <XXImageFlagView *> *)flagViews {
+    if (!_flagViews) {
+        _flagViews = [[NSMutableArray alloc] init];
+    }
+    return _flagViews;
+}
+
+- (void)addFlagViewAtPoint:(CGPoint)p {
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    XXImageFlagView *newFlagView = [[XXImageFlagView alloc] initWithFrame:CGRectMake(0, 0, 6, 6)];
+    newFlagView.center = CGPointMake(p.x * zoomScale, p.y * zoomScale);
+    newFlagView.originalPoint = p;
+    [self.maskFlagView addSubview:newFlagView];
+    [self.flagViews addObject:newFlagView];
+}
+
+- (void)removeAllFlagViews {
+    for (XXImageFlagView *v in self.flagViews) {
+        [v removeFromSuperview];
+    }
+    [self.flagViews removeAllObjects];
+}
+
+- (void)adjustFlagViews {
+    for (XXImageFlagView *v in self.flagViews) {
+        CGFloat zoomScale = self.scrollView.zoomScale;
+        v.center = CGPointMake(v.originalPoint.x * zoomScale, v.originalPoint.y * zoomScale);
     }
 }
 
@@ -692,6 +740,8 @@ PECropRectViewDelegate
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     if (self.type == kPECropViewTypeRect) {
         [self zoomedRectUpdated:self.zoomedCropRect];
+    } else {
+        [self adjustFlagViews];
     }
 }
 
