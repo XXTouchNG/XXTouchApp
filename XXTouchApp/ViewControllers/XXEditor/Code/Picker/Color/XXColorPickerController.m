@@ -16,8 +16,8 @@
 
 @synthesize localizedStrings = _localizedStrings;
 
-- (kPECropViewType)cropViewType {
-    return kPECropViewTypeColor;
+- (kXXCropViewType)cropViewType {
+    return kXXCropViewTypeColor;
 }
 
 - (NSDictionary <NSString *, NSString *> *)localizedStrings {
@@ -50,7 +50,7 @@
         c = [UIColor blackColor];
     }
     if (tips) {
-        return [NSString stringWithFormat:@"R: %d, G: %d, B: %d, A: %.2f (0x%@)", (int)(c.red * 255.f), (int)(c.green * 255.f), (int)(c.blue * 255.f), c.alpha, [c hexString]];
+        return [NSString stringWithFormat:@"R: %d, G: %d, B: %d, A: %.2f (#%@)", (int)(c.red * 255.f), (int)(c.green * 255.f), (int)(c.blue * 255.f), c.alpha, [c hexString]];
     } else {
         return [NSString stringWithFormat:@"0x%@", [c hexString]];
     }

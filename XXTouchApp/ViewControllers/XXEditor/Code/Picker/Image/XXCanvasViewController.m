@@ -7,7 +7,7 @@
 //
 
 #import <Masonry/Masonry.h>
-#import "PECropView.h"
+#import "XXCropView.h"
 #import "XXCodeMakerService.h"
 #import "XXLocalDataService.h"
 #import "XXCanvasViewController.h"
@@ -118,7 +118,7 @@
     contentView.backgroundColor = [UIColor whiteColor];
     self.view = contentView;
     
-    PECropView *cropView = [[PECropView alloc] initWithFrame:contentView.bounds andType:[self cropViewType]];
+    XXCropView *cropView = [[XXCropView alloc] initWithFrame:contentView.bounds andType:[self cropViewType]];
     cropView.hidden = YES;
     _cropView = cropView;
     [contentView insertSubview:self.cropView atIndex:0];
@@ -157,8 +157,8 @@
 
 #pragma mark - Getter
 
-- (kPECropViewType)cropViewType {
-    return kPECropViewTypeRect;
+- (kXXCropViewType)cropViewType {
+    return kXXCropViewTypeRect;
 }
 
 - (NSDictionary <NSString *, NSString *> *)localizedStrings {
@@ -205,7 +205,7 @@
         _lockButton = lockButton;
         UIBarButtonItem *lockBtn = [[UIBarButtonItem alloc] initWithCustomView:lockButton];
         
-        [cropToolbar setItems:@[picBtn, flexibleSpace, trashBtn, flexibleSpace, toLeftBtn, flexibleSpace, toRightBtn, flexibleSpace, resetBtn, flexibleSpace, lockBtn]];
+        [cropToolbar setItems:@[trashBtn, flexibleSpace, picBtn, flexibleSpace, toLeftBtn, flexibleSpace, toRightBtn, flexibleSpace, resetBtn, flexibleSpace, lockBtn]];
         
         _cropToolbar = cropToolbar;
     }

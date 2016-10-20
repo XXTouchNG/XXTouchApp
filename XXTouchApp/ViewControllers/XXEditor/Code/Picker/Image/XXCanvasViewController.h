@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PECropView.h"
+#import "XXCropView.h"
 #import "XXPickerBaseViewController.h"
 
 static NSString * const kXXLocalizedStringKeyTitle = @"kXXLocalizedStringKeyTitle";
@@ -23,7 +23,7 @@ static NSString * const kXXLocalizedStringKeyErrorDeleteFile = @"kXXLocalizedStr
 @interface XXCanvasViewController : XXPickerBaseViewController
 
 @property (nonatomic, strong) NSDictionary <NSString *, NSString *> *localizedStrings;
-@property (nonatomic, strong) PECropView *cropView;
-- (kPECropViewType)cropViewType;
+@property (nonatomic, strong) XXCropView *cropView;
+- (kXXCropViewType)cropViewType;
 
 @end

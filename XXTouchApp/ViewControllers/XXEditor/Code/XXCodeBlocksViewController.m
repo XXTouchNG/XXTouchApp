@@ -19,8 +19,6 @@ static NSString * const kXXCodeBlocksAddBlockSegueIdentifier = @"kXXCodeBlocksAd
 static NSString * const kXXCodeBlocksEditBlockSegueIdentifier = @"kXXCodeBlocksEditBlockSegueIdentifier";
 
 static NSString * const kXXStorageKeySelectedCodeBlockSegmentIndex = @"kXXStorageKeySelectedCodeBlockSegmentIndex";
-static NSString * const kXXStorageKeyCodeBlockInternalFunctions = @"kXXStorageKeyCodeBlockInternalFunctions";
-static NSString * const kXXStorageKeyCodeBlockUserDefinedFunctions = @"kXXStorageKeyCodeBlockUserDefinedFunctions";
 
 enum {
     kXXCodeBlocksInternalFunctionSection = 0,

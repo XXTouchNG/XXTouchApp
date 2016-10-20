@@ -16,8 +16,8 @@
 
 @synthesize localizedStrings = _localizedStrings;
 
-- (kPECropViewType)cropViewType {
-    return kPECropViewTypePosition;
+- (kXXCropViewType)cropViewType {
+    return kXXCropViewTypePosition;
 }
 
 - (NSDictionary <NSString *, NSString *> *)localizedStrings {

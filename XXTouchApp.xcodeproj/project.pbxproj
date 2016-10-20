@@ -27,6 +27,8 @@
 		0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */; };
 		0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */; };
 		0F28C23A1DB86EBC006A6E4D /* XXImageFlagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */; };
+		0F28C23D1DB89A01006A6E4D /* XXPositionColorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C23C1DB89A01006A6E4D /* XXPositionColorModel.m */; };
+		0F28C2411DB89C90006A6E4D /* XXPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2401DB89C90006A6E4D /* XXPosColorPickerController.m */; };
 		0F302D2E1D74578E001E566A /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */; };
 		0F302D311D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F302D301D7457D4001E566A /* UINavigationController+FDFullscreenPopGesture.m */; };
 		0F352A991DB5C7670095C57F /* extendApis.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A981DB5C7670095C57F /* extendApis.plist */; };
@@ -89,12 +91,10 @@
 		0FC47E921D7698140076590B /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FC47E911D7698140076590B /* tos.html */; };
 		0FC47E941D7698220076590B /* open.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FC47E931D7698220076590B /* open.html */; };
 		0FC71C751D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC71C741D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m */; };
-		0FC7BCA01DB3EC440073D900 /* PECropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC591DB3EC440073D900 /* PECropRectView.m */; };
-		0FC7BCA11DB3EC440073D900 /* PECropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC5B1DB3EC440073D900 /* PECropView.m */; };
-		0FC7BCA21DB3EC440073D900 /* PECropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC5D1DB3EC440073D900 /* PECropViewController.m */; };
-		0FC7BCA31DB3EC440073D900 /* PEPhotoCropEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FC7BC5E1DB3EC440073D900 /* PEPhotoCropEditor.bundle */; };
-		0FC7BCA41DB3EC440073D900 /* PEResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC601DB3EC440073D900 /* PEResizeControl.m */; };
-		0FC7BCA51DB3EC440073D900 /* UIImage+PECrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC621DB3EC440073D900 /* UIImage+PECrop.m */; };
+		0FC7BCA01DB3EC440073D900 /* XXCropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC591DB3EC440073D900 /* XXCropRectView.m */; };
+		0FC7BCA11DB3EC440073D900 /* XXCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC5B1DB3EC440073D900 /* XXCropView.m */; };
+		0FC7BCA41DB3EC440073D900 /* XXResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC601DB3EC440073D900 /* XXResizeControl.m */; };
+		0FC7BCA51DB3EC440073D900 /* UIImage+XXCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC621DB3EC440073D900 /* UIImage+XXCrop.m */; };
 		0FC7BCA61DB3EC440073D900 /* XXAssetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC651DB3EC440073D900 /* XXAssetHelper.m */; };
 		0FC7BCA71DB3EC440073D900 /* XXImagePickerAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC671DB3EC440073D900 /* XXImagePickerAlbumCell.m */; };
 		0FC7BCA81DB3EC440073D900 /* XXImagePickerAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FC7BC681DB3EC440073D900 /* XXImagePickerAlbumCell.xib */; };
@@ -176,6 +176,10 @@
 		0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXApplicationDetailTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F28C2381DB86EBC006A6E4D /* XXImageFlagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImageFlagView.h; sourceTree = "<group>"; };
 		0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImageFlagView.m; sourceTree = "<group>"; };
+		0F28C23B1DB89A01006A6E4D /* XXPositionColorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPositionColorModel.h; sourceTree = "<group>"; };
+		0F28C23C1DB89A01006A6E4D /* XXPositionColorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPositionColorModel.m; sourceTree = "<group>"; };
+		0F28C23F1DB89C90006A6E4D /* XXPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPosColorPickerController.h; sourceTree = "<group>"; };
+		0F28C2401DB89C90006A6E4D /* XXPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPosColorPickerController.m; sourceTree = "<group>"; };
 		0F302D2A1D745751001E566A /* StyleDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
 		0F302D2C1D74578E001E566A /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
 		0F302D2D1D74578E001E566A /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
@@ -301,17 +305,14 @@
 		0FC47E991D76A2420076590B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		0FC71C731D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadSourceHeadersTableViewController.h; sourceTree = "<group>"; };
 		0FC71C741D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXScanDownloadSourceHeadersTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0FC7BC581DB3EC440073D900 /* PECropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropRectView.h; sourceTree = "<group>"; };
-		0FC7BC591DB3EC440073D900 /* PECropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropRectView.m; sourceTree = "<group>"; };
-		0FC7BC5A1DB3EC440073D900 /* PECropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropView.h; sourceTree = "<group>"; };
-		0FC7BC5B1DB3EC440073D900 /* PECropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropView.m; sourceTree = "<group>"; };
-		0FC7BC5C1DB3EC440073D900 /* PECropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PECropViewController.h; sourceTree = "<group>"; };
-		0FC7BC5D1DB3EC440073D900 /* PECropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PECropViewController.m; sourceTree = "<group>"; };
-		0FC7BC5E1DB3EC440073D900 /* PEPhotoCropEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PEPhotoCropEditor.bundle; sourceTree = "<group>"; };
-		0FC7BC5F1DB3EC440073D900 /* PEResizeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEResizeControl.h; sourceTree = "<group>"; };
-		0FC7BC601DB3EC440073D900 /* PEResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEResizeControl.m; sourceTree = "<group>"; };
-		0FC7BC611DB3EC440073D900 /* UIImage+PECrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PECrop.h"; sourceTree = "<group>"; };
-		0FC7BC621DB3EC440073D900 /* UIImage+PECrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PECrop.m"; sourceTree = "<group>"; };
+		0FC7BC581DB3EC440073D900 /* XXCropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCropRectView.h; sourceTree = "<group>"; };
+		0FC7BC591DB3EC440073D900 /* XXCropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCropRectView.m; sourceTree = "<group>"; };
+		0FC7BC5A1DB3EC440073D900 /* XXCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCropView.h; sourceTree = "<group>"; };
+		0FC7BC5B1DB3EC440073D900 /* XXCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCropView.m; sourceTree = "<group>"; };
+		0FC7BC5F1DB3EC440073D900 /* XXResizeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXResizeControl.h; sourceTree = "<group>"; };
+		0FC7BC601DB3EC440073D900 /* XXResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXResizeControl.m; sourceTree = "<group>"; };
+		0FC7BC611DB3EC440073D900 /* UIImage+XXCrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+XXCrop.h"; sourceTree = "<group>"; };
+		0FC7BC621DB3EC440073D900 /* UIImage+XXCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+XXCrop.m"; sourceTree = "<group>"; };
 		0FC7BC641DB3EC440073D900 /* XXAssetHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAssetHelper.h; sourceTree = "<group>"; };
 		0FC7BC651DB3EC440073D900 /* XXAssetHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAssetHelper.m; sourceTree = "<group>"; };
 		0FC7BC661DB3EC440073D900 /* XXImagePickerAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerAlbumCell.h; sourceTree = "<group>"; };
@@ -488,6 +489,15 @@
 				0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		0F28C23E1DB89C62006A6E4D /* PosColor */ = {
+			isa = PBXGroup;
+			children = (
+				0F28C23F1DB89C90006A6E4D /* XXPosColorPickerController.h */,
+				0F28C2401DB89C90006A6E4D /* XXPosColorPickerController.m */,
+			);
+			path = PosColor;
 			sourceTree = "<group>";
 		};
 		0F302D2B1D74578E001E566A /* Catalogs */ = {
@@ -792,6 +802,8 @@
 				0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */,
 				0FBDC6051D9CC06D00F7EB70 /* XXKeyEventModel.h */,
 				0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */,
+				0F28C23B1DB89A01006A6E4D /* XXPositionColorModel.h */,
+				0F28C23C1DB89A01006A6E4D /* XXPositionColorModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -898,6 +910,7 @@
 				0FDEFCEE1DB47BE300825931 /* XXPickerBaseViewController.h */,
 				0FDEFCEF1DB47BE300825931 /* XXPickerBaseViewController.m */,
 				0FC7BC561DB3EC440073D900 /* Image */,
+				0F28C23E1DB89C62006A6E4D /* PosColor */,
 				0F36BEB51DB71AB500761999 /* Color */,
 				0FDEFCEA1DB4604C00825931 /* Rect */,
 				0F5C20831DB6574900B69CF5 /* Position */,
@@ -925,17 +938,14 @@
 			children = (
 				0F28C2381DB86EBC006A6E4D /* XXImageFlagView.h */,
 				0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */,
-				0FC7BC581DB3EC440073D900 /* PECropRectView.h */,
-				0FC7BC591DB3EC440073D900 /* PECropRectView.m */,
-				0FC7BC5A1DB3EC440073D900 /* PECropView.h */,
-				0FC7BC5B1DB3EC440073D900 /* PECropView.m */,
-				0FC7BC5C1DB3EC440073D900 /* PECropViewController.h */,
-				0FC7BC5D1DB3EC440073D900 /* PECropViewController.m */,
-				0FC7BC5E1DB3EC440073D900 /* PEPhotoCropEditor.bundle */,
-				0FC7BC5F1DB3EC440073D900 /* PEResizeControl.h */,
-				0FC7BC601DB3EC440073D900 /* PEResizeControl.m */,
-				0FC7BC611DB3EC440073D900 /* UIImage+PECrop.h */,
-				0FC7BC621DB3EC440073D900 /* UIImage+PECrop.m */,
+				0FC7BC581DB3EC440073D900 /* XXCropRectView.h */,
+				0FC7BC591DB3EC440073D900 /* XXCropRectView.m */,
+				0FC7BC5A1DB3EC440073D900 /* XXCropView.h */,
+				0FC7BC5B1DB3EC440073D900 /* XXCropView.m */,
+				0FC7BC5F1DB3EC440073D900 /* XXResizeControl.h */,
+				0FC7BC601DB3EC440073D900 /* XXResizeControl.m */,
+				0FC7BC611DB3EC440073D900 /* UIImage+XXCrop.h */,
+				0FC7BC621DB3EC440073D900 /* UIImage+XXCrop.m */,
 			);
 			path = Crop;
 			sourceTree = "<group>";
@@ -1184,7 +1194,6 @@
 				0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */,
 				0FD9AD3C1D920A38007B4CEC /* PackageVersion.plist in Resources */,
 				0FC47E921D7698140076590B /* tos.html in Resources */,
-				0FC7BCA31DB3EC440073D900 /* PEPhotoCropEditor.bundle in Resources */,
 				0F36BEAE1DB6F92600761999 /* InfoPlist.strings in Resources */,
 				0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */,
 				0FC7BCAA1DB3EC440073D900 /* XXImagePickerController.xib in Resources */,
@@ -1268,11 +1277,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FDEFCED1DB4604C00825931 /* XXRectPickerController.m in Sources */,
-				0FC7BCA01DB3EC440073D900 /* PECropRectView.m in Sources */,
+				0FC7BCA01DB3EC440073D900 /* XXCropRectView.m in Sources */,
 				0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */,
-				0FC7BCA21DB3EC440073D900 /* PECropViewController.m in Sources */,
 				0F28C23A1DB86EBC006A6E4D /* XXImageFlagView.m in Sources */,
 				0F0FA8FF1D9983F5009FD2F8 /* CYRTextStorage.m in Sources */,
+				0F28C23D1DB89A01006A6E4D /* XXPositionColorModel.m in Sources */,
 				0F8F7C541D89193B005C3A22 /* NSFileManager+RealDestination.m in Sources */,
 				0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */,
 				0F5DDE391D814A3100BC4BDE /* XXQuickLookService.m in Sources */,
@@ -1294,7 +1303,7 @@
 				0F0C9A1D1D966F00000E184C /* TurtleBezierPath.m in Sources */,
 				0F5DDE401D814ACE00BC4BDE /* FYPhotoLibrary.m in Sources */,
 				0F0FA9001D9983F5009FD2F8 /* CYRTextView.m in Sources */,
-				0FC7BCA51DB3EC440073D900 /* UIImage+PECrop.m in Sources */,
+				0FC7BCA51DB3EC440073D900 /* UIImage+XXCrop.m in Sources */,
 				0FDEFCE01DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m in Sources */,
 				0F8F7C611D8919AC005C3A22 /* NSString+Mime.m in Sources */,
 				0FEA4C8E1DB533D30063D2CF /* XXPickerPopupBar.m in Sources */,
@@ -1312,7 +1321,7 @@
 				0F8F7C681D8919DF005C3A22 /* UIImage+ProportionalFill.m in Sources */,
 				0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */,
 				0F9D7FE81D9D755B001C1809 /* UIViewController+MSLayoutSupport.m in Sources */,
-				0FC7BCA41DB3EC440073D900 /* PEResizeControl.m in Sources */,
+				0FC7BCA41DB3EC440073D900 /* XXResizeControl.m in Sources */,
 				0F5DDE191D81496800BC4BDE /* XXToolbar.m in Sources */,
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
@@ -1337,7 +1346,7 @@
 				0F5DDE381D814A3100BC4BDE /* XXArchiveService.m in Sources */,
 				0F5DDE161D81496800BC4BDE /* XXCreateItemTableViewController.m in Sources */,
 				0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */,
-				0FC7BCA11DB3EC440073D900 /* PECropView.m in Sources */,
+				0FC7BCA11DB3EC440073D900 /* XXCropView.m in Sources */,
 				0F5C20891DB65B4100B69CF5 /* XXCanvasViewController.m in Sources */,
 				0FC7BCBE1DB3EC440073D900 /* XXLocationPickerController.m in Sources */,
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
@@ -1357,6 +1366,7 @@
 				0F8F7C5D1D89198D005C3A22 /* ALAssetsLibrary+SingleInstance.m in Sources */,
 				0FC7BCB61DB3EC440073D900 /* XXTColor.m in Sources */,
 				0FC7BCBC1DB3EC440073D900 /* XXKeyEventTableViewCell.m in Sources */,
+				0F28C2411DB89C90006A6E4D /* XXPosColorPickerController.m in Sources */,
 				0F13EAFE1D8851F400DA8A25 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */,
 				0FC7BCBD1DB3EC440073D900 /* XXKeyEventTableViewController.m in Sources */,
 				0FC7BCAB1DB3EC440073D900 /* XXImagePickerPhotoCell.m in Sources */,

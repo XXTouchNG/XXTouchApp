@@ -70,7 +70,14 @@
     if (!_editMode) { // Add New Block
         [self.codeBlocks insertObject:self.codeBlock atIndex:0];
     }
+    
+    [self saveUserDefinedFunctions];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)saveUserDefinedFunctions {
+    [[XXLocalDataService sharedInstance] setObject:self.codeBlocks
+                                            forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
 }
 
 @end

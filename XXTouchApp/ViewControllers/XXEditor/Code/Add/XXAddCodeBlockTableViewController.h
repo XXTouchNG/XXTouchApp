@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "XXCodeBlockModel.h"
 
+static NSString * const kXXStorageKeyCodeBlockInternalFunctions = @"kXXStorageKeyCodeBlockInternalFunctions";
+static NSString * const kXXStorageKeyCodeBlockUserDefinedFunctions = @"kXXStorageKeyCodeBlockUserDefinedFunctions";
+
 @interface XXAddCodeBlockTableViewController : UITableViewController
 @property (nonatomic, strong) XXCodeBlockModel *codeBlock;
 @property (nonatomic, assign) BOOL editMode;
