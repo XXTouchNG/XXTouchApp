@@ -15,6 +15,8 @@
 @property (assign, nonatomic) CGSize pixelSize;
 @property (assign, nonatomic) int hPixelNum;
 @property (assign, nonatomic) int vPixelNum;
+@property (strong, nonatomic) UIView *maskCenterView;
+@property (nonatomic, assign, readonly) BOOL animating;
 
 @end
 
@@ -40,6 +42,7 @@
     self.pixelSize = CGSizeMake(10, 10);
     self.hPixelNum = (int)(frame.size.width / self.pixelSize.width);
     self.vPixelNum = (int)(frame.size.height / self.pixelSize.height);
+    self.maskCenterView.frame = CGRectMake(self.hPixelNum / 2 * self.pixelSize.width, self.vPixelNum / 2 * self.pixelSize.height, self.pixelSize.width, self.pixelSize.height);
 }
 
 - (void)setup {
@@ -51,6 +54,41 @@
     self.rootViewController = [XXImagePickerPixelPreviewRootViewController new];
     
     self.frame = self.frame;
+    _animating = NO;
+    [self addSubview:self.maskCenterView];
+}
+
+- (void)makeKeyAndVisible {
+    [super makeKeyAndVisible];
+    _animating = YES;
+    [self shakeAnimation];
+}
+
+- (void)setHidden:(BOOL)hidden {
+    [super setHidden:hidden];
+    _animating = NO;
+}
+
+- (void)shakeAnimation {
+    if (_animating) {
+        [UIView animateWithDuration:.6f animations:^{
+            self.maskCenterView.alpha = 1.f;
+        }];
+        [UIView animateWithDuration:.6f animations:^{
+            self.maskCenterView.alpha = 0.f;
+        } completion:^(BOOL finished) {
+            [self shakeAnimation];
+        }];
+    }
+}
+
+- (UIView *)maskCenterView {
+    if (!_maskCenterView) {
+        _maskCenterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.pixelSize.width, self.pixelSize.height)];
+        _maskCenterView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.95f];
+        _maskCenterView.alpha = 0.f;
+    }
+    return _maskCenterView;
 }
 
 - (void)setImageToMagnify:(UIImage *)imageToMagnify {
@@ -64,8 +102,13 @@
 
 - (void)setPointToMagnify:(CGPoint)pointToMagnify {
     _pointToMagnify = pointToMagnify;
-    
+    _colorOfLastPoint = [self getColorOfPoint:pointToMagnify];
     [self setNeedsDisplay];
+}
+
+- (UIColor *)getColorOfPoint:(CGPoint)p {
+    XXTColor *c = [_pixelImage getColorOfPoint:p];
+    return [c getUIColor];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -93,7 +136,7 @@
                 }
             }
             if (CGPointEqualToPoint(t, p)) {
-                CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 1.0);
+                CGContextSetRGBStrokeColor(ctx, 0.0, 0.0, 0.0, 1.0);
             } else {
                 CGContextSetRGBStrokeColor(ctx, 1.0, 1.0, 1.0, 1.0);
             }

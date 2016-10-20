@@ -73,7 +73,7 @@ typedef enum : NSUInteger {
             }
             NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %ld %@.\n--  All rights reserved.\n--\n\n",
                                 [itemName stringByAppendingPathExtension:@"lua"],
-                                [NSString stringWithFormat:@"%@ v%@", APP_NAME_EN, VERSION_STRING],
+                                [NSString stringWithFormat:@"%@ v%@", NSLocalizedString(@"XXTouch", nil), VERSION_STRING],
                                 deviceName,
                                 [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
                                 (long)[[NSDate date] year], deviceName];

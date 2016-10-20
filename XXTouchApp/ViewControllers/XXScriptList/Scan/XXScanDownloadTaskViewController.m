@@ -71,11 +71,11 @@
     if (_sameName) {
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Overwrite Confirm", nil)
                                                          andMessage:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" exists, overwrite it?", nil), self.destinationLabel.text]];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-            [self downloadNow];
-        }];
         [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
             
+        }];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+            [self downloadNow];
         }];
         [alertView show];
     } else {

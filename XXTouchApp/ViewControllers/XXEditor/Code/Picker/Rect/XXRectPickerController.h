@@ -6,7 +6,6 @@
 //  Copyright (c) 2016 Zheng. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "XXCanvasViewController.h"
 
 @interface XXRectPickerController : XXCanvasViewController

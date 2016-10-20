@@ -88,16 +88,16 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear Application Data", nil)
                                                      andMessage:NSLocalizedString(@"This operation will clear all data of the application, and it cannot be revoked.", nil)];
     @weakify(self);
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                          }];
     [alertView addButtonWithTitle:NSLocalizedString(@"Clean Now", nil)
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
                               SendConfigAction([XXLocalNetService localClearAppData:bid error:&err], [self.navigationController.view makeToast:NSLocalizedString(@"Operation completed", nil)]);
-                          }];
-    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
-                             type:SIAlertViewButtonTypeCancel
-                          handler:^(SIAlertView *alertView) {
-                              
                           }];
     [alertView show];
 }

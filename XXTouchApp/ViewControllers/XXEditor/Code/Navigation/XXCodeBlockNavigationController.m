@@ -26,7 +26,6 @@
 
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
     [super setNavigationBarHidden:hidden animated:animated];
-    
 }
 
 - (void)updateViewConstraints {

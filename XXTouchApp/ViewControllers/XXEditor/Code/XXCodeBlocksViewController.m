@@ -462,6 +462,9 @@ enum {
     }
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil) andMessage:messageStr];
     @weakify(self);
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        
+    }];
     [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
         @strongify(self);
         NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
@@ -473,9 +476,6 @@ enum {
         [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView endUpdates];
         [self setEditing:NO animated:YES];
-    }];
-    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-        
     }];
     [alertView show];
 }

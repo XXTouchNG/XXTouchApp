@@ -32,6 +32,8 @@
 		0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A9A1DB5C9530095C57F /* extendHisLife.plist */; };
 		0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A9C1DB5CC350095C57F /* internalFunctions.plist */; };
 		0F352A9F1DB5CC350095C57F /* userDefinedFunctions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F352A9D1DB5CC350095C57F /* userDefinedFunctions.plist */; };
+		0F36BEAE1DB6F92600761999 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F36BEAC1DB6F92600761999 /* InfoPlist.strings */; };
+		0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */; };
 		0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */; };
@@ -180,10 +182,13 @@
 		0F352A9A1DB5C9530095C57F /* extendHisLife.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = extendHisLife.plist; sourceTree = "<group>"; };
 		0F352A9C1DB5CC350095C57F /* internalFunctions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = internalFunctions.plist; sourceTree = "<group>"; };
 		0F352A9D1DB5CC350095C57F /* userDefinedFunctions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = userDefinedFunctions.plist; sourceTree = "<group>"; };
+		0F36BEAD1DB6F92600761999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0F36BEAF1DB6F92900761999 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0F36BEB01DB6F92A00761999 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0F36BEB91DB71AE000761999 /* XXColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXColorPickerController.h; sourceTree = "<group>"; };
+		0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXColorPickerController.m; sourceTree = "<group>"; };
 		0F41C6C91D8780A300535F72 /* XXStartupConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXStartupConfigTableViewController.h; sourceTree = "<group>"; };
 		0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXStartupConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0F4A23E91D9E09FC00633020 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/Info.plist"; sourceTree = "<group>"; };
-		0F4A23EB1D9E0A0200633020 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hant"; path = "zh-Hant.lproj/Info.plist"; sourceTree = "<group>"; };
 		0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		0F57776C1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigActionTableViewController.h; sourceTree = "<group>"; };
 		0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXKeyPressConfigActionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -495,6 +500,15 @@
 				0FDEFCE51DB45D2E00825931 /* NSString+countSubstr.m */,
 			);
 			path = Catalogs;
+			sourceTree = "<group>";
+		};
+		0F36BEB51DB71AB500761999 /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				0F36BEB91DB71AE000761999 /* XXColorPickerController.h */,
+				0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */,
+			);
+			path = Color;
 			sourceTree = "<group>";
 		};
 		0F41C6C81D87806B00535F72 /* Startup */ = {
@@ -881,6 +895,7 @@
 				0FDEFCEE1DB47BE300825931 /* XXPickerBaseViewController.h */,
 				0FDEFCEF1DB47BE300825931 /* XXPickerBaseViewController.m */,
 				0FC7BC561DB3EC440073D900 /* Image */,
+				0F36BEB51DB71AB500761999 /* Color */,
 				0FDEFCEA1DB4604C00825931 /* Rect */,
 				0F5C20831DB6574900B69CF5 /* Position */,
 				0FC7BC961DB3EC440073D900 /* KeyEvent */,
@@ -1024,6 +1039,7 @@
 				0F9852691D745B84001323AA /* Services */,
 				0FB0A78B1D73D80D00129E83 /* ViewControllers */,
 				0F4A23EA1D9E09FC00633020 /* Info.plist */,
+				0F36BEAC1DB6F92600761999 /* InfoPlist.strings */,
 				0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */,
 				0FB0A7AC1D73DBE400129E83 /* main.m */,
 			);
@@ -1164,6 +1180,7 @@
 				0FD9AD3C1D920A38007B4CEC /* PackageVersion.plist in Resources */,
 				0FC47E921D7698140076590B /* tos.html in Resources */,
 				0FC7BCA31DB3EC440073D900 /* PEPhotoCropEditor.bundle in Resources */,
+				0F36BEAE1DB6F92600761999 /* InfoPlist.strings in Resources */,
 				0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */,
 				0FC7BCAA1DB3EC440073D900 /* XXImagePickerController.xib in Resources */,
 				0FE312831D963A0900AB895C /* Localizable.strings in Resources */,
@@ -1294,6 +1311,7 @@
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
 				0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */,
+				0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0FDEFCE61DB45D2E00825931 /* NSString+countSubstr.m in Sources */,
 				0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */,
@@ -1344,11 +1362,19 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0F36BEAC1DB6F92600761999 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F36BEAD1DB6F92600761999 /* Base */,
+				0F36BEAF1DB6F92900761999 /* zh-Hans */,
+				0F36BEB01DB6F92A00761999 /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		0F4A23EA1D9E09FC00633020 /* Info.plist */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0F4A23E91D9E09FC00633020 /* zh-Hans */,
-				0F4A23EB1D9E0A0200633020 /* zh-Hant */,
 				0FF528581D9E0B02000A0FBE /* Base */,
 			);
 			name = Info.plist;
@@ -1477,7 +1503,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AC405549C106997C9860AE5F /* Pods-XXTouchApp.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
@@ -1493,7 +1519,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				IBSC_NOTICES = NO;
 				IBSC_WARNINGS = NO;
@@ -1510,7 +1536,7 @@
 				PROVISIONING_PROFILE = "733cf0c8-4983-4bf2-b881-f84736f8b01c";
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;
@@ -1527,7 +1553,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */;
 			buildSettings = {
-				ARCHS = armv7;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
@@ -1543,7 +1569,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				IBSC_NOTICES = NO;
 				IBSC_WARNINGS = NO;
@@ -1560,7 +1586,7 @@
 				PROVISIONING_PROFILE = "733cf0c8-4983-4bf2-b881-f84736f8b01c";
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;

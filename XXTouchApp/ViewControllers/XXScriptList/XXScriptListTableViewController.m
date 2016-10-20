@@ -159,15 +159,15 @@ UISearchDisplayDelegate
                 if (self != self.navigationController.topViewController && self.navigationController.topViewController != nil) {
                     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync Failure", nil)
                                                                      andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
-                    [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
-                                             type:SIAlertViewButtonTypeDestructive
-                                          handler:^(SIAlertView *alert) {
-                                              [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
-                                          }];
                     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                                              type:SIAlertViewButtonTypeCancel
                                           handler:^(SIAlertView *alert) {
                                               [self endMJRefreshing];
+                                          }];
+                    [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
+                                             type:SIAlertViewButtonTypeDestructive
+                                          handler:^(SIAlertView *alert) {
+                                              [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
                                           }];
                     [alertView show];
                     return;
@@ -396,6 +396,9 @@ UISearchDisplayDelegate
                                                              NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:currentCell];
                                                              SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
                                                                                                               andMessage:[NSString stringWithFormat:NSLocalizedString(@"Delete %@?\nThis operation cannot be revoked.", nil), currentCell.itemAttrs[kXXItemNameKey]]];
+                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alert) {
+                                                                 
+                                                             }];
                                                              [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alert) {
                                                                  self.navigationController.view.userInteractionEnabled = NO;
                                                                  [self.navigationController.view makeToastActivity:CSToastPositionCenter];
@@ -422,9 +425,6 @@ UISearchDisplayDelegate
                                                                          }
                                                                      });
                                                                  });
-                                                             }];
-                                                             [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alert) {
-                                                                 
                                                              }];
                                                              [alertView show];
                                                              return YES;
@@ -753,6 +753,9 @@ UISearchDisplayDelegate
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
                                                          andMessage:formatString];
         @weakify(self);
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            
+        }];
         [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
             BOOL result = YES;
@@ -782,9 +785,6 @@ UISearchDisplayDelegate
                 [self.navigationController.view makeToast:[err localizedDescription]];
             }
             [self setEditing:NO animated:YES];
-        }];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-            
         }];
         [alertView show];
     } else if (sender == self.topToolbar.shareButton) {
@@ -820,6 +820,9 @@ UISearchDisplayDelegate
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Archive Confirm", nil)
                                                          andMessage:formatString];
         @weakify(self);
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            
+        }];
         [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
             if (self.isEditing) {
@@ -834,9 +837,6 @@ UISearchDisplayDelegate
                                    toDirectory:self.currentDirectory
                           parentViewController:self];
             }
-        }];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-            
         }];
         [alertView show];
     }

@@ -265,6 +265,11 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Restart Daemon", nil)
                                                      andMessage:NSLocalizedString(@"This operation will restart daemon, and wait until it launched.", nil)];
     @weakify(self);
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                          }];
     [alertView addButtonWithTitle:NSLocalizedString(@"Restart Now", nil)
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
@@ -272,71 +277,66 @@ enum {
                               [self.restartIndicator startAnimating];
                               SendConfigAction([XXLocalNetService localRestartDaemonWithError:&err]; if (result) [self waitUntilDaemonUp], [self.restartIndicator stopAnimating]; [self.navigationController.view makeToast:NSLocalizedString(@"Operation completed", nil)]);
                           }];
-    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
-                             type:SIAlertViewButtonTypeCancel
-                          handler:^(SIAlertView *alertView) {
-                              
-                          }];
     [alertView show];
 }
 
 - (void)cleanGPSCachesSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clean GPS Caches", nil)
                                                      andMessage:NSLocalizedString(@"This operation will reset location caches.", nil)];
-    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanGPSCachesWithError:&err]);
     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
                           }];
+    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanGPSCachesWithError:&err]);
     [alertView show];
 }
 
 - (void)cleanUICachesSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clean UI Caches", nil)
                                                      andMessage:NSLocalizedString(@"This operation will kill all applications and reset icon caches.\nIt may cause icons to disappear.", nil)];
-    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanUICachesWithError:&err]);
     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
                           }];
+    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanUICachesWithError:&err]);
     [alertView show];
 }
 
 - (void)cleanAllCachesSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear All", nil)
                                                      andMessage:NSLocalizedString(@"This operation will kill all applications, and remove all documents and caches of them.", nil)];
-    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanAllCachesWithError:&err]);
     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
                           }];
+    @alertViewConfirm(@"Clean Now", [XXLocalNetService localCleanAllCachesWithError:&err]);
     [alertView show];
 }
 
 - (void)respringIndexSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Respring Confirm", nil)
                                                      andMessage:NSLocalizedString(@"Tap \"Respring Now\" to continue.", nil)];
-    @alertViewConfirm(@"Respring Now", [XXLocalNetService localRespringDeviceWithError:&err]);
     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
                           }];
+    @alertViewConfirm(@"Respring Now", [XXLocalNetService localRespringDeviceWithError:&err]);
     [alertView show];
 }
 
 - (void)rebootIndexSelected {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Reboot Confirm", nil)
                                                      andMessage:NSLocalizedString(@"Tap \"Reboot Now\" to continue.", nil)];
-    @alertViewConfirm(@"Reboot Now", [XXLocalNetService localRestartDeviceWithError:&err]);
     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
                           }];
+    @alertViewConfirm(@"Reboot Now", [XXLocalNetService localRestartDeviceWithError:&err]);
     [alertView show];
 }
 

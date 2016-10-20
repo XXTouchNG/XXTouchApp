@@ -60,7 +60,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>gps.fake(&quot;@bid@@cur@&quot;)</string>
+		<string>gps.clear(&quot;@bid@@cur@&quot;)</string>
 		<key>title</key>
 		<string>gps.clear([bid])</string>
 		<key>udid</key>

@@ -52,7 +52,7 @@ enum {
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"About", nil);
-    _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_EN, VERSION_STRING, VERSION_BUILD];
+    _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -66,7 +66,7 @@ enum {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     if (!picker) return;
     picker.mailComposeDelegate = self;
-    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), APP_NAME_CN, VERSION_STRING, VERSION_BUILD]];
+    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD]];
     NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];

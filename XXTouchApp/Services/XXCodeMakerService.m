@@ -14,6 +14,7 @@
 #import "XXLocationPickerController.h"
 #import "XXRectPickerController.h"
 #import "XXPositionPickerController.h"
+#import "XXColorPickerController.h"
 #import "NSString+countSubstr.h"
 
 #define KEYWORD_BUNDLE_ID @"@bid@"
@@ -21,6 +22,17 @@
 #define KEYWORD_LOCATION @"@loc@"
 #define KEYWORD_RECTANGLE @"@rect@"
 #define KEYWORD_POSITION @"@pos@"
+#define KEYWORD_COLOR @"@color@"
+
+typedef enum : NSUInteger {
+    kXXPickerTypeNone = 0,
+    kXXPickerTypeBID,
+    kXXPickerTypeKEY,
+    kXXPickerTypeLOC,
+    kXXPickerTypeRECT,
+    kXXPickerTypePOS,
+    kXXPickerTypeCOLOR,
+} kXXPickerType;
 
 @implementation XXCodeMakerService
 
@@ -28,42 +40,73 @@
     NSString *code = model.code;
     
     NSUInteger keywordCount = 0;
-    XXPickerBaseViewController *vc = nil;
-    if ([code containsString:KEYWORD_BUNDLE_ID]) {
-        if (!vc) {
-            vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXApplicationListTableViewControllerStoryboardID];
-            vc.keyword = KEYWORD_BUNDLE_ID;
+    NSUInteger location = 0;
+    NSUInteger oldLocation = NSNotFound;
+    kXXPickerType type = kXXPickerTypeNone;
+    
+    if ((location = [code rangeOfString:KEYWORD_BUNDLE_ID].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypeBID;
         }
-        
         keywordCount += [code occurenceOfString:KEYWORD_BUNDLE_ID];
     }
-    if ([code containsString:KEYWORD_KEY_EVENT]) {
-        if (!vc) {
-            vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXKeyEventTableViewControllerStoryboardID];
-            vc.keyword = KEYWORD_KEY_EVENT;
+    if ((location = [code rangeOfString:KEYWORD_KEY_EVENT].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypeKEY;
         }
         keywordCount += [code occurenceOfString:KEYWORD_KEY_EVENT];
     }
-    if ([code containsString:KEYWORD_LOCATION]) {
-        if (!vc) {
-            vc = [controller.storyboard instantiateViewControllerWithIdentifier:kXXLocationPickerControllerStoryboardID];
-            vc.keyword = KEYWORD_LOCATION;
+    if ((location = [code rangeOfString:KEYWORD_LOCATION].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypeLOC;
         }
         keywordCount += [code occurenceOfString:KEYWORD_LOCATION];
     }
-    if ([code containsString:KEYWORD_RECTANGLE]) {
-        if (!vc) {
-            vc = [[XXRectPickerController alloc] init];
-            vc.keyword = KEYWORD_RECTANGLE;
+    if ((location = [code rangeOfString:KEYWORD_RECTANGLE].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypeRECT;
         }
         keywordCount += [code occurenceOfString:KEYWORD_RECTANGLE];
     }
-    if ([code containsString:KEYWORD_POSITION]) {
-        if (!vc) {
-            vc = [[XXPositionPickerController alloc] init];
-            vc.keyword = KEYWORD_POSITION;
+    if ((location = [code rangeOfString:KEYWORD_POSITION].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypePOS;
         }
         keywordCount += [code occurenceOfString:KEYWORD_POSITION];
+    }
+    if ((location = [code rangeOfString:KEYWORD_COLOR].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypeCOLOR;
+        }
+        keywordCount += [code occurenceOfString:KEYWORD_COLOR];
+    }
+    
+    
+    XXPickerBaseViewController *vc = nil;
+    if (type == kXXPickerTypeBID) {
+        vc = [controller.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXApplicationListTableViewControllerStoryboardID];
+        vc.keyword = KEYWORD_BUNDLE_ID;
+    } else if (type == kXXPickerTypeKEY) {
+        vc = [controller.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXKeyEventTableViewControllerStoryboardID];
+        vc.keyword = KEYWORD_KEY_EVENT;
+    } else if (type == kXXPickerTypeLOC) {
+        vc = [controller.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXLocationPickerControllerStoryboardID];
+        vc.keyword = KEYWORD_LOCATION;
+    } else if (type == kXXPickerTypeRECT) {
+        vc = [[XXRectPickerController alloc] init];
+        vc.keyword = KEYWORD_RECTANGLE;
+    } else if (type == kXXPickerTypePOS) {
+        vc = [[XXPositionPickerController alloc] init];
+        vc.keyword = KEYWORD_POSITION;
+    } else if (type == kXXPickerTypeCOLOR) {
+        vc = [[XXColorPickerController alloc] init];
+        vc.keyword = KEYWORD_COLOR;
     }
     
     if (vc != nil && keywordCount != 0) {

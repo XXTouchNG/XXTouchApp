@@ -12,5 +12,8 @@
 @property (nonatomic, assign) BOOL statusBarHidden;
 @property (nonatomic, strong) UIImage *imageToMagnify;
 @property (nonatomic, assign) CGPoint pointToMagnify;
+@property (nonatomic, strong, readonly) UIColor *colorOfLastPoint;
+
+- (UIColor *)getColorOfPoint:(CGPoint)p;
 
 @end

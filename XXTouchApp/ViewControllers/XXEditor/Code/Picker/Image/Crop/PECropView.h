@@ -12,7 +12,8 @@
 
 typedef enum : NSUInteger {
     kPECropViewTypeRect = 0,
-    kPECropViewTypePosition = 1
+    kPECropViewTypePosition = 1,
+    kPECropViewTypeColor = 2,
 } kPECropViewType;
 
 @interface PECropView : UIView
@@ -33,6 +34,8 @@ typedef enum : NSUInteger {
 @property (nonatomic) CGRect cropRect;
 @property (nonatomic) CGRect imageCropRect;
 @property (nonatomic) CGFloat rotationAngle;
+
+- (instancetype)initWithFrame:(CGRect)frame andType:(kPECropViewType)type;
 
 - (void)resetCropRect;
 - (void)resetCropRectAnimated:(BOOL)animated;

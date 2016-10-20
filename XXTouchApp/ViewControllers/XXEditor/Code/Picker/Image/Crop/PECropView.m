@@ -12,6 +12,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "XXImagePickerPixelPreview.h"
 #import "XXRectPickerController.h"
+#import "XXPositionPickerController.h"
+#import "XXColorPickerController.h"
 
 static const CGFloat MarginTop = 81.f;
 //static const CGFloat MarginBottom = 37.f;
@@ -41,6 +43,8 @@ PECropRectViewDelegate
 @property (nonatomic, getter = isResizing) BOOL resizing;
 @property (nonatomic) UIInterfaceOrientation interfaceOrientation;
 @property (nonatomic, strong) UIRotationGestureRecognizer *rotationGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
 @property (nonatomic, strong) XXImagePickerPixelPreview *imagePreview;
 
@@ -48,30 +52,24 @@ PECropRectViewDelegate
 
 @end
 
-@implementation PECropView
+@implementation PECropView {
+    NSUInteger lastPreviewCorner;
+}
 
 #pragma mark - Init
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame andType:(kPECropViewType)type
 {
     if (self = [super initWithFrame:frame]) {
-        [self commonInit];
+        [self commonInitWithType:type];
     }
     
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)commonInitWithType:(kPECropViewType)type
 {
-    if (self = [super initWithCoder:aDecoder])
-    {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (void)commonInit
-{
+    self.type = type;
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"crop-pattern"]];
     
@@ -112,6 +110,17 @@ PECropRectViewDelegate
         self.bottomOverlayView = [[UIView alloc] init];
         self.bottomOverlayView.backgroundColor = [UIColor colorWithWhite:1.f alpha:.4f];
         [self addSubview:self.bottomOverlayView];
+    } else {
+        self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        self.tapGestureRecognizer.delegate = self;
+        self.tapGestureRecognizer.numberOfTouchesRequired = 1;
+        self.tapGestureRecognizer.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:self.tapGestureRecognizer];
+        
+        self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        self.panGestureRecognizer.delegate = self;
+        self.panGestureRecognizer.enabled = NO;
+        [self addGestureRecognizer:self.panGestureRecognizer];
     }
 }
 
@@ -202,11 +211,13 @@ PECropRectViewDelegate
     _allowsOperation = allowsOperation;
     self.scrollView.scrollEnabled = allowsOperation;
     self.scrollView.pinchGestureRecognizer.enabled = allowsOperation;
+    self.panGestureRecognizer.enabled = !allowsOperation;
 }
 
 - (void)setImage:(UIImage *)image
 {
     _image = image;
+    lastPreviewCorner = 0;
     
     [self.imageView removeFromSuperview];
     self.imageView = nil;
@@ -528,9 +539,9 @@ PECropRectViewDelegate
     self.resizing = NO;
 }
 
-- (void)zoomedRectUpdated:(CGRect)zoomedRect {
-    XXRectPickerController *pickerController = (XXRectPickerController *)self.viewController;
-    pickerController.currentRect = zoomedRect;
+- (void)zoomToCropRect:(CGRect)toRect
+{
+    [self zoomToCropRect:toRect andCenter:NO];
 }
 
 - (void)zoomToCropRect:(CGRect)toRect andCenter:(BOOL)center
@@ -570,12 +581,12 @@ PECropRectViewDelegate
     } completion:NULL];
 }
 
-- (void)zoomToCropRect:(CGRect)toRect
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    [self zoomToCropRect:toRect andCenter:NO];
+    return self.zoomingView;
 }
 
-#pragma mark - Rotate
+#pragma mark - Rotate Gesture
 
 - (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer
 {
@@ -596,20 +607,78 @@ PECropRectViewDelegate
     }
 }
 
+#pragma mark - Tap Gesture
+
+- (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        CGPoint point = [gestureRecognizer locationInView:self];
+        
+        CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
+        CGPoint zoomedPoint = CGPointMake(locationInImageView.x * self.scrollView.zoomScale, locationInImageView.y * self.scrollView.zoomScale);
+        if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
+            CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
+            CGPoint p = zoomedRect.origin;
+            
+            if (self.type == kPECropViewTypeColor) {
+                [self colorUpdated:[self.imagePreview getColorOfPoint:p]];
+            } else if (self.type == kPECropViewTypePosition) {
+                [self zoomedPointUpdated:p];
+            }
+        }
+    }
+}
+
+#pragma mark - Pan Gesture
+
+- (void)handlePan:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGPoint point = [gestureRecognizer locationInView:self];
+    CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
+    CGPoint zoomedPoint = CGPointMake(locationInImageView.x * self.scrollView.zoomScale, locationInImageView.y * self.scrollView.zoomScale);
+    if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
+        CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
+        CGPoint p = zoomedRect.origin;
+        
+        [self.imagePreview setPointToMagnify:p];
+        if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+            [self movePreviewByPoint:point];
+        } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+            self.imagePreview.statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+            [self movePreviewByPoint:point];
+            [self.imagePreview makeKeyAndVisible];
+        }
+        
+        if (self.type == kPECropViewTypeColor) {
+            [self colorUpdated:self.imagePreview.colorOfLastPoint];
+        } else if (self.type == kPECropViewTypePosition) {
+            [self zoomedPointUpdated:p];
+        }
+    }
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+        [self.imagePreview setHidden:YES];
+    }
+}
+
+#pragma mark - Gestures
+
+- (void)zoomedPointUpdated:(CGPoint)zoomedPoint {
+    XXPositionPickerController *pickerController = (XXPositionPickerController *)self.viewController;
+    pickerController.currentPoint = zoomedPoint;
+}
+
+- (void)zoomedRectUpdated:(CGRect)zoomedRect {
+    XXRectPickerController *pickerController = (XXRectPickerController *)self.viewController;
+    pickerController.currentRect = zoomedRect;
+}
+
+- (void)colorUpdated:(UIColor *)color {
+    XXColorPickerController *pickerController = (XXColorPickerController *)self.viewController;
+    pickerController.currentColor = color;
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
-}
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    return self.zoomingView;
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-    CGPoint contentOffset = scrollView.contentOffset;
-    *targetContentOffset = contentOffset;
 }
 
 #pragma mark - Area Event
@@ -618,14 +687,18 @@ PECropRectViewDelegate
     if (self.type == kPECropViewTypeRect) {
         [self zoomedRectUpdated:self.zoomedCropRect];
     }
-    
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     if (self.type == kPECropViewTypeRect) {
         [self zoomedRectUpdated:self.zoomedCropRect];
     }
-    
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    CGPoint contentOffset = scrollView.contentOffset;
+    *targetContentOffset = contentOffset;
 }
 
 #pragma mark - Preview
@@ -645,18 +718,30 @@ PECropRectViewDelegate
     if (p.x < sW / 2.f) {
         if (p.y < sH / 2.f) {
             // 2
-            self.imagePreview.frame = CGRectMake(sW - width, sH - width, width, width);
+            if (lastPreviewCorner != 2) {
+                lastPreviewCorner = 2;
+                self.imagePreview.frame = CGRectMake(sW - width, sH - width, width, width);
+            }
         } else {
             // 4
-            self.imagePreview.frame = CGRectMake(sW - width, 0, width, width);
+            if (lastPreviewCorner != 4) {
+                lastPreviewCorner = 4;
+                self.imagePreview.frame = CGRectMake(sW - width, 0, width, width);
+            }
         }
     } else {
         if (p.y < sH / 2.f) {
             // 1
-            self.imagePreview.frame = CGRectMake(0, sH - width, width, width);
+            if (lastPreviewCorner != 1) {
+                lastPreviewCorner = 1;
+                self.imagePreview.frame = CGRectMake(0, sH - width, width, width);
+            }
         } else {
             // 3
-            self.imagePreview.frame = CGRectMake(0, 0, width, width);
+            if (lastPreviewCorner != 3) {
+                lastPreviewCorner = 3;
+                self.imagePreview.frame = CGRectMake(0, 0, width, width);
+            }
         }
     }
 }

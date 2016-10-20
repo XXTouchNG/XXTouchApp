@@ -20,6 +20,9 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
     if ([[self supportedArchiveFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Zip Archive
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Unarchive", nil)
                                                          andMessage:NSLocalizedString(@"Extract to the current directory?\nItem with the same name will be overwritten.", nil)];
+        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+            
+        }];
         [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             __block UINavigationController *navController = viewController.navigationController;
             __block NSError *error = nil;
@@ -46,9 +49,6 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
                     });
                 });
             }
-        }];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-            
         }];
         [alertView show];
         return YES;

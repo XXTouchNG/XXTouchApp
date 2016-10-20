@@ -1,31 +1,31 @@
 //
-//  XXPositionPickerController.m
+//  XXColorPickerController.m
 //  XXTouchApp
 //
-//  Created by Zheng on 18/10/2016.
+//  Created by Zheng on 19/10/2016.
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "XXPositionPickerController.h"
+#import "XXColorPickerController.h"
 
-@interface XXPositionPickerController ()
+@interface XXColorPickerController ()
 
 @end
 
-@implementation XXPositionPickerController
+@implementation XXColorPickerController
 
 @synthesize localizedStrings = _localizedStrings;
 
 - (kPECropViewType)cropViewType {
-    return kPECropViewTypePosition;
+    return kPECropViewTypeColor;
 }
 
 - (NSDictionary <NSString *, NSString *> *)localizedStrings {
     if (!_localizedStrings) {
-        _localizedStrings = @{ kXXLocalizedStringKeyTitle: NSLocalizedString(@"Position", nil),
+        _localizedStrings = @{ kXXLocalizedStringKeyTitle: NSLocalizedString(@"Color", nil),
                                kXXLocalizedStringKeyErrorLoadFile: NSLocalizedString(@"Cannot load image from temporarily file", nil),
                                kXXLocalizedStringKeySelectImage: NSLocalizedString(@"Select an image from album", nil),
-                               kXXLocalizedStringKeySelected: NSLocalizedString(@"Select a position by tapping on image", nil),
+                               kXXLocalizedStringKeySelected: NSLocalizedString(@"Select a color by tapping on image", nil),
                                kXXLocalizedStringKeyEnterFull: NSLocalizedString(@"Triple touches to exit fullscreen", nil),
                                kXXLocalizedStringKeyExitFull: NSLocalizedString(@"One finger to drag, two fingers to zoom", nil),
                                kXXLocalizedStringKeyCanvasLocked: NSLocalizedString(@"Canvas locked, it cannot be moved or zoomed", nil),
@@ -39,24 +39,27 @@
 #pragma mark - Strings
 
 - (NSString *)previewString {
-    return [self stringFromPoint:self.currentPoint tips:NO];
+    return [self stringFromColor:self.currentColor tips:NO];
 }
 
 #pragma mark - Points
 
-- (NSString *)stringFromPoint:(CGPoint)p tips:(BOOL)tips {
-    NSString *pFormat = nil;
-    if (tips) {
-        pFormat = @"x = %d, y = %d";
-    } else {
-        pFormat = @"%d, %d";
+- (NSString *)stringFromColor:(UIColor *)color tips:(BOOL)tips {
+    UIColor *c = [color copy];
+    if (!c) {
+        c = [UIColor blackColor];
     }
-    return [NSString stringWithFormat:pFormat, (int)p.x, (int)p.y];
+    if (tips) {
+        return [NSString stringWithFormat:@"R: %d, G: %d, B: %d, A: %.2f (0x%@)", (int)(c.red * 255.f), (int)(c.green * 255.f), (int)(c.blue * 255.f), c.alpha, [c hexString]];
+    } else {
+        return [NSString stringWithFormat:@"0x%@", [c hexString]];
+    }
+    return @"";
 }
 
-- (void)setCurrentPoint:(CGPoint)currentPoint {
-    _currentPoint = currentPoint;
-    self.subtitle = [self stringFromPoint:currentPoint tips:YES];
+- (void)setCurrentColor:(UIColor *)currentColor {
+    _currentColor = currentColor;
+    self.subtitle = [self stringFromColor:currentColor tips:YES];
 }
 
 #pragma mark - Memory

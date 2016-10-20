@@ -118,9 +118,8 @@
     contentView.backgroundColor = [UIColor whiteColor];
     self.view = contentView;
     
-    PECropView *cropView = [[PECropView alloc] initWithFrame:contentView.bounds];
+    PECropView *cropView = [[PECropView alloc] initWithFrame:contentView.bounds andType:[self cropViewType]];
     cropView.hidden = YES;
-    cropView.type = [self cropViewType];
     _cropView = cropView;
     [contentView insertSubview:self.cropView atIndex:0];
     
@@ -195,17 +194,18 @@
         UIBarButtonItem *toLeftBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picker-to-left"] style:UIBarButtonItemStylePlain target:self action:@selector(rotateToLeftButtonTapped:)];
         UIBarButtonItem *toRightBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picker-to-right"] style:UIBarButtonItemStylePlain target:self action:@selector(rotateToRightButtonTapped:)];
         UIBarButtonItem *resetBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picker-refresh"] style:UIBarButtonItemStylePlain target:self action:@selector(resetButtonTapped:)];
+        UIBarButtonItem *trashBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-trash"] style:UIBarButtonItemStylePlain target:self action:@selector(trashButtonTapped:)];
         
         UIButton *lockButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 30)];
-        [lockButton setImage:[UIImage imageNamed:@"picker-unlock"] forState:UIControlStateNormal];
-        [lockButton setImage:[UIImage imageNamed:@"picker-lock"] forState:UIControlStateSelected];
+        [lockButton setImage:[[UIImage imageNamed:@"picker-unlock"] imageByTintColor:STYLE_TINT_COLOR] forState:UIControlStateNormal];
+        [lockButton setImage:[[UIImage imageNamed:@"picker-lock"] imageByTintColor:STYLE_TINT_COLOR] forState:UIControlStateSelected];
         [lockButton setTarget:self
                        action:@selector(lockButtonTapped:)
              forControlEvents:UIControlEventTouchUpInside];
         _lockButton = lockButton;
         UIBarButtonItem *lockBtn = [[UIBarButtonItem alloc] initWithCustomView:lockButton];
         
-        [cropToolbar setItems:@[picBtn, flexibleSpace, toLeftBtn, flexibleSpace, toRightBtn, flexibleSpace, resetBtn, flexibleSpace, lockBtn]];
+        [cropToolbar setItems:@[picBtn, flexibleSpace, trashBtn, flexibleSpace, toLeftBtn, flexibleSpace, toRightBtn, flexibleSpace, resetBtn, flexibleSpace, lockBtn]];
         
         _cropToolbar = cropToolbar;
     }
@@ -316,33 +316,27 @@
     }
 }
 
+- (void)trashButtonTapped:(id)sender {
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Discard Confirm", nil) andMessage:NSLocalizedString(@"Discard all changes and reset the canvas?", nil)];
+    [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil)
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              [self cleanCanvas];
+                          }];
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                          }];
+    [alertView show];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 #pragma mark - DoImagePickerControllerDelegate
 
 - (void)didCancelDoImagePickerController
 {
-    if (self.selectedImage) {
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Discard Confirm", nil) andMessage:NSLocalizedString(@"Discard all changes and reset the canvas?", nil)];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil)
-                                 type:SIAlertViewButtonTypeDestructive
-                              handler:^(SIAlertView *alertView) {
-                                  [self cleanCanvas];
-                                  [self dismissViewControllerAnimated:YES completion:nil];
-                              }];
-        [alertView addButtonWithTitle:NSLocalizedString(@"No", nil)
-                                 type:SIAlertViewButtonTypeDefault
-                              handler:^(SIAlertView *alertView) {
-                                  [self dismissViewControllerAnimated:YES completion:nil];
-                              }];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
-                                 type:SIAlertViewButtonTypeCancel
-                              handler:^(SIAlertView *alertView) {
-                                  
-                              }];
-        [alertView show];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didSelectPhotosFromDoImagePickerController:(XXImagePickerController *)picker

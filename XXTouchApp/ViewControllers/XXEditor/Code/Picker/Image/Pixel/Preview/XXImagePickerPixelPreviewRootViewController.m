@@ -18,4 +18,13 @@
     return self.statusBarHidden;
 }
 
+#pragma mark - View Style
+
+- (BOOL)shouldAutorotate {
+    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        return NO;
+    }
+    return YES;
+}
+
 @end
