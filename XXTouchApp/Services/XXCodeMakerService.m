@@ -16,6 +16,7 @@
 #import "XXPositionPickerController.h"
 #import "XXColorPickerController.h"
 #import "XXPosColorPickerController.h"
+#import "XXMulPosColorPickerController.h"
 #import "NSString+countSubstr.h"
 
 #define KEYWORD_BUNDLE_ID @"@bid@"
@@ -25,6 +26,7 @@
 #define KEYWORD_POSITION @"@pos@"
 #define KEYWORD_COLOR @"@color@"
 #define KEYWORD_POSCOLOR @"@poscolor@"
+#define KEYWORD_POSCOLORS @"@poscolors@"
 
 typedef enum : NSUInteger {
     kXXPickerTypeNone = 0,
@@ -34,7 +36,8 @@ typedef enum : NSUInteger {
     kXXPickerTypeRECT,
     kXXPickerTypePOS,
     kXXPickerTypeCOLOR,
-    kXXPickerTypePOSCOLOR
+    kXXPickerTypePOSCOLOR,
+    kXXPickerTypePOSCOLORS
 } kXXPickerType;
 
 @implementation XXCodeMakerService
@@ -96,6 +99,13 @@ typedef enum : NSUInteger {
         }
         keywordCount += [code occurenceOfString:KEYWORD_POSCOLOR];
     }
+    if ((location = [code rangeOfString:KEYWORD_POSCOLORS].location) != NSNotFound) {
+        if (location <= oldLocation) {
+            oldLocation = location;
+            type = kXXPickerTypePOSCOLORS;
+        }
+        keywordCount += [code occurenceOfString:KEYWORD_POSCOLORS];
+    }
     
     
     XXPickerBaseViewController *vc = nil;
@@ -120,6 +130,9 @@ typedef enum : NSUInteger {
     } else if (type == kXXPickerTypePOSCOLOR) {
         vc = [[XXPosColorPickerController alloc] init];
         vc.keyword = KEYWORD_POSCOLOR;
+    } else if (type == kXXPickerTypePOSCOLORS) {
+        vc = [[XXMulPosColorPickerController alloc] init];
+        vc.keyword = KEYWORD_POSCOLORS;
     }
     
     if (vc != nil && keywordCount != 0) {

@@ -200,7 +200,7 @@
 "1nx-s7-wIe.title" = "添加代碼片段";
 "uOs-xg-6RX.headerTitle" = "顯示名";
 "hQA-fA-CcB.headerTitle" = "代碼";
-"hQA-fA-CcB.footerTitle" = "可用標記：\n@cur@ - 游標位置\n@bid@ - 應用程序選擇器\n@key@ - 按鍵事件選擇器\n@loc@ - 地理位置選擇器\n@rect@ - 矩形區域選擇器\n@pos@ - 座標選擇器\n@color@ - 顏色選擇器\n\n轉到 \"更多 > 在線文檔\" 以獲取詳細介紹。";
+"hQA-fA-CcB.footerTitle" = "可用標記：\n@cur@ - 游標位置\n@bid@ - 應用程式選擇器\n@key@ - 按鍵事件選擇器\n@loc@ - 地理位置選擇器\n@pos@ - 位置選擇器\n@color@ - 顏色選擇器\n@poscolor@ - 位置與顏色選擇器\n@poscolors@ - 批量取色器\n@rect@ - 矩形區域選擇器\n\n轉到 \"更多 > 在線文檔\" 以獲取詳細介紹。";
 "bSw-BH-o7C.placeholder" = "代碼片段名稱";
 "wrd-0b-l01.title" = "按鍵事件";
 "KEg-Hn-EgX.title" = "添加位置";

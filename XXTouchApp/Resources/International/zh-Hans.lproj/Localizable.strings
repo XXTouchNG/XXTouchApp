@@ -219,3 +219,5 @@ Done = "完成";
 "XXTouch" = "XXT";
 "Select a color by tapping on image" = "轻按以选择图片中任意位置的颜色";
 "Position & Color" = "位置与颜色";
+"Positions & Colors" = "批量取色";
+"Select several positions by tapping on image" = "轻按以选择图片中若干位置";

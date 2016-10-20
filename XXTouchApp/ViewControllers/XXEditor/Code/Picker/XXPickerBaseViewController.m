@@ -6,6 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#import "XXCodeBlockNavigationController.h"
 #import "XXPickerBaseViewController.h"
 #import "XXCodeMakerService.h"
 
@@ -59,9 +60,14 @@
 
 #pragma mark - Strings
 
+- (void)setHeadtitle:(NSString *)headtitle {
+    _headtitle = headtitle;
+    ((XXCodeBlockNavigationController *)self.navigationController).popupBar.title = headtitle;
+}
+
 - (void)setSubtitle:(NSString *)subtitle {
     _subtitle = subtitle;
-    self.navigationController.title = subtitle;
+    ((XXCodeBlockNavigationController *)self.navigationController).popupBar.subtitle = subtitle;
 }
 
 @end

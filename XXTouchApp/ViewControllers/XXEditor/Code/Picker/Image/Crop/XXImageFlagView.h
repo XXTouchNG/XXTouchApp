@@ -10,6 +10,8 @@
 #import "XXPositionColorModel.h"
 
 @interface XXImageFlagView : UIView
-@property (nonatomic, strong) XXPositionColorModel *originalModel;
+@property (nonatomic, assign) NSUInteger index;
+@property (nonatomic, assign) CGPoint originalPoint;
+@property (nonatomic, strong) XXPositionColorModel *dataModel;
 
 @end

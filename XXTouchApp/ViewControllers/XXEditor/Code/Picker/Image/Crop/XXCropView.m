@@ -15,6 +15,7 @@
 #import "XXPositionPickerController.h"
 #import "XXColorPickerController.h"
 #import "XXPosColorPickerController.h"
+#import "XXMulPosColorPickerController.h"
 #import "XXImageFlagView.h"
 
 static const CGFloat MarginTop = 81.f;
@@ -144,6 +145,7 @@ XXCropRectViewDelegate
     
     CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
     CGPoint zoomedPoint = CGPointMake(locationInImageView.x * self.scrollView.zoomScale, locationInImageView.y * self.scrollView.zoomScale);
+    
     if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
         return self.scrollView;
     }
@@ -234,6 +236,8 @@ XXCropRectViewDelegate
     
     [self.maskFlagView removeFromSuperview];
     self.maskFlagView = nil;
+    
+    [self removeAllFlagViews];
     
     self.imagePreview.imageToMagnify = image;
     [self setNeedsLayout];
@@ -625,21 +629,36 @@ XXCropRectViewDelegate
         CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
         CGFloat zoomScale = self.scrollView.zoomScale;
         CGPoint zoomedPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
+        
+        for (NSInteger i = self.flagViews.count - 1; i >= 0; i--) {
+            XXImageFlagView *v = self.flagViews[i];
+            if (CGRectContainsPoint(v.frame, zoomedPoint)) {
+                [self maskViewTapped:v];
+                return;
+            }
+        }
+        
         if (CGRectContainsPoint(self.zoomingView.frame, zoomedPoint)) {
             CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
             CGPoint p = zoomedRect.origin;
+            UIColor *c = [self.imagePreview getColorOfPoint:p];
             if (self.type == kXXCropViewTypeColor ||
                 self.type == kXXCropViewTypePosition ||
                 self.type == kXXCropViewTypePositionColor) {
                 [self removeAllFlagViews];
-                [self addFlagViewAtPoint:locationInImageView];
+                [self addFlagViewAtPoint:locationInImageView andReal:p];
+            } else if (self.type == kXXCropViewTypeMultiplePositionColor) {
+                [self addFlagViewAtPoint:locationInImageView andReal:p andColor:c];
+                [self modelArrayUpdated]; // Set Array
             }
-            UIColor *c = [self.imagePreview getColorOfPoint:p];
+            
             if (self.type == kXXCropViewTypeColor) {
                 [self colorUpdated:c];
             } else if (self.type == kXXCropViewTypePosition) {
                 [self zoomedPointUpdated:p];
             } else if (self.type == kXXCropViewTypePositionColor) {
+                [self modelUpdatedWithPosition:p andColor:c];
+            } else if (self.type == kXXCropViewTypeMultiplePositionColor) {
                 [self modelUpdatedWithPosition:p andColor:c];
             }
         }
@@ -657,6 +676,7 @@ XXCropRectViewDelegate
         CGRect zoomedRect = [self zoomedRect:CGRectMake(locationInImageView.x, locationInImageView.y, 0, 0)];
         CGPoint p = zoomedRect.origin;
         [self.imagePreview setPointToMagnify:p];
+        UIColor *c = self.imagePreview.colorOfLastPoint;
         if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
             [self movePreviewByPoint:point];
         } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
@@ -669,15 +689,19 @@ XXCropRectViewDelegate
                 self.type == kXXCropViewTypePosition ||
                 self.type == kXXCropViewTypePositionColor) {
                 [self removeAllFlagViews];
-                [self addFlagViewAtPoint:locationInImageView];
+                [self addFlagViewAtPoint:locationInImageView andReal:p];
+            } else if (self.type == kXXCropViewTypeMultiplePositionColor) {
+                [self addFlagViewAtPoint:locationInImageView andReal:p andColor:c];
+                [self modelArrayUpdated]; // Set Array
             }
         }
-        UIColor *c = self.imagePreview.colorOfLastPoint;
         if (self.type == kXXCropViewTypeColor) {
             [self colorUpdated:c];
         } else if (self.type == kXXCropViewTypePosition) {
             [self zoomedPointUpdated:p];
         } else if (self.type == kXXCropViewTypePositionColor) {
+            [self modelUpdatedWithPosition:p andColor:c];
+        } else if (self.type == kXXCropViewTypeMultiplePositionColor) {
             [self modelUpdatedWithPosition:p andColor:c];
         }
     }
@@ -695,11 +719,20 @@ XXCropRectViewDelegate
     return _flagViews;
 }
 
-- (void)addFlagViewAtPoint:(CGPoint)p {
+- (void)addFlagViewAtPoint:(CGPoint)p andReal:(CGPoint)r {
+    [self addFlagViewAtPoint:p andReal:r andColor:nil];
+}
+
+- (void)addFlagViewAtPoint:(CGPoint)p andReal:(CGPoint)r andColor:(UIColor *)c {
     CGFloat zoomScale = self.scrollView.zoomScale;
     XXImageFlagView *newFlagView = [[XXImageFlagView alloc] initWithFrame:CGRectMake(0, 0, 22.f, 22.f)];
     newFlagView.center = CGPointMake(p.x * zoomScale, p.y * zoomScale);
-    newFlagView.originalModel = [XXPositionColorModel modelWithPosition:p andColor:nil];
+    newFlagView.originalPoint = p;
+    newFlagView.index = self.flagViews.count + 1;
+    if (c) {
+        newFlagView.dataModel.position = r;
+        newFlagView.dataModel.color = c;
+    }
     [self.maskFlagView addSubview:newFlagView];
     [self.flagViews addObject:newFlagView];
 }
@@ -714,9 +747,23 @@ XXCropRectViewDelegate
 - (void)adjustFlagViews {
     for (XXImageFlagView *v in self.flagViews) {
         CGFloat zoomScale = self.scrollView.zoomScale;
-        CGPoint p = v.originalModel.position;
+        CGPoint p = v.originalPoint;
         v.center = CGPointMake(p.x * zoomScale, p.y * zoomScale);
     }
+}
+
+- (void)resetIndexesOfFlagViews {
+    NSUInteger i = 0;
+    for (XXImageFlagView *v in self.flagViews) {
+        i++;
+        v.index = i;
+    }
+}
+
+- (void)maskViewTapped:(XXImageFlagView *)view {
+    [view removeFromSuperview];
+    [self.flagViews removeObject:view];
+    [self resetIndexesOfFlagViews];
 }
 
 #pragma mark - Gestures
@@ -741,6 +788,15 @@ XXCropRectViewDelegate
     model.position = p; model.color = c;
     XXPosColorPickerController *pickerController = (XXPosColorPickerController *)self.viewController;
     pickerController.currentModel = model;
+}
+
+- (void)modelArrayUpdated {
+    NSMutableArray <XXPositionColorModel *> *modelArray = [NSMutableArray new];
+    for (XXImageFlagView *v in self.flagViews) {
+        [modelArray addObject:v.dataModel];
+    }
+    XXMulPosColorPickerController *pickerController = (XXMulPosColorPickerController *)self.viewController;
+    pickerController.currentArray = modelArray;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

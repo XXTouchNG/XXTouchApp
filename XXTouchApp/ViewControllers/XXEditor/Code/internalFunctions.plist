@@ -28,7 +28,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>screen.is_colors(@poscolor@@cur@, @slider@)</string>
+		<string>screen.is_colors(@poscolors@@cur@, 90)</string>
 		<key>title</key>
 		<string>screen.is_colors(colors, similarity)</string>
 		<key>udid</key>
@@ -36,7 +36,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>screen.find_color(@poscolor@@cur@, @slider@)</string>
+		<string>screen.find_color(@poscolors@@cur@, 90)</string>
 		<key>title</key>
 		<string>screen.find_color(colors, similarity)</string>
 		<key>udid</key>

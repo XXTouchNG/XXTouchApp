@@ -15,6 +15,7 @@ typedef enum : NSUInteger {
     kXXCropViewTypePosition = 1,
     kXXCropViewTypeColor = 2,
     kXXCropViewTypePositionColor = 3,
+    kXXCropViewTypeMultiplePositionColor = 4,
 } kXXCropViewType;
 
 @interface XXCropView : UIView

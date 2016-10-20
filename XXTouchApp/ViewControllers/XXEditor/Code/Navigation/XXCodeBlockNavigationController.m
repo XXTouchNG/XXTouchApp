@@ -64,11 +64,6 @@
     }
 }
 
-- (void)setTitle:(NSString *)title {
-//    [super setTitle:title];
-    self.popupBar.subtitle = title;
-}
-
 #pragma mark - Popup Bar
 
 - (XXPickerPopupBar *)popupBar {

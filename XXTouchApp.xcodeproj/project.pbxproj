@@ -69,6 +69,7 @@
 		0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DDE471D814B7E00BC4BDE /* SIAlertView.bundle */; };
 		0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */; };
 		0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */; };
+		0F6612561DB8A686009DD6C1 /* XXMulPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */; };
 		0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */; };
 		0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C3A1D88CA26005C3A22 /* XXUserDefaultsModel.m */; };
 		0F8F7C541D89193B005C3A22 /* NSFileManager+RealDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C531D89193B005C3A22 /* NSFileManager+RealDestination.m */; };
@@ -252,6 +253,8 @@
 		0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
 		0F6459A51D85B37D00194057 /* XXRecordConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXRecordConfigTableViewController.h; sourceTree = "<group>"; };
 		0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXRecordConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F6612541DB8A686009DD6C1 /* XXMulPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMulPosColorPickerController.h; sourceTree = "<group>"; };
+		0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMulPosColorPickerController.m; sourceTree = "<group>"; };
 		0F7D85CE1D8E85D4006CEC88 /* XXScanLineAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanLineAnimation.h; sourceTree = "<group>"; };
 		0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanLineAnimation.m; sourceTree = "<group>"; };
 		0F8F7C391D88CA26005C3A22 /* XXUserDefaultsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsModel.h; sourceTree = "<group>"; };
@@ -756,6 +759,15 @@
 			path = Record;
 			sourceTree = "<group>";
 		};
+		0F6612531DB8A613009DD6C1 /* MulPosColor */ = {
+			isa = PBXGroup;
+			children = (
+				0F6612541DB8A686009DD6C1 /* XXMulPosColorPickerController.h */,
+				0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */,
+			);
+			path = MulPosColor;
+			sourceTree = "<group>";
+		};
 		0F8F7C421D88FAC6005C3A22 /* Activator */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,6 +922,7 @@
 				0FDEFCEE1DB47BE300825931 /* XXPickerBaseViewController.h */,
 				0FDEFCEF1DB47BE300825931 /* XXPickerBaseViewController.m */,
 				0FC7BC561DB3EC440073D900 /* Image */,
+				0F6612531DB8A613009DD6C1 /* MulPosColor */,
 				0F28C23E1DB89C62006A6E4D /* PosColor */,
 				0F36BEB51DB71AB500761999 /* Color */,
 				0FDEFCEA1DB4604C00825931 /* Rect */,
@@ -1362,6 +1375,7 @@
 				0FC7BCC61DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m in Sources */,
 				0F13EAF51D88415900DA8A25 /* XXUserDefaultsConfigTableViewController.m in Sources */,
 				0F5C20861DB6576500B69CF5 /* XXPositionPickerController.m in Sources */,
+				0F6612561DB8A686009DD6C1 /* XXMulPosColorPickerController.m in Sources */,
 				0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */,
 				0F8F7C5D1D89198D005C3A22 /* ALAssetsLibrary+SingleInstance.m in Sources */,
 				0FC7BCB61DB3EC440073D900 /* XXTColor.m in Sources */,
