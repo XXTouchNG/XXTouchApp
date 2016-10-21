@@ -70,12 +70,12 @@
     if (_style == XXKeyboardButtonStylePhone) {
         _labelWidth = 14.f;
         _labelHeight = 14.f;
-        _leftInset = 4.5f;
-        _rightInset = 4.5f;
-        _topInset = 1.5f;
-        _bottomInset = 4.f;
+        _leftInset = 4.f;
+        _rightInset = 4.f;
+        _topInset = 2.f;
+        _bottomInset = 2.5f;
         _fontSize = 8.f;
-        _bigFontSize = 16.f;
+        _bigFontSize = 12.f;
     } else if (_style == XXKeyboardButtonStyleTablet) {
         _labelWidth = 20.f;
         _labelHeight = 20.f;
@@ -176,7 +176,7 @@
             if (i != 2)
                 [currentLabel setHidden:YES];
             else {
-                [currentLabel setFont:[UIFont systemFontOfSize:24.f]];
+                [currentLabel setFont:[UIFont systemFontOfSize:self.bounds.size.width * .6f]];
                 if (self.trackPoint) {
                     [currentLabel setTextColor:[UIColor redColor]];
                     [currentLabel setText:@"◉"];

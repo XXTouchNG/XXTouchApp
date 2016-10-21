@@ -76,6 +76,7 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 @property (nonatomic, copy) NSString *remoteAccessURL; // Installed
 
 @property (nonatomic, strong) NSDictionary *deviceInfo; // Cached
+@property (nonatomic, strong) NSDate *nowDate; // Cached
 @property (nonatomic, strong) NSDate *expirationDate; // Cached
 
 - (BOOL)isSelectedScriptInPath:(NSString *)path;

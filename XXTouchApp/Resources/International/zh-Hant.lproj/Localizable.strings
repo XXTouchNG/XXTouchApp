@@ -221,3 +221,6 @@ Done = "完成";
 "Position & Color" = "位置與顏色";
 "Positions & Colors" = "批量取色";
 "Select several positions by tapping on image" = "輕按以選擇圖片中若干位置";
+"%d Day(s) " = "%d 天 ";
+"%d Hour(s) " = "%d 小時 ";
+"Operation succeed, added %@" = "操作成功，新增授權時間 %@";

@@ -69,8 +69,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     
     UIMenuController *menuController = [UIMenuController sharedMenuController];
     UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
-    UIMenuItem *keywordsItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Keywords", nil) action:@selector(menuActionKeywords:)];
-    [menuController setMenuItems:@[codeBlocksItem, keywordsItem]];
+    [menuController setMenuItems:@[codeBlocksItem]];
     
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
@@ -483,17 +482,11 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        self.textView.contentInset =
-        self.textView.scrollIndicatorInsets =
-        UIEdgeInsetsZero;
-    } else {
-        NSValue *keyboardRectAsObject = [aNotification userInfo][UIKeyboardFrameEndUserInfoKey];
-        CGRect keyboardRect = [keyboardRectAsObject CGRectValue];
-        self.textView.contentInset =
-        self.textView.scrollIndicatorInsets =
-        UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
-    }
+    NSValue *keyboardRectAsObject = [aNotification userInfo][UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [keyboardRectAsObject CGRectValue];
+    self.textView.contentInset =
+    self.textView.scrollIndicatorInsets =
+    UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
 
     if (!self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -503,20 +496,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardDidAppear:(NSNotification *)aNotification {
-//    NSDictionary *userInfo = [aNotification userInfo];
-//    CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//    CGRect keyboardBeginFrame = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-//    UIViewAnimationCurve animationCurve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
-//    NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
-//    
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDuration:animationDuration];
-//    [UIView setAnimationCurve:animationCurve];
-//    
-//    self.view.height = [UIScreen mainScreen].bounds.size.height - keyboardEndFrame.size.height;
-//    [self updateViewConstraints];
-//    
-//    [UIView commitAnimations];
+    
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)aNotification {
@@ -565,10 +545,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
     codeBlocksController.textInput = self.textView;
     [self.navigationController presentViewController:navController animated:YES completion:nil];
-}
-
-- (void)menuActionKeywords:(UIMenuItem *)sender {
-    
 }
 
 - (void)dealloc {

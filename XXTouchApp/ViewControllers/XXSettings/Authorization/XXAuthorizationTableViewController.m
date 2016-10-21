@@ -85,7 +85,21 @@ enum {
 
 - (void)endBindingCodeAndGetDeviceInfo {
     _authorizationField.text = @"";
-    [self.navigationController.view makeToast:NSLocalizedString(@"Code binding succeed", nil)];
+    NSMutableString *intervalString = [[NSMutableString alloc] init];
+    NSTimeInterval interval = [[[XXLocalDataService sharedInstance] expirationDate] timeIntervalSinceDate:[[XXLocalDataService sharedInstance] nowDate]];
+    int intervalDay = (int)floor(interval / 86400);
+    if (intervalDay != 0) {
+        [intervalString appendFormat:NSLocalizedString(@"%d Day(s) ", nil), intervalDay];
+    }
+    int intervalHour = (int)floor((interval - intervalDay * 86400) / 3600);
+    [intervalString appendFormat:NSLocalizedString(@"%d Hour(s) ", nil), intervalHour];
+    NSString *eMsg = [NSString stringWithFormat:@"Operation succeed, added %@", intervalString];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Code binding succeed", nil) andMessage:eMsg];
+    [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil)
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              
+                          }];
     [self loadDeviceAndAuthorizationInfo];
 }
 

@@ -167,10 +167,9 @@ static const float kCursorVelocity = 1.0f/8.0f;
         
         if ( overflow > 0 )
         {
-            // We are at the bottom of the visible text and introduced a line feed, scroll down (iOS 7 does not do it)
             // Scroll caret to visible area
             CGPoint offset = self.contentOffset;
-            offset.y += overflow + 7; // leave 7 pixels margin
+            offset.y += overflow + 7;
             // Cannot animate with setContentOffset:animated: or caret will not appear
             [UIView animateWithDuration:.2 animations:^{
                 [self setContentOffset:offset];

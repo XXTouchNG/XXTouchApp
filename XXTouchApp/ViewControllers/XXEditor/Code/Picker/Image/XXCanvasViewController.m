@@ -318,15 +318,16 @@
 
 - (void)trashButtonTapped:(id)sender {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Discard Confirm", nil) andMessage:NSLocalizedString(@"Discard all changes and reset the canvas?", nil)];
-    [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil)
-                             type:SIAlertViewButtonTypeDestructive
-                          handler:^(SIAlertView *alertView) {
-                              [self cleanCanvas];
-                          }];
     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               
+                          }];
+    [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil)
+                             type:SIAlertViewButtonTypeDestructive
+                          handler:^(SIAlertView *alertView) {
+                              [self setNavigationBarHidden:NO animated:YES];
+                              [self cleanCanvas];
                           }];
     [alertView show];
 }

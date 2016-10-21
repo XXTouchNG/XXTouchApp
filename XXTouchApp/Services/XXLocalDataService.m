@@ -23,6 +23,7 @@ static NSString * const kXXStorageKeyRemoteAccessStatus = @"kXXStorageKeyRemoteA
 static NSString * const kXXStorageKeyDeviceInfo = @"kXXStorageKeyDeviceInfo-%@";
 static NSString * const kXXStorageKeyUserConfig = @"kXXStorageKeyUserConfig-1";
 static NSString * const kXXStorageKeyExpirationDate = @"kXXStorageKeyExpirationDate-1";
+static NSString * const kXXStorageKeyNowDate = @"kXXStorageKeyNowDate-1";
 static NSString * const kXXStorageKeySortMethod = @"kXXStorageKeySortMethod-1";
 static NSString * const kXXStorageKeyStartUpConfigSwitch = @"kXXStorageKeyStartUpConfigSwitch-1";
 static NSString * const kXXStorageKeyActivatorInstalled = @"kXXStorageKeyActivatorInstalled-1";
@@ -157,6 +158,14 @@ static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKe
 
 - (void)setUserConfig:(NSDictionary *)userConfig {
     [self setObject:userConfig forKey:kXXStorageKeyUserConfig];
+}
+
+- (NSDate *)nowDate {
+    return (NSDate *)[self objectForKey:kXXStorageKeyNowDate];
+}
+
+- (void)setNowDate:(NSDate *)nowDate {
+    [self setObject:nowDate forKey:kXXStorageKeyNowDate];
 }
 
 - (NSDate *)expirationDate {

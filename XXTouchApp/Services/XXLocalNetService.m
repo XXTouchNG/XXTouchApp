@@ -270,6 +270,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code_with_device" withForm:sendDict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"expireDate"] unsignedIntegerValue]]];
+        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"nowDate"] unsignedIntegerValue]]];
         return YES;
     }
     else

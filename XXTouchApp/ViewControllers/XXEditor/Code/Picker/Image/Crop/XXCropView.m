@@ -638,13 +638,13 @@ XXCropRectViewDelegate
         CGPoint locationInImageView = [self convertPoint:point toView:self.zoomingView];
         CGFloat zoomScale = self.scrollView.zoomScale;
         CGPoint scaledPoint = CGPointMake(locationInImageView.x * zoomScale, locationInImageView.y * zoomScale);
-        for (NSInteger i = self.flagViews.count - 1; i >= 0; i--) {
-            XXImageFlagView *v = self.flagViews[i];
-            if (CGRectContainsPoint(v.frame, scaledPoint)) {
-                [self maskViewTapped:v];
-                return;
-            }
-        }
+//        for (NSInteger i = self.flagViews.count - 1; i >= 0; i--) {
+//            XXImageFlagView *v = self.flagViews[i];
+//            if (CGRectContainsPoint(v.frame, scaledPoint)) {
+//                [self maskViewTapped:v];
+//                return;
+//            }
+//        }
         if (CGRectContainsPoint(self.zoomingView.frame, scaledPoint)) {
             CGPoint p = [self zoomedPoint:locationInImageView];
             CGPoint fixedPoint = CGPointMake(floor(p.x) + 0.5, floor(p.y) + 0.5);
@@ -737,6 +737,17 @@ XXCropRectViewDelegate
     CGFloat zoomScale = self.scrollView.zoomScale;
     XXImageFlagView *newFlagView = [[XXImageFlagView alloc] initWithFrame:CGRectMake(0, 0, 22.f, 22.f)];
     newFlagView.center = CGPointMake(p.x * zoomScale, p.y * zoomScale);
+    XXImageFlagView *repeatedFlagView = nil;
+    for (XXImageFlagView *v in self.flagViews) {
+        if (CGRectContainsPoint(newFlagView.frame, v.center)) {
+            repeatedFlagView = v;
+            break;
+        }
+    }
+    if (repeatedFlagView) {
+        [self maskViewTapped:repeatedFlagView];
+        return;
+    }
     newFlagView.originalPoint = p;
     newFlagView.index = self.flagViews.count + 1;
     if (c) {
