@@ -457,6 +457,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 - (void)codeBindingToController:(NSString *)code {
     XXAuthorizationTableViewController *authController = (XXAuthorizationTableViewController *)[[[AppDelegate globalDelegate] rootViewController].storyboard instantiateViewControllerWithIdentifier:kXXAuthorizationTableViewControllerStoryboardID];
     authController.code = code;
+    authController.fromScan = YES;
     _authController = authController;
     authController.navigationItem.leftBarButtonItem = self.closeAuthItem;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:authController];

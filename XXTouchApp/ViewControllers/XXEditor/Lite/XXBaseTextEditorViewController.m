@@ -22,7 +22,7 @@ static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
 static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCodeBlocksTableViewControllerStoryboardID";
 
-@interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating>
+@interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) UIView *fakeStatusBar;
 @property (nonatomic, strong) XXBaseTextView *textView;
 @property (nonatomic, copy) NSString *fileContent;
@@ -32,11 +32,15 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 @property (nonatomic, strong) UIButton *readingItem;
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
-@property (nonatomic, strong) UISearchController *searchController;
-
 @property (nonatomic, assign) BOOL isLuaCode;
 @property (nonatomic, assign) BOOL isLoaded;
 @property (nonatomic, assign) BOOL isEdited;
+
+// Search
+@property (nonatomic, assign) BOOL searchMode;
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UILabel *countLabel;
+@property (nonatomic, strong) UIToolbar *searchToolBar;
 
 @end
 
@@ -65,7 +69,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     [self.view addSubview:self.fakeStatusBar];
     [self.view addSubview:self.textView];
     [self.view addSubview:self.bottomBar];
+    [self.view addSubview:self.searchBar];
+    [self updateCountLabel];
     [self updateViewConstraints];
+    [self updateTextViewInsetsWithKeyboardNotification:nil];
     
     UIMenuController *menuController = [UIMenuController sharedMenuController];
     UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
@@ -91,7 +98,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
             }
         });
     });
-    
 }
 
 - (BOOL)loadFileWithError:(NSError **)err {
@@ -115,24 +121,16 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     // Set Text
     dispatch_async_on_main_queue(^{
         self.textView.text = self.fileContent;
+        [self.textView scrollRectToVisible:CGRectZero animated:YES consideringInsets:YES];
     });
     return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    self.navigationController.navigationBar.translucent = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillAppear:)
                                                  name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidAppear:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillChangeFrame:)
-                                                 name:UIKeyboardWillChangeFrameNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillDismiss:)
@@ -151,7 +149,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-//    self.navigationController.navigationBar.translucent = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -160,14 +157,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     NSError *err = nil;
     [self saveFileWithError:&err];
-}
-
-- (BOOL)saveFileWithError:(NSError **)err {
-    self.fileContent = self.textView.text;
-    if (_isLoaded && _isEdited) {
-        [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
-    }
-    return *err == nil;
 }
 
 - (void)updateViewConstraints {
@@ -198,7 +187,65 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     }];
 }
 
+#pragma mark - File Handler
+
+- (BOOL)saveFileWithError:(NSError **)err {
+    self.fileContent = self.textView.text;
+    if (_isLoaded && _isEdited) {
+        [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
+    }
+    return *err == nil;
+}
+
 #pragma mark - Getters
+
+- (UISearchBar *)searchBar {
+    if (!_searchBar) {
+        CGRect viewBounds = self.view.bounds;
+        CGRect searchBarFrame = viewBounds;
+        searchBarFrame.size.height = 44.0f;
+        searchBarFrame.origin.y = -44.0f;
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+        searchBar.delegate = self;
+        searchBar.hidden = YES;
+        searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        searchBar.barTintColor = [UIColor whiteColor];
+        searchBar.placeholder = NSLocalizedString(@"Search", nil);
+        if ([searchBar respondsToSelector:@selector(setInputAccessoryView:)])
+        {
+            CGRect toolBarFrame = viewBounds;
+            toolBarFrame.size.height = 44.0f;
+            UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
+            toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            UIBarButtonItem *prevButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"◀️"
+                                                                               style:UIBarButtonItemStylePlain
+                                                                              target:self
+                                                                              action:@selector(searchPreviousMatch)];
+            
+            UIBarButtonItem *nextButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"▶️"
+                                                                               style:UIBarButtonItemStylePlain
+                                                                              target:self
+                                                                              action:@selector(searchNextMatch)];
+            
+            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+            
+            UILabel *countLabel = [[UILabel alloc] init];
+            countLabel.textAlignment = NSTextAlignmentRight;
+            countLabel.textColor = [UIColor grayColor];
+            
+            UIBarButtonItem *counter = [[UIBarButtonItem alloc] initWithCustomView:countLabel];
+            
+            toolBar.items = [[NSArray alloc] initWithObjects:prevButtonItem, nextButtonItem, spacer, counter, nil];
+            
+            [(id)searchBar setInputAccessoryView:toolBar];
+            
+            _searchToolBar = toolBar;
+            _countLabel = countLabel;
+        }
+        _searchBar = searchBar;
+    }
+    return _searchBar;
+}
 
 - (UIView *)fakeStatusBar {
     if (!_fakeStatusBar) {
@@ -227,6 +274,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         textView.contentInset =
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
+        textView.circularSearch = YES;
+        textView.scrollPosition = ICTextViewScrollPositionTop;
+        textView.searchOptions = NSRegularExpressionCaseInsensitive;
         
         if (_isLuaCode) {
             textView.highlightLuaSymbols = YES;
@@ -292,44 +342,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     return _shareItem;
 }
 
-- (UISearchController *)searchController {
-    if (!_searchController) {
-        UISearchController *searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-        searchController.delegate = self;
-        searchController.searchBar.delegate = self;
-        searchController.searchResultsUpdater = self;
-        searchController.dimsBackgroundDuringPresentation = NO;
-        searchController.hidesNavigationBarDuringPresentation = NO;
-        searchController.searchBar.frame = CGRectMake(searchController.searchBar.frame.origin.x, searchController.searchBar.frame.origin.y, searchController.searchBar.frame.size.width, 44.0);
-        _searchController = searchController;
-    }
-    return _searchController;
-}
-
 #pragma mark - UISearchBarDelegate
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    return NO;
-}
-
-- (void)willPresentSearchController:(UISearchController *)searchController {
-    
-}
-
-- (void)didPresentSearchController:(UISearchController *)searchController {
-    
-}
-
-- (void)willDismissSearchController:(UISearchController *)searchController {
-    
-}
-
-- (void)didDismissSearchController:(UISearchController *)searchController{
-    
-}
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    
+    return YES;
 }
 
 #pragma mark - DocumentInteractionController
@@ -353,7 +369,8 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 #pragma mark - Toolbar Actions
 
 - (void)search:(UIBarButtonItem *)sender {
-    [self.navigationController.view makeToast:NSLocalizedString(@"Not implemented", nil)];
+    self.searchMode = !self.searchMode;
+    [self updateSearchBarFrameAnimated:YES];
 }
 
 - (void)reading:(UIButton *)sender {
@@ -475,6 +492,29 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 #pragma mark - Keyboard Events
 
+- (void)updateTextViewInsetsWithKeyboardNotification:(NSNotification *)notification
+{
+    UIEdgeInsets newInsets = UIEdgeInsetsZero;
+    if (self.searchMode) {
+        newInsets.top = self.searchBar.frame.size.height;
+    }
+    newInsets.bottom = self.bottomBar.frame.size.height;
+    
+    if (notification)
+    {
+        CGRect keyboardFrame;
+        
+        [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
+        keyboardFrame = [self.view convertRect:keyboardFrame fromView:nil];
+        
+        newInsets.bottom = self.view.frame.size.height - keyboardFrame.origin.y;
+    }
+    
+    ICTextView *textView = self.textView;
+    textView.contentInset = newInsets;
+    textView.scrollIndicatorInsets = newInsets;
+}
+
 - (void)showKeyboard {
     if (![self.textView isFirstResponder]) {
         [self.textView becomeFirstResponder];
@@ -482,47 +522,28 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
-    NSValue *keyboardRectAsObject = [aNotification userInfo][UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [keyboardRectAsObject CGRectValue];
-    self.textView.contentInset =
-    self.textView.scrollIndicatorInsets =
-    UIEdgeInsetsMake(0, 0, keyboardRect.size.height, 0);
+    [self updateTextViewInsetsWithKeyboardNotification:aNotification];
 
     if (!self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     
     [self updateViewConstraints];
-}
-
-- (void)keyboardDidAppear:(NSNotification *)aNotification {
-    
-}
-
-- (void)keyboardWillChangeFrame:(NSNotification *)aNotification {
-    
+    [self updateSearchBarFrameAnimated:YES];
 }
 
 - (void)keyboardWillDismiss:(NSNotification *)aNotification {
-    [self keyboardWillDismiss];
-}
-
-- (void)keyboardDidDismiss:(NSNotification *)aNotification {
-    [self keyboardDidDismiss];
-}
-
-- (void)keyboardWillDismiss {
-    self.textView.contentInset =
-    self.textView.scrollIndicatorInsets =
-    UIEdgeInsetsMake(0, 0, self.bottomBar.frame.size.height, 0);
+    [self updateTextViewInsetsWithKeyboardNotification:nil];
     
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
+    
     [self updateViewConstraints];
+    [self updateSearchBarFrameAnimated:YES];
 }
 
-- (void)keyboardDidDismiss {
+- (void)keyboardDidDismiss:(NSNotification *)aNotification {
     if (!_isEdited) _isEdited = YES;
     self.fileContent = self.textView.text;
 }
@@ -533,14 +554,103 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     
 }
 
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self searchNextMatch];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self searchNextMatch];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+}
+
+#pragma mark - Search Bar Display
+
+- (void)updateSearchBarFrameAnimated:(BOOL)animated {
+    __block CGRect searchBarFrame = self.searchBar.frame;
+    if (self.searchMode) {
+        self.searchBar.hidden = NO;
+        searchBarFrame.origin.y = [self.navigationController isNavigationBarHidden] ? [[UIApplication sharedApplication] statusBarFrame].size.height : 0;
+    } else {
+        searchBarFrame.origin.y = -44.0f;
+    }
+    if (animated) {
+        [UIView animateWithDuration:.2f delay:.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            self.searchBar.frame = searchBarFrame;
+            [self updateTextViewInsetsWithKeyboardNotification:nil];
+        } completion:^(BOOL finished) {
+            if (self.searchMode == NO) {
+                self.searchBar.hidden = YES;
+            }
+        }];
+    } else {
+        self.searchBar.frame = searchBarFrame;
+        [self updateTextViewInsetsWithKeyboardNotification:nil];
+        if (self.searchMode == NO) {
+            self.searchBar.hidden = YES;
+        }
+    }
+}
+
+#pragma mark - ICTextView
+
+- (void)searchNextMatch
+{
+    [self searchMatchInDirection:ICTextViewSearchDirectionForward];
+}
+
+- (void)searchPreviousMatch
+{
+    [self searchMatchInDirection:ICTextViewSearchDirectionBackward];
+}
+
+- (void)searchMatchInDirection:(ICTextViewSearchDirection)direction
+{
+    NSString *searchString = self.searchBar.text;
+    
+    if (searchString.length)
+        [self.textView scrollToString:searchString searchDirection:direction];
+    else
+        [self.textView resetSearch];
+    
+    [self updateCountLabel];
+}
+
+- (void)updateCountLabel
+{
+    ICTextView *textView = self.textView;
+    UILabel *countLabel = self.countLabel;
+    
+    NSUInteger numberOfMatches = textView.numberOfMatches;
+    countLabel.text = numberOfMatches ? [NSString stringWithFormat:@"%lu/%lu", (unsigned long)textView.indexOfFoundString + 1, (unsigned long)numberOfMatches] : @"0/0";
+    [countLabel sizeToFit];
+}
+
 #pragma mark - Menu Actions
 
 - (void)menuActionCodeBlocks:(UIMenuItem *)sender {
-    [self keyboardWillDismiss];
+    [self keyboardWillDismiss:nil];
     if ([_textView isFirstResponder]) {
         [_textView resignFirstResponder];
     }
-    [self keyboardDidDismiss];
+    [self keyboardDidDismiss:nil];
     XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
     XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
     codeBlocksController.textInput = self.textView;

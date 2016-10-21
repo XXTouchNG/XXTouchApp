@@ -36,14 +36,33 @@
     [self pushToNextControllerWithKeyword:self.keyword replacement:@""];
 }
 
-- (void)pushToNextControllerWithKeyword:(NSString *)keyword
-                            replacement:(NSString *)replace {
+- (XXCodeBlockModel *)previewBlockModelWithRange:(NSRange *)range {
+    return [self blockModelWithKeyword:self.keyword
+                           replacement:self.previewString
+                           resultRange:range];
+}
+
+- (XXCodeBlockModel *)blockModelWithKeyword:(NSString *)keyword
+                                replacement:(NSString *)replacement
+                                resultRange:(NSRange *)resultRange
+{
     XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
     NSString *code = newBlock.code;
     NSRange range = [code rangeOfString:keyword];
-    if (range.length == 0) return;
-    newBlock.code = [code stringByReplacingCharactersInRange:range withString:replace];
-    [XXCodeMakerService pushToMakerWithCodeBlockModel:newBlock controller:self];
+    if (range.length == 0) return nil;
+    if (resultRange) *resultRange = NSMakeRange(range.location, replacement.length);
+    newBlock.code = [code stringByReplacingCharactersInRange:range
+                                                  withString:replacement];
+    return newBlock;
+}
+
+- (void)pushToNextControllerWithKeyword:(NSString *)keyword
+                            replacement:(NSString *)replace
+{
+    [XXCodeMakerService pushToMakerWithCodeBlockModel:[self blockModelWithKeyword:keyword
+                                                                      replacement:replace
+                                                                      resultRange:nil]
+                                           controller:self];
 }
 
 - (UIBarButtonItem *)nextButton {

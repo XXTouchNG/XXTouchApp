@@ -10,5 +10,6 @@
 
 @interface XXAuthorizationTableViewController : UITableViewController
 @property (nonatomic, copy) NSString *code;
+@property (nonatomic, assign) BOOL fromScan;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "XXCodeBlockNavigationController.h"
 #import "XXPickerBaseViewController.h"
+#import "XXCodeBlockExpandViewController.h"
 #import <Masonry/Masonry.h>
 
 @interface XXCodeBlockNavigationController () <UINavigationControllerDelegate>
@@ -64,12 +65,29 @@
     }
 }
 
+- (void)expandBarTapped:(UITapGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        if ([self.topViewController isKindOfClass:[XXPickerBaseViewController class]]) {
+            XXPickerBaseViewController *picker = (XXPickerBaseViewController *)self.topViewController;
+            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlockExpandViewControllerStoryboardID];
+            XXCodeBlockExpandViewController *expandController = (XXCodeBlockExpandViewController *)navController.topViewController;
+            NSRange highlightedRange;
+            XXCodeBlockModel *model = [picker previewBlockModelWithRange:&highlightedRange];
+            expandController.injectedCode = model.code;
+            [self presentViewController:navController animated:YES completion:nil];
+        }
+    }
+}
+
 #pragma mark - Popup Bar
 
 - (XXPickerPopupBar *)popupBar {
     if (!_popupBar) {
         XXPickerPopupBar *popupBar = [[XXPickerPopupBar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 44)];
         popupBar.hidden = YES;
+        popupBar.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandBarTapped:)];
+        [popupBar addGestureRecognizer:tapGesture];
         _popupBar = popupBar;
     }
     return _popupBar;

@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) UIBarButtonItem *nextButton;
 - (void)next:(UIBarButtonItem *)sender;
+- (XXCodeBlockModel *)previewBlockModelWithRange:(NSRange *)range;
 - (void)pushToNextControllerWithKeyword:(NSString *)keyword
                             replacement:(NSString *)replace;
 

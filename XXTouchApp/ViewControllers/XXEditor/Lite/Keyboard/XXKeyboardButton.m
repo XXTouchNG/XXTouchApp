@@ -225,15 +225,9 @@
 
 - (void)showInputView
 {
-    if (_style == XXKeyboardButtonStylePhone) {
-        [self hideInputView];
-        
-        self.buttonView = [[XXKeyboardButtonView alloc] initWithKeyboardButton:self];
-        
-        [self.window addSubview:self.buttonView];
-    } else {
-        [self setNeedsDisplay];
-    }
+    [self hideInputView];
+    self.buttonView = [[XXKeyboardButtonView alloc] initWithKeyboardButton:self];
+    [self.window addSubview:self.buttonView];
 }
 
 - (void)hideInputView

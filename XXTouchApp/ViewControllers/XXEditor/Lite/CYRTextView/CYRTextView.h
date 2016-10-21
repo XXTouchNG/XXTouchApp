@@ -37,8 +37,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CYRToken.h"
+#import "ICTextView.h"
 
-@interface CYRTextView : UITextView
+@interface CYRTextView : ICTextView
 
 @property (nonatomic, strong) NSArray *tokens;
 @property (nonatomic, strong) UIPanGestureRecognizer *singleFingerPanRecognizer;

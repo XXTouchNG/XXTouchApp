@@ -26,6 +26,10 @@
 		0F25D7E51D84F5B00056826B /* XXApplicationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E41D84F5B00056826B /* XXApplicationListTableViewController.m */; };
 		0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */; };
 		0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */; };
+		0F28B4A31DB9D5A60007CE4E /* XXCodeBlockExpandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28B4A21DB9D5A60007CE4E /* XXCodeBlockExpandViewController.m */; };
+		0F28B4AC1DB9EF510007CE4E /* ICRangeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28B4A71DB9EF510007CE4E /* ICRangeUtils.m */; };
+		0F28B4AD1DB9EF510007CE4E /* ICRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28B4A91DB9EF510007CE4E /* ICRegularExpression.m */; };
+		0F28B4AE1DB9EF510007CE4E /* ICTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28B4AB1DB9EF510007CE4E /* ICTextView.m */; };
 		0F28C23A1DB86EBC006A6E4D /* XXImageFlagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */; };
 		0F28C23D1DB89A01006A6E4D /* XXPositionColorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C23C1DB89A01006A6E4D /* XXPositionColorModel.m */; };
 		0F28C2411DB89C90006A6E4D /* XXPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2401DB89C90006A6E4D /* XXPosColorPickerController.m */; };
@@ -175,6 +179,15 @@
 		0F25D7E71D84FED90056826B /* XXApplicationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationTableViewCell.m; sourceTree = "<group>"; };
 		0F25D7E91D8501C40056826B /* XXApplicationDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationDetailTableViewController.h; sourceTree = "<group>"; };
 		0F25D7EA1D8501C40056826B /* XXApplicationDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXApplicationDetailTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F28B4A11DB9D5A60007CE4E /* XXCodeBlockExpandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockExpandViewController.h; sourceTree = "<group>"; };
+		0F28B4A21DB9D5A60007CE4E /* XXCodeBlockExpandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockExpandViewController.m; sourceTree = "<group>"; };
+		0F28B4A51DB9EF510007CE4E /* ICPreprocessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPreprocessor.h; sourceTree = "<group>"; };
+		0F28B4A61DB9EF510007CE4E /* ICRangeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICRangeUtils.h; sourceTree = "<group>"; };
+		0F28B4A71DB9EF510007CE4E /* ICRangeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICRangeUtils.m; sourceTree = "<group>"; };
+		0F28B4A81DB9EF510007CE4E /* ICRegularExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICRegularExpression.h; sourceTree = "<group>"; };
+		0F28B4A91DB9EF510007CE4E /* ICRegularExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICRegularExpression.m; sourceTree = "<group>"; };
+		0F28B4AA1DB9EF510007CE4E /* ICTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICTextView.h; sourceTree = "<group>"; };
+		0F28B4AB1DB9EF510007CE4E /* ICTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICTextView.m; sourceTree = "<group>"; };
 		0F28C2381DB86EBC006A6E4D /* XXImageFlagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImageFlagView.h; sourceTree = "<group>"; };
 		0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImageFlagView.m; sourceTree = "<group>"; };
 		0F28C23B1DB89A01006A6E4D /* XXPositionColorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPositionColorModel.h; sourceTree = "<group>"; };
@@ -494,6 +507,29 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		0F28B4A01DB9D5860007CE4E /* Expand */ = {
+			isa = PBXGroup;
+			children = (
+				0F28B4A11DB9D5A60007CE4E /* XXCodeBlockExpandViewController.h */,
+				0F28B4A21DB9D5A60007CE4E /* XXCodeBlockExpandViewController.m */,
+			);
+			path = Expand;
+			sourceTree = "<group>";
+		};
+		0F28B4A41DB9EF510007CE4E /* ICTextView */ = {
+			isa = PBXGroup;
+			children = (
+				0F28B4A51DB9EF510007CE4E /* ICPreprocessor.h */,
+				0F28B4A61DB9EF510007CE4E /* ICRangeUtils.h */,
+				0F28B4A71DB9EF510007CE4E /* ICRangeUtils.m */,
+				0F28B4A81DB9EF510007CE4E /* ICRegularExpression.h */,
+				0F28B4A91DB9EF510007CE4E /* ICRegularExpression.m */,
+				0F28B4AA1DB9EF510007CE4E /* ICTextView.h */,
+				0F28B4AB1DB9EF510007CE4E /* ICTextView.m */,
+			);
+			path = ICTextView;
+			sourceTree = "<group>";
+		};
 		0F28C23E1DB89C62006A6E4D /* PosColor */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,6 +586,7 @@
 		0F58A41E1D90B95F0013806C /* Lite */ = {
 			isa = PBXGroup;
 			children = (
+				0F28B4A41DB9EF510007CE4E /* ICTextView */,
 				0F0FA8F51D9983F5009FD2F8 /* CYRTextView */,
 				0F06A8D21D937F8900BAA589 /* Keyboard */,
 				0F58A42B1D90BECA0013806C /* Detail */,
@@ -1027,6 +1064,7 @@
 			children = (
 				0FC7BCC01DB3EC630073D900 /* XXCodeBlockNavigationController.h */,
 				0FC7BCC11DB3EC630073D900 /* XXCodeBlockNavigationController.m */,
+				0F28B4A01DB9D5860007CE4E /* Expand */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -1339,13 +1377,16 @@
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
 				0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */,
+				0F28B4AC1DB9EF510007CE4E /* ICRangeUtils.m in Sources */,
 				0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0FDEFCE61DB45D2E00825931 /* NSString+countSubstr.m in Sources */,
+				0F28B4AD1DB9EF510007CE4E /* ICRegularExpression.m in Sources */,
 				0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */,
 				0F25D7E11D83A0290056826B /* XXAuthorizationTableViewController.m in Sources */,
 				0FC71C751D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m in Sources */,
 				0F58A4231D90B95F0013806C /* XXBaseTextEditorViewController.m in Sources */,
+				0F28B4AE1DB9EF510007CE4E /* ICTextView.m in Sources */,
 				0F00D8AB1D8AE7320000C8E8 /* XXScanDownloadTaskViewController.m in Sources */,
 				0F25D7EB1D8501C40056826B /* XXApplicationDetailTableViewController.m in Sources */,
 				0F5DDE181D81496800BC4BDE /* XXSwipeableCell.m in Sources */,
@@ -1354,6 +1395,7 @@
 				0F8F7C5C1D89198D005C3A22 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */,
 				0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */,
+				0F28B4A31DB9D5A60007CE4E /* XXCodeBlockExpandViewController.m in Sources */,
 				0FFE881B1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,
 				0F5DDE381D814A3100BC4BDE /* XXArchiveService.m in Sources */,

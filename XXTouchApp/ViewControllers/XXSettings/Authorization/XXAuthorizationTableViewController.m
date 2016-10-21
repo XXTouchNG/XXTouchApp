@@ -94,13 +94,18 @@ enum {
     int intervalHour = (int)floor((interval - intervalDay * 86400) / 3600);
     [intervalString appendFormat:NSLocalizedString(@"%d Hour(s) ", nil), intervalHour];
     NSString *eMsg = [NSString stringWithFormat:@"Operation succeed, added %@", intervalString];
+    @weakify(self);
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Code binding succeed", nil) andMessage:eMsg];
     [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
-                              
+                              @strongify(self);
+                              [self loadDeviceAndAuthorizationInfo];
+                              if (self.fromScan) {
+                                  [self dismissViewControllerAnimated:YES completion:nil];
+                              }
                           }];
-    [self loadDeviceAndAuthorizationInfo];
+    [alertView show];
 }
 
 - (IBAction)submit:(id)sender {
