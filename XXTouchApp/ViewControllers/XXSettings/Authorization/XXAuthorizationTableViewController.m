@@ -93,16 +93,16 @@ enum {
     }
     int intervalHour = (int)floor((interval - intervalDay * 86400) / 3600);
     [intervalString appendFormat:NSLocalizedString(@"%d Hour(s) ", nil), intervalHour];
-    NSString *eMsg = [NSString stringWithFormat:@"Operation succeed, added %@", intervalString];
+    NSString *eMsg = [NSString stringWithFormat:NSLocalizedString(@"Operation succeed, added %@", nil), intervalString];
     @weakify(self);
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Code binding succeed", nil) andMessage:eMsg];
     [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
-                              [self loadDeviceAndAuthorizationInfo];
+                              [self.refreshHeader beginRefreshing];
                               if (self.fromScan) {
-                                  [self dismissViewControllerAnimated:YES completion:nil];
+                                  [self.navigationItem.leftBarButtonItem setTitle:NSLocalizedString(@"Close", nil)];
                               }
                           }];
     [alertView show];

@@ -147,7 +147,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 
 - (UIBarButtonItem *)closeAuthItem {
     if (!_closeAuthItem) {
-        UIBarButtonItem *closeAuthItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(closeAuth:)];
+        UIBarButtonItem *closeAuthItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain target:self action:@selector(closeAuth:)];
         closeAuthItem.tintColor = [UIColor whiteColor];
         _closeAuthItem = closeAuthItem;
     }
@@ -156,7 +156,7 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
 
 - (UIBarButtonItem *)closeWebItem {
     if (!_closeWebItem) {
-        UIBarButtonItem *closeWebItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(closeWeb:)];
+        UIBarButtonItem *closeWebItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStylePlain target:self action:@selector(closeWeb:)];
         closeWebItem.tintColor = [UIColor whiteColor];
         _closeWebItem = closeWebItem;
     }

@@ -115,6 +115,7 @@
 		0FC7BCBE1DB3EC440073D900 /* XXLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC9D1DB3EC440073D900 /* XXLocationPickerController.m */; };
 		0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BCC11DB3EC630073D900 /* XXCodeBlockNavigationController.m */; };
 		0FC7BCC61DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */; };
+		0FD482971DBB811700B4C097 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 0FD482961DBB811700B4C097 /* style.css */; };
 		0FD9AD3C1D920A38007B4CEC /* PackageVersion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */; };
 		0FDEFCDF1DB4572000825931 /* XXImagePickerPixelPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCDC1DB4572000825931 /* XXImagePickerPixelPreview.m */; };
 		0FDEFCE01DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCDE1DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m */; };
@@ -357,6 +358,7 @@
 		0FC7BCC41DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAddCodeBlockTableViewController.h; sourceTree = "<group>"; };
 		0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAddCodeBlockTableViewController.m; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FD482961DBB811700B4C097 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
 		0FDEFCDB1DB4572000825931 /* XXImagePickerPixelPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreview.h; sourceTree = "<group>"; };
 		0FDEFCDC1DB4572000825931 /* XXImagePickerPixelPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPixelPreview.m; sourceTree = "<group>"; };
@@ -945,6 +947,7 @@
 		0FC47E881D7690540076590B /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				0FD482951DBB811700B4C097 /* css */,
 				0FC47E931D7698220076590B /* open.html */,
 				0FC47E911D7698140076590B /* tos.html */,
 			);
@@ -1112,6 +1115,14 @@
 			path = XXTouchApp;
 			sourceTree = "<group>";
 		};
+		0FD482951DBB811700B4C097 /* css */ = {
+			isa = PBXGroup;
+			children = (
+				0FD482961DBB811700B4C097 /* style.css */,
+			);
+			path = css;
+			sourceTree = "<group>";
+		};
 		0FDEFCDA1DB4572000825931 /* Preview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1240,6 +1251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FC47E941D7698220076590B /* open.html in Resources */,
+				0FD482971DBB811700B4C097 /* style.css in Resources */,
 				0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */,
 				0FC7BCAC1DB3EC440073D900 /* XXImagePickerPhotoCell.xib in Resources */,
 				0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */,

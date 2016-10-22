@@ -224,3 +224,7 @@ Done = "完成";
 "%d Day(s) " = "%d 天 ";
 "%d Hour(s) " = "%d 小时 ";
 "Operation succeed, added %@" = "操作成功，新增授权时间 %@";
+"Normal" = "常规";
+"Regex" = "正则";
+"Close" = "关闭";
+"File \"%@\" already exists." = "文件 \"%@\" 已经存在";

@@ -60,8 +60,13 @@ int cancelFlag = 0;
         [self.navigationController.view makeToast:NSLocalizedString(@"Invalid item name", nil)];
         return;
     }
+    NSString *targetPath = [[self.originalPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:itemName];
+    if ([FCFileManager existsItemAtPath:targetPath]) {
+        [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" already exists.", nil), itemName]];
+        return;
+    }
     NSError *err = nil;
-    [FCFileManager renameItemAtPath:self.originalPath withName:itemName error:&err];
+    [FCFileManager moveItemAtPath:self.originalPath toPath:targetPath error:&err];
     if (err != nil) {
         [self.navigationController.view makeToast:[err localizedDescription]];
         return;

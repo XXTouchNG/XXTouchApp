@@ -74,9 +74,11 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     [self updateViewConstraints];
     [self updateTextViewInsetsWithKeyboardNotification:nil];
     
-    UIMenuController *menuController = [UIMenuController sharedMenuController];
-    UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
-    [menuController setMenuItems:@[codeBlocksItem]];
+    if (_isLuaCode) {
+        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
+        [menuController setMenuItems:@[codeBlocksItem]];
+    }
     
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
@@ -203,30 +205,39 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     if (!_searchBar) {
         CGRect viewBounds = self.view.bounds;
         CGRect searchBarFrame = viewBounds;
-        searchBarFrame.size.height = 44.0f;
-        searchBarFrame.origin.y = -44.0f;
+        searchBarFrame.size.height = 44.f;
+        
         UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchBarFrame];
         searchBar.delegate = self;
         searchBar.hidden = YES;
         searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         searchBar.barTintColor = [UIColor whiteColor];
+        searchBar.tintColor = STYLE_TINT_COLOR;
         searchBar.placeholder = NSLocalizedString(@"Search", nil);
+        searchBar.scopeButtonTitles = @[ NSLocalizedString(@"Normal", nil), NSLocalizedString(@"Regex", nil) ];
+        searchBar.showsScopeBar = YES;
+        [searchBar sizeToFit];
+        
+        searchBarFrame = searchBar.frame;
+        searchBarFrame.origin.y = -searchBar.frame.size.height;
+        searchBar.frame = searchBarFrame;
+        
         if ([searchBar respondsToSelector:@selector(setInputAccessoryView:)])
         {
             CGRect toolBarFrame = viewBounds;
             toolBarFrame.size.height = 44.0f;
             UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
             toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            UIBarButtonItem *prevButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"◀️"
+            UIBarButtonItem *prevButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-left-arrow"]
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:self
                                                                               action:@selector(searchPreviousMatch)];
-            
-            UIBarButtonItem *nextButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"▶️"
+            prevButtonItem.tintColor = STYLE_TINT_COLOR;
+            UIBarButtonItem *nextButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-right-arrow"]
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:self
                                                                               action:@selector(searchNextMatch)];
-            
+            nextButtonItem.tintColor = STYLE_TINT_COLOR;
             UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
             
             UILabel *countLabel = [[UILabel alloc] init];
@@ -522,25 +533,23 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)keyboardWillAppear:(NSNotification *)aNotification {
-    [self updateTextViewInsetsWithKeyboardNotification:aNotification];
-
     if (!self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:YES animated:YES];
     }
     
     [self updateViewConstraints];
     [self updateSearchBarFrameAnimated:YES];
+    [self updateTextViewInsetsWithKeyboardNotification:aNotification];
 }
 
 - (void)keyboardWillDismiss:(NSNotification *)aNotification {
-    [self updateTextViewInsetsWithKeyboardNotification:nil];
-    
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
     
     [self updateViewConstraints];
     [self updateSearchBarFrameAnimated:YES];
+    [self updateTextViewInsetsWithKeyboardNotification:nil];
 }
 
 - (void)keyboardDidDismiss:(NSNotification *)aNotification {
@@ -581,6 +590,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     [searchBar resignFirstResponder];
 }
 
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    [self searchNextMatch];
+}
+
 #pragma mark - Search Bar Display
 
 - (void)updateSearchBarFrameAnimated:(BOOL)animated {
@@ -589,7 +602,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         self.searchBar.hidden = NO;
         searchBarFrame.origin.y = [self.navigationController isNavigationBarHidden] ? [[UIApplication sharedApplication] statusBarFrame].size.height : 0;
     } else {
-        searchBarFrame.origin.y = -44.0f;
+        searchBarFrame.origin.y = -searchBarFrame.size.height;
     }
     if (animated) {
         [UIView animateWithDuration:.2f delay:.0f options:UIViewAnimationOptionCurveLinear animations:^{
@@ -625,10 +638,15 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 {
     NSString *searchString = self.searchBar.text;
     
-    if (searchString.length)
-        [self.textView scrollToString:searchString searchDirection:direction];
-    else
+    if (searchString.length) {
+        if (self.searchBar.selectedScopeButtonIndex == 0) {
+            [self.textView scrollToString:searchString searchDirection:direction];
+        } else {
+            [self.textView scrollToMatch:searchString searchDirection:direction];
+        }
+    } else {
         [self.textView resetSearch];
+    }
     
     [self updateCountLabel];
 }
