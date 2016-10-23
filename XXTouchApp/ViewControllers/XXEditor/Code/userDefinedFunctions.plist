@@ -4,7 +4,7 @@
 <array>
 	<dict>
 		<key>code</key>
-		<string>print(@cur@)
+		<string>print(@@)
 </string>
 		<key>title</key>
 		<string>print()</string>
@@ -13,7 +13,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>print.out(@cur@)
+		<string>print.out(@@)
 </string>
 		<key>title</key>
 		<string>print.out()</string>
@@ -22,26 +22,26 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>sys.toast("@cur@")
+		<string>sys.toast(&quot;@@&quot;)
 </string>
 		<key>title</key>
-		<string>sys.toast("")</string>
+		<string>sys.toast(&quot;&quot;)</string>
 		<key>udid</key>
 		<string>6515527F-5E48-4174-971C-F85B0D1997F4</string>
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>sys.alert("@cur@", 0)
+		<string>sys.alert(&quot;@@&quot;, 0)
 </string>
 		<key>title</key>
-		<string>sys.alert("", 0)</string>
+		<string>sys.alert(&quot;&quot;, 0)</string>
 		<key>udid</key>
 		<string>43BF4ABA-07B8-4167-910A-2A25907C0B70</string>
 	</dict>
 	<dict>
 		<key>code</key>
 		<string>if () then
-	@cur@
+	@@
 end
 </string>
 		<key>title</key>
@@ -52,7 +52,7 @@ end
 	<dict>
 		<key>code</key>
 		<string>for i = 1, 10, 1 do
-	@cur@
+	@@
 end
 </string>
 		<key>title</key>
@@ -63,7 +63,7 @@ end
 	<dict>
 		<key>code</key>
 		<string>while (true) do
-	@cur@
+	@@
 end
 </string>
 		<key>title</key>
@@ -74,7 +74,7 @@ end
 	<dict>
 		<key>code</key>
 		<string>repeat
-	@cur@
+	@@
 until (false)
 </string>
 		<key>title</key>
@@ -84,7 +84,7 @@ until (false)
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>sys.msleep(1000@cur@)
+		<string>sys.msleep(1000@@)
 </string>
 		<key>title</key>
 		<string>sys.msleep(1000)</string>
@@ -93,7 +93,7 @@ until (false)
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>touch.tap(x@cur@, y)
+		<string>touch.tap(x@@, y)
 </string>
 		<key>title</key>
 		<string>touch.tap(x, y)</string>
@@ -102,10 +102,10 @@ until (false)
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.input_text("@cur@")
+		<string>app.input_text(&quot;@@&quot;)
 </string>
 		<key>title</key>
-		<string>app.input_text("")</string>
+		<string>app.input_text(&quot;&quot;)</string>
 		<key>udid</key>
 		<string>3F993527-5460-42CD-BE49-6B522F92E932</string>
 	</dict>
@@ -120,19 +120,19 @@ until (false)
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>r = sys.input_box("@cur@")
+		<string>r = sys.input_box(&quot;@@&quot;)
 </string>
 		<key>title</key>
-		<string>r = sys.input_box("")</string>
+		<string>r = sys.input_box(&quot;&quot;)</string>
 		<key>udid</key>
 		<string>5F067E85-3B0D-4581-BFB3-1B0968FAB7A5</string>
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>pasteboard.write("@cur@")
+		<string>pasteboard.write(&quot;@@&quot;)
 </string>
 		<key>title</key>
-		<string>pasteboard.write("")</string>
+		<string>pasteboard.write(&quot;&quot;)</string>
 		<key>udid</key>
 		<string>71BF1FD1-CE4B-4690-9772-320C76618088</string>
 	</dict>
@@ -147,10 +147,10 @@ until (false)
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>os.execute("@cur@")
+		<string>os.execute(&quot;@@&quot;)
 </string>
 		<key>title</key>
-		<string>os.execute("")</string>
+		<string>os.execute(&quot;&quot;)</string>
 		<key>udid</key>
 		<string>8C646ABB-5C17-49F2-88F3-754FD66E3324</string>
 	</dict>

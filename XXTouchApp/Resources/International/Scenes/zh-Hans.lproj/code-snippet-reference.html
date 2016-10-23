@@ -1,0 +1,14 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" type="text/css" href="../style.css"><title>XXTouch 代码片段参考文档</title></head><body><h1>XXTouch 代码片段参考文档</h1><p>兼容 XXTouchApp v1.1.0</p><p>该参考文档说明了如何在 XXTouch「代码片段」功能中使用「替换标记」来自定义代码模板。</p><p>在选取「代码片段」进行使用的时候，XXTouch 会检查模板中的「替换标记」，按顺序弹出相应的选择器。「替换标记」在同一个代码模板中能够多次使用。</p><p>如果代码中需要出现 <strong>@</strong>，请进行转义，即 <strong>\@</strong>。</p><h2>默认光标位置</h2><h3>关键词</h3><p>@@</p><h3>描述</h3><p>在代码片段即将插入到 Lua 文件中前，XXTouch 会将光标移动到关键词的标记位置。</p><h2>应用程序选择器</h2><h3>关键词</h3><p>@app@</p><h3>描述</h3><p>显示包含了主屏幕上所有应用的选择器，选择时将关键词替换为应用的 Bundle ID。Bundle ID 中一般不包含引号，如果有的话，它将会被 &quot;\&quot; 正常转义。</p><h3>例程</h3><p><em>app.run(&quot;@bid@&quot;)</em></p><p>-&gt; <em>app.run(&quot;com.apple.iBooks&quot;)</em></p><h2>按键选择器</h2><h3>关键词</h3><p>@key@</p><h3>描述</h3><p>显示一个包含常用按键事件的选择器，选择时将关键词替换为 XXTouch 开发文档中所使用的按键标识符。</p><h3>例程</h3><p><em>key.press(&quot;@key@&quot;)</em></p><p>-&gt; <em>key.press(&quot;HOMEBUTTON&quot;)</em></p><h2>地理位置选择器</h2><h3>关键词</h3><p>@loc@</p><h3>描述</h3><p>显示一个使用系统内置地图，并包含可拖拽大头针的选择器，大头针所在位置会弹出气泡，轻按气泡时将关键词替换为大头针在地图上所在的位置，位置以经纬度表示。</p><h3>例程</h3><p><em>gps.fake(&quot;com.xxtouch.XXTouchApp&quot;, @loc@)</em></p><p>-&gt; <em>gps.fake(&quot;com.xxtouch.XXTouchApp&quot;, 39.919998, 116.459999)</em></p><h2>坐标选择器</h2><h3>关键词</h3><p>@pos@</p><h3>描述</h3><p>显示一个画布视图控制器，可选择系统相册中的图片，并进行拖拽、旋转、缩放。额外地，该选择器提供了选择并标记一个坐标的功能。轻按下一步，将关键词替换为标记点在图片上的坐标 x, y。</p><h3>例程</h3><p><em>touch.tap(@pos@)</em></p><p>-&gt; <em>touch.tap(212, 962)</em></p><h2>颜色选择器</h2><h3>关键词</h3><p>@color@</p><h3>描述</h3><p>显示一个画布视图控制器，可选择系统相册中的图片，并进行拖拽、旋转、缩放。额外地，该选择器提供了选择并标记一个坐标的功能。轻按下一步，将关键词替换为标记点在图片上的坐标处的十六进制颜色。</p><h3>例程</h3><pre><code>if screen.get_color(512, 133) == @color@ then
+    touch.tap(512, 133)
+    end
+</code></pre><p>-&gt;</p><pre><code>if screen.get_color(512, 133) == 0xffffff then
+    touch.tap(512, 133)
+    end
+</code></pre><h2>坐标颜色选择器</h2><h3>关键词</h3><p>@poscolor@, @poscolors@</p><h3>描述</h3><p>显示一个画布视图控制器，可选择系统相册中的图片，并进行拖拽、旋转、缩放。额外地，该选择器提供了在图片上选择并标记若干坐标点的功能。轻按下一步，将关键词替换为这些标记点在图片上所指示的坐标 x, y，以及坐标处的十六进制颜色数组。</p><h3>例程</h3><pre><code>local x, y = screen.find_color(@poscolors@, 90)
+</code></pre><p>-&gt;</p><pre><code>local x, y = screen.find_color({
+    {992, 2110, 0xff5000},
+    {1172, 2128, 0xff5000},
+    {1095, 2122, 0xffffff},
+    {1026, 2161, 0xff5000},
+    }, 90)
+</code></pre><h3>备注</h3><p>关键词 <strong>@poscolor@</strong> 将只允许标记一个坐标，并被替换为 <em>x, y, color</em> 的形式；而关键词 <strong>@poscolors@</strong> 将允许标记若干个坐标，并被替换为数组的形式。</p><h2>矩形区域选择器</h2><h3>关键词</h3><p>@rect@</p><h3>描述</h3><p>显示一个画布视图控制器，可选择系统相册中的图片，并进行拖拽、旋转、缩放。额外地，该选择器提供了在图片上选择一个矩形区域。轻按下一步，将关键词替换为矩形区域左上角顶点与右下角顶点的坐标 x1, y1, x2, y2。</p><h3>例程</h3><p><em>screen.ocr_text(@rect@)</em></p><p>-&gt; <em>screen.ocr_text(173, 177, 907, 1774)</em></p></body></html>

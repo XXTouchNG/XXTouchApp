@@ -215,11 +215,11 @@ enum {
     UITextRange *selectedRange = [_textInput selectedTextRange];
     [_textInput replaceRange:selectedRange withText:model.code];
     
-    NSRange modelCurPos = [model.code rangeOfString:@"@cur@"];
+    NSRange modelCurPos = [model.code rangeOfString:@"@@"];
     if (modelCurPos.location != NSNotFound) {
         NSRange curPos = NSMakeRange(
                                      selectedNSRange.location
-                                     + modelCurPos.location, 5
+                                     + modelCurPos.location, 2
                                      );
         UITextPosition *insertPos = [_textInput positionFromPosition:selectedRange.start offset:curPos.location];
         

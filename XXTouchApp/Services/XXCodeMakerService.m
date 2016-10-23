@@ -19,7 +19,7 @@
 #import "XXMulPosColorPickerController.h"
 #import "NSString+countSubstr.h"
 
-#define KEYWORD_BUNDLE_ID @"@bid@"
+#define KEYWORD_BUNDLE_ID @"@app@"
 #define KEYWORD_KEY_EVENT @"@key@"
 #define KEYWORD_LOCATION @"@loc@"
 #define KEYWORD_RECTANGLE @"@rect@"

@@ -4,7 +4,7 @@
 <array>
 	<dict>
 		<key>code</key>
-		<string>touch.tap(@pos@@cur@)</string>
+		<string>touch.tap(@pos@@@)</string>
 		<key>title</key>
 		<string>touch.tap(x, y)</string>
 		<key>udid</key>
@@ -12,7 +12,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>touch.on(@pos@@cur@):move(@pos@)</string>
+		<string>touch.on(@pos@@@):move(@pos@)</string>
 		<key>title</key>
 		<string>touch.on(x, y):move(x1, y1)</string>
 		<key>udid</key>
@@ -20,7 +20,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>screen.ocr_text(@rect@@cur@)</string>
+		<string>screen.ocr_text(@rect@@@)</string>
 		<key>title</key>
 		<string>screen.ocr_text(left, top, right, bottom)</string>
 		<key>udid</key>
@@ -28,7 +28,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>screen.is_colors(@poscolors@@cur@, 90)</string>
+		<string>screen.is_colors(@poscolors@@@, 90)</string>
 		<key>title</key>
 		<string>screen.is_colors(colors, similarity)</string>
 		<key>udid</key>
@@ -36,7 +36,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>screen.find_color(@poscolors@@cur@, 90)</string>
+		<string>screen.find_color(@poscolors@@@, 90)</string>
 		<key>title</key>
 		<string>screen.find_color(colors, similarity)</string>
 		<key>udid</key>
@@ -44,7 +44,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>key.press(&quot;@key@@cur@&quot;)</string>
+		<string>key.press(&quot;@key@@@&quot;)</string>
 		<key>title</key>
 		<string>key.press(key)</string>
 		<key>udid</key>
@@ -52,7 +52,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>gps.fake(&quot;@bid@@cur@&quot;, @loc@)</string>
+		<string>gps.fake(&quot;@app@@@&quot;, @loc@)</string>
 		<key>title</key>
 		<string>gps.fake(bid, latitude, longitude)</string>
 		<key>udid</key>
@@ -60,7 +60,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>gps.clear(&quot;@bid@@cur@&quot;)</string>
+		<string>gps.clear(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>gps.clear([bid])</string>
 		<key>udid</key>
@@ -68,7 +68,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.run(&quot;@bid@@cur@&quot;)</string>
+		<string>app.run(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.run(bid)</string>
 		<key>udid</key>
@@ -76,7 +76,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.close(&quot;@bid@@cur@&quot;)</string>
+		<string>app.close(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.close(bid)</string>
 		<key>udid</key>
@@ -84,7 +84,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.quit(&quot;@bid@@cur@&quot;)</string>
+		<string>app.quit(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.quit(bid)</string>
 		<key>udid</key>
@@ -92,7 +92,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.bundle_path(&quot;@bid@@cur@&quot;)</string>
+		<string>app.bundle_path(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.bundle_path(bid)</string>
 		<key>udid</key>
@@ -100,7 +100,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.data_path(&quot;@bid@@cur@&quot;)</string>
+		<string>app.data_path(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.data_path(bid)</string>
 		<key>udid</key>
@@ -108,7 +108,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.is_running(&quot;@bid@@cur@&quot;)</string>
+		<string>app.is_running(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.is_running(bid)</string>
 		<key>udid</key>
@@ -116,7 +116,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.is_front(&quot;@bid@@cur@&quot;)</string>
+		<string>app.is_front(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.is_front(bid)</string>
 		<key>udid</key>
@@ -124,7 +124,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>app.uninstall(&quot;@bid@@cur@&quot;)</string>
+		<string>app.uninstall(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>app.uninstall(bid)</string>
 		<key>udid</key>
@@ -132,7 +132,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>clear.keychain(&quot;@bid@@cur@&quot;)</string>
+		<string>clear.keychain(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>clear.keychain(bid)</string>
 		<key>udid</key>
@@ -140,7 +140,7 @@
 	</dict>
 	<dict>
 		<key>code</key>
-		<string>clear.app_data(&quot;@bid@@cur@&quot;)</string>
+		<string>clear.app_data(&quot;@app@@@&quot;)</string>
 		<key>title</key>
 		<string>clear.app_data(bid)</string>
 		<key>udid</key>

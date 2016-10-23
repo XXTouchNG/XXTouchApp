@@ -42,6 +42,7 @@
 		0F36BEAE1DB6F92600761999 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F36BEAC1DB6F92600761999 /* InfoPlist.strings */; };
 		0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */; };
 		0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */; };
+		0F4FE3511DBCA18A003120F3 /* code-snippet-reference.html in Resources */ = {isa = PBXBuildFile; fileRef = 0F4FE3531DBCA18A003120F3 /* code-snippet-reference.html */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F57776E1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */; };
 		0F5777741D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5777731D866B80000DA8ED /* XXKeyPressConfigOperationTableViewController.m */; };
@@ -74,6 +75,7 @@
 		0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */; };
 		0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */; };
 		0F6612561DB8A686009DD6C1 /* XXMulPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */; };
+		0F6C7BC31DBC8A5E003551F0 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 0F6C7BC21DBC8A5E003551F0 /* style.css */; };
 		0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */; };
 		0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C3A1D88CA26005C3A22 /* XXUserDefaultsModel.m */; };
 		0F8F7C541D89193B005C3A22 /* NSFileManager+RealDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C531D89193B005C3A22 /* NSFileManager+RealDestination.m */; };
@@ -115,7 +117,6 @@
 		0FC7BCBE1DB3EC440073D900 /* XXLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC9D1DB3EC440073D900 /* XXLocationPickerController.m */; };
 		0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BCC11DB3EC630073D900 /* XXCodeBlockNavigationController.m */; };
 		0FC7BCC61DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */; };
-		0FD482971DBB811700B4C097 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 0FD482961DBB811700B4C097 /* style.css */; };
 		0FD9AD3C1D920A38007B4CEC /* PackageVersion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */; };
 		0FDEFCDF1DB4572000825931 /* XXImagePickerPixelPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCDC1DB4572000825931 /* XXImagePickerPixelPreview.m */; };
 		0FDEFCE01DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCDE1DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m */; };
@@ -211,6 +212,8 @@
 		0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXColorPickerController.m; sourceTree = "<group>"; };
 		0F41C6C91D8780A300535F72 /* XXStartupConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXStartupConfigTableViewController.h; sourceTree = "<group>"; };
 		0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXStartupConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F4FE3521DBCA18A003120F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = "Base.lproj/code-snippet-reference.html"; sourceTree = "<group>"; };
+		0F4FE3541DBCA190003120F3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/code-snippet-reference.html"; sourceTree = "<group>"; };
 		0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		0F57776C1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigActionTableViewController.h; sourceTree = "<group>"; };
 		0F57776D1D866A5D000DA8ED /* XXKeyPressConfigActionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXKeyPressConfigActionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -269,6 +272,7 @@
 		0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXRecordConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F6612541DB8A686009DD6C1 /* XXMulPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMulPosColorPickerController.h; sourceTree = "<group>"; };
 		0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMulPosColorPickerController.m; sourceTree = "<group>"; };
+		0F6C7BC21DBC8A5E003551F0 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		0F7D85CE1D8E85D4006CEC88 /* XXScanLineAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanLineAnimation.h; sourceTree = "<group>"; };
 		0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanLineAnimation.m; sourceTree = "<group>"; };
 		0F8F7C391D88CA26005C3A22 /* XXUserDefaultsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsModel.h; sourceTree = "<group>"; };
@@ -358,7 +362,6 @@
 		0FC7BCC41DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAddCodeBlockTableViewController.h; sourceTree = "<group>"; };
 		0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAddCodeBlockTableViewController.m; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FD482961DBB811700B4C097 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
 		0FDEFCDB1DB4572000825931 /* XXImagePickerPixelPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreview.h; sourceTree = "<group>"; };
 		0FDEFCDC1DB4572000825931 /* XXImagePickerPixelPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPixelPreview.m; sourceTree = "<group>"; };
@@ -947,9 +950,10 @@
 		0FC47E881D7690540076590B /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				0FD482951DBB811700B4C097 /* css */,
+				0F6C7BC21DBC8A5E003551F0 /* style.css */,
 				0FC47E931D7698220076590B /* open.html */,
 				0FC47E911D7698140076590B /* tos.html */,
+				0F4FE3531DBCA18A003120F3 /* code-snippet-reference.html */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1115,14 +1119,6 @@
 			path = XXTouchApp;
 			sourceTree = "<group>";
 		};
-		0FD482951DBB811700B4C097 /* css */ = {
-			isa = PBXGroup;
-			children = (
-				0FD482961DBB811700B4C097 /* style.css */,
-			);
-			path = css;
-			sourceTree = "<group>";
-		};
 		0FDEFCDA1DB4572000825931 /* Preview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1251,7 +1247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FC47E941D7698220076590B /* open.html in Resources */,
-				0FD482971DBB811700B4C097 /* style.css in Resources */,
+				0F6C7BC31DBC8A5E003551F0 /* style.css in Resources */,
 				0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */,
 				0FC7BCAC1DB3EC440073D900 /* XXImagePickerPhotoCell.xib in Resources */,
 				0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */,
@@ -1260,6 +1256,7 @@
 				0F36BEAE1DB6F92600761999 /* InfoPlist.strings in Resources */,
 				0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */,
 				0FC7BCAA1DB3EC440073D900 /* XXImagePickerController.xib in Resources */,
+				0F4FE3511DBCA18A003120F3 /* code-snippet-reference.html in Resources */,
 				0FE312831D963A0900AB895C /* Localizable.strings in Resources */,
 				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
 				0F352A991DB5C7670095C57F /* extendApis.plist in Resources */,
@@ -1462,6 +1459,15 @@
 				0FF528581D9E0B02000A0FBE /* Base */,
 			);
 			name = Info.plist;
+			sourceTree = "<group>";
+		};
+		0F4FE3531DBCA18A003120F3 /* code-snippet-reference.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F4FE3521DBCA18A003120F3 /* Base */,
+				0F4FE3541DBCA190003120F3 /* zh-Hans */,
+			);
+			name = "code-snippet-reference.html";
 			sourceTree = "<group>";
 		};
 		0F98529B1D748072001323AA /* Main.storyboard */ = {

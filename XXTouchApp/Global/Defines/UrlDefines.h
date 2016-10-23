@@ -16,7 +16,7 @@
 #define OFFICIAL_SITE @"http://www.xxtouch.com"
 #define DOCUMENT_USERS_GUIDE @"https://www.zybuluo.com/xxtouch/note/378784"
 #define DOCUMENT_UPDATE_LOGS @"https://www.zybuluo.com/xxtouch/note/386289"
-#define DOCUMENT_DEVELOPER_REFERENCES @"https://www.zybuluo.com/xxtouch/note/370734"
-#define DOCUMENT_OPEN_API_REFERENCES @"https://www.zybuluo.com/xxtouch/note/386268"
+#define DOCUMENT_DEVELOPER_REFERENCE @"https://www.zybuluo.com/xxtouch/note/370734"
+#define DOCUMENT_OPEN_API_REFERENCE @"https://www.zybuluo.com/xxtouch/note/386268"
 
 #endif /* UrlDefines_h */

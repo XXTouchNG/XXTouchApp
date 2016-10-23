@@ -84,7 +84,7 @@ enum {
 }
 
 - (void)endBindingCodeAndGetDeviceInfo {
-    _authorizationField.text = @"";
+    self.authorizationField.text = @"";
     NSMutableString *intervalString = [[NSMutableString alloc] init];
     NSTimeInterval interval = [[[XXLocalDataService sharedInstance] expirationDate] timeIntervalSinceDate:[[XXLocalDataService sharedInstance] nowDate]];
     int intervalDay = (int)floor(interval / 86400);
@@ -109,8 +109,8 @@ enum {
 }
 
 - (IBAction)submit:(id)sender {
-    if ([_authorizationField isFirstResponder]) {
-        [_authorizationField resignFirstResponder];
+    if ([self.authorizationField isFirstResponder]) {
+        [self.authorizationField resignFirstResponder];
     }
     __block NSString *codeText = self.authorizationField.text;
     SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
@@ -126,8 +126,8 @@ enum {
 }
 
 - (void)viewTapped:(UITapGestureRecognizer *)tapGesture {
-    if ([_authorizationField isFirstResponder]) {
-        [_authorizationField resignFirstResponder];
+    if ([self.authorizationField isFirstResponder]) {
+        [self.authorizationField resignFirstResponder];
     }
 }
 
@@ -184,7 +184,7 @@ enum {
     NSDate *expirationDate = [[XXLocalDataService sharedInstance] expirationDate];
     if (deviceInfo != nil &&
         expirationDate != nil) {
-        _authorizationField.enabled = YES;
+        self.authorizationField.enabled = YES;
         self.expiredAtLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:expirationDate];
         self.softwareVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSoftwareVersion];
         self.systemVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSystemVersion];
@@ -195,7 +195,7 @@ enum {
         self.uniqueIDLabel.text = [deviceInfo objectForKey:kXXDeviceInfoUniqueID];
         return YES;
     } else {
-        _authorizationField.enabled = NO;
+        self.authorizationField.enabled = NO;
     }
     return NO;
 }
@@ -233,8 +233,8 @@ enum {
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-    if ([_authorizationField isFirstResponder]) {
-        [_authorizationField resignFirstResponder];
+    if ([self.authorizationField isFirstResponder]) {
+        [self.authorizationField resignFirstResponder];
     }
     [super dismissViewControllerAnimated:flag completion:completion];
 }

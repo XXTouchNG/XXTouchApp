@@ -16,8 +16,9 @@ enum {
 enum {
     kUsersGuideIndex          = 0,
     kUpdateLogsIndex          = 1,
-    kDeveloperReferencesIndex = 2,
-    kOpenApiReferencesIndex   = 3,
+    kDeveloperReferenceIndex = 2,
+    kOpenApiReferenceIndex   = 3,
+    kCodeSnippetReferenceIndex = 4,
 };
 
 @interface XXDocumentsTableViewController ()
@@ -46,7 +47,7 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 4;
+        return 5;
     }
     return 0;
 }
@@ -55,19 +56,31 @@ enum {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == kDocumentSection) {
         XXWebViewController *viewController = [[XXWebViewController alloc] init];
+        BOOL fileUrl = NO;
+        NSString *documentUrl = nil;
         if (indexPath.row == kUsersGuideIndex) {
             viewController.title = NSLocalizedString(@"User's Guide", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_USERS_GUIDE stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+            documentUrl = DOCUMENT_USERS_GUIDE;
         } else if (indexPath.row == kUpdateLogsIndex) {
             viewController.title = NSLocalizedString(@"Update Logs", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_UPDATE_LOGS stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-        } else if (indexPath.row == kDeveloperReferencesIndex) {
-            viewController.title = NSLocalizedString(@"Developer References", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_DEVELOPER_REFERENCES stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-        } else if (indexPath.row == kOpenApiReferencesIndex) {
-            viewController.title = NSLocalizedString(@"OpenAPI References", nil);
-            viewController.url = [NSURL URLWithString:[DOCUMENT_OPEN_API_REFERENCES stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+            documentUrl = DOCUMENT_UPDATE_LOGS;
+        } else if (indexPath.row == kDeveloperReferenceIndex) {
+            viewController.title = NSLocalizedString(@"Developer Reference", nil);
+            documentUrl = DOCUMENT_DEVELOPER_REFERENCE;
+        } else if (indexPath.row == kOpenApiReferenceIndex) {
+            viewController.title = NSLocalizedString(@"OpenAPI Reference", nil);
+            documentUrl = DOCUMENT_OPEN_API_REFERENCE;
+        } else if (indexPath.row == kCodeSnippetReferenceIndex) {
+            viewController.title = NSLocalizedString(@"Code Snippet Reference", nil);
+            documentUrl = [[NSBundle mainBundle] pathForResource:@"code-snippet-reference" ofType:@"html"];
+            fileUrl = YES;
         }
+        if (fileUrl) {
+            viewController.url = [NSURL fileURLWithPath:[documentUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+        } else {
+            viewController.url = [NSURL URLWithString:[documentUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+        }
+        
         [self.navigationController pushViewController:viewController animated:YES];
     }
 }
