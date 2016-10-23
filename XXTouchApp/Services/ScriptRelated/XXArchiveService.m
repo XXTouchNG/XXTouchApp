@@ -92,6 +92,7 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
     for (NSString *itemPath in items) {
         if ([FCFileManager isDirectoryItemAtPath:itemPath error:&error]) {
             [allPaths addObjectsFromArray:[FCFileManager listFilesInDirectoryAtPath:itemPath deep:YES]];
+            [allPaths addObject:itemPath];
         } else {
             [allPaths addObject:itemPath];
         }
