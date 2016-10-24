@@ -11,6 +11,8 @@
 #import "XXCodeBlockExpandViewController.h"
 #import <Masonry/Masonry.h>
 
+#define POPUP_BAR_HEIGHT 44
+
 @interface XXCodeBlockNavigationController () <UINavigationControllerDelegate>
 
 @end
@@ -35,7 +37,7 @@
         make.bottom.equalTo(self.view);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.height.equalTo(@(44));
+        make.height.equalTo(@(POPUP_BAR_HEIGHT));
     }];
 }
 
@@ -83,7 +85,7 @@
 
 - (XXPickerPopupBar *)popupBar {
     if (!_popupBar) {
-        XXPickerPopupBar *popupBar = [[XXPickerPopupBar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 44)];
+        XXPickerPopupBar *popupBar = [[XXPickerPopupBar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - POPUP_BAR_HEIGHT, self.view.bounds.size.width, POPUP_BAR_HEIGHT)];
         popupBar.hidden = YES;
         popupBar.userInteractionEnabled = YES;
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandBarTapped:)];

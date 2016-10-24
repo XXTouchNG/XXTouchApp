@@ -9,7 +9,6 @@
 #import "XXSwipeableCell.h"
 #import "XXLocalDataService.h"
 #import "XXQuickLookService.h"
-#import "NSFileManager+RealDestination.h"
 
 @interface XXSwipeableCell()
 @property (weak, nonatomic) IBOutlet UIImageView *fileTypeImageView;
@@ -23,54 +22,73 @@
 
 - (void)setChecked:(BOOL)checked {
     _checked = checked;
-    _checkmarkImageView.hidden = !checked;
+    self.checkmarkImageView.hidden = !checked;
     if (checked) {
-        _fileNameLabel.textColor = STYLE_TINT_COLOR;
+        self.fileNameLabel.textColor = [UIColor colorWithRGB:0x1abc9c];
+    } else if (self.itemAttrs[kXXItemSymbolAttrsKey] || self.itemAttrs[kXXItemSpecialKey]) {
+        self.fileNameLabel.textColor = STYLE_TINT_COLOR;
+    } else if (self.isSymbolicLink) {
+        self.fileNameLabel.textColor = [UIColor colorWithRGB:0xe74c3c];
     } else {
-        _fileNameLabel.textColor = [UIColor blackColor];
+        self.fileNameLabel.textColor = [UIColor blackColor];
     }
 }
 
 - (void)setSelectBootscript:(BOOL)selectBootscript {
     _selectBootscript = selectBootscript;
     if (selectBootscript) {
-        [_checkmarkImageView setImage:[UIImage imageNamed:@"checkmark-boot"]];
+        [self.checkmarkImageView setImage:[UIImage imageNamed:@"checkmark-boot"]];
     } else {
-        [_checkmarkImageView setImage:[UIImage imageNamed:@"checkmark"]];
+        [self.checkmarkImageView setImage:[UIImage imageNamed:@"checkmark"]];
     }
 }
 
+- (BOOL)isDirectory {
+    NSString *fileType = self.itemAttrs[NSFileType];
+    return ([fileType isEqualToString:NSFileTypeDirectory] ||
+            (
+             [fileType isEqualToString:NSFileTypeSymbolicLink] &&
+             self.itemAttrs[kXXItemSymbolAttrsKey] &&
+             [self.itemAttrs[kXXItemSymbolAttrsKey][NSFileType] isEqualToString:NSFileTypeDirectory]
+            )
+            );
+}
+
+- (BOOL)isSymbolicLink {
+    return [self.itemAttrs[NSFileType] isEqualToString:NSFileTypeSymbolicLink];
+}
+
+- (BOOL)isSelectable {
+    if (!self.canOperate) return NO;
+    return [XXQuickLookService isSelectableFileExtension:[self.itemAttrs[kXXItemPathKey] pathExtension]];
+}
+
+- (BOOL)isEditable {
+    if (!self.canOperate) return NO;
+    return [XXQuickLookService isEditableFileExtension:[self.itemAttrs[kXXItemPathKey] pathExtension]];
+}
+
+- (BOOL)canOperate {
+    return self.itemAttrs[kXXItemSpecialKey] == nil;
+}
+
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {
-    self.checked = NO;
     _itemAttrs = itemAttrs;
-    _fileNameLabel.text = itemAttrs[kXXItemNameKey];
-    id fileType = [itemAttrs objectForKey:NSFileType];
-    NSString *fileExt = [[itemAttrs[kXXItemNameKey] pathExtension] lowercaseString];
-    if (fileType == NSFileTypeDirectory) {
-        _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
-        _fileNameLabel.textColor = [UIColor blackColor];
-    } else if (fileType == NSFileTypeSymbolicLink) { // Should Follow To Determine
-        NSError *err = nil;
-        NSString *destPath = [[NSFileManager defaultManager] realDestinationOfSymbolicLinkAtPath:itemAttrs[kXXItemPathKey] error:&err];
-        if (err == nil) {
-            NSDictionary *destAttrs = [FCFileManager attributesOfItemAtPath:destPath error:&err];
-            if (err == nil) {
-                id destFileType = [destAttrs objectForKey:NSFileType];
-                if (destFileType == NSFileTypeDirectory) {
-                    _fileTypeImageView.image = [UIImage imageNamed:@"file-folder"];
-                } else {
-                    _fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];
-                }
-            }
-        }
-        _fileNameLabel.textColor = STYLE_TINT_COLOR;
+    self.checked = NO;
+    self.fileNameLabel.text = itemAttrs[kXXItemNameKey];
+    if (itemAttrs[kXXItemSpecialKey]) {
+        self.fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForSpecialItem:itemAttrs[kXXItemSpecialKey]];
     } else {
-        _fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];
-        _fileNameLabel.textColor = [UIColor blackColor];
+        NSString *fileExt = [itemAttrs[kXXItemPathKey] pathExtension];
+        self.fileTypeImageView.image = self.isDirectory ? [UIImage imageNamed:@"file-folder"] : [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];
     }
     NSDate *modificationDate = itemAttrs[NSFileModificationDate];
     NSString *formattedDate = [[[XXLocalDataService sharedInstance] shortDateFormatter] stringFromDate:modificationDate];
-    _fileModifiedTimeLabel.text = formattedDate;
+    self.fileModifiedTimeLabel.text = formattedDate;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
 
 @end

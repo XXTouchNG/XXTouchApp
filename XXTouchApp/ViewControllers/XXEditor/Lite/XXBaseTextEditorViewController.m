@@ -91,11 +91,11 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
             if (!result) {
-                self->_isLoaded = NO;
+                self.isLoaded = NO;
                 self.bottomBar.userInteractionEnabled = NO;
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
-                self->_isLoaded = YES;
+                self.isLoaded = YES;
                 self.bottomBar.userInteractionEnabled = YES;
             }
         });
@@ -197,6 +197,14 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
     }
     return *err == nil;
+}
+
+#pragma mark - Setters
+
+- (void)setIsLoaded:(BOOL)isLoaded {
+    _isLoaded = isLoaded;
+    self.textView.userInteractionEnabled = isLoaded;
+    self.shareItem.enabled = isLoaded;
 }
 
 #pragma mark - Getters

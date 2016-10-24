@@ -16,6 +16,7 @@
 #import "XXEmptyNavigationController.h"
 #import "XXWebViewController.h"
 #import "XXBaseTextEditorViewController.h"
+#import "NSArray+FindString.h"
 
 static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
 
@@ -24,23 +25,32 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 #pragma mark - Resources
 
 + (UIImage *)fetchDisplayImageForFileExtension:(NSString *)ext {
+    if (!ext) return nil;
     NSString *fileExt = [ext lowercaseString];
     UIImage *fetchResult = [UIImage imageNamed:[@"file-" stringByAppendingString:fileExt]];
     if (fetchResult != nil) {
         return fetchResult;
     }
-    if ([[self imageFileExtensions] indexOfObject:fileExt] != NSNotFound) {
+    if ([[self imageFileExtensions] existsString:fileExt]) {
         fetchResult = [UIImage imageNamed:@"file-image"];
-    } else if ([[self audioFileExtensions] indexOfObject:fileExt] != NSNotFound) {
+    } else if ([[self audioFileExtensions] existsString:fileExt]) {
         fetchResult = [UIImage imageNamed:@"file-audio"];
-    } else if ([[self videoFileExtensions] indexOfObject:fileExt] != NSNotFound) {
+    } else if ([[self videoFileExtensions] existsString:fileExt]) {
         fetchResult = [UIImage imageNamed:@"file-video"];
-    } else if ([[self archiveFileExtensions] indexOfObject:fileExt] != NSNotFound) {
+    } else if ([[self archiveFileExtensions] existsString:fileExt]) {
         fetchResult = [UIImage imageNamed:@"file-archive"];
     } else {
         fetchResult = [UIImage imageNamed:@"file-unknown"];
     }
     return fetchResult;
+}
+
++ (UIImage *)fetchDisplayImageForSpecialItem:(NSString *)value {
+    UIImage *fetchResult = [UIImage imageNamed:[@"special-" stringByAppendingString:value]];
+    if (fetchResult != nil) {
+        return fetchResult;
+    }
+    return [UIImage imageNamed:@"file-unknown"];
 }
 
 #pragma mark - Definitions
@@ -91,7 +101,15 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 }
 
 + (NSArray <NSString *> *)webViewFileExtensions { // OK
-    return @[ @"txt", @"log", @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub" ];
+    return @[ @"txt", @"log", @"syslog", @"ips", @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub" ];
+}
+
++ (NSArray <NSString *> *)logWebViewFileExtensions { // Treat like plain text
+    return @[ @"log", @"syslog", @"ips" ];
+}
+
++ (NSArray <NSString *> *)codeWebViewFileExtensions { // Syntax highlighter
+    return @[ ];
 }
 
 #pragma mark - Archives
@@ -103,15 +121,18 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 #pragma mark - Judgements
 
 + (BOOL)isSelectableFileExtension:(NSString *)ext {
-    return ([[self selectableFileExtensions] indexOfObject:ext] != NSNotFound);
+    NSString *fileExt = [ext lowercaseString];
+    return [[self selectableFileExtensions] existsString:fileExt];
 }
 
 + (BOOL)isEditableFileExtension:(NSString *)ext {
-    return ([[self editableFileExtensions] indexOfObject:ext] != NSNotFound);
+    NSString *fileExt = [ext lowercaseString];
+    return [[self editableFileExtensions] existsString:fileExt];
 }
 
 + (BOOL)isViewableFileExtension:(NSString *)ext {
-    return ([[self viewableFileExtensions] indexOfObject:ext] != NSNotFound);
+    NSString *fileExt = [ext lowercaseString];
+    return [[self viewableFileExtensions] existsString:fileExt];
 }
 
 #pragma mark - Actions
@@ -120,7 +141,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
               parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController
 {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
-    if ([[self imageFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Image File
+    if ([[self imageFileExtensions] existsString:fileExt]) { // Image File
         JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
         imageInfo.imageURL = [NSURL fileURLWithPath:filePath];
         JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
@@ -130,7 +151,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         [imageViewController showFromViewController:viewController.navigationController
                                          transition:JTSImageViewControllerTransition_FromOffscreen];
         return YES;
-    } else if ([[self mediaFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Media File
+    } else if ([[self mediaFileExtensions] existsString:fileExt]) { // Media File
         NSURL *sourceMovieURL = [NSURL fileURLWithPath:filePath];
         if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
             // 7.x
@@ -146,7 +167,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
             }];
         }
         return YES;
-    } else if ([[self webViewFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Web View File
+    } else if ([[self webViewFileExtensions] existsString:fileExt]) { // Web View File
         XXEmptyNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
         XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
         webController.url = [NSURL fileURLWithPath:filePath];
@@ -160,7 +181,7 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 + (BOOL)editFileWithStandardEditor:(NSString *)filePath
               parentViewController:(UIViewController *)viewController {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
-    if ([[self textFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Text File
+    if ([[self textFileExtensions] existsString:fileExt]) { // Text File
         XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
         baseController.filePath = filePath;
         baseController.title = [filePath lastPathComponent];

@@ -7,6 +7,7 @@
 //
 
 #import "XXArchiveService.h"
+#import "NSArray+FindString.h"
 
 @implementation XXArchiveService
 + (NSArray <NSString *> *)supportedArchiveFileExtensions {
@@ -17,7 +18,7 @@
          toDirectory:(NSString *)path
 parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
     NSString *fileExt = [filePath pathExtension];
-    if ([[self supportedArchiveFileExtensions] indexOfObject:fileExt] != NSNotFound) { // Zip Archive
+    if ([[self supportedArchiveFileExtensions] existsString:fileExt]) { // Zip Archive
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Unarchive", nil)
                                                          andMessage:NSLocalizedString(@"Extract to the current directory?\nItem with the same name will be overwritten.", nil)];
         [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
@@ -63,44 +64,33 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
         return NO;
     }
     
-    __block NSError *error = nil;
     __block UINavigationController *navController = viewController.navigationController;
     navController.view.userInteractionEnabled = NO;
     [navController.view makeToastActivity:CSToastPositionCenter];
     
-    NSString *destination = path;
-    NSString *archiveName = nil;
-    NSString *archivePath = nil;
-    if (items.count == 1) {
-        archiveName = [[items[0] lastPathComponent] stringByAppendingPathExtension:@"zip"];
-        archivePath = [destination stringByAppendingPathComponent:archiveName];
-    } else {
-        archiveName = @"Archive.zip";
-        if ([FCFileManager existsItemAtPath:[destination stringByAppendingPathComponent:archiveName]]) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSString *destination = path;
+        NSString *archiveName = nil;
+        NSString *archivePath = nil;
+        if (items.count == 1) {
+            archiveName = [items[0] lastPathComponent];
+        } else {
+            archiveName = @"Archive";
+        }
+        NSString *archiveFullname = [archiveName stringByAppendingPathExtension:@"zip"];
+        if ([FCFileManager existsItemAtPath:[destination stringByAppendingPathComponent:archiveFullname]]) {
             NSUInteger testIndex = 2;
             do {
-                archivePath = [destination stringByAppendingPathComponent:[NSString stringWithFormat:@"Archive-%lu.zip", (unsigned long)testIndex]];
+                archivePath = [destination stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%lu.zip", archiveName, (unsigned long)testIndex]];
                 testIndex++;
             } while ([FCFileManager existsItemAtPath:archivePath]);
         } else {
-            archivePath = [destination stringByAppendingPathComponent:archiveName];
+            archivePath = [destination stringByAppendingPathComponent:archiveFullname];
         }
-    }
-    CYLog(@"%@", archivePath);
-    
-    NSMutableArray *allPaths = [[NSMutableArray alloc] init];
-    for (NSString *itemPath in items) {
-        if ([FCFileManager isDirectoryItemAtPath:itemPath error:&error]) {
-            [allPaths addObjectsFromArray:[FCFileManager listFilesInDirectoryAtPath:itemPath deep:YES]];
-            [allPaths addObject:itemPath];
-        } else {
-            [allPaths addObject:itemPath];
-        }
-    }
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        CYLog(@"%@", archivePath);
         BOOL result = [SSZipArchive createZipFileAtPath:archivePath
-                                       withFilesAtPaths:allPaths
+                                    withContentsOfItems:items
+                                    keepParentDirectory:NO
                                            withPassword:nil
                                                delegate:viewController];
         dispatch_async_on_main_queue(^{

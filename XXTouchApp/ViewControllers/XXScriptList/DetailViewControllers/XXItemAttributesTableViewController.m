@@ -123,7 +123,7 @@ int cancelFlag = 0;
 }
 
 - (void)reloadItemInfo {
-    NSString *itemName = self.currentName;
+    NSString *itemName = [self.currentPath lastPathComponent];
     self.nameTextField.text = itemName;
     self.originalName = [itemName mutableCopy];
     __block NSString *itemPath = self.currentPath;

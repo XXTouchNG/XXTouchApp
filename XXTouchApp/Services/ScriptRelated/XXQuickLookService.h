@@ -9,9 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <SSZipArchive/SSZipArchive.h>
 
+static NSString * const kXXItemPathKey = @"kXXItemPathKey";
+static NSString * const kXXItemRealPathKey = @"kXXItemRealPathKey";
+static NSString * const kXXItemNameKey = @"kXXItemNameKey";
+static NSString * const kXXItemSymbolAttrsKey = @"kXXItemSymbolAttrsKey";
+static NSString * const kXXItemSpecialKey = @"kXXItemSpecialKey";
+
+static NSString * const kXXItemSpecialValueHome = @"kXXItemSpecialValueHome";
+
 @interface XXQuickLookService : NSObject
 
 + (UIImage *)fetchDisplayImageForFileExtension:(NSString *)ext;
++ (UIImage *)fetchDisplayImageForSpecialItem:(NSString *)value;
 
 + (NSArray <NSString *> *)selectableFileExtensions;
 + (BOOL)isSelectableFileExtension:(NSString *)ext;
@@ -27,6 +36,9 @@
 + (NSArray <NSString *> *)videoFileExtensions;
 + (NSArray <NSString *> *)archiveFileExtensions;
 + (NSArray <NSString *> *)webViewFileExtensions;
+
++ (NSArray <NSString *> *)logWebViewFileExtensions;
++ (NSArray <NSString *> *)codeWebViewFileExtensions;
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
               parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController;

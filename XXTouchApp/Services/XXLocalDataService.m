@@ -41,7 +41,14 @@ static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKe
 
 @end
 
-@implementation XXLocalDataService
+@implementation XXLocalDataService {
+    NSString *_mainPath;
+    NSString *_rootPath;
+    
+    NSDateFormatter *_defaultDateFormatter;
+    NSDateFormatter *_shortDateFormatter;
+    NSDateFormatter *_miniDateFormatter;
+}
 
 + (id)sharedInstance {
     static XXLocalDataService *sharedInstance = nil;
@@ -61,12 +68,29 @@ static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKe
     return self;
 }
 
+- (NSString *)mainPath {
+    if (!_mainPath) {
+        if ([[NSFileManager defaultManager] isReadableFileAtPath:MAIN_PATH]) {
+            _mainPath = MAIN_PATH;
+        } else {
+            _mainPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        }
+    }
+    return _mainPath;
+}
+
 - (NSString *)rootPath {
     if (!_rootPath) {
         if ([[NSFileManager defaultManager] isReadableFileAtPath:FEVER_PATH]) {
             _rootPath = FEVER_PATH;
         } else {
-            _rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+            NSString *feverPath = [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"lua"] stringByAppendingPathComponent:@"scripts"];
+            [FCFileManager createDirectoriesForPath:feverPath error:nil];
+            NSError *err = nil;
+            if ([FCFileManager isDirectoryItemAtPath:feverPath error:&err] == NO) {
+                NSAssert(err == nil, @"Cannot access root directory");
+            }
+            _rootPath = feverPath;
         }
     }
     return _rootPath;

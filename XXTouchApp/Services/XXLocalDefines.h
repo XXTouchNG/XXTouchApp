@@ -10,6 +10,15 @@
 #define XXLocalDefines_h
 
 static NSDictionary *extendApisDict = nil;
+static BOOL needRespring = YES;
+static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
+
+static inline BOOL needsRespring() {
+    if (needRespring) {
+        needRespring = [[NSFileManager defaultManager] fileExistsAtPath:tmpLockedItemPath];
+    }
+    return needRespring;
+}
 
 static inline void loadExtendApis() {
     if (!extendApisDict) {

@@ -8,21 +8,30 @@
 
 #import "NSFileManager+RealDestination.h"
 
+static NSFileManager *sharedManager = nil;
+
+static inline NSFileManager *getSharedManager () {
+    if (!sharedManager) {
+        sharedManager = [[NSFileManager alloc] init];
+    }
+    return sharedManager;
+}
+
 @implementation NSFileManager (RealDestination)
 
 - (NSString *)realDestinationOfSymbolicLinkAtPath:(NSString *)path error:(NSError **)error {
     NSError *err = nil;
-    NSString *destPath = [[NSFileManager defaultManager] destinationOfSymbolicLinkAtPath:path error:&err];
+    NSString *destPath = [getSharedManager() destinationOfSymbolicLinkAtPath:path error:&err];
     if (err) {
         *error = err;
         return nil;
     }
-    NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:destPath error:&err];
+    NSDictionary *attrs = [getSharedManager() attributesOfItemAtPath:destPath error:&err];
     if (err) {
         *error = err;
         return nil;
     }
-    if ([attrs objectForKey:NSFileType] == NSFileTypeSymbolicLink) {
+    if (attrs[NSFileType] == NSFileTypeSymbolicLink) {
         return [self realDestinationOfSymbolicLinkAtPath:destPath error:&err];
     }
     return destPath;

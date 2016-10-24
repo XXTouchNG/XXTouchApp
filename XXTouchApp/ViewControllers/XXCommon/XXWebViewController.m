@@ -11,6 +11,8 @@
 #import "XXWebViewController.h"
 #import "ARSafariActivity.h"
 #import <Masonry/Masonry.h>
+#import "XXQuickLookService.h"
+#import "NSArray+FindString.h"
 
 @interface XXWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 @property (nonatomic, strong) UIWebView *agreementWebView;
@@ -78,8 +80,16 @@
     if (!_agreementWebView) {
         UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         webView.delegate = self.progressProxy;
-        NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
-        [webView loadRequest:request];
+        if ([[XXQuickLookService logWebViewFileExtensions] existsString:[self.url pathExtension]]) {
+            NSData *fileData = [NSData dataWithContentsOfURL:self.url];
+            [webView loadData:fileData
+                     MIMEType:@"text/plain"
+             textEncodingName:@"UTF-8"
+                      baseURL:self.url];
+        } else {
+            NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
+            [webView loadRequest:request];
+        }
         _agreementWebView = webView;
     }
     return _agreementWebView;
@@ -89,6 +99,7 @@
     if (!_shareItem) {
         UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openDocumentSafari:) ];
         anotherButton.tintColor = [UIColor whiteColor];
+        anotherButton.enabled = NO;
         _shareItem = anotherButton;
     }
     return _shareItem;
@@ -98,6 +109,7 @@
     if (!_transferItem) {
         UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(transferDocument:)];
         anotherButton.tintColor = [UIColor whiteColor];
+        anotherButton.enabled = NO;
         _transferItem = anotherButton;
     }
     return _transferItem;
@@ -135,6 +147,8 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
+#pragma mark - UIWebViewDelegate
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView == _agreementWebView && _progressView) {
         [_progressView setProgress:0.0 animated:YES];
@@ -143,6 +157,11 @@
     if (title.length > 0) {
         self.title = title;
     }
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error {
+    [self.navigationController.view makeToast:[error localizedDescription]];
 }
 
 #pragma mark - DocumentInteractionController

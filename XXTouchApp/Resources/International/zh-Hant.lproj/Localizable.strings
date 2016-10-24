@@ -229,3 +229,5 @@ Done = "完成";
 "Close" = "關閉";
 "File \"%@\" already exists." = "文件 \"%@\" 已經存在";
 "Code Snippet Reference" = "代碼片段參考文檔";
+"Home Directory" = "主目錄";
+Hide = "隱藏";

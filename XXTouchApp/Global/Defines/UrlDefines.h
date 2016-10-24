@@ -9,6 +9,7 @@
 #ifndef UrlDefines_h
 #define UrlDefines_h
 
+#define MAIN_PATH @"/private/var/mobile/Media/1ferver/"
 #define FEVER_PATH @"/private/var/mobile/Media/1ferver/lua/scripts"
 #define ROOT_PATH [[XXLocalDataService sharedInstance] rootPath]
 #define SERVICE_EMAIL @"bug@xxtouch.com"

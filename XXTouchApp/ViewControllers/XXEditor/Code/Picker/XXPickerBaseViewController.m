@@ -46,6 +46,7 @@
                                 replacement:(NSString *)replacement
                                 resultRange:(NSRange *)resultRange
 {
+    if (!replacement) replacement = @""; // No Crash
     XXCodeBlockModel *newBlock = [_codeBlock mutableCopy];
     NSString *code = newBlock.code;
     NSRange range = [code rangeOfString:keyword];

@@ -229,3 +229,5 @@ Done = "完成";
 "Close" = "关闭";
 "File \"%@\" already exists." = "文件 \"%@\" 已经存在";
 "Code Snippet Reference" = "代码片段参考文档";
+"Home Directory" = "主目录";
+Hide = "隐藏";

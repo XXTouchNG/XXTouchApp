@@ -14,8 +14,6 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 
-static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
-
 @interface XXNavigationViewController ()
 @property (nonatomic, assign) BOOL keyboardGuide;
 
@@ -53,7 +51,7 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
 
 - (void)checkNeedsRespring {
     self.view.backgroundColor = [UIColor whiteColor];
-    if ([FCFileManager existsItemAtPath:tmpLockedItemPath]) {
+    if (needsRespring()) {
         self.view.userInteractionEnabled = NO;
         @weakify(self);
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Needs Respring", nil) andMessage:NSLocalizedString(@"You should resping your device to continue to use this application.", nil)];

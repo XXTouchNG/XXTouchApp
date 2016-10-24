@@ -9,15 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 
-static NSString * const kXXItemPathKey = @"kXXItemPathKey";
-static NSString * const kXXItemNameKey = @"kXXItemNameKey";
-
 @interface XXSwipeableCell : MGSwipeTableCell
 @property (nonatomic, assign) BOOL checked;
 @property (nonatomic, assign) BOOL selectBootscript;
 @property (nonatomic, strong) NSDictionary *itemAttrs;
 
-@property (nonatomic, assign) BOOL isSelectable;
-@property (nonatomic, assign) BOOL isEditable;
-@property (nonatomic, assign) BOOL isDirectory;
+@property (nonatomic, assign, readonly) BOOL isSelectable;
+@property (nonatomic, assign, readonly) BOOL isEditable;
+@property (nonatomic, assign, readonly) BOOL isDirectory;
+@property (nonatomic, assign, readonly) BOOL isSymbolicLink;
+@property (nonatomic, assign, readonly) BOOL canOperate;
 @end
