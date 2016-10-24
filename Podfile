@@ -14,8 +14,7 @@ target 'XXTouchApp' do
     pod 'NJKWebViewProgress'
     pod 'ZBarSDK'
     pod 'MGSwipeTableCell'
-    pod 'FLEX', '~> 2.0', :configurations => ['Debug']
-    pod "RFKeyboardToolbar"
     pod 'SSZipArchive'
+    pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 end
 
