@@ -94,9 +94,9 @@ static const float kCursorVelocity = 1.0f/8.0f;
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(selectedTextRange)) options:NSKeyValueObservingOptionNew context:CYRTextViewContext];
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(selectedRange)) options:NSKeyValueObservingOptionNew context:CYRTextViewContext];
 
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextViewDidChangeNotification:) name:UITextViewTextDidChangeNotification object:self];
-    }
+//    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextViewDidChangeNotification:) name:UITextViewTextDidChangeNotification object:self];
+//    }
     
     // Setup defaults
     self.font = [UIFont systemFontOfSize:14.0f];
@@ -158,6 +158,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 #pragma mark - Notifications
 
+/*
 - (void)handleTextViewDidChangeNotification:(NSNotification *)notification // iOS 7 Only
 {
     if (notification.object == self && !CGPointEqualToPoint(self.contentOffset, CGPointZero))
@@ -177,6 +178,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
         }
     }
 }
+*/
 
 #pragma mark - Overrides
 

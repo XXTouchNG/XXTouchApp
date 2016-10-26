@@ -231,3 +231,9 @@ Done = "完成";
 "Code Snippet Reference" = "代码片段参考文档";
 "Home Directory" = "主目录";
 Hide = "隐藏";
+"\"Home Directory\" has been disabled, you can make it display again in \"More > User Defaults\"." = "主目录已经隐藏，您可以在 \"更多 > 用户偏好设置\" 中取消隐藏。";
+"Application Preference" = "应用程序设置";
+"Service Preference" = "守护进程设置";
+"Hide \"Main Directory\" entry" = "隐藏 \"主目录\" 入口";
+"Prevent \"Main Directory\" entry at the top of file explorer from showing" = "阻止文件管理器顶部 \"主目录\" 入口的显示";
+

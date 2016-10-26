@@ -48,6 +48,8 @@ static NSString * const kXXRecordConfigRecordVolumeDown = @"record_volume_down";
 static NSString * const kXXStartUpConfigSwitch = @"startup_run";
 static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 
+static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainPath";
+
 @interface XXLocalDataService : YYCache
 + (id)sharedInstance;
 
@@ -65,13 +67,14 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 
 - (BOOL)isSelectedStartUpScriptInPath:(NSString *)path;
 
-@property (nonatomic, strong) NSMutableDictionary *userConfig; // Cached
+@property (nonatomic, strong) NSMutableDictionary *localUserConfig; // Cached
+@property (nonatomic, strong) NSMutableDictionary *remoteUserConfig; // Cached
 
 @property (nonatomic, copy, readonly) NSString *mainPath; // Installed
 @property (nonatomic, copy, readonly) NSString *rootPath; // Installed
 @property (nonatomic, strong, readonly) NSDateFormatter *defaultDateFormatter; // Static
 @property (nonatomic, strong, readonly) NSDateFormatter *shortDateFormatter; // Static
-@property (nonatomic, strong, readonly) NSDateFormatter *miniDateFormatter;
+@property (nonatomic, strong, readonly) NSDateFormatter *miniDateFormatter; // Static
 @property (nonatomic, copy) NSString *selectedScript;
 @property (nonatomic, assign) BOOL remoteAccessStatus; // Cached
 @property (nonatomic, copy, readonly) NSString *remoteAccessURL; // Installed
@@ -88,6 +91,6 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 
 - (NSString *)randString;
 
-@property (nonatomic, strong) NSArray <NSDictionary *> *bundles;
+@property (nonatomic, strong) NSArray <NSDictionary *> *bundles; // Cached
 
 @end

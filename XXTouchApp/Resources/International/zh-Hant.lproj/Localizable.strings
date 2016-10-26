@@ -231,3 +231,6 @@ Done = "完成";
 "Code Snippet Reference" = "代碼片段參考文檔";
 "Home Directory" = "主目錄";
 Hide = "隱藏";
+"\"Home Directory\" has been disabled, you can make it display again in \"More > User Defaults\"." = "主目錄已經隱藏，您可以在 \"更多 > 用戶偏好設置\" 中取消隱藏。";
+"Application Preference" = "應用程式設置";
+"Service Preference" = "守護進程設置";

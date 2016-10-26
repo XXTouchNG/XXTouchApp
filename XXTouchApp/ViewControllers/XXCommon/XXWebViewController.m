@@ -139,8 +139,8 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     // Remove progress view
     // because UINavigationBar is shared with other ViewControllers
     [_progressView removeFromSuperview];
@@ -160,7 +160,7 @@
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error {
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self.navigationController.view makeToast:[error localizedDescription]];
 }
 

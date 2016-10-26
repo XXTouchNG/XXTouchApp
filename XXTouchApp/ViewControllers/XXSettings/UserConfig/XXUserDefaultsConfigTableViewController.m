@@ -15,10 +15,16 @@
 
 #define USER_DEFAULTS_SWITCH_CHOICES @[NSLocalizedString(@"Disable", nil), NSLocalizedString(@"Enable", nil)]
 
+typedef enum : NSUInteger {
+    kXXUserDefaultsSectionLocalIndex = 0,
+    kXXUserDefaultsSectionRemoteIndex = 1,
+} kXXUserDefaultsSection;
+
 static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"kXXUserDefaultsConfigTableViewCellIReuseIdentifier";
 
 @interface XXUserDefaultsConfigTableViewController ()
-@property (nonatomic, strong) NSMutableArray <XXUserDefaultsModel *> *userConfigArray;
+@property (nonatomic, strong) NSMutableArray <XXUserDefaultsModel *> *remoteUserConfigArray;
+@property (nonatomic, strong) NSMutableArray <XXUserDefaultsModel *> *localUserConfigArray;
 
 @end
 
@@ -32,7 +38,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
     [super viewDidLoad];
     
     self.clearsSelectionOnViewWillAppear = YES; // Override
-    SendConfigAction([XXLocalNetService localGetUserConfWithError:&err], [self reloadConfigList]);
+    SendConfigAction([XXLocalNetService localGetUserConfWithError:&err], [self reloadRemoteConfigList]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,19 +48,27 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self reloadConfigList];
+    [self reloadLocalConfigList];
+    [self reloadRemoteConfigList];
 }
 
-- (NSMutableArray <XXUserDefaultsModel *> *)userConfigArray {
-    if (!_userConfigArray) {
-        _userConfigArray = [[NSMutableArray alloc] init];
+- (NSMutableArray <XXUserDefaultsModel *> *)localUserConfigArray {
+    if (!_localUserConfigArray) {
+        _localUserConfigArray = [[NSMutableArray alloc] init];
     }
-    return _userConfigArray;
+    return _localUserConfigArray;
 }
 
-- (void)reloadConfigList {
-    [self.userConfigArray removeAllObjects];
-    NSDictionary *config = [[XXLocalDataService sharedInstance] userConfig];
+- (NSMutableArray <XXUserDefaultsModel *> *)remoteUserConfigArray {
+    if (!_remoteUserConfigArray) {
+        _remoteUserConfigArray = [[NSMutableArray alloc] init];
+    }
+    return _remoteUserConfigArray;
+}
+
+- (void)loadConfigListFromDictionary:(NSDictionary *)dict toArray:(NSMutableArray *)array {
+    [array removeAllObjects];
+    NSDictionary *config = dict;
     NSArray <NSString *> *allKeys = [config allKeysSorted];
     for (NSString *cKey in allKeys) {
         XXUserDefaultsModel *model = [XXUserDefaultsModel new];
@@ -67,8 +81,17 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
         model.configValue = [[config objectForKey:cKey] integerValue];
         model.configKey = [cKey copy];
         model.configType = [self fetchTypeForKey:cKey];
-        [self.userConfigArray addObject:model];
+        [array addObject:model];
     }
+}
+
+- (void)reloadLocalConfigList {
+    [self loadConfigListFromDictionary:[[XXLocalDataService sharedInstance] localUserConfig] toArray:self.localUserConfigArray];
+    [self.tableView reloadData];
+}
+
+- (void)reloadRemoteConfigList {
+    [self loadConfigListFromDictionary:[[XXLocalDataService sharedInstance] remoteUserConfig] toArray:self.remoteUserConfigArray];
     [self.tableView reloadData];
 }
 
@@ -82,6 +105,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
                                @"no_need_pushid_alert": NSLocalizedString(@"Hide \"Connect to iTunes...\" Alert", nil),
                                @"no_nosim_statusbar": NSLocalizedString(@"Hide \"No SIM\" On Status Bar", nil),
                                @"use_classic_control_alert": NSLocalizedString(@"Use Classical Alert View", nil),
+                               kXXLocalConfigHidesMainPath: NSLocalizedString(@"Hide \"Main Directory\" entry", nil),
                                };
     return [titleKey objectForKey:key];
 }
@@ -96,6 +120,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
                                      @"no_need_pushid_alert": NSLocalizedString(@"Prevent \"Connect to iTunes to Use Push Notifications\" alert from showing", nil),
                                      @"no_nosim_statusbar": NSLocalizedString(@"Prevent \"No SIM\" text on status bar from displaying", nil),
                                      @"use_classic_control_alert": NSLocalizedString(@"Use classical alert view instead of animated SIAlertView", nil),
+                                     kXXLocalConfigHidesMainPath: NSLocalizedString(@"Prevent \"Main Directory\" entry at the top of file explorer from showing", nil),
                                      };
     return [descriptionKey objectForKey:key];
 }
@@ -110,6 +135,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
                                      @"no_need_pushid_alert": USER_DEFAULTS_SWITCH_CHOICES,
                                      @"no_nosim_statusbar": USER_DEFAULTS_SWITCH_CHOICES,
                                      @"use_classic_control_alert": USER_DEFAULTS_SWITCH_CHOICES,
+                                     kXXLocalConfigHidesMainPath: USER_DEFAULTS_SWITCH_CHOICES,
                                      };
     return [choicesKey objectForKey:key];
 }
@@ -124,6 +150,7 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
                                  @"no_need_pushid_alert": @(kXXUserDefaultsTypeSwitch),
                                  @"no_nosim_statusbar": @(kXXUserDefaultsTypeSwitch),
                                  @"use_classic_control_alert": @(kXXUserDefaultsTypeSwitch),
+                                 kXXLocalConfigHidesMainPath: @(kXXUserDefaultsTypeSwitch),
                                  };
     return [(NSNumber *)[typesKey objectForKey:key] integerValue];
 }
@@ -131,27 +158,39 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 66;
-    }
-    return 0;
+    return 66;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == kXXUserDefaultsSectionLocalIndex) {
+        return NSLocalizedString(@"Application Preference", nil);
+    } else if (section == kXXUserDefaultsSectionRemoteIndex) {
+        return NSLocalizedString(@"Service Preference", nil);
+    }
+    return @"";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.userConfigArray.count;
+    if (section == kXXUserDefaultsSectionLocalIndex) {
+        return self.localUserConfigArray.count;
+    } else if (section == kXXUserDefaultsSectionRemoteIndex) {
+        return self.remoteUserConfigArray.count;
     }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXUserDefaultsConfigTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXUserDefaultsConfigTableViewCellIReuseIdentifier forIndexPath:indexPath];
-    if (indexPath.section == 0) {
-        cell.configInfo = self.userConfigArray[indexPath.row];
+    if (indexPath.section == kXXUserDefaultsSectionLocalIndex) {
+        cell.configInfo = self.localUserConfigArray[indexPath.row];
+        cell.configInfo.isRemote = NO;
+    } else if (indexPath.section == kXXUserDefaultsSectionRemoteIndex) {
+        cell.configInfo = self.remoteUserConfigArray[indexPath.row];
+        cell.configInfo.isRemote = YES;
     }
     return cell;
 }

@@ -97,7 +97,8 @@ enum {
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
-                              SendConfigAction([XXLocalNetService localClearAppData:bid error:&err], [self.navigationController.view makeToast:NSLocalizedString(@"Operation completed", nil)]);
+                              SendConfigAction([XXLocalNetService localClearAppData:bid error:&err],
+                                               [self.navigationController.view makeToast:NSLocalizedString(@"Operation completed", nil)]);
                           }];
     [alertView show];
 }

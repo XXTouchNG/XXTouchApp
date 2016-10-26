@@ -20,5 +20,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) kXXUserDefaultsType configType;
 @property (nonatomic, copy) NSString *configKey;
 @property (nonatomic, assign) NSInteger configValue;
+@property (nonatomic, assign) BOOL isRemote;
 
 @end

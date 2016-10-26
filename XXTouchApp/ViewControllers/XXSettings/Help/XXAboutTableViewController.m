@@ -55,8 +55,8 @@ enum {
     _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     self.navigationItem.rightBarButtonItem = nil;
 }
 

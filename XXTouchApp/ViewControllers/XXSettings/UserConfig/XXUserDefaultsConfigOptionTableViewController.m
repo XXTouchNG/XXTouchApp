@@ -90,16 +90,24 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
         if (_configInfo.configChoices.count > indexPath.row) {
             if (_configInfo.configValue != indexPath.row) {
                 _configInfo.configValue = indexPath.row;
+                NSMutableDictionary *dict = self.configInfo.isRemote ?
+                [[XXLocalDataService sharedInstance] remoteUserConfig] :
+                [[XXLocalDataService sharedInstance] localUserConfig];
                 if (_configInfo.configType == kXXUserDefaultsTypeSwitch) {
                     if (_configInfo.configValue == YES) {
-                        [[[XXLocalDataService sharedInstance] userConfig] setObject:@YES forKey:_configInfo.configKey];
+                        [dict setObject:@YES forKey:_configInfo.configKey];
                     } else {
-                        [[[XXLocalDataService sharedInstance] userConfig] setObject:@NO forKey:_configInfo.configKey];
+                        [dict setObject:@NO forKey:_configInfo.configKey];
                     }
                 } else if (_configInfo.configType == kXXUserDefaultsTypeChoice) {
-                    [[[XXLocalDataService sharedInstance] userConfig] setObject:@(_configInfo.configValue) forKey:_configInfo.configKey];
+                    [dict setObject:@(_configInfo.configValue) forKey:_configInfo.configKey];
                 }
-                SendConfigAction([XXLocalNetService localSetUserConfWithError:&err], [self loadConfigInfo]);
+                if (self.configInfo.isRemote) {
+                    SendConfigAction([XXLocalNetService localSetUserConfWithError:&err], [self loadConfigInfo]);
+                } else {
+                    [[XXLocalDataService sharedInstance] setLocalUserConfig:dict];
+                    [self.tableView reloadData];
+                }
             }
         }
     }

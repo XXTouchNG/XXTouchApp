@@ -11,12 +11,22 @@
 
 static NSDictionary *extendApisDict = nil;
 static BOOL needRespring = YES;
+static BOOL jailbroken = NO;
 static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
 
+static inline BOOL isJailbroken() {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        jailbroken = [[UIDevice currentDevice] isJailbroken];
+    });
+    return jailbroken;
+}
+
 static inline BOOL needsRespring() {
-    if (needRespring) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         needRespring = [[NSFileManager defaultManager] fileExistsAtPath:tmpLockedItemPath];
-    }
+    });
     return needRespring;
 }
 

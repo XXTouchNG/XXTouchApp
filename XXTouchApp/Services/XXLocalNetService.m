@@ -133,7 +133,14 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)localLaunchScript:(NSString *)scriptPath
                     error:(NSError **)error {
     NSAssert(scriptPath != nil, @"scriptPath cannot be nil");
-    NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file" withDictionary:@{ @"filename": scriptPath } error:error]; CHECK_ERROR(NO);
+    NSDictionary *result = [self sendSynchronousRequest:@"launch_script_file"
+                                         withDictionary:@{
+                                                          @"filename": scriptPath,
+                                                          @"envp": @{
+                                                                  @"XXTOUCH_LAUNCH_VIA": @"APPLICATION",
+                                                                  }
+                                                          }
+                                                  error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         return YES;
     } else if ([result[@"code"] isEqualToNumber:@2]) {
@@ -423,7 +430,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSDictionary *data = result[@"data"];
         XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
-        [sharedDataService setUserConfig:[[NSMutableDictionary alloc] initWithDictionary:data]];
+        [sharedDataService setRemoteUserConfig:[[NSMutableDictionary alloc] initWithDictionary:data]];
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -432,7 +439,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)localSetUserConfWithError:(NSError **)error {
     XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
-    NSDictionary *dict = sharedDataService.userConfig;
+    NSDictionary *dict = sharedDataService.remoteUserConfig;
     NSDictionary *result = [self sendSynchronousRequest:@"set_user_conf" withDictionary:dict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         return YES;

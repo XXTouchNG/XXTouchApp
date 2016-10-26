@@ -21,7 +21,8 @@ static NSString * const kXXStorageKeyApplicationBundles = @"kXXStorageKeyApplica
 static NSString * const kXXStorageKeyStartUpConfigScriptPath = @"kXXStorageKeyStartUpConfigScriptPath-1";
 static NSString * const kXXStorageKeyRemoteAccessStatus = @"kXXStorageKeyRemoteAccessStatus-1";
 static NSString * const kXXStorageKeyDeviceInfo = @"kXXStorageKeyDeviceInfo-%@";
-static NSString * const kXXStorageKeyUserConfig = @"kXXStorageKeyUserConfig-1";
+static NSString * const kXXStorageKeyLocalUserConfig = @"kXXStorageKeyLocalUserConfig-1";
+static NSString * const kXXStorageKeyRemoteUserConfig = @"kXXStorageKeyRemoteUserConfig-1";
 static NSString * const kXXStorageKeyExpirationDate = @"kXXStorageKeyExpirationDate-1";
 static NSString * const kXXStorageKeyNowDate = @"kXXStorageKeyNowDate-1";
 static NSString * const kXXStorageKeySortMethod = @"kXXStorageKeySortMethod-1";
@@ -33,6 +34,7 @@ static NSString * const kXXStorageKeyPressConfigHoldVolumeUp = @"kXXStorageKeyPr
 static NSString * const kXXStorageKeyPressConfigHoldVolumeDown = @"kXXStorageKeyPressConfigHoldVolumeDown-1";
 static NSString * const kXXStorageKeyPressConfigPressVolumeUp = @"kXXStorageKeyPressConfigPressVolumeUp-1";
 static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKeyPressConfigPressVolumeDown-1";
+static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPath-1";
 
 @interface XXLocalDataService () <
     JTSImageViewControllerInteractionsDelegate
@@ -176,12 +178,26 @@ static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKe
     [self setObject:deviceInfo forKey:[NSString stringWithFormat:kXXStorageKeyDeviceInfo, VERSION_BUILD]];
 }
 
-- (NSDictionary *)userConfig {
-    return (NSDictionary *)[self objectForKey:kXXStorageKeyUserConfig];
+- (NSMutableDictionary *)localUserConfig {
+    NSMutableDictionary *localUserConfig = (NSMutableDictionary *)[self objectForKey:kXXStorageKeyLocalUserConfig];
+    if (!localUserConfig) {
+        localUserConfig = [[NSMutableDictionary alloc] initWithDictionary:@{
+                                                                            kXXLocalConfigHidesMainPath: @YES
+                                                                            }];
+    }
+    return localUserConfig;
 }
 
-- (void)setUserConfig:(NSDictionary *)userConfig {
-    [self setObject:userConfig forKey:kXXStorageKeyUserConfig];
+- (void)setLocalUserConfig:(NSMutableDictionary *)localUserConfig {
+    [self setObject:localUserConfig forKey:kXXStorageKeyLocalUserConfig];
+}
+
+- (NSMutableDictionary *)remoteUserConfig {
+    return (NSMutableDictionary *)[self objectForKey:kXXStorageKeyRemoteUserConfig];
+}
+
+- (void)setRemoteUserConfig:(NSMutableDictionary *)remoteUserConfig {
+    [self setObject:remoteUserConfig forKey:kXXStorageKeyRemoteUserConfig];
 }
 
 - (NSDate *)nowDate {
@@ -357,6 +373,14 @@ static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKe
 
 - (void)setBundles:(NSArray *)bundles {
     [self setObject:bundles forKey:kXXStorageKeyApplicationBundles];
+}
+
+- (BOOL)hidesMainPath {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyHidesMainPath] boolValue];
+}
+
+- (void)setHidesMainPath:(BOOL)hidesMainPath {
+    [self setObject:[NSNumber numberWithBool:hidesMainPath] forKey:kXXStorageKeyHidesMainPath];
 }
 
 @end

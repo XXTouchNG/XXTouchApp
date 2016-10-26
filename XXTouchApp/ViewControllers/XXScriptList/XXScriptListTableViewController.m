@@ -45,6 +45,7 @@ UISearchDisplayDelegate
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
 @property (nonatomic, assign, readonly) BOOL isRootDirectory;
+@property (nonatomic, assign, readonly) BOOL hidesMainPath;
 @property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
@@ -277,7 +278,7 @@ UISearchDisplayDelegate
     
     // Items Combining
     NSMutableArray *attrArr = [[NSMutableArray alloc] init];
-    if (self.isRootDirectory) {
+    if (self.hidesMainPath == NO && self.isRootDirectory) {
         NSError *err = nil;
         NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
         if (rootPath) {
@@ -296,6 +297,10 @@ UISearchDisplayDelegate
     [attrArr addObjectsFromArray:fileArr];
     
     self.rootItemsDictionaryArr = attrArr;
+}
+
+- (BOOL)hidesMainPath {
+    return [[[[XXLocalDataService sharedInstance] localUserConfig] objectForKey:kXXLocalConfigHidesMainPath] boolValue];
 }
 
 - (void)endMJRefreshing {
@@ -503,7 +508,7 @@ UISearchDisplayDelegate
     if (self.isEditing == NO && recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-        if (self.isRootDirectory && indexPath.row == 0) {
+        if (self.hidesMainPath == NO && self.isRootDirectory && indexPath.row == 0) {
             XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
             [cell becomeFirstResponder];
             UIMenuController *menuController = [UIMenuController sharedMenuController];
@@ -530,7 +535,16 @@ UISearchDisplayDelegate
 }
 
 - (void)hideItemTapped:(id)sender {
-    [self.navigationController.view makeToast:NSLocalizedString(@"Not implemented", nil)];
+    if (self.isRootDirectory) {
+        NSMutableDictionary *dict = [[XXLocalDataService sharedInstance] localUserConfig];
+        [dict setObject:@YES forKey:kXXLocalConfigHidesMainPath];
+        [[XXLocalDataService sharedInstance] setLocalUserConfig:dict];
+        [self.tableView beginUpdates];
+        [self reloadScriptListTableData];
+        [self.tableView deleteRow:0 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+        [self.navigationController.view makeToast:NSLocalizedString(@"\"Home Directory\" has been disabled, you can make it display again in \"More > User Defaults\".", nil)];
+    }
 }
 
 #pragma mark - Table View Controller Editing Control
@@ -647,14 +661,14 @@ UISearchDisplayDelegate
     if (_selectBootscript) {
         return NO;
     }
-    if (self.isRootDirectory && indexPath.row == 0) {
+    if (self.hidesMainPath == NO && self.isRootDirectory && indexPath.row == 0) {
         return NO;
     }
     return YES;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if (self.isEditing && self.isRootDirectory && indexPath.row == 0) {
+    if (self.isEditing && self.hidesMainPath == NO && self.isRootDirectory && indexPath.row == 0) {
         return nil;
     }
     return indexPath;
