@@ -154,7 +154,7 @@
         [_progressView setProgress:0.0 animated:YES];
     }
     NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    if (title.length > 0) {
+    if (title && title.length > 0) {
         self.title = title;
     }
     self.navigationItem.rightBarButtonItem.enabled = YES;

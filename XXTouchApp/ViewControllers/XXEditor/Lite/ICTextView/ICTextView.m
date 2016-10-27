@@ -100,7 +100,9 @@ NS_INLINE BOOL ICCGFloatEqualOnScreen(CGFloat f1, CGFloat f2)
 
 #pragma mark - Implementation
 
-@implementation ICTextView
+@implementation ICTextView {
+    BOOL settingText;
+}
 
 #pragma mark - Properties
 
@@ -627,7 +629,7 @@ NS_INLINE BOOL ICCGFloatEqualOnScreen(CGFloat f1, CGFloat f2)
     _secondaryHighlightColor = [UIColor colorWithRed:215.0f/255.0f green:240.0f/255.0f blue:1.0 alpha:1.0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(textChanged)
+                                             selector:@selector(textChanged:)
                                                  name:UITextViewTextDidChangeNotification
                                                object:self];
 }
@@ -815,7 +817,7 @@ NS_INLINE BOOL ICCGFloatEqualOnScreen(CGFloat f1, CGFloat f2)
     }
 }
 
-- (void)textChanged
+- (void)textChanged:(NSNotification *)aNotification
 {
     if (self.searching)
         [self resetSearch];
@@ -823,9 +825,19 @@ NS_INLINE BOOL ICCGFloatEqualOnScreen(CGFloat f1, CGFloat f2)
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
     if (shouldApplyCaretFix)
     {
-        UITextRange *selectedTextRange = self.selectedTextRange;
-        if (selectedTextRange.empty)
-            [self scrollToCaretPosition:selectedTextRange.end];
+        if (aNotification.object == self && !settingText) {
+            UITextView *textView = self;
+            UITextRange *selectedTextRange = self.selectedTextRange;
+            if ([textView.text hasSuffix:@"\n"]) {
+                [CATransaction setCompletionBlock:^{
+                    if (selectedTextRange.empty)
+                        [self scrollToCaretPosition:selectedTextRange.end];
+                }];
+            } else {
+                if (selectedTextRange.empty)
+                    [self scrollToCaretPosition:selectedTextRange.end];
+            }
+        }
     }
 #endif
 }
@@ -993,8 +1005,10 @@ NS_INLINE BOOL ICCGFloatEqualOnScreen(CGFloat f1, CGFloat f2)
 
 - (void)setText:(NSString *)text
 {
+    settingText = YES;
     [super setText:text];
     [self applySelectionFix];
+    settingText = NO;
 }
 #endif
 
