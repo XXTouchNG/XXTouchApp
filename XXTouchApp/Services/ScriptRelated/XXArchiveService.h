@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <SSZipArchive/SSZipArchive.h>
+#import "XXFileViewer.h"
 
-@interface XXArchiveService : NSObject
+@interface XXArchiveService : NSObject <XXFileViewer>
 + (NSArray <NSString *> *)supportedArchiveFileExtensions;
 + (BOOL)unArchiveZip:(NSString *)filePath
          toDirectory:(NSString *)path

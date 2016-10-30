@@ -29,16 +29,13 @@ static NSString * const kXXItemSpecialValueHome = @"kXXItemSpecialValueHome";
 + (NSArray <NSString *> *)viewableFileExtensions;
 + (BOOL)isViewableFileExtension:(NSString *)ext;
 
-+ (NSArray <NSString *> *)textFileExtensions;
 + (NSArray <NSString *> *)imageFileExtensions;
 + (NSArray <NSString *> *)mediaFileExtensions;
 + (NSArray <NSString *> *)audioFileExtensions;
 + (NSArray <NSString *> *)videoFileExtensions;
-+ (NSArray <NSString *> *)archiveFileExtensions;
 + (NSArray <NSString *> *)webViewFileExtensions;
-
-+ (NSArray <NSString *> *)logWebViewFileExtensions;
-+ (NSArray <NSString *> *)codeWebViewFileExtensions;
++ (NSArray <NSString *> *)archiveFileExtensions;
++ (NSArray <NSString *> *)textEditorFileExtensions;
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
               parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController;

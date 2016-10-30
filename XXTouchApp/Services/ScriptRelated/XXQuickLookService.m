@@ -12,6 +12,7 @@
 #import <AVKit/AVPlayerViewController.h>
 #import "XXQuickLookService.h"
 #import "XXLocalDataService.h"
+#import "XXArchiveService.h"
 #import "JTSImageViewController.h"
 #import "XXEmptyNavigationController.h"
 #import "XXWebViewController.h"
@@ -28,18 +29,28 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
     if (!ext) return nil;
     NSString *fileExt = [ext lowercaseString];
     UIImage *fetchResult = [UIImage imageNamed:[@"file-" stringByAppendingString:fileExt]];
-    if (fetchResult != nil) {
+    if (fetchResult != nil)
+    {
         return fetchResult;
     }
-    if ([[self imageFileExtensions] existsString:fileExt]) {
+    if ([[self imageFileExtensions] existsString:fileExt])
+    {
         fetchResult = [UIImage imageNamed:@"file-image"];
-    } else if ([[self audioFileExtensions] existsString:fileExt]) {
+    }
+    else if ([[self audioFileExtensions] existsString:fileExt])
+    {
         fetchResult = [UIImage imageNamed:@"file-audio"];
-    } else if ([[self videoFileExtensions] existsString:fileExt]) {
+    }
+    else if ([[self videoFileExtensions] existsString:fileExt])
+    {
         fetchResult = [UIImage imageNamed:@"file-video"];
-    } else if ([[self archiveFileExtensions] existsString:fileExt]) {
+    }
+    else if ([[XXArchiveService supportedFileType] existsString:fileExt])
+    {
         fetchResult = [UIImage imageNamed:@"file-archive"];
-    } else {
+    }
+    else
+    {
         fetchResult = [UIImage imageNamed:@"file-unknown"];
     }
     return fetchResult;
@@ -60,62 +71,56 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 }
 
 + (NSArray <NSString *> *)editableFileExtensions {
-    return @[ @"lua", @"txt", // Text Editor
-              @"db", @"sqlite", @"sqlitedb", // SQLite 3 Editor
-              @"plist", @"strings", // Plist Editor
-              @"hex", @"dat", // Hex Editor
-              ];
+    NSMutableArray *editableFileExtensions = [NSMutableArray new];
+    [editableFileExtensions addObjectsFromArray:[self textEditorFileExtensions]];
+    return [editableFileExtensions copy];
 }
 
 + (NSArray <NSString *> *)viewableFileExtensions {
-    return @[
-             @"png", @"bmp", @"jpg", @"jpeg", @"gif", @"tif", @"tiff", // Internal Image Viewer
-             @"m4a", @"aac", @"m4v", @"m4r", @"mp3", @"mov", @"mp4", @"ogg", @"aif", @"wav", @"flv", @"mpg", @"avi", // Internal Media Player
-             @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub", // Internal Web View
-             @"zip", @"bz2", @"tar", @"gz", @"rar", // Zip Extractor
-             ];
+    NSMutableArray *viewableFileExtensions = [NSMutableArray new];
+    [viewableFileExtensions addObjectsFromArray:[self imageFileExtensions]];
+    [viewableFileExtensions addObjectsFromArray:[self mediaFileExtensions]];
+    [viewableFileExtensions addObjectsFromArray:[self webViewFileExtensions]];
+    [viewableFileExtensions addObjectsFromArray:[self archiveFileExtensions]];
+    
+    return [viewableFileExtensions copy];
 }
 
-#pragma mark - Editors
+#pragma mark - Common Viewers
 
-+ (NSArray <NSString *> *)textFileExtensions { // OK
-    return @[ @"lua", @"txt" ];
-}
-
-#pragma mark - Viewers
-
-+ (NSArray <NSString *> *)imageFileExtensions { // OK
++ (NSArray <NSString *> *)imageFileExtensions
+{ // OK
     return @[ @"png", @"bmp", @"jpg", @"jpeg", @"gif" ];
 }
 
-+ (NSArray <NSString *> *)mediaFileExtensions { // OK
++ (NSArray <NSString *> *)mediaFileExtensions
+{ // OK
     return @[ @"m4a", @"aac", @"m4v", @"m4r", @"mp3", @"mov", @"mp4", @"ogg", @"aif", @"wav", @"flv", @"mpg", @"avi" ];
 }
 
-+ (NSArray <NSString *> *)audioFileExtensions { // OK
++ (NSArray <NSString *> *)audioFileExtensions
+{ // OK
     return @[ @"m4a", @"aac", @"m4r", @"mp3", @"ogg", @"aif", @"wav" ];
 }
 
-+ (NSArray <NSString *> *)videoFileExtensions { // OK
++ (NSArray <NSString *> *)videoFileExtensions
+{ // OK
     return @[ @"m4v", @"mov", @"mp4", @"flv", @"mpg", @"avi" ];
 }
 
-+ (NSArray <NSString *> *)webViewFileExtensions { // OK
-    return @[ @"txt", @"log", @"syslog", @"ips", @"html", @"htm", @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx", @"pages", @"key", @"numbers", @"svg", @"epub" ];
++ (NSArray <NSString *> *)webViewFileExtensions
+{ // OK
+    return [XXWebViewController supportedFileType];
 }
 
-+ (NSArray <NSString *> *)logWebViewFileExtensions { // Treat like plain text
-    return @[ @"log", @"syslog", @"ips" ];
++ (NSArray <NSString *> *)archiveFileExtensions
+{ // OK
+    return [XXArchiveService supportedFileType];
 }
 
-+ (NSArray <NSString *> *)codeWebViewFileExtensions { // Syntax highlighter
-    return @[ ];
-}
-
-#pragma mark - Archives
-
-+ (NSArray <NSString *> *)archiveFileExtensions { // OK
-    return @[ @"zip", @"bz2", @"tar", @"gz", @"rar" ];
++ (NSArray <NSString *> *)textEditorFileExtensions
+{ // OK
+    return [XXBaseTextEditorViewController supportedFileType];
 }
 
 #pragma mark - Judgements
@@ -135,13 +140,14 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
     return [[self viewableFileExtensions] existsString:fileExt];
 }
 
-#pragma mark - Actions
+#pragma mark - Viewers
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
               parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController
 {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
-    if ([[self imageFileExtensions] existsString:fileExt]) { // Image File
+    if ([[self imageFileExtensions] existsString:fileExt])
+    { // Image File
         JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
         imageInfo.imageURL = [NSURL fileURLWithPath:filePath];
         JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
@@ -151,7 +157,8 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         [imageViewController showFromViewController:viewController.navigationController
                                          transition:JTSImageViewControllerTransition_FromOffscreen];
         return YES;
-    } else if ([[self mediaFileExtensions] existsString:fileExt]) { // Media File
+    } else if ([[self mediaFileExtensions] existsString:fileExt])
+    { // Media File
         NSURL *sourceMovieURL = [NSURL fileURLWithPath:filePath];
         if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
             // 7.x
@@ -167,7 +174,9 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
             }];
         }
         return YES;
-    } else if ([[self webViewFileExtensions] existsString:fileExt]) { // Web View File
+    }
+    else if ([[XXWebViewController supportedFileType] existsString:fileExt])
+    { // Web View File
         XXEmptyNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
         XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
         webController.url = [NSURL fileURLWithPath:filePath];
@@ -178,10 +187,13 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
     return NO;
 }
 
+#pragma mark - Editors
+
 + (BOOL)editFileWithStandardEditor:(NSString *)filePath
               parentViewController:(UIViewController *)viewController {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
-    if ([[self textFileExtensions] existsString:fileExt]) { // Text File
+    if ([[XXBaseTextEditorViewController supportedFileType] existsString:fileExt])
+    { // Text File
         XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
         baseController.filePath = filePath;
         baseController.title = [filePath lastPathComponent];

@@ -14,6 +14,10 @@
     return @[ @"zip" ];
 }
 
++ (NSArray <NSString *> *)supportedFileType {
+    return @[ @"zip", @"bz2", @"tar", @"gz", @"rar" ];
+}
+
 + (BOOL)unArchiveZip:(NSString *)filePath
          toDirectory:(NSString *)path
 parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {

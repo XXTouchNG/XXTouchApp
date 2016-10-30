@@ -10,8 +10,10 @@
 // Basically design (the same as what TouchSprite did)
 
 #import <UIKit/UIKit.h>
+#import "XXFileViewer.h"
 
-@interface XXBaseTextEditorViewController : UIViewController
+@interface XXBaseTextEditorViewController : UIViewController <XXFileViewer>
 @property (nonatomic, copy) NSString *filePath;
 
++ (NSArray <NSString *> *)supportedFileType;
 @end

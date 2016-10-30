@@ -687,4 +687,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     CYLog(@"");
 }
 
+#pragma mark - File Type
+
++ (NSArray <NSString *> *)supportedFileType {
+    return @[ @"lua", @"txt" ];
+}
+
 @end

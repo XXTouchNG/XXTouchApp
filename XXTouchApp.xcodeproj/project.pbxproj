@@ -118,6 +118,7 @@
 		0FC7BCBE1DB3EC440073D900 /* XXLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC9D1DB3EC440073D900 /* XXLocationPickerController.m */; };
 		0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BCC11DB3EC630073D900 /* XXCodeBlockNavigationController.m */; };
 		0FC7BCC61DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */; };
+		0FCA14991DC63A6D0058D654 /* NSData+plistData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCA14981DC63A6D0058D654 /* NSData+plistData.m */; };
 		0FD9AD3C1D920A38007B4CEC /* PackageVersion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */; };
 		0FDEFCDF1DB4572000825931 /* XXImagePickerPixelPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCDC1DB4572000825931 /* XXImagePickerPixelPreview.m */; };
 		0FDEFCE01DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCDE1DB4572000825931 /* XXImagePickerPixelPreviewRootViewController.m */; };
@@ -364,6 +365,9 @@
 		0FC7BCC11DB3EC630073D900 /* XXCodeBlockNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockNavigationController.m; sourceTree = "<group>"; };
 		0FC7BCC41DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAddCodeBlockTableViewController.h; sourceTree = "<group>"; };
 		0FC7BCC51DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAddCodeBlockTableViewController.m; sourceTree = "<group>"; };
+		0FCA14971DC63A6D0058D654 /* NSData+plistData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+plistData.h"; sourceTree = "<group>"; };
+		0FCA14981DC63A6D0058D654 /* NSData+plistData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+plistData.m"; sourceTree = "<group>"; };
+		0FCA149A1DC6417C0058D654 /* XXFileViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFileViewer.h; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FD9AD3B1D920A38007B4CEC /* PackageVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
 		0FDEFCDB1DB4572000825931 /* XXImagePickerPixelPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreview.h; sourceTree = "<group>"; };
@@ -561,6 +565,8 @@
 				0FDEFCE51DB45D2E00825931 /* NSString+countSubstr.m */,
 				0F5E96101DBD214000FF0C44 /* NSArray+FindString.h */,
 				0F5E96111DBD214000FF0C44 /* NSArray+FindString.m */,
+				0FCA14971DC63A6D0058D654 /* NSData+plistData.h */,
+				0FCA14981DC63A6D0058D654 /* NSData+plistData.m */,
 			);
 			path = Catalogs;
 			sourceTree = "<group>";
@@ -728,6 +734,7 @@
 				0F5DDE2C1D8149BE00BC4BDE /* XXNavigationViewController.m */,
 				0FE93CDD1D8A7601004496BC /* XXEmptyNavigationController.h */,
 				0FE93CDE1D8A7601004496BC /* XXEmptyNavigationController.m */,
+				0FCA149A1DC6417C0058D654 /* XXFileViewer.h */,
 			);
 			path = XXCommon;
 			sourceTree = "<group>";
@@ -1393,6 +1400,7 @@
 				0F5DDE191D81496800BC4BDE /* XXToolbar.m in Sources */,
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
+				0FCA14991DC63A6D0058D654 /* NSData+plistData.m in Sources */,
 				0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */,
 				0F28B4AC1DB9EF510007CE4E /* ICRangeUtils.m in Sources */,
 				0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */,
