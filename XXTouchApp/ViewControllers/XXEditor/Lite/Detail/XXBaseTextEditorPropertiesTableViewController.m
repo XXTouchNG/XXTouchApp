@@ -52,6 +52,8 @@
         self.syntaxDefinitionLabel.text = @"Lua (*.lua)";
     } else if ([fileExt isEqualToString:@"txt"]) {
         self.syntaxDefinitionLabel.text = @"Plain Text (*.txt)";
+    } else {
+        self.syntaxDefinitionLabel.text = @"N/A";
     }
     NSUInteger lineCount = [self countChar:self.fileContent cchar:'\n'];
     self.lineCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)lineCount];

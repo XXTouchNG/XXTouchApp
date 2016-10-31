@@ -91,7 +91,7 @@ static SIAlertView *__si_alert_current_view;
 #endif
 
 
-@interface SIAlertView ()
+@interface SIAlertView () <CAAnimationDelegate>
 
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, weak) UIWindow *oldKeyWindow;

@@ -17,6 +17,7 @@
 #import "XXLocalDataService.h"
 #import <Masonry/Masonry.h>
 #import "XXKeyboardRow.h"
+#import "XXLuaVModel.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
@@ -403,7 +404,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         __block NSError *err = nil;
-        BOOL result = [XXLocalNetService localCheckSyntax:self.fileContent error:&err];
+//        BOOL result = [XXLocalNetService localCheckSyntax:self.fileContent error:&err];
+        XXLuaVModel *lMachine = [[XXLuaVModel alloc] init];
+        BOOL result = [lMachine loadBufferFromString:self.fileContent error:&err];
         dispatch_async_on_main_queue(^{
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];

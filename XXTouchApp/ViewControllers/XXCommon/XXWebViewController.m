@@ -23,6 +23,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 @property (nonatomic, strong) NJKWebViewProgress *progressProxy;
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
 @property (nonatomic, strong) UIBarButtonItem *transferItem;
+@property (nonatomic, strong, readonly) NSURL *baseUrl;
 
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
@@ -44,25 +45,35 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 }
 
 - (void)loadWebView {
+    if (![[self.url scheme] isEqualToString:@"file"])
+    { // Not local
+        NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
+        [self.webView loadRequest:request];
+        return;
+    }
     NSData *fileData = nil;
+    NSString *fileString = nil;
     NSError *err = nil;
+    NSString *fileName = [self.url lastPathComponent];
     NSString *fileType = [[self.url pathExtension] lowercaseString];
-    if ([[[self class] logWebViewFileExtensions] existsString:fileType])
+    if ([[[self class] documentWebViewFileExtensions] existsString:fileType]) // Trans to plist
+    {
+        self.loadType = kXXWebViewLoadTypeCommon;
+    }
+    else if ([[[self class] logWebViewFileExtensions] existsString:fileType]) // Only plain text
     {
         fileData = [NSData dataWithContentsOfURL:self.url
                                          options:NSDataReadingMappedIfSafe
                                            error:&err];
         self.loadType = kXXWebViewLoadTypePlain;
-    }
-    else if ([[[self class] plistWebViewFileExtensions] existsString:fileType])
+    } else if ([[[self class] plistWebViewFileExtensions] existsString:fileType]) // Trans to plist
     {
         NSData *tData = [NSData dataWithContentsOfURL:self.url
-                                         options:NSDataReadingMappedIfSafe
-                                           error:&err];
+                                              options:NSDataReadingMappedIfSafe
+                                                error:&err];
         if (tData) {
-            fileData = [[tData plistString] dataUsingEncoding:NSUTF8StringEncoding];
-            if (!fileData) {
-                NSString *fileName = [self.url lastPathComponent];
+            fileString = [tData plistString];
+            if (!fileString) {
                 err = [NSError errorWithDomain:kXXWebViewErrorDomain
                                           code:0
                                       userInfo:@{
@@ -71,9 +82,53 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
             }
         }
         self.loadType = kXXWebViewLoadTypePlist;
+    } else {
+        self.loadType = kXXWebViewLoadTypeCode;
     }
     
-    if (fileData == nil)
+    if (self.loadType == kXXWebViewLoadTypePlist ||
+        self.loadType == kXXWebViewLoadTypeCode) // Code Highlight
+    {
+        NSString *htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/code" ofType:@"html"]
+                                                           encoding:NSUTF8StringEncoding
+                                                              error:&err];
+        if (err == nil) {
+            NSString *originalString = nil;
+            if (fileData) {
+                originalString = [[[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding] stringByEscapingHTML];
+                fileData = nil;
+            } else if (fileString) {
+                // Nothing to do
+            } else {
+                fileString = [NSString stringWithContentsOfURL:self.url
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:&err];
+            }
+            if (fileString) {
+                originalString = [fileString stringByEscapingHTML];
+                fileString = nil;
+            }
+            if (err == nil) {
+                htmlTemplate = [htmlTemplate stringByReplacingOccurrencesOfString:@"{{ title }}" withString:fileName];
+                htmlTemplate = [htmlTemplate stringByReplacingOccurrencesOfString:@"{{ code }}" withString:originalString];
+                fileString = htmlTemplate;
+            }
+        }
+    }
+    
+    if (fileData != nil)
+    {
+        [self.webView loadData:fileData
+                      MIMEType:@"text/plain"
+              textEncodingName:@"UTF-8"
+                       baseURL:self.baseUrl]; // Text Encoding
+    }
+    else if (fileString != nil)
+    {
+        [self.webView loadHTMLString:fileString
+                             baseURL:self.baseUrl];
+    }
+    else
     {
         if (err != nil) {
             [self.navigationController.view makeToast:[err localizedDescription]];
@@ -81,13 +136,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
         }
         NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
         [self.webView loadRequest:request];
-    }
-    else
-    {
-        [self.webView loadData:fileData
-                      MIMEType:@"text/plain"
-              textEncodingName:@"UTF-8"
-                       baseURL:self.url]; // Text Encoding
     }
 }
 
@@ -121,6 +169,10 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 }
 
 #pragma mark - Getters
+
+- (NSURL *)baseUrl {
+    return [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"XXTReferences.bundle"];
+}
 
 - (NJKWebViewProgress *)progressProxy {
     if (!_progressProxy) {
@@ -239,11 +291,15 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 #pragma mark - File Types
 
 + (NSArray <NSString *> *)supportedFileType {
+    NSMutableArray *supportedFileType = [NSMutableArray new];
+    [supportedFileType addObjectsFromArray:[self documentWebViewFileExtensions]];
+    [supportedFileType addObjectsFromArray:[self logWebViewFileExtensions]];
+    [supportedFileType addObjectsFromArray:[self plistWebViewFileExtensions]];
+    return [supportedFileType copy];
+}
+
++ (NSArray <NSString *> *)documentWebViewFileExtensions {
     return @[
-             @"txt",
-             @"log",
-             @"syslog",
-             @"ips",
              @"html",
              @"htm",
              @"rtf",
@@ -259,7 +315,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
              @"numbers",
              @"svg",
              @"epub",
-             @"plist"
              ];
 }
 
@@ -269,10 +324,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 + (NSArray <NSString *> *)plistWebViewFileExtensions {
     return @[ @"plist" ];
-}
-
-+ (NSArray <NSString *> *)codeWebViewFileExtensions { // Syntax highlighter
-    return @[ ];
 }
 
 @end

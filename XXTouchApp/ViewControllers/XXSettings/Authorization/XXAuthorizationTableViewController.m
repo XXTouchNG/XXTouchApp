@@ -88,7 +88,8 @@ enum {
     NSMutableString *intervalString = [[NSMutableString alloc] init];
     NSTimeInterval interval = [[[XXLocalDataService sharedInstance] expirationDate] timeIntervalSinceDate:[[XXLocalDataService sharedInstance] nowDate]];
     int intervalDay = (int)floor(interval / 86400);
-    if (intervalDay != 0) {
+    if (intervalDay != 0)
+    {
         [intervalString appendFormat:NSLocalizedString(@"%d Day(s) ", nil), intervalDay];
     }
     int intervalHour = (int)floor((interval - intervalDay * 86400) / 3600);
@@ -109,7 +110,8 @@ enum {
 }
 
 - (IBAction)submit:(id)sender {
-    if ([self.authorizationField isFirstResponder]) {
+    if ([self.authorizationField isFirstResponder])
+    {
         [self.authorizationField resignFirstResponder];
     }
     __block NSString *codeText = self.authorizationField.text;

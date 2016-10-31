@@ -72,7 +72,7 @@ enum {
             documentUrl = DOCUMENT_OPEN_API_REFERENCE;
         } else if (indexPath.row == kCodeSnippetReferenceIndex) {
             viewController.title = NSLocalizedString(@"Code Snippet Reference", nil);
-            documentUrl = [[NSBundle mainBundle] pathForResource:@"code-snippet-reference" ofType:@"html"];
+            documentUrl = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/code-snippet-reference" ofType:@"html"];
             fileUrl = YES;
         }
         if (fileUrl) {

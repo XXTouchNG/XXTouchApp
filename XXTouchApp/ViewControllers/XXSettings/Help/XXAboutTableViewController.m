@@ -128,19 +128,19 @@ enum {
 - (void)openUserAgreement {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
     viewController.title = NSLocalizedString(@"User Agreement", nil);
-    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"tos" ofType:@"html"]];
+    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/tos" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)openThirdParty {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
     viewController.title = NSLocalizedString(@"Third Party Credits", nil);
-    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"open" ofType:@"html"]];
+    viewController.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/open" ofType:@"html"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)openCydia {
-    NSURL *cydiaURL = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://apt.xxtouch.com/&package=com.1func.xxtouch.ios"];
+    NSURL *cydiaURL = [NSURL URLWithString:CYDIA_URL];
     if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
         [[UIApplication sharedApplication] openURL:cydiaURL];
     } else {
@@ -149,7 +149,7 @@ enum {
 }
 
 - (void)openQQGroup {
-    NSURL *qqURL = [NSURL URLWithString:@"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=40898074&card_type=group&source=external"];
+    NSURL *qqURL = [NSURL URLWithString:SERVICE_URL];
     if ([[UIApplication sharedApplication] canOpenURL:qqURL]) {
         [[UIApplication sharedApplication] openURL:qqURL];
     } else {

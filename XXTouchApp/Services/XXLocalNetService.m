@@ -214,7 +214,10 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)localGetDeviceAuthInfoWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"device_auth_info" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"expireDate"] unsignedIntegerValue]]];
+        NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
+        if (expirationInterval > 0) {
+            [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+        }
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -234,7 +237,10 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     [sendDict setObject:checkStr forKey:@"sign"];
     NSDictionary *result = [self sendRemoteSynchronousRequest:@"device_info" withForm:sendDict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"expireDate"] unsignedIntegerValue]]];
+        NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
+        if (expirationInterval > 0) {
+            [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+        }
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -276,8 +282,12 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     [sendDict setObject:checkStr forKey:@"sign"];
     NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code_with_device" withForm:sendDict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"expireDate"] unsignedIntegerValue]]];
-        [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:[result[@"data"][@"nowDate"] unsignedIntegerValue]]];
+        NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
+        NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
+        if (expirationInterval > 0 || nowInterval > 0) {
+            [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+            [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
+        }
         return YES;
     }
     else

@@ -65,7 +65,7 @@
 
 - (BOOL)isEditable {
     if (!self.canOperate) return NO;
-    return [XXQuickLookService isEditableFileExtension:[self.itemAttrs[kXXItemPathKey] pathExtension]];
+    return YES;
 }
 
 - (BOOL)canOperate {

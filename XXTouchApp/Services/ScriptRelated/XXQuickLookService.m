@@ -70,22 +70,6 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
     return @[ @"xxt", @"lua" ];
 }
 
-+ (NSArray <NSString *> *)editableFileExtensions {
-    NSMutableArray *editableFileExtensions = [NSMutableArray new];
-    [editableFileExtensions addObjectsFromArray:[self textEditorFileExtensions]];
-    return [editableFileExtensions copy];
-}
-
-+ (NSArray <NSString *> *)viewableFileExtensions {
-    NSMutableArray *viewableFileExtensions = [NSMutableArray new];
-    [viewableFileExtensions addObjectsFromArray:[self imageFileExtensions]];
-    [viewableFileExtensions addObjectsFromArray:[self mediaFileExtensions]];
-    [viewableFileExtensions addObjectsFromArray:[self webViewFileExtensions]];
-    [viewableFileExtensions addObjectsFromArray:[self archiveFileExtensions]];
-    
-    return [viewableFileExtensions copy];
-}
-
 #pragma mark - Common Viewers
 
 + (NSArray <NSString *> *)imageFileExtensions
@@ -130,16 +114,6 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
     return [[self selectableFileExtensions] existsString:fileExt];
 }
 
-+ (BOOL)isEditableFileExtension:(NSString *)ext {
-    NSString *fileExt = [ext lowercaseString];
-    return [[self editableFileExtensions] existsString:fileExt];
-}
-
-+ (BOOL)isViewableFileExtension:(NSString *)ext {
-    NSString *fileExt = [ext lowercaseString];
-    return [[self viewableFileExtensions] existsString:fileExt];
-}
-
 #pragma mark - Viewers
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
@@ -169,38 +143,46 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
             AVPlayer *player = [[AVPlayer alloc] initWithURL:sourceMovieURL];
             AVPlayerViewController *moviePlayer = [[AVPlayerViewController alloc] init];
             moviePlayer.player = player;
-            [viewController.navigationController presentViewController:moviePlayer animated:YES completion:^() {
-                [player play];
-            }];
+            [viewController.navigationController presentViewController:moviePlayer animated:YES completion:nil];
         }
         return YES;
     }
-    else if ([[XXWebViewController supportedFileType] existsString:fileExt])
-    { // Web View File
+//    else
+//        if ([[XXWebViewController supportedFileType] existsString:fileExt])
+//    { // Web View File
         XXEmptyNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
         XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
         webController.url = [NSURL fileURLWithPath:filePath];
         webController.title = [filePath lastPathComponent];
         [viewController.navigationController presentViewController:navController animated:YES completion:nil];
         return YES;
-    }
-    return NO;
+//    }
+//    else
+//    { // Not supported
+    
+//    }
+//    return NO;
 }
 
 #pragma mark - Editors
 
 + (BOOL)editFileWithStandardEditor:(NSString *)filePath
-              parentViewController:(UIViewController *)viewController {
-    NSString *fileExt = [[filePath pathExtension] lowercaseString];
-    if ([[XXBaseTextEditorViewController supportedFileType] existsString:fileExt])
-    { // Text File
+              parentViewController:(UIViewController *)viewController
+{
+//    NSString *fileExt = [[filePath pathExtension] lowercaseString];
+//    if ([[XXBaseTextEditorViewController supportedFileType] existsString:fileExt])
+//    { // Text Editor
         XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
         baseController.filePath = filePath;
         baseController.title = [filePath lastPathComponent];
         [viewController.navigationController pushViewController:baseController animated:YES];
         return YES;
-    }
-    return NO;
+//    }
+//    else
+//    { // Not supported
+    
+//    }
+//    return NO;
 }
 
 @end
