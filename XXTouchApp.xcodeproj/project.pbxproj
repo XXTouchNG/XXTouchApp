@@ -172,6 +172,8 @@
 		0FF5285A1D9E0B47000A0FBE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF528591D9E0B47000A0FBE /* CoreLocation.framework */; };
 		0FFB86671DADBD8A00C5AF87 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFB86661DADBD8A00C5AF87 /* CoreGraphics.framework */; };
 		0FFB86691DADBDF400C5AF87 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFB86681DADBDF400C5AF87 /* QuartzCore.framework */; };
+		0FFC76CB1DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC76CA1DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.m */; };
+		0FFC76CE1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC76CD1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.m */; };
 		0FFE881B1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE881A1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m */; };
 		B9DBF5BDBBFC4E8EF398289E /* libPods-XXTouchApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAF459ED010F8DE160C82EA /* libPods-XXTouchApp.a */; };
 /* End PBXBuildFile section */
@@ -497,6 +499,10 @@
 		0FF528591D9E0B47000A0FBE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0FFB86661DADBD8A00C5AF87 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0FFB86681DADBDF400C5AF87 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0FFC76C91DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorSettingsTableViewController.h; sourceTree = "<group>"; };
+		0FFC76CA1DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorSettingsTableViewController.m; sourceTree = "<group>"; };
+		0FFC76CC1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorFontSettingsTableViewController.h; sourceTree = "<group>"; };
+		0FFC76CD1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorFontSettingsTableViewController.m; sourceTree = "<group>"; };
 		0FFE88191D9B598A00F559A2 /* XXCodeBlockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockTableViewCell.h; sourceTree = "<group>"; };
 		0FFE881A1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockTableViewCell.m; sourceTree = "<group>"; };
 		6A32183C509C99D78171BEA1 /* Pods-XXTouchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXTouchApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -705,6 +711,7 @@
 		0F58A41E1D90B95F0013806C /* Lite */ = {
 			isa = PBXGroup;
 			children = (
+				0FFC76C81DC8CF7A008AAA2D /* Settings */,
 				0F28B4A41DB9EF510007CE4E /* ICTextView */,
 				0F0FA8F51D9983F5009FD2F8 /* CYRTextView */,
 				0F06A8D21D937F8900BAA589 /* Keyboard */,
@@ -1335,6 +1342,17 @@
 			path = "zh-Hant.lproj";
 			sourceTree = "<group>";
 		};
+		0FFC76C81DC8CF7A008AAA2D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0FFC76C91DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.h */,
+				0FFC76CA1DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.m */,
+				0FFC76CC1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.h */,
+				0FFC76CD1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1591,12 +1609,14 @@
 				0FC7BCA41DB3EC440073D900 /* XXResizeControl.m in Sources */,
 				0FB611951DC771FC00745BD1 /* lobject.c in Sources */,
 				0F5DDE191D81496800BC4BDE /* XXToolbar.m in Sources */,
+				0FFC76CE1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.m in Sources */,
 				0F0FA9011D9983F5009FD2F8 /* CYRToken.m in Sources */,
 				0F5DDE241D8149B100BC4BDE /* XXDocumentsTableViewController.m in Sources */,
 				0FB611921DC771FC00745BD1 /* lmathlib.c in Sources */,
 				0FCA14991DC63A6D0058D654 /* NSData+plistData.m in Sources */,
 				0FC7BCC21DB3EC630073D900 /* XXCodeBlockNavigationController.m in Sources */,
 				0F28B4AC1DB9EF510007CE4E /* ICRangeUtils.m in Sources */,
+				0FFC76CB1DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.m in Sources */,
 				0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */,
 				0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */,
 				0FDEFCE61DB45D2E00825931 /* NSString+countSubstr.m in Sources */,

@@ -235,3 +235,4 @@ Hide = "隱藏";
 "Application Preference" = "應用程式設置";
 "Service Preference" = "守護進程設置";
 "Failed to load property list \"%@\"" = "無法加載屬性表 \"%@\"";
+"This document is read-only" = "該文檔處於只讀模式";

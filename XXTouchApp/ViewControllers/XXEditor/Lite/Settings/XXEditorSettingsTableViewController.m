@@ -1,0 +1,100 @@
+//
+//  XXEditorSettingsTableViewController.m
+//  XXTouchApp
+//
+//  Created by Zheng on 01/11/2016.
+//  Copyright © 2016 Zheng. All rights reserved.
+//
+
+#import "XXEditorSettingsTableViewController.h"
+#import "XXLocalDataService.h"
+#import "XXEditorFontSettingsTableViewController.h"
+
+@interface XXEditorSettingsTableViewController ()
+<XXEditorFontSettingsTableViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *fontNameLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *lineNumbersSwitch;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *tabWidthControl;
+@property (weak, nonatomic) IBOutlet UISwitch *softTabsSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *readOnlySwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *autoCorrectionSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *autoCapitalizationSwitch;
+
+@end
+
+@implementation XXEditorSettingsTableViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.clearsSelectionOnViewWillAppear = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadSettings];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)loadSettings {
+    self.fontNameLabel.text = [[XXLocalDataService sharedInstance] fontFamilyName];
+    
+    self.lineNumbersSwitch.on = [[XXLocalDataService sharedInstance] lineNumbersEnabled];
+    self.softTabsSwitch.on = [[XXLocalDataService sharedInstance] softTabsEnabled];
+    self.readOnlySwitch.on = [[XXLocalDataService sharedInstance] readOnlyEnabled];
+    self.autoCorrectionSwitch.on = [[XXLocalDataService sharedInstance] autoCorrectionEnabled];
+    self.autoCapitalizationSwitch.on = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled];
+    
+    self.tabWidthControl.selectedSegmentIndex = [[XXLocalDataService sharedInstance] tabWidth];
+}
+
+- (IBAction)lineNumbersChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setLineNumbersEnabled:sender.on]; [self notifyChangedInSection:1];
+}
+
+- (IBAction)tabWidthChanged:(UISegmentedControl *)sender {
+    [[XXLocalDataService sharedInstance] setTabWidth:sender.selectedSegmentIndex]; [self notifyChangedInSection:2];
+}
+
+- (IBAction)softTabsChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setSoftTabsEnabled:sender.on]; [self notifyChangedInSection:2];
+}
+
+- (IBAction)readOnlyChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setReadOnlyEnabled:sender.on]; [self notifyChangedInSection:3];
+}
+
+- (IBAction)autoCorrectionChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setAutoCorrectionEnabled:sender.on]; [self notifyChangedInSection:3];
+}
+
+- (IBAction)autoCapitalizationChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setAutoCapitalizationEnabled:sender.on]; [self notifyChangedInSection:3];
+}
+
+- (void)notifyChangedInSection:(NSUInteger)section {
+    if (_delegate && [_delegate respondsToSelector:@selector(editorSettingsDidEdited:inSection:)])
+    {
+        [_delegate editorSettingsDidEdited:self inSection:section];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    XXEditorFontSettingsTableViewController *fontController = (XXEditorFontSettingsTableViewController *)segue.destinationViewController;
+    fontController.delegate = self;
+}
+
+- (void)editorFontSettingsDidEdited:(XXEditorFontSettingsTableViewController *)controller {
+    self.fontNameLabel.text = [[XXLocalDataService sharedInstance] fontFamilyName];
+    [self notifyChangedInSection:0];
+}
+
+#warning Not implemented - Font Size
+
+- (void)dealloc {
+    CYLog(@"");
+}
+
+@end

@@ -35,6 +35,14 @@ static NSString * const kXXStorageKeyPressConfigHoldVolumeDown = @"kXXStorageKey
 static NSString * const kXXStorageKeyPressConfigPressVolumeUp = @"kXXStorageKeyPressConfigPressVolumeUp-1";
 static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKeyPressConfigPressVolumeDown-1";
 static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPath-1";
+static NSString * const kXXStorageKeyFontFamily = @"kXXStorageKeyFontFamily-1";
+static NSString * const kXXStorageKeyFontSize = @"kXXStorageKeyFontSize-1";
+static NSString * const kXXStorageKeyLineNumbersEnabled = @"kXXStorageKeyLineNumbersEnabled-1";
+static NSString * const kXXStorageKeyTabWidth = @"kXXStorageKeyTabWidth-1";
+static NSString * const kXXStorageKeySoftTabsEnabled = @"kXXStorageKeySoftTabsEnabled-1";
+static NSString * const kXXStorageKeyReadOnlyEnabled = @"kXXStorageKeyReadOnlyEnabled-1";
+static NSString * const kXXStorageKeyAutoCorrectionEnabled = @"kXXStorageKeyAutoCorrectionEnabled-1";
+static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKeyAutoCapitalizationEnabled-1";
 
 @interface XXLocalDataService () <
     JTSImageViewControllerInteractionsDelegate
@@ -62,10 +70,14 @@ static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPat
     return sharedInstance;
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (instancetype)initWithName:(NSString *)name {
+    if (self = [super initWithName:name]) {
         // Init Local Data Configure
-        
+        if (![self localUserConfig]) {
+            [self setLocalUserConfig:[[NSMutableDictionary alloc] initWithDictionary:@{
+                                                                                       kXXLocalConfigHidesMainPath: @YES
+                                                                                       }]];
+        }
     }
     return self;
 }
@@ -180,11 +192,6 @@ static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPat
 
 - (NSMutableDictionary *)localUserConfig {
     NSMutableDictionary *localUserConfig = (NSMutableDictionary *)[self objectForKey:kXXStorageKeyLocalUserConfig];
-    if (!localUserConfig) {
-        localUserConfig = [[NSMutableDictionary alloc] initWithDictionary:@{
-                                                                            kXXLocalConfigHidesMainPath: @YES
-                                                                            }];
-    }
     return localUserConfig;
 }
 
@@ -275,11 +282,11 @@ static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPat
 }
 
 - (kXXScriptListSortMethod)sortMethod {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeySortMethod] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeySortMethod] unsignedIntegerValue];
 }
 
 - (void)setSortMethod:(kXXScriptListSortMethod)sortMethod {
-    [self setObject:[NSNumber numberWithInteger:sortMethod] forKey:kXXStorageKeySortMethod];
+    [self setObject:[NSNumber numberWithUnsignedInteger:sortMethod] forKey:kXXStorageKeySortMethod];
 }
 
 - (BOOL)startUpConfigSwitch {
@@ -315,35 +322,35 @@ static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPat
 }
 
 - (kXXKeyPressConfig)keyPressConfigHoldVolumeUp {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigHoldVolumeUp] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigHoldVolumeUp] unsignedIntegerValue];
 }
 
 - (void)setKeyPressConfigHoldVolumeUp:(kXXKeyPressConfig)keyPressConfigHoldVolumeUp {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeUp] forKey:kXXStorageKeyPressConfigHoldVolumeUp];
+    [self setObject:[NSNumber numberWithUnsignedInteger:keyPressConfigHoldVolumeUp] forKey:kXXStorageKeyPressConfigHoldVolumeUp];
 }
 
 - (kXXKeyPressConfig)keyPressConfigHoldVolumeDown {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigHoldVolumeDown] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigHoldVolumeDown] unsignedIntegerValue];
 }
 
 - (void)setKeyPressConfigHoldVolumeDown:(kXXKeyPressConfig)keyPressConfigHoldVolumeDown {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigHoldVolumeDown] forKey:kXXStorageKeyPressConfigHoldVolumeDown];
+    [self setObject:[NSNumber numberWithUnsignedInteger:keyPressConfigHoldVolumeDown] forKey:kXXStorageKeyPressConfigHoldVolumeDown];
 }
 
 - (kXXKeyPressConfig)keyPressConfigPressVolumeUp {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigPressVolumeUp] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigPressVolumeUp] unsignedIntegerValue];
 }
 
 - (void)setKeyPressConfigPressVolumeUp:(kXXKeyPressConfig)keyPressConfigPressVolumeUp {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeUp] forKey:kXXStorageKeyPressConfigPressVolumeUp];
+    [self setObject:[NSNumber numberWithUnsignedInteger:keyPressConfigPressVolumeUp] forKey:kXXStorageKeyPressConfigPressVolumeUp];
 }
 
 - (kXXKeyPressConfig)keyPressConfigPressVolumeDown {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigPressVolumeDown] integerValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPressConfigPressVolumeDown] unsignedIntegerValue];
 }
 
 - (void)setKeyPressConfigPressVolumeDown:(kXXKeyPressConfig)keyPressConfigPressVolumeDown {
-    [self setObject:[NSNumber numberWithInteger:keyPressConfigPressVolumeDown] forKey:kXXStorageKeyPressConfigPressVolumeDown];
+    [self setObject:[NSNumber numberWithUnsignedInteger:keyPressConfigPressVolumeDown] forKey:kXXStorageKeyPressConfigPressVolumeDown];
 }
 
 - (NSArray <NSString *> *)randStrings {
@@ -381,6 +388,79 @@ static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPat
 
 - (void)setHidesMainPath:(BOOL)hidesMainPath {
     [self setObject:[NSNumber numberWithBool:hidesMainPath] forKey:kXXStorageKeyHidesMainPath];
+}
+
+- (kXXEditorFontFamily)fontFamily {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyFontFamily] unsignedIntegerValue];
+}
+
+- (void)setFontFamily:(kXXEditorFontFamily)fontFamily {
+    [self setObject:[NSNumber numberWithUnsignedInteger:fontFamily] forKey:kXXStorageKeyFontFamily];
+}
+
+- (NSString *)fontFamilyName {
+    if (self.fontFamily == kXXEditorFontFamilyCourierNew) {
+        return @"Courier New";
+    } else if (self.fontFamily == kXXEditorFontFamilyMenlo) {
+        return @"Menlo";
+    }
+    return @"";
+}
+
+- (CGFloat)fontSize {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyFontSize] floatValue];
+}
+
+- (void)setFontSize:(CGFloat)fontSize {
+    [self setObject:[NSNumber numberWithFloat:fontSize] forKey:kXXStorageKeyFontSize];
+}
+
+- (BOOL)lineNumbersEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyLineNumbersEnabled] boolValue];
+}
+
+- (void)setLineNumbersEnabled:(BOOL)lineNumbersEnabled {
+    [self setObject:[NSNumber numberWithBool:lineNumbersEnabled] forKey:kXXStorageKeyLineNumbersEnabled];
+}
+
+- (NSUInteger)tabWidth {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyTabWidth] unsignedIntegerValue];
+}
+
+- (void)setTabWidth:(NSUInteger)tabWidth {
+    [self setObject:[NSNumber numberWithUnsignedInteger:tabWidth] forKey:kXXStorageKeyTabWidth];
+}
+
+- (BOOL)softTabsEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeySoftTabsEnabled] boolValue];
+}
+
+- (void)setSoftTabsEnabled:(BOOL)softTabsEnabled {
+    [self setObject:[NSNumber numberWithBool:softTabsEnabled] forKey:kXXStorageKeySoftTabsEnabled];
+}
+
+- (BOOL)readOnlyEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyReadOnlyEnabled] boolValue];
+}
+
+- (void)setReadOnlyEnabled:(BOOL)readOnlyEnabled {
+    [self setObject:[NSNumber numberWithBool:readOnlyEnabled] forKey:kXXStorageKeyReadOnlyEnabled];
+}
+
+- (BOOL)autoCorrectionEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyAutoCorrectionEnabled] boolValue];
+}
+
+- (void)setAutoCorrectionEnabled:(BOOL)autoCorrectionEnabled {
+    [self setObject:[NSNumber numberWithBool:autoCorrectionEnabled] forKey:kXXStorageKeyAutoCorrectionEnabled];
+}
+
+- (BOOL)autoCapitalizationEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyAutoCapitalizationEnabled] boolValue];
+}
+
+- (void)setAutoCapitalizationEnabled:(BOOL)autoCapitalizationEnabled {
+    [self setObject:[NSNumber numberWithBool:autoCapitalizationEnabled] forKey:kXXStorageKeyAutoCapitalizationEnabled];
 }
 
 @end

@@ -31,10 +31,6 @@
     self.font = _defaultFont;
     self.textColor = [UIColor colorWithWhite:.33f alpha:1.f];
     self.backgroundColor = [UIColor colorWithRGB:0xfefefe];
-    
-    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(defaultFont)) options:NSKeyValueObservingOptionNew context:0];
-    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(boldFont)) options:NSKeyValueObservingOptionNew context:0];
-    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(italicFont)) options:NSKeyValueObservingOptionNew context:0];
 }
 
 - (void)setHighlightLuaSymbols:(BOOL)highlightLuaSymbols {
@@ -135,34 +131,9 @@
     return solverTokens;
 }
 
-
-#pragma mark - Cleanup
-
-- (void)dealloc
-{
-    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(defaultFont))];
-    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(boldFont))];
-    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(italicFont))];
+- (void)resetTokens {
+    self.tokens = [self solverTokens];
 }
-
-
-#pragma mark - KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:NSStringFromSelector(@selector(defaultFont))] ||
-        [keyPath isEqualToString:NSStringFromSelector(@selector(boldFont))] ||
-        [keyPath isEqualToString:NSStringFromSelector(@selector(italicFont))])
-    {
-        // Reset the tokens, this will clear any existing formatting
-        self.tokens = [self solverTokens];
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
 
 #pragma mark - Overrides
 

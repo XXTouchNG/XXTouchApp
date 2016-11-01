@@ -27,10 +27,6 @@
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
 
-enum {
-    kXXScriptListCellSection = 0,
-};
-
 @interface XXScriptListTableViewController ()
 <
 UITableViewDelegate,
@@ -278,20 +274,6 @@ UISearchDisplayDelegate
     
     // Items Combining
     NSMutableArray *attrArr = [[NSMutableArray alloc] init];
-    if (self.hidesMainPath == NO && self.isRootDirectory) {
-        NSError *err = nil;
-        NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
-        if (rootPath) {
-            NSDictionary *iAttrs = [FCFileManager attributesOfItemAtPath:rootPath
-                                                                          error:&err];
-            NSMutableDictionary *iMAttrs = [[NSMutableDictionary alloc] initWithDictionary:iAttrs];
-            iMAttrs[kXXItemRealPathKey] = rootPath;
-            iMAttrs[kXXItemPathKey] = rootPath;
-            iMAttrs[kXXItemNameKey] = NSLocalizedString(@"Home Directory", nil);
-            iMAttrs[kXXItemSpecialKey] = kXXItemSpecialValueHome;
-            [attrArr addObject:iMAttrs];
-        }
-    }
     
     [attrArr addObjectsFromArray:dirArr];
     [attrArr addObjectsFromArray:fileArr];
@@ -312,13 +294,20 @@ UISearchDisplayDelegate
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == kXXScriptListCellSection) {
+    if (section == 0) {
+        if (self.isRootDirectory && self.hidesMainPath == NO) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else if (section == 1) {
         return self.rootItemsDictionaryArr.count;
     }
+    
     return 0;
 }
 
@@ -327,30 +316,60 @@ UISearchDisplayDelegate
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return self.relativePath;
+    if (section == 1) {
+        return self.relativePath;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 0;
+    }
+    return 24.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    NSString *displayPath = [self.relativePath mutableCopy];
-    if (displayPath.length == 0) {
-        displayPath = @"/";
+    if (section == 1) {
+        NSString *displayPath = [self.relativePath mutableCopy];
+        if (displayPath.length == 0) {
+            displayPath = @"/";
+        }
+        XXInsetsLabel *sectionNameLabel = [[XXInsetsLabel alloc] init];
+        sectionNameLabel.text = displayPath;
+        sectionNameLabel.textColor = [UIColor blackColor];
+        sectionNameLabel.backgroundColor = [UIColor colorWithWhite:.96f alpha:.9f];
+        sectionNameLabel.font = [UIFont italicSystemFontOfSize:14.f];
+        sectionNameLabel.edgeInsets = UIEdgeInsetsMake(0, 12.f, 0, 12.f);
+        sectionNameLabel.numberOfLines = 1;
+        sectionNameLabel.lineBreakMode = NSLineBreakByTruncatingHead;
+        [sectionNameLabel sizeToFit];
+        return sectionNameLabel;
+    } else {
+        return nil;
     }
-    XXInsetsLabel *sectionNameLabel = [[XXInsetsLabel alloc] init];
-    sectionNameLabel.text = displayPath;
-    sectionNameLabel.textColor = [UIColor blackColor];
-    sectionNameLabel.backgroundColor = [UIColor colorWithWhite:.96f alpha:.9f];
-    sectionNameLabel.font = [UIFont italicSystemFontOfSize:14.f];
-    sectionNameLabel.edgeInsets = UIEdgeInsetsMake(0, 12.f, 0, 12.f);
-    sectionNameLabel.numberOfLines = 1;
-    sectionNameLabel.lineBreakMode = NSLineBreakByTruncatingHead;
-    [sectionNameLabel sizeToFit];
-    return sectionNameLabel;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
     
-    NSDictionary *attrs = self.rootItemsDictionaryArr[(NSUInteger) indexPath.row];
+    NSDictionary *attrs = nil;
+    if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
+        NSError *err = nil;
+        NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
+        if (rootPath) {
+            NSDictionary *iAttrs = [FCFileManager attributesOfItemAtPath:rootPath
+                                                                   error:&err];
+            NSMutableDictionary *iMAttrs = [[NSMutableDictionary alloc] initWithDictionary:iAttrs];
+            iMAttrs[kXXItemRealPathKey] = rootPath;
+            iMAttrs[kXXItemPathKey] = rootPath;
+            iMAttrs[kXXItemNameKey] = NSLocalizedString(@"Home Directory", nil);
+            iMAttrs[kXXItemSpecialKey] = kXXItemSpecialValueHome;
+            attrs = [iMAttrs copy];
+        }
+    } else {
+        attrs = self.rootItemsDictionaryArr[(NSUInteger) indexPath.row];
+    }
     
     cell.itemAttrs = attrs;
     cell.selectBootscript = self.selectBootscript;
@@ -513,7 +532,7 @@ UISearchDisplayDelegate
     if (self.isEditing == NO && recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-        if (self.hidesMainPath == NO && self.isRootDirectory && indexPath.row == 0) {
+        if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
             XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
             [cell becomeFirstResponder];
             UIMenuController *menuController = [UIMenuController sharedMenuController];
@@ -540,12 +559,12 @@ UISearchDisplayDelegate
 }
 
 - (void)hideItemTapped:(id)sender {
-    if (self.isRootDirectory) {
+    if (self.isRootDirectory && self.hidesMainPath == NO) {
         NSMutableDictionary *dict = [[XXLocalDataService sharedInstance] localUserConfig];
         [dict setObject:@YES forKey:kXXLocalConfigHidesMainPath];
         [[XXLocalDataService sharedInstance] setLocalUserConfig:dict];
+        
         [self.tableView beginUpdates];
-        [self reloadScriptListTableData];
         [self.tableView deleteRow:0 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView endUpdates];
         [self.navigationController.view makeToast:NSLocalizedString(@"\"Home Directory\" has been disabled, you can make it display again in \"More > User Defaults\".", nil)];
@@ -666,14 +685,14 @@ UISearchDisplayDelegate
     if (_selectBootscript) {
         return NO;
     }
-    if (self.hidesMainPath == NO && self.isRootDirectory && indexPath.row == 0) {
+    if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
         return NO;
     }
     return YES;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if (self.isEditing && self.hidesMainPath == NO && self.isRootDirectory && indexPath.row == 0) {
+    if (indexPath.section == 0 && indexPath.row == 0 && self.isEditing && self.isRootDirectory && self.hidesMainPath == NO) {
         return nil;
     }
     return indexPath;

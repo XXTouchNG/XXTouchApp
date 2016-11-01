@@ -21,6 +21,7 @@
 @property (nonatomic, assign) CGFloat topMargin;
 @property (nonatomic, assign) CGFloat buttonSpacing;
 @property (nonatomic, assign) CGFloat buttonWidth;
+@property (nonatomic, strong) NSMutableArray <XXKeyboardButton *> *buttons;
 
 @end
 
@@ -75,6 +76,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _leftMargin = (_barWidth - _buttonWidth * _buttonCount - _buttonSpacing * (_buttonCount - 1)) / 2;
+    self.buttons = [NSMutableArray new];
     for (int i = 0; i < _buttonCount; i++) {
         XXKeyboardButton *keyboardButton = [[XXKeyboardButton alloc] initWithFrame:CGRectMake(_leftMargin + i * (_buttonSpacing + _buttonWidth), _topMargin + (_barHeight - _buttonHeight) / 2, _buttonWidth, _buttonHeight)];
         keyboardButton.style = self.style;
@@ -83,6 +85,14 @@
         keyboardButton.translatesAutoresizingMaskIntoConstraints = NO;
         keyboardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self addSubview:keyboardButton];
+        [self.buttons addObject:keyboardButton];
+    }
+}
+
+- (void)setTabString:(NSString *)tabString {
+    _tabString = tabString;
+    for (XXKeyboardButton *btn in self.buttons) {
+        btn.tabString = tabString;
     }
 }
 

@@ -14,4 +14,5 @@
 @property (nonatomic, strong) UIFont *boldFont;
 @property (nonatomic, strong) UIFont *italicFont;
 
+- (void)resetTokens;
 @end

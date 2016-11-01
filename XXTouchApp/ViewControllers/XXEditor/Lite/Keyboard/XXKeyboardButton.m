@@ -412,7 +412,7 @@
     
     if (_output != nil) {
         if (_tabButton) {
-            [self insertText:@"\t"];
+            [self insertText:self.tabString];
         } else if (_trackPoint) {
             if (_selecting) {
                 [self selectionComplete];
@@ -456,6 +456,13 @@
     [color setFill];
     [roundedRectanglePath fill];
     CGContextRestoreGState(context);
+}
+
+- (NSString *)tabString {
+    if (!_tabString) {
+        _tabString = @"\t";
+    }
+    return _tabString;
 }
 
 @end

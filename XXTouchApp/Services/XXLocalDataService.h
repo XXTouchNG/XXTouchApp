@@ -25,6 +25,11 @@ typedef enum : NSUInteger {
     kXXKeyPressConfigNoAction,
 } kXXKeyPressConfig;
 
+typedef enum : NSUInteger {
+    kXXEditorFontFamilyCourierNew = 0,
+    kXXEditorFontFamilyMenlo = 1
+} kXXEditorFontFamily;
+
 static NSString * const kXXDeviceInfoSoftwareVersion = @"zeversion";
 static NSString * const kXXDeviceInfoSystemVersion = @"sysversion";
 static NSString * const kXXDeviceInfoDeviceType = @"devtype";
@@ -92,5 +97,15 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 - (NSString *)randString;
 
 @property (nonatomic, strong) NSArray <NSDictionary *> *bundles; // Cached
+
+@property (nonatomic, assign) kXXEditorFontFamily fontFamily; // Cached
+@property (nonatomic, copy, readonly) NSString *fontFamilyName; // Installed
+@property (nonatomic, assign) CGFloat fontSize; // Cached
+@property (nonatomic, assign) BOOL lineNumbersEnabled; // Cached
+@property (nonatomic, assign) NSUInteger tabWidth; // Cached
+@property (nonatomic, assign) BOOL softTabsEnabled; // Cached
+@property (nonatomic, assign) BOOL readOnlyEnabled; // Cached
+@property (nonatomic, assign) BOOL autoCorrectionEnabled; // Cached
+@property (nonatomic, assign) BOOL autoCapitalizationEnabled; // Cached
 
 @end

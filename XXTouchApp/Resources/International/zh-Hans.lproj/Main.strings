@@ -209,3 +209,16 @@
 "Nbj-35-yrm.title" = "位置";
 "f9U-Dh-Mm0.title" = "代码预览";
 "0ex-7C-e97.text" = "代码片段参考文档";
+"c80-Bx-tH4.title" = "编辑设置";
+"0cD-Ag-9fV.text" = "字体";
+"09t-g5-0hh.text" = "字号";
+"uvh-dc-cK3.text" = "显示行号";
+"2lY-wM-Mge.text" = "软缩进";
+"9FI-uX-baD.text" = "缩进宽度";
+"YZ3-BI-T3o.headerTitle" = "缩进";
+"p2I-bJ-Rro.headerTitle" = "键盘";
+"UrU-dd-i2E.text" = "只读模式";
+"67S-bT-9Gq.text" = "自动更正";
+"rGI-3g-7WW.text" = "首字母自动大写";
+"Vmo-4C-jIs.title" = "字体";
+"YZ3-BI-T3o.footerTitle" = "启用 \"软缩进\" 将在按下 Tab 键时插入指定数量的空格而不是缩进符 (\\t)。";

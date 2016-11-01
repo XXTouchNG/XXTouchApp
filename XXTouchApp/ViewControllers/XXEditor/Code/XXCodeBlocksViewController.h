@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "XXCodeBlockModel.h"
 
+static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCodeBlocksTableViewControllerStoryboardID";
+
 @interface XXCodeBlocksViewController : UIViewController
 @property (nonatomic, weak) UITextView *textInput;
 

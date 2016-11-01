@@ -10,6 +10,7 @@
 
 #import "XXBaseTextEditorViewController.h"
 #import "XXBaseTextEditorPropertiesTableViewController.h"
+#import "XXEditorSettingsTableViewController.h"
 #import "XXCodeBlockNavigationController.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXBaseTextView.h"
@@ -20,10 +21,14 @@
 #import "XXLuaVModel.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
-static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
-static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCodeBlocksTableViewControllerStoryboardID";
 
-@interface XXBaseTextEditorViewController () <UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate>
+@interface XXBaseTextEditorViewController ()
+<UITextViewDelegate,
+UIScrollViewDelegate,
+UIGestureRecognizerDelegate,
+UISearchBarDelegate,
+XXEditorSettingsTableViewControllerDelegate>
+
 @property (nonatomic, strong) UIView *fakeStatusBar;
 @property (nonatomic, strong) XXBaseTextView *textView;
 @property (nonatomic, copy) NSString *fileContent;
@@ -42,6 +47,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UIToolbar *searchToolBar;
+@property (nonatomic, strong) XXKeyboardRow *keyboardRow;
 
 @end
 
@@ -89,6 +95,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         NSError *err = nil;
         BOOL result = [self loadFileWithError:&err];
         dispatch_async_on_main_queue(^{
+            [self loadEditorSettings];
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
             if (!result) {
@@ -279,12 +286,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 - (UITextView *)textView {
     if (!_textView) {
-        UIFont *font = [UIFont fontWithName:@"CourierNewPSMT" size:14.0f];
-        
         XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds];
         textView.autocorrectionType = UITextAutocorrectionTypeNo;
         textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        textView.font = font;
         textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
         textView.alwaysBounceVertical = YES;
         textView.delegate = self;
@@ -297,13 +301,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         textView.circularSearch = YES;
         textView.scrollPosition = ICTextViewScrollPositionTop;
         textView.searchOptions = NSRegularExpressionCaseInsensitive;
-        
-        if (_isLuaCode) {
-            textView.highlightLuaSymbols = YES;
-            textView.inputAccessoryView = [[XXKeyboardRow alloc] initWithTextView:textView];
-        } else {
-            textView.highlightLuaSymbols = NO;
-        }
         _textView = textView;
     }
     return _textView;
@@ -359,6 +356,14 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         _shareItem = anotherButton;
     }
     return _shareItem;
+}
+
+- (XXKeyboardRow *)keyboardRow {
+    if (!_keyboardRow) {
+        XXKeyboardRow *keyboardRow = [[XXKeyboardRow alloc] initWithTextView:self.textView];
+        _keyboardRow = keyboardRow;
+    }
+    return _keyboardRow;
 }
 
 #pragma mark - UISearchBarDelegate
@@ -508,7 +513,9 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 }
 
 - (void)settings:(UIBarButtonItem *)sender {
-    [self.navigationController.view makeToast:NSLocalizedString(@"Advanced Settings are not provided to XXTouch App Lite", nil)];
+    XXEditorSettingsTableViewController *settingsController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
+    settingsController.delegate = self;
+    [self.navigationController pushViewController:settingsController animated:YES];
 }
 
 #pragma mark - Keyboard Events
@@ -674,6 +681,10 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 #pragma mark - Menu Actions
 
 - (void)menuActionCodeBlocks:(UIMenuItem *)sender {
+    if (self.textView.isEditable == NO) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"This document is read-only", nil)];
+        return;
+    }
     [self keyboardWillDismiss:nil];
     if ([_textView isFirstResponder]) {
         [_textView resignFirstResponder];
@@ -693,6 +704,83 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
 
 + (NSArray <NSString *> *)supportedFileType {
     return @[ @"lua", @"txt" ];
+}
+
+#pragma mark - Load Settings
+
+- (void)loadEditorSettings {
+    [self loadKeyboardSettings];
+    [self loadTabSettings];
+    [self loadLineNumberSettings];
+    [self loadFontSettings];
+}
+
+- (void)loadKeyboardSettings {
+    self.textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
+    self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeNone : UITextAutocapitalizationTypeWords;
+    
+    self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
+    if (self.textView.editable) {
+        if (self.textView.inputAccessoryView == nil)
+        {
+            self.textView.inputAccessoryView = self.keyboardRow;
+        }
+    } else {
+        self.textView.inputAccessoryView = nil;
+    }
+}
+
+- (void)loadTabSettings {
+    NSString *tabString = nil;
+    if ([[XXLocalDataService sharedInstance] softTabsEnabled]) {
+        NSArray <NSString *> *tabStringChoices = @[ @"  ", @"   ", @"    ", @"        " ];
+        NSUInteger choice = [[XXLocalDataService sharedInstance] tabWidth];
+        if (choice < tabStringChoices.count) {
+            tabString = tabStringChoices[choice];
+        }
+    } else {
+        tabString = @"\t";
+    }
+    [self.keyboardRow setTabString:tabString];
+}
+
+- (void)loadFontSettings {
+    // Mininum Font Size: 14.f
+    CGFloat fontSize = 14.f + [[XXLocalDataService sharedInstance] fontSize];
+#warning Not implemented - Font Size
+    kXXEditorFontFamily fontFamily = [[XXLocalDataService sharedInstance] fontFamily];
+    if (fontFamily == kXXEditorFontFamilyCourierNew) {
+        self.textView.defaultFont = [UIFont fontWithName:@"CourierNewPSMT" size:fontSize];
+        self.textView.boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:fontSize];
+        self.textView.italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:fontSize];
+    } else if (fontFamily == kXXEditorFontFamilyMenlo) {
+        self.textView.defaultFont = [UIFont fontWithName:@"Menlo" size:fontSize];
+        self.textView.boldFont = [UIFont fontWithName:@"Menlo-Bold" size:fontSize];
+        self.textView.italicFont = [UIFont fontWithName:@"Menlo-Italic" size:fontSize];
+    }
+    if (_isLuaCode) {
+        self.textView.highlightLuaSymbols = YES;
+    } else {
+        self.textView.highlightLuaSymbols = NO;
+    }
+}
+
+- (void)loadLineNumberSettings {
+    
+}
+
+- (void)editorSettingsDidEdited:(XXEditorSettingsTableViewController *)controller inSection:(NSUInteger)section {
+    switch (section) {
+        case 0: [self loadFontSettings]; break;
+        case 1:
+            [self loadLineNumberSettings];
+#warning Not implemented - Line Number
+            [self.navigationController.view makeToast:NSLocalizedString(@"Not implemented", nil)];
+            break;
+        case 2: [self loadTabSettings]; break;
+        case 3: [self loadKeyboardSettings]; break;
+        default: break;
+    }
 }
 
 @end

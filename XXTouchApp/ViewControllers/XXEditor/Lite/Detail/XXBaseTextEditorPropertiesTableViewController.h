@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXBaseTextEditorPropertiesTableViewControllerStoryboardID = @"kXXBaseTextEditorPropertiesTableViewControllerStoryboardID";
+
 @interface XXBaseTextEditorPropertiesTableViewController : UITableViewController
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *fileContent;

@@ -237,3 +237,4 @@ Hide = "隐藏";
 "Hide \"Main Directory\" entry" = "隐藏 \"主目录\" 入口";
 "Prevent \"Main Directory\" entry at the top of file explorer from showing" = "阻止文件管理器顶部 \"主目录\" 入口的显示";
 "Failed to load property list \"%@\"" = "无法加载属性表 \"%@\"";
+"This document is read-only" = "该文档处于只读模式";

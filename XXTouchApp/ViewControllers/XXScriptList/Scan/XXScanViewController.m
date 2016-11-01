@@ -521,19 +521,38 @@ static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXD
     if (jsonObj) {
         [self.navigationController.view hideToastActivity];
         if ([jsonObj isKindOfClass:[NSDictionary class]]) {
-            NSString *event = [jsonObj objectForKey:@"event"];
-            if ([event isEqualToString:@"bind_code"]) {
-                NSString *code = [jsonObj objectForKey:@"code"];
-                [self.navigationController.view makeToast:NSLocalizedString(@"Binding code", nil)];
-                [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
-            } else if ([event isEqualToString:@"down_script"]) {
-                [self.navigationController.view makeToast:NSLocalizedString(@"Download Task", nil)];
-                [self performSelector:@selector(confirmDownloadingTask:) withObject:jsonObj afterDelay:2.f];
+            NSString *event = jsonObj[@"event"];
+            if (event &&
+                [event isKindOfClass:[NSString class]]) {
+                if ([event isEqualToString:@"bind_code"]) {
+                    if (jsonObj[@"code"] &&
+                        [jsonObj[@"code"] isKindOfClass:[NSString class]] &&
+                        [jsonObj[@"code"] length] != 0) {
+                        NSString *code = jsonObj[@"code"];
+                        [self.navigationController.view makeToast:NSLocalizedString(@"Binding code", nil)];
+                        [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
+                        return;
+                    }
+                } else if ([event isEqualToString:@"down_script"]) {
+                    if (jsonObj[@"path"] &&
+                        [jsonObj[@"path"] isKindOfClass:[NSString class]] &&
+                        [jsonObj[@"path"] length] != 0 &&
+                        jsonObj[@"url"] &&
+                        [jsonObj[@"url"] isKindOfClass:[NSString class]] &&
+                        [jsonObj[@"url"] length] != 0
+                        )
+                    {
+                        [self.navigationController.view makeToast:NSLocalizedString(@"Download Task", nil)];
+                        [self performSelector:@selector(confirmDownloadingTask:) withObject:jsonObj afterDelay:2.f];
+                        return;
+                    }
+                }
             } else {
-                [self.navigationController.view makeToast:NSLocalizedString(@"Invalid event", nil)];
-                [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
+                
             }
         }
+        [self.navigationController.view makeToast:NSLocalizedString(@"Invalid event", nil)];
+        [self performSelector:@selector(continueScanning) withObject:nil afterDelay:2.f];
         return;
     }
     

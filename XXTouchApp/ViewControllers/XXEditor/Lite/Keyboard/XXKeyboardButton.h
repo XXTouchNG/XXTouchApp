@@ -23,5 +23,6 @@ typedef NS_ENUM(NSUInteger, XXKeyboardButtonPosition) {
 @property (nonatomic, copy) NSString *output;
 @property (nonatomic, weak) id<UITextInput> textInput;
 @property (nonatomic, assign) BOOL selecting;
+@property (nonatomic, copy) NSString *tabString;
 
 @end
