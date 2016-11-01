@@ -93,11 +93,11 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
             [self.navigationController.view hideToastActivity];
             if (!result) {
                 self.isLoaded = NO;
-                self.bottomBar.userInteractionEnabled = NO;
+                self.bottomBar.hidden = YES;
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
                 self.isLoaded = YES;
-                self.bottomBar.userInteractionEnabled = YES;
+                self.bottomBar.hidden = NO;
             }
         });
     });
@@ -344,7 +344,6 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
         
         UIToolbar *bottomBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - 44, self.view.width, 44)];
         bottomBar.barStyle = UIBarStyleDefault;
-        bottomBar.userInteractionEnabled = NO;
         [bottomBar setTintColor:STYLE_TINT_COLOR];
         [bottomBar setItems:myToolBarItems animated:YES];
         
@@ -498,7 +497,7 @@ static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCode
             }
         }
     }
-    [self.textView scrollRangeToVisible:NSMakeRange(index, 0)];
+    [self.textView scrollRangeToVisible:NSMakeRange(index, 0) consideringInsets:YES animated:YES];
 }
 
 - (void)statistics:(UIBarButtonItem *)sender {

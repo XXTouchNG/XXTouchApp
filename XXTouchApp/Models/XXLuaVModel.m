@@ -33,12 +33,14 @@ static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
     if (LUA_OK != load_stat) {
         const char *cErrString = lua_tostring(L, -1);
         NSString *errString = [NSString stringWithUTF8String:cErrString];
-        if (errString.length >= 11)
-            errString = [errString substringFromIndex:11];
-        NSDictionary *errDictionary = @{ NSLocalizedDescriptionKey: errString };
+        if (errString.length >= 12)
+            errString = [errString substringFromIndex:12];
+        NSDictionary *errDictionary = @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Syntax Error", nil),
+                                         NSLocalizedFailureReasonErrorKey: errString
+                                         };
         if (error)
             *error = [NSError errorWithDomain:kXXLuaVModelErrorDomain
-                                         code:load_stat
+                                         code:2
                                      userInfo:errDictionary];
         return NO;
     }
