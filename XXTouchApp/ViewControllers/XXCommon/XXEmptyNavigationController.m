@@ -8,10 +8,24 @@
 
 #import "XXEmptyNavigationController.h"
 
+@interface XXEmptyNavigationController ()
+@property (nonatomic, assign) BOOL fullscreenGuide;
+
+@end
+
 @implementation XXEmptyNavigationController
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [super setNavigationBarHidden:hidden animated:animated];
+    
+    if (hidden && !_fullscreenGuide) {
+        _fullscreenGuide = YES;
+        [self.view makeToast:NSLocalizedString(@"Triple touches to exit fullscreen", nil)];
+    }
 }
 
 @end

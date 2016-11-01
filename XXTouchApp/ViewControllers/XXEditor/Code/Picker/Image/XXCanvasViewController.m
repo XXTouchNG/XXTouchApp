@@ -39,8 +39,7 @@
     if ([self isNavigationBarHidden]) {
         return YES;
     }
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    return !UIInterfaceOrientationIsPortrait(orientation);
+    return [super prefersStatusBarHidden];
 }
 
 #pragma mark - Rotate

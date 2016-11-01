@@ -10,6 +10,7 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 #import "XXQuickLookService.h"
+#import "UMMobClick/MobClick.h"
 
 @implementation GlobalSettings
 
@@ -27,6 +28,7 @@
     if (self = [super init]) {
         [self setupStyle];
         [self setupMedia];
+        [self setupStatistics];
         [XXLocalDataService sharedInstance];
     }
     return self;
@@ -54,6 +56,13 @@
 
 - (void)setupMedia {
     
+}
+
+- (void)setupStatistics {
+    UMConfigInstance.appKey = UMENG_KEY;
+    UMConfigInstance.channelId = @"Cydia";
+    
+    [MobClick startWithConfigure:UMConfigInstance];
 }
 
 @end

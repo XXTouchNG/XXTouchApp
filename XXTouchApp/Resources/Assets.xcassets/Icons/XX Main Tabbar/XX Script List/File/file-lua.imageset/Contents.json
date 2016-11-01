@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "07.png",
+      "filename" : "file-lua@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "02.png",
+      "filename" : "file-lua@3x.png",
       "scale" : "3x"
     }
   ],

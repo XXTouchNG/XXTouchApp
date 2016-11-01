@@ -101,6 +101,13 @@ int cancelFlag = 0;
     [self reloadItemInfo];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (![_nameTextField isFirstResponder]) {
+        [_nameTextField becomeFirstResponder];
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([textField isFirstResponder]) {
         [textField resignFirstResponder];

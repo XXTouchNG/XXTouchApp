@@ -176,7 +176,7 @@ UISearchDisplayDelegate
         [XXLocalNetService localGetSelectedScriptWithError:&err];
         dispatch_async_on_main_queue(^{
             if (!result) {
-                if (self.isRootDirectory && !needsRespring()) {
+                if (self.isRootDirectory && isJailbroken() && !needsRespring()) {
                     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync Failure", nil)
                                                                      andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
                     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
@@ -379,8 +379,10 @@ UISearchDisplayDelegate
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
         if (cell.isSelectable) {
             @weakify(self);
-            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
+            [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
+                                                                icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
                                                      backgroundColor:[STYLE_TINT_COLOR colorWithAlphaComponent:1.f]
+                                                              insets:UIEdgeInsetsMake(0, 24, 0, 24)
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 [self setEditing:NO animated:YES];
@@ -415,6 +417,7 @@ UISearchDisplayDelegate
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil icon:[[UIImage imageNamed:@"action-edit"] imageByTintColor:[UIColor whiteColor]]
                                                      backgroundColor:[STYLE_TINT_COLOR colorWithAlphaComponent:.8f]
+                                                              insets:UIEdgeInsetsMake(0, 24, 0, 24)
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
@@ -431,6 +434,7 @@ UISearchDisplayDelegate
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-info"] imageByTintColor:[UIColor whiteColor]]
                                                      backgroundColor:[STYLE_TINT_COLOR colorWithAlphaComponent:.6f]
+                                                              insets:UIEdgeInsetsMake(0, 24, 0, 24)
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
@@ -447,6 +451,7 @@ UISearchDisplayDelegate
             [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                  icon:[[UIImage imageNamed:@"action-trash"] imageByTintColor:[UIColor whiteColor]]
                                                       backgroundColor:[UIColor colorWithRed:229.f/255.0f green:0.f/255.0f blue:15.f/255.0f alpha:1.f]
+                                                               insets:UIEdgeInsetsMake(0, 24, 0, 24)
                                                              callback:^BOOL(MGSwipeTableCell *sender) {
                                                                  @strongify(self);
                                                                  [self setEditing:NO animated:YES];

@@ -17,7 +17,7 @@
 
 static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
-@interface XXWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
+@interface XXWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NJKWebViewProgressView *progressView;
 @property (nonatomic, strong) NJKWebViewProgress *progressProxy;
@@ -35,13 +35,28 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     return UIStatusBarStyleLightContent;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    if (self.navigationController.isNavigationBarHidden) {
+        return YES;
+    }
+    return [super prefersStatusBarHidden];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.view addSubview:self.webView];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     [self loadWebView];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(tripleFingerTapped:)];
+    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.numberOfTouchesRequired = 3;
+    tapGesture.delegate = self;
+    [self.webView addGestureRecognizer:tapGesture];
 }
 
 - (void)loadWebView {
@@ -324,6 +339,13 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 + (NSArray <NSString *> *)plistWebViewFileExtensions {
     return @[ @"plist" ];
+}
+
+#pragma mark - UIGestureRecognizer
+
+- (void)tripleFingerTapped:(UITapGestureRecognizer *)gestureRecognizer
+{
+    [self.navigationController setNavigationBarHidden:![self.navigationController isNavigationBarHidden] animated:YES];
 }
 
 @end

@@ -20,5 +20,6 @@
 #define DOCUMENT_UPDATE_LOGS @"https://www.zybuluo.com/xxtouch/note/386289"
 #define DOCUMENT_DEVELOPER_REFERENCE @"https://www.zybuluo.com/xxtouch/note/370734"
 #define DOCUMENT_OPEN_API_REFERENCE @"https://www.zybuluo.com/xxtouch/note/386268"
+#define UMENG_KEY @"5817f40375ca353017000ff7"
 
 #endif /* UrlDefines_h */

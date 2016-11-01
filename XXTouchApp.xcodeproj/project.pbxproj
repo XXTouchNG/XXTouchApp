@@ -156,6 +156,11 @@
 		0FDEFCED1DB4604C00825931 /* XXRectPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCEC1DB4604C00825931 /* XXRectPickerController.m */; };
 		0FDEFCF01DB47BE300825931 /* XXPickerBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFCEF1DB47BE300825931 /* XXPickerBaseViewController.m */; };
 		0FE312831D963A0900AB895C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3127F1D963A0900AB895C /* Localizable.strings */; };
+		0FE36B1E1DC82C3D00E952B4 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */; };
+		0FE36B201DC82C5400E952B4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B1F1DC82C5400E952B4 /* CoreTelephony.framework */; };
+		0FE36B221DC82C5F00E952B4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B211DC82C5F00E952B4 /* libz.tbd */; };
+		0FE36B241DC82C6D00E952B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B231DC82C6D00E952B4 /* libsqlite3.tbd */; };
+		0FE36B261DC82C7B00E952B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B251DC82C7B00E952B4 /* Security.framework */; };
 		0FE881D11D75A9AD003907A7 /* XXLocalNetService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D01D75A9AD003907A7 /* XXLocalNetService.m */; };
 		0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */; };
 		0FE93CDF1D8A7601004496BC /* XXEmptyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE93CDE1D8A7601004496BC /* XXEmptyNavigationController.m */; };
@@ -469,6 +474,11 @@
 		0FE270011DBF2F3D009FE701 /* XXTouchApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XXTouchApp.entitlements; sourceTree = "<group>"; };
 		0FE3127D1D9638C900AB895C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		0FE312801D963A0900AB895C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = Localizable.strings; sourceTree = "<group>"; };
+		0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMMobClick.framework; path = XXTouchApp/ThirdParty/UMMobClick.framework; sourceTree = "<group>"; };
+		0FE36B1F1DC82C5400E952B4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		0FE36B211DC82C5F00E952B4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0FE36B231DC82C6D00E952B4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		0FE36B251DC82C7B00E952B4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0FE881CF1D75A9AD003907A7 /* XXLocalNetService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalNetService.h; sourceTree = "<group>"; };
 		0FE881D01D75A9AD003907A7 /* XXLocalNetService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocalNetService.m; sourceTree = "<group>"; };
 		0FE881D21D75ABE9003907A7 /* XXLocalDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocalDataService.h; sourceTree = "<group>"; };
@@ -499,6 +509,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FE36B261DC82C7B00E952B4 /* Security.framework in Frameworks */,
+				0FE36B241DC82C6D00E952B4 /* libsqlite3.tbd in Frameworks */,
+				0FE36B221DC82C5F00E952B4 /* libz.tbd in Frameworks */,
+				0FE36B201DC82C5400E952B4 /* CoreTelephony.framework in Frameworks */,
 				0FFB86691DADBDF400C5AF87 /* QuartzCore.framework in Frameworks */,
 				0FFB86671DADBD8A00C5AF87 /* CoreGraphics.framework in Frameworks */,
 				0FF5285A1D9E0B47000A0FBE /* CoreLocation.framework in Frameworks */,
@@ -506,6 +520,7 @@
 				0FE93CE11D8A8391004496BC /* MobileCoreServices.framework in Frameworks */,
 				0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */,
 				0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */,
+				0FE36B1E1DC82C3D00E952B4 /* UMMobClick.framework in Frameworks */,
 				0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */,
 				0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */,
 				B9DBF5BDBBFC4E8EF398289E /* libPods-XXTouchApp.a in Frameworks */,
@@ -1323,6 +1338,11 @@
 		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FE36B251DC82C7B00E952B4 /* Security.framework */,
+				0FE36B231DC82C6D00E952B4 /* libsqlite3.tbd */,
+				0FE36B211DC82C5F00E952B4 /* libz.tbd */,
+				0FE36B1F1DC82C5400E952B4 /* CoreTelephony.framework */,
+				0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */,
 				0FFB86681DADBDF400C5AF87 /* QuartzCore.framework */,
 				0FFB86661DADBD8A00C5AF87 /* CoreGraphics.framework */,
 				0FF528591D9E0B47000A0FBE /* CoreLocation.framework */,
@@ -1813,6 +1833,10 @@
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XXTouchApp/ThirdParty",
+				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				IBSC_NOTICES = NO;
 				IBSC_WARNINGS = NO;
@@ -1864,6 +1888,10 @@
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XXTouchApp/ThirdParty",
+				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				IBSC_NOTICES = NO;
 				IBSC_WARNINGS = NO;

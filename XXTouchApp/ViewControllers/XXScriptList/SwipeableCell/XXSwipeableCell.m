@@ -64,7 +64,7 @@
 }
 
 - (BOOL)isEditable {
-    if (!self.canOperate) return NO;
+    if (!self.canOperate || self.isDirectory) return NO;
     return YES;
 }
 
