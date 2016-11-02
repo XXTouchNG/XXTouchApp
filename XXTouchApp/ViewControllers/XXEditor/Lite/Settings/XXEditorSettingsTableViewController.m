@@ -9,9 +9,9 @@
 #import "XXEditorSettingsTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXEditorFontSettingsTableViewController.h"
+#import "XXEditorFontSizeView.h"
 
-@interface XXEditorSettingsTableViewController ()
-<XXEditorFontSettingsTableViewControllerDelegate>
+@interface XXEditorSettingsTableViewController () <XXEditorFontSizeViewDelegate, XXEditorFontSettingsTableViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *fontNameLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *lineNumbersSwitch;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tabWidthControl;
@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *readOnlySwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoCorrectionSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoCapitalizationSwitch;
+@property (weak, nonatomic) IBOutlet XXEditorFontSizeView *fontSizeView;
 
 @end
 
@@ -26,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.fontSizeView.delegate = self;
     self.clearsSelectionOnViewWillAppear = YES;
 }
 
@@ -36,6 +38,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        XXEditorFontSettingsTableViewController *fontController = [self.storyboard instantiateViewControllerWithIdentifier:kXXEditorFontSettingsTableViewControllerStoryboardID];
+        fontController.delegate = self;
+        [self.navigationController pushViewController:fontController animated:YES];
+    }
 }
 
 - (void)loadSettings {
@@ -48,6 +56,7 @@
     self.autoCapitalizationSwitch.on = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled];
     
     self.tabWidthControl.selectedSegmentIndex = [[XXLocalDataService sharedInstance] tabWidth];
+    self.fontSizeView.fontSize = (NSUInteger)[[XXLocalDataService sharedInstance] fontFamilySize];
 }
 
 - (IBAction)lineNumbersChanged:(UISwitch *)sender {
@@ -81,17 +90,15 @@
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    XXEditorFontSettingsTableViewController *fontController = (XXEditorFontSettingsTableViewController *)segue.destinationViewController;
-    fontController.delegate = self;
-}
-
 - (void)editorFontSettingsDidEdited:(XXEditorFontSettingsTableViewController *)controller {
     self.fontNameLabel.text = [[XXLocalDataService sharedInstance] fontFamilyName];
     [self notifyChangedInSection:0];
 }
 
-#warning Not implemented - Font Size
+- (void)fontViewSizeDidChanged:(XXEditorFontSizeView *)view {
+    [[XXLocalDataService sharedInstance] setFontFamilySize:(CGFloat)view.fontSize];
+    [self notifyChangedInSection:0];
+}
 
 - (void)dealloc {
     CYLog(@"");

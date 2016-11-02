@@ -11,11 +11,9 @@
 
 @implementation XXBaseTextView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled
 {
-    self = [super initWithFrame:frame];
-    
-    if (self) {
+    if (self = [super initWithFrame:frame lineNumbersEnabled:lineNumbersEnabled]) {
         [self commonSetup];
     }
     
@@ -24,9 +22,9 @@
 
 - (void)commonSetup
 {
-    _defaultFont = [UIFont fontWithName:@"CourierNewPSMT" size:14.f];
-    _boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:14.f];
-    _italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:14.f];
+    _defaultFont = [UIFont systemFontOfSize:14.f];
+    _boldFont = [UIFont boldSystemFontOfSize:14.f];
+    _italicFont = [UIFont italicSystemFontOfSize:14.f];
     
     self.font = _defaultFont;
     self.textColor = [UIColor colorWithWhite:.33f alpha:1.f];

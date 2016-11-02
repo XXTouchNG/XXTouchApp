@@ -85,6 +85,7 @@
 		0F8F7C611D8919AC005C3A22 /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C601D8919AC005C3A22 /* NSString+Mime.m */; };
 		0F8F7C651D8919CE005C3A22 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C641D8919CE005C3A22 /* XQueryComponents.m */; };
 		0F8F7C681D8919DF005C3A22 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C661D8919DF005C3A22 /* UIImage+ProportionalFill.m */; };
+		0F92883D1DC96C1200233653 /* XXEditorFontSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92883C1DC96C1200233653 /* XXEditorFontSizeView.m */; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0F9D7FE81D9D755B001C1809 /* UIViewController+MSLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9D7FE71D9D755B001C1809 /* UIViewController+MSLayoutSupport.m */; };
 		0FA675E01D97BBAA006A147A /* XXCodeBlocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */; };
@@ -339,6 +340,8 @@
 		0F8F7C641D8919CE005C3A22 /* XQueryComponents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XQueryComponents.m; sourceTree = "<group>"; };
 		0F8F7C661D8919DF005C3A22 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
 		0F8F7C671D8919DF005C3A22 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
+		0F92883B1DC96C1200233653 /* XXEditorFontSizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorFontSizeView.h; sourceTree = "<group>"; };
+		0F92883C1DC96C1200233653 /* XXEditorFontSizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorFontSizeView.m; sourceTree = "<group>"; };
 		0F9852711D745D15001323AA /* XXLocalDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalDefines.h; sourceTree = "<group>"; };
 		0F98527F1D747410001323AA /* SystemDebugDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemDebugDefines.h; sourceTree = "<group>"; };
 		0F98529C1D748072001323AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1345,6 +1348,8 @@
 		0FFC76C81DC8CF7A008AAA2D /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				0F92883B1DC96C1200233653 /* XXEditorFontSizeView.h */,
+				0F92883C1DC96C1200233653 /* XXEditorFontSizeView.m */,
 				0FFC76C91DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.h */,
 				0FFC76CA1DC8CFAF008AAA2D /* XXEditorSettingsTableViewController.m */,
 				0FFC76CC1DC8F0D5008AAA2D /* XXEditorFontSettingsTableViewController.h */,
@@ -1661,6 +1666,7 @@
 				0F06A8E61D939FB300BAA589 /* UIImage+ColoredImage.m in Sources */,
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,
 				0FC7BCA91DB3EC440073D900 /* XXImagePickerController.m in Sources */,
+				0F92883D1DC96C1200233653 /* XXEditorFontSizeView.m in Sources */,
 				0F0C9A191D966E52000E184C /* XXKeyboardButton.m in Sources */,
 				0FC7BCC61DB3EC7E0073D900 /* XXAddCodeBlockTableViewController.m in Sources */,
 				0FB611A21DC771FC00745BD1 /* lutf8lib.c in Sources */,

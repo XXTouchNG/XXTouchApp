@@ -50,4 +50,5 @@
 
 @property (nonatomic, assign) BOOL lineCursorEnabled;
 
+- (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled;
 @end

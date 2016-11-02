@@ -123,12 +123,14 @@
 {
     NSRange range = NSMakeRange(0, self.length);
 
-    NSDictionary *attributes =
-    @{
-      NSFontAttributeName : self.defaultFont,
-      NSForegroundColorAttributeName : self.defaultTextColor
-     };
-    [self addAttributes:attributes range:range];
+    if (self.defaultFont && self.defaultTextColor) {
+        NSDictionary *attributes =
+        @{
+          NSFontAttributeName : self.defaultFont,
+          NSForegroundColorAttributeName : self.defaultTextColor
+          };
+        [self addAttributes:attributes range:range];
+    }
 
     [self applyStylesToRange:range];
 }

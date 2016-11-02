@@ -41,6 +41,8 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, assign) BOOL isLuaCode;
 @property (nonatomic, assign) BOOL isLoaded;
 @property (nonatomic, assign) BOOL isEdited;
+@property (nonatomic, assign) BOOL shouldReloadSection;
+@property (nonatomic, assign) NSUInteger reloadSection;
 
 // Search
 @property (nonatomic, assign) BOOL searchMode;
@@ -94,8 +96,8 @@ XXEditorSettingsTableViewControllerDelegate>
         @strongify(self);
         NSError *err = nil;
         BOOL result = [self loadFileWithError:&err];
+        if (result) [self loadEditorSettings];
         dispatch_async_on_main_queue(^{
-            [self loadEditorSettings];
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
             if (!result) {
@@ -155,6 +157,10 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    if (self.shouldReloadSection)
+    {
+        [self reloadEditorSettings];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -286,7 +292,8 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (UITextView *)textView {
     if (!_textView) {
-        XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds];
+        XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds
+                                                      lineNumbersEnabled:[[XXLocalDataService sharedInstance] lineNumbersEnabled]];
         textView.autocorrectionType = UITextAutocorrectionTypeNo;
         textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
@@ -298,6 +305,7 @@ XXEditorSettingsTableViewControllerDelegate>
         textView.contentInset =
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
+        textView.dataDetectorTypes = UIDataDetectorTypeLink;
         textView.circularSearch = YES;
         textView.scrollPosition = ICTextViewScrollPositionTop;
         textView.searchOptions = NSRegularExpressionCaseInsensitive;
@@ -711,8 +719,8 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)loadEditorSettings {
     [self loadKeyboardSettings];
     [self loadTabSettings];
-    [self loadLineNumberSettings];
     [self loadFontSettings];
+//    [self loadLineNumberSettings]; // Not needed
 }
 
 - (void)loadKeyboardSettings {
@@ -720,14 +728,16 @@ XXEditorSettingsTableViewControllerDelegate>
     self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeNone : UITextAutocapitalizationTypeWords;
     
     self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
-    if (self.textView.editable) {
-        if (self.textView.inputAccessoryView == nil)
-        {
-            self.textView.inputAccessoryView = self.keyboardRow;
+    dispatch_async_on_main_queue(^{
+        if (self.textView.editable) {
+            if (self.textView.inputAccessoryView == nil)
+            {
+                self.textView.inputAccessoryView = self.keyboardRow;
+            }
+        } else {
+            self.textView.inputAccessoryView = nil;
         }
-    } else {
-        self.textView.inputAccessoryView = nil;
-    }
+    });
 }
 
 - (void)loadTabSettings {
@@ -741,46 +751,60 @@ XXEditorSettingsTableViewControllerDelegate>
     } else {
         tabString = @"\t";
     }
-    [self.keyboardRow setTabString:tabString];
+    dispatch_async_on_main_queue(^{
+        [self.keyboardRow setTabString:tabString];
+    });
 }
 
 - (void)loadFontSettings {
-    // Mininum Font Size: 14.f
-    CGFloat fontSize = 14.f + [[XXLocalDataService sharedInstance] fontSize];
-#warning Not implemented - Font Size
-    kXXEditorFontFamily fontFamily = [[XXLocalDataService sharedInstance] fontFamily];
-    if (fontFamily == kXXEditorFontFamilyCourierNew) {
-        self.textView.defaultFont = [UIFont fontWithName:@"CourierNewPSMT" size:fontSize];
-        self.textView.boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:fontSize];
-        self.textView.italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:fontSize];
-    } else if (fontFamily == kXXEditorFontFamilyMenlo) {
-        self.textView.defaultFont = [UIFont fontWithName:@"Menlo" size:fontSize];
-        self.textView.boldFont = [UIFont fontWithName:@"Menlo-Bold" size:fontSize];
-        self.textView.italicFont = [UIFont fontWithName:@"Menlo-Italic" size:fontSize];
-    }
-    if (_isLuaCode) {
-        self.textView.highlightLuaSymbols = YES;
-    } else {
-        self.textView.highlightLuaSymbols = NO;
-    }
+    dispatch_async_on_main_queue(^{
+        CGFloat fontSize = [[XXLocalDataService sharedInstance] fontFamilySize];
+        kXXEditorFontFamily fontFamily = [[XXLocalDataService sharedInstance] fontFamily];
+        if (fontFamily == kXXEditorFontFamilyCourierNew) {
+            self.textView.defaultFont = [UIFont fontWithName:@"CourierNewPSMT" size:fontSize];
+            self.textView.boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:fontSize];
+            self.textView.italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:fontSize];
+        } else if (fontFamily == kXXEditorFontFamilyMenlo) {
+            self.textView.defaultFont = [UIFont fontWithName:@"Menlo" size:fontSize];
+            self.textView.boldFont = [UIFont fontWithName:@"Menlo-Bold" size:fontSize];
+            self.textView.italicFont = [UIFont fontWithName:@"Menlo-Italic" size:fontSize];
+        }
+        if (self.isLuaCode) {
+            self.textView.highlightLuaSymbols = YES;
+        } else {
+            self.textView.highlightLuaSymbols = NO;
+        }
+    });
 }
 
 - (void)loadLineNumberSettings {
-    
+    dispatch_async_on_main_queue(^{
+        self.textView = nil;
+        [self.view removeAllSubviews];
+        [self viewDidLoad];
+    });
+}
+
+- (void)reloadEditorSettings {
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        switch (self.reloadSection) {
+            case 0: [self loadFontSettings]; break;
+            case 1: [self loadLineNumberSettings]; break;
+            case 2: [self loadTabSettings]; break;
+            case 3: [self loadKeyboardSettings]; break;
+            default: break;
+        }
+        self.shouldReloadSection = NO;
+        dispatch_async_on_main_queue(^{
+            [self.navigationController.view hideToastActivity];
+        });
+    });
 }
 
 - (void)editorSettingsDidEdited:(XXEditorSettingsTableViewController *)controller inSection:(NSUInteger)section {
-    switch (section) {
-        case 0: [self loadFontSettings]; break;
-        case 1:
-            [self loadLineNumberSettings];
-#warning Not implemented - Line Number
-            [self.navigationController.view makeToast:NSLocalizedString(@"Not implemented", nil)];
-            break;
-        case 2: [self loadTabSettings]; break;
-        case 3: [self loadKeyboardSettings]; break;
-        default: break;
-    }
+    self.shouldReloadSection = YES;
+    self.reloadSection = section;
 }
 
 @end

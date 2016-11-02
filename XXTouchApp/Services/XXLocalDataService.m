@@ -36,7 +36,7 @@ static NSString * const kXXStorageKeyPressConfigPressVolumeUp = @"kXXStorageKeyP
 static NSString * const kXXStorageKeyPressConfigPressVolumeDown = @"kXXStorageKeyPressConfigPressVolumeDown-1";
 static NSString * const kXXStorageKeyHidesMainPath = @"kXXStorageKeyHidesMainPath-1";
 static NSString * const kXXStorageKeyFontFamily = @"kXXStorageKeyFontFamily-1";
-static NSString * const kXXStorageKeyFontSize = @"kXXStorageKeyFontSize-1";
+static NSString * const kXXStorageKeyFontFamilySize = @"kXXStorageKeyFontFamilySize-1";
 static NSString * const kXXStorageKeyLineNumbersEnabled = @"kXXStorageKeyLineNumbersEnabled-1";
 static NSString * const kXXStorageKeyTabWidth = @"kXXStorageKeyTabWidth-1";
 static NSString * const kXXStorageKeySoftTabsEnabled = @"kXXStorageKeySoftTabsEnabled-1";
@@ -407,12 +407,16 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
     return @"";
 }
 
-- (CGFloat)fontSize {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyFontSize] floatValue];
+- (CGFloat)fontFamilySize {
+    NSNumber *sizeObj = (NSNumber *)[self objectForKey:kXXStorageKeyFontFamilySize];
+    if (!sizeObj) {
+        sizeObj = [NSNumber numberWithFloat:14.f];
+    }
+    return [sizeObj floatValue];
 }
 
-- (void)setFontSize:(CGFloat)fontSize {
-    [self setObject:[NSNumber numberWithFloat:fontSize] forKey:kXXStorageKeyFontSize];
+- (void)setFontFamilySize:(CGFloat)fontFamilySize {
+    [self setObject:[NSNumber numberWithFloat:fontFamilySize] forKey:kXXStorageKeyFontFamilySize];
 }
 
 - (BOOL)lineNumbersEnabled {

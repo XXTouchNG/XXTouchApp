@@ -100,7 +100,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 
 @property (nonatomic, assign) kXXEditorFontFamily fontFamily; // Cached
 @property (nonatomic, copy, readonly) NSString *fontFamilyName; // Installed
-@property (nonatomic, assign) CGFloat fontSize; // Cached
+@property (nonatomic, assign) CGFloat fontFamilySize; // Cached
 @property (nonatomic, assign) BOOL lineNumbersEnabled; // Cached
 @property (nonatomic, assign) NSUInteger tabWidth; // Cached
 @property (nonatomic, assign) BOOL softTabsEnabled; // Cached

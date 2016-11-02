@@ -45,8 +45,9 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 @interface CYRTextView ()
 
-@property (nonatomic, strong) CYRLayoutManager *lineNumberLayoutManager;
+@property (nonatomic, strong) NSLayoutManager *lineNumberLayoutManager;
 @property (nonatomic, strong) CYRTextStorage *syntaxTextStorage;
+@property (nonatomic, assign) BOOL lineNumbersEnabled;
 
 @end
 
@@ -57,11 +58,12 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 #pragma mark - Initialization & Setup
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled
 {
-    CYRTextStorage *textStorage = [CYRTextStorage new];
-    CYRLayoutManager *layoutManager = [CYRLayoutManager new];
+    _lineNumbersEnabled = lineNumbersEnabled;
     
+    CYRTextStorage *textStorage = [CYRTextStorage new];
+    NSLayoutManager *layoutManager = lineNumbersEnabled ? [CYRLayoutManager new] : [NSLayoutManager new];
     self.lineNumberLayoutManager = layoutManager;
     
     NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
@@ -108,7 +110,9 @@ static const float kCursorVelocity = 1.0f/8.0f;
     self.gutterLineColor       = [UIColor lightGrayColor];
     
     // Inset the content to make room for line numbers
-    self.textContainerInset = UIEdgeInsetsMake(8, self.lineNumberLayoutManager.gutterWidth, 8, 0);
+    self.textContainerInset = self.lineNumbersEnabled ?
+    UIEdgeInsetsMake(8, ((CYRLayoutManager *)self.lineNumberLayoutManager).gutterWidth, 8, 0) :
+    UIEdgeInsetsMake(8, 0, 8, 0);
     
     // Setup the gesture recognizers
     _singleFingerPanRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(singleFingerPanHappend:)];
@@ -207,6 +211,13 @@ static const float kCursorVelocity = 1.0f/8.0f;
 // Original implementation sourced from: https://github.com/alldritt/TextKit_LineNumbers
 - (void)drawRect:(CGRect)rect
 {
+    if (!self.lineNumbersEnabled) {
+        [super drawRect:rect];
+        return;
+    }
+    
+    CYRLayoutManager *manager = (CYRLayoutManager *)self.lineNumberLayoutManager;
+    
     //  Drag the line number gutter background.  The line numbers them selves are drawn by LineNumberLayoutManager.
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGRect bounds = self.bounds;
@@ -215,20 +226,20 @@ static const float kCursorVelocity = 1.0f/8.0f;
     
     // Set the regular fill
     CGContextSetFillColorWithColor(context, self.gutterBackgroundColor.CGColor);
-    CGContextFillRect(context, CGRectMake(bounds.origin.x, bounds.origin.y, self.lineNumberLayoutManager.gutterWidth, height));
+    CGContextFillRect(context, CGRectMake(bounds.origin.x, bounds.origin.y, manager.gutterWidth, height));
     
     // Draw line
     CGContextSetFillColorWithColor(context, self.gutterLineColor.CGColor);
-    CGContextFillRect(context, CGRectMake(self.lineNumberLayoutManager.gutterWidth, bounds.origin.y, 0.5, height));
+    CGContextFillRect(context, CGRectMake(manager.gutterWidth, bounds.origin.y, 0.5, height));
     
     if (_lineCursorEnabled)
     {
-        self.lineNumberLayoutManager.selectedRange = self.selectedRange;
+        manager.selectedRange = self.selectedRange;
         
-        NSRange glyphRange = [self.lineNumberLayoutManager.textStorage.string paragraphRangeForRange:self.selectedRange];
-        glyphRange = [self.lineNumberLayoutManager glyphRangeForCharacterRange:glyphRange actualCharacterRange:NULL];
-        self.lineNumberLayoutManager.selectedRange = glyphRange;
-        [self.lineNumberLayoutManager invalidateDisplayForGlyphRange:glyphRange];
+        NSRange glyphRange = [manager.textStorage.string paragraphRangeForRange:self.selectedRange];
+        glyphRange = [manager glyphRangeForCharacterRange:glyphRange actualCharacterRange:NULL];
+        manager.selectedRange = glyphRange;
+        [manager invalidateDisplayForGlyphRange:glyphRange];
     }
     
     [super drawRect:rect];
