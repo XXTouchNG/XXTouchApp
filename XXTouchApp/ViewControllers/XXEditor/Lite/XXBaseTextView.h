@@ -10,7 +10,6 @@
 
 @interface XXBaseTextView : CYRTextView
 @property (nonatomic, assign) BOOL highlightLuaSymbols;
-@property (nonatomic, strong) UIFont *defaultFont;
 @property (nonatomic, strong) UIFont *boldFont;
 @property (nonatomic, strong) UIFont *italicFont;
 

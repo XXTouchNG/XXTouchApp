@@ -11,7 +11,14 @@
 
 @implementation XXBaseTextView
 
-- (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [self initWithFrame:frame lineNumbersEnabled:NO]) {
+        
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled
 {
     if (self = [super initWithFrame:frame lineNumbersEnabled:lineNumbersEnabled]) {
         [self commonSetup];
@@ -22,11 +29,10 @@
 
 - (void)commonSetup
 {
-    _defaultFont = [UIFont systemFontOfSize:14.f];
-    _boldFont = [UIFont boldSystemFontOfSize:14.f];
-    _italicFont = [UIFont italicSystemFontOfSize:14.f];
+    self.defaultFont = [UIFont systemFontOfSize:14.f];
+    self.boldFont = [UIFont boldSystemFontOfSize:14.f];
+    self.italicFont = [UIFont italicSystemFontOfSize:14.f];
     
-    self.font = _defaultFont;
     self.textColor = [UIColor colorWithWhite:.33f alpha:1.f];
     self.backgroundColor = [UIColor colorWithRGB:0xfefefe];
 }
@@ -37,6 +43,7 @@
         self.tokens = [self solverTokens];
     } else {
         self.tokens = nil;
+        self.font = self.defaultFont;
     }
 }
 
@@ -102,27 +109,25 @@
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x000998],
                                       NSBackgroundColorAttributeName : [UIColor colorWithRGB:0xf0f0f0],
-                                      NSFontAttributeName : self.italicFont
+                                      NSFontAttributeName : self.italicFont,
                                       }],
             [CYRToken tokenWithName:@"comment.block.lua"
                          expression:@"--\\[(=*)\\[.*?\\]\\1\\]"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x000998],
                                       NSBackgroundColorAttributeName : [UIColor colorWithRGB:0xf0f0f0],
-                                      NSFontAttributeName : self.italicFont
+                                      NSFontAttributeName : self.italicFont,
                                       }],
             [CYRToken tokenWithName:@"string.quoted.double.lua"
                          expression:@"([\"'])(?:[^\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0xdd1144],
-                                      NSBackgroundColorAttributeName : self.backgroundColor,
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"string.quoted.other.multiline.lua"
                          expression:@"(?<!--)\\[(=*)\\[.*?(\\]\\1\\]|$)"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0xdd1144],
-                                      NSBackgroundColorAttributeName : self.backgroundColor,
                                       NSFontAttributeName : self.defaultFont
                                       }],
             ];
@@ -137,8 +142,7 @@
 
 - (void)setDefaultFont:(UIFont *)defaultFont
 {
-    _defaultFont = defaultFont;
-    self.font = defaultFont;
+    [super setDefaultFont:defaultFont];
 }
 
 @end

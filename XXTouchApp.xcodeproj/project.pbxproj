@@ -75,6 +75,12 @@
 		0F5DDE4D1D814B7E00BC4BDE /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DDE491D814B7E00BC4BDE /* SIAlertView.m */; };
 		0F5E96121DBD214000FF0C44 /* NSArray+FindString.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5E96111DBD214000FF0C44 /* NSArray+FindString.m */; };
 		0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */; };
+		0F647BC61DCA03A800C44DB4 /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC01DCA03A800C44DB4 /* SourceCodePro-Bold.ttf */; };
+		0F647BC81DCA03A800C44DB4 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC21DCA03A800C44DB4 /* SourceCodePro-Regular.ttf */; };
+		0F647BC91DCA03A800C44DB4 /* SourceSansPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC31DCA03A800C44DB4 /* SourceSansPro-Bold.otf */; };
+		0F647BCA1DCA03A800C44DB4 /* SourceSansPro-It.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC41DCA03A800C44DB4 /* SourceSansPro-It.otf */; };
+		0F647BCB1DCA03A800C44DB4 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC51DCA03A800C44DB4 /* SourceSansPro-Regular.otf */; };
+		0F647BCD1DCA03D600C44DB4 /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */; };
 		0F6612561DB8A686009DD6C1 /* XXMulPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */; };
 		0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */; };
 		0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C3A1D88CA26005C3A22 /* XXUserDefaultsModel.m */; };
@@ -311,6 +317,12 @@
 		0F5E96111DBD214000FF0C44 /* NSArray+FindString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+FindString.m"; sourceTree = "<group>"; };
 		0F6459A51D85B37D00194057 /* XXRecordConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXRecordConfigTableViewController.h; sourceTree = "<group>"; };
 		0F6459A61D85B37D00194057 /* XXRecordConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXRecordConfigTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F647BC01DCA03A800C44DB4 /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
+		0F647BC21DCA03A800C44DB4 /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
+		0F647BC31DCA03A800C44DB4 /* SourceSansPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.otf"; sourceTree = "<group>"; };
+		0F647BC41DCA03A800C44DB4 /* SourceSansPro-It.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-It.otf"; sourceTree = "<group>"; };
+		0F647BC51DCA03A800C44DB4 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
+		0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.ttf"; sourceTree = "<group>"; };
 		0F6612541DB8A686009DD6C1 /* XXMulPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMulPosColorPickerController.h; sourceTree = "<group>"; };
 		0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMulPosColorPickerController.m; sourceTree = "<group>"; };
 		0F7D85CE1D8E85D4006CEC88 /* XXScanLineAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanLineAnimation.h; sourceTree = "<group>"; };
@@ -926,6 +938,19 @@
 			path = Record;
 			sourceTree = "<group>";
 		};
+		0F647BBF1DCA03A800C44DB4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */,
+				0F647BC01DCA03A800C44DB4 /* SourceCodePro-Bold.ttf */,
+				0F647BC21DCA03A800C44DB4 /* SourceCodePro-Regular.ttf */,
+				0F647BC31DCA03A800C44DB4 /* SourceSansPro-Bold.otf */,
+				0F647BC41DCA03A800C44DB4 /* SourceSansPro-It.otf */,
+				0F647BC51DCA03A800C44DB4 /* SourceSansPro-Regular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		0F6612531DB8A613009DD6C1 /* MulPosColor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1037,6 +1062,7 @@
 		0FB0A79D1D73DB7600129E83 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0F647BBF1DCA03A800C44DB4 /* Fonts */,
 				0FB0A7A01D73DB9F00129E83 /* International */,
 				0FB0A79E1D73DB7600129E83 /* Assets.xcassets */,
 			);
@@ -1463,10 +1489,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F647BCA1DCA03A800C44DB4 /* SourceSansPro-It.otf in Resources */,
+				0F647BC81DCA03A800C44DB4 /* SourceCodePro-Regular.ttf in Resources */,
 				0F5DDE4C1D814B7E00BC4BDE /* SIAlertView.bundle in Resources */,
 				0FC7BCAC1DB3EC440073D900 /* XXImagePickerPhotoCell.xib in Resources */,
 				0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */,
 				0F352A9B1DB5C9530095C57F /* extendHisLife.plist in Resources */,
+				0F647BCD1DCA03D600C44DB4 /* SourceCodePro-It.ttf in Resources */,
 				0F36BEAE1DB6F92600761999 /* InfoPlist.strings in Resources */,
 				0F352A9E1DB5CC350095C57F /* internalFunctions.plist in Resources */,
 				0FC7BCAA1DB3EC440073D900 /* XXImagePickerController.xib in Resources */,
@@ -1476,8 +1505,11 @@
 				0FC7BCA81DB3EC440073D900 /* XXImagePickerAlbumCell.xib in Resources */,
 				0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */,
 				0F352A9F1DB5CC350095C57F /* userDefinedFunctions.plist in Resources */,
+				0F647BC61DCA03A800C44DB4 /* SourceCodePro-Bold.ttf in Resources */,
 				0F98529D1D748072001323AA /* Main.storyboard in Resources */,
 				0F5DDE4A1D814B7E00BC4BDE /* ARSafariActivity.bundle in Resources */,
+				0F647BC91DCA03A800C44DB4 /* SourceSansPro-Bold.otf in Resources */,
+				0F647BCB1DCA03A800C44DB4 /* SourceSansPro-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,6 +44,7 @@
 @property (nonatomic, strong) NSArray *tokens;
 @property (nonatomic, strong) UIPanGestureRecognizer *singleFingerPanRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *doubleFingerPanRecognizer;
+@property (nonatomic, strong) UIFont *defaultFont;
 
 @property UIColor *gutterBackgroundColor;
 @property UIColor *gutterLineColor;

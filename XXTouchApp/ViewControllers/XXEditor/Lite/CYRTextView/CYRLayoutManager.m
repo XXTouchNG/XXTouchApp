@@ -82,7 +82,7 @@ static CGFloat kMinimumGutterWidth = 42.f;
     
     self.lineAreaInset = UIEdgeInsetsMake(0, 10, 0, 4);
     self.lineNumberColor = [UIColor grayColor];
-    self.lineNumberFont = [UIFont fontWithName:@"Courier New" size:12.0f];
+    self.lineNumberFont = [UIFont fontWithName:@"SourceCodePro-Regular" size:10.f];
     self.selectedLineNumberColor = [UIColor colorWithWhite:0.9 alpha:1];
 }
 

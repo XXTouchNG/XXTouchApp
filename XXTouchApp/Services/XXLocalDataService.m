@@ -403,8 +403,49 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
         return @"Courier New";
     } else if (self.fontFamily == kXXEditorFontFamilyMenlo) {
         return @"Menlo";
+    } else if (self.fontFamily == kXXEditorFontFamilySourceCodePro) {
+        return @"Source Code Pro";
+    } else if (self.fontFamily == kXXEditorFontFamilySourceSansPro) {
+        return @"Source Sans Pro";
     }
     return @"";
+}
+
+- (NSArray <UIFont *> *)fontFamilyArray {
+    CGFloat fontSize = self.fontFamilySize;
+    switch (self.fontFamily) {
+        case kXXEditorFontFamilyCourierNew:
+            return @[
+                     [UIFont fontWithName:@"CourierNewPSMT" size:fontSize],
+                     [UIFont fontWithName:@"CourierNewPS-BoldMT" size:fontSize],
+                     [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:fontSize],
+                     ];
+            break;
+        case kXXEditorFontFamilyMenlo:
+            return @[
+                     [UIFont fontWithName:@"Menlo" size:fontSize],
+                     [UIFont fontWithName:@"Menlo-Bold" size:fontSize],
+                     [UIFont fontWithName:@"Menlo-Italic" size:fontSize],
+                     ];
+            break;
+        case kXXEditorFontFamilySourceCodePro:
+            return @[
+                     [UIFont fontWithName:@"SourceCodePro-Regular" size:fontSize],
+                     [UIFont fontWithName:@"SourceCodePro-Bold" size:fontSize],
+                     [UIFont fontWithName:@"SourceCodePro-It" size:fontSize],
+                     ];
+            break;
+        case kXXEditorFontFamilySourceSansPro:
+            return @[
+                     [UIFont fontWithName:@"SourceSansPro-Regular" size:fontSize],
+                     [UIFont fontWithName:@"SourceSansPro-Bold" size:fontSize],
+                     [UIFont fontWithName:@"SourceSansPro-It" size:fontSize],
+                     ];
+            break;
+        default:
+            break;
+    }
+    return @[];
 }
 
 - (CGFloat)fontFamilySize {

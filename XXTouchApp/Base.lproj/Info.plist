@@ -49,7 +49,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>74</string>
+	<string>76</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -69,6 +69,15 @@
 	<string>${PRODUCT_NAME} needs your location to generate code snippets.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>${PRODUCT_NAME} needs to access your album to fetch QR code.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SourceCodePro-Regular.ttf</string>
+		<string>SourceCodePro-Bold.ttf</string>
+		<string>SourceCodePro-It.ttf</string>
+		<string>SourceSansPro-Regular.otf</string>
+		<string>SourceSansPro-Bold.otf</string>
+		<string>SourceSansPro-It.otf</string>
+	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

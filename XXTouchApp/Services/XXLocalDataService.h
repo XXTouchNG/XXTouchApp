@@ -27,7 +27,9 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     kXXEditorFontFamilyCourierNew = 0,
-    kXXEditorFontFamilyMenlo = 1
+    kXXEditorFontFamilyMenlo = 1,
+    kXXEditorFontFamilySourceCodePro = 2,
+    kXXEditorFontFamilySourceSansPro = 3,
 } kXXEditorFontFamily;
 
 static NSString * const kXXDeviceInfoSoftwareVersion = @"zeversion";
@@ -107,5 +109,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @property (nonatomic, assign) BOOL readOnlyEnabled; // Cached
 @property (nonatomic, assign) BOOL autoCorrectionEnabled; // Cached
 @property (nonatomic, assign) BOOL autoCapitalizationEnabled; // Cached
+
+- (NSArray <UIFont *> *)fontFamilyArray;
 
 @end

@@ -50,7 +50,7 @@
 {
     if (self = [super init])
     {
-        _defaultFont = [UIFont systemFontOfSize:12.0f];
+        _defaultFont = [UIFont systemFontOfSize:14.0f];
         _defaultTextColor = [UIColor blackColor];
         _attributedString = [NSMutableAttributedString new];
         
@@ -118,7 +118,6 @@
     [self applyStylesToRange:extendedRange];
 }
 
-
 -(void)update
 {
     NSRange range = NSMakeRange(0, self.length);
@@ -137,12 +136,12 @@
 
 - (void)applyStylesToRange:(NSRange)searchRange
 {
-    if (self.editedRange.location == NSNotFound)
+    if (self.editedRange.location == NSNotFound || self.tokens == nil)
     {
         return;
     }
     
-    NSRange paragaphRange = [self.string paragraphRangeForRange: self.editedRange];
+    NSRange paragaphRange = [self.string paragraphRangeForRange:self.editedRange];
 
     // Reset the text attributes
     NSDictionary *attributes =
@@ -160,10 +159,14 @@
                                 options:0
                                   range:paragaphRange
                              usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-                                 
-                                 [attribute.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *attributeName, id attributeValue, BOOL *stop) {
-                                     [self addAttribute:attributeName value:attributeValue range:result.range];
-                                 }];
+                                 NSRange eRange;
+                                 NSDictionary <NSString *, id> *oldAttr = [self attributesAtIndex:result.range.location effectiveRange:&eRange];
+                                 if (!oldAttr[NSBackgroundColorAttributeName])
+                                 {
+                                     [attribute.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *attributeName, id attributeValue, BOOL *stop) {
+                                             [self addAttribute:attributeName value:attributeValue range:result.range];
+                                     }];
+                                 }
                              }];
     }
 }

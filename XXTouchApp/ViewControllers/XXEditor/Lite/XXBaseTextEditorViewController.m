@@ -42,7 +42,7 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, assign) BOOL isLoaded;
 @property (nonatomic, assign) BOOL isEdited;
 @property (nonatomic, assign) BOOL shouldReloadSection;
-@property (nonatomic, assign) NSUInteger reloadSection;
+@property (nonatomic, strong) NSMutableArray <NSNumber *> *reloadSectionArr;
 
 // Search
 @property (nonatomic, assign) BOOL searchMode;
@@ -74,6 +74,7 @@ XXEditorSettingsTableViewControllerDelegate>
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationItem.rightBarButtonItem = self.shareItem;
+    self.reloadSectionArr = [NSMutableArray new];
     
     [self.view addSubview:self.fakeStatusBar];
     [self.view addSubview:self.textView];
@@ -83,20 +84,14 @@ XXEditorSettingsTableViewControllerDelegate>
     [self updateViewConstraints];
     [self updateTextViewInsetsWithKeyboardNotification:nil];
     
-    if (_isLuaCode) {
-        UIMenuController *menuController = [UIMenuController sharedMenuController];
-        UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
-        [menuController setMenuItems:@[codeBlocksItem]];
-    }
-    
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
+        [self loadEditorSettings];
         BOOL result = [self loadFileWithError:&err];
-        if (result) [self loadEditorSettings];
         dispatch_async_on_main_queue(^{
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
@@ -729,13 +724,18 @@ XXEditorSettingsTableViewControllerDelegate>
     
     self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
     dispatch_async_on_main_queue(^{
-        if (self.textView.editable) {
+        if (self.isLuaCode && self.textView.editable) {
             if (self.textView.inputAccessoryView == nil)
             {
                 self.textView.inputAccessoryView = self.keyboardRow;
             }
+            UIMenuController *menuController = [UIMenuController sharedMenuController];
+            UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
+            [menuController setMenuItems:@[codeBlocksItem]];
         } else {
             self.textView.inputAccessoryView = nil;
+            UIMenuController *menuController = [UIMenuController sharedMenuController];
+            [menuController setMenuItems:nil];
         }
     });
 }
@@ -758,17 +758,11 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)loadFontSettings {
     dispatch_async_on_main_queue(^{
-        CGFloat fontSize = [[XXLocalDataService sharedInstance] fontFamilySize];
-        kXXEditorFontFamily fontFamily = [[XXLocalDataService sharedInstance] fontFamily];
-        if (fontFamily == kXXEditorFontFamilyCourierNew) {
-            self.textView.defaultFont = [UIFont fontWithName:@"CourierNewPSMT" size:fontSize];
-            self.textView.boldFont = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:fontSize];
-            self.textView.italicFont = [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:fontSize];
-        } else if (fontFamily == kXXEditorFontFamilyMenlo) {
-            self.textView.defaultFont = [UIFont fontWithName:@"Menlo" size:fontSize];
-            self.textView.boldFont = [UIFont fontWithName:@"Menlo-Bold" size:fontSize];
-            self.textView.italicFont = [UIFont fontWithName:@"Menlo-Italic" size:fontSize];
-        }
+        NSArray <UIFont *> *fontFamily = [[XXLocalDataService sharedInstance] fontFamilyArray];
+        NSAssert(fontFamily.count == 3, @"Invalid Font Family");
+        self.textView.defaultFont = fontFamily[0];
+        self.textView.boldFont = fontFamily[1];
+        self.textView.italicFont = fontFamily[2];
         if (self.isLuaCode) {
             self.textView.highlightLuaSymbols = YES;
         } else {
@@ -780,6 +774,7 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)loadLineNumberSettings {
     dispatch_async_on_main_queue(^{
         self.textView = nil;
+        self.keyboardRow = nil;
         [self.view removeAllSubviews];
         [self viewDidLoad];
     });
@@ -788,13 +783,16 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)reloadEditorSettings {
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        switch (self.reloadSection) {
-            case 0: [self loadFontSettings]; break;
-            case 1: [self loadLineNumberSettings]; break;
-            case 2: [self loadTabSettings]; break;
-            case 3: [self loadKeyboardSettings]; break;
-            default: break;
+        for (NSNumber *reloadSection in self.reloadSectionArr) {
+            switch ([reloadSection unsignedIntegerValue]) {
+                case 0: [self loadFontSettings]; break;
+                case 1: [self loadLineNumberSettings]; break;
+                case 2: [self loadTabSettings]; break;
+                case 3: [self loadKeyboardSettings]; break;
+                default: break;
+            }
         }
+        [self.reloadSectionArr removeAllObjects];
         self.shouldReloadSection = NO;
         dispatch_async_on_main_queue(^{
             [self.navigationController.view hideToastActivity];
@@ -802,9 +800,15 @@ XXEditorSettingsTableViewControllerDelegate>
     });
 }
 
-- (void)editorSettingsDidEdited:(XXEditorSettingsTableViewController *)controller inSection:(NSUInteger)section {
+- (void)editorSettingsDidEdited:(XXEditorSettingsTableViewController *)controller
+                      inSection:(NSUInteger)section {
+    for (NSNumber *reloadSection in self.reloadSectionArr) {
+        if ([reloadSection unsignedIntegerValue] == section) {
+            return;
+        }
+    }
     self.shouldReloadSection = YES;
-    self.reloadSection = section;
+    [self.reloadSectionArr addObject:@(section)];
 }
 
 @end

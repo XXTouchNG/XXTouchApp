@@ -112,7 +112,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
     // Inset the content to make room for line numbers
     self.textContainerInset = self.lineNumbersEnabled ?
     UIEdgeInsetsMake(8, ((CYRLayoutManager *)self.lineNumberLayoutManager).gutterWidth, 8, 0) :
-    UIEdgeInsetsMake(8, 0, 8, 0);
+    UIEdgeInsetsMake(8, 8, 8, 8);
     
     // Setup the gesture recognizers
     _singleFingerPanRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(singleFingerPanHappend:)];
@@ -293,6 +293,15 @@ static const float kCursorVelocity = 1.0f/8.0f;
     {
         self.selectedRange = NSMakeRange(cursorLocation, fabs(startRange.location - cursorLocation + 1));
     }
+}
+
+
+#pragma mark - Overrides
+
+- (void)setDefaultFont:(UIFont *)defaultFont
+{
+    _defaultFont = defaultFont;
+    self.syntaxTextStorage.defaultFont = defaultFont;
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "XXCodeBlockExpandViewController.h"
 #import "XXBaseTextView.h"
+#import "XXLocalDataService.h"
 #import <Masonry/Masonry.h>
 
 @interface XXCodeBlockExpandViewController () <UITextViewDelegate>
@@ -28,11 +29,9 @@
 
 - (XXBaseTextView *)textView {
     if (!_textView) {
-        UIFont *font = [UIFont fontWithName:@"CourierNewPSMT" size:14.0f];
-        XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds];
-        textView.autocorrectionType = UITextAutocorrectionTypeNo;
-        textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        textView.font = font;
+        XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds lineNumbersEnabled:YES];
+        textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
+        textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeNone : UITextAutocapitalizationTypeWords;
         textView.alwaysBounceVertical = YES;
         textView.delegate = self;
         textView.tintColor = STYLE_TINT_COLOR;
@@ -40,6 +39,11 @@
         textView.contentOffset = CGPointZero;
         textView.editable = NO;
         textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        NSArray <UIFont *> *fontFamily = [[XXLocalDataService sharedInstance] fontFamilyArray];
+        NSAssert(fontFamily.count == 3, @"Invalid Font Family");
+        textView.defaultFont = fontFamily[0];
+        textView.boldFont = fontFamily[1];
+        textView.italicFont = fontFamily[2];
         textView.highlightLuaSymbols = YES;
         _textView = textView;
     }

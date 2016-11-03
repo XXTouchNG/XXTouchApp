@@ -45,8 +45,13 @@
     NSDate *modifiedAt = [FCFileManager modificationDateOfItemAtPath:self.filePath error:err];
     if (*err) return NO;
     self.modificationLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modifiedAt];
-    self.encodingLabel.text = @"Unicode (UTF-8)";
-    self.lineEndingsLabel.text = @"Unix (LF)";
+    self.encodingLabel.text = @"Unicode (UTF-8)"; // Certain
+    NSRange crlfRange = [self.fileContent rangeOfString:@"\r\n"];
+    if (crlfRange.location != NSNotFound) {
+        self.lineEndingsLabel.text = @"Windows (CRLF)";
+    } else {
+        self.lineEndingsLabel.text = @"Unix (LF)";
+    }
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     if ([fileExt isEqualToString:@"lua"]) {
         self.syntaxDefinitionLabel.text = @"Lua (*.lua)";
