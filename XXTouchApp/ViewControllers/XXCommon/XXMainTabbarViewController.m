@@ -18,6 +18,13 @@
     return UIStatusBarStyleLightContent;
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    if (!isJailbroken()) {
+        self.viewControllers = @[self.viewControllers[0]];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.delegate = self;

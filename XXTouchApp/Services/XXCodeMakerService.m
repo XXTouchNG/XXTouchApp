@@ -50,7 +50,8 @@ typedef enum : NSUInteger {
     NSUInteger oldLocation = NSNotFound;
     kXXPickerType type = kXXPickerTypeNone;
     
-    if ((location = [code rangeOfString:KEYWORD_BUNDLE_ID].location) != NSNotFound) {
+    if (isJailbroken() &&
+        (location = [code rangeOfString:KEYWORD_BUNDLE_ID].location) != NSNotFound) {
         if (location <= oldLocation) {
             oldLocation = location;
             type = kXXPickerTypeBID;

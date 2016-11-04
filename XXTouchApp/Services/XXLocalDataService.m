@@ -6,7 +6,6 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "XXLocalDefines.h"
 #import "XXLocalDataService.h"
 #import "JTSImageViewController.h"
 #import "FYPhotoLibrary.h"
@@ -74,6 +73,17 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
     if (self = [super initWithName:name]) {
         // Init Local Data Configure
         if (![self localUserConfig]) {
+            // First
+            NSError *err = nil;
+            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@"lua"];
+            BOOL result = [FCFileManager copyItemAtPath:demoPath
+                                                 toPath:[self.rootPath stringByAppendingPathComponent:@"demo.lua"]
+                                              overwrite:NO
+                                                  error:&err];
+            if (!result)
+            {
+                
+            }
             [self setLocalUserConfig:[[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                        kXXLocalConfigHidesMainPath: @YES
                                                                                        }]];

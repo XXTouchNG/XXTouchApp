@@ -128,7 +128,6 @@ XXEditorSettingsTableViewControllerDelegate>
     // Set Text
     dispatch_async_on_main_queue(^{
         self.textView.text = self.fileContent;
-        [self.textView scrollRectToVisible:CGRectZero animated:YES consideringInsets:YES];
     });
     return YES;
 }
@@ -411,7 +410,6 @@ XXEditorSettingsTableViewControllerDelegate>
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         __block NSError *err = nil;
-//        BOOL result = [XXLocalNetService localCheckSyntax:self.fileContent error:&err];
         XXLuaVModel *lMachine = [[XXLuaVModel alloc] init];
         BOOL result = [lMachine loadBufferFromString:self.fileContent error:&err];
         dispatch_async_on_main_queue(^{

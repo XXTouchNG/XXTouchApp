@@ -81,6 +81,29 @@ enum {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - Table View
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    switch (section) {
+        case kInformationSection:
+            return 1;
+            break;
+        case kOptionSection:
+            return 3;
+            break;
+        case kFeedbackSection:
+            if (isJailbroken()) {
+                return 3;
+            } else {
+                return 1;
+            }
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {

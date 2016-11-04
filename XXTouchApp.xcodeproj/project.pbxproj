@@ -488,7 +488,6 @@
 		0FDEFCEC1DB4604C00825931 /* XXRectPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXRectPickerController.m; sourceTree = "<group>"; };
 		0FDEFCEE1DB47BE300825931 /* XXPickerBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPickerBaseViewController.h; sourceTree = "<group>"; };
 		0FDEFCEF1DB47BE300825931 /* XXPickerBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPickerBaseViewController.m; sourceTree = "<group>"; };
-		0FE270011DBF2F3D009FE701 /* XXTouchApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XXTouchApp.entitlements; sourceTree = "<group>"; };
 		0FE3127D1D9638C900AB895C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		0FE312801D963A0900AB895C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = Localizable.strings; sourceTree = "<group>"; };
 		0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMMobClick.framework; path = XXTouchApp/ThirdParty/UMMobClick.framework; sourceTree = "<group>"; };
@@ -1330,7 +1329,6 @@
 		0FD1C29D1D73CC6D000A784E /* XXTouchApp */ = {
 			isa = PBXGroup;
 			children = (
-				0FE270011DBF2F3D009FE701 /* XXTouchApp.entitlements */,
 				0FB0A79D1D73DB7600129E83 /* Resources */,
 				0FB0A7881D73D80D00129E83 /* Global */,
 				0F9852681D745B84001323AA /* Models */,
@@ -1458,7 +1456,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1885,7 +1883,6 @@
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				CODE_SIGN_ENTITLEMENTS = XXTouchApp/XXTouchApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1940,7 +1937,6 @@
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
-				CODE_SIGN_ENTITLEMENTS = XXTouchApp/XXTouchApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;

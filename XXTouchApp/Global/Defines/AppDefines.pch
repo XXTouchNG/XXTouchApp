@@ -31,6 +31,8 @@
 #import "SystemConstantsDefines.h"
 #import "UINavigationController+StatusBar.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
+
+#import "XXLocalDefines.h"
 #endif
 
 #endif /* AppDefines_pch */

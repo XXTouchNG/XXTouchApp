@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXAboutTableViewControllerStoryboardID = @"kXXAboutTableViewControllerStoryboardID";
+
 @interface XXAboutTableViewController : UITableViewController
 
 @end

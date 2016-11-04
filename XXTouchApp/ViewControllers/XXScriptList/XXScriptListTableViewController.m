@@ -20,6 +20,7 @@
 #import "XXScriptListTableViewController.h"
 #import "XXCreateItemTableViewController.h"
 #import "XXItemAttributesTableViewController.h"
+#import "XXAboutTableViewController.h"
 
 #import "UIViewController+MSLayoutSupport.h"
 #import "NSFileManager+RealDestination.h"
@@ -51,6 +52,8 @@ UISearchDisplayDelegate
 
 @property (nonatomic, copy) NSString *relativePath;
 
+@property (nonatomic, strong) UIBarButtonItem *aboutBtn;
+
 @end
 
 @implementation XXScriptListTableViewController
@@ -66,6 +69,9 @@ UISearchDisplayDelegate
     [super awakeFromNib];
     self.currentDirectory = [ROOT_PATH mutableCopy];
     self.rootItemsDictionaryArr = @[];
+    if (!isJailbroken()) {
+        self.navigationItem.leftBarButtonItem = self.aboutBtn;
+    }
 }
 
 - (void)viewDidLoad {
@@ -163,6 +169,12 @@ UISearchDisplayDelegate
 }
 
 - (void)launchSetup {
+    if (!isJailbroken())
+    {
+        [self reloadScriptListTableView];
+        [self endMJRefreshing];
+        return;
+    }
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
@@ -172,7 +184,7 @@ UISearchDisplayDelegate
         [XXLocalNetService localGetSelectedScriptWithError:&err];
         dispatch_async_on_main_queue(^{
             if (!result) {
-                if (self.isRootDirectory && isJailbroken() && !needsRespring()) {
+                if (self.isRootDirectory && !needsRespring()) {
                     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync Failure", nil)
                                                                      andMessage:NSLocalizedString(@"Failed to sync with daemon.\nTap to retry.", nil)];
                     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
@@ -396,7 +408,7 @@ UISearchDisplayDelegate
         [cell addGestureRecognizer:longPressGesture];
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
-        if (cell.isSelectable) {
+        if (cell.isSelectable && isJailbroken()) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
@@ -645,7 +657,7 @@ UISearchDisplayDelegate
     // It is OK if the last cell is not in display cuz the lastCell may be nil and nothing will happen if a message be sent to the nil
     XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (currentCell.isSelectable) {
+    if (currentCell.isSelectable && isJailbroken()) {
         if (!currentCell.checked) {
             XXSwipeableCell *lastCell = nil;
             for (XXSwipeableCell *cell in tableView.visibleCells) {
@@ -1001,6 +1013,24 @@ UISearchDisplayDelegate
 
 - (BOOL)isRootDirectory {
     return (self != self.navigationController.topViewController && self.navigationController.topViewController != nil);
+}
+
+- (UIBarButtonItem *)aboutBtn {
+    if (!_aboutBtn) {
+        UIBarButtonItem *aboutBtn = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"About", nil)
+                                                                     style:UIBarButtonItemStylePlain
+                                                                    target:self
+                                                                    action:@selector(showAboutController:)];
+        _aboutBtn = aboutBtn;
+    }
+    return _aboutBtn;
+}
+
+#pragma mark - Non Jailbroken device
+
+- (void)showAboutController:(UIBarButtonItem *)sender {
+    XXAboutTableViewController *aboutController = (XXAboutTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:kXXAboutTableViewControllerStoryboardID];
+    [self.navigationController pushViewController:aboutController animated:YES];
 }
 
 #pragma mark - Memory
