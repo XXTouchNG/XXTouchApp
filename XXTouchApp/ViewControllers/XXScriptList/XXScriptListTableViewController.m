@@ -506,7 +506,8 @@ UISearchDisplayDelegate
                                                                                  [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                                                                              }
                                                                          }
-                                                                         if (result) {
+                                                                         if (result)
+                                                                         {
                                                                              [self.rootItemsDictionaryArr removeObjectAtIndex:currentIndexPath.row];
                                                                          }
                                                                          dispatch_async_on_main_queue(^{
@@ -902,6 +903,7 @@ UISearchDisplayDelegate
             @strongify(self);
             BOOL result = YES;
             NSError *err = nil;
+            NSMutableIndexSet *indexesToBeDeleted = [NSMutableIndexSet new];
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
                 if (_selectBootscript) {
@@ -917,9 +919,10 @@ UISearchDisplayDelegate
                 if (err || !result) {
                     break;
                 } else {
-                    [self.rootItemsDictionaryArr removeObjectAtIndex:indexPath.row];
+                    [indexesToBeDeleted addIndex:indexPath.row];
                 }
             }
+            [self.rootItemsDictionaryArr removeObjectsAtIndexes:[indexesToBeDeleted copy]];
             if (result) {
                 [self.tableView beginUpdates];
                 [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
