@@ -10,3 +10,6 @@
 "NSLocationWhenInUseUsageDescription" = "XXT 需要您的位置信息以生成代码片段。";
 "NSCameraUsageDescription" = "XXT 需要访问您的相机以扫描二维码。";
 "NSPhotoLibraryUsageDescription" = "XXT 需要访问您的相册以获取二维码或截图。";
+"Stop" = "停止运行";
+"Launch" = "开始运行";
+"Scan" = "扫一扫";

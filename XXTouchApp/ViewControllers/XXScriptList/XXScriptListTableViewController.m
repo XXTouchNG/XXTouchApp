@@ -43,7 +43,7 @@ UISearchDisplayDelegate
 
 @property (nonatomic, assign, readonly) BOOL isRootDirectory;
 @property (nonatomic, assign, readonly) BOOL hidesMainPath;
-@property (nonatomic, strong) NSArray <NSDictionary *> *rootItemsDictionaryArr;
+@property (nonatomic, strong) NSMutableArray <NSDictionary *> *rootItemsDictionaryArr;
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
 
@@ -68,8 +68,8 @@ UISearchDisplayDelegate
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.currentDirectory = [ROOT_PATH mutableCopy];
-    self.rootItemsDictionaryArr = @[];
-    if (!isJailbroken()) {
+    self.rootItemsDictionaryArr = [NSMutableArray new];
+    if (!isJailbroken() && self.isRootDirectory) {
         self.navigationItem.leftBarButtonItem = self.aboutBtn;
     }
 }
@@ -506,14 +506,17 @@ UISearchDisplayDelegate
                                                                                  [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                                                                              }
                                                                          }
+                                                                         if (result) {
+                                                                             [self.rootItemsDictionaryArr removeObjectAtIndex:currentIndexPath.row];
+                                                                         }
                                                                          dispatch_async_on_main_queue(^{
                                                                              self.navigationController.view.userInteractionEnabled = YES;
                                                                              [self.navigationController.view hideToastActivity];
                                                                              if (result && err == nil) {
-                                                                                 [self reloadScriptListTableData];
                                                                                  [self.tableView beginUpdates];
                                                                                  [self.tableView deleteRowAtIndexPath:currentIndexPath withRowAnimation:UITableViewRowAnimationFade];
                                                                                  [self.tableView endUpdates];
+                                                                                 [self reloadScriptListTableData];
                                                                              } else {
                                                                                  [self.navigationController.view makeToast:[err localizedDescription]];
                                                                              }
@@ -678,12 +681,12 @@ UISearchDisplayDelegate
             if (_selectBootscript) {
                 [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
-                BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
-                                                        parentViewController:self];
+                BOOL result = [XXArchiveService unArchiveZip:currentCell.itemAttrs[kXXItemPathKey]
+                                                 toDirectory:self.currentDirectory
+                                        parentViewController:self];
                 if (!result) {
-                    result = [XXArchiveService unArchiveZip:currentCell.itemAttrs[kXXItemPathKey]
-                                                toDirectory:self.currentDirectory
-                                       parentViewController:self];
+                    result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
+                                                       parentViewController:self];
                 }
                 if (!result) {
                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
@@ -913,13 +916,15 @@ UISearchDisplayDelegate
                 result = [FCFileManager removeItemAtPath:itemPath error:&err];
                 if (err || !result) {
                     break;
+                } else {
+                    [self.rootItemsDictionaryArr removeObjectAtIndex:indexPath.row];
                 }
             }
             if (result) {
                 [self.tableView beginUpdates];
-                [self reloadScriptListTableData];
                 [self.tableView deleteRowsAtIndexPaths:selectedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
                 [self.tableView endUpdates];
+                [self reloadScriptListTableData];
             } else {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             }

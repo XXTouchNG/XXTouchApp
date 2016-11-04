@@ -61,7 +61,6 @@
     return self;
 }
 
-
 #pragma mark - Overrides
 
 - (void)setTokens:(NSMutableArray *)tokens

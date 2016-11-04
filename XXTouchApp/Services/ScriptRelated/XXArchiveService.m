@@ -50,6 +50,8 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
                         [navController.view hideToastActivity];
                         if (error) {
                             [navController.view makeToast:[error localizedDescription]];
+                        } else {
+                            [navController.view makeToast:NSLocalizedString(@"Operation completed", nil)];
                         }
                     });
                 });
@@ -102,6 +104,8 @@ parentViewController:(UIViewController <SSZipArchiveDelegate> *)viewController {
             [navController.view hideToastActivity];
             if (!result) {
                 [navController.view makeToast:NSLocalizedString(@"Cannot create zip file", nil)];
+            } else {
+                [navController.view makeToast:NSLocalizedString(@"Operation completed", nil)];
             }
         });
     });

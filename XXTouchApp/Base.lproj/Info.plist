@@ -49,7 +49,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>77</string>
+	<string>82</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -82,7 +82,7 @@
 			<key>UIApplicationShortcutItemIconFile</key>
 			<string>3d-stop</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>停止脚本</string>
+			<string>Stop</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>Stop</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
@@ -95,7 +95,7 @@
 			<key>UIApplicationShortcutItemIconFile</key>
 			<string>3d-launch</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>启动脚本</string>
+			<string>Launch</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>Launch</string>
 			<key>UIApplicationShortcutItemUserInfo</key>
@@ -108,7 +108,7 @@
 			<key>UIApplicationShortcutItemIconFile</key>
 			<string>3d-scan</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>扫一扫</string>
+			<string>Scan</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>Scan</string>
 			<key>UIApplicationShortcutItemUserInfo</key>

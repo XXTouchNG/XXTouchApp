@@ -128,6 +128,7 @@ XXEditorSettingsTableViewControllerDelegate>
     // Set Text
     dispatch_async_on_main_queue(^{
         self.textView.text = self.fileContent;
+        [self.textView scrollRectToVisible:CGRectZero animated:NO consideringInsets:YES];
     });
     return YES;
 }

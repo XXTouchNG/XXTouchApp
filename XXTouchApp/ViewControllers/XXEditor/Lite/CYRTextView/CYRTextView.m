@@ -302,6 +302,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
 {
     _defaultFont = defaultFont;
     self.syntaxTextStorage.defaultFont = defaultFont;
+    self.font = defaultFont;
 }
 
 @end

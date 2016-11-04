@@ -1,6 +1,6 @@
 --[[
 
-	XXTouch天天爱消除经典模式.lua
+	XXTouch 天天爱消除经典模式.lua
 
 	Created by 苏泽 on 16-08-13.
 	Copyright (c) 2016年 苏泽. All rights reserved.
