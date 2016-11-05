@@ -34,6 +34,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kAttributeNoOverwritten = @"kAttributeNoOverwritten";
+
 @interface CYRTextStorage : NSTextStorage
 
 @property (nonatomic, strong) NSArray *tokens;

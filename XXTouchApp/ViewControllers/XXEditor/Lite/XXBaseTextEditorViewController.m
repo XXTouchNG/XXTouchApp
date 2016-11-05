@@ -898,8 +898,8 @@ XXEditorSettingsTableViewControllerDelegate>
             }
         }
     }];
+    NSMutableString *mutStr = [NSMutableString new];
     if (hasComment) {
-        NSMutableString *mutStr = [NSMutableString new];
         [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
             NSString *testLine = [line stringByTrim];
             BOOL commentFirst = ([testLine rangeOfString:@"--"].location == 0);
@@ -911,16 +911,13 @@ XXEditorSettingsTableViewControllerDelegate>
             }
             [mutStr appendFormat:@"%@\n", line];
         }];
-        NSString *resultStr = [mutStr substringToIndex:mutStr.length - 1];
-        [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
     } else {
-        NSMutableString *mutStr = [NSMutableString new];
         [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
             [mutStr appendFormat:@"--%@\n", line];
         }];
-        NSString *resultStr = [mutStr substringToIndex:mutStr.length - 1];
-        [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
     }
+    NSString *resultStr = [mutStr substringToIndex:mutStr.length - 1];
+    [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
 }
 
 #pragma mark - Auto Indent

@@ -160,7 +160,7 @@
                              usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
                                  NSRange eRange;
                                  NSDictionary <NSString *, id> *oldAttr = [self attributesAtIndex:result.range.location effectiveRange:&eRange];
-                                 if (!oldAttr[NSBackgroundColorAttributeName])
+                                 if (!oldAttr[kAttributeNoOverwritten])
                                  {
                                      [attribute.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *attributeName, id attributeValue, BOOL *stop) {
                                              [self addAttribute:attributeName value:attributeValue range:result.range];

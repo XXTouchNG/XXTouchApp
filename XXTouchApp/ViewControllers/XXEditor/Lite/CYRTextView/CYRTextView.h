@@ -38,6 +38,7 @@
 #import <UIKit/UIKit.h>
 #import "CYRToken.h"
 #import "ICTextView.h"
+#import "CYRTextStorage.h"
 
 @interface CYRTextView : ICTextView
 

@@ -110,6 +110,7 @@
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x000998],
                                       NSBackgroundColorAttributeName : [UIColor colorWithRGB:0xf0f0f0],
                                       NSFontAttributeName : self.italicFont,
+                                      kAttributeNoOverwritten: @(1),
                                       }],
             [CYRToken tokenWithName:@"comment.block.lua"
                          expression:@"--\\[(=*)\\[.*?\\]\\1\\]"
@@ -117,6 +118,7 @@
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x000998],
                                       NSBackgroundColorAttributeName : [UIColor colorWithRGB:0xf0f0f0],
                                       NSFontAttributeName : self.italicFont,
+                                      kAttributeNoOverwritten: @(1),
                                       }],
             [CYRToken tokenWithName:@"string.quoted.double.lua"
                          expression:@"([\"'])(?:[^\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
@@ -136,6 +138,13 @@
 
 - (void)resetTokens {
     self.tokens = [self solverTokens];
+}
+
+- (void)replaceRange:(UITextRange *)range
+            withText:(NSString *)text {
+    self.scrollEnabled = NO;
+    [super replaceRange:range withText:text];
+    self.scrollEnabled = YES;
 }
 
 #pragma mark - Overrides
