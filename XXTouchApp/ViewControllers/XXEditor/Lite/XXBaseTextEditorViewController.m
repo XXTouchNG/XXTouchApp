@@ -749,11 +749,7 @@ XXEditorSettingsTableViewControllerDelegate>
         self.textView.defaultFont = fontFamily[0];
         self.textView.boldFont = fontFamily[1];
         self.textView.italicFont = fontFamily[2];
-        if (self.isLuaCode) {
-            self.textView.highlightLuaSymbols = YES;
-        } else {
-            self.textView.highlightLuaSymbols = NO;
-        }
+        self.textView.highlightLuaSymbols = self.isLuaCode;
     });
 }
 
@@ -883,8 +879,8 @@ XXEditorSettingsTableViewControllerDelegate>
         if (line.length != 0) {
             hasComment = NO;
             for (NSUInteger i = 0; i < line.length - 1; i++) {
-                unichar c1 = [line characterAtIndex:i];
-                unichar c2 = [line characterAtIndex:i + 1];
+                char c1 = (char) [line characterAtIndex:i];
+                char c2 = (char) [line characterAtIndex:i + 1];
                 if (c1 == ' ' || c1 == '\t') {
                     continue;
                 }
@@ -955,13 +951,13 @@ XXEditorSettingsTableViewControllerDelegate>
 //        unichar tabChar = [_tabString characterAtIndex:0];
         for (; idx < range.location; idx++)
         {
-            unichar thisChar = [stringRef characterAtIndex:idx];
+            char thisChar = (char) [stringRef characterAtIndex:idx];
 //            if (thisChar != tabChar)
             if (thisChar != ' ' && thisChar != '\t')
             {
                 break;
             } else {
-                [tabStr appendFormat:@"%c", thisChar];
+                [tabStr appendFormat:@"%c", (char)thisChar];
             }
         }
         

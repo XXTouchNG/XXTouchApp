@@ -147,21 +147,21 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
         }
         return YES;
     }
-//    else
-//        if ([[XXWebViewController supportedFileType] existsString:fileExt])
-//    { // Web View File
+    else
+        if ([[XXWebViewController supportedFileType] existsString:fileExt])
+    { // Web View File
         XXEmptyNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
         XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
         webController.url = [NSURL fileURLWithPath:filePath];
         webController.title = [filePath lastPathComponent];
         [viewController.navigationController presentViewController:navController animated:YES completion:nil];
         return YES;
-//    }
-//    else
-//    { // Not supported
-    
-//    }
-//    return NO;
+    }
+    else
+    { // Not supported
+        
+    }
+    return NO;
 }
 
 #pragma mark - Editors
@@ -169,20 +169,20 @@ static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationCon
 + (BOOL)editFileWithStandardEditor:(NSString *)filePath
               parentViewController:(UIViewController *)viewController
 {
-//    NSString *fileExt = [[filePath pathExtension] lowercaseString];
-//    if ([[XXBaseTextEditorViewController supportedFileType] existsString:fileExt])
-//    { // Text Editor
+    NSString *fileExt = [[filePath pathExtension] lowercaseString];
+    if ([[XXBaseTextEditorViewController supportedFileType] existsString:fileExt])
+    { // Text Editor
         XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
         baseController.filePath = filePath;
         baseController.title = [filePath lastPathComponent];
         [viewController.navigationController pushViewController:baseController animated:YES];
         return YES;
-//    }
-//    else
-//    { // Not supported
+    }
+    else
+    { // Not supported
     
-//    }
-//    return NO;
+    }
+    return NO;
 }
 
 @end

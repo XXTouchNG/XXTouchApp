@@ -49,6 +49,10 @@
     NSRange crlfRange = [self.fileContent rangeOfString:@"\r\n"];
     if (crlfRange.location != NSNotFound) {
         self.lineEndingsLabel.text = @"Windows (CRLF)";
+    }
+    NSRange crRange = [self.fileContent rangeOfString:@"\r"];
+    if (crRange.location != NSNotFound) {
+        self.lineEndingsLabel.text = @"Mac (CR)";
     } else {
         self.lineEndingsLabel.text = @"Unix (LF)";
     }

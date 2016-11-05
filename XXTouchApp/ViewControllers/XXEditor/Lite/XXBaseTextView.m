@@ -37,13 +37,23 @@
     self.backgroundColor = [UIColor colorWithRGB:0xfefefe];
 }
 
+// No scroll
+- (void)replaceRange:(UITextRange *)range
+            withText:(NSString *)text {
+    self.scrollEnabled = NO;
+    [super replaceRange:range withText:text];
+    self.scrollEnabled = YES;
+}
+
 - (void)setHighlightLuaSymbols:(BOOL)highlightLuaSymbols {
     _highlightLuaSymbols = highlightLuaSymbols;
-    if (highlightLuaSymbols) {
+    if (highlightLuaSymbols)
+    {
         self.tokens = [self solverTokens];
-    } else {
-        self.tokens = nil;
-        self.font = self.defaultFont;
+    }
+    else
+    {
+        self.tokens = @[];
     }
 }
 
@@ -134,24 +144,6 @@
                                       }],
             ];
     return solverTokens;
-}
-
-- (void)resetTokens {
-    self.tokens = [self solverTokens];
-}
-
-- (void)replaceRange:(UITextRange *)range
-            withText:(NSString *)text {
-    self.scrollEnabled = NO;
-    [super replaceRange:range withText:text];
-    self.scrollEnabled = YES;
-}
-
-#pragma mark - Overrides
-
-- (void)setDefaultFont:(UIFont *)defaultFont
-{
-    [super setDefaultFont:defaultFont];
 }
 
 @end

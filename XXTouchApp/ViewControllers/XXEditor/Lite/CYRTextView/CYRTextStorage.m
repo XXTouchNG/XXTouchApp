@@ -66,11 +66,7 @@
 - (void)setTokens:(NSMutableArray *)tokens
 {
     _tokens = tokens;
-    
-    // Clear the regular expression cache
     [self.regularExpressionCache removeAllObjects];
-    
-    // Redraw all text
     [self update];
 }
 
@@ -104,7 +100,7 @@
     [self endEditing];
 }
 
--(void)processEditing
+- (void)processEditing
 {
     [self performReplacementsForRange:[self editedRange]];
     [super processEditing];

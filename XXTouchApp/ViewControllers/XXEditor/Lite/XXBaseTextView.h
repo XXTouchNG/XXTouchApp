@@ -14,5 +14,4 @@
 @property (nonatomic, strong) UIFont *italicFont;
 
 - (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled;
-- (void)resetTokens;
 @end
