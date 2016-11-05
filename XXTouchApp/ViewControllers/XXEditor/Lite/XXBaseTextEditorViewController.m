@@ -49,7 +49,11 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UIToolbar *searchToolBar;
+
+// Configure
 @property (nonatomic, strong) XXKeyboardRow *keyboardRow;
+@property (nonatomic, copy) NSString *tabString;
+@property (nonatomic, assign) BOOL autoIndent;
 
 @end
 
@@ -680,28 +684,6 @@ XXEditorSettingsTableViewControllerDelegate>
     [countLabel sizeToFit];
 }
 
-#pragma mark - Menu Actions
-
-- (void)menuActionCodeBlocks:(UIMenuItem *)sender {
-    if (self.textView.isEditable == NO) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"This document is read-only", nil)];
-        return;
-    }
-    [self keyboardWillDismiss:nil];
-    if ([_textView isFirstResponder]) {
-        [_textView resignFirstResponder];
-    }
-    [self keyboardDidDismiss:nil];
-    XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
-    XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
-    codeBlocksController.textInput = self.textView;
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
-}
-
-- (void)dealloc {
-    CYLog(@"");
-}
-
 #pragma mark - File Type
 
 + (NSArray <NSString *> *)supportedFileType {
@@ -730,7 +712,10 @@ XXEditorSettingsTableViewControllerDelegate>
             }
             UIMenuController *menuController = [UIMenuController sharedMenuController];
             UIMenuItem *codeBlocksItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Code Snippets", nil) action:@selector(menuActionCodeBlocks:)];
-            [menuController setMenuItems:@[codeBlocksItem]];
+            UIMenuItem *shiftLeftItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Shift Left", nil) action:@selector(menuActionShiftLeft:)];
+            UIMenuItem *shiftRightItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Shift Right", nil) action:@selector(menuActionShiftRight:)];
+            UIMenuItem *commentItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"(Un)Comment", nil) action:@selector(menuActionComment:)];
+            [menuController setMenuItems:@[codeBlocksItem, commentItem, shiftLeftItem, shiftRightItem]];
         } else {
             self.textView.inputAccessoryView = nil;
             UIMenuController *menuController = [UIMenuController sharedMenuController];
@@ -750,6 +735,8 @@ XXEditorSettingsTableViewControllerDelegate>
     } else {
         tabString = @"\t";
     }
+    self.tabString = tabString;
+    self.autoIndent = [[XXLocalDataService sharedInstance] autoIndentEnabled];
     dispatch_async_on_main_queue(^{
         [self.keyboardRow setTabString:tabString];
     });
@@ -808,6 +795,195 @@ XXEditorSettingsTableViewControllerDelegate>
     }
     self.shouldReloadSection = YES;
     [self.reloadSectionArr addObject:@(section)];
+}
+
+#pragma mark - Menu Actions
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    if (action == @selector(menuActionComment:) ||
+        action == @selector(menuActionShiftLeft:) ||
+        action == @selector(menuActionShiftRight:)
+        ) {
+        NSRange selectedRange = [self.textView selectedRange];
+        if (selectedRange.length == 0) {
+            return NO;
+        }
+    }
+    return [super canPerformAction:action withSender:sender];
+}
+
+- (void)menuActionCodeBlocks:(UIMenuItem *)sender {
+    if (self.textView.isEditable == NO) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"This document is read-only", nil)];
+        return;
+    }
+    [self keyboardWillDismiss:nil];
+    if ([_textView isFirstResponder]) {
+        [_textView resignFirstResponder];
+    }
+    [self keyboardDidDismiss:nil];
+    XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+    XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
+    codeBlocksController.textInput = self.textView;
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
+}
+
+- (NSRange)fixedSelectedTextRange {
+    NSRange selectedRange = [self.textView selectedRange];
+    NSString *stringRef = self.textView.text;
+    NSRange prevBreak = [stringRef rangeOfString:@"\n" options:NSBackwardsSearch range:NSMakeRange(0, selectedRange.location)];
+    if (prevBreak.location == NSNotFound)
+    {
+        prevBreak = NSMakeRange(0, 0);
+    }
+    return NSMakeRange(prevBreak.location + prevBreak.length,
+                       selectedRange.location + selectedRange.length - prevBreak.location - prevBreak.length);
+}
+
+- (UITextRange *)textRangeFromNSRange:(NSRange)range {
+    UITextPosition *startPosition = [self.textView positionFromPosition:self.textView.beginningOfDocument offset:(NSInteger)range.location];
+    UITextPosition *endPosition = [self.textView positionFromPosition:startPosition offset:(NSInteger)range.length];
+    UITextRange *textRange = [self.textView textRangeFromPosition:startPosition toPosition:endPosition];
+    return textRange;
+}
+
+- (void)menuActionShiftLeft:(UIMenuItem *)sender {
+    NSRange fixedRange = [self fixedSelectedTextRange];
+    NSString *selectedText = [self.textView.text substringWithRange:fixedRange];
+    NSString *tabStr = self.tabString;
+    NSMutableString *mutStr = [NSMutableString new];
+    [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+        NSRange firstTabRange = [line rangeOfString:tabStr];
+        if (firstTabRange.location == 0) {
+            line = [line stringByReplacingCharactersInRange:firstTabRange withString:@""];
+        }
+        [mutStr appendFormat:@"%@\n", line];
+    }];
+    NSString *resultStr = [mutStr substringToIndex:mutStr.length - 1];
+    [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
+}
+
+- (void)menuActionShiftRight:(UIMenuItem *)sender {
+    NSRange fixedRange = [self fixedSelectedTextRange];
+    NSString *selectedText = [self.textView.text substringWithRange:fixedRange];
+    NSString *tabStr = self.tabString;
+    NSMutableString *mutStr = [[NSMutableString alloc] initWithString:tabStr];
+    [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+        [mutStr appendFormat:@"%@\n%@", line, tabStr];
+    }];
+    NSString *resultStr = [mutStr substringToIndex:mutStr.length - tabStr.length - 1];
+    [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
+}
+
+- (void)menuActionComment:(UIMenuItem *)sender {
+    NSRange fixedRange = [self fixedSelectedTextRange];
+    NSString *selectedText = [self.textView.text substringWithRange:fixedRange];
+    __block BOOL hasComment = NO;
+    [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+        if (line.length != 0) {
+            hasComment = NO;
+            for (NSUInteger i = 0; i < line.length - 1; i++) {
+                unichar c1 = [line characterAtIndex:i];
+                unichar c2 = [line characterAtIndex:i + 1];
+                if (c1 == ' ' || c1 == '\t') {
+                    continue;
+                }
+                if (c1 == '-' && c2 == '-') {
+                    hasComment = YES;
+                    break;
+                } else {
+                    hasComment = NO;
+                    *stop = YES;
+                }
+            }
+        }
+    }];
+    if (hasComment) {
+        NSMutableString *mutStr = [NSMutableString new];
+        [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+            NSString *testLine = [line stringByTrim];
+            BOOL commentFirst = ([testLine rangeOfString:@"--"].location == 0);
+            if (commentFirst) {
+                NSRange firstCommentRange = [line rangeOfString:@"--"];
+                if (firstCommentRange.location != NSNotFound) {
+                    line = [line stringByReplacingCharactersInRange:firstCommentRange withString:@""];
+                }
+            }
+            [mutStr appendFormat:@"%@\n", line];
+        }];
+        NSString *resultStr = [mutStr substringToIndex:mutStr.length - 1];
+        [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
+    } else {
+        NSMutableString *mutStr = [NSMutableString new];
+        [selectedText enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+            [mutStr appendFormat:@"--%@\n", line];
+        }];
+        NSString *resultStr = [mutStr substringToIndex:mutStr.length - 1];
+        [self.textView replaceRange:[self textRangeFromNSRange:fixedRange] withText:resultStr];
+    }
+}
+
+#pragma mark - Auto Indent
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if (!self.autoIndent) return YES;
+    if (text.length == 1 &&
+        [text isEqualToString:@"\n"] &&
+        _tabString.length != 0
+        )
+    {
+        BOOL hasBreak = ([text rangeOfString:@"\n"].location != NSNotFound);
+        if (!hasBreak)
+        {
+            return YES;
+        }
+        
+        NSString *stringRef = textView.text;
+        NSRange lastBreak = [stringRef rangeOfString:@"\n" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
+        
+        NSInteger origIdx = lastBreak.location;
+        NSUInteger idx = origIdx + 1;
+
+        if (lastBreak.location == NSNotFound)
+        {
+            origIdx = -1; idx = 0;
+        }
+        else if (lastBreak.location + lastBreak.length == range.location)
+        {
+            return YES;
+        }
+        
+        NSMutableString *tabStr = [NSMutableString new];
+//        unichar tabChar = [_tabString characterAtIndex:0];
+        for (; idx < range.location; idx++)
+        {
+            unichar thisChar = [stringRef characterAtIndex:idx];
+//            if (thisChar != tabChar)
+            if (thisChar != ' ' && thisChar != '\t')
+            {
+                break;
+            } else {
+                [tabStr appendFormat:@"%c", thisChar];
+            }
+        }
+        
+        [self.textView insertText:[NSString stringWithFormat:@"\n%@", tabStr]];
+        return NO;
+    }
+    else if (text.length == 0 &&
+             range.length != 0 &&
+             _tabString.length != 0)
+    {
+        // Delete Backward, nothing to do
+    }
+    return YES;
+}
+
+#pragma mark - Memory
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

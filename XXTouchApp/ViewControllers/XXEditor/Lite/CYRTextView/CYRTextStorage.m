@@ -84,7 +84,7 @@
     return [_attributedString attributesAtIndex:location effectiveRange:range];
 }
 
-- (void)replaceCharactersInRange:(NSRange)range withString:(NSString*)str
+- (void)replaceCharactersInRange:(NSRange)range withString:(NSString *)str
 {
     [self beginEditing];
     

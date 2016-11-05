@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *autoCorrectionSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoCapitalizationSwitch;
 @property (weak, nonatomic) IBOutlet XXEditorFontSizeView *fontSizeView;
+@property (weak, nonatomic) IBOutlet UISwitch *autoIndentSwitch;
 
 @end
 
@@ -51,6 +52,7 @@
     
     self.lineNumbersSwitch.on = [[XXLocalDataService sharedInstance] lineNumbersEnabled];
     self.softTabsSwitch.on = [[XXLocalDataService sharedInstance] softTabsEnabled];
+    self.autoIndentSwitch.on = [[XXLocalDataService sharedInstance] autoIndentEnabled];
     self.readOnlySwitch.on = [[XXLocalDataService sharedInstance] readOnlyEnabled];
     self.autoCorrectionSwitch.on = [[XXLocalDataService sharedInstance] autoCorrectionEnabled];
     self.autoCapitalizationSwitch.on = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled];
@@ -65,6 +67,10 @@
 
 - (IBAction)tabWidthChanged:(UISegmentedControl *)sender {
     [[XXLocalDataService sharedInstance] setTabWidth:sender.selectedSegmentIndex]; [self notifyChangedInSection:2];
+}
+
+- (IBAction)autoIndentChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setAutoIndentEnabled:sender.on]; [self notifyChangedInSection:2];
 }
 
 - (IBAction)softTabsChanged:(UISwitch *)sender {

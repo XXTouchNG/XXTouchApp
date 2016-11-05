@@ -39,6 +39,7 @@ static NSString * const kXXStorageKeyFontFamilySize = @"kXXStorageKeyFontFamilyS
 static NSString * const kXXStorageKeyLineNumbersEnabled = @"kXXStorageKeyLineNumbersEnabled-1";
 static NSString * const kXXStorageKeyTabWidth = @"kXXStorageKeyTabWidth-1";
 static NSString * const kXXStorageKeySoftTabsEnabled = @"kXXStorageKeySoftTabsEnabled-1";
+static NSString * const kXXStorageKeyAutoIndentEnabled = @"kXXStorageKeyAutoIndentEnabled-1";
 static NSString * const kXXStorageKeyReadOnlyEnabled = @"kXXStorageKeyReadOnlyEnabled-1";
 static NSString * const kXXStorageKeyAutoCorrectionEnabled = @"kXXStorageKeyAutoCorrectionEnabled-1";
 static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKeyAutoCapitalizationEnabled-1";
@@ -492,6 +493,14 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
 
 - (void)setSoftTabsEnabled:(BOOL)softTabsEnabled {
     [self setObject:[NSNumber numberWithBool:softTabsEnabled] forKey:kXXStorageKeySoftTabsEnabled];
+}
+
+- (BOOL)autoIndentEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyAutoIndentEnabled] boolValue];
+}
+
+- (void)setAutoIndentEnabled:(BOOL)autoIndentEnabled {
+    [self setObject:[NSNumber numberWithBool:autoIndentEnabled] forKey:kXXStorageKeyAutoIndentEnabled];
 }
 
 - (BOOL)readOnlyEnabled {

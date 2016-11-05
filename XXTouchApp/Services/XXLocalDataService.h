@@ -106,6 +106,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @property (nonatomic, assign) BOOL lineNumbersEnabled; // Cached
 @property (nonatomic, assign) NSUInteger tabWidth; // Cached
 @property (nonatomic, assign) BOOL softTabsEnabled; // Cached
+@property (nonatomic, assign) BOOL autoIndentEnabled; // Cached
 @property (nonatomic, assign) BOOL readOnlyEnabled; // Cached
 @property (nonatomic, assign) BOOL autoCorrectionEnabled; // Cached
 @property (nonatomic, assign) BOOL autoCapitalizationEnabled; // Cached

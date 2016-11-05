@@ -236,3 +236,6 @@ Hide = "隱藏";
 "Service Preference" = "守護進程設置";
 "Failed to load property list \"%@\"" = "無法加載屬性表 \"%@\"";
 "This document is read-only" = "該文檔處於只讀模式";
+"Shift Left" = "左縮進";
+"Shift Right" = "右縮進";
+"(Un)Comment" = "切換注釋";
