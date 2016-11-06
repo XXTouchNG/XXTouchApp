@@ -577,7 +577,11 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)keyboardDidDismiss:(NSNotification *)aNotification {
     if (!_isEdited) _isEdited = YES;
-    self.fileContent = self.textView.text;
+    NSError *err = nil;
+    [self saveFileWithError:&err];
+    if (err) {
+        [self.navigationController.view makeToast:[err localizedDescription]];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
