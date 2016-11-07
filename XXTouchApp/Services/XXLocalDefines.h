@@ -21,7 +21,7 @@ static inline BOOL isJailbroken() {
 #ifndef DEBUG
         jailbroken = [[UIDevice currentDevice] isJailbroken];
 #else
-        jailbroken = YES;
+        jailbroken = NO;
 #endif
     });
     return jailbroken;
@@ -33,7 +33,7 @@ static inline BOOL daemonInstalled() {
 #ifndef DEBUG
         installed = isJailbroken() ? [[NSFileManager defaultManager] isReadableFileAtPath:MAIN_PATH] : NO;
 #else
-        installed = YES;
+        installed = NO;
 #endif
     });
     return installed;

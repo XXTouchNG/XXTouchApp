@@ -22,6 +22,8 @@
     [super awakeFromNib];
     if (!daemonInstalled()) {
         self.viewControllers = @[self.viewControllers[0]];
+        [self.tabBar setFrame:CGRectZero];
+        [self.tabBar setHidden:YES];
     }
 }
 

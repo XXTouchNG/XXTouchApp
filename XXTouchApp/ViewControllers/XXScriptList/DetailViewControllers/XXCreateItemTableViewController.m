@@ -66,11 +66,12 @@ typedef enum : NSUInteger {
         itemPath = [itemPath stringByAppendingPathExtension:@"lua"];
         result = [FCFileManager createFileAtPath:itemPath error:&err];
         if (result) {
-            NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
-            NSString *deviceName = deviceInfo[kXXDeviceInfoDeviceName];
-            if (!deviceName) {
-                deviceName = @"(Unregistered)";
-            }
+//            NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+//            NSString *deviceName = deviceInfo[kXXDeviceInfoDeviceName];
+//            if (!deviceName) {
+//                deviceName = @"(Unregistered)";
+//            }
+            NSString *deviceName = [[UIDevice currentDevice] name];
             NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %ld %@.\n--  All rights reserved.\n--\n\n",
                                 [itemName stringByAppendingPathExtension:@"lua"],
                                 [NSString stringWithFormat:@"%@ v%@", NSLocalizedString(@"XXTouch", nil), VERSION_STRING],
