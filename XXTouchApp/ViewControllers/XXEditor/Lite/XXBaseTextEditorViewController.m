@@ -132,7 +132,7 @@ XXEditorSettingsTableViewControllerDelegate>
     // Set Text
     dispatch_async_on_main_queue(^{
         self.textView.text = self.fileContent;
-        [self.textView scrollRectToVisible:CGRectZero animated:NO consideringInsets:YES];
+//        [self.textView scrollRectToVisible:CGRectZero animated:NO consideringInsets:YES];
     });
     return YES;
 }
@@ -705,7 +705,7 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)loadKeyboardSettings {
     self.textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
-    self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeNone : UITextAutocapitalizationTypeWords;
+    self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeWords : UITextAutocapitalizationTypeNone;
     
     self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
     dispatch_async_on_main_queue(^{
@@ -750,10 +750,10 @@ XXEditorSettingsTableViewControllerDelegate>
     dispatch_async_on_main_queue(^{
         NSArray <UIFont *> *fontFamily = [[XXLocalDataService sharedInstance] fontFamilyArray];
         NSAssert(fontFamily.count == 3, @"Invalid Font Family");
-        self.textView.defaultFont = fontFamily[0];
-        self.textView.boldFont = fontFamily[1];
-        self.textView.italicFont = fontFamily[2];
-        self.textView.highlightLuaSymbols = self.isLuaCode;
+        [self.textView setDefaultFont:fontFamily[0] shouldUpdate:NO];
+        [self.textView setBoldFont:fontFamily[1]];
+        [self.textView setItalicFont:fontFamily[2]];
+        [self.textView setHighlightLuaSymbols:self.isLuaCode];
     });
 }
 

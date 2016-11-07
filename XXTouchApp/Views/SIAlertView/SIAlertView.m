@@ -91,7 +91,11 @@ static SIAlertView *__si_alert_current_view;
 #endif
 
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 @interface SIAlertView () <CAAnimationDelegate>
+#else
+@interface SIAlertView ()
+#endif
 
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, weak) UIWindow *oldKeyWindow;

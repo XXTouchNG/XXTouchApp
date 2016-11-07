@@ -53,4 +53,6 @@
 @property (nonatomic, assign) BOOL lineCursorEnabled;
 
 - (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled;
+- (void)setDefaultFont:(UIFont *)defaultFont shouldUpdate:(BOOL)update;
+- (void)setTokens:(NSMutableArray *)tokens shouldUpdate:(BOOL)update;
 @end

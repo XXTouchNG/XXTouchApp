@@ -45,16 +45,20 @@
     self.scrollEnabled = YES;
 }
 
+- (void)setFont:(UIFont *)font {
+    [super setFont:font];
+}
+
 - (void)setHighlightLuaSymbols:(BOOL)highlightLuaSymbols {
-    _highlightLuaSymbols = highlightLuaSymbols;
     if (highlightLuaSymbols)
     {
-        self.tokens = [self solverTokens];
+        [self setTokens:[[self solverTokens] mutableCopy] shouldUpdate:NO];
     }
     else
     {
-        self.tokens = @[];
+        [self setTokens:nil shouldUpdate:NO];
     }
+    [self setFont:self.defaultFont];
 }
 
 - (NSArray *)solverTokens

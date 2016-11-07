@@ -9,9 +9,9 @@
 #import "CYRTextView.h"
 
 @interface XXBaseTextView : CYRTextView
-@property (nonatomic, assign) BOOL highlightLuaSymbols;
 @property (nonatomic, strong) UIFont *boldFont;
 @property (nonatomic, strong) UIFont *italicFont;
 
 - (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled;
+- (void)setHighlightLuaSymbols:(BOOL)highlightLuaSymbols;
 @end

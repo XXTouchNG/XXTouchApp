@@ -116,6 +116,11 @@ static const float kCursorVelocity = 1.0f/8.0f;
     [self.syntaxTextStorage setTokens:tokens];
 }
 
+- (void)setTokens:(NSMutableArray *)tokens shouldUpdate:(BOOL)update
+{
+    [self.syntaxTextStorage setTokens:tokens shouldUpdate:update];
+}
+
 - (NSArray *)tokens
 {
     CYRTextStorage *syntaxTextStorage = (CYRTextStorage *)self.textStorage;
@@ -135,9 +140,16 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 - (void)setDefaultFont:(UIFont *)defaultFont
 {
+    [self setDefaultFont:defaultFont shouldUpdate:YES];
+}
+
+- (void)setDefaultFont:(UIFont *)defaultFont shouldUpdate:(BOOL)update {
     _defaultFont = defaultFont;
-    self.font = defaultFont; // Adjust content size
     self.syntaxTextStorage.defaultFont = defaultFont;
+    if (update)
+    {
+        self.font = defaultFont; // Adjust content size
+    }
 }
 
 - (void)setSelectedRange:(NSRange)selectedRange {

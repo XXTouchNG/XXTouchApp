@@ -17,7 +17,11 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
 static inline BOOL isJailbroken() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+#ifndef DEBUG
         jailbroken = [[UIDevice currentDevice] isJailbroken];
+#else
+        jailbroken = YES;
+#endif
     });
     return jailbroken;
 }

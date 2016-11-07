@@ -44,7 +44,7 @@
         textView.defaultFont = fontFamily[0];
         textView.boldFont = fontFamily[1];
         textView.italicFont = fontFamily[2];
-        textView.highlightLuaSymbols = YES;
+        [textView setHighlightLuaSymbols:YES];
         _textView = textView;
     }
     return _textView;

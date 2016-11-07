@@ -65,9 +65,16 @@
 
 - (void)setTokens:(NSMutableArray *)tokens
 {
+    [self setTokens:tokens shouldUpdate:YES];
+}
+
+- (void)setTokens:(NSMutableArray *)tokens shouldUpdate:(BOOL)update
+{
     _tokens = tokens;
     [self.regularExpressionCache removeAllObjects];
-    [self update];
+    if (update) {
+        [self update];
+    }
 }
 
 - (NSString *)string

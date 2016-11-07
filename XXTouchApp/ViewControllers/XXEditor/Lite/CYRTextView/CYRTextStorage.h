@@ -43,5 +43,6 @@ static NSString * const kAttributeNoOverwritten = @"kAttributeNoOverwritten";
 @property (nonatomic, strong) UIColor *defaultTextColor;
 
 - (void)update;
+- (void)setTokens:(NSMutableArray *)tokens shouldUpdate:(BOOL)update;
 
 @end

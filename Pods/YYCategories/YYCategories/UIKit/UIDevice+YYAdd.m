@@ -55,17 +55,16 @@ YYSYNTH_DUMMY_CLASS(UIDevice_YYAdd)
 - (BOOL)isJailbroken {
     if ([self isSimulator]) return NO; // Dont't check simulator
     
-    // iOS9 URL Scheme query changed ...
-    // NSURL *cydiaURL = [NSURL URLWithString:@"cydia://package"];
-    // if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) return YES;
+//     iOS9 URL Scheme query changed ...
+//     NSURL *cydiaURL = [NSURL URLWithString:@"cydia://package"];
+//     if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) return YES;
     
-    NSArray *paths = @[@"/Applications/Cydia.app",
-                       @"/private/var/lib/apt/",
-                       @"/private/var/lib/cydia",
-                       @"/private/var/stash"];
-    for (NSString *path in paths) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) return YES;
-    }
+//    NSArray *paths = @[@"/Applications/Cydia.app",
+//                       @"/private/var/lib/apt/",
+//                       @"/private/var/lib/cydia"];
+//    for (NSString *path in paths) {
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) return YES;
+//    }
     
     FILE *bash = fopen("/bin/bash", "r");
     if (bash != NULL) {
