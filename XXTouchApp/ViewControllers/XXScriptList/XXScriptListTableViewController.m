@@ -69,7 +69,7 @@ UISearchDisplayDelegate
     [super awakeFromNib];
     self.currentDirectory = [ROOT_PATH mutableCopy];
     self.rootItemsDictionaryArr = [NSMutableArray new];
-    if (!isJailbroken() && self.isRootDirectory) {
+    if (!daemonInstalled() && self.isRootDirectory) {
         self.navigationItem.leftBarButtonItem = self.aboutBtn;
     }
 }
@@ -169,7 +169,7 @@ UISearchDisplayDelegate
 }
 
 - (void)launchSetup {
-    if (!isJailbroken())
+    if (!daemonInstalled())
     {
         [self reloadScriptListTableView];
         [self endMJRefreshing];
@@ -408,7 +408,7 @@ UISearchDisplayDelegate
         [cell addGestureRecognizer:longPressGesture];
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
-        if (cell.isSelectable && isJailbroken()) {
+        if (cell.isSelectable && daemonInstalled()) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
@@ -662,17 +662,34 @@ UISearchDisplayDelegate
     XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (currentCell.isSelectable && isJailbroken()) {
-        if (!currentCell.checked) {
-            XXSwipeableCell *lastCell = nil;
-            for (XXSwipeableCell *cell in tableView.visibleCells) {
-                if (cell.checked) {
-                    lastCell = cell;
+        if (daemonInstalled()) {
+            if (!currentCell.checked) {
+                XXSwipeableCell *lastCell = nil;
+                for (XXSwipeableCell *cell in tableView.visibleCells) {
+                    if (cell.checked) {
+                        lastCell = cell;
+                    }
+                }
+                if (_selectBootscript) {
+                    SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;  [self popToSelectViewController];);
+                } else {
+                    SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;);
                 }
             }
-            if (_selectBootscript) {
-                SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;  [self popToSelectViewController];);
+        } else {
+            NSURL *cydiaURL = [NSURL URLWithString:CYDIA_URL];
+            if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Advanced Features", nil)
+                                                                 andMessage:NSLocalizedString(@"To run XXTouch script, extra package(s) should be installed via Cydia.", nil)];
+                [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                    
+                }];
+                [alertView addButtonWithTitle:NSLocalizedString(@"Open Cydia", nil) type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                    [[UIApplication sharedApplication] openURL:cydiaURL];
+                }];
+                [alertView show];
             } else {
-                SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;);
+                [self.navigationController.view makeToast:NSLocalizedString(@"Failed to open Cydia", nil)];
             }
         }
     } else {

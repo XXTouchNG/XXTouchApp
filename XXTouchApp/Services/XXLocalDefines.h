@@ -12,6 +12,7 @@
 static NSDictionary *extendApisDict = nil;
 static BOOL needRespring = YES;
 static BOOL jailbroken = NO;
+static BOOL installed = NO;
 static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
 
 static inline BOOL isJailbroken() {
@@ -24,6 +25,18 @@ static inline BOOL isJailbroken() {
 #endif
     });
     return jailbroken;
+}
+
+static inline BOOL daemonInstalled() {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+#ifndef DEBUG
+        installed = isJailbroken() ? [[NSFileManager defaultManager] isReadableFileAtPath:MAIN_PATH] : NO;
+#else
+        installed = YES;
+#endif
+    });
+    return installed;
 }
 
 static inline BOOL needsRespring() {

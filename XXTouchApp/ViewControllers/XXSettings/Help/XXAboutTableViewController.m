@@ -92,7 +92,7 @@ enum {
             return 3;
             break;
         case kFeedbackSection:
-            if (isJailbroken()) {
+            if (daemonInstalled()) {
                 return 3;
             } else {
                 return 1;

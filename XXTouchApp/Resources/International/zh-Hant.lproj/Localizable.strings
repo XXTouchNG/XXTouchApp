@@ -239,3 +239,6 @@ Hide = "隱藏";
 "Shift Left" = "左縮進";
 "Shift Right" = "右縮進";
 "(Un)Comment" = "切換注釋";
+"Advanced Features" = "擴展功能";
+"To run XXTouch script, extra package(s) should be installed via Cydia." = "運行 XXTouch 腳本前，您需要通過 Cydia 安裝擴展服務包。";
+"Failed to open Cydia" = "無法打開 Cydia";

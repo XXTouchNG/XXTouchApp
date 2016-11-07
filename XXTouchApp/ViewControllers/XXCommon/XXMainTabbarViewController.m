@@ -20,7 +20,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    if (!isJailbroken()) {
+    if (!daemonInstalled()) {
         self.viewControllers = @[self.viewControllers[0]];
     }
 }

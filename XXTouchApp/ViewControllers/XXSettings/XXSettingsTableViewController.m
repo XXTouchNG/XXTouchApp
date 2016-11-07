@@ -101,7 +101,7 @@ enum {
 }
 
 - (void)fetchRemoteAccessStatus {
-    if (!isJailbroken()) return;
+    if (!daemonInstalled()) return;
     self.remoteAccessSwitch.enabled = NO;
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{

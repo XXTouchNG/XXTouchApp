@@ -138,7 +138,7 @@ static CGFloat kMinimumGutterWidth = 42.f;
         
         self.lastParaLocation = charRange.location;
         self.lastParaNumber = paraNumber;
-        
+//        paraNumber++;
         return paraNumber;
     }
     else
@@ -160,7 +160,7 @@ static CGFloat kMinimumGutterWidth = 42.f;
         
         self.lastParaLocation = charRange.location;
         self.lastParaNumber = paraNumber;
-
+//        paraNumber++;
         return paraNumber;
     }
 }
@@ -190,37 +190,27 @@ static CGFloat kMinimumGutterWidth = 42.f;
     [super drawBackgroundForGlyphRange:glyphsToShow atPoint:origin];
 
     //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
-    NSDictionary* atts = @{NSFontAttributeName : _lineNumberFont ,
-                           NSForegroundColorAttributeName : _lineNumberColor};
-    
+    NSDictionary* atts = @{NSFontAttributeName: _lineNumberFont, NSForegroundColorAttributeName: _lineNumberColor};
+    __block CGRect gutterRect = CGRectZero; __block NSUInteger paraNumber;
     [self enumerateLineFragmentsForGlyphRange:glyphsToShow
-                                   usingBlock:^(CGRect rect, CGRect usedRect, NSTextContainer *textContainer, NSRange glyphRange, BOOL *stop) {
-                                       NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:nil];
-                                       NSRange paraRange = [self.textStorage.string paragraphRangeForRange:charRange];
-                                       
-                                       BOOL showCursorRect = NSLocationInRange(self->_selectedRange.location, paraRange);
-                                       
-                                       if (showCursorRect)
-                                       {
-                                           CGContextRef context = UIGraphicsGetCurrentContext();
-                                           CGRect cursorRect = CGRectMake(0, usedRect.origin.y + 8, self->_gutterWidth, usedRect.size.height);
-                                           
-                                           CGContextSetFillColorWithColor(context, self->_selectedLineNumberColor.CGColor);
-                                           CGContextFillRect(context, cursorRect);
-                                       }
-                                       
-                                       //   Only draw line numbers for the paragraph's first line fragment.  Subsequent fragments are wrapped portions of the paragraph and don't get the line number.
-                                       if (charRange.location == paraRange.location) {
-                                           CGRect gutterRect = CGRectOffset(CGRectMake(0, rect.origin.y, self->_gutterWidth, rect.size.height), origin.x, origin.y);
-                                           NSUInteger paraNumber = [self _paraNumberForRange:charRange];
-                                           NSString* ln = [NSString stringWithFormat:@"%ld", (unsigned long) paraNumber + 1];
-                                           CGSize size = [ln sizeWithAttributes:atts];
-                                           
-                                           [ln drawInRect:CGRectOffset(gutterRect, CGRectGetWidth(gutterRect) - self->_lineAreaInset.right - size.width - self->_gutterWidth, (CGRectGetHeight(gutterRect) - size.height) / 2.0)
-                                           withAttributes:atts];
-                                       }
+                                   usingBlock:^
+     (CGRect rect, CGRect usedRect, NSTextContainer *textContainer, NSRange glyphRange, BOOL *stop)
+    {
+       NSRange charRange = [self characterRangeForGlyphRange:glyphRange actualGlyphRange:nil];
+       NSRange paraRange = [self.textStorage.string paragraphRangeForRange:charRange];
+       
+       //   Only draw line numbers for the paragraph's first line fragment.  Subsequent fragments are wrapped portions of the paragraph and don't get the line number.
+       if (charRange.location == paraRange.location) {
+           gutterRect = CGRectOffset(CGRectMake(0, rect.origin.y, self->_gutterWidth, rect.size.height), origin.x, origin.y);
+           paraNumber = [self _paraNumberForRange:charRange];
+           NSString* ln = [NSString stringWithFormat:@"%ld", (unsigned long) paraNumber + 1];
+           CGSize size = [ln sizeWithAttributes:atts];
+           
+           [ln drawInRect:CGRectOffset(gutterRect, CGRectGetWidth(gutterRect) - self->_lineAreaInset.right - size.width - self->_gutterWidth, (CGRectGetHeight(gutterRect) - size.height) / 2.0)
+           withAttributes:atts];
+       }
 
-                                   }];
+   }];
 }
 
 @end

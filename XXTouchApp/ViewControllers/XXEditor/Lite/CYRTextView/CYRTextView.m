@@ -85,13 +85,18 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 - (void)_commonSetup
 {
+    // Setup observers
+    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(font)) options:0 context:CYRTextViewContext];
+    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(textColor)) options:0 context:CYRTextViewContext];
+    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(selectedTextRange)) options:0 context:CYRTextViewContext];
+    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(selectedRange)) options:0 context:CYRTextViewContext];
+    
     // Setup defaults
     self.font = [UIFont systemFontOfSize:14.0f];
     self.textColor = [UIColor blackColor];
     self.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.autocorrectionType     = UITextAutocorrectionTypeNo;
-    self.lineCursorEnabled = YES;
-    self.gutterBackgroundColor = [UIColor colorWithWhite:0.99 alpha:1.f];
+    self.gutterBackgroundColor = [UIColor colorWithWhite:.97f alpha:1.f];
     self.gutterLineColor       = [UIColor lightGrayColor];
     
     // Inset the content to make room for line numbers
@@ -107,6 +112,40 @@ static const float kCursorVelocity = 1.0f/8.0f;
     _doubleFingerPanRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(doubleFingerPanHappend:)];
     _doubleFingerPanRecognizer.minimumNumberOfTouches = 2;
     [self addGestureRecognizer:_doubleFingerPanRecognizer];
+}
+
+#pragma mark - Cleanup
+
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(font))];
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(textColor))];
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(selectedTextRange))];
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(selectedRange))];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(font))] && context == CYRTextViewContext)
+    {
+        // Whenever the UITextView font is changed we want to keep a reference in the stickyFont ivar. We do this to counteract a bug where the underlying font can be changed without notice and cause undesired behaviour.
+        self.syntaxTextStorage.defaultFont = self.font;
+    }
+    else if ([keyPath isEqualToString:NSStringFromSelector(@selector(textColor))] && context == CYRTextViewContext)
+    {
+        self.syntaxTextStorage.defaultTextColor = self.textColor;
+    }
+    else if (([keyPath isEqualToString:NSStringFromSelector(@selector(selectedTextRange))] ||
+              [keyPath isEqualToString:NSStringFromSelector(@selector(selectedRange))]) && context == CYRTextViewContext)
+    {
+        [self setNeedsDisplay];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark - Overrides
@@ -133,16 +172,6 @@ static const float kCursorVelocity = 1.0f/8.0f;
     [self replaceRange:textRange withText:text];
 }
 
-- (void)setTextColor:(UIColor *)textColor {
-    [super setTextColor:textColor];
-    [self.syntaxTextStorage setDefaultTextColor:textColor];
-}
-
-- (void)setDefaultFont:(UIFont *)defaultFont
-{
-    [self setDefaultFont:defaultFont shouldUpdate:YES];
-}
-
 - (void)setDefaultFont:(UIFont *)defaultFont shouldUpdate:(BOOL)update {
     _defaultFont = defaultFont;
     self.syntaxTextStorage.defaultFont = defaultFont;
@@ -150,16 +179,6 @@ static const float kCursorVelocity = 1.0f/8.0f;
     {
         self.font = defaultFont; // Adjust content size
     }
-}
-
-- (void)setSelectedRange:(NSRange)selectedRange {
-    [super setSelectedRange:selectedRange];
-    [self setNeedsDisplay];
-}
-
-- (void)setSelectedTextRange:(UITextRange *)selectedTextRange {
-    [super setSelectedTextRange:selectedTextRange];
-    [self setNeedsDisplay];
 }
 
 #pragma mark - Line Drawing
@@ -183,16 +202,6 @@ static const float kCursorVelocity = 1.0f/8.0f;
     
     CGContextSetFillColorWithColor(context, self.gutterLineColor.CGColor);
     CGContextFillRect(context, CGRectMake(manager.gutterWidth, bounds.origin.y, 0.5, height));
-    
-    if (_lineCursorEnabled)
-    {
-        manager.selectedRange = self.selectedRange;
-        
-        NSRange glyphRange = [manager.textStorage.string paragraphRangeForRange:self.selectedRange];
-        glyphRange = [manager glyphRangeForCharacterRange:glyphRange actualCharacterRange:NULL];
-        manager.selectedRange = glyphRange;
-        [manager invalidateDisplayForGlyphRange:glyphRange];
-    }
     
     [super drawRect:rect];
 }

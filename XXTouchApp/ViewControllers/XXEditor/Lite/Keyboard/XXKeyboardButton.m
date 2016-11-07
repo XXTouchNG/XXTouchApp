@@ -354,8 +354,6 @@
 #pragma mark - Touch Handling
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [[UIDevice currentDevice] playInputClick];
-    
     UITouch *t = [touches anyObject];
     _touchBeginPoint = [t locationInView:self];
     
@@ -412,12 +410,14 @@
     
     if (_output != nil) {
         if (_tabButton) {
+            [[UIDevice currentDevice] playInputClick];
             [self insertText:self.tabString];
         } else if (_trackPoint) {
             if (_selecting) {
                 [self selectionComplete];
             }
         } else {
+            [[UIDevice currentDevice] playInputClick];
             [self insertText:self.output];
         }
     }
