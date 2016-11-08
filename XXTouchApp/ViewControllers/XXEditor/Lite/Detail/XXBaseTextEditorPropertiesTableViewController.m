@@ -49,12 +49,16 @@
     NSRange crlfRange = [self.fileContent rangeOfString:@"\r\n"];
     if (crlfRange.location != NSNotFound) {
         self.lineEndingsLabel.text = @"Windows (CRLF)";
-    }
-    NSRange crRange = [self.fileContent rangeOfString:@"\r"];
-    if (crRange.location != NSNotFound) {
-        self.lineEndingsLabel.text = @"Mac (CR)";
+        self.lineEndingsLabel.textColor = [UIColor redColor];
     } else {
-        self.lineEndingsLabel.text = @"Unix (LF)";
+        NSRange crRange = [self.fileContent rangeOfString:@"\r"];
+        if (crRange.location != NSNotFound) {
+            self.lineEndingsLabel.text = @"Mac (CR)";
+            self.lineEndingsLabel.textColor = [UIColor redColor];
+        } else {
+            self.lineEndingsLabel.text = @"Unix (LF)";
+            self.lineEndingsLabel.textColor = [UIColor blackColor];
+        }
     }
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     if ([fileExt isEqualToString:@"lua"]) {

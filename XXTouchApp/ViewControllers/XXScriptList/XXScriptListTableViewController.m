@@ -294,6 +294,10 @@ UISearchDisplayDelegate
 }
 
 - (BOOL)hidesMainPath {
+    if (!isJailbroken())
+    {
+        return NO;
+    }
     return [[[[XXLocalDataService sharedInstance] localUserConfig] objectForKey:kXXLocalConfigHidesMainPath] boolValue];
 }
 
@@ -403,9 +407,11 @@ UISearchDisplayDelegate
         cell.accessoryType = cell.canOperate ?
         UITableViewCellAccessoryDetailDisclosureButton :
         UITableViewCellAccessoryDisclosureIndicator;
-        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
-        longPressGesture.delegate = self;
-        [cell addGestureRecognizer:longPressGesture];
+        if (isJailbroken()) {
+            UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
+            longPressGesture.delegate = self;
+            [cell addGestureRecognizer:longPressGesture];
+        }
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
         if (cell.isSelectable && daemonInstalled()) {
