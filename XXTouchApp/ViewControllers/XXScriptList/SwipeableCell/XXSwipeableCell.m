@@ -9,6 +9,7 @@
 #import "XXSwipeableCell.h"
 #import "XXLocalDataService.h"
 #import "XXQuickLookService.h"
+#import "NSArray+FindString.h"
 
 @interface XXSwipeableCell()
 @property (weak, nonatomic) IBOutlet UIImageView *fileTypeImageView;
@@ -60,7 +61,8 @@
 
 - (BOOL)isSelectable {
     if (!self.canOperate) return NO;
-    return [XXQuickLookService isSelectableFileExtension:[self.itemAttrs[kXXItemPathKey] pathExtension]];
+    NSString *fileExt = [[self.itemAttrs[kXXItemPathKey] pathExtension] lowercaseString];
+    return [[XXQuickLookService selectableFileExtensions] existsString:fileExt];
 }
 
 - (BOOL)isEditable {
@@ -77,7 +79,7 @@
     self.checked = NO;
     self.fileNameLabel.text = itemAttrs[kXXItemNameKey];
     if (itemAttrs[kXXItemSpecialKey]) {
-        self.fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForSpecialItem:itemAttrs[kXXItemSpecialKey]];
+        self.fileTypeImageView.image = [XXQuickLookService fetchDisplayImageForFileExtension:itemAttrs[kXXItemSpecialKey]];
     } else {
         NSString *fileExt = [itemAttrs[kXXItemPathKey] pathExtension];
         self.fileTypeImageView.image = self.isDirectory ? [UIImage imageNamed:@"file-folder"] : [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];

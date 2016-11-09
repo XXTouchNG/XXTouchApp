@@ -124,7 +124,7 @@
     zipFile zip = unzOpen((const char*)[path UTF8String]);
     if (zip == NULL)
     {
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"failed to open zip file"};
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey:NSLocalizedString(@"Failed to open archive file", nil)};
         NSError *err = [NSError errorWithDomain:@"SSZipArchiveErrorDomain" code:-1 userInfo:userInfo];
         if (error)
         {
@@ -147,7 +147,7 @@
     // Begin unzipping
     if (unzGoToFirstFile(zip) != UNZ_OK)
     {
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"failed to open first file in zip file"};
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey:NSLocalizedString(@"Failed to open archive file", nil)};
         NSError *err = [NSError errorWithDomain:@"SSZipArchiveErrorDomain" code:-2 userInfo:userInfo];
         if (error)
         {
@@ -457,7 +457,7 @@
     NSError *retErr = nil;
     if (crc_ret == UNZ_CRCERROR)
     {
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"crc check failed for file"};
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey:NSLocalizedString(@"Failed to verify archive file", nil)};
         retErr = [NSError errorWithDomain:@"SSZipArchiveErrorDomain" code:-3 userInfo:userInfo];
     }
     

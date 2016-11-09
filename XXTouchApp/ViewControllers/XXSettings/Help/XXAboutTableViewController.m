@@ -9,9 +9,6 @@
 #import "XXWebViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "XXAboutTableViewController.h"
-#ifdef DEBUG
-#import <FLEX/FLEXManager.h>
-#endif
 
 enum {
     kInformationSection = 0,
@@ -53,9 +50,6 @@ enum {
     
     self.title = NSLocalizedString(@"About", nil);
     _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
-#ifndef DEBUG
-    self.navigationItem.rightBarButtonItem = nil;
-#endif
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -181,14 +175,6 @@ enum {
     } else {
         [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Mobile QQ", nil)];
     }
-}
-
-- (IBAction)flexDebugging:(UIBarButtonItem *)sender {
-#ifdef DEBUG
-    [[FLEXManager sharedManager] setNetworkDebuggingEnabled:YES];
-    [[FLEXManager sharedManager] showExplorer];
-    [self.navigationController.view makeToast:NSLocalizedString(@"Debug Mode", nil)];
-#endif
 }
 
 - (void)dealloc {

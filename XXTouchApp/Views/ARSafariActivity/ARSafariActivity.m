@@ -27,13 +27,6 @@ NSString * const ARSafariActivityType = @"ARSafariActivity";
 {
 	NSString *activityType = [self activityType];
 	NSString *filename = [NSString stringWithFormat:@"%@.bundle/%@", activityType, activityType];
-
-	if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] == NSOrderedAscending)
-	{
-		// iOS6 icon from iconfinder.com and added by @banaslee
-		filename = [filename stringByAppendingString:@"-iOS6"];
-	}
-
 	return [UIImage imageNamed:filename];
 }
 

@@ -16,6 +16,14 @@
 
 @implementation XXPickerBaseViewController
 
++ (NSString *)keyword {
+    return @"@@";
+}
+
++ (NSString *)storyboardID {
+    return nil;
+}
+
 #pragma mark - View Events
 
 - (void)viewDidLoad {
@@ -33,11 +41,11 @@
 #pragma mark - Next Step
 
 - (void)next:(UIBarButtonItem *)sender {
-    [self pushToNextControllerWithKeyword:self.keyword replacement:@""];
+    [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:@""];
 }
 
 - (XXCodeBlockModel *)previewBlockModelWithRange:(NSRange *)range {
-    return [self blockModelWithKeyword:self.keyword
+    return [self blockModelWithKeyword:[[self class] keyword]
                            replacement:self.previewString
                            resultRange:range];
 }

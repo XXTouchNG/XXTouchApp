@@ -16,6 +16,10 @@
 
 @synthesize localizedStrings = _localizedStrings;
 
++ (NSString *)keyword {
+    return @"@pos@";
+}
+
 - (kXXCropViewType)cropViewType {
     return kXXCropViewTypePosition;
 }

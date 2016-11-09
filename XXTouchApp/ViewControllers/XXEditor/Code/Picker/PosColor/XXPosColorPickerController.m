@@ -16,6 +16,10 @@
 
 @synthesize localizedStrings = _localizedStrings;
 
++ (NSString *)keyword {
+    return @"@poscolor@";
+}
+
 - (kXXCropViewType)cropViewType {
     return kXXCropViewTypePositionColor;
 }

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
+
 @interface XXEmptyNavigationController : UINavigationController
 
 @end

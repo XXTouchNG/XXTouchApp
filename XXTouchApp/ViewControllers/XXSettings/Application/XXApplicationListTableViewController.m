@@ -40,6 +40,14 @@ UISearchDisplayDelegate
     NSString *_previewString;
 }
 
++ (NSString *)keyword {
+    return @"@app@";
+}
+
++ (NSString *)storyboardID {
+    return kXXApplicationListTableViewControllerStoryboardID;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     if (self.searchDisplayController.active) {
         return UIStatusBarStyleDefault;
@@ -133,7 +141,7 @@ UISearchDisplayDelegate
     if (self.codeBlock) {
         identifier = [identifier addSlashes];
         _previewString = identifier;
-        [self pushToNextControllerWithKeyword:self.keyword replacement:identifier];
+        [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:identifier];
     }
 }
 

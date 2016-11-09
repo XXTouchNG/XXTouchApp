@@ -3333,13 +3333,7 @@ All Rights Reserved.</string>
                             <outlet property="delegate" destination="NaK-RG-ax6" id="OhC-YC-9ra"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="About" id="xfo-h5-ePc">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="oVa-jV-aJK">
-                            <connections>
-                                <action selector="flexDebugging:" destination="NaK-RG-ax6" id="rir-t6-zI2"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="About" id="xfo-h5-ePc"/>
                     <connections>
                         <outlet property="appLabel" destination="dp7-rb-o1s" id="wVK-Df-iCC"/>
                     </connections>

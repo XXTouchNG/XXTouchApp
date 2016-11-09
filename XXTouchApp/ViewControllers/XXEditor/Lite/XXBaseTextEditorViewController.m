@@ -688,12 +688,6 @@ XXEditorSettingsTableViewControllerDelegate>
     [countLabel sizeToFit];
 }
 
-#pragma mark - File Type
-
-+ (NSArray <NSString *> *)supportedFileType {
-    return @[ @"lua", @"txt" ];
-}
-
 #pragma mark - Load Settings
 
 - (void)loadEditorSettings {

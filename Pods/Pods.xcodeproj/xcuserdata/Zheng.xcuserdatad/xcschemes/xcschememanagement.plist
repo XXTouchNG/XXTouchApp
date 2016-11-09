@@ -7,173 +7,125 @@
 		<key>FCFileManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
-		<key>FLEX.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>2</integer>
+			<false/>
 		</dict>
 		<key>JTSImageViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>3</integer>
+			<false/>
 		</dict>
 		<key>MGSwipeTableCell.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>4</integer>
+			<false/>
 		</dict>
 		<key>MJRefresh.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>5</integer>
+			<false/>
 		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>6</integer>
+			<false/>
 		</dict>
 		<key>NJKWebViewProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>7</integer>
+			<false/>
 		</dict>
 		<key>Pods-XXTouchApp.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>8</integer>
-		</dict>
-		<key>RFKeyboardToolbar.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>9</integer>
+			<false/>
 		</dict>
 		<key>SSZipArchive.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>10</integer>
+			<false/>
 		</dict>
 		<key>Toast.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>11</integer>
+			<false/>
 		</dict>
 		<key>YYCache.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>12</integer>
+			<false/>
 		</dict>
 		<key>YYCategories.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>13</integer>
+			<false/>
 		</dict>
 		<key>ZBarSDK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false />
-			<key>orderHint</key>
-			<integer>14</integer>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>14434DF48CCAAE3AF8379B59CE9373CA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>17A20FA853126C8D0070944735FDD8E4</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
-		<key>1AF53E87421B7E289BF117342912C045</key>
+		<key>4453D8B0E0E3F2218AB1A5157DA62E1D</key>
 		<dict>
 			<key>primary</key>
-			<true />
-		</dict>
-		<key>2531D668F13A961B963ABD4C56312ACB</key>
-		<dict>
-			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
-			<true />
-		</dict>
-		<key>5E2696CD9890A55074A38CC4FC1B60AF</key>
-		<dict>
-			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 		<key>70BC44266C6FFE30D2C57129458E070B</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
-		<key>7427412AEA234AB9DA77A8758DDAAFDD</key>
+		<key>7B9A22E0D22E3ADF1DFEF2506BA2359E</key>
 		<dict>
 			<key>primary</key>
-			<true />
-		</dict>
-		<key>77C4283B13B367178AE03DD596517373</key>
-		<dict>
-			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 		<key>7EDBC06B3D447B9192D12E139BD4ACFE</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 		<key>8C463CD491D989B457394A7AA95384BC</key>
 		<dict>
 			<key>primary</key>
-			<true />
-		</dict>
-		<key>8CC5C219A0C6C1782F1E9746F18E5987</key>
-		<dict>
-			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
 		<key>B4A3E08D49931371F7247521A50EAF79</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
-		<key>BEC7E98BAFBBCDA06DDA8DC48ED5231D</key>
+		<key>C6D7C00E8F49248F2462712C1B48A033</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
 		</dict>
-		<key>DD041816C8C0049A2F224AB62C04E75D</key>
+		<key>E69F5EE73130B5E612A9FAD64F91EDA6</key>
 		<dict>
 			<key>primary</key>
-			<true />
+			<true/>
+		</dict>
+		<key>ED61713B7B83B829B99C7728CAD80B11</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

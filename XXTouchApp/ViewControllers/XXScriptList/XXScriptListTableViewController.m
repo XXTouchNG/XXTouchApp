@@ -9,7 +9,8 @@
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXQuickLookService.h"
-#import "XXArchiveService.h"
+#import "XXArchiveActivity.h"
+#import "XXUnarchiveActivity.h"
 
 #import <MJRefresh/MJRefresh.h>
 #import "XXToolbar.h"
@@ -32,10 +33,11 @@ static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
 <
 UITableViewDelegate,
 UITableViewDataSource,
-SSZipArchiveDelegate,
 UIGestureRecognizerDelegate,
 XXToolbarDelegate,
-UISearchDisplayDelegate
+UISearchDisplayDelegate,
+XXArchiveDelegate,
+XXUnarchiveDelegate
 >
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -407,11 +409,11 @@ UISearchDisplayDelegate
         cell.accessoryType = cell.canOperate ?
         UITableViewCellAccessoryDetailDisclosureButton :
         UITableViewCellAccessoryDisclosureIndicator;
-        if (isJailbroken()) {
-            UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
-            longPressGesture.delegate = self;
-            [cell addGestureRecognizer:longPressGesture];
-        }
+    
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
+        longPressGesture.delegate = self;
+        [cell addGestureRecognizer:longPressGesture];
+    
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
         if (cell.isSelectable && daemonInstalled()) {
@@ -422,7 +424,6 @@ UISearchDisplayDelegate
                                                               insets:UIEdgeInsetsMake(0, 24, 0, 24)
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
-                                                                [self setEditing:NO animated:YES];
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
                                                                 self.navigationController.view.userInteractionEnabled = NO;
                                                                 [self.navigationController.view makeToastActivity:CSToastPositionCenter];
@@ -458,7 +459,6 @@ UISearchDisplayDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-                                                                [self setEditing:NO animated:YES];
                                                                 BOOL result = [XXQuickLookService editFileWithStandardEditor:currentCell.itemAttrs[kXXItemRealPathKey] parentViewController:self];
                                                                 if (!result) {
                                                                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
@@ -475,7 +475,6 @@ UISearchDisplayDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-                                                                [self setEditing:NO animated:YES];
                                                                 UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
                                                                 XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
                                                                 viewController.currentPath = currentCell.itemAttrs[kXXItemPathKey];
@@ -491,7 +490,6 @@ UISearchDisplayDelegate
                                                                insets:UIEdgeInsetsMake(0, 24, 0, 24)
                                                              callback:^BOOL(MGSwipeTableCell *sender) {
                                                                  @strongify(self);
-                                                                 [self setEditing:NO animated:YES];
                                                                  XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
                                                                  NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:currentCell];
                                                                  SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Confirm", nil)
@@ -555,13 +553,15 @@ UISearchDisplayDelegate
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
         if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
-            XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            [cell becomeFirstResponder];
-            UIMenuController *menuController = [UIMenuController sharedMenuController];
-            UIMenuItem *hideItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Hide", nil) action:@selector(hideItemTapped:)];
-            [menuController setMenuItems:[NSArray arrayWithObjects:hideItem, nil]];
-            [menuController setTargetRect:[self.tableView rectForRowAtIndexPath:indexPath] inView:self.tableView];
-            [menuController setMenuVisible:YES animated:YES];
+            if (isJailbroken()) {
+                XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                [cell becomeFirstResponder];
+                UIMenuController *menuController = [UIMenuController sharedMenuController];
+                UIMenuItem *hideItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Hide", nil) action:@selector(hideItemTapped:)];
+                [menuController setMenuItems:[NSArray arrayWithObjects:hideItem, nil]];
+                [menuController setTargetRect:[self.tableView rectForRowAtIndexPath:indexPath] inView:self.tableView];
+                [menuController setMenuVisible:YES animated:YES];
+            }
             return;
         }
         [self setEditing:YES animated:YES];
@@ -705,13 +705,8 @@ UISearchDisplayDelegate
             if (_selectBootscript) {
                 [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
-                BOOL result = [XXArchiveService unArchiveZip:currentCell.itemAttrs[kXXItemPathKey]
-                                                 toDirectory:self.currentDirectory
-                                        parentViewController:self];
-                if (!result) {
-                    result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
+                BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
                                                        parentViewController:self];
-                }
                 if (!result) {
                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                 }
@@ -872,22 +867,17 @@ UISearchDisplayDelegate
                 cutStr = [NSString stringWithFormat:NSLocalizedString(@"Cut %d items", nil), selectedIndexes.count];
             }
             if ([self isEditing]) {
-                @weakify(self);
-                [alertView addButtonWithTitle:copyStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                    @strongify(self);
+                [alertView addButtonWithTitle:copyStr
+                                         type:SIAlertViewButtonTypeDefault
+                                      handler:^(SIAlertView *alertView) {
                     [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCopy];
                     [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
-                    if (self.isEditing) {
-                        [self setEditing:NO animated:YES];
-                    }
                 }];
-                [alertView addButtonWithTitle:cutStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                    @strongify(self);
+                [alertView addButtonWithTitle:cutStr
+                                         type:SIAlertViewButtonTypeDefault
+                                      handler:^(SIAlertView *alertView) {
                     [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCut];
                     [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
-                    if (self.isEditing) {
-                        [self setEditing:NO animated:YES];
-                    }
                 }];
             }
         }
@@ -954,26 +944,27 @@ UISearchDisplayDelegate
             } else {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             }
-            [self setEditing:NO animated:YES];
         }];
         [alertView show];
     } else if (sender == self.topToolbar.shareButton) {
         NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
-        NSMutableArray <NSURL *> *pathsArr = [[NSMutableArray alloc] init];
+        NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
         for (NSIndexPath *indexPath in selectedIndexPaths) {
             NSDictionary *infoDict = self.rootItemsDictionaryArr[indexPath.row];
             if (![infoDict[NSFileType] isEqualToString:NSFileTypeDirectory]) {
-                [pathsArr addObject:[NSURL fileURLWithPath:infoDict[kXXItemPathKey]]];
+                [pathsArr addObject:infoDict[kXXItemPathKey]];
             }
         }
         if (pathsArr.count != 0) {
             BOOL didPresentOpenIn = NO;
             if (pathsArr.count == 1) {
-                self.documentController.URL = pathsArr[0];
+                self.documentController.URL = [NSURL fileURLWithPath:pathsArr[0]];
                 didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
             }
             if (!didPresentOpenIn || pathsArr.count > 1) {
-                UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:nil];
+                XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
+                act.delegate = self;
+                UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:@[act]];
                 [self.navigationController presentViewController:controller animated:YES completion:nil];
             }
         } else {
@@ -995,18 +986,16 @@ UISearchDisplayDelegate
         }];
         [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
-            if (self.isEditing) {
-                [self setEditing:NO animated:YES];
-            }
             NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
                 [pathsArr addObject:itemPath];
             }
             if (pathsArr.count != 0) {
-                [XXArchiveService archiveItems:pathsArr
-                                   toDirectory:self.currentDirectory
-                          parentViewController:self];
+                XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
+                act.delegate = self;
+                [act prepareWithActivityItems:pathsArr];
+                [act performActivity];
             }
         }];
         [alertView show];
@@ -1023,21 +1012,19 @@ UISearchDisplayDelegate
     return _documentController;
 }
 
-#pragma mark - SSZipArchiveDelegate
+#pragma mark - XXUnarchiveDelegate
 
-- (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path
-                                zipInfo:(unz_global_info)zipInfo
-                           unzippedPath:(NSString *)unzippedPath
+- (void)archiveDidUnArchiveAtPath:(NSString *)path
+                     unzippedPath:(NSString *)unzippedPath
 {
-    dispatch_async_on_main_queue(^{
-        [self reloadScriptListTableView];
-    });
+    [self reloadScriptListTableView];
 }
 
-- (void)zipArchiveDidCreatedArchiveAtPath:(NSString *)path {
-    dispatch_async_on_main_queue(^{
-        [self reloadScriptListTableView];
-    });
+#pragma mark - XXArchiveDelegate
+
+- (void)archiveDidCreatedAtPath:(NSString *)path
+{
+    [self reloadScriptListTableView];
 }
 
 #pragma mark - Getter

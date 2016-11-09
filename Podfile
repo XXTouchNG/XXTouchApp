@@ -15,6 +15,5 @@ target 'XXTouchApp' do
     pod 'ZBarSDK'
     pod 'MGSwipeTableCell'
     pod 'SSZipArchive'
-    pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 end
 

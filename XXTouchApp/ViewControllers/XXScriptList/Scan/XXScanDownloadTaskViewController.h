@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXDownloadTaskNavigationControllerStoryboardID";
+
 @class XXScanDownloadTaskViewController;
 
 @protocol XXScanDownloadTaskDelegate <NSObject>

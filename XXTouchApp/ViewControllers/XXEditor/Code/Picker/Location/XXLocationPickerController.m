@@ -24,6 +24,14 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 
 @implementation XXLocationPickerController
 
++ (NSString *)keyword {
+    return @"@loc@";
+}
+
++ (NSString *)storyboardID {
+    return kXXLocationPickerControllerStoryboardID;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -114,7 +122,7 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 #pragma mark - Setter
 
 - (void)selectCoordinate:(UIButton *)sender {
-    [self pushToNextControllerWithKeyword:self.keyword replacement:self.previewString];
+    [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:self.previewString];
 }
 
 #pragma mark - Previewing Bar

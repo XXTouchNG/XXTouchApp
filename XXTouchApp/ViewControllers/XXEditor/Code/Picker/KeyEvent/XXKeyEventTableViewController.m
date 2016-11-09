@@ -28,6 +28,14 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
     NSString *_previewString;
 }
 
++ (NSString *)keyword {
+    return @"@key@";
+}
+
++ (NSString *)storyboardID {
+    return kXXKeyEventTableViewControllerStoryboardID;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -129,7 +137,7 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     _previewString = ((XXKeyEventModel *)((NSArray *)self.events[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]).command;
-    [self pushToNextControllerWithKeyword:self.keyword replacement:self.previewString];
+    [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:self.previewString];
 }
 
 #pragma mark - Previewing Bar

@@ -18,10 +18,6 @@
 #import <ZBarSDK/ZBarImageScanner.h>
 #import <Masonry/Masonry.h>
 
-static NSString * const kXXNavigationControllerStoryboardID = @"kXXNavigationControllerStoryboardID";
-static NSString * const kXXAuthorizationTableViewControllerStoryboardID = @"kXXAuthorizationTableViewControllerStoryboardID";
-static NSString * const kXXDownloadTaskNavigationControllerStoryboardID = @"kXXDownloadTaskNavigationControllerStoryboardID";
-
 @interface XXScanViewController () <AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, XXScanDownloadTaskDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *session;

@@ -16,6 +16,10 @@
 
 @synthesize localizedStrings = _localizedStrings;
 
++ (NSString *)keyword {
+    return @"@rect@";
+}
+
 - (kXXCropViewType)cropViewType {
     return kXXCropViewTypeRect;
 }

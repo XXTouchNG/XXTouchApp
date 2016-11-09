@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XXFileViewer.h"
 
 typedef enum : NSUInteger {
     kXXWebViewLoadTypeCommon = 0,
@@ -16,7 +15,7 @@ typedef enum : NSUInteger {
     kXXWebViewLoadTypeCode   = 3,
 } kXXWebViewLoadType;
 
-@interface XXWebViewController : UIViewController <XXFileViewer>
+@interface XXWebViewController : UIViewController
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, assign) kXXWebViewLoadType loadType;
 

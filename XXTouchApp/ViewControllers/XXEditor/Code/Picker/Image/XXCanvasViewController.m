@@ -73,9 +73,9 @@
 
 - (void)next:(UIBarButtonItem *)sender {
     if (!self.selectedImage) {
-        [self pushToNextControllerWithKeyword:self.keyword replacement:@""];
+        [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:@""];
     } else {
-        [self pushToNextControllerWithKeyword:self.keyword replacement:[self previewString]];
+        [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:[self previewString]];
     }
 }
 
