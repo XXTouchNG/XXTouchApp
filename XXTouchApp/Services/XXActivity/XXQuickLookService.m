@@ -15,6 +15,7 @@
 #import "XXTextActivity.h"
 #import "XXArchiveActivity.h"
 #import "XXUnarchiveActivity.h"
+#import "XXTerminalActivity.h"
 
 @implementation XXQuickLookService
 
@@ -99,6 +100,7 @@
              [XXMediaActivity class],
              [XXWebActivity class],
              [XXUnarchiveActivity class],
+             [XXTerminalActivity class],
              ];
 }
 
@@ -121,6 +123,7 @@
     }
     { // Not supported
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:[self viewActivitiesWithViewController:viewController]];
+        [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
         [viewController.navigationController presentViewController:controller animated:YES completion:nil];
         return YES;
     }
@@ -160,6 +163,7 @@
     }
     { // Not supported
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:[self editActivitiesWithViewController:viewController]];
+        [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
         [viewController.navigationController presentViewController:controller animated:YES completion:nil];
         return YES;
     }

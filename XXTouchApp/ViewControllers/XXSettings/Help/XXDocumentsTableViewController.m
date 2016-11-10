@@ -75,10 +75,13 @@ enum {
             documentUrl = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/code-snippet-reference" ofType:@"html"];
             fileUrl = YES;
         }
-        if (fileUrl) {
-            viewController.url = [NSURL fileURLWithPath:[documentUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-        } else {
-            viewController.url = [NSURL URLWithString:[documentUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+        NSString *documentPath = [documentUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        if (documentPath) {
+            if (fileUrl) {
+                viewController.url = [NSURL fileURLWithPath:documentPath];
+            } else {
+                viewController.url = [NSURL URLWithString:documentPath];
+            }
         }
         
         [self.navigationController pushViewController:viewController animated:YES];

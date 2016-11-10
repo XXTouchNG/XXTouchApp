@@ -89,7 +89,7 @@
         UILabel *ptLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         ptLabel.font = [UIFont boldSystemFontOfSize:14.f];
         ptLabel.textColor = STYLE_TINT_COLOR;
-        ptLabel.text = @"pt";
+        ptLabel.text = NSLocalizedString(@"pt", nil);
         [ptLabel sizeToFit];
         _ptLabel = ptLabel;
     }

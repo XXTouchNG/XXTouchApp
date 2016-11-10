@@ -45,28 +45,25 @@
     NSDate *modifiedAt = [FCFileManager modificationDateOfItemAtPath:self.filePath error:err];
     if (*err) return NO;
     self.modificationLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modifiedAt];
-    self.encodingLabel.text = @"Unicode (UTF-8)"; // Certain
+    self.encodingLabel.text = NSLocalizedString(@"Unicode (UTF-8)", nil); // Certain
     NSRange crlfRange = [self.fileContent rangeOfString:@"\r\n"];
     if (crlfRange.location != NSNotFound) {
-        self.lineEndingsLabel.text = @"Windows (CRLF)";
-        self.lineEndingsLabel.textColor = [UIColor redColor];
+        self.lineEndingsLabel.text = NSLocalizedString(@"Windows (CRLF)", nil);
     } else {
         NSRange crRange = [self.fileContent rangeOfString:@"\r"];
         if (crRange.location != NSNotFound) {
-            self.lineEndingsLabel.text = @"Mac (CR)";
-            self.lineEndingsLabel.textColor = [UIColor redColor];
+            self.lineEndingsLabel.text = NSLocalizedString(@"Mac (CR)", nil);
         } else {
-            self.lineEndingsLabel.text = @"Unix (LF)";
-            self.lineEndingsLabel.textColor = [UIColor blackColor];
+            self.lineEndingsLabel.text = NSLocalizedString(@"Unix (LF)", nil);
         }
     }
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     if ([fileExt isEqualToString:@"lua"]) {
-        self.syntaxDefinitionLabel.text = @"Lua (*.lua)";
+        self.syntaxDefinitionLabel.text = NSLocalizedString(@"Lua (*.lua)", nil);
     } else if ([fileExt isEqualToString:@"txt"]) {
-        self.syntaxDefinitionLabel.text = @"Plain Text (*.txt)";
+        self.syntaxDefinitionLabel.text = NSLocalizedString(@"Plain Text (*.txt)", nil);
     } else {
-        self.syntaxDefinitionLabel.text = @"N/A";
+        self.syntaxDefinitionLabel.text = NSLocalizedString(@"N/A", nil);
     }
     NSUInteger lineCount = [self countChar:self.fileContent cchar:'\n'];
     self.lineCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)lineCount];

@@ -760,9 +760,9 @@ LUAMOD_API int luaopen_io (lua_State *L) {
   luaL_newlib(L, iolib);  /* new module */
   createmeta(L);
   /* create (and set) default files */
-  createstdfile(L, stdin, IO_INPUT, "stdin");
-  createstdfile(L, stdout, IO_OUTPUT, "stdout");
-  createstdfile(L, stderr, NULL, "stderr");
+  createstdfile(L, fakein(), IO_INPUT, "stdin");
+  createstdfile(L, fakeout(), IO_OUTPUT, "stdout");
+  createstdfile(L, fakeerr(), NULL, "stderr");
   return 1;
 }
 

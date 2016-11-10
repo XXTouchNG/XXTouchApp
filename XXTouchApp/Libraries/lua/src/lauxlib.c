@@ -709,7 +709,7 @@ LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,
   int fnameindex = lua_gettop(L) + 1;  /* index of filename on the stack */
   if (filename == NULL) {
     lua_pushliteral(L, "=stdin");
-    lf.f = stdin;
+    lf.f = fakein();
   }
   else {
     lua_pushfstring(L, "@%s", filename);

@@ -482,5 +482,9 @@ struct lua_Debug {
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
 
+void *fakein();
+void *fakeout();
+void *fakeerr();
+void fakeio(void *fin, void *fout, void *ferr);
 
 #endif

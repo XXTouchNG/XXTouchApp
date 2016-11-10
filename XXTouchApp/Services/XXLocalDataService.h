@@ -113,4 +113,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 
 - (NSArray <UIFont *> *)fontFamilyArray;
 
+@property (nonatomic, assign) FILE *stdoutHandler;
+@property (nonatomic, assign) FILE *stderrHandler;
+
 @end

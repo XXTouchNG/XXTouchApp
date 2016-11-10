@@ -19,6 +19,7 @@
 #import <Masonry/Masonry.h>
 #import "XXKeyboardRow.h"
 #import "XXLuaVModel.h"
+#import "XXTerminalActivity.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
@@ -35,6 +36,7 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
+@property (nonatomic, strong) UIBarButtonItem *launchItem;
 @property (nonatomic, strong) UIButton *readingItem;
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
@@ -70,14 +72,18 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)setup {
     
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
-    _isLuaCode = [fileExt isEqualToString:@"lua"];
+    self.isLuaCode = [fileExt isEqualToString:@"lua"];
+    if (self.isLuaCode) {
+        self.navigationItem.rightBarButtonItem = self.launchItem;
+    } else {
+        self.navigationItem.rightBarButtonItem = self.shareItem;
+    }
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_interactivePopDisabled = YES;
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.navigationItem.rightBarButtonItem = self.shareItem;
     self.reloadSectionArr = [NSMutableArray new];
     
     [self.view addSubview:self.fakeStatusBar];
@@ -218,6 +224,7 @@ XXEditorSettingsTableViewControllerDelegate>
     _isLoaded = isLoaded;
     self.textView.userInteractionEnabled = isLoaded;
     self.shareItem.enabled = isLoaded;
+    self.launchItem.enabled = isLoaded && self.isLuaCode;
 }
 
 #pragma mark - Getters
@@ -358,11 +365,22 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (UIBarButtonItem *)shareItem {
     if (!_shareItem) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openIn:) ];
-        anotherButton.tintColor = [UIColor whiteColor];
-        _shareItem = anotherButton;
+        UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
+        shareItem.tintColor = [UIColor whiteColor];
+        shareItem.enabled = NO;
+        _shareItem = shareItem;
     }
     return _shareItem;
+}
+
+- (UIBarButtonItem *)launchItem {
+    if (!_launchItem) {
+        UIBarButtonItem *launchItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(launchItemTapped:) ];
+        launchItem.tintColor = [UIColor whiteColor];
+        launchItem.enabled = NO;
+        _launchItem = launchItem;
+    }
+    return _launchItem;
 }
 
 - (XXKeyboardRow *)keyboardRow {
@@ -389,12 +407,18 @@ XXEditorSettingsTableViewControllerDelegate>
     return _documentController;
 }
 
-- (void)openIn:(id)sender {
+- (void)shareItemTapped:(id)sender {
     self.documentController.URL = [NSURL fileURLWithPath:self.filePath];
     BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
     if (!didPresentOpenIn) {
         [self.navigationController.view makeToast:NSLocalizedString(@"Cannot find supporting application", nil)];
     }
+}
+
+- (void)launchItemTapped:(id)sender {
+    XXTerminalActivity *act = [[XXTerminalActivity alloc] initWithViewController:self];
+    [act setFileURL:[NSURL fileURLWithPath:self.filePath]];
+    [act performActivity];
 }
 
 #pragma mark - Toolbar Actions
@@ -405,7 +429,7 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)reading:(UIButton *)sender {
-    if (!_isLuaCode) {
+    if (!self.isLuaCode) {
         [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
         return;
     }
@@ -421,12 +445,10 @@ XXEditorSettingsTableViewControllerDelegate>
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
             if (!result) {
-                if (err.code == 2) {
-                    NSString *reason = [err localizedFailureReason];
+                NSString *reason = [err localizedFailureReason];
+                if (reason) {
                     [self.navigationController.view makeToast:reason];
                     [self scrollToLineByReason:reason];
-                } else {
-                    [self.navigationController.view makeToast:[err localizedDescription]];
                 }
                 if (sender.selected) {
                     [self extendHisLife:YES];
@@ -455,9 +477,9 @@ XXEditorSettingsTableViewControllerDelegate>
         UIButton *button = ((UIButton *)sender.view);
         button.selected = !button.selected;
         if (button.selected) {
-            [self.navigationController.view makeToast:@"Stay young, stay naive!"];
+            [self.navigationController.view makeToast:NSLocalizedString(@"Stay young, stay naive!", nil)];
         } else {
-            [self.navigationController.view makeToast:@"Excited!"];
+            [self.navigationController.view makeToast:NSLocalizedString(@"Excited!", nil)];
         }
     }
 }
@@ -466,10 +488,10 @@ XXEditorSettingsTableViewControllerDelegate>
     UIButton *barButtonView = self.readingItem;
     UILabel *addLabel = [[UILabel alloc] init];
     if (fail) {
-        addLabel.text = @"-1s";
+        addLabel.text = NSLocalizedString(@"-1s", nil);
         addLabel.textColor = [UIColor greenColor];
     } else {
-        addLabel.text = @"+1s";
+        addLabel.text = NSLocalizedString(@"+1s", nil);
         addLabel.textColor = [UIColor redColor];
     }
     
@@ -491,10 +513,8 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)scrollToLineByReason:(NSString *)reason {
     NSArray <NSString *> *arr = [reason componentsSeparatedByString:@":"];
-    if (arr.count < 2) {
-        return;
-    }
-    NSUInteger lineRange = [arr[0] unsignedIntegerValue] - 1;
+    if (arr.count < 2) return;
+    NSUInteger lineRange = [arr[1] unsignedIntegerValue] - 1;
     NSString *s = self.fileContent;
     NSUInteger index = 0;
     NSUInteger count = 0;
@@ -684,7 +704,7 @@ XXEditorSettingsTableViewControllerDelegate>
     UILabel *countLabel = self.countLabel;
     
     NSUInteger numberOfMatches = textView.numberOfMatches;
-    countLabel.text = numberOfMatches ? [NSString stringWithFormat:@"%lu/%lu", (unsigned long)textView.indexOfFoundString + 1, (unsigned long)numberOfMatches] : @"0/0";
+    countLabel.text = numberOfMatches ? [NSString stringWithFormat:NSLocalizedString(@"%lu/%lu", nil), (unsigned long)textView.indexOfFoundString + 1, (unsigned long)numberOfMatches] : NSLocalizedString(@"0/0", nil);
     [countLabel sizeToFit];
 }
 
@@ -933,12 +953,11 @@ XXEditorSettingsTableViewControllerDelegate>
         NSString *stringRef = textView.text;
         NSRange lastBreak = [stringRef rangeOfString:@"\n" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
         
-        NSInteger origIdx = lastBreak.location;
-        NSUInteger idx = origIdx + 1;
+        NSUInteger idx = lastBreak.location + 1;
 
         if (lastBreak.location == NSNotFound)
         {
-            origIdx = -1; idx = 0;
+            idx = 0;
         }
         else if (lastBreak.location + lastBreak.length == range.location)
         {

@@ -92,7 +92,9 @@ int do7z_extract_entry(char *archivePath, char *archiveCachePath, char *entryNam
     int result = do7z_extract_entry(archivePathPtr, archiveCachePathPtr, entryNamePtr, entryPathPtr, preserveDir ? 1 : 0);
     if (result != 0) {
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey:NSLocalizedString(@"Failed to open archive file", nil)};
-        *error = [NSError errorWithDomain:@"LZMAExtractorErrorDomain" code:-1 userInfo:userInfo];
+        if (error) {
+            *error = [NSError errorWithDomain:@"LZMAExtractorErrorDomain" code:-1 userInfo:userInfo];
+        }
         return NO;
     }
     

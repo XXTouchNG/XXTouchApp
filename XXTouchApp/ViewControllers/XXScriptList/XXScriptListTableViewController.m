@@ -802,13 +802,9 @@ XXUnarchiveDelegate
                         dispatch_async_on_main_queue(^{
                             self.navigationController.view.userInteractionEnabled = YES;
                             [self.navigationController.view hideToastActivity];
-                            if (err != nil) {
-                                [self.navigationController.view makeToast:[err localizedDescription]];
-                            } else {
-                                [pasteArr removeAllObjects];
-                                self.topToolbar.pasteButton.enabled = NO;
-                                [self reloadScriptListTableView];
-                            }
+                            [pasteArr removeAllObjects];
+                            self.topToolbar.pasteButton.enabled = NO;
+                            [self reloadScriptListTableView];
                         });
                     });
                 } else if (pasteboardType == kXXPasteboardTypeCopy) {
@@ -821,11 +817,7 @@ XXUnarchiveDelegate
                         dispatch_async_on_main_queue(^{
                             self.navigationController.view.userInteractionEnabled = YES;
                             [self.navigationController.view hideToastActivity];
-                            if (err != nil) {
-                                [self.navigationController.view makeToast:[err localizedDescription]];
-                            } else {
-                                [self reloadScriptListTableView];
-                            }
+                            [self reloadScriptListTableView];
                         });
                     });
                 }
@@ -841,11 +833,7 @@ XXUnarchiveDelegate
                         NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
                         [fileManager createSymbolicLinkAtPath:destPath withDestinationPath:originPath error:&err];
                     }
-                    if (err != nil) {
-                        [self.navigationController.view makeToast:[err localizedDescription]];
-                    } else {
-                        [self reloadScriptListTableView];
-                    }
+                    [self reloadScriptListTableView];
                 }];
             }
         }
@@ -948,23 +936,26 @@ XXUnarchiveDelegate
         [alertView show];
     } else if (sender == self.topToolbar.shareButton) {
         NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
-        NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
+        NSMutableArray <NSURL *> *urlsArr = [[NSMutableArray alloc] init];
         for (NSIndexPath *indexPath in selectedIndexPaths) {
             NSDictionary *infoDict = self.rootItemsDictionaryArr[indexPath.row];
-            if (![infoDict[NSFileType] isEqualToString:NSFileTypeDirectory]) {
-                [pathsArr addObject:infoDict[kXXItemPathKey]];
+            if ([infoDict[NSFileType] isEqualToString:NSFileTypeDirectory]) {
+                [urlsArr removeAllObjects];
+                break;
+            } else {
+                [urlsArr addObject:[NSURL fileURLWithPath:infoDict[kXXItemPathKey]]];
             }
         }
-        if (pathsArr.count != 0) {
+        if (urlsArr.count != 0) {
             BOOL didPresentOpenIn = NO;
-            if (pathsArr.count == 1) {
-                self.documentController.URL = [NSURL fileURLWithPath:pathsArr[0]];
+            if (urlsArr.count == 1) {
+                self.documentController.URL = urlsArr[0];
                 didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
             }
-            if (!didPresentOpenIn || pathsArr.count > 1) {
+            if (!didPresentOpenIn || urlsArr.count > 1) {
                 XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
                 act.delegate = self;
-                UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:pathsArr applicationActivities:@[act]];
+                UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
                 [self.navigationController presentViewController:controller animated:YES completion:nil];
             }
         } else {
@@ -972,33 +963,17 @@ XXUnarchiveDelegate
         }
     } else if (sender == self.topToolbar.compressButton) {
         NSArray <NSIndexPath *> *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
-        NSString *formatString = nil;
-        if (selectedIndexPaths.count == 1) {
-            formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress 1 item?", nil)];
-        } else {
-            formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress %d items?", nil), selectedIndexPaths.count];
+        NSMutableArray <NSURL *> *urlsArr = [[NSMutableArray alloc] init];
+        for (NSIndexPath *indexPath in selectedIndexPaths) {
+            NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
+            [urlsArr addObject:[NSURL fileURLWithPath:itemPath]];
         }
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Archive Confirm", nil)
-                                                         andMessage:formatString];
-        @weakify(self);
-        [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-            
-        }];
-        [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
-            @strongify(self);
-            NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
-            for (NSIndexPath *indexPath in selectedIndexPaths) {
-                NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
-                [pathsArr addObject:itemPath];
-            }
-            if (pathsArr.count != 0) {
-                XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
-                act.delegate = self;
-                [act prepareWithActivityItems:pathsArr];
-                [act performActivity];
-            }
-        }];
-        [alertView show];
+        if (urlsArr.count != 0) {
+            XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
+            act.delegate = self;
+            [act prepareWithActivityItems:urlsArr];
+            [act performActivity];
+        }
     }
 }
 

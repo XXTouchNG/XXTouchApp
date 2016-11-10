@@ -17,6 +17,7 @@
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 
+#import <Foundation/Foundation.h>
 #import <FCFileManager/FCFileManager.h>
 #import <YYCategories/YYCategories.h>
 #import <Toast/UIView+Toast.h>
@@ -33,6 +34,7 @@
 #import "UINavigationController+FDFullscreenPopGesture.h"
 
 #import "XXLocalDefines.h"
+
 #endif
 
 #endif /* AppDefines_pch */

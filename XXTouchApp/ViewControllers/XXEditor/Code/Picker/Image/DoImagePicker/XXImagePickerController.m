@@ -145,7 +145,7 @@
     
     if (_nMaxCount == DO_NO_LIMIT_SELECT)
     {
-        _lbSelectCount.text = @"(0)";
+        _lbSelectCount.text = NSLocalizedString(@"(0)", nil);
         _lbSelectCount.textColor = DO_BOTTOM_TEXT_COLOR;
     }
     else if (_nMaxCount <= 1)
@@ -462,12 +462,12 @@
     if (_nMaxCount == DO_NO_LIMIT_SELECT)
     {
         _dSelected = [[NSMutableDictionary alloc] init];
-        _lbSelectCount.text = @"(0)";
+        _lbSelectCount.text = NSLocalizedString(@"(0)", nil);
     }
     else if (_nMaxCount > 1)
     {
         _dSelected = [[NSMutableDictionary alloc] initWithCapacity:_nMaxCount];
-        _lbSelectCount.text = [NSString stringWithFormat:@"(0/%d)", (int)_nMaxCount];
+        _lbSelectCount.text = [NSString stringWithFormat:NSLocalizedString(@"(0/%d)", nil), (int)_nMaxCount];
     }
     
     [ASSETHELPER getPhotoListOfGroupByIndex:nIndex result:^(NSArray *aPhotos) {

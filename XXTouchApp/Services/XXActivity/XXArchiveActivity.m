@@ -10,7 +10,7 @@
 #import <SSZipArchive/SSZipArchive.h>
 
 @interface XXArchiveActivity ()
-@property (nonatomic, strong) NSArray <NSString *> *items;
+@property (nonatomic, strong) NSArray <NSURL *> *items;
 
 @end
 
@@ -35,42 +35,41 @@
     return [UIImage imageNamed:@"activity-archive"];
 }
 
-- (BOOL)canPerformWithActivityItems:(NSArray *)activityItems
-{
-    if (activityItems.count >= 1) {
-        if ([activityItems[0] isKindOfClass:[NSString class]]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (void)prepareWithActivityItems:(NSArray *)activityItems
 {
+    [super prepareWithActivityItems:activityItems];
     self.items = activityItems;
-    if (activityItems.count >= 1) {
-        self.fileURL = [NSURL fileURLWithPath:activityItems[0]];
-    }
 }
 
 - (void)performActivity
 {
     UIViewController *viewController = self.baseController;
-    NSString *filePath = self.items[0];
-    NSString *path = [filePath stringByDeletingLastPathComponent];
+    NSString *filePath = [self.items[0] path];
     
-    __block UINavigationController *navController = viewController.navigationController;
-    navController.view.userInteractionEnabled = NO;
-    [navController.view makeToastActivity:CSToastPositionCenter];
+    NSString *formatString = nil;
+    NSString *archiveName = nil;
+    if (self.items.count == 1) {
+        archiveName = [self.items[0] lastPathComponent];
+        formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress 1 item?", nil)];
+    } else {
+        archiveName = @"Archive";
+        formatString = [NSString stringWithFormat:NSLocalizedString(@"Compress %d items?", nil), self.items.count];
+    }
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *destination = path;
-        NSString *archiveName = nil;
-        if (self.items.count == 1) {
-            archiveName = [self.items[0] lastPathComponent];
-        } else {
-            archiveName = @"Archive";
-        }
+    NSMutableArray <NSString *> *pathsArr = [[NSMutableArray alloc] init];
+    for (NSURL *url in self.items) {
+        [pathsArr addObject:[url path]];
+    }
+    
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Archive Confirm", nil)
+                                                     andMessage:formatString];
+    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        
+    }];
+    [alertView addButtonWithTitle:NSLocalizedString(@"Yes", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+        UINavigationController *navController = viewController.navigationController;
+        NSString *destinationRootPath = [filePath stringByDeletingLastPathComponent];
+        NSString *destination = destinationRootPath;
         NSString *archiveFullname = [archiveName stringByAppendingPathExtension:@"zip"];
         NSString *archivePath = [destination stringByAppendingPathComponent:archiveFullname];
         if ([FCFileManager existsItemAtPath:archivePath]) {
@@ -80,24 +79,36 @@
                 testIndex++;
             } while ([FCFileManager existsItemAtPath:archivePath]);
         }
-        BOOL result = [SSZipArchive createZipFileAtPath:archivePath
-                                    withContentsOfItems:self.items
-                                    keepParentDirectory:NO
-                                           withPassword:nil
-                                               delegate:nil];
-        dispatch_async_on_main_queue(^{
-            if (_delegate && [_delegate respondsToSelector:@selector(archiveDidCreatedAtPath:)]) {
-                [_delegate archiveDidCreatedAtPath:archivePath];
-            }
-            navController.view.userInteractionEnabled = YES;
-            [navController.view hideToastActivity];
-            if (!result) {
-                [navController.view makeToast:NSLocalizedString(@"Cannot create zip file", nil)];
-            } else {
-                [navController.view makeToast:NSLocalizedString(@"Operation completed", nil)];
-            }
-        });
-    });
+        
+        NSError *error = nil;
+        [FCFileManager createDirectoriesForPath:destination error:&error];
+        if (error) {
+            [navController.view makeToast:[error localizedDescription]];
+        } else {
+            navController.view.userInteractionEnabled = NO;
+            [navController.view makeToastActivity:CSToastPositionCenter];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                BOOL result = [SSZipArchive createZipFileAtPath:archivePath
+                                            withContentsOfItems:pathsArr
+                                            keepParentDirectory:NO
+                                                   withPassword:nil
+                                                       delegate:nil];
+                dispatch_async_on_main_queue(^{
+                    navController.view.userInteractionEnabled = YES;
+                    [navController.view hideToastActivity];
+                    if (_delegate && [_delegate respondsToSelector:@selector(archiveDidCreatedAtPath:)]) {
+                        [_delegate archiveDidCreatedAtPath:archivePath];
+                    }
+                    if (!result) {
+                        [navController.view makeToast:NSLocalizedString(@"Cannot create zip file", nil)];
+                    } else {
+                        [navController.view makeToast:NSLocalizedString(@"Operation completed", nil)];
+                    }
+                });
+            });
+        }
+    }];
+    [alertView show];
     
     [self activityDidFinish:YES];
 }

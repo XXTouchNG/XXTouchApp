@@ -277,8 +277,11 @@
             return iImage;
         }
     }
-    
-    return [UIImage imageWithCGImage:iRef];
+    UIImage *resultImage = nil;
+    if (iRef) {
+        resultImage = [UIImage imageWithCGImage:iRef];
+    }
+    return resultImage;
 }
 
 - (UIImage *)getImageAtIndex:(NSInteger)nIndex type:(NSInteger)nType
