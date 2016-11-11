@@ -16,7 +16,11 @@
 
 @property (nonatomic, strong) XXLuaVModel *virtualModel;
 @property (nonatomic, strong) XXTerminalTextView *textView;
-@property (nonatomic, strong) UIBarButtonItem *refreshBtn;
+@property (nonatomic, strong) UIToolbar *toolbar;
+@property (nonatomic, strong) UIBarButtonItem *shareItem;
+@property (nonatomic, strong) UIBarButtonItem *refreshItem;
+@property (nonatomic, strong) UIBarButtonItem *scrollItem;
+@property (nonatomic, strong) UIDocumentInteractionController *documentController;
 @property (nonatomic, assign) BOOL isRunning;
 
 @end
@@ -38,12 +42,9 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navigationItem.rightBarButtonItem = self.refreshBtn;
-    
-    XXTerminalTextView *textView = [[XXTerminalTextView alloc] initWithFrame:self.view.bounds];
-    textView.delegate = self;
-    self.textView = textView;
+    self.navigationItem.rightBarButtonItem = self.shareItem;
     [self.view addSubview:self.textView];
+    [self.view addSubview:self.toolbar];
     [self updateViewConstraints];
     
     [self reloadView];
@@ -54,37 +55,88 @@
     [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    [self.toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+        make.height.equalTo(@(44));
+    }];
 }
 
 #pragma mark - Load
 
 - (void)reloadView {
-    self.textView.text = @"";
+    [self.textView scrollToTopAnimated:NO];
+    [self.textView setText:@""];
     [self displayWelcomeMessage];
     
     if (!self.isRunning) {
         self.isRunning = YES;
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
         [self performSelector:@selector(executeScript) withObject:nil afterDelay:.6f];
     }
 }
 
 #pragma mark - Getters
 
-- (UIBarButtonItem *)refreshBtn {
-    if (!_refreshBtn) {
-        UIBarButtonItem *refreshBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadView)];
-        refreshBtn.enabled = NO;
-        refreshBtn.tintColor = [UIColor whiteColor];
-        _refreshBtn = refreshBtn;
+- (XXTerminalTextView *)textView {
+    if (!_textView) {
+        XXTerminalTextView *textView = [[XXTerminalTextView alloc] initWithFrame:self.view.bounds];
+        textView.delegate = self;
+        textView.scrollIndicatorInsets =
+        textView.contentInset = UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
+        _textView = textView;
     }
-    return _refreshBtn;
+    return _textView;
+}
+
+- (UIBarButtonItem *)shareItem {
+    if (!_shareItem) {
+        UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
+        shareItem.enabled = NO;
+        shareItem.tintColor = [UIColor whiteColor];
+        _shareItem = shareItem;
+    }
+    return _shareItem;
+}
+
+- (UIBarButtonItem *)refreshItem {
+    if (!_refreshItem) {
+        UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshItemTapped:)];
+        refreshItem.enabled = NO;
+        refreshItem.tintColor = STYLE_TINT_COLOR;
+        _refreshItem = refreshItem;
+    }
+    return _refreshItem;
+}
+
+- (UIBarButtonItem *)scrollItem {
+    if (!_scrollItem) {
+        UIBarButtonItem *scrollItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scroll-bottom"] style:UIBarButtonItemStylePlain target:self action:@selector(scrollItemTapped:)];
+        scrollItem.enabled = NO;
+        scrollItem.tintColor = STYLE_TINT_COLOR;
+        _scrollItem = scrollItem;
+    }
+    return _scrollItem;
+}
+
+- (UIToolbar *)toolbar {
+    if (!_toolbar) {
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height - 44, self.view.width, 44)];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        [toolbar setItems:@[self.refreshItem, flexibleSpace, self.scrollItem]];
+        _toolbar = toolbar;
+    }
+    return _toolbar;
 }
 
 #pragma mark - Setters
 
 - (void)setIsRunning:(BOOL)isRunning {
     _isRunning = isRunning;
-    self.refreshBtn.enabled = !isRunning;
+    self.scrollItem.enabled =
+    self.refreshItem.enabled =
+    self.shareItem.enabled = !isRunning;
 }
 
 #pragma mark - Redirect
@@ -137,7 +189,7 @@
 
 - (void)displayWelcomeMessage {
     [self.textView appendMessage:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@LUA_COPYRIGHT, nil)]];
-    [self.textView appendMessage:[NSString stringWithFormat:NSLocalizedString(@"Executing %@...", nil), self.filePath]];
+    [self.textView appendMessage:[NSString stringWithFormat:NSLocalizedString(@"Executing %@...\n", nil), self.filePath]];
 }
 
 - (void)executeScript {
@@ -166,6 +218,37 @@
             }
         });
     });
+}
+
+#pragma mark - DocumentInteractionController
+
+- (UIDocumentInteractionController *)documentController {
+    if (!_documentController) {
+        UIDocumentInteractionController *documentController = [[UIDocumentInteractionController alloc] init];
+        _documentController = documentController;
+    }
+    return _documentController;
+}
+
+#pragma mark - Actions
+
+- (void)shareItemTapped:(id)sender {
+    if (self.isRunning) return;
+    self.documentController.URL = [NSURL fileURLWithPath:self.filePath];
+    BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
+    if (!didPresentOpenIn) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot find supporting application", nil)];
+    }
+}
+
+- (void)refreshItemTapped:(UIBarButtonItem *)sender {
+    if (self.isRunning) return;
+    [self reloadView];
+}
+
+- (void)scrollItemTapped:(UIBarButtonItem *)sender {
+    if (self.isRunning) return;
+    [self.textView scrollToBottom];
 }
 
 @end

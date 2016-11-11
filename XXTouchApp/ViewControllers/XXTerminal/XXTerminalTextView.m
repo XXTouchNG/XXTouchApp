@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSDictionary *inputAttributes;
 
 @property (nonatomic, assign) NSUInteger lockedLocation;
+@property (nonatomic, assign) NSUInteger lastLocation;
 
 @end
 
@@ -47,6 +48,8 @@
     self.editable = NO;
     self.alwaysBounceVertical = YES;
     self.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
+    
+    self.contentMode = UIViewContentModeRedraw;
 }
 
 #pragma mark - Getters
@@ -122,6 +125,10 @@
 
 - (NSString *)getBufferString {
     return [self.text substringFromIndex:self.lockedLocation];
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

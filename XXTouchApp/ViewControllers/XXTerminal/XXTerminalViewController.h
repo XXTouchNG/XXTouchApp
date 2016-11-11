@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface XXTerminalViewController : UIViewController
+@property (nonatomic, assign) BOOL runImmediately;
 @property (nonatomic, strong) NSString *filePath;
 
 @end
