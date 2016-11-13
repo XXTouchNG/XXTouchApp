@@ -1,5 +1,5 @@
 //
-//  LuaInterpreter.h
+//  XXLuaInterpreter.h
 //  LuaTest
 //
 //  Created by François-Xavier Thomas on 2/18/12.
@@ -12,20 +12,20 @@
  * Basic LUA argument types, for smooth interaction with ObjC types.
  */
 typedef enum {
-    LuaArgumentTypeNone,
-    LuaArgumentTypeString,
-    LuaArgumentTypeNumber,
-    LuaArgumentTypeObject,
-    LuaArgumentTypeBoolean,
-    LuaArgumentTypeMultiple,
-    LuaArgumentTypeTable,
-    LuaArgumentTypeLightObject
-} LuaArgumentType;
+    XXLuaArgumentTypeNone,
+    XXLuaArgumentTypeString,
+    XXLuaArgumentTypeNumber,
+    XXLuaArgumentTypeObject,
+    XXLuaArgumentTypeBoolean,
+    XXLuaArgumentTypeMultiple,
+    XXLuaArgumentTypeTable,
+    XXLuaArgumentTypeLightObject
+} XXLuaArgumentType;
 
 /**
  * Lua Interpreter class. Holds the LUA state and releases it when deallocated.
  */
-@interface LuaInterpreter : NSObject
+@interface XXLuaInterpreter : NSObject
 
 @property (nonatomic, retain) NSMutableArray *retainedObjects;
 
@@ -48,9 +48,9 @@ typedef enum {
 /**
  * Register a selector under a global name, for use inside the LUA program.
  */
-- (void) registerSelector:(SEL)selector target:(id)target name:(NSString*)name returnType:(LuaArgumentType)returnType argumentTypes:(int)count, ...;
+- (void) registerSelector:(SEL)selector target:(id)target name:(NSString*)name returnType:(XXLuaArgumentType)returnType argumentTypes:(int)count, ...;
 - (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name argumentTypes:(int)count, ...;
-- (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(LuaArgumentType)returnType;
+- (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(XXLuaArgumentType)returnType;
 - (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name;
 
 /**

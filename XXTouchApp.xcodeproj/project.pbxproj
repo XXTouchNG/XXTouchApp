@@ -93,7 +93,7 @@
 		0F9E97B01DD4503E003B1E0A /* XXTerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E97AF1DD4503E003B1E0A /* XXTerminalViewController.m */; };
 		0F9E97B31DD45148003B1E0A /* XXTerminalTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E97B21DD45148003B1E0A /* XXTerminalTextView.m */; };
 		0F9E97B61DD4548A003B1E0A /* XXTerminalActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E97B51DD4548A003B1E0A /* XXTerminalActivity.m */; };
-		0FA5FD8D1DD48686005D3FD4 /* LuaInterpreter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8C1DD48686005D3FD4 /* LuaInterpreter.mm */; settings = {COMPILER_FLAGS = "-Wno-varargs"; }; };
+		0FA5FD8D1DD48686005D3FD4 /* XXLuaInterpreter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8C1DD48686005D3FD4 /* XXLuaInterpreter.mm */; settings = {COMPILER_FLAGS = "-Wno-varargs"; }; };
 		0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8E1DD49213005D3FD4 /* lua.c */; };
 		0FA675E01D97BBAA006A147A /* XXCodeBlocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */; };
 		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
@@ -101,6 +101,7 @@
 		0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */; };
 		0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FB48B761D922B9400CE9019 /* Localizable.strings */; };
 		0FB611AA1DC77B2A00745BD1 /* XXLuaVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB611A91DC77B2A00745BD1 /* XXLuaVModel.m */; };
+		0FB8B3A91DD8401400DE065E /* XXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB8B3A81DD8401400DE065E /* XXSearchBar.m */; };
 		0FBDC6071D9CC06D00F7EB70 /* XXKeyEventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */; };
 		0FC71C751D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC71C741D8B9AD400BB3401 /* XXScanDownloadSourceHeadersTableViewController.m */; };
 		0FC7BCA01DB3EC440073D900 /* XXCropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7BC591DB3EC440073D900 /* XXCropRectView.m */; };
@@ -379,8 +380,8 @@
 		0F9E97B21DD45148003B1E0A /* XXTerminalTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTerminalTextView.m; sourceTree = "<group>"; };
 		0F9E97B41DD4548A003B1E0A /* XXTerminalActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTerminalActivity.h; sourceTree = "<group>"; };
 		0F9E97B51DD4548A003B1E0A /* XXTerminalActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTerminalActivity.m; sourceTree = "<group>"; };
-		0FA5FD8B1DD48686005D3FD4 /* LuaInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaInterpreter.h; sourceTree = "<group>"; };
-		0FA5FD8C1DD48686005D3FD4 /* LuaInterpreter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LuaInterpreter.mm; sourceTree = "<group>"; };
+		0FA5FD8B1DD48686005D3FD4 /* XXLuaInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaInterpreter.h; sourceTree = "<group>"; };
+		0FA5FD8C1DD48686005D3FD4 /* XXLuaInterpreter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XXLuaInterpreter.mm; sourceTree = "<group>"; };
 		0FA5FD8E1DD49213005D3FD4 /* lua.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lua.c; sourceTree = "<group>"; };
 		0FA675DE1D97BBAA006A147A /* XXCodeBlocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlocksViewController.h; sourceTree = "<group>"; };
 		0FA675DF1D97BBAA006A147A /* XXCodeBlocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlocksViewController.m; sourceTree = "<group>"; };
@@ -392,6 +393,8 @@
 		0FB48B771D922B9400CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
 		0FB611A81DC77B2A00745BD1 /* XXLuaVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaVModel.h; sourceTree = "<group>"; };
 		0FB611A91DC77B2A00745BD1 /* XXLuaVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLuaVModel.m; sourceTree = "<group>"; };
+		0FB8B3A71DD8401400DE065E /* XXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXSearchBar.h; sourceTree = "<group>"; };
+		0FB8B3A81DD8401400DE065E /* XXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXSearchBar.m; sourceTree = "<group>"; };
 		0FBDC6051D9CC06D00F7EB70 /* XXKeyEventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventModel.h; sourceTree = "<group>"; };
 		0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventModel.m; sourceTree = "<group>"; };
 		0FC47E991D76A2420076590B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -827,15 +830,16 @@
 		0F58A41E1D90B95F0013806C /* Lite */ = {
 			isa = PBXGroup;
 			children = (
+				0FB8B3A61DD8400600DE065E /* Search */,
 				0FFC76C81DC8CF7A008AAA2D /* Settings */,
 				0F28B4A41DB9EF510007CE4E /* ICTextView */,
 				0F0FA8F51D9983F5009FD2F8 /* CYRTextView */,
 				0F06A8D21D937F8900BAA589 /* Keyboard */,
 				0F58A42B1D90BECA0013806C /* Detail */,
-				0F58A41F1D90B95F0013806C /* XXBaseTextEditorViewController.h */,
-				0F58A4201D90B95F0013806C /* XXBaseTextEditorViewController.m */,
 				0F58A4211D90B95F0013806C /* XXBaseTextView.h */,
 				0F58A4221D90B95F0013806C /* XXBaseTextView.m */,
+				0F58A41F1D90B95F0013806C /* XXBaseTextEditorViewController.h */,
+				0F58A4201D90B95F0013806C /* XXBaseTextEditorViewController.m */,
 			);
 			path = Lite;
 			sourceTree = "<group>";
@@ -1011,8 +1015,8 @@
 			children = (
 				0FB611A81DC77B2A00745BD1 /* XXLuaVModel.h */,
 				0FB611A91DC77B2A00745BD1 /* XXLuaVModel.m */,
-				0FA5FD8B1DD48686005D3FD4 /* LuaInterpreter.h */,
-				0FA5FD8C1DD48686005D3FD4 /* LuaInterpreter.mm */,
+				0FA5FD8B1DD48686005D3FD4 /* XXLuaInterpreter.h */,
+				0FA5FD8C1DD48686005D3FD4 /* XXLuaInterpreter.mm */,
 				0FBDC6051D9CC06D00F7EB70 /* XXKeyEventModel.h */,
 				0FBDC6061D9CC06D00F7EB70 /* XXKeyEventModel.m */,
 				0FEABE841D99F7CB007B96A8 /* XXCodeBlockModel.h */,
@@ -1102,6 +1106,15 @@
 				0FB48B761D922B9400CE9019 /* Localizable.strings */,
 			);
 			path = "zh-Hans.lproj";
+			sourceTree = "<group>";
+		};
+		0FB8B3A61DD8400600DE065E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				0FB8B3A71DD8401400DE065E /* XXSearchBar.h */,
+				0FB8B3A81DD8401400DE065E /* XXSearchBar.m */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		0FC47E881D7690540076590B /* Scenes */ = {
@@ -1749,7 +1762,7 @@
 				0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */,
 				0FCF8AB51DD013E700F4C906 /* ltable.c in Sources */,
 				0F5DDE251D8149B100BC4BDE /* XXSettingsTableViewController.m in Sources */,
-				0FA5FD8D1DD48686005D3FD4 /* LuaInterpreter.mm in Sources */,
+				0FA5FD8D1DD48686005D3FD4 /* XXLuaInterpreter.mm in Sources */,
 				0FC7BCB71DB3EC440073D900 /* XXTPixelImage.m in Sources */,
 				0F259AC41DD37440005F8403 /* Alloc.c in Sources */,
 				0FCF8AB11DD013E700F4C906 /* lparser.c in Sources */,
@@ -1863,6 +1876,7 @@
 				0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */,
 				0FCF8AAC1DD013E700F4C906 /* lmem.c in Sources */,
 				0FC7BCA91DB3EC440073D900 /* XXImagePickerController.m in Sources */,
+				0FB8B3A91DD8401400DE065E /* XXSearchBar.m in Sources */,
 				0FCF8ADD1DD0145400F4C906 /* XXInsetsLabel.m in Sources */,
 				0F92883D1DC96C1200233653 /* XXEditorFontSizeView.m in Sources */,
 				0F0C9A191D966E52000E184C /* XXKeyboardButton.m in Sources */,

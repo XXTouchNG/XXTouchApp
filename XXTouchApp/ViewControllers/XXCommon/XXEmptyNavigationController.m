@@ -15,6 +15,12 @@
 
 @implementation XXEmptyNavigationController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.navigationBar.barTintColor = STYLE_TINT_COLOR;
+    self.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName: [UIColor whiteColor] };
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }

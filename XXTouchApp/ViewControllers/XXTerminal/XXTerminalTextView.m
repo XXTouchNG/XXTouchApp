@@ -18,7 +18,6 @@
 @property (nonatomic, strong) NSDictionary *inputAttributes;
 
 @property (nonatomic, assign) NSUInteger lockedLocation;
-@property (nonatomic, assign) NSUInteger lastLocation;
 
 @end
 
@@ -45,11 +44,8 @@
     self.typingAttributes = self.defaultAttributes;
     
     // Property
-    self.editable = NO;
     self.alwaysBounceVertical = YES;
     self.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
-    
-    self.contentMode = UIViewContentModeRedraw;
 }
 
 #pragma mark - Getters
@@ -96,6 +92,10 @@
 
 #pragma mark - Terminal
 
+- (void)resetTypingAttributes {
+    [self setTypingAttributes:self.inputAttributes];
+}
+
 - (BOOL)canDeleteBackward {
     return ((self.text.length - 1) > self.lockedLocation);
 }
@@ -104,27 +104,31 @@
     [self setLockedLocation:(self.text.length - 1)];
 }
 
-- (void)appendLine:(NSString *)text withAttributes:(NSDictionary *)attrs {
+- (void)appendString:(NSString *)text withAttributes:(NSDictionary *)attrs {
     [self setTypingAttributes:attrs];
-    [self insertText:[NSString stringWithFormat:@"%@\n", text]];
+    [self insertText:[NSString stringWithFormat:@"%@", text]];
     [self lockLocation];
-    [self setTypingAttributes:self.inputAttributes];
+    [self resetTypingAttributes];
 }
 
-- (void)appendLine:(NSString *)text {
-    [self appendLine:text withAttributes:self.defaultAttributes];
+- (void)appendString:(NSString *)text {
+    [self appendString:text withAttributes:self.defaultAttributes];
 }
 
 - (void)appendMessage:(NSString *)text {
-    [self appendLine:text withAttributes:self.messageAttributes];
+    [self appendString:text withAttributes:self.messageAttributes];
 }
 
 - (void)appendError:(NSString *)text {
-    [self appendLine:text withAttributes:self.errorAttributes];
+    [self appendString:text withAttributes:self.errorAttributes];
 }
 
 - (NSString *)getBufferString {
-    return [self.text substringFromIndex:self.lockedLocation];
+    if (self.text.length > self.lockedLocation) {
+        NSString *bufferedString = [self.text substringFromIndex:self.lockedLocation + 1];
+        return bufferedString;
+    }
+    return @"";
 }
 
 - (void)dealloc {

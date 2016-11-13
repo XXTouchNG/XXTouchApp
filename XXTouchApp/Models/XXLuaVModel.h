@@ -9,17 +9,23 @@
 #import "lua.h"
 #import "lualib.h"
 #import "lauxlib.h"
-#import "LuaInterpreter.h"
+#import "XXLuaInterpreter.h"
 #import <Foundation/Foundation.h>
 
 @class XXLuaVModel;
 
 @protocol XXLuaVModelDelegate <NSObject>
+- (void)virtualMachineDidChangedState:(XXLuaVModel *)vm;
 
 @end
 
-@interface XXLuaVModel : LuaInterpreter
+@interface XXLuaVModel : XXLuaInterpreter
 @property (nonatomic, weak) id<XXLuaVModelDelegate> delegate;
+@property (nonatomic, assign) FILE *stdoutHandler;
+@property (nonatomic, assign) FILE *stderrHandler;
+@property (nonatomic, assign) FILE *stdinReadHandler;
+@property (nonatomic, assign) FILE *stdinWriteHandler;
+@property (nonatomic, assign) BOOL running;
 
 - (BOOL)loadFileFromPath:(NSString *)path error:(NSError **)error;
 - (BOOL)loadBufferFromString:(NSString *)string error:(NSError **)error;

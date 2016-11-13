@@ -7,7 +7,6 @@
 //
 
 #import "XXBaseTextView.h"
-#import <CoreText/CoreText.h>
 
 @implementation XXBaseTextView
 
@@ -29,12 +28,23 @@
 
 - (void)commonSetup
 {
+    self.textColor = [UIColor colorWithWhite:.33f alpha:1.f];
+    self.backgroundColor = [UIColor colorWithRGB:0xfefefe];
+    self.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.dataDetectorTypes = UIDataDetectorTypeNone;
+    self.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+    self.alwaysBounceVertical = YES;
+    self.tintColor = STYLE_TINT_COLOR;
+    self.selectedRange = NSMakeRange(0, 0);
+    self.contentOffset = CGPointZero;
+    
     self.defaultFont = [UIFont systemFontOfSize:14.f];
     self.boldFont = [UIFont boldSystemFontOfSize:14.f];
     self.italicFont = [UIFont italicSystemFontOfSize:14.f];
-    
-    self.textColor = [UIColor colorWithWhite:.33f alpha:1.f];
-    self.backgroundColor = [UIColor colorWithRGB:0xfefefe];
+    self.circularSearch = YES;
+    self.scrollPosition = ICTextViewScrollPositionTop;
+    self.searchOptions = NSRegularExpressionCaseInsensitive;
 }
 
 // No scroll

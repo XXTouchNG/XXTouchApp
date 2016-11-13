@@ -15,9 +15,6 @@
 
 static NSString * const kXXStorageAlbumName = @"XXTouch";
 
-static NSString * const kXXTerminalFakeHandlerStandardOutput = @"kXXTerminalFakeHandlerStandardOutput";
-static NSString * const kXXTerminalFakeHandlerStandardError = @"kXXTerminalFakeHandlerStandardError";
-
 static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
 static NSString * const kXXStorageKeyApplicationBundles = @"kXXStorageKeyApplicationBundles-1";
 static NSString * const kXXStorageKeyStartUpConfigScriptPath = @"kXXStorageKeyStartUpConfigScriptPath-1";
@@ -528,22 +525,6 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
 
 - (void)setAutoCapitalizationEnabled:(BOOL)autoCapitalizationEnabled {
     [self setObject:[NSNumber numberWithBool:autoCapitalizationEnabled] forKey:kXXStorageKeyAutoCapitalizationEnabled];
-}
-
-- (FILE *)stderrHandler {
-    if (!_stderrHandler) {
-        NSString *stderrHandlerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:kXXTerminalFakeHandlerStandardError];
-        _stderrHandler = fopen(stderrHandlerPath.UTF8String, "w+");
-    }
-    return _stderrHandler;
-}
-
-- (FILE *)stdoutHandler {
-    if (!_stdoutHandler) {
-        NSString *stdoutHandlerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:kXXTerminalFakeHandlerStandardOutput];
-        _stdoutHandler = fopen(stdoutHandlerPath.UTF8String, "w+");
-    }
-    return _stdoutHandler;
 }
 
 @end

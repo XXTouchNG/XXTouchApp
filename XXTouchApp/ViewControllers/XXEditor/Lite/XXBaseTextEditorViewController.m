@@ -14,6 +14,7 @@
 #import "XXCodeBlockNavigationController.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXBaseTextView.h"
+#import "XXSearchBar.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 #import <Masonry/Masonry.h>
@@ -48,7 +49,7 @@ XXEditorSettingsTableViewControllerDelegate>
 
 // Search
 @property (nonatomic, assign) BOOL searchMode;
-@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) XXSearchBar *searchBar;
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UIToolbar *searchToolBar;
 
@@ -65,27 +66,22 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setup];
 }
 
 - (void)setup {
-    
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     self.isLuaCode = [fileExt isEqualToString:@"lua"];
-    if (self.isLuaCode) {
+    if (self.isLuaCode && daemonInstalled() == NO) {
         self.navigationItem.rightBarButtonItem = self.launchItem;
     } else {
         self.navigationItem.rightBarButtonItem = self.shareItem;
     }
-    
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_interactivePopDisabled = YES;
-    
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.reloadSectionArr = [NSMutableArray new];
-    
     [self.view addSubview:self.fakeStatusBar];
     [self.view addSubview:self.textView];
     [self.view addSubview:self.bottomBar];
@@ -93,7 +89,6 @@ XXEditorSettingsTableViewControllerDelegate>
     [self updateCountLabel];
     [self updateViewConstraints];
     [self updateTextViewInsetsWithKeyboardNotification:nil];
-    
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     @weakify(self);
@@ -119,53 +114,31 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (BOOL)loadFileWithError:(NSError **)err {
     NSNumber *fileSize = [FCFileManager sizeOfFileAtPath:self.filePath error:err];
-    if (*err) {
-        return NO;
-    }
-    
-    // Size Limit
+    if (*err) return NO;
     NSUInteger fileSizeU = [fileSize unsignedIntegerValue];
     if (fileSizeU > 1024000) {
         GENERATE_ERROR(([NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" is too large to fit in the memory", nil), [self.filePath lastPathComponent]]));
         return NO;
     }
-    
     self.fileContent = [FCFileManager readFileAtPath:self.filePath error:err];
-    if (*err) {
-        return NO;
-    }
-    
-    // Set Text
+    if (*err) return NO;
     dispatch_async_on_main_queue(^{
         self.textView.text = self.fileContent;
-//        [self.textView scrollRectToVisible:CGRectZero animated:NO consideringInsets:YES];
     });
     return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillAppear:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillDismiss:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidDismiss:)
-                                                 name:UIKeyboardDidHideNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillDismiss:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidDismiss:) name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    if (self.shouldReloadSection)
-    {
-        [self reloadEditorSettings];
-    }
+    if (self.shouldReloadSection) [self reloadEditorSettings];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -183,11 +156,8 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)updateViewConstraints {
     [super updateViewConstraints];
     CGRect frame = CGRectNull;
-    if (!self.navigationController.navigationBarHidden) {
-        frame = CGRectZero;
-    } else {
-        frame = [[UIApplication sharedApplication] statusBarFrame];
-    }
+    if (!self.navigationController.navigationBarHidden) frame = CGRectZero;
+    else frame = [[UIApplication sharedApplication] statusBarFrame];
     [self.fakeStatusBar mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).with.offset(0);
         make.left.equalTo(self.view).with.offset(0);
@@ -212,9 +182,8 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (BOOL)saveFileWithError:(NSError **)err {
     self.fileContent = self.textView.text;
-    if (_isLoaded && _isEdited) {
+    if (_isLoaded && _isEdited)
         [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
-    }
     return *err == nil;
 }
 
@@ -229,58 +198,48 @@ XXEditorSettingsTableViewControllerDelegate>
 
 #pragma mark - Getters
 
-- (UISearchBar *)searchBar {
+- (XXSearchBar *)searchBar {
     if (!_searchBar) {
         CGRect viewBounds = self.view.bounds;
         CGRect searchBarFrame = viewBounds;
         searchBarFrame.size.height = 44.f;
         
-        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+        XXSearchBar *searchBar = [[XXSearchBar alloc] initWithFrame:searchBarFrame];
         searchBar.delegate = self;
         searchBar.hidden = YES;
-        searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        searchBar.barTintColor = [UIColor whiteColor];
-        searchBar.tintColor = STYLE_TINT_COLOR;
-        searchBar.placeholder = NSLocalizedString(@"Search", nil);
-        searchBar.scopeButtonTitles = @[ NSLocalizedString(@"Normal", nil), NSLocalizedString(@"Regex", nil) ];
-        searchBar.showsScopeBar = YES;
-        [searchBar sizeToFit];
-        
         searchBarFrame = searchBar.frame;
         searchBarFrame.origin.y = -searchBar.frame.size.height;
         searchBar.frame = searchBarFrame;
         
-        if ([searchBar respondsToSelector:@selector(setInputAccessoryView:)])
-        {
-            CGRect toolBarFrame = viewBounds;
-            toolBarFrame.size.height = 44.0f;
-            UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
-            toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            UIBarButtonItem *prevButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-left-arrow"]
-                                                                               style:UIBarButtonItemStylePlain
-                                                                              target:self
-                                                                              action:@selector(searchPreviousMatch)];
-            prevButtonItem.tintColor = STYLE_TINT_COLOR;
-            UIBarButtonItem *nextButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-right-arrow"]
-                                                                               style:UIBarButtonItemStylePlain
-                                                                              target:self
-                                                                              action:@selector(searchNextMatch)];
-            nextButtonItem.tintColor = STYLE_TINT_COLOR;
-            UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-            
-            UILabel *countLabel = [[UILabel alloc] init];
-            countLabel.textAlignment = NSTextAlignmentRight;
-            countLabel.textColor = [UIColor grayColor];
-            
-            UIBarButtonItem *counter = [[UIBarButtonItem alloc] initWithCustomView:countLabel];
-            
-            toolBar.items = [[NSArray alloc] initWithObjects:prevButtonItem, nextButtonItem, spacer, counter, nil];
-            
-            [(id)searchBar setInputAccessoryView:toolBar];
-            
-            _searchToolBar = toolBar;
-            _countLabel = countLabel;
-        }
+        CGRect toolBarFrame = viewBounds;
+        toolBarFrame.size.height = 44.0f;
+        
+        UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:toolBarFrame];
+        toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _searchToolBar = toolBar;
+        
+        UIBarButtonItem *prevButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-left-arrow"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(searchPreviousMatch)];
+        prevButtonItem.tintColor = STYLE_TINT_COLOR;
+        UIBarButtonItem *nextButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-right-arrow"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(searchNextMatch)];
+        nextButtonItem.tintColor = STYLE_TINT_COLOR;
+        
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        
+        UILabel *countLabel = [[UILabel alloc] init];
+        countLabel.textAlignment = NSTextAlignmentRight;
+        countLabel.textColor = [UIColor grayColor];
+        _countLabel = countLabel;
+        
+        UIBarButtonItem *counter = [[UIBarButtonItem alloc] initWithCustomView:countLabel];
+        [toolBar setItems:@[prevButtonItem, nextButtonItem, flexibleSpace, counter]];
+        
+        [searchBar setInputAccessoryView:toolBar];
         _searchBar = searchBar;
     }
     return _searchBar;
@@ -300,21 +259,10 @@ XXEditorSettingsTableViewControllerDelegate>
     if (!_textView) {
         XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds
                                                       lineNumbersEnabled:[[XXLocalDataService sharedInstance] lineNumbersEnabled]];
-        textView.autocorrectionType = UITextAutocorrectionTypeNo;
-        textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-        textView.alwaysBounceVertical = YES;
         textView.delegate = self;
-        textView.tintColor = STYLE_TINT_COLOR;
-        textView.selectedRange = NSMakeRange(0, 0);
-        textView.contentOffset = CGPointZero;
         textView.contentInset =
         textView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.bottomBar.height, 0);
-        textView.dataDetectorTypes = UIDataDetectorTypeLink;
-        textView.circularSearch = YES;
-        textView.scrollPosition = ICTextViewScrollPositionTop;
-        textView.searchOptions = NSRegularExpressionCaseInsensitive;
         _textView = textView;
     }
     return _textView;
@@ -391,9 +339,9 @@ XXEditorSettingsTableViewControllerDelegate>
     return _keyboardRow;
 }
 
-#pragma mark - UISearchBarDelegate
+#pragma mark - XXSearchBarDelegate
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+- (BOOL)searchBarShouldBeginEditing:(XXSearchBar *)searchBar {
     return YES;
 }
 
@@ -494,15 +442,12 @@ XXEditorSettingsTableViewControllerDelegate>
         addLabel.text = NSLocalizedString(@"+1s", nil);
         addLabel.textColor = [UIColor redColor];
     }
-    
     addLabel.font = [UIFont boldSystemFontOfSize:12.f];
     [addLabel sizeToFit];
     addLabel.center = CGPointMake(barButtonView.bounds.size.width / 2, barButtonView.bounds.size.height / 2);
     [barButtonView addSubview:addLabel];
     
-    [UIView animateWithDuration:.8f
-                          delay:.2f
-                        options:UIViewAnimationOptionCurveEaseInOut
+    [UIView animateWithDuration:.8f delay:.2f options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          addLabel.alpha = 0;
                          addLabel.centerY = -barButtonView.bounds.size.height;
@@ -524,7 +469,8 @@ XXEditorSettingsTableViewControllerDelegate>
         if (cc == '\n') {
             count++;
             if (count == lineRange) {
-                index = (NSUInteger) i;
+                index = (NSUInteger)i;
+                break;
             }
         }
     }
@@ -610,34 +556,34 @@ XXEditorSettingsTableViewControllerDelegate>
     
 }
 
-#pragma mark - UISearchBarDelegate
+#pragma mark - XXSearchBarDelegate
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+- (void)searchBarTextDidBeginEditing:(XXSearchBar *)searchBar {
     [searchBar setShowsCancelButton:YES animated:YES];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBar:(XXSearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self searchNextMatch];
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+- (void)searchBarTextDidEndEditing:(XXSearchBar *)searchBar
 {
     [searchBar setShowsCancelButton:NO animated:YES];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+- (void)searchBarSearchButtonClicked:(XXSearchBar *)searchBar
 {
     [self searchNextMatch];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)searchBarCancelButtonClicked:(XXSearchBar *)searchBar
 {
     searchBar.text = @"";
     [searchBar resignFirstResponder];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+- (void)searchBar:(XXSearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
     [self searchNextMatch];
 }
 
@@ -714,7 +660,6 @@ XXEditorSettingsTableViewControllerDelegate>
     [self loadKeyboardSettings];
     [self loadTabSettings];
     [self loadFontSettings];
-//    [self loadLineNumberSettings]; // Not needed
 }
 
 - (void)loadKeyboardSettings {
@@ -942,40 +887,23 @@ XXEditorSettingsTableViewControllerDelegate>
     if (text.length == 1 &&
         [text isEqualToString:@"\n"] &&
         _tabString.length != 0
-        )
-    {
+        ) {
         BOOL hasBreak = ([text rangeOfString:@"\n"].location != NSNotFound);
-        if (!hasBreak)
-        {
-            return YES;
-        }
+        if (!hasBreak) return YES;
         
         NSString *stringRef = textView.text;
         NSRange lastBreak = [stringRef rangeOfString:@"\n" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
         
         NSUInteger idx = lastBreak.location + 1;
 
-        if (lastBreak.location == NSNotFound)
-        {
-            idx = 0;
-        }
-        else if (lastBreak.location + lastBreak.length == range.location)
-        {
-            return YES;
-        }
+        if (lastBreak.location == NSNotFound) idx = 0;
+        else if (lastBreak.location + lastBreak.length == range.location) return YES;
         
         NSMutableString *tabStr = [NSMutableString new];
-//        unichar tabChar = [_tabString characterAtIndex:0];
-        for (; idx < range.location; idx++)
-        {
+        for (; idx < range.location; idx++) {
             char thisChar = (char) [stringRef characterAtIndex:idx];
-//            if (thisChar != tabChar)
-            if (thisChar != ' ' && thisChar != '\t')
-            {
-                break;
-            } else {
-                [tabStr appendFormat:@"%c", (char)thisChar];
-            }
+            if (thisChar != ' ' && thisChar != '\t') break;
+            else [tabStr appendFormat:@"%c", (char)thisChar];
         }
         
         [self.textView insertText:[NSString stringWithFormat:@"\n%@", tabStr]];
@@ -984,9 +912,7 @@ XXEditorSettingsTableViewControllerDelegate>
     else if (text.length == 0 &&
              range.length != 0 &&
              _tabString.length != 0)
-    {
-        // Delete Backward, nothing to do
-    }
+    {}
     return YES;
 }
 

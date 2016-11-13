@@ -6,8 +6,20 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <setjmp.h>
 #import "XXLuaVModel.h"
 #import "XXLocalDataService.h"
+
+static NSString * const kXXTerminalFakeHandlerStandardOutput = @"kXXTerminalFakeHandlerStandardOutput-%@.pipe";
+static NSString * const kXXTerminalFakeHandlerStandardError = @"kXXTerminalFakeHandlerStandardError-%@.pipe";
+static NSString * const kXXTerminalFakeHandlerStandardInput = @"kXXTerminalFakeHandlerStandardInput-%@.pipe";
+
+static jmp_buf buf;
+static BOOL running = NO;
+static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
 
 void luaL_setPath(lua_State* L, const char *key, const char *path)
 {
@@ -20,7 +32,13 @@ void luaL_setPath(lua_State* L, const char *key, const char *path)
     lua_pop(L, 1); // get rid of package table from top of stack
 }
 
-static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
+void luaL_terminate(lua_State *L, lua_Debug *ar)
+{
+    if (running == NO) {
+        CYLog(@"perform long jump");
+        longjmp(buf, 1);
+    }
+}
 
 @interface XXLuaVModel ()
 
@@ -38,10 +56,66 @@ static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
 }
 
 - (void)setup {
-    fakeio(stdin, [[XXLocalDataService sharedInstance] stdoutHandler], [[XXLocalDataService sharedInstance] stderrHandler]);
+    NSString *stdoutHandlerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:kXXTerminalFakeHandlerStandardOutput, [NSUUID UUID]]];
+    unlink(stdoutHandlerPath.UTF8String);
+    FILE *stdoutHandler = fopen(stdoutHandlerPath.UTF8String, "wb+");
+    NSAssert(stdoutHandler, @"Cannot create stdout handler");
+    self.stdoutHandler = stdoutHandler;
+    
+    NSString *stderrHandlerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:kXXTerminalFakeHandlerStandardError, [NSUUID UUID]]];
+    unlink(stderrHandlerPath.UTF8String);
+    FILE *stderrHandler = fopen(stderrHandlerPath.UTF8String, "wb+");
+    NSAssert(stderrHandler, @"Cannot create stderr handler");
+    self.stderrHandler = stderrHandler;
+    
+    NSString *stdinHandlerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:kXXTerminalFakeHandlerStandardInput, [NSUUID UUID]]];
+    unlink(stdinHandlerPath.UTF8String);
+    if (mkfifo(stdinHandlerPath.UTF8String, S_IRWXU) >= 0) {
+        self.stdinReadHandler = stdin;
+        FILE *stdinReadHandler = NULL;
+        if ((stdinReadHandler = fopen(stdinHandlerPath.UTF8String, "rb+")) != NULL) {
+            self.stdinReadHandler = stdinReadHandler;
+        }
+        
+        self.stdinWriteHandler = stdin;
+        FILE *stdinWriteHandler = NULL;
+        if ((stdinWriteHandler = fopen(stdinHandlerPath.UTF8String, "wb+")) != NULL) {
+            self.stdinWriteHandler = stdinWriteHandler;
+        }
+    }
+    
+    fakeio(self.stdinReadHandler, self.stdoutHandler, self.stderrHandler);
+    CYLog(@"faked io");
+    
     L = luaL_newstate();
     NSAssert(L, @"not enough memory");
+    CYLog(@"launched vm");
+    lua_sethook(L, &luaL_terminate, LUA_MASKLINE, 1);
+    CYLog(@"set line hook");
     luaL_openlibs(L);
+    CYLog(@"opened libs");
+}
+
+#pragma mark - Setters
+
+- (BOOL)running {
+    return running;
+}
+
+- (void)setRunning:(BOOL)r {
+    running = r;
+    if (r == NO)
+    {
+        char *emptyBuf = malloc(8192 * sizeof(char));
+        memset(emptyBuf, 0x0a, 8192);
+        write(fileno(self.stdinWriteHandler), emptyBuf, 8192);
+        free(emptyBuf);
+        CYLog(@"filled stdin");
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(virtualMachineDidChangedState:)])
+    {
+        [_delegate virtualMachineDidChangedState:self];
+    }
 }
 
 #pragma mark - check code and error
@@ -54,7 +128,7 @@ static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
                                          NSLocalizedFailureReasonErrorKey: errString
                                          };
         lua_pop(L, 1);
-        if (error)
+        if (error != nil)
             *error = [NSError errorWithDomain:kXXLuaVModelErrorDomain
                                          code:code
                                      userInfo:errDictionary];
@@ -72,6 +146,7 @@ static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
     NSString *cPath = [NSString stringWithFormat:@"%@;", [dirPath stringByAppendingPathComponent:@"?.so"]];
     luaL_setPath(L, "path", sPath.UTF8String);
     luaL_setPath(L, "cpath", cPath.UTF8String);
+    CYLog(@"set path");
     
     const char *cString = [path UTF8String];
     int load_stat = luaL_loadfile(L, cString);
@@ -89,15 +164,48 @@ static NSString * const kXXLuaVModelErrorDomain = @"kXXLuaVModelErrorDomain";
 #pragma mark - pcall
 
 - (BOOL)pcallWithError:(NSError **)error {
-    int load_stat = lua_pcall(L, 0, 0, 0);
-    return [self checkCode:load_stat error:error];
+    self.running = YES;
+    int load_stat = 0;
+    if (!setjmp(buf)) {
+        CYLog(@"registered jump");
+        load_stat = lua_pcall(L, 0, 0, 0);
+        CYLog(@"pcall");
+        self.running = NO;
+        return [self checkCode:load_stat error:error];
+    } else {
+        CYLog(@"jumped here");
+        if (error != nil) {
+            *error = [NSError errorWithDomain:kXXLuaVModelErrorDomain code:-1 userInfo:@{ NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Thread terminated", nil) }];
+        }
+        return NO;
+    }
 }
 
 #pragma mark - memory
 
 - (void)dealloc {
     if (L) lua_close(L);
-    CYLog(@"");
+    CYLog(@"closed vm");
+    
+    fakeio(stdin, stdout, stderr);
+    CYLog(@"canceled io");
+    
+    if (self.stdoutHandler) {
+        fclose(self.stdoutHandler);
+        self.stdoutHandler = nil;
+    }
+    if (self.stderrHandler) {
+        fclose(self.stderrHandler);
+        self.stderrHandler = nil;
+    }
+    if (self.stdinReadHandler) {
+        fclose(self.stdinReadHandler);
+        self.stdinReadHandler = nil;
+    }
+    if (self.stdinWriteHandler) {
+        fclose(self.stdinWriteHandler);
+        self.stdinWriteHandler = nil;
+    }
 }
 
 @end

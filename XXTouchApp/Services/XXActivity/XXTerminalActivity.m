@@ -8,6 +8,7 @@
 
 #import "XXTerminalActivity.h"
 #import "XXTerminalViewController.h"
+#import "XXEmptyNavigationController.h"
 
 @implementation XXTerminalActivity
 
@@ -36,7 +37,8 @@
     XXTerminalViewController *terminalController = [[XXTerminalViewController alloc] init];
     terminalController.filePath = [self.fileURL path];
     terminalController.title = [self.fileURL lastPathComponent];
-    [viewController.navigationController pushViewController:terminalController animated:YES];
+    XXEmptyNavigationController *navController = [[XXEmptyNavigationController alloc] initWithRootViewController:terminalController];
+    [viewController.navigationController presentViewController:navController animated:YES completion:nil];
     [self activityDidFinish:YES];
 }
 

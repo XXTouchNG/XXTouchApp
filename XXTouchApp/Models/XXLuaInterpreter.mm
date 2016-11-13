@@ -1,12 +1,12 @@
 //
-//  LuaInterpreter.m
+//  XXLuaInterpreter.mm
 //  LuaTest
 //
 //  Created by François-Xavier Thomas on 2/18/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "LuaInterpreter.h"
+#import "XXLuaInterpreter.h"
 
 extern "C" {
     
@@ -114,7 +114,7 @@ int lua_pushobject (lua_State *L, id object) {
             lua_settable(L, -3);
         }
     } else {
-        //NSLog(@"LuaInterpreter: Warning: Unsupported class %@ in `lua_pushobject`", [object class]);
+        //NSLog(@"XXLuaInterpreter: Warning: Unsupported class %@ in `lua_pushobject`", [object class]);
         lua_pushlightuserdata(L, (__bridge void*)object);
     }
     
@@ -161,7 +161,7 @@ id lua_toobject (lua_State *L, int idx) {
             
         case LUA_TNIL:
         default:
-            NSLog(@"LuaInterpreter: Warning: Unsupported type `%@` in `lua_toobject`", lua_stype(L, idx));
+            NSLog(@"XXLuaInterpreter: Warning: Unsupported type `%@` in `lua_toobject`", lua_stype(L, idx));
             return nil;
     }
 }
@@ -171,14 +171,14 @@ int _runSelector (lua_State *L) {
     id target = (__bridge id)lua_touserdata(L, lua_upvalueindex(1)); // Target
     SEL selector = (SEL)lua_touserdata(L, lua_upvalueindex(2)); // Selector to run
     NSArray *argTypes = (__bridge NSArray*)lua_touserdata(L, lua_upvalueindex(3)); // Argument types
-    LuaArgumentType returnType = (LuaArgumentType)lua_tonumber(L, lua_upvalueindex(4)); // Return type
+    XXLuaArgumentType returnType = (XXLuaArgumentType)lua_tonumber(L, lua_upvalueindex(4)); // Return type
     
     // The argument count passed to ObjC by the LUA program is at the top of the stack
     int argCount = lua_gettop(L);
     
     // If it differs from the expected number of arguments, tell the user, but try to perform the selector anyway
     if (argTypes.count != argCount) {
-        NSLog(@"LuaInterpreter: Warning: Wrong number of arguments in C closure");
+        NSLog(@"XXLuaInterpreter: Warning: Wrong number of arguments in C closure");
     }
     
     // Prepare method invocation
@@ -190,33 +190,33 @@ int _runSelector (lua_State *L) {
     if (argTypes) for (int i = 0; i < argCount; i++) {
         switch ([[argTypes objectAtIndex:i] intValue]) {
             // String: Convert C String to NSString
-            case LuaArgumentTypeString: {
+            case XXLuaArgumentTypeString: {
                 __unsafe_unretained NSString *str = [NSString stringWithCString:lua_tostring(L, -argCount + i) encoding:NSUTF8StringEncoding];
                 [inv setArgument:&str atIndex:2+i];
                 break;
             }
                 
             // Number: All Lua numbers are doubles
-            case LuaArgumentTypeNumber: {
+            case XXLuaArgumentTypeNumber: {
                 double nb = lua_tonumber(L, -argCount + i);
                 [inv setArgument:&nb atIndex:2+i];
                 break;
             }
                 
-            case LuaArgumentTypeTable: {
+            case XXLuaArgumentTypeTable: {
                 NSDictionary *dict = lua_toobject(L, -argCount + i);
                 [inv setArgument:&dict atIndex:2+i];
                 break;
             }
                 
             // Boolean: Pretty straightforward now...
-            case LuaArgumentTypeBoolean: {
+            case XXLuaArgumentTypeBoolean: {
                 BOOL b = lua_toboolean(L, -argCount + i);
                 [inv setArgument:&b atIndex:2+i];
             }
                 
-            case LuaArgumentTypeObject:
-            case LuaArgumentTypeLightObject: {
+            case XXLuaArgumentTypeObject:
+            case XXLuaArgumentTypeLightObject: {
                 NSObject *obj = lua_toobject(L, -argCount + i);
                 [inv setArgument:&obj atIndex:2+i];
             }
@@ -236,70 +236,70 @@ int _runSelector (lua_State *L) {
     // Put the returned value on the stack, if any
     switch (returnType) {
         // String value
-        case LuaArgumentTypeString: {
+        case XXLuaArgumentTypeString: {
             __unsafe_unretained NSString *ret; [inv getReturnValue:&ret];
             lua_pushstring(L, [ret cStringUsingEncoding:NSUTF8StringEncoding]);
             return 1;
         }
         
         // Number value
-        case LuaArgumentTypeNumber: {
+        case XXLuaArgumentTypeNumber: {
             double ret; [inv getReturnValue:&ret];
             lua_pushnumber(L, ret);
             return 1;
         }
             
         // Try to understand an Objective-C object
-        case LuaArgumentTypeObject: {
+        case XXLuaArgumentTypeObject: {
             __unsafe_unretained id ret; [inv getReturnValue:&ret];
             return lua_pushobject(L, ret);
         }
             
-        case LuaArgumentTypeTable: {
+        case XXLuaArgumentTypeTable: {
             __unsafe_unretained NSDictionary *table; [inv getReturnValue:&table];
             return lua_pushobject(L, table);
         }
         
         // Boolean value
-        case LuaArgumentTypeBoolean: {
+        case XXLuaArgumentTypeBoolean: {
             BOOL ret; [inv getReturnValue:&ret];
             lua_pushboolean(L, ret);
             return 1;
         }
             
-        case LuaArgumentTypeLightObject: {
+        case XXLuaArgumentTypeLightObject: {
             __unsafe_unretained NSObject *obj; [inv getReturnValue:&obj];
             return lua_pushobject(L, obj);
         }
         
         // Multiple return values need to be stored inside an NSArray
-        case LuaArgumentTypeMultiple: {
+        case XXLuaArgumentTypeMultiple: {
             __unsafe_unretained id ret; [inv getReturnValue:&ret];
             if ([ret isKindOfClass:[NSArray class]]) {
                 for (id obj in ret) lua_pushobject(L, obj);
                 return (int)[(NSArray*)ret count];
             } else {
-                NSLog(@"LuaInterpreter: Warning: Function registered return type is `multiple`, but the returned object isn't an NSArray");
+                NSLog(@"XXLuaInterpreter: Warning: Function registered return type is `multiple`, but the returned object isn't an NSArray");
                 return 0;
             }
         }
 
-        case LuaArgumentTypeNone:
+        case XXLuaArgumentTypeNone:
         default:
             return 0;
     }
 }
 
-@interface LuaInterpreter() {
+@interface XXLuaInterpreter() {
     lua_State *state; // Holds the current LUA state
     BOOL didRunOnce; // To call a specific function, we need to run the script once to register it
 }
 
-- (void) _registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(LuaArgumentType)returnType argumentTypesArray:(NSArray*)argumentTypesArray;
+- (void) _registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(XXLuaArgumentType)returnType argumentTypesArray:(NSArray*)argumentTypesArray;
 
 @end
 
-@implementation LuaInterpreter
+@implementation XXLuaInterpreter
 
 @synthesize retainedObjects = _retainedObjects;
 
@@ -338,7 +338,7 @@ int _runSelector (lua_State *L) {
     
     // If it did not succeed, tell the user
     if (ret) {
-        NSLog(@"LuaInterpreter: Error loading file [%@]: %s", filepath, lua_tostring(state, -1));
+        NSLog(@"XXLuaInterpreter: Error loading file [%@]: %s", filepath, lua_tostring(state, -1));
         lua_showstack(state);
         return NO;
     }
@@ -354,7 +354,7 @@ int _runSelector (lua_State *L) {
     
     // If the call did not succeed, display the error
     if (ret) {
-        NSLog(@"LuaInterpreter: Error: %s", lua_tostring(state, -1));
+        NSLog(@"XXLuaInterpreter: Error: %s", lua_tostring(state, -1));
         return NO;
     }
     
@@ -369,7 +369,7 @@ int _runSelector (lua_State *L) {
     // Try to get the function
     lua_getglobal(state, [fname cStringUsingEncoding:NSUTF8StringEncoding]);
     if (!lua_isfunction(state, -1)) {
-        NSLog(@"LuaInterpreter: Error: Tried to run non-existing function `%@`", fname);
+        NSLog(@"XXLuaInterpreter: Error: Tried to run non-existing function `%@`", fname);
         lua_pop(state, 1);
         return nil;
     }
@@ -392,7 +392,7 @@ int _runSelector (lua_State *L) {
     // Call function
     lua_showstack(state);
     if (lua_pcall(state, argCount, 0, 0) != 0) {
-        NSLog(@"LuaInterpreter: Error: Function `%@`: %@", fname, [NSString stringWithCString:lua_tostring(state, -1) encoding:NSUTF8StringEncoding]);
+        NSLog(@"XXLuaInterpreter: Error: Function `%@`: %@", fname, [NSString stringWithCString:lua_tostring(state, -1) encoding:NSUTF8StringEncoding]);
     }
     return nil;
 }
@@ -404,7 +404,7 @@ int _runSelector (lua_State *L) {
     // Try to get the function
     lua_getglobal(state, [fname cStringUsingEncoding:NSUTF8StringEncoding]);
     if (!lua_isfunction(state, -1)) {
-        NSLog(@"LuaInterpreter: Error: Tried to run non-existing function `%@`", fname);
+        NSLog(@"XXLuaInterpreter: Error: Tried to run non-existing function `%@`", fname);
         lua_pop(state, 1);
         return nil;
     }
@@ -426,7 +426,7 @@ int _runSelector (lua_State *L) {
     
     // Call function
     if (lua_pcall(state, argCount, count, 0) != 0) {
-        NSLog(@"LuaInterpreter: Error: Function `%@`: %@", fname, [NSString stringWithCString:lua_tostring(state, -1) encoding:NSUTF8StringEncoding]);
+        NSLog(@"XXLuaInterpreter: Error: Function `%@`: %@", fname, [NSString stringWithCString:lua_tostring(state, -1) encoding:NSUTF8StringEncoding]);
         return nil;
     }
     
@@ -453,7 +453,7 @@ int _runSelector (lua_State *L) {
 
 #pragma mark - Registering Selectors
 
-- (void) _registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(LuaArgumentType)returnType argumentTypesArray:(NSArray *)argumentTypesArray {
+- (void) _registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(XXLuaArgumentType)returnType argumentTypesArray:(NSArray *)argumentTypesArray {
     // Retain arguments, just in case
     if (argumentTypesArray) [_retainedObjects addObject:argumentTypesArray];
     
@@ -471,7 +471,7 @@ int _runSelector (lua_State *L) {
 }
 
 - (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name {
-    [self _registerSelector:selector target:target name:name returnType:LuaArgumentTypeNone argumentTypesArray:nil];
+    [self _registerSelector:selector target:target name:name returnType:XXLuaArgumentTypeNone argumentTypesArray:nil];
 }
 
 - (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name argumentTypes:(int)count, ... {
@@ -480,24 +480,24 @@ int _runSelector (lua_State *L) {
     va_list argumentTypes;
     va_start(argumentTypes, count);
     for (int i = 0; i < count; i++) {
-        [argumentTypesArray addObject:[NSNumber numberWithInt:va_arg(argumentTypes, LuaArgumentType)]];
+        [argumentTypesArray addObject:[NSNumber numberWithInt:va_arg(argumentTypes, XXLuaArgumentType)]];
     }
     va_end(argumentTypes);
     
-    [self _registerSelector:selector target:target name:name returnType:LuaArgumentTypeNone argumentTypesArray:argumentTypesArray];
+    [self _registerSelector:selector target:target name:name returnType:XXLuaArgumentTypeNone argumentTypesArray:argumentTypesArray];
 }
 
-- (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(LuaArgumentType)returnType {
+- (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(XXLuaArgumentType)returnType {
     [self _registerSelector:selector target:target name:name returnType:returnType argumentTypesArray:nil];
 }
 
-- (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(LuaArgumentType)returnType argumentTypes:(int)count, ... {
+- (void) registerSelector:(SEL)selector target:(id)target name:(NSString *)name returnType:(XXLuaArgumentType)returnType argumentTypes:(int)count, ... {
     // Copy argument types into an array for use with _runSelector
     NSMutableArray *argumentTypesArray = [NSMutableArray array];
     va_list argumentTypes;
     va_start(argumentTypes, count);
     for (int i = 0; i < count; i++) {
-        [argumentTypesArray addObject:[NSNumber numberWithInt:va_arg(argumentTypes, LuaArgumentType)]];
+        [argumentTypesArray addObject:[NSNumber numberWithInt:va_arg(argumentTypes, XXLuaArgumentType)]];
     }
     
     [self _registerSelector:selector target:target name:name returnType:returnType argumentTypesArray:argumentTypesArray];

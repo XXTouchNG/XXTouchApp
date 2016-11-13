@@ -96,11 +96,11 @@
 
 + (NSArray *)viewerActivities {
     return @[
+             [XXTerminalActivity class],
+             [XXWebActivity class],
              [XXImageActivity class],
              [XXMediaActivity class],
-             [XXWebActivity class],
              [XXUnarchiveActivity class],
-             [XXTerminalActivity class],
              ];
 }
 
