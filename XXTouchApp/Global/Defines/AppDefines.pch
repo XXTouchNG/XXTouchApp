@@ -16,6 +16,7 @@
 
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
+#define APP_BUNDLE_ID [[UIApplication sharedApplication] appBundleID]
 
 #import <Foundation/Foundation.h>
 #import <FCFileManager/FCFileManager.h>

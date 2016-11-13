@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UISwitch *autoCapitalizationSwitch;
 @property (weak, nonatomic) IBOutlet XXEditorFontSizeView *fontSizeView;
 @property (weak, nonatomic) IBOutlet UISwitch *autoIndentSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *regexSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *caseSensitiveSwitch;
 
 @end
 
@@ -59,6 +61,9 @@
     
     self.tabWidthControl.selectedSegmentIndex = [[XXLocalDataService sharedInstance] tabWidth];
     self.fontSizeView.fontSize = (NSUInteger)[[XXLocalDataService sharedInstance] fontFamilySize];
+    
+    self.regexSwitch.on = [[XXLocalDataService sharedInstance] regexSearchingEnabled];
+    self.caseSensitiveSwitch.on = [[XXLocalDataService sharedInstance] caseSensitiveEnabled];
 }
 
 - (IBAction)lineNumbersChanged:(UISwitch *)sender {
@@ -87,6 +92,14 @@
 
 - (IBAction)autoCapitalizationChanged:(UISwitch *)sender {
     [[XXLocalDataService sharedInstance] setAutoCapitalizationEnabled:sender.on]; [self notifyChangedInSection:3];
+}
+
+- (IBAction)regexChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setRegexSearchingEnabled:sender.on]; [self notifyChangedInSection:4];
+}
+
+- (IBAction)caseSensitiveChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setCaseSensitiveEnabled:sender.on]; [self notifyChangedInSection:4];
 }
 
 - (void)notifyChangedInSection:(NSUInteger)section {

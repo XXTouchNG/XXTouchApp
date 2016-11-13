@@ -2205,6 +2205,68 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Search" id="UeH-FC-boW">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="XUY-w7-AIU">
+                                        <rect key="frame" x="0.0" y="741.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XUY-w7-AIU" id="lGj-Od-gQB">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regular Expression" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9c-W3-LSU">
+                                                    <rect key="frame" x="16" y="12" width="136.5" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nq5-Fb-UD7">
+                                                    <rect key="frame" x="535" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="regexChanged:" destination="Ou4-42-sBw" eventType="valueChanged" id="laG-8H-OAW"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="z9c-W3-LSU" firstAttribute="leading" secondItem="lGj-Od-gQB" secondAttribute="leadingMargin" constant="8" id="73W-YI-Zeh"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Nq5-Fb-UD7" secondAttribute="trailing" constant="8" id="KD0-5O-vWh"/>
+                                                <constraint firstItem="z9c-W3-LSU" firstAttribute="centerY" secondItem="lGj-Od-gQB" secondAttribute="centerY" id="Mry-JU-zoL"/>
+                                                <constraint firstItem="Nq5-Fb-UD7" firstAttribute="centerY" secondItem="lGj-Od-gQB" secondAttribute="centerY" id="c9O-E9-51n"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Bmo-kj-6J6">
+                                        <rect key="frame" x="0.0" y="785.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bmo-kj-6J6" id="4d5-09-4oZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Case Sensitive" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6N-I6-QiA">
+                                                    <rect key="frame" x="16" y="12" width="105" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="06g-bU-ul1">
+                                                    <rect key="frame" x="535" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="caseSensitiveChanged:" destination="Ou4-42-sBw" eventType="valueChanged" id="NE4-vk-tht"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="A6N-I6-QiA" firstAttribute="leading" secondItem="4d5-09-4oZ" secondAttribute="leadingMargin" constant="8" id="0jV-gD-YlZ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="06g-bU-ul1" secondAttribute="trailing" constant="8" id="3PI-V3-EtO"/>
+                                                <constraint firstItem="A6N-I6-QiA" firstAttribute="centerY" secondItem="4d5-09-4oZ" secondAttribute="centerY" id="OHX-vl-BTy"/>
+                                                <constraint firstItem="06g-bU-ul1" firstAttribute="centerY" secondItem="4d5-09-4oZ" secondAttribute="centerY" id="cXa-Ag-Mpw"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="Ou4-42-sBw" id="Fa1-G0-pIH"/>
@@ -2217,10 +2279,12 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                         <outlet property="autoCapitalizationSwitch" destination="5Vx-MV-Epw" id="JN7-54-ePe"/>
                         <outlet property="autoCorrectionSwitch" destination="Y8u-2N-7UA" id="moH-0O-NtJ"/>
                         <outlet property="autoIndentSwitch" destination="10y-lE-lHg" id="8Re-56-PCq"/>
+                        <outlet property="caseSensitiveSwitch" destination="06g-bU-ul1" id="QHc-uW-3aX"/>
                         <outlet property="fontNameLabel" destination="dg0-Jc-S5P" id="NUH-Td-ZD6"/>
                         <outlet property="fontSizeView" destination="fMh-5t-drQ" id="ncw-J8-Tud"/>
                         <outlet property="lineNumbersSwitch" destination="N6X-4y-nO0" id="Hi1-BY-JEJ"/>
                         <outlet property="readOnlySwitch" destination="PGp-pQ-M6f" id="jHF-z6-2ge"/>
+                        <outlet property="regexSwitch" destination="Nq5-Fb-UD7" id="DH9-4W-SaS"/>
                         <outlet property="softTabsSwitch" destination="Inn-pS-bXc" id="ivj-ic-pCA"/>
                         <outlet property="tabWidthControl" destination="3il-HO-XDe" id="iOg-3G-y2I"/>
                     </connections>

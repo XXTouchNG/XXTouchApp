@@ -95,13 +95,22 @@
 #pragma mark - Type Viewers
 
 + (NSArray *)viewerActivities {
-    return @[
-             [XXTerminalActivity class],
-             [XXWebActivity class],
-             [XXImageActivity class],
-             [XXMediaActivity class],
-             [XXUnarchiveActivity class],
-             ];
+    if (daemonInstalled()) {
+        return @[
+                 [XXWebActivity class],
+                 [XXImageActivity class],
+                 [XXMediaActivity class],
+                 [XXUnarchiveActivity class],
+                 ];
+    } else {
+        return @[
+                 [XXTerminalActivity class],
+                 [XXWebActivity class],
+                 [XXImageActivity class],
+                 [XXMediaActivity class],
+                 [XXUnarchiveActivity class],
+                 ];
+    }
 }
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
@@ -114,7 +123,7 @@
         {
             id act = [[actClass alloc] initWithViewController:viewController];
             [act performSelector:@selector(setFileURL:) withObject:fileURL];
-            if ([act respondsToSelector:@selector(setDelegate:)]) {
+            if ([act respondsToSelector:@selector(delegate)]) {
                 [act setDelegate:viewController];
             }
             [act performActivity];
@@ -134,6 +143,9 @@
     NSMutableArray *acts = [[NSMutableArray alloc] init];
     for (Class actClass in [self viewerActivities]) {
         id act = [[actClass alloc] initWithViewController:controller];
+        if ([act respondsToSelector:@selector(delegate)]) {
+            [act setDelegate:controller];
+        }
         [acts addObject:act];
     }
     return [acts copy];
@@ -157,6 +169,9 @@
         {
             id act = [[actClass alloc] initWithViewController:viewController];
             [act performSelector:@selector(setFileURL:) withObject:fileURL];
+            if ([act respondsToSelector:@selector(delegate)]) {
+                [act setDelegate:viewController];
+            }
             [act performActivity];
             return YES;
         }
@@ -174,6 +189,9 @@
     NSMutableArray *acts = [[NSMutableArray alloc] init];
     for (Class actClass in [self editorActivities]) {
         id act = [[actClass alloc] initWithViewController:controller];
+        if ([act respondsToSelector:@selector(delegate)]) {
+            [act setDelegate:controller];
+        }
         [acts addObject:act];
     }
     return [acts copy];

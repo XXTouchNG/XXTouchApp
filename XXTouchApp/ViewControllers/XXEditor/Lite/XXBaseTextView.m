@@ -42,9 +42,6 @@
     self.defaultFont = [UIFont systemFontOfSize:14.f];
     self.boldFont = [UIFont boldSystemFontOfSize:14.f];
     self.italicFont = [UIFont italicSystemFontOfSize:14.f];
-    self.circularSearch = YES;
-    self.scrollPosition = ICTextViewScrollPositionTop;
-    self.searchOptions = NSRegularExpressionCaseInsensitive;
 }
 
 // No scroll

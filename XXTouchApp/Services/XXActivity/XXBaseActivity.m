@@ -36,13 +36,33 @@
     }
 }
 
-- (UIViewController *)activityViewController
-{
-    return nil;
-}
-
 + (NSArray <NSString *> *)supportedExtensions {
     return @[];
+}
+
+- (void)performActivity
+{
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        [self presentActivity];
+    } else {
+        self.baseController.navigationController.view.userInteractionEnabled = NO;
+        [self.baseController.navigationController.view makeToastActivity:CSToastPositionCenter];
+        [self performSelector:@selector(presentActivity) withObject:nil afterDelay:1.f];
+    }
+    [self activityDidFinish:YES];
+}
+
+- (void)presentActivity {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        
+    } else {
+        [self.baseController.navigationController.view hideToastActivity];
+        self.baseController.navigationController.view.userInteractionEnabled = YES;
+    }
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

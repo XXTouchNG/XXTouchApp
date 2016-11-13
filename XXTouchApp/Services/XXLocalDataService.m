@@ -16,6 +16,7 @@
 static NSString * const kXXStorageAlbumName = @"XXTouch";
 
 static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
+static NSString * const kXXStorageKeyPurchasedProduct = @"kXXStorageKeyPurchasedProduct-1";
 static NSString * const kXXStorageKeyApplicationBundles = @"kXXStorageKeyApplicationBundles-1";
 static NSString * const kXXStorageKeyStartUpConfigScriptPath = @"kXXStorageKeyStartUpConfigScriptPath-1";
 static NSString * const kXXStorageKeyRemoteAccessStatus = @"kXXStorageKeyRemoteAccessStatus-1";
@@ -43,6 +44,8 @@ static NSString * const kXXStorageKeyAutoIndentEnabled = @"kXXStorageKeyAutoInde
 static NSString * const kXXStorageKeyReadOnlyEnabled = @"kXXStorageKeyReadOnlyEnabled-1";
 static NSString * const kXXStorageKeyAutoCorrectionEnabled = @"kXXStorageKeyAutoCorrectionEnabled-1";
 static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKeyAutoCapitalizationEnabled-1";
+static NSString * const kXXStorageKeyRegexSearchingEnabled = @"kXXStorageKeyRegexSearchingEnabled-1";
+static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageKeyCaseSensitiveEnabledEnabled-1";
 
 @interface XXLocalDataService () <
     JTSImageViewControllerInteractionsDelegate
@@ -525,6 +528,30 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
 
 - (void)setAutoCapitalizationEnabled:(BOOL)autoCapitalizationEnabled {
     [self setObject:[NSNumber numberWithBool:autoCapitalizationEnabled] forKey:kXXStorageKeyAutoCapitalizationEnabled];
+}
+
+- (BOOL)purchasedProduct {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyPurchasedProduct] boolValue];
+}
+
+- (void)setPurchasedProduct:(BOOL)purchasedProduct {
+    [self setObject:[NSNumber numberWithBool:purchasedProduct] forKey:kXXStorageKeyPurchasedProduct];
+}
+
+- (BOOL)regexSearchingEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyRegexSearchingEnabled] boolValue];
+}
+
+- (void)setRegexSearchingEnabled:(BOOL)regexSearchingEnabled {
+    [self setObject:[NSNumber numberWithBool:regexSearchingEnabled] forKey:kXXStorageKeyRegexSearchingEnabled];
+}
+
+- (BOOL)caseSensitiveEnabled {
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyCaseSensitiveEnabledEnabled] boolValue];
+}
+
+- (void)setCaseSensitiveEnabled:(BOOL)caseSensitiveEnabled {
+    [self setObject:[NSNumber numberWithBool:caseSensitiveEnabled] forKey:kXXStorageKeyCaseSensitiveEnabledEnabled];
 }
 
 @end

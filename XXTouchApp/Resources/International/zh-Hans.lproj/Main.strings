@@ -223,3 +223,6 @@
 "Vmo-4C-jIs.title" = "字体";
 "YZ3-BI-T3o.footerTitle" = "启用 \"软缩进\" 将在按下 Tab 键时插入指定数量的空格而不是缩进符 (\\t)。";
 "GJq-61-FuW.text" = "自动缩进";
+"UeH-FC-boW.headerTitle" = "搜索";
+"z9c-W3-LSU.text" = "正则表达式";
+"A6N-I6-QiA.text" = "区分大小写";

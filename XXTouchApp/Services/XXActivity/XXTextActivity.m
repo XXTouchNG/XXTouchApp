@@ -30,14 +30,14 @@
     return [UIImage imageNamed:@"action-edit"];
 }
 
-- (void)performActivity
+- (void)presentActivity
 {
+    [super presentActivity];
     UIViewController *viewController = self.baseController;
     XXBaseTextEditorViewController *baseController = [[XXBaseTextEditorViewController alloc] init];
     baseController.filePath = [self.fileURL path];
     baseController.title = [self.fileURL lastPathComponent];
     [viewController.navigationController pushViewController:baseController animated:YES];
-    [self activityDidFinish:YES];
 }
 
 @end

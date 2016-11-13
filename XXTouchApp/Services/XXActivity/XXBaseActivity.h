@@ -14,5 +14,6 @@
 
 - (instancetype)initWithViewController:(UIViewController *)controller;
 + (NSArray <NSString *> *)supportedExtensions;
+- (void)presentActivity;
 
 @end

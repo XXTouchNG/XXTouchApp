@@ -52,6 +52,9 @@
 		0F28C23A1DB86EBC006A6E4D /* XXImageFlagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2391DB86EBC006A6E4D /* XXImageFlagView.m */; };
 		0F28C23D1DB89A01006A6E4D /* XXPositionColorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C23C1DB89A01006A6E4D /* XXPositionColorModel.m */; };
 		0F28C2411DB89C90006A6E4D /* XXPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28C2401DB89C90006A6E4D /* XXPosColorPickerController.m */; };
+		0F35C5CB1DD8587700754B74 /* XXPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35C5CA1DD8587700754B74 /* XXPaymentViewController.m */; };
+		0F35C5CE1DD8755800754B74 /* XXFeatureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35C5CD1DD8755800754B74 /* XXFeatureTableViewCell.m */; };
+		0F35C5D11DD8850A00754B74 /* XXPaymentActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35C5D01DD8850A00754B74 /* XXPaymentActivity.m */; };
 		0F36BEBB1DB71AE000761999 /* XXColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */; };
 		0F41C6CB1D8780A300535F72 /* XXStartupConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F41C6CA1D8780A300535F72 /* XXStartupConfigTableViewController.m */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -88,6 +91,11 @@
 		0F8F7C3B1D88CA26005C3A22 /* XXUserDefaultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C3A1D88CA26005C3A22 /* XXUserDefaultsModel.m */; };
 		0F8F7C541D89193B005C3A22 /* NSFileManager+RealDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C531D89193B005C3A22 /* NSFileManager+RealDestination.m */; };
 		0F8F7C611D8919AC005C3A22 /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8F7C601D8919AC005C3A22 /* NSString+Mime.m */; };
+		0F9046381DD84A890006E6DD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9046371DD84A890006E6DD /* StoreKit.framework */; };
+		0F9046421DD855780006E6DD /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90463B1DD855780006E6DD /* IAPHelper.m */; };
+		0F9046431DD855780006E6DD /* IAPShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90463D1DD855780006E6DD /* IAPShare.m */; };
+		0F9046441DD855780006E6DD /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90463F1DD855780006E6DD /* NSString+Base64.m */; };
+		0F9046451DD855780006E6DD /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9046411DD855780006E6DD /* SFHFKeychainUtils.m */; };
 		0F92883D1DC96C1200233653 /* XXEditorFontSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F92883C1DC96C1200233653 /* XXEditorFontSizeView.m */; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0F9E97B01DD4503E003B1E0A /* XXTerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E97AF1DD4503E003B1E0A /* XXTerminalViewController.m */; };
@@ -308,6 +316,12 @@
 		0F28C23C1DB89A01006A6E4D /* XXPositionColorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPositionColorModel.m; sourceTree = "<group>"; };
 		0F28C23F1DB89C90006A6E4D /* XXPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPosColorPickerController.h; sourceTree = "<group>"; };
 		0F28C2401DB89C90006A6E4D /* XXPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPosColorPickerController.m; sourceTree = "<group>"; };
+		0F35C5C91DD8587700754B74 /* XXPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPaymentViewController.h; sourceTree = "<group>"; };
+		0F35C5CA1DD8587700754B74 /* XXPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPaymentViewController.m; sourceTree = "<group>"; };
+		0F35C5CC1DD8755800754B74 /* XXFeatureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFeatureTableViewCell.h; sourceTree = "<group>"; };
+		0F35C5CD1DD8755800754B74 /* XXFeatureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFeatureTableViewCell.m; sourceTree = "<group>"; };
+		0F35C5CF1DD8850A00754B74 /* XXPaymentActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPaymentActivity.h; sourceTree = "<group>"; };
+		0F35C5D01DD8850A00754B74 /* XXPaymentActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPaymentActivity.m; sourceTree = "<group>"; };
 		0F36BEB91DB71AE000761999 /* XXColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXColorPickerController.h; sourceTree = "<group>"; };
 		0F36BEBA1DB71AE000761999 /* XXColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXColorPickerController.m; sourceTree = "<group>"; };
 		0F41C6C91D8780A300535F72 /* XXStartupConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXStartupConfigTableViewController.h; sourceTree = "<group>"; };
@@ -370,6 +384,15 @@
 		0F8F7C531D89193B005C3A22 /* NSFileManager+RealDestination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+RealDestination.m"; sourceTree = "<group>"; };
 		0F8F7C5F1D8919AC005C3A22 /* NSString+Mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Mime.h"; sourceTree = "<group>"; };
 		0F8F7C601D8919AC005C3A22 /* NSString+Mime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Mime.m"; sourceTree = "<group>"; };
+		0F9046371DD84A890006E6DD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		0F90463A1DD855780006E6DD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
+		0F90463B1DD855780006E6DD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
+		0F90463C1DD855780006E6DD /* IAPShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPShare.h; sourceTree = "<group>"; };
+		0F90463D1DD855780006E6DD /* IAPShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPShare.m; sourceTree = "<group>"; };
+		0F90463E1DD855780006E6DD /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		0F90463F1DD855780006E6DD /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		0F9046401DD855780006E6DD /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		0F9046411DD855780006E6DD /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		0F92883B1DC96C1200233653 /* XXEditorFontSizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorFontSizeView.h; sourceTree = "<group>"; };
 		0F92883C1DC96C1200233653 /* XXEditorFontSizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorFontSizeView.m; sourceTree = "<group>"; };
 		0F9852711D745D15001323AA /* XXLocalDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXLocalDefines.h; sourceTree = "<group>"; };
@@ -619,6 +642,7 @@
 				0FE36B261DC82C7B00E952B4 /* Security.framework in Frameworks */,
 				0FE36B241DC82C6D00E952B4 /* libsqlite3.tbd in Frameworks */,
 				0FE36B221DC82C5F00E952B4 /* libz.tbd in Frameworks */,
+				0F9046381DD84A890006E6DD /* StoreKit.framework in Frameworks */,
 				0FE36B201DC82C5400E952B4 /* CoreTelephony.framework in Frameworks */,
 				0FFB86691DADBDF400C5AF87 /* QuartzCore.framework in Frameworks */,
 				0FFB86671DADBD8A00C5AF87 /* CoreGraphics.framework in Frameworks */,
@@ -809,6 +833,17 @@
 			path = PosColor;
 			sourceTree = "<group>";
 		};
+		0F35C5C81DD8587700754B74 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				0F35C5CC1DD8755800754B74 /* XXFeatureTableViewCell.h */,
+				0F35C5CD1DD8755800754B74 /* XXFeatureTableViewCell.m */,
+				0F35C5C91DD8587700754B74 /* XXPaymentViewController.h */,
+				0F35C5CA1DD8587700754B74 /* XXPaymentViewController.m */,
+			);
+			path = Payment;
+			sourceTree = "<group>";
+		};
 		0F36BEB51DB71AB500761999 /* Color */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,6 +991,7 @@
 		0F5DDE261D8149BE00BC4BDE /* XXCommon */ = {
 			isa = PBXGroup;
 			children = (
+				0F35C5C81DD8587700754B74 /* Payment */,
 				0F5DDE2D1D8149BE00BC4BDE /* XXWebViewController.h */,
 				0F5DDE2E1D8149BE00BC4BDE /* XXWebViewController.m */,
 				0F5DDE291D8149BE00BC4BDE /* XXMainTabbarViewController.h */,
@@ -1008,6 +1044,21 @@
 				0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */,
 			);
 			path = MulPosColor;
+			sourceTree = "<group>";
+		};
+		0F9046391DD855780006E6DD /* IAPHelper */ = {
+			isa = PBXGroup;
+			children = (
+				0F90463A1DD855780006E6DD /* IAPHelper.h */,
+				0F90463B1DD855780006E6DD /* IAPHelper.m */,
+				0F90463C1DD855780006E6DD /* IAPShare.h */,
+				0F90463D1DD855780006E6DD /* IAPShare.m */,
+				0F90463E1DD855780006E6DD /* NSString+Base64.h */,
+				0F90463F1DD855780006E6DD /* NSString+Base64.m */,
+				0F9046401DD855780006E6DD /* SFHFKeychainUtils.h */,
+				0F9046411DD855780006E6DD /* SFHFKeychainUtils.m */,
+			);
+			path = IAPHelper;
 			sourceTree = "<group>";
 		};
 		0F9852681D745B84001323AA /* Models */ = {
@@ -1254,6 +1305,8 @@
 				0F023B021DD334BB00F55D76 /* XXUnarchiveActivity.m */,
 				0F9E97B41DD4548A003B1E0A /* XXTerminalActivity.h */,
 				0F9E97B51DD4548A003B1E0A /* XXTerminalActivity.m */,
+				0F35C5CF1DD8850A00754B74 /* XXPaymentActivity.h */,
+				0F35C5D01DD8850A00754B74 /* XXPaymentActivity.m */,
 			);
 			path = XXActivity;
 			sourceTree = "<group>";
@@ -1287,6 +1340,7 @@
 		0FCF8A341DD013E700F4C906 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				0F9046391DD855780006E6DD /* IAPHelper */,
 				0F259A981DD3743F005F8403 /* LZMASDK */,
 				0FCF8A351DD013E700F4C906 /* Activator */,
 				0FCF8A3E1DD013E700F4C906 /* Catalogs */,
@@ -1545,6 +1599,7 @@
 		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F9046371DD84A890006E6DD /* StoreKit.framework */,
 				0FE36B251DC82C7B00E952B4 /* Security.framework */,
 				0FE36B231DC82C6D00E952B4 /* libsqlite3.tbd */,
 				0FE36B211DC82C5F00E952B4 /* libz.tbd */,
@@ -1583,12 +1638,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0FD1C2B21D73CC6D000A784E /* Build configuration list for PBXNativeTarget "XXTouchApp" */;
 			buildPhases = (
-				FD605E651055BA2ED4A1496D /* Check Pods Manifest.lock */,
+				FD605E651055BA2ED4A1496D /* [CP] Check Pods Manifest.lock */,
 				0FD1C2971D73CC6D000A784E /* Sources */,
 				0FD1C2981D73CC6D000A784E /* Frameworks */,
 				0FD1C2991D73CC6D000A784E /* Resources */,
-				2E957E7B84CDEB356ECD3E6F /* Embed Pods Frameworks */,
-				F90C0599FF4662AB633741D6 /* Copy Pods Resources */,
+				2E957E7B84CDEB356ECD3E6F /* [CP] Embed Pods Frameworks */,
+				F90C0599FF4662AB633741D6 /* [CP] Copy Pods Resources */,
 				0F5E9A841D92E7CB00967EE7 /* ShellScript */,
 			);
 			buildRules = (
@@ -1615,6 +1670,9 @@
 						DevelopmentTeam = GXZ23M5TP2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 0;
 							};
@@ -1687,14 +1745,14 @@
 			shellPath = /bin/sh;
 			shellScript = "#/opt/iOSOpenDev/bin/iosod --xcbp";
 		};
-		2E957E7B84CDEB356ECD3E6F /* Embed Pods Frameworks */ = {
+		2E957E7B84CDEB356ECD3E6F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1702,14 +1760,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F90C0599FF4662AB633741D6 /* Copy Pods Resources */ = {
+		F90C0599FF4662AB633741D6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1717,19 +1775,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XXTouchApp/Pods-XXTouchApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FD605E651055BA2ED4A1496D /* Check Pods Manifest.lock */ = {
+		FD605E651055BA2ED4A1496D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1740,6 +1798,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FCF8AA01DD013E700F4C906 /* lcorolib.c in Sources */,
+				0F9046441DD855780006E6DD /* NSString+Base64.m in Sources */,
 				0FCF8A971DD013E700F4C906 /* UIViewController+MSLayoutSupport.m in Sources */,
 				0FCF8AA61DD013E700F4C906 /* lfunc.c in Sources */,
 				0FCF8A951DD013E700F4C906 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
@@ -1759,6 +1818,7 @@
 				0FCF8AA71DD013E700F4C906 /* lgc.c in Sources */,
 				0F8F7C541D89193B005C3A22 /* NSFileManager+RealDestination.m in Sources */,
 				0FCDA37D1DD2D5AC00AF868A /* XXImageActivity.m in Sources */,
+				0F35C5D11DD8850A00754B74 /* XXPaymentActivity.m in Sources */,
 				0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */,
 				0FCF8AB51DD013E700F4C906 /* ltable.c in Sources */,
 				0F5DDE251D8149B100BC4BDE /* XXSettingsTableViewController.m in Sources */,
@@ -1772,6 +1832,7 @@
 				0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */,
 				0F0C9A1A1D966E52000E184C /* XXKeyboardButtonView.m in Sources */,
 				0FCF8AC51DD0141A00F4C906 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
+				0F35C5CE1DD8755800754B74 /* XXFeatureTableViewCell.m in Sources */,
 				0FCF8A911DD013E700F4C906 /* NSArray+FindString.m in Sources */,
 				0F259AC91DD37440005F8403 /* LZMAExtractor.m in Sources */,
 				0FCF8AB31DD013E700F4C906 /* lstring.c in Sources */,
@@ -1809,8 +1870,10 @@
 				0F5DDE311D8149BE00BC4BDE /* XXNavigationViewController.m in Sources */,
 				0F5DDE1A1D81496800BC4BDE /* XXScriptListTableViewController.m in Sources */,
 				0FCF8AB21DD013E700F4C906 /* lstate.c in Sources */,
+				0F9046421DD855780006E6DD /* IAPHelper.m in Sources */,
 				0F259AC71DD37440005F8403 /* Lzma2Dec.c in Sources */,
 				0F25D7E81D84FED90056826B /* XXApplicationTableViewCell.m in Sources */,
+				0F9046451DD855780006E6DD /* SFHFKeychainUtils.m in Sources */,
 				0F58A42E1D90BECA0013806C /* XXBaseTextEditorPropertiesTableViewController.m in Sources */,
 				0FC7BCA71DB3EC440073D900 /* XXImagePickerAlbumCell.m in Sources */,
 				0F5DDE171D81496800BC4BDE /* XXItemAttributesTableViewController.m in Sources */,
@@ -1856,6 +1919,7 @@
 				0FCF8A9D1DD013E700F4C906 /* lbaselib.c in Sources */,
 				0FFE881B1D9B598A00F559A2 /* XXCodeBlockTableViewCell.m in Sources */,
 				0FCF8AA41DD013E700F4C906 /* ldo.c in Sources */,
+				0F9046431DD855780006E6DD /* IAPShare.m in Sources */,
 				0F5DDE301D8149BE00BC4BDE /* XXMainTabbarViewController.m in Sources */,
 				0FCF8AB91DD013E700F4C906 /* lutf8lib.c in Sources */,
 				0FCDA3891DD2D79B00AF868A /* XXBaseActivity.m in Sources */,
@@ -1868,6 +1932,7 @@
 				0F5DDE321D8149BE00BC4BDE /* XXWebViewController.m in Sources */,
 				0FCF8AC61DD0141A00F4C906 /* ALAssetsLibrary+SingleInstance.m in Sources */,
 				0FBDC6071D9CC06D00F7EB70 /* XXKeyEventModel.m in Sources */,
+				0F35C5CB1DD8587700754B74 /* XXPaymentViewController.m in Sources */,
 				0F259AC11DD37440005F8403 /* 7zFile.c in Sources */,
 				0F0FA8FE1D9983F5009FD2F8 /* CYRLayoutManager.m in Sources */,
 				0FC7BCA61DB3EC440073D900 /* XXAssetHelper.m in Sources */,

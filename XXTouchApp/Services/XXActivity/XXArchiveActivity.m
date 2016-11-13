@@ -43,6 +43,7 @@
 
 - (void)performActivity
 {
+    [super presentActivity];
     UIViewController *viewController = self.baseController;
     NSString *filePath = [self.items[0] path];
     

@@ -35,15 +35,14 @@
     return [UIImage imageNamed:@"activity-document"];
 }
 
-- (void)performActivity
-{
+- (void)presentActivity {
+    [super presentActivity];
     UIViewController *viewController = self.baseController;
     XXEmptyNavigationController *navController = [viewController.storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
     XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
     webController.url = self.fileURL;
     webController.title = [self.fileURL lastPathComponent];
     [viewController.navigationController presentViewController:navController animated:YES completion:nil];
-    [self activityDidFinish:YES];
 }
 
 @end

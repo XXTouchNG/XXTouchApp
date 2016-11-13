@@ -60,6 +60,8 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @interface XXLocalDataService : YYCache
 + (id)sharedInstance;
 
+@property (nonatomic, assign) BOOL purchasedProduct; // Cached
+
 @property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeUp; // Cached
 @property (nonatomic, assign) kXXKeyPressConfig keyPressConfigHoldVolumeDown; // Cached
 @property (nonatomic, assign) kXXKeyPressConfig keyPressConfigPressVolumeUp; // Cached
@@ -110,6 +112,8 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @property (nonatomic, assign) BOOL readOnlyEnabled; // Cached
 @property (nonatomic, assign) BOOL autoCorrectionEnabled; // Cached
 @property (nonatomic, assign) BOOL autoCapitalizationEnabled; // Cached
+@property (nonatomic, assign) BOOL regexSearchingEnabled; // Cached
+@property (nonatomic, assign) BOOL caseSensitiveEnabled; // Cached
 
 - (NSArray <UIFont *> *)fontFamilyArray;
 @end

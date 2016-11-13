@@ -32,8 +32,9 @@
     return [UIImage imageNamed:@"activity-media"];
 }
 
-- (void)performActivity
+- (void)presentActivity
 {
+    [super presentActivity];
     UIViewController *viewController = self.baseController;
     NSURL *sourceMovieURL = self.fileURL;
     if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
@@ -47,7 +48,6 @@
         moviePlayer.player = player;
         [viewController.navigationController presentViewController:moviePlayer animated:YES completion:nil];
     }
-    [self activityDidFinish:YES];
 }
 
 @end

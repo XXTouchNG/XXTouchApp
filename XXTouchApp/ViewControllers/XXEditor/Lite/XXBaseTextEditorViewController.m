@@ -21,6 +21,7 @@
 #import "XXKeyboardRow.h"
 #import "XXLuaVModel.h"
 #import "XXTerminalActivity.h"
+#import "XXPaymentActivity.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
@@ -485,9 +486,14 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)settings:(UIBarButtonItem *)sender {
-    XXEditorSettingsTableViewController *settingsController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
-    settingsController.delegate = self;
-    [self.navigationController pushViewController:settingsController animated:YES];
+    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+        XXEditorSettingsTableViewController *settingsController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
+        settingsController.delegate = self;
+        [self.navigationController pushViewController:settingsController animated:YES];
+    } else {
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] initWithViewController:self];
+        [act performActivity];
+    }
 }
 
 #pragma mark - Keyboard Events
@@ -550,12 +556,6 @@ XXEditorSettingsTableViewControllerDelegate>
     }
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-}
-
 #pragma mark - XXSearchBarDelegate
 
 - (void)searchBarTextDidBeginEditing:(XXSearchBar *)searchBar {
@@ -581,10 +581,6 @@ XXEditorSettingsTableViewControllerDelegate>
 {
     searchBar.text = @"";
     [searchBar resignFirstResponder];
-}
-
-- (void)searchBar:(XXSearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    [self searchNextMatch];
 }
 
 #pragma mark - Search Bar Display
@@ -632,10 +628,10 @@ XXEditorSettingsTableViewControllerDelegate>
     NSString *searchString = self.searchBar.text;
     
     if (searchString.length) {
-        if (self.searchBar.selectedScopeButtonIndex == 0) {
-            [self.textView scrollToString:searchString searchDirection:direction];
-        } else {
+        if ([[XXLocalDataService sharedInstance] regexSearchingEnabled]) {
             [self.textView scrollToMatch:searchString searchDirection:direction];
+        } else {
+            [self.textView scrollToString:searchString searchDirection:direction];
         }
     } else {
         [self.textView resetSearch];
@@ -660,6 +656,13 @@ XXEditorSettingsTableViewControllerDelegate>
     [self loadKeyboardSettings];
     [self loadTabSettings];
     [self loadFontSettings];
+    [self loadSearchSettings];
+}
+
+- (void)loadSearchSettings {
+    self.textView.circularSearch = YES;
+    self.textView.scrollPosition = ICTextViewScrollPositionTop;
+    self.textView.searchOptions = [[XXLocalDataService sharedInstance] caseSensitiveEnabled] ? 0 : NSRegularExpressionCaseInsensitive;
 }
 
 - (void)loadKeyboardSettings {
@@ -734,6 +737,7 @@ XXEditorSettingsTableViewControllerDelegate>
                 case 1: [self loadLineNumberSettings]; break;
                 case 2: [self loadTabSettings]; break;
                 case 3: [self loadKeyboardSettings]; break;
+                case 4: [self loadSearchSettings]; break;
                 default: break;
             }
         }
@@ -776,15 +780,20 @@ XXEditorSettingsTableViewControllerDelegate>
         [self.navigationController.view makeToast:NSLocalizedString(@"This document is read-only", nil)];
         return;
     }
-    [self keyboardWillDismiss:nil];
-    if ([_textView isFirstResponder]) {
-        [_textView resignFirstResponder];
+    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+        [self keyboardWillDismiss:nil];
+        if ([_textView isFirstResponder]) {
+            [_textView resignFirstResponder];
+        }
+        [self keyboardDidDismiss:nil];
+        XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+        XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
+        codeBlocksController.textInput = self.textView;
+        [self.navigationController presentViewController:navController animated:YES completion:nil];
+    } else {
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] initWithViewController:self];
+        [act performActivity];
     }
-    [self keyboardDidDismiss:nil];
-    XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
-    XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
-    codeBlocksController.textInput = self.textView;
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 - (NSRange)fixedSelectedTextRange {

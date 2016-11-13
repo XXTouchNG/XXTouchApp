@@ -31,8 +31,9 @@
     return [UIImage imageNamed:@"activity-image"];
 }
 
-- (void)performActivity
+- (void)presentActivity
 {
+    [super presentActivity];
     UIViewController *viewController = self.baseController;
     JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
     imageInfo.imageURL = self.fileURL;
@@ -42,7 +43,6 @@
     imageViewController.interactionsDelegate = [XXLocalDataService sharedInstance];
     [imageViewController showFromViewController:viewController.navigationController
                                      transition:JTSImageViewControllerTransition_FromOffscreen];
-    [self activityDidFinish:YES];
 }
 
 @end

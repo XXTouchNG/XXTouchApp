@@ -29,8 +29,6 @@
     self.barTintColor = [UIColor whiteColor];
     self.tintColor = STYLE_TINT_COLOR;
     self.placeholder = NSLocalizedString(@"Search", nil);
-    self.scopeButtonTitles = @[ NSLocalizedString(@"Normal", nil), NSLocalizedString(@"Regex", nil) ];
-    self.showsScopeBar = YES;
     [self sizeToFit];
 }
 

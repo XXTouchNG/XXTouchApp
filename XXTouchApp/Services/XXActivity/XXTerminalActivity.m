@@ -7,8 +7,10 @@
 //
 
 #import "XXTerminalActivity.h"
+#import "XXPaymentActivity.h"
 #import "XXTerminalViewController.h"
 #import "XXEmptyNavigationController.h"
+#import "XXLocalDataService.h"
 
 @implementation XXTerminalActivity
 
@@ -31,15 +33,20 @@
     return [UIImage imageNamed:@"action-play"];
 }
 
-- (void)performActivity
+- (void)presentActivity
 {
-    UIViewController *viewController = self.baseController;
-    XXTerminalViewController *terminalController = [[XXTerminalViewController alloc] init];
-    terminalController.filePath = [self.fileURL path];
-    terminalController.title = [self.fileURL lastPathComponent];
-    XXEmptyNavigationController *navController = [[XXEmptyNavigationController alloc] initWithRootViewController:terminalController];
-    [viewController.navigationController presentViewController:navController animated:YES completion:nil];
-    [self activityDidFinish:YES];
+    [super presentActivity];
+    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+        UIViewController *viewController = self.baseController;
+        XXTerminalViewController *terminalController = [[XXTerminalViewController alloc] init];
+        terminalController.filePath = [self.fileURL path];
+        terminalController.title = [self.fileURL lastPathComponent];
+        XXEmptyNavigationController *navController = [[XXEmptyNavigationController alloc] initWithRootViewController:terminalController];
+        [viewController.navigationController presentViewController:navController animated:YES completion:nil];
+    } else {
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] initWithViewController:self.baseController];
+        [act presentActivity];
+    }
 }
 
 @end
