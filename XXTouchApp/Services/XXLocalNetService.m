@@ -10,7 +10,7 @@
 #import <sys/stat.h>
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
-#import "XQueryComponents.h"
+#import "NSString+XQueryComponents.h"
 
 #define CHECK_ERROR(ret) if (*error != nil) return ret;
 

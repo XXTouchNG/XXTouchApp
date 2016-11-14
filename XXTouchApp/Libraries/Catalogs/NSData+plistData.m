@@ -1,12 +1,12 @@
 //
-//  NSData+plistData.m
+//  NSData+PlistData.m
 //  XXTouchApp
 //
 //  Created by Zheng on 30/10/2016.
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "NSData+plistData.h"
+#import "NSData+PlistData.h"
 
 @implementation NSData (plistData)
 

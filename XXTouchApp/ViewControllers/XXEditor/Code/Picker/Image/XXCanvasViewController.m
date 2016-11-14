@@ -136,7 +136,7 @@
 #pragma mark - Image Cache
 
 - (void)loadImageFromCache {
-    if ([FCFileManager isReadableItemAtPath:self.tempImagePath]) {
+    if ([[NSFileManager defaultManager] isReadableFileAtPath:self.tempImagePath]) {
         NSError *err = nil;
         NSData *imageData = [NSData dataWithContentsOfFile:self.tempImagePath
                                                    options:NSDataReadingMappedIfSafe
@@ -361,7 +361,7 @@
 - (void)cleanCanvas {
     self.selectedImage = nil;
     NSError *err = nil;
-    BOOL result = [FCFileManager removeItemAtPath:self.tempImagePath error:&err];
+    BOOL result = [[NSFileManager defaultManager] removeItemAtPath:self.tempImagePath error:&err];
     if (!result) {
         self.subtitle = self.localizedStrings[kXXLocalizedStringKeyErrorDeleteFile];
     }

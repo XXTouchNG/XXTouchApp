@@ -22,6 +22,7 @@
 #import "XXLuaVModel.h"
 #import "XXTerminalActivity.h"
 #import "XXPaymentActivity.h"
+#import "NSFileManager+Size.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 
@@ -37,6 +38,7 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, copy) NSString *fileContent;
 @property (nonatomic, strong) UIToolbar *bottomBar;
 
+@property (nonatomic, strong) UIBarButtonItem *closeItem;
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
 @property (nonatomic, strong) UIBarButtonItem *launchItem;
 @property (nonatomic, strong) UIButton *readingItem;
@@ -73,7 +75,8 @@ XXEditorSettingsTableViewControllerDelegate>
 - (void)setup {
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     self.isLuaCode = [fileExt isEqualToString:@"lua"];
-    if (self.isLuaCode && daemonInstalled() == NO) {
+    self.navigationItem.leftBarButtonItem = self.closeItem;
+    if (self.isLuaCode == YES && daemonInstalled() == NO) {
         self.navigationItem.rightBarButtonItem = self.launchItem;
     } else {
         self.navigationItem.rightBarButtonItem = self.shareItem;
@@ -114,14 +117,14 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (BOOL)loadFileWithError:(NSError **)err {
-    NSNumber *fileSize = [FCFileManager sizeOfFileAtPath:self.filePath error:err];
+    NSNumber *fileSize = [[NSFileManager defaultManager] sizeOfItemAtPath:self.filePath error:err];
     if (*err) return NO;
     NSUInteger fileSizeU = [fileSize unsignedIntegerValue];
     if (fileSizeU > 1024000) {
         GENERATE_ERROR(([NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" is too large to fit in the memory", nil), [self.filePath lastPathComponent]]));
         return NO;
     }
-    self.fileContent = [FCFileManager readFileAtPath:self.filePath error:err];
+    self.fileContent = [NSString stringWithContentsOfFile:self.filePath encoding:NSUTF8StringEncoding error:err];
     if (*err) return NO;
     dispatch_async_on_main_queue(^{
         self.textView.text = self.fileContent;
@@ -138,20 +141,12 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     if (self.shouldReloadSection) [self reloadEditorSettings];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    NSError *err = nil;
-    [self saveFileWithError:&err];
 }
 
 - (void)updateViewConstraints {
@@ -184,7 +179,7 @@ XXEditorSettingsTableViewControllerDelegate>
 - (BOOL)saveFileWithError:(NSError **)err {
     self.fileContent = self.textView.text;
     if (_isLoaded && _isEdited)
-        [FCFileManager writeFileAtPath:self.filePath content:self.fileContent error:err];
+        [self.fileContent writeToFile:self.filePath atomically:YES encoding:NSUTF8StringEncoding error:err];
     return *err == nil;
 }
 
@@ -332,6 +327,15 @@ XXEditorSettingsTableViewControllerDelegate>
     return _launchItem;
 }
 
+- (UIBarButtonItem *)closeItem {
+    if (!_closeItem) {
+        UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStylePlain target:self action:@selector(closeItemTapped:)];
+        closeItem.tintColor = [UIColor whiteColor];
+        _closeItem = closeItem;
+    }
+    return _closeItem;
+}
+
 - (XXKeyboardRow *)keyboardRow {
     if (!_keyboardRow) {
         XXKeyboardRow *keyboardRow = [[XXKeyboardRow alloc] initWithTextView:self.textView];
@@ -356,7 +360,7 @@ XXEditorSettingsTableViewControllerDelegate>
     return _documentController;
 }
 
-- (void)shareItemTapped:(id)sender {
+- (void)shareItemTapped:(UIBarButtonItem *)sender {
     self.documentController.URL = [NSURL fileURLWithPath:self.filePath];
     BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
     if (!didPresentOpenIn) {
@@ -364,10 +368,23 @@ XXEditorSettingsTableViewControllerDelegate>
     }
 }
 
-- (void)launchItemTapped:(id)sender {
-    XXTerminalActivity *act = [[XXTerminalActivity alloc] initWithViewController:self];
-    [act setFileURL:[NSURL fileURLWithPath:self.filePath]];
-    [act performActivity];
+- (void)launchItemTapped:(UIBarButtonItem *)sender {
+    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+        XXTerminalActivity *act = [[XXTerminalActivity alloc] init];
+        [act setFileURL:[NSURL fileURLWithPath:self.filePath]];
+        [act performActivityWithController:self];
+    } else {
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] init];
+        [act performActivityWithController:self];
+    }
+}
+
+- (void)closeItemTapped:(UIBarButtonItem *)sender {
+    if (self.activity && self.activity.activeDirectly == NO) {
+        [self.activity activityDidFinish:YES];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - Toolbar Actions
@@ -479,7 +496,7 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)statistics:(UIBarButtonItem *)sender {
-    XXBaseTextEditorPropertiesTableViewController *propertiesController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXBaseTextEditorPropertiesTableViewControllerStoryboardID];
+    XXBaseTextEditorPropertiesTableViewController *propertiesController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXBaseTextEditorPropertiesTableViewControllerStoryboardID];
     propertiesController.filePath = self.filePath;
     propertiesController.fileContent = self.fileContent;
     [self.navigationController pushViewController:propertiesController animated:YES];
@@ -487,12 +504,12 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)settings:(UIBarButtonItem *)sender {
     if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
-        XXEditorSettingsTableViewController *settingsController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
+        XXEditorSettingsTableViewController *settingsController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
         settingsController.delegate = self;
         [self.navigationController pushViewController:settingsController animated:YES];
     } else {
-        XXPaymentActivity *act = [[XXPaymentActivity alloc] initWithViewController:self];
-        [act performActivity];
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] init];
+        [act performActivityWithController:self];
     }
 }
 
@@ -786,13 +803,13 @@ XXEditorSettingsTableViewControllerDelegate>
             [_textView resignFirstResponder];
         }
         [self keyboardDidDismiss:nil];
-        XXCodeBlockNavigationController *navController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+        XXCodeBlockNavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
         XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
         codeBlocksController.textInput = self.textView;
         [self.navigationController presentViewController:navController animated:YES completion:nil];
     } else {
-        XXPaymentActivity *act = [[XXPaymentActivity alloc] initWithViewController:self];
-        [act performActivity];
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] init];
+        [act performActivityWithController:self];
     }
 }
 

@@ -40,9 +40,10 @@
 
 - (BOOL)loadFilePropertiesWithError:(NSError **)err {
     self.filenameLabel.text = [self.filePath lastPathComponent];
-    self.filesizeLabel.text = [FCFileManager sizeFormattedOfFileAtPath:self.filePath error:err];
+    NSNumber *size = [[[NSFileManager defaultManager] attributesOfItemAtPath:self.filePath error:err] objectForKey:NSFileSize];
+    self.filesizeLabel.text = [NSByteCountFormatter stringFromByteCount:[size intValue] countStyle:NSByteCountFormatterCountStyleFile];
     if (*err) return NO;
-    NSDate *modifiedAt = [FCFileManager modificationDateOfItemAtPath:self.filePath error:err];
+    NSDate *modifiedAt = [[[NSFileManager defaultManager] attributesOfItemAtPath:self.filePath error:err] objectForKey:NSFileModificationDate];
     if (*err) return NO;
     self.modificationLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modifiedAt];
     self.encodingLabel.text = NSLocalizedString(@"Unicode (UTF-8)", nil); // Certain

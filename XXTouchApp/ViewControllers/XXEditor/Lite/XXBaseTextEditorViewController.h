@@ -10,7 +10,10 @@
 // Basically design (the same as what TouchSprite did)
 
 #import <UIKit/UIKit.h>
+#import "XXBaseActivity.h"
 
 @interface XXBaseTextEditorViewController : UIViewController
 @property (nonatomic, copy) NSString *filePath;
+@property (nonatomic, weak) XXBaseActivity *activity;
+
 @end

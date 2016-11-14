@@ -60,18 +60,17 @@
 }
 
 - (BOOL)isSelectable {
-    if (!self.canOperate) return NO;
+    if (self.isEditable == NO) return NO;
     NSString *fileExt = [[self.itemAttrs[kXXItemPathKey] pathExtension] lowercaseString];
     return [[XXQuickLookService selectableFileExtensions] existsString:fileExt];
 }
 
 - (BOOL)isEditable {
-    if (!self.canOperate || self.isDirectory) return NO;
-    return YES;
+    return (self.isSpecial == NO && self.isDirectory == NO);
 }
 
-- (BOOL)canOperate {
-    return self.itemAttrs[kXXItemSpecialKey] == nil;
+- (BOOL)isSpecial {
+    return self.itemAttrs[kXXItemSpecialKey] != nil;
 }
 
 - (void)setItemAttrs:(NSDictionary *)itemAttrs {

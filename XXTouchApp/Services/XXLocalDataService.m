@@ -7,7 +7,6 @@
 //
 
 #import "XXLocalDataService.h"
-#import "JTSImageViewController.h"
 #import "FYPhotoLibrary.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "ALAssetsLibrary+SingleInstance.h"
@@ -47,9 +46,7 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
 static NSString * const kXXStorageKeyRegexSearchingEnabled = @"kXXStorageKeyRegexSearchingEnabled-1";
 static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageKeyCaseSensitiveEnabledEnabled-1";
 
-@interface XXLocalDataService () <
-    JTSImageViewControllerInteractionsDelegate
->
+@interface XXLocalDataService ()
 @property (nonatomic, strong) NSArray <NSString *> *randStrings;
 
 @end
@@ -80,10 +77,7 @@ static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageK
             // First
             NSError *err = nil;
             NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@"lua"];
-            BOOL result = [FCFileManager copyItemAtPath:demoPath
-                                                 toPath:[self.rootPath stringByAppendingPathComponent:@"demo.lua"]
-                                              overwrite:NO
-                                                  error:&err];
+            BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo.lua"] error:&err];
             if (!result)
             {
                 
@@ -113,9 +107,11 @@ static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageK
             _rootPath = FEVER_PATH;
         } else {
             NSString *feverPath = [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"lua"] stringByAppendingPathComponent:@"scripts"];
-            [FCFileManager createDirectoriesForPath:feverPath error:nil];
             NSError *err = nil;
-            if ([FCFileManager isDirectoryItemAtPath:feverPath error:&err] == NO) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:feverPath withIntermediateDirectories:YES attributes:nil error:&err];
+            BOOL isDirectory = NO;
+            [[NSFileManager defaultManager] fileExistsAtPath:feverPath isDirectory:&isDirectory];
+            if (isDirectory == NO) {
                 NSAssert(err == nil, @"Cannot access root directory");
             }
             _rootPath = feverPath;
@@ -235,64 +231,6 @@ static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageK
 
 - (void)setExpirationDate:(NSDate *)expirationDate {
     [self setObject:expirationDate forKey:kXXStorageKeyExpirationDate];
-}
-
-#pragma mark - JTSImageViewControllerInteractionsDelegate
-
-- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer atRect:(CGRect)rect {
-    imageViewer.view.userInteractionEnabled = NO;
-    [imageViewer.view makeToastActivity:CSToastPositionCenter];
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        // 7.x
-        [[ALAssetsLibrary sharedLibrary] saveImage:imageViewer.image
-                                           toAlbum:kXXStorageAlbumName
-                                        completion:^(NSURL *assetURL, NSError *error) {
-                                            if (error == nil) {
-                                                dispatch_async_on_main_queue(^{
-                                                    imageViewer.view.userInteractionEnabled = YES;
-                                                    [imageViewer.view hideToastActivity];
-                                                    [imageViewer.view makeToast:NSLocalizedString(@"Image saved to the album", nil)];
-                                                });
-                                            }
-                                        } failure:^(NSError *error) {
-                                            if (error != nil) {
-                                                dispatch_async_on_main_queue(^{
-                                                    imageViewer.view.userInteractionEnabled = YES;
-                                                    [imageViewer.view hideToastActivity];
-                                                    [imageViewer.view makeToast:[error localizedDescription]];
-                                                });
-                                            }
-                                        }];
-    } else {
-        // 8.0+
-        [[FYPhotoLibrary sharedInstance] requestLibraryAccessHandler:^(FYPhotoLibraryPermissionStatus statusResult) {
-            if (statusResult == FYPhotoLibraryPermissionStatusDenied) {
-                imageViewer.view.userInteractionEnabled = YES;
-                [imageViewer.view hideToastActivity];
-                [imageViewer.view makeToast:NSLocalizedString(@"Failed to request photo library access", nil)];
-            } else if (statusResult == FYPhotoLibraryPermissionStatusGranted) {
-                [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
-                                                       toAlbum:kXXStorageAlbumName
-                                                    completion:^(BOOL success) {
-                                                        if (success) {
-                                                            dispatch_async_on_main_queue(^{
-                                                                imageViewer.view.userInteractionEnabled = YES;
-                                                                [imageViewer.view hideToastActivity];
-                                                                [imageViewer.view makeToast:NSLocalizedString(@"Image saved to the album", nil)];
-                                                            });
-                                                        }
-                                                    } failure:^(NSError * _Nullable error) {
-                                                        if (error != nil) {
-                                                            dispatch_async_on_main_queue(^{
-                                                                imageViewer.view.userInteractionEnabled = YES;
-                                                                [imageViewer.view hideToastActivity];
-                                                                [imageViewer.view makeToast:[error localizedDescription]];
-                                                            });
-                                                        }
-                                                    }];
-            }
-        }];
-    }
 }
 
 - (kXXScriptListSortMethod)sortMethod {
@@ -531,7 +469,11 @@ static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageK
 }
 
 - (BOOL)purchasedProduct {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyPurchasedProduct] boolValue];
+#ifdef DEBUG
+    return NO;
+#else
+    return (isJailbroken() || [(NSNumber *)[self objectForKey:kXXStorageKeyPurchasedProduct] boolValue]);
+#endif
 }
 
 - (void)setPurchasedProduct:(BOOL)purchasedProduct {

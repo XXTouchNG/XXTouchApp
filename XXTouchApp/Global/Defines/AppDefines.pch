@@ -19,7 +19,6 @@
 #define APP_BUNDLE_ID [[UIApplication sharedApplication] appBundleID]
 
 #import <Foundation/Foundation.h>
-#import <FCFileManager/FCFileManager.h>
 #import <YYCategories/YYCategories.h>
 #import <Toast/UIView+Toast.h>
 

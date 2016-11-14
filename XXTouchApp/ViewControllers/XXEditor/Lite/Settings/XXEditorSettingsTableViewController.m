@@ -43,7 +43,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0 && indexPath.row == 0) {
-        XXEditorFontSettingsTableViewController *fontController = [self.storyboard instantiateViewControllerWithIdentifier:kXXEditorFontSettingsTableViewControllerStoryboardID];
+        XXEditorFontSettingsTableViewController *fontController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXEditorFontSettingsTableViewControllerStoryboardID];
         fontController.delegate = self;
         [self.navigationController pushViewController:fontController animated:YES];
     }

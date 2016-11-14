@@ -64,27 +64,21 @@ typedef enum : NSUInteger {
     NSString *itemPath = [self.currentDirectory stringByAppendingPathComponent:itemName];
     if (itemType == kXXCreateItemTypeRegularLuaFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"lua"];
-        result = [FCFileManager createFileAtPath:itemPath error:&err];
-        if (result) {
-//            NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
-//            NSString *deviceName = deviceInfo[kXXDeviceInfoDeviceName];
-//            if (!deviceName) {
-//                deviceName = @"(Unregistered)";
-//            }
-            NSString *deviceName = [[UIDevice currentDevice] name];
-            NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %ld %@.\n--  All rights reserved.\n--\n\n",
-                                [itemName stringByAppendingPathExtension:@"lua"],
-                                [NSString stringWithFormat:@"%@ v%@", NSLocalizedString(@"XXTouch", nil), VERSION_STRING],
-                                deviceName,
-                                [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
-                                (long)[[NSDate date] year], deviceName];
-            result = [FCFileManager writeFileAtPath:itemPath content:newLua error:&err];
-        }
+        NSString *deviceName = [[UIDevice currentDevice] name];
+        NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %ld %@.\n--  All rights reserved.\n--\n\n",
+                            [itemName stringByAppendingPathExtension:@"lua"],
+                            [NSString stringWithFormat:@"%@ v%@", NSLocalizedString(@"XXTouch", nil), VERSION_STRING],
+                            deviceName,
+                            [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
+                            (long)[[NSDate date] year], deviceName];
+        
+        result = [newLua writeToFile:itemPath atomically:YES encoding:NSUTF8StringEncoding error:&err];
     } else if (itemType == kXXCreateItemTypeRegulatTextFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"txt"];
-        result = [FCFileManager createFileAtPath:itemPath error:&err];
+        NSString *newTxt = @"";
+        result = [newTxt writeToFile:itemPath atomically:YES encoding:NSUTF8StringEncoding error:&err];
     } else if (itemType == kXXCreateItemTypeDirectory) {
-        result = [FCFileManager createDirectoriesForPath:itemPath error:&err];
+        result = [[NSFileManager defaultManager] createDirectoryAtPath:itemPath withIntermediateDirectories:YES attributes:nil error:&err];
     }
     if (result) {
         if ([self.itemNameTextField isFirstResponder]) {

@@ -9,7 +9,6 @@
 #import "XXEmptyNavigationController.h"
 
 @interface XXEmptyNavigationController ()
-@property (nonatomic, assign) BOOL fullscreenGuide;
 
 @end
 
@@ -18,21 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.translucent = NO;
+    self.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationBar.barTintColor = STYLE_TINT_COLOR;
     self.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName: [UIColor whiteColor] };
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
-}
-
-- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
-    [super setNavigationBarHidden:hidden animated:animated];
-    
-    if (hidden && !_fullscreenGuide) {
-        _fullscreenGuide = YES;
-        [self.view makeToast:NSLocalizedString(@"Triple touches to exit fullscreen", nil)];
-    }
 }
 
 @end

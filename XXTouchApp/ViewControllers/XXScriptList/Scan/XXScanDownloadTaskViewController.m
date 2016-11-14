@@ -60,7 +60,7 @@
         self.downloadButton.enabled = NO;
     } else {
         self.destinationUrl = [[destination path] stringByRemovingPercentEncoding]; // Decoded
-        if ([FCFileManager existsItemAtPath:self.destinationUrl]) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.destinationUrl]) {
             self.destinationLabel.textColor = [UIColor redColor];
             _sameName = YES;
         }

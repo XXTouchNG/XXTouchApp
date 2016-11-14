@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XXBaseActivity.h"
 
 @interface XXTerminalViewController : UIViewController
+@property (nonatomic, weak) XXBaseActivity *activity;
 @property (nonatomic, assign) BOOL runImmediately;
 @property (nonatomic, strong) NSString *filePath;
 

@@ -25,6 +25,7 @@
 
 #import "UIViewController+MSLayoutSupport.h"
 #import "NSFileManager+RealDestination.h"
+#import "NSFileManager+Size.h"
 
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
@@ -35,9 +36,7 @@ UITableViewDelegate,
 UITableViewDataSource,
 UIGestureRecognizerDelegate,
 XXToolbarDelegate,
-UISearchDisplayDelegate,
-XXArchiveDelegate,
-XXUnarchiveDelegate
+UISearchDisplayDelegate
 >
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -71,7 +70,7 @@ XXUnarchiveDelegate
     [super awakeFromNib];
     self.currentDirectory = [ROOT_PATH mutableCopy];
     self.rootItemsDictionaryArr = [NSMutableArray new];
-    if (!daemonInstalled() && self.isRootDirectory) {
+    if (daemonInstalled() == NO && self.isRootDirectory == YES) {
         self.navigationItem.leftBarButtonItem = self.aboutBtn;
     }
 }
@@ -111,6 +110,7 @@ XXUnarchiveDelegate
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:kXXGlobalNotificationName object:nil];
     [self reloadScriptListTableView];
     self.topToolbar.pasteButton.enabled = [[XXLocalDataService sharedInstance] pasteboardArr].count != 0;
     if (self.isRootDirectory) {
@@ -122,6 +122,7 @@ XXUnarchiveDelegate
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([self isEditing]) {
         [self setEditing:NO animated:YES];
     }
@@ -171,7 +172,7 @@ XXUnarchiveDelegate
 }
 
 - (void)launchSetup {
-    if (!daemonInstalled())
+    if (daemonInstalled() == NO)
     {
         [self reloadScriptListTableView];
         [self endMJRefreshing];
@@ -217,10 +218,10 @@ XXUnarchiveDelegate
 }
 
 - (void)reloadScriptListTableData {
-    NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[FCFileManager listItemsInDirectoryAtPath:self.currentDirectory deep:NO]];
+    NSMutableArray *pathArr = [[NSMutableArray alloc] initWithArray:[[NSFileManager defaultManager] listItemsInDirectoryAtPath:self.currentDirectory deep:NO cancelFlag:NULL]];
     
     // Item Counting
-    NSString *freeSpace = [FCFileManager sizeFormatted:@([[UIDevice currentDevice] diskSpaceFree])];
+    NSString *freeSpace = [NSByteCountFormatter stringFromByteCount:[[UIDevice currentDevice] diskSpaceFree] countStyle:NSByteCountFormatterCountStyleFile];
     NSString *footerTitle = @"";
     if (pathArr.count == 0) {
         footerTitle = NSLocalizedString(@"No Item", nil);
@@ -238,8 +239,7 @@ XXUnarchiveDelegate
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     for (NSString *itemPath in pathArr) {
         NSError *err = nil;
-        NSDictionary *attrs = [FCFileManager attributesOfItemAtPath:itemPath
-                                                              error:&err];
+        NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:itemPath error:&err];
         if (err == nil) {
             BOOL sortAtTop = NO;
             NSMutableDictionary *mutAttrs = [[NSMutableDictionary alloc] initWithDictionary:attrs];
@@ -253,7 +253,7 @@ XXUnarchiveDelegate
                 NSError *err = nil;
                 NSString *destPath = [fileManager realDestinationOfSymbolicLinkAtPath:itemPath error:&err];
                 if (!err) {
-                    NSDictionary *destAttrs = [FCFileManager attributesOfItemAtPath:destPath error:&err];
+                    NSDictionary *destAttrs = [[NSFileManager defaultManager] attributesOfItemAtPath:destPath error:&err];
                     if (!err) {
                         mutAttrs[kXXItemSymbolAttrsKey] = destAttrs;
                         mutAttrs[kXXItemRealPathKey] = destPath;
@@ -376,8 +376,8 @@ XXUnarchiveDelegate
         NSError *err = nil;
         NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
         if (rootPath) {
-            NSDictionary *iAttrs = [FCFileManager attributesOfItemAtPath:rootPath
-                                                                   error:&err];
+            NSDictionary *iAttrs = [[NSFileManager defaultManager] attributesOfItemAtPath:rootPath
+                                                                                    error:&err];
             NSMutableDictionary *iMAttrs = [[NSMutableDictionary alloc] initWithDictionary:iAttrs];
             iMAttrs[kXXItemRealPathKey] = rootPath;
             iMAttrs[kXXItemPathKey] = rootPath;
@@ -406,7 +406,7 @@ XXUnarchiveDelegate
     if (_selectBootscript) {
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else {
-        cell.accessoryType = cell.canOperate ?
+        cell.accessoryType = cell.isSpecial == NO ?
         UITableViewCellAccessoryDetailDisclosureButton :
         UITableViewCellAccessoryDisclosureIndicator;
     
@@ -416,7 +416,7 @@ XXUnarchiveDelegate
     
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
-        if (cell.isSelectable && daemonInstalled()) {
+        if (cell.isSelectable && daemonInstalled() == YES) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
@@ -466,7 +466,7 @@ XXUnarchiveDelegate
                                                                 return result;
                                                             }]];
         }
-        if (cell.canOperate) {
+        if (cell.isSpecial == NO) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-info"] imageByTintColor:[UIColor whiteColor]]
@@ -475,14 +475,14 @@ XXUnarchiveDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-                                                                UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
+                                                                UINavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
                                                                 XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
                                                                 viewController.currentPath = currentCell.itemAttrs[kXXItemPathKey];
                                                                 [self.navigationController presentViewController:navController animated:YES completion:nil];
                                                                 return YES;
                                                             }]];
         }
-        if (cell.canOperate) {
+        if (cell.isSpecial == NO) {
             @weakify(self);
             [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                  icon:[[UIImage imageNamed:@"action-trash"] imageByTintColor:[UIColor whiteColor]]
@@ -502,7 +502,7 @@ XXUnarchiveDelegate
                                                                      [self.navigationController.view makeToastActivity:CSToastPositionCenter];
                                                                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                                                                          NSError *err = nil;
-                                                                         BOOL result = [FCFileManager removeItemAtPath:currentCell.itemAttrs[kXXItemPathKey] error:&err]; // This may be time comsuming
+                                                                         BOOL result = [[NSFileManager defaultManager] removeItemAtPath:currentCell.itemAttrs[kXXItemPathKey] error:&err]; // This may be time comsuming
                                                                          if (currentCell.checked) {
                                                                              if (_selectBootscript) {
                                                                                  [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
@@ -634,9 +634,7 @@ XXUnarchiveDelegate
     if (self.isEditing) return NO;
     if ([identifier isEqualToString:kXXRewindSegueIdentifier]) {
         XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-        if (currentCell.isSelectable) return NO;
-        if (!currentCell.isDirectory) return NO;
-        return YES;
+        if (currentCell.isDirectory || currentCell.isSpecial) return YES;
     }
     return NO;
 }
@@ -667,8 +665,8 @@ XXUnarchiveDelegate
     // It is OK if the last cell is not in display cuz the lastCell may be nil and nothing will happen if a message be sent to the nil
     XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (currentCell.isSelectable && isJailbroken()) {
-        if (daemonInstalled()) {
+    if (currentCell.isSelectable && isJailbroken() == YES) {
+        if (daemonInstalled() == YES) {
             if (!currentCell.checked) {
                 XXSwipeableCell *lastCell = nil;
                 for (XXSwipeableCell *cell in tableView.visibleCells) {
@@ -765,7 +763,7 @@ XXUnarchiveDelegate
     if (sender == self.topToolbar.scanButton) {
         [((XXNavigationViewController *)self.navigationController) transitionToScanViewController];
     } else if (sender == self.topToolbar.addItemButton) {
-        UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
+        UINavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
         XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
         viewController.currentDirectory = self.currentDirectory;
         [self.navigationController presentViewController:navController animated:YES completion:nil];
@@ -797,7 +795,7 @@ XXUnarchiveDelegate
                         NSError *err = nil;
                         for (NSString *originPath in pasteArr) {
                             NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
-                            [FCFileManager moveItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
+                            [[NSFileManager defaultManager] moveItemAtPath:originPath toPath:destPath error:&err]; // This may be time consuming
                         }
                         dispatch_async_on_main_queue(^{
                             self.navigationController.view.userInteractionEnabled = YES;
@@ -812,7 +810,7 @@ XXUnarchiveDelegate
                         NSError *err = nil;
                         for (NSString *originPath in pasteArr) {
                             NSString *destPath = [currentPath stringByAppendingPathComponent:[originPath lastPathComponent]];
-                            [FCFileManager copyItemAtPath:originPath toPath:destPath overwrite:NO error:&err]; // This may be time consuming
+                            [[NSFileManager defaultManager] copyItemAtPath:originPath toPath:destPath error:&err]; // This may be time consuming
                         }
                         dispatch_async_on_main_queue(^{
                             self.navigationController.view.userInteractionEnabled = YES;
@@ -916,7 +914,7 @@ XXUnarchiveDelegate
                         [[XXLocalDataService sharedInstance] setSelectedScript:nil];
                     }
                 }
-                result = [FCFileManager removeItemAtPath:itemPath error:&err];
+                result = [[NSFileManager defaultManager] removeItemAtPath:itemPath error:&err];
                 if (err || !result) {
                     break;
                 } else {
@@ -953,8 +951,7 @@ XXUnarchiveDelegate
                 didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
             }
             if (!didPresentOpenIn || urlsArr.count > 1) {
-                XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
-                act.delegate = self;
+                XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
                 UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
                 [self.navigationController presentViewController:controller animated:YES completion:nil];
             }
@@ -969,10 +966,9 @@ XXUnarchiveDelegate
             [urlsArr addObject:[NSURL fileURLWithPath:itemPath]];
         }
         if (urlsArr.count != 0) {
-            XXArchiveActivity *act = [[XXArchiveActivity alloc] initWithViewController:self];
-            act.delegate = self;
+            XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
             [act prepareWithActivityItems:urlsArr];
-            [act performActivity];
+            [act performActivityWithController:self];
         }
     }
 }
@@ -987,22 +983,7 @@ XXUnarchiveDelegate
     return _documentController;
 }
 
-#pragma mark - XXUnarchiveDelegate
-
-- (void)archiveDidUnArchiveAtPath:(NSString *)path
-                     unzippedPath:(NSString *)unzippedPath
-{
-    [self reloadScriptListTableView];
-}
-
-#pragma mark - XXArchiveDelegate
-
-- (void)archiveDidCreatedAtPath:(NSString *)path
-{
-    [self reloadScriptListTableView];
-}
-
-#pragma mark - Getter
+#pragma mark - Getters
 
 - (BOOL)isRootDirectory {
     return (self != self.navigationController.topViewController && self.navigationController.topViewController != nil);
@@ -1019,10 +1000,23 @@ XXUnarchiveDelegate
     return _aboutBtn;
 }
 
+#pragma mark - Notification
+
+- (void)handleNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    NSString *event = userInfo[kXXGlobalNotificationKeyEvent];
+    if ([event isEqualToString:kXXGlobalNotificationKeyEventArchive] ||
+        [event isEqualToString:kXXGlobalNotificationKeyEventUnarchive] ||
+        [event isEqualToString:kXXGlobalNotificationKeyEventTransfer]
+        ) {
+        [self reloadScriptListTableView];
+    }
+}
+
 #pragma mark - Non Jailbroken device
 
 - (void)showAboutController:(UIBarButtonItem *)sender {
-    XXAboutTableViewController *aboutController = (XXAboutTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:kXXAboutTableViewControllerStoryboardID];
+    XXAboutTableViewController *aboutController = (XXAboutTableViewController *)[STORYBOARD instantiateViewControllerWithIdentifier:kXXAboutTableViewControllerStoryboardID];
     [self.navigationController pushViewController:aboutController animated:YES];
 }
 

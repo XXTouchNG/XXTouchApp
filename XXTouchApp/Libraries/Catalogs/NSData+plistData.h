@@ -1,5 +1,5 @@
 //
-//  NSData+plistData.h
+//  NSData+PlistData.h
 //  XXTouchApp
 //
 //  Created by Zheng on 30/10/2016.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSData (plistData)
+@interface NSData (PlistData)
 - (NSString *)plistString;
 
 @end

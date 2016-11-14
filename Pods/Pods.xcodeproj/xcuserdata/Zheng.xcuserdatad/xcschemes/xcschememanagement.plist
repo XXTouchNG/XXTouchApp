@@ -4,16 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>FCFileManager.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>JTSImageViewController.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>MGSwipeTableCell.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,37 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2493D6278F0DAFBB6959F9FE557D1AAE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>26D9E3C5F7F2E6B1DF7C7270A3BE41C1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>41AC733A5E44F93AB4B99C10EBFE31FD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>43AFBF4F2CD231A7499E3B7813A16837</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A4F52A74630827578D432E389236495</key>
+		<key>8769D0C1032FDAB62D38BA2ACD1FF216</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>94191CA81802A0A8076F4AB9519611E1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9D202795EFE9081B2E5E5CBF4D9B39B4</key>
+		<key>9BB1AD88986CA79992A1D8FA92E54352</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,17 +82,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C6244AD2BDC060C6950443F892E4F24B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>CCB7CB485E21C0801790635C83376BA2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CCFC5E27D7055C0EE18EC57AB46BCD63</key>
+		<key>CDAFB8AA736096E62DF2F64ADC951CFD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F526798639F13F6C181724AB883E5A3D</key>
+		<key>D711A9D8CD25EDA02EE1A22643B11282</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FAF3CA9936ADFB1BBF0F8E23E77CF84B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

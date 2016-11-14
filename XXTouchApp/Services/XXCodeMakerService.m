@@ -8,7 +8,7 @@
 
 #import "XXCodeMakerService.h"
 #import "XXCodeBlocksViewController.h"
-#import "NSString+countSubstr.h"
+#import "NSString+CountSubstr.h"
 
 #import "XXPickerBaseViewController.h"
 #import "XXApplicationListTableViewController.h"
@@ -60,7 +60,7 @@
     if ([pickerClass storyboardID] == nil) {
         vc = [[pickerClass alloc] init];
     } else {
-        vc = [navController.storyboard instantiateViewControllerWithIdentifier:[pickerClass storyboardID]];
+        vc = [STORYBOARD instantiateViewControllerWithIdentifier:[pickerClass storyboardID]];
     }
     
     if (vc != nil && keywordCount != 0) {

@@ -9,10 +9,10 @@
 #ifndef XXLocalDefines_h
 #define XXLocalDefines_h
 
-static NSDictionary *extendApisDict = nil;
 static BOOL needRespring = YES;
 static BOOL jailbroken = NO;
 static BOOL installed = NO;
+static NSDictionary *extendApisDict = nil;
 static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_respring";
 
 static inline BOOL isJailbroken() {

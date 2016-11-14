@@ -1,5 +1,5 @@
 //
-//  NSString+countSubstr.h
+//  NSString+CountSubstr.h
 //  XXTouchApp
 //
 //  Created by Zheng on 17/10/2016.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (countSubstr)
+@interface NSString (CountSubstr)
 - (NSUInteger)occurenceOfString:(NSString *)substring;
 
 @end

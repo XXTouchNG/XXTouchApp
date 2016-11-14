@@ -15,7 +15,6 @@
 #import "XXLocalDataService.h"
 
 @interface XXNavigationViewController ()
-@property (nonatomic, assign) BOOL keyboardGuide;
 
 @end
 
@@ -32,21 +31,6 @@
     // Do any additional setup after loading the view.
     [self checkNeedsRespring];
     [[AppDelegate globalDelegate] setRootViewController:self];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
-    [super setNavigationBarHidden:hidden animated:animated];
-    if (!_keyboardGuide && hidden) {
-        _keyboardGuide = YES;
-        [self.view makeToast:NSLocalizedString(@"Slide down to exit edit mode", nil)
-                    duration:STYLE_TOAST_DURATION
-                    position:CSToastPositionTop];
-    }
 }
 
 - (void)checkNeedsRespring {
@@ -79,13 +63,6 @@
 }
 
 - (void)handleItemTransfer:(NSURL *)url {
-    UIViewController *topVC = self.topViewController;
-    __block XXScriptListTableViewController *scriptController = nil;
-    if ([topVC isMemberOfClass:[XXScriptListTableViewController class]]) {
-        scriptController = (XXScriptListTableViewController *)topVC;
-    } else if ([topVC isMemberOfClass:[XXMainTabbarViewController class]]) {
-        scriptController = (XXScriptListTableViewController *)(((XXMainTabbarViewController *)topVC).viewControllers[0]);
-    }
     @weakify(self);
     self.view.userInteractionEnabled = NO;
     [self.view makeToastActivity:CSToastPositionCenter];
@@ -95,13 +72,11 @@
         NSString *lastComponent = [url lastPathComponent];
         NSString *formerPath = [url path];
         NSString *latterPath = [ROOT_PATH stringByAppendingPathComponent:lastComponent];
-        BOOL result = [FCFileManager moveItemAtPath:formerPath toPath:latterPath overwrite:NO error:&err];
+        BOOL result = [[NSFileManager defaultManager] moveItemAtPath:formerPath toPath:latterPath error:&err];
         dispatch_async_on_main_queue(^{
             self.view.userInteractionEnabled = YES;
             [self.view hideToastActivity];
-            if ([scriptController respondsToSelector:@selector(reloadScriptListTableView)]) {
-                [scriptController performSelector:@selector(reloadScriptListTableView) withObject:nil];
-            }
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationName object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventTransfer}]];
             if (result && err == nil) {
                 [self.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" saved", nil), lastComponent]];
             } else {

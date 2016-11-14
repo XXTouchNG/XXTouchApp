@@ -18,5 +18,5 @@
 @property (nonatomic, assign, readonly) BOOL isEditable;
 @property (nonatomic, assign, readonly) BOOL isDirectory;
 @property (nonatomic, assign, readonly) BOOL isSymbolicLink;
-@property (nonatomic, assign, readonly) BOOL canOperate;
+@property (nonatomic, assign, readonly) BOOL isSpecial;
 @end

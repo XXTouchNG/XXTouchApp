@@ -9,7 +9,8 @@
 #import "XXItemAttributesTableViewController.h"
 #import "XXLocalDataService.h"
 #import <MJRefresh/MJRefresh.h>
-#import "NSString+Mime.h"
+#import "NSFileManager+Mime.h"
+#import "NSFileManager+Size.h"
 
 static char * const kXXTouchCalculatingDirectorySizeIdentifier = "com.xxtouch.calculating-directory-size";
 
@@ -42,7 +43,7 @@ int cancelFlag = 0;
     return UIStatusBarStyleLightContent;
 }
 
-- (IBAction)cancel:(id)sender {
+- (IBAction)cancel:(UIBarButtonItem *)sender {
     if ([_nameTextField isFirstResponder]) {
         [_nameTextField resignFirstResponder];
     }
@@ -51,7 +52,7 @@ int cancelFlag = 0;
     }];
 }
 
-- (IBAction)done:(id)sender {
+- (IBAction)done:(UIBarButtonItem *)sender {
     NSString *itemName = _nameTextField.text;
     if (itemName.length == 0) {
         [self.navigationController.view makeToast:NSLocalizedString(@"Item name cannot be empty", nil)];
@@ -61,12 +62,12 @@ int cancelFlag = 0;
         return;
     }
     NSString *targetPath = [[self.originalPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:itemName];
-    if ([FCFileManager existsItemAtPath:targetPath]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:targetPath]) {
         [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" already exists.", nil), itemName]];
         return;
     }
     NSError *err = nil;
-    [FCFileManager moveItemAtPath:self.originalPath toPath:targetPath error:&err];
+    [[NSFileManager defaultManager] moveItemAtPath:self.originalPath toPath:targetPath error:&err];
     if (err != nil) {
         [self.navigationController.view makeToast:[err localizedDescription]];
         return;
@@ -137,10 +138,8 @@ int cancelFlag = 0;
     self.absolutePathDetailLabel.text = [itemPath mutableCopy];
     self.originalPath = itemPath;
     NSError *err = nil;
-    self.currentAttributes = [FCFileManager attributesOfItemAtPath:itemPath error:&err];
-    if (err != nil) {
-        return;
-    }
+    self.currentAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:itemPath error:&err];
+    if (err != nil) return;
     NSString *itemType = [self.currentAttributes objectForKey:NSFileType];
     if (itemType == NSFileTypeDirectory) {
         self.itemTypeLabel.text = NSLocalizedString(@"Directory", nil);
@@ -148,19 +147,28 @@ int cancelFlag = 0;
         @weakify(self);
         dispatch_queue_t concurrentQueue = dispatch_queue_create(kXXTouchCalculatingDirectorySizeIdentifier, DISPATCH_QUEUE_CONCURRENT);
         dispatch_async(concurrentQueue, ^{
-            NSString *formattedSize = [FCFileManager sizeFormattedOfDirectoryAtPath:itemPath cancelFlag:&cancelFlag];
+            NSError *error = nil;
+            NSNumber *size = [[NSFileManager defaultManager] sizeOfDirectoryAtPath:itemPath error:&error cancelFlag:&cancelFlag];
             dispatch_async_on_main_queue(^{
                 @strongify(self);
-                self.itemSizeLabel.text = formattedSize;
+                if (error == nil) {
+                    NSString *formattedSize = [NSByteCountFormatter stringFromByteCount:[size intValue] countStyle:NSByteCountFormatterCountStyleFile];
+                    self.itemSizeLabel.text = formattedSize;
+                }
             });
         });
-    } else if (itemType == NSFileTypeRegular) {
-        self.itemTypeLabel.text = NSLocalizedString(@"Regular File", nil);
-        self.mimeTypeLabel.text = [itemPath mime];
-        self.itemSizeLabel.text = [FCFileManager sizeFormattedOfItemAtPath:itemPath error:&err];
-    } else if (itemType == NSFileTypeSymbolicLink) {
-        self.itemTypeLabel.text = NSLocalizedString(@"Symbolic Link", nil);
-        self.itemSizeLabel.text = [FCFileManager sizeFormattedOfItemAtPath:itemPath error:&err];
+    } else if (itemType == NSFileTypeRegular || itemType == NSFileTypeSymbolicLink) {
+        if (itemType == NSFileTypeRegular) {
+            self.itemTypeLabel.text = NSLocalizedString(@"Regular File", nil);
+            self.mimeTypeLabel.text = [[NSFileManager defaultManager] mimeOfFiltAtPath:itemPath];
+        } else {
+            self.itemTypeLabel.text = NSLocalizedString(@"Symbolic Link", nil);
+        }
+        NSNumber *size = [[NSFileManager defaultManager] sizeOfItemAtPath:itemPath error:&err];
+        if (err == nil) {
+            NSString *formattedSize = [NSByteCountFormatter stringFromByteCount:[size intValue] countStyle:NSByteCountFormatterCountStyleFile];
+            self.itemSizeLabel.text = formattedSize;
+        }
     } else {
         self.itemTypeLabel.text = NSLocalizedString(@"Unsupported file type", nil);
     }

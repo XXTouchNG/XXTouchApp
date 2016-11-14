@@ -1,14 +1,14 @@
 //
-//  NSString+countSubstr.m
+//  NSString+CountSubstr.m
 //  XXTouchApp
 //
 //  Created by Zheng on 17/10/2016.
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "NSString+countSubstr.h"
+#import "NSString+CountSubstr.h"
 
-@implementation NSString (countSubstr)
+@implementation NSString (CountSubstr)
 
 - (NSUInteger)occurenceOfString:(NSString *)substring {
     const char *substr = [substring cStringUsingEncoding:NSUTF8StringEncoding];

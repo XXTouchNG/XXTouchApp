@@ -11,6 +11,15 @@
 #ifndef SystemConstantsDefines_h
 #define SystemConstantsDefines_h
 
+static NSString * const kXXGlobalNotificationName = @"kXXGlobalNotificationName";
+static NSString * const kXXGlobalNotificationKeyEvent = @"kXXGlobalNotificationKeyEvent";
+static NSString * const kXXGlobalNotificationKeyEventArchive = @"kXXGlobalNotificationKeyEventArchive";
+static NSString * const kXXGlobalNotificationKeyEventUnarchive = @"kXXGlobalNotificationKeyEventUnarchive";
+static NSString * const kXXGlobalNotificationKeyEventTransfer = @"kXXGlobalNotificationKeyEventTransfer";
+
+#define ROOTNAV ([AppDelegate globalDelegate].rootViewController)
+#define STORYBOARD ([AppDelegate globalDelegate].rootViewController.storyboard)
+
 #define SendConfigAction(command, reload) \
 self.navigationController.view.userInteractionEnabled = NO; \
 [self.navigationController.view makeToastActivity:CSToastPositionCenter]; \

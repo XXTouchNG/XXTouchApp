@@ -439,7 +439,7 @@
 }
 
 - (void)redirectingToUrl:(NSURL *)url {
-    XXEmptyNavigationController *navController = [[[AppDelegate globalDelegate] rootViewController].storyboard instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
+    XXEmptyNavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
     XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
     webController.url = url;
     webController.title = NSLocalizedString(@"Redirecting...", nil);
@@ -451,7 +451,7 @@
 }
 
 - (void)codeBindingToController:(NSString *)code {
-    XXAuthorizationTableViewController *authController = (XXAuthorizationTableViewController *)[[[AppDelegate globalDelegate] rootViewController].storyboard instantiateViewControllerWithIdentifier:kXXAuthorizationTableViewControllerStoryboardID];
+    XXAuthorizationTableViewController *authController = (XXAuthorizationTableViewController *)[STORYBOARD instantiateViewControllerWithIdentifier:kXXAuthorizationTableViewControllerStoryboardID];
     authController.code = code;
     authController.fromScan = YES;
     _authController = authController;
@@ -483,7 +483,7 @@
 }
 
 - (void)confirmDownloadingTask:(NSDictionary *)downloadObj {
-    UINavigationController *navController = [[[AppDelegate globalDelegate] rootViewController].storyboard instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
+    UINavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
     XXScanDownloadTaskViewController *downloadController = (XXScanDownloadTaskViewController *)navController.topViewController;
     downloadController.sourceUrl = downloadObj[@"url"];
     downloadController.destinationUrl = downloadObj[@"path"];
@@ -608,7 +608,7 @@
         NSError *error = nil;
         BOOL result = NO;
         if (!err) {
-            result = [FCFileManager moveItemAtPath:[location path] toPath:destination overwrite:YES error:&error];
+            result = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&error];
         } else {
             error = err;
         }

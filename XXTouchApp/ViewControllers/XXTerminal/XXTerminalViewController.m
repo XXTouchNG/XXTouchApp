@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = [self.filePath lastPathComponent];
     self.view.backgroundColor = [UIColor whiteColor];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -253,7 +254,11 @@
         [self shutdownVirtualMachine];
         return;
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.activity && self.activity.activeDirectly == NO) {
+        [self.activity activityDidFinish:YES];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - UITextViewDelegate
