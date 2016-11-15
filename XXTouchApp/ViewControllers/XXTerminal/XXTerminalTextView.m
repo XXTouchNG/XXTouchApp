@@ -105,8 +105,13 @@
 }
 
 - (void)appendString:(NSString *)text withAttributes:(NSDictionary *)attrs {
-    [self setTypingAttributes:attrs];
-    [self insertText:[NSString stringWithFormat:@"%@", text]];
+    [self.textStorage beginEditing];
+//    [self insertText:[NSString stringWithFormat:@"%@", text]];
+    NSMutableAttributedString *mutableAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+    NSAttributedString *appendAttrString = [[NSAttributedString alloc] initWithString:text attributes:attrs];
+    [mutableAttrString appendAttributedString:appendAttrString];
+    [self.textStorage setAttributedString:mutableAttrString];
+    [self.textStorage endEditing];
     [self lockLocation];
     [self resetTypingAttributes];
 }

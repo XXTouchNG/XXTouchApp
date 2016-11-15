@@ -120,7 +120,7 @@
     [self applyStylesToRange:extendedRange];
 }
 
--(void)update
+- (void)update
 {
     NSRange range = NSMakeRange(0, self.length);
 

@@ -46,6 +46,7 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *singleFingerPanRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *doubleFingerPanRecognizer;
 @property (nonatomic, strong) UIFont *defaultFont;
+@property (nonatomic, assign) BOOL syntaxHighlight;
 
 @property UIColor *gutterBackgroundColor;
 @property UIColor *gutterLineColor;

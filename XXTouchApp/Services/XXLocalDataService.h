@@ -114,6 +114,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @property (nonatomic, assign) BOOL autoCapitalizationEnabled; // Cached
 @property (nonatomic, assign) BOOL regexSearchingEnabled; // Cached
 @property (nonatomic, assign) BOOL caseSensitiveEnabled; // Cached
+@property (nonatomic, assign) BOOL syntaxHighlightingEnabled; // Cached
 
 - (NSArray <UIFont *> *)fontFamilyArray;
 @end

@@ -44,7 +44,8 @@ static NSString * const kXXStorageKeyReadOnlyEnabled = @"kXXStorageKeyReadOnlyEn
 static NSString * const kXXStorageKeyAutoCorrectionEnabled = @"kXXStorageKeyAutoCorrectionEnabled-1";
 static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKeyAutoCapitalizationEnabled-1";
 static NSString * const kXXStorageKeyRegexSearchingEnabled = @"kXXStorageKeyRegexSearchingEnabled-1";
-static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageKeyCaseSensitiveEnabledEnabled-1";
+static NSString * const kXXStorageKeyCaseSensitiveEnabled = @"kXXStorageKeyCaseSensitiveEnabledEnabled-1";
+static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKeySyntaxHighlightingEnabled-1";
 
 @interface XXLocalDataService ()
 @property (nonatomic, strong) NSArray <NSString *> *randStrings;
@@ -470,7 +471,7 @@ static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageK
 
 - (BOOL)purchasedProduct {
 #ifdef DEBUG
-    return NO;
+    return YES;
 #else
     return (isJailbroken() || [(NSNumber *)[self objectForKey:kXXStorageKeyPurchasedProduct] boolValue]);
 #endif
@@ -489,11 +490,23 @@ static NSString * const kXXStorageKeyCaseSensitiveEnabledEnabled = @"kXXStorageK
 }
 
 - (BOOL)caseSensitiveEnabled {
-    return [(NSNumber *)[self objectForKey:kXXStorageKeyCaseSensitiveEnabledEnabled] boolValue];
+    return [(NSNumber *)[self objectForKey:kXXStorageKeyCaseSensitiveEnabled] boolValue];
 }
 
 - (void)setCaseSensitiveEnabled:(BOOL)caseSensitiveEnabled {
-    [self setObject:[NSNumber numberWithBool:caseSensitiveEnabled] forKey:kXXStorageKeyCaseSensitiveEnabledEnabled];
+    [self setObject:[NSNumber numberWithBool:caseSensitiveEnabled] forKey:kXXStorageKeyCaseSensitiveEnabled];
+}
+
+- (BOOL)syntaxHighlightingEnabled {
+    NSNumber *highlightEnabled = (NSNumber *)[self objectForKey:kXXStorageKeySyntaxHighlightingEnabled];
+    if (!highlightEnabled) {
+        highlightEnabled = [NSNumber numberWithBool:YES];
+    }
+    return [highlightEnabled boolValue];
+}
+
+- (void)setSyntaxHighlightingEnabled:(BOOL)syntaxHighlightingEnabled {
+    [self setObject:[NSNumber numberWithBool:syntaxHighlightingEnabled] forKey:kXXStorageKeySyntaxHighlightingEnabled];
 }
 
 @end

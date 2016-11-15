@@ -1983,12 +1983,41 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="cyd-Z3-nlV">
+                                        <rect key="frame" x="0.0" y="231" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cyd-Z3-nlV" id="i2z-Ux-anv">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Syntax Highlight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="20Y-RT-XZg">
+                                                    <rect key="frame" x="16" y="12" width="117" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gup-gP-hCu">
+                                                    <rect key="frame" x="535" y="6" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="syntaxHighlightChanged:" destination="Ou4-42-sBw" eventType="valueChanged" id="MbE-c9-yct"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Gup-gP-hCu" firstAttribute="centerY" secondItem="i2z-Ux-anv" secondAttribute="centerY" id="0gs-Kq-dL8"/>
+                                                <constraint firstItem="20Y-RT-XZg" firstAttribute="leading" secondItem="i2z-Ux-anv" secondAttribute="leadingMargin" constant="8" id="cN7-1v-v32"/>
+                                                <constraint firstItem="20Y-RT-XZg" firstAttribute="centerY" secondItem="i2z-Ux-anv" secondAttribute="centerY" id="uMO-GT-gow"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Gup-gP-hCu" secondAttribute="trailing" constant="8" id="z2v-Es-OLK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="4Wx-MV-A6P">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="FB1-8c-kLZ">
-                                        <rect key="frame" x="0.0" y="267" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="311" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FB1-8c-kLZ" id="kc5-th-ZH8">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2021,7 +2050,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                             <tableViewSection headerTitle="Tabs" footerTitle="Enable &quot;Soft Tabs&quot; to insert spaces instead of a tab character when you press the Tab key." id="YZ3-BI-T3o">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="GLR-WV-AYR">
-                                        <rect key="frame" x="0.0" y="361" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="405" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GLR-WV-AYR" id="3wh-al-YJ9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2050,7 +2079,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="mVs-Ok-tuS">
-                                        <rect key="frame" x="0.0" y="405" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="449" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mVs-Ok-tuS" id="rHi-JR-Zs6">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2079,7 +2108,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="2D8-9r-JFx">
-                                        <rect key="frame" x="0.0" y="449" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="493" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2D8-9r-JFx" id="0ZH-Ae-u36">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2117,7 +2146,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                             <tableViewSection headerTitle="Keyboard" id="p2I-bJ-Rro">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="YSi-CD-9V3">
-                                        <rect key="frame" x="0.0" y="559.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="603.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YSi-CD-9V3" id="IuV-gP-rvE">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2146,7 +2175,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="bP0-eC-AtQ">
-                                        <rect key="frame" x="0.0" y="603.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="647.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bP0-eC-AtQ" id="xl6-uv-kKZ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2175,7 +2204,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="BIF-Rr-0Qw">
-                                        <rect key="frame" x="0.0" y="647.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="691.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BIF-Rr-0Qw" id="TB9-i8-PT3">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2208,7 +2237,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                             <tableViewSection headerTitle="Search" id="UeH-FC-boW">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="XUY-w7-AIU">
-                                        <rect key="frame" x="0.0" y="741.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="785.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XUY-w7-AIU" id="lGj-Od-gQB">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2237,7 +2266,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Bmo-kj-6J6">
-                                        <rect key="frame" x="0.0" y="785.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="829.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bmo-kj-6J6" id="4d5-09-4oZ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -2286,6 +2315,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
                         <outlet property="readOnlySwitch" destination="PGp-pQ-M6f" id="jHF-z6-2ge"/>
                         <outlet property="regexSwitch" destination="Nq5-Fb-UD7" id="DH9-4W-SaS"/>
                         <outlet property="softTabsSwitch" destination="Inn-pS-bXc" id="ivj-ic-pCA"/>
+                        <outlet property="syntaxHighlightSwitch" destination="Gup-gP-hCu" id="fH0-V8-rt8"/>
                         <outlet property="tabWidthControl" destination="3il-HO-XDe" id="iOg-3G-y2I"/>
                     </connections>
                 </tableViewController>

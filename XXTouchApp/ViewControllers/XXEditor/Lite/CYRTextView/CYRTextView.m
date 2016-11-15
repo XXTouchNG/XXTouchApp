@@ -150,6 +150,14 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 #pragma mark - Overrides
 
+- (BOOL)syntaxHighlight {
+    return self.syntaxTextStorage.syntaxHighlight;
+}
+
+- (void)setSyntaxHighlight:(BOOL)syntaxHighlight {
+    self.syntaxTextStorage.syntaxHighlight = syntaxHighlight;
+}
+
 - (void)setTokens:(NSMutableArray *)tokens
 {
     [self.syntaxTextStorage setTokens:tokens];

@@ -25,6 +25,7 @@
 #import "NSFileManager+Size.h"
 
 static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
+static clock_t tickCount;
 
 @interface XXBaseTextEditorViewController ()
 <UITextViewDelegate,
@@ -95,6 +96,7 @@ XXEditorSettingsTableViewControllerDelegate>
     [self updateTextViewInsetsWithKeyboardNotification:nil];
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    [self setTimeout];
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
@@ -104,6 +106,7 @@ XXEditorSettingsTableViewControllerDelegate>
         dispatch_async_on_main_queue(^{
             self.navigationController.view.userInteractionEnabled = YES;
             [self.navigationController.view hideToastActivity];
+            [self checkTimeout];
             if (!result) {
                 self.isLoaded = NO;
                 self.bottomBar.hidden = YES;
@@ -732,7 +735,8 @@ XXEditorSettingsTableViewControllerDelegate>
         [self.textView setDefaultFont:fontFamily[0] shouldUpdate:NO];
         [self.textView setBoldFont:fontFamily[1]];
         [self.textView setItalicFont:fontFamily[2]];
-        [self.textView setHighlightLuaSymbols:self.isLuaCode];
+        BOOL highlightEnabled = (self.isLuaCode && [[XXLocalDataService sharedInstance] syntaxHighlightingEnabled]);
+        [self.textView setHighlightLuaSymbols:highlightEnabled];
     });
 }
 
@@ -746,8 +750,12 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)reloadEditorSettings {
+    self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    [self setTimeout];
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
         for (NSNumber *reloadSection in self.reloadSectionArr) {
             switch ([reloadSection unsignedIntegerValue]) {
                 case 0: [self loadFontSettings]; break;
@@ -762,6 +770,8 @@ XXEditorSettingsTableViewControllerDelegate>
         self.shouldReloadSection = NO;
         dispatch_async_on_main_queue(^{
             [self.navigationController.view hideToastActivity];
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self checkTimeout];
         });
     });
 }
@@ -940,6 +950,19 @@ XXEditorSettingsTableViewControllerDelegate>
              _tabString.length != 0)
     {}
     return YES;
+}
+
+#pragma mark - Performance
+
+- (void)setTimeout {
+    tickCount = clock();
+}
+
+- (void)checkTimeout {
+    clock_t tickDiff = clock() - tickCount;
+    if (tickDiff > 5000000 && [[XXLocalDataService sharedInstance] syntaxHighlightingEnabled]) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"It takes too long to load, disable \"Syntax Highlight\" to reach a better performance.", nil)];
+    }
 }
 
 #pragma mark - Memory

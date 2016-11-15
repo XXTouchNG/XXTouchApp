@@ -35,7 +35,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CYRTextStorage : NSTextStorage
-
+@property (nonatomic, assign) BOOL syntaxHighlight;
 @property (nonatomic, strong) NSArray *tokens;
 @property (nonatomic, strong) UIFont *defaultFont;
 @property (nonatomic, strong) UIColor *defaultTextColor;

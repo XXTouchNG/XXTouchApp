@@ -103,7 +103,7 @@
 - (UIBarButtonItem *)scrollItem {
     if (!_scrollItem) {
         UIBarButtonItem *scrollItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scroll-bottom"] style:UIBarButtonItemStylePlain target:self action:@selector(scrollItemTapped:)];
-        scrollItem.enabled = NO;
+//        scrollItem.enabled = NO;
         scrollItem.tintColor = STYLE_TINT_COLOR;
         _scrollItem = scrollItem;
     }
@@ -236,20 +236,20 @@
 - (void)refreshItemTapped:(UIBarButtonItem *)sender {
     if (self.virtualModel.running) return;
     self.refreshItem.enabled =
-    self.scrollItem.enabled =
+//    self.scrollItem.enabled =
     self.closeItem.enabled = NO;
     [self loadProcess];
 }
 
 - (void)scrollItemTapped:(UIBarButtonItem *)sender {
-    if (self.virtualModel.running) return;
+//    if (self.virtualModel.running) return;
     [self.textView scrollToBottom];
 }
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
     if (self.virtualModel.running) {
         self.refreshItem.enabled =
-        self.scrollItem.enabled =
+//        self.scrollItem.enabled =
         self.closeItem.enabled = NO;
         [self shutdownVirtualMachine];
         return;
@@ -297,7 +297,7 @@
     dispatch_sync_on_main_queue(^{
         self.closeItem.enabled = YES;
         self.textView.editable = vm.running;
-        self.scrollItem.enabled =
+//        self.scrollItem.enabled =
         self.refreshItem.enabled = !vm.running;
         if (vm.running == NO) {
             [self.activityIndicator stopAnimating];

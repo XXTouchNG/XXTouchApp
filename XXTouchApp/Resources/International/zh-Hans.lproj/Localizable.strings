@@ -295,3 +295,4 @@ Hide = "隐藏";
 "Save" = "保存";
 "Saved" = "已保存";
 "Saving" = "保存中...";
+"It takes too long to load, disable \"Syntax Highlight\" to reach a better performance." = "载入时间过长，建议您关闭 \"语法高亮\" 以得到更高性能。";

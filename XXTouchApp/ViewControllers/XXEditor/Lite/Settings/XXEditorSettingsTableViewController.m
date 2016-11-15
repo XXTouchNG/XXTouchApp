@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *autoIndentSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *regexSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *caseSensitiveSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *syntaxHighlightSwitch;
 
 @end
 
@@ -51,6 +52,7 @@
 
 - (void)loadSettings {
     self.fontNameLabel.text = [[XXLocalDataService sharedInstance] fontFamilyName];
+    self.syntaxHighlightSwitch.on = [[XXLocalDataService sharedInstance] syntaxHighlightingEnabled];
     
     self.lineNumbersSwitch.on = [[XXLocalDataService sharedInstance] lineNumbersEnabled];
     self.softTabsSwitch.on = [[XXLocalDataService sharedInstance] softTabsEnabled];
@@ -100,6 +102,10 @@
 
 - (IBAction)caseSensitiveChanged:(UISwitch *)sender {
     [[XXLocalDataService sharedInstance] setCaseSensitiveEnabled:sender.on]; [self notifyChangedInSection:4];
+}
+
+- (IBAction)syntaxHighlightChanged:(UISwitch *)sender {
+    [[XXLocalDataService sharedInstance] setSyntaxHighlightingEnabled:sender.on]; [self notifyChangedInSection:1];
 }
 
 - (void)notifyChangedInSection:(NSUInteger)section {

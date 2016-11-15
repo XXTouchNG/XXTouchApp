@@ -59,10 +59,12 @@
 - (void)setHighlightLuaSymbols:(BOOL)highlightLuaSymbols {
     if (highlightLuaSymbols)
     {
+        self.syntaxHighlight = YES;
         [self setTokens:[[self solverTokens] mutableCopy] shouldUpdate:NO];
     }
     else
     {
+        self.syntaxHighlight = NO;
         [self setTokens:nil shouldUpdate:NO];
     }
     [self setFont:self.defaultFont];
@@ -89,38 +91,20 @@
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x008080],
                                       NSFontAttributeName : self.defaultFont
                                       }],
-            [CYRToken tokenWithName:@"variable.language.self.lua"
-                         expression:@"(?<![^.]\\.|:)\\b(self)\\b"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x0086b3],
-                                      NSFontAttributeName : self.defaultFont
-                                      }],
             [CYRToken tokenWithName:@"constant.language.lua"
-                         expression:@"(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION|math\\.(pi|huge))\\b|(?<![.])\\.{3}(?!\\.)"
+                         expression:@"(?<![^.]\\.|:)\\b(self|false|nil|true|_G|_VERSION|math\\.(pi|huge))\\b|(?<![.])\\.{3}(?!\\.)"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x0086b3],
                                       NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"keyword.operator.word.lua"
-                         expression:@"\\b(and|or|not)\\b"
+                         expression:@"\\b(and|or|not|break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in)\\b"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x333333],
                                       NSFontAttributeName : self.boldFont
-                                      }],
-            [CYRToken tokenWithName:@"keyword.control.lua"
-                         expression:@"\\b(break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in)\\b"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x333333],
-                                      NSFontAttributeName : self.boldFont
-                                      }],
-            [CYRToken tokenWithName:@"support.function.library.lua"
-                         expression:@"(?<![^.]\\.|:)\\b(coroutine\\.(create|resume|running|status|wrap|yield)|string\\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\\.(concat|insert|maxn|remove|sort)|math\\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\\.(cpath|loaded|loadlib|path|preload|seeall)|debug\\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\\b(?=[( {])"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0x445588],
-                                      NSFontAttributeName : self.defaultFont
                                       }],
             [CYRToken tokenWithName:@"support.function.lua"
-                         expression:@"(?<![^.]\\.|:)\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b(?=[( {])"
+                         expression:@"(?<![^.]\\.|:)\\b(coroutine\\.(create|resume|running|status|wrap|yield)|string\\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\\.(concat|insert|maxn|remove|sort)|math\\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\\.(cpath|loaded|loadlib|path|preload|seeall)|debug\\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback)|assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b(?=[( {])"
                          attributes:@{
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x445588],
                                       NSFontAttributeName : self.defaultFont
