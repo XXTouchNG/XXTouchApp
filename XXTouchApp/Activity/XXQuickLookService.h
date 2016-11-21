@@ -22,7 +22,11 @@ static NSString * const kXXItemSpecialValueHome = @"special-home";
 + (NSArray <NSString *> *)selectableFileExtensions;
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
-              parentViewController:(UIViewController *)viewController;
+              parentViewController:(UIViewController *)viewController
+                        anchorView:(UIView *)anchorView
+                        anchorRect:(CGRect)anchorRect;
 + (BOOL)editFileWithStandardEditor:(NSString *)filePath
-              parentViewController:(UIViewController *)viewController;
+              parentViewController:(UIViewController *)viewController
+                        anchorView:(UIView *)anchorView
+                        anchorRect:(CGRect)anchorRect;
 @end

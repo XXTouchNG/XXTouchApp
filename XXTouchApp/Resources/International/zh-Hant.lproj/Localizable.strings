@@ -242,6 +242,7 @@ Hide = "隱藏";
 "Advanced Features" = "擴展功能";
 "To run XXTouch script, extra package(s) should be installed via Cydia." = "運行 XXTouch 腳本前，您需要通過 Cydia 安裝擴展服務包。";
 "Failed to open Cydia" = "無法打開 Cydia";
+"Open Cydia" = "打開 Cydia";
 "Open as Document" = "作為文檔打開";
 "Open as Image" = "作為圖片打開";
 "Open as Media" = "作為媒體打開";

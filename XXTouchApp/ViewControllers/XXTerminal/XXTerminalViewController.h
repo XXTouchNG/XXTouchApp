@@ -12,6 +12,6 @@
 @interface XXTerminalViewController : UIViewController
 @property (nonatomic, weak) XXBaseActivity *activity;
 @property (nonatomic, assign) BOOL runImmediately;
-@property (nonatomic, strong) NSString *filePath;
+@property (nonatomic, copy) NSString *filePath;
 
 @end

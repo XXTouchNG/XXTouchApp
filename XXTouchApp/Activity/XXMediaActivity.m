@@ -8,8 +8,7 @@
 
 #import "XXMediaActivity.h"
 #import "XXMediaViewController.h"
-#import <AVFoundation/AVPlayer.h>
-#import <AVKit/AVPlayerViewController.h>
+#import "XXEmptyNavigationController.h"
 
 @implementation XXMediaActivity
 
@@ -33,21 +32,11 @@
 }
 
 - (UIViewController *)activityViewController {
-    NSURL *sourceMovieURL = self.fileURL;
-    XXMediaViewController *moviePlayerController = [[XXMediaViewController alloc] initWithContentURL:sourceMovieURL];
+    XXMediaViewController *moviePlayerController = [[XXMediaViewController alloc] init];
+    moviePlayerController.filePath = [self.fileURL path];
     moviePlayerController.activity = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:moviePlayerController.moviePlayer];
-    return moviePlayerController;
-}
-
-- (void)moviePlayerDidFinish:(NSNotification *)aNotification {
-    NSDictionary *userInfo = aNotification.userInfo;
-    if ([userInfo[MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] isEqualToNumber:@(MPMovieFinishReasonPlaybackError)])
-    {
-        
-    }
-    [self activityDidFinish:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    XXEmptyNavigationController *navController = [[XXEmptyNavigationController alloc] initWithRootViewController:moviePlayerController];
+    return navController;
 }
 
 - (void)performActivityWithController:(UIViewController *)controller

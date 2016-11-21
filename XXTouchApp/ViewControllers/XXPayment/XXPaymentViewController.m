@@ -140,7 +140,9 @@ static SKProduct * currentProduct = nil;
 #pragma mark - IAP
 
 - (void)checkPurchase {
-    if ([[IAPShare sharedHelper].iap isPurchasedProductsIdentifier:kXXIAPProductIDEnv])
+    if (
+        [[IAPShare sharedHelper].iap isPurchasedProductsIdentifier:kXXIAPProductIDEnv]
+        )
     {
         self.purchaseBtn.enabled = NO;
         self.restoreBtn.enabled = NO;
@@ -286,11 +288,11 @@ static SKProduct * currentProduct = nil;
 #pragma mark - Actions
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
-    if (self.activity && self.activity.activeDirectly == NO) {
-        [self.activity activityDidFinish:YES];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:^() {
+        if (self.activity && self.activity.activeDirectly == NO) {
+            [self.activity activityDidFinish:YES];
+        }
+    }];
 }
 
 - (void)purchaseBtnTapped:(UIButton *)sender {

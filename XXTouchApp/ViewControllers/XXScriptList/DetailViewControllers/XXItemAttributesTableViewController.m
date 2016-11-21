@@ -140,7 +140,7 @@ int cancelFlag = 0;
     NSError *err = nil;
     self.currentAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:itemPath error:&err];
     if (err != nil) return;
-    NSString *itemType = [self.currentAttributes objectForKey:NSFileType];
+    NSString *itemType = self.currentAttributes[NSFileType];
     if (itemType == NSFileTypeDirectory) {
         self.itemTypeLabel.text = NSLocalizedString(@"Directory", nil);
         self.itemSizeLabel.text = NSLocalizedString(@"Calculating...", nil);
@@ -172,10 +172,10 @@ int cancelFlag = 0;
     } else {
         self.itemTypeLabel.text = NSLocalizedString(@"Unsupported file type", nil);
     }
-    NSDate *creationDate = [self.currentAttributes objectForKey:NSFileCreationDate];
+    NSDate *creationDate = self.currentAttributes[NSFileCreationDate];
     NSString *creationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:creationDate];
     self.createdAtLabel.text = creationFormattedDate;
-    NSDate *modificationDate = [self.currentAttributes objectForKey:NSFileModificationDate];
+    NSDate *modificationDate = self.currentAttributes[NSFileModificationDate];
     NSString *modificationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modificationDate];
     self.modifiedAtLabel.text = modificationFormattedDate;
     if ([self.refreshHeader isRefreshing]) {

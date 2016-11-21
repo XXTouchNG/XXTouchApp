@@ -25,8 +25,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 @property (nonatomic, strong) UIBarButtonItem *transferItem;
 @property (nonatomic, strong, readonly) NSURL *baseUrl;
 
-@property (nonatomic, strong) UIDocumentInteractionController *documentController;
-
 @end
 
 @implementation XXWebViewController
@@ -228,7 +226,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (UIBarButtonItem *)shareItem {
     if (!_shareItem) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openDocumentSafari:) ];
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
         anotherButton.tintColor = [UIColor whiteColor];
         anotherButton.enabled = NO;
         _shareItem = anotherButton;
@@ -238,7 +236,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (UIBarButtonItem *)transferItem {
     if (!_transferItem) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(transferDocument:)];
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(transferItemTapped:)];
         anotherButton.tintColor = [UIColor whiteColor];
         anotherButton.enabled = NO;
         _transferItem = anotherButton;
@@ -248,26 +246,23 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 #pragma mark - Actions
 
-- (IBAction)close:(id)sender {
-    if (self.activity && self.activity.activeDirectly == NO) {
-        [self.activity activityDidFinish:YES];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+- (IBAction)close:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:^() {
+        if (self.activity && self.activity.activeDirectly == NO) {
+            [self.activity activityDidFinish:YES];
+        }
+    }];
 }
 
-- (void)openDocumentSafari:(id)sender {
+- (void)shareItemTapped:(UIBarButtonItem *)sender {
     ARSafariActivity *safariActivity = [[ARSafariActivity alloc] init];
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:@[safariActivity]];
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
-- (void)transferDocument:(id)sender {
-    self.documentController.URL = self.url;
-    BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
-    if (!didPresentOpenIn) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"No apps available", nil)];
-    }
+- (void)transferItemTapped:(UIBarButtonItem *)sender {
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:nil];
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark - UIWebViewDelegate
@@ -285,16 +280,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self.navigationController.view makeToast:[error localizedDescription]];
-}
-
-#pragma mark - DocumentInteractionController
-
-- (UIDocumentInteractionController *)documentController {
-    if (!_documentController) {
-        UIDocumentInteractionController *documentController = [[UIDocumentInteractionController alloc] init];
-        _documentController = documentController;
-    }
-    return _documentController;
 }
 
 #pragma mark - NJKWebViewProgressDelegate

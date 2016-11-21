@@ -2,20 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdd5ac7a-d111-4d2d-8373-5910fa2e9f37" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/Resources/International/Scenes/XXTReferences.bundle/demo.lua" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/XXTouchApp.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/XXTouchApp.iml" afterPath="$PROJECT_DIR$/.idea/XXTouchApp.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/xcschememanagement.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/YYCategories/YYCategories/UIKit/UIDevice+YYAdd.m" afterPath="$PROJECT_DIR$/Pods/YYCategories/YYCategories/UIKit/UIDevice+YYAdd.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/XXTouchApp.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Activity/XXMediaActivity.m" afterPath="$PROJECT_DIR$/XXTouchApp/Activity/XXMediaActivity.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Activity/XXQuickLookService.h" afterPath="$PROJECT_DIR$/XXTouchApp/Activity/XXQuickLookService.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Activity/XXQuickLookService.m" afterPath="$PROJECT_DIR$/XXTouchApp/Activity/XXQuickLookService.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Global/Defines/Info/Base.lproj/Info.plist" afterPath="$PROJECT_DIR$/XXTouchApp/Global/Defines/Info/Base.lproj/Info.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Libraries/LZMASDK/LZMAExtractor.m" afterPath="$PROJECT_DIR$/XXTouchApp/Libraries/LZMASDK/LZMAExtractor.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXActivity/XXArchiveActivity.m" afterPath="$PROJECT_DIR$/XXTouchApp/Services/XXActivity/XXArchiveActivity.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXActivity/XXQuickLookService.m" afterPath="$PROJECT_DIR$/XXTouchApp/Services/XXActivity/XXQuickLookService.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXActivity/XXUnarchiveActivity.m" afterPath="$PROJECT_DIR$/XXTouchApp/Services/XXActivity/XXUnarchiveActivity.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXAssetHelper.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXAssetHelper.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/Detail/XXBaseTextEditorPropertiesTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/Detail/XXBaseTextEditorPropertiesTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/Settings/XXEditorFontSizeView.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/Settings/XXEditorFontSizeView.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Global/Defines/UrlDefines.h" afterPath="$PROJECT_DIR$/XXTouchApp/Global/Defines/UrlDefines.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Libraries/IDMPhotoBrowser/IDMPhotoBrowser.m" afterPath="$PROJECT_DIR$/XXTouchApp/Libraries/IDMPhotoBrowser/IDMPhotoBrowser.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hans.lproj/Localizable.strings" afterPath="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hans.lproj/Localizable.strings" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hant.lproj/Localizable.strings" afterPath="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hant.lproj/Localizable.strings" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXLocalDataService.m" afterPath="$PROJECT_DIR$/XXTouchApp/Services/XXLocalDataService.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXLocalDefines.h" afterPath="$PROJECT_DIR$/XXTouchApp/Services/XXLocalDefines.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXLocalNetService.m" afterPath="$PROJECT_DIR$/XXTouchApp/Services/XXLocalNetService.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/CYRTextView/CYRToken.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/CYRTextView/CYRToken.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/XXBaseTextEditorViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Lite/XXBaseTextEditorViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXMedia/XXImageViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXMedia/XXImageViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXMedia/XXMediaViewController.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXMedia/XXMediaViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXMedia/XXMediaViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXMedia/XXMediaViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXPayment/XXPaymentViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXPayment/XXPaymentViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXItemAttributesTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXItemAttributesTableViewController.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/XXScriptListTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/XXScriptListTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXSettings/Help/XXDocumentsTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXSettings/Help/XXDocumentsTableViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXTerminal/XXTerminalViewController.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXTerminal/XXTerminalViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXTerminal/XXTerminalViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXTerminal/XXTerminalViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXWeb/XXWebViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXWeb/XXWebViewController.m" />
     </list>
     <ignored path="XXTouchApp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,9 +53,11 @@
       <file leaf-file-name="XXItemAttributesTableViewController.m" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXItemAttributesTableViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
-              <folding />
+            <state relative-caret-position="304">
+              <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+              <folding>
+                <element signature="e#7085#7133#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,7 +118,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Cidr.FilesView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -224,6 +240,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Cidr.FilesView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -289,36 +306,38 @@
       <updated>1476057887682</updated>
       <workItem from="1476403424504" duration="596000" />
       <workItem from="1478760483001" duration="58000" />
+      <workItem from="1479609486401" duration="284000" />
+      <workItem from="1479610341542" duration="36000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="654000" />
+    <option name="totallyTimeSpent" value="974000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23333333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.49722221" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2672919" sideWeight="0.50277776" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282532" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23333333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976552" sideWeight="0.49722221" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.49722221" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282532" sideWeight="0.49722221" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976552" sideWeight="0.49722221" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -339,22 +358,28 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXRectPickerController.m">
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXItemAttributesTableViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#7085#7133#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/PECropView.m">
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXItemAttributesTableViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6840">
-          <caret line="456" column="63" selection-start-line="456" selection-start-column="63" selection-end-line="456" selection-end-column="63" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#7085#7133#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXRectPickerController.m" />
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/PECropView.m" />
     <entry file="file://$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hans.lproj/Main.strings">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -404,13 +429,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/main.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/main.m" />
     <entry file="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MapKit.framework/Headers/MKPinAnnotationView.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
@@ -467,21 +486,8 @@
     <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Position/XXImagePickerController.h" />
     <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXImagePickerController.m" />
     <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXImagePickerController.h" />
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXRectPickerController.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/PECropRectView.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXRectPickerController.m" />
+    <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/PECropRectView.h" />
     <entry file="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIView.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
@@ -494,15 +500,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
           <caret line="377" column="8" selection-start-line="377" selection-start-column="8" selection-end-line="377" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXItemAttributesTableViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
-          <folding />
+        <state relative-caret-position="304">
+          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+          <folding>
+            <element signature="e#7085#7133#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

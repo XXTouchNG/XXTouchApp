@@ -44,14 +44,6 @@
     self.italicFont = [UIFont italicSystemFontOfSize:14.f];
 }
 
-// No scroll
-- (void)replaceRange:(UITextRange *)range
-            withText:(NSString *)text {
-    self.scrollEnabled = NO;
-    [super replaceRange:range withText:text];
-    self.scrollEnabled = YES;
-}
-
 - (void)setFont:(UIFont *)font {
     [super setFont:font];
 }

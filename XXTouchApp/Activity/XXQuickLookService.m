@@ -125,6 +125,8 @@
 
 + (BOOL)viewFileWithStandardViewer:(NSString *)filePath
               parentViewController:(UIViewController *)viewController
+                        anchorView:(UIView *)anchorView
+                        anchorRect:(CGRect)anchorRect
 {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
     NSURL *fileURL = [NSURL fileURLWithPath:filePath];
@@ -140,6 +142,18 @@
     { // Not supported
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:[self viewActivitiesWithViewController:viewController]];
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+                UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                [popover presentPopoverFromRect:anchorRect
+                                         inView:anchorView
+                       permittedArrowDirections:UIPopoverArrowDirectionAny
+                                       animated:YES];
+                return YES;
+            }
+            controller.popoverPresentationController.sourceView = anchorView;
+            controller.popoverPresentationController.sourceRect = anchorRect;
+        }
         [viewController.navigationController presentViewController:controller animated:YES completion:nil];
         return YES;
     }
@@ -166,6 +180,8 @@
 
 + (BOOL)editFileWithStandardEditor:(NSString *)filePath
               parentViewController:(UIViewController *)viewController
+                        anchorView:(UIView *)anchorView
+                        anchorRect:(CGRect)anchorRect
 {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
     NSURL *fileURL = [NSURL fileURLWithPath:filePath];
@@ -181,6 +197,18 @@
     { // Not supported
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:[self editActivitiesWithViewController:viewController]];
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+                UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                [popover presentPopoverFromRect:anchorRect
+                                         inView:anchorView
+                       permittedArrowDirections:UIPopoverArrowDirectionAny
+                                       animated:YES];
+                return YES;
+            }
+            controller.popoverPresentationController.sourceView = anchorView;
+            controller.popoverPresentationController.sourceRect = anchorRect;
+        }
         [viewController.navigationController presentViewController:controller animated:YES completion:nil];
         return YES;
     }

@@ -11,6 +11,8 @@
 
 #define MAIN_PATH @"/private/var/mobile/Media/1ferver/"
 #define FEVER_PATH @"/private/var/mobile/Media/1ferver/lua/scripts"
+#define ADD1S_PATH @"/private/var/mobile/Media/1ferver/bin/add1s"
+#define XXTOUCH_APP_PATH @"/Applications/XXTouchApp.app"
 #define ROOT_PATH [[XXLocalDataService sharedInstance] rootPath]
 #define SERVICE_EMAIL @"bug@xxtouch.com"
 #define SERVICE_URL @"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=40898074&card_type=group&source=external"

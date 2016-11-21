@@ -27,7 +27,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
         pid_t pid;
-        const char* binary = "/var/mobile/Media/1ferver/bin/add1s";
+        const char* binary = [ADD1S_PATH UTF8String];
         const char* args[] = {binary, "killall", "-9", "backboardd", NULL};
         posix_spawn(&pid, binary, NULL, NULL, (char* const*)args, (char* const*)envp);
         waitpid(pid, &status, 0);

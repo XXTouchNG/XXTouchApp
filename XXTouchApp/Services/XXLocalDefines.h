@@ -18,11 +18,7 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
 static inline BOOL isJailbroken() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-#ifndef DEBUG
         jailbroken = [[UIDevice currentDevice] isJailbroken];
-#else
-        jailbroken = NO;
-#endif
     });
     return jailbroken;
 }
@@ -30,11 +26,11 @@ static inline BOOL isJailbroken() {
 static inline BOOL daemonInstalled() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-#ifndef DEBUG
-        installed = isJailbroken() ? [[NSFileManager defaultManager] isReadableFileAtPath:MAIN_PATH] : NO;
-#else
-        installed = NO;
-#endif
+        if (isJailbroken()) {
+            installed = [[NSFileManager defaultManager] fileExistsAtPath:XXTOUCH_APP_PATH];
+        } else {
+            installed = NO;
+        }
     });
     return installed;
 }

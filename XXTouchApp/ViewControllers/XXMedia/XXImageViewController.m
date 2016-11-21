@@ -8,10 +8,23 @@
 
 #import "XXImageViewController.h"
 
-@interface XXImageViewController ()
+@interface XXImageViewController () <IDMPhotoBrowserDelegate>
 
 @end
 
 @implementation XXImageViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.delegate = self;
+}
+
+#pragma mark - IDMPhotoBrowserDelegate
+
+- (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser didDismissAtPageIndex:(NSUInteger)index {
+    if (self.activity && self.activity.activeDirectly == NO) {
+        [self.activity activityDidFinish:YES];
+    }
+}
 
 @end

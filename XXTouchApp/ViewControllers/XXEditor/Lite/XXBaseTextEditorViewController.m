@@ -43,7 +43,6 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
 @property (nonatomic, strong) UIBarButtonItem *launchItem;
 @property (nonatomic, strong) UIButton *readingItem;
-@property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
 @property (nonatomic, assign) BOOL isLuaCode;
 @property (nonatomic, assign) BOOL isLoaded;
@@ -353,22 +352,11 @@ XXEditorSettingsTableViewControllerDelegate>
     return YES;
 }
 
-#pragma mark - DocumentInteractionController
-
-- (UIDocumentInteractionController *)documentController {
-    if (!_documentController) {
-        UIDocumentInteractionController *documentController = [[UIDocumentInteractionController alloc] init];
-        _documentController = documentController;
-    }
-    return _documentController;
-}
+#pragma mark - Actions
 
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
-    self.documentController.URL = [NSURL fileURLWithPath:self.filePath];
-    BOOL didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
-    if (!didPresentOpenIn) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot find supporting application", nil)];
-    }
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)launchItemTapped:(UIBarButtonItem *)sender {
@@ -383,11 +371,11 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
-    if (self.activity && self.activity.activeDirectly == NO) {
-        [self.activity activityDidFinish:YES];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:^() {
+        if (self.activity && self.activity.activeDirectly == NO) {
+            [self.activity activityDidFinish:YES];
+        }
+    }];
 }
 
 #pragma mark - Toolbar Actions
@@ -680,17 +668,23 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)loadSearchSettings {
-    self.textView.circularSearch = YES;
-    self.textView.scrollPosition = ICTextViewScrollPositionTop;
-    self.textView.searchOptions = [[XXLocalDataService sharedInstance] caseSensitiveEnabled] ? 0 : NSRegularExpressionCaseInsensitive;
+    @weakify(self);
+    dispatch_sync_on_main_queue(^{
+        @strongify(self);
+        self.textView.circularSearch = YES;
+        self.textView.scrollPosition = ICTextViewScrollPositionTop;
+        self.textView.searchOptions = [[XXLocalDataService sharedInstance] caseSensitiveEnabled] ? 0 : NSRegularExpressionCaseInsensitive;
+    });
 }
 
 - (void)loadKeyboardSettings {
-    self.textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
-    self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeWords : UITextAutocapitalizationTypeNone;
-    
-    self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
-    dispatch_async_on_main_queue(^{
+    @weakify(self);
+    dispatch_sync_on_main_queue(^{
+        @strongify(self);
+        self.textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
+        self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeWords : UITextAutocapitalizationTypeNone;
+        
+        self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
         if (self.isLuaCode && self.textView.editable) {
             if (self.textView.inputAccessoryView == nil)
             {
@@ -711,25 +705,29 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)loadTabSettings {
-    NSString *tabString = nil;
-    if ([[XXLocalDataService sharedInstance] softTabsEnabled]) {
-        NSArray <NSString *> *tabStringChoices = @[ @"  ", @"   ", @"    ", @"        " ];
-        NSUInteger choice = [[XXLocalDataService sharedInstance] tabWidth];
-        if (choice < tabStringChoices.count) {
-            tabString = tabStringChoices[choice];
+    @weakify(self);
+    dispatch_sync_on_main_queue(^{
+        @strongify(self);
+        NSString *tabString = nil;
+        if ([[XXLocalDataService sharedInstance] softTabsEnabled]) {
+            NSArray <NSString *> *tabStringChoices = @[ @"  ", @"   ", @"    ", @"        " ];
+            NSUInteger choice = [[XXLocalDataService sharedInstance] tabWidth];
+            if (choice < tabStringChoices.count) {
+                tabString = tabStringChoices[choice];
+            }
+        } else {
+            tabString = @"\t";
         }
-    } else {
-        tabString = @"\t";
-    }
-    self.tabString = tabString;
-    self.autoIndent = [[XXLocalDataService sharedInstance] autoIndentEnabled];
-    dispatch_async_on_main_queue(^{
+        self.tabString = tabString;
+        self.autoIndent = [[XXLocalDataService sharedInstance] autoIndentEnabled];
         [self.keyboardRow setTabString:tabString];
     });
 }
 
 - (void)loadFontSettings {
-    dispatch_async_on_main_queue(^{
+    @weakify(self);
+    dispatch_sync_on_main_queue(^{
+        @strongify(self);
         NSArray <UIFont *> *fontFamily = [[XXLocalDataService sharedInstance] fontFamilyArray];
         NSAssert(fontFamily.count == 3, @"Invalid Font Family");
         [self.textView setDefaultFont:fontFamily[0] shouldUpdate:NO];
@@ -741,7 +739,9 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)loadLineNumberSettings {
-    dispatch_async_on_main_queue(^{
+    @weakify(self);
+    dispatch_sync_on_main_queue(^{
+        @strongify(self);
         self.textView = nil;
         self.keyboardRow = nil;
         [self.view removeAllSubviews];

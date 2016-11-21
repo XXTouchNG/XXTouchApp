@@ -254,11 +254,11 @@
         [self shutdownVirtualMachine];
         return;
     }
-    if (self.activity && self.activity.activeDirectly == NO) {
-        [self.activity activityDidFinish:YES];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:^() {
+        if (self.activity && self.activity.activeDirectly == NO) {
+            [self.activity activityDidFinish:YES];
+        }
+    }];
 }
 
 #pragma mark - UITextViewDelegate

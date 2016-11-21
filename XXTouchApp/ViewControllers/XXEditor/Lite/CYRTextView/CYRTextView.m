@@ -180,6 +180,13 @@ static const float kCursorVelocity = 1.0f/8.0f;
     [self replaceRange:textRange withText:text];
 }
 
+- (void)replaceRange:(UITextRange *)range
+            withText:(NSString *)text {
+    self.scrollEnabled = NO;
+    [super replaceRange:range withText:text];
+    self.scrollEnabled = YES;
+}
+
 - (void)setDefaultFont:(UIFont *)defaultFont shouldUpdate:(BOOL)update {
     _defaultFont = defaultFont;
     self.syntaxTextStorage.defaultFont = defaultFont;

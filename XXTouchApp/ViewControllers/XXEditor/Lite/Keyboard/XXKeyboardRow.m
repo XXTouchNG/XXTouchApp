@@ -51,7 +51,8 @@
     }
     
     NSString *keys = nil;
-    _barWidth = MIN(_textView.frame.size.width, _textView.frame.size.height);
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    _barWidth = MIN(screenSize.width, screenSize.height);
     if (_style == XXKeyboardButtonStylePhone) {
         _buttonCount = 9;
         _buttonSpacing = 4.f;

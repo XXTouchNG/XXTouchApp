@@ -59,24 +59,22 @@ YYSYNTH_DUMMY_CLASS(UIDevice_YYAdd)
 //     NSURL *cydiaURL = [NSURL URLWithString:@"cydia://package"];
 //     if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) return YES;
     
-//    NSArray *paths = @[@"/Applications/Cydia.app",
-//                       @"/private/var/lib/apt/",
-//                       @"/private/var/lib/cydia"];
-//    for (NSString *path in paths) {
-//        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) return YES;
-//    }
+    NSArray *paths = @[ @"/Applications/Cydia.app" ];
+    for (NSString *path in paths) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) return YES;
+    }
     
     FILE *bash = fopen("/bin/bash", "r");
     if (bash != NULL) {
         fclose(bash);
         return YES;
     }
-    
-    NSString *path = [NSString stringWithFormat:@"/private/%@", [NSString stringWithUUID]];
-    if ([@"test" writeToFile : path atomically : YES encoding : NSUTF8StringEncoding error : NULL]) {
-        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-        return YES;
-    }
+
+//    NSString *path = [NSString stringWithFormat:@"/private/%@", [NSString stringWithUUID]];
+//    if ([@"test" writeToFile : path atomically : YES encoding : NSUTF8StringEncoding error : NULL]) {
+//        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+//        return YES;
+//    }
     
     return NO;
 }

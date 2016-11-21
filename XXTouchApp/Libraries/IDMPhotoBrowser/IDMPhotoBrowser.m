@@ -71,8 +71,8 @@
     UIWindow *_applicationWindow;
 
 	// iOS 7
-    UIViewController *_applicationTopViewController;
-    int _previousModalPresentationStyle;
+//    UIViewController *_applicationTopViewController;
+//    int _previousModalPresentationStyle;
 }
 
 // Private Properties
@@ -191,18 +191,18 @@
 		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
 		{
 			self.modalPresentationStyle = UIModalPresentationCustom;
-			self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//			self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
             self.modalPresentationCapturesStatusBarAppearance = YES;
 		}
-		else
-		{
-			_applicationTopViewController = [self topviewController];
-			_previousModalPresentationStyle = _applicationTopViewController.modalPresentationStyle;
-			_applicationTopViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
-			self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-		}
+//		else
+//		{
+//			_applicationTopViewController = [self topviewController];
+//			_previousModalPresentationStyle = _applicationTopViewController.modalPresentationStyle;
+//			_applicationTopViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+//			self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//		}
 
-		self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//		self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 
         // Listen for IDMPhoto notifications
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -515,7 +515,7 @@
 }
 
 - (void)dismissPhotoBrowserAnimated:(BOOL)animated {
-    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 
     if ([_delegate respondsToSelector:@selector(photoBrowser:willDismissAtPageIndex:)])
         [_delegate photoBrowser:self willDismissAtPageIndex:_currentPageIndex];
@@ -524,10 +524,10 @@
         if ([_delegate respondsToSelector:@selector(photoBrowser:didDismissAtPageIndex:)])
             [_delegate photoBrowser:self didDismissAtPageIndex:_currentPageIndex];
 
-		if (SYSTEM_VERSION_LESS_THAN(@"8.0"))
-		{
-			_applicationTopViewController.modalPresentationStyle = _previousModalPresentationStyle;
-		}
+//		if (SYSTEM_VERSION_LESS_THAN(@"8.0"))
+//		{
+//			_applicationTopViewController.modalPresentationStyle = _previousModalPresentationStyle;
+//		}
     }];
 }
 
@@ -909,7 +909,6 @@
                 id <IDMPhoto> photo = [self photoAtIndex:pageIndex-1];
                 if (![photo underlyingImage]) {
                     [photo loadUnderlyingImageAndNotify];
-                    CYLog(@"Pre-loading image at index %lu", pageIndex-1);
                 }
             }
             if (pageIndex < [self numberOfPhotos] - 1) {
@@ -917,7 +916,6 @@
                 id <IDMPhoto> photo = [self photoAtIndex:pageIndex+1];
                 if (![photo underlyingImage]) {
                     [photo loadUnderlyingImageAndNotify];
-                    CYLog(@"Pre-loading image at index %lu", pageIndex+1);
                 }
             }
         }
@@ -963,7 +961,6 @@
 			[_recycledPages addObject:page];
             [page prepareForReuse];
 			[page removeFromSuperview];
-			CYLog(@"Removed page at index %li", PAGE_INDEX(page));
 		}
 	}
 	[_visiblePages minusSet:_recycledPages];

@@ -77,8 +77,8 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
         if (![self localUserConfig]) {
             // First
             NSError *err = nil;
-            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@"lua"];
-            BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo.lua"] error:&err];
+            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@"zip"];
+            BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo.zip"] error:&err];
             if (!result)
             {
                 
@@ -470,11 +470,7 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
 }
 
 - (BOOL)purchasedProduct {
-#ifdef DEBUG
-    return YES;
-#else
     return (isJailbroken() || [(NSNumber *)[self objectForKey:kXXStorageKeyPurchasedProduct] boolValue]);
-#endif
 }
 
 - (void)setPurchasedProduct:(BOOL)purchasedProduct {

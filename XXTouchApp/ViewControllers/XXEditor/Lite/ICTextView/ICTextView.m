@@ -388,6 +388,7 @@ NS_INLINE BOOL ICCGFloatEqualOnScreen(CGFloat f1, CGFloat f2)
     CGRect visibleRect = [self visibleRectConsideringInsets:considerInsets];
     CGRect toleranceArea = visibleRect;
     CGFloat y = rect.origin.y - contentInset.top;
+    if (y < 0) return;
     
     switch (self.scrollPosition)
     {

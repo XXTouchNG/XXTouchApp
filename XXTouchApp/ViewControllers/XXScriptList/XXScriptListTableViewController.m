@@ -47,8 +47,6 @@ UISearchDisplayDelegate
 @property (nonatomic, strong) NSMutableArray <NSDictionary *> *rootItemsDictionaryArr;
 
 @property (weak, nonatomic) IBOutlet UIButton *footerLabel;
-
-@property (nonatomic, strong) UIDocumentInteractionController *documentController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, copy) NSString *relativePath;
@@ -459,7 +457,10 @@ UISearchDisplayDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:currentCell.itemAttrs[kXXItemRealPathKey] parentViewController:self];
+                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:currentCell.itemAttrs[kXXItemRealPathKey]
+                                                                                                        parentViewController:self
+                                                                                                                  anchorView:tableView
+                                                                                                                  anchorRect:[tableView rectForRowAtIndexPath:indexPath]];
                                                                 if (!result) {
                                                                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                                                                 }
@@ -704,7 +705,9 @@ UISearchDisplayDelegate
                 [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
                 BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
-                                                       parentViewController:self];
+                                                        parentViewController:self
+                                                                  anchorView:tableView
+                                                                  anchorRect:[tableView rectForRowAtIndexPath:indexPath]];
                 if (!result) {
                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                 }
@@ -945,16 +948,9 @@ UISearchDisplayDelegate
             }
         }
         if (urlsArr.count != 0) {
-            BOOL didPresentOpenIn = NO;
-            if (urlsArr.count == 1) {
-                self.documentController.URL = urlsArr[0];
-                didPresentOpenIn = [self.documentController presentOpenInMenuFromBarButtonItem:sender animated:YES];
-            }
-            if (!didPresentOpenIn || urlsArr.count > 1) {
-                XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
-                UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
-                [self.navigationController presentViewController:controller animated:YES completion:nil];
-            }
+            XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
+            UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
+            [self.navigationController presentViewController:controller animated:YES completion:nil];
         } else {
             [self.navigationController.view makeToast:NSLocalizedString(@"You cannot share directory", nil)];
         }
@@ -971,16 +967,6 @@ UISearchDisplayDelegate
             [act performActivityWithController:self];
         }
     }
-}
-
-#pragma mark - DocumentInteractionController
-
-- (UIDocumentInteractionController *)documentController {
-    if (!_documentController) {
-        UIDocumentInteractionController *documentController = [[UIDocumentInteractionController alloc] init];
-        _documentController = documentController;
-    }
-    return _documentController;
 }
 
 #pragma mark - Getters
@@ -1000,7 +986,7 @@ UISearchDisplayDelegate
     return _aboutBtn;
 }
 
-#pragma mark - Notification
+#pragma mark - Notification 0x1001ae344
 
 - (void)handleNotification:(NSNotification *)aNotification {
     NSDictionary *userInfo = aNotification.userInfo;
