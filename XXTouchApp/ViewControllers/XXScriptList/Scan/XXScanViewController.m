@@ -16,7 +16,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ZBarSDK/ZBarImageScanner.h>
-#import <Masonry/Masonry.h>
 
 @interface XXScanViewController () <AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, XXScanDownloadTaskDelegate>
 
@@ -291,19 +290,13 @@
     return _maskImage;
 }
 
-- (void)updateViewConstraints {
-    [super updateViewConstraints];
-    [self.maskView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-}
-
 - (UIImageView *)maskView {
     if (!_maskView) {
         UIImageView *maskView = [[UIImageView alloc] initWithFrame:self.view.bounds];
         maskView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.f];
         maskView.image = self.maskImage;
         maskView.contentMode = UIViewContentModeCenter;
+        maskView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _maskView = maskView;
     }
     return _maskView;
@@ -395,7 +388,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self performSelector:@selector(startAnimation) withObject:nil afterDelay:0.2f];
-    [self updateViewConstraints];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

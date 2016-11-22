@@ -9,7 +9,6 @@
 #import "XXAuthorizationTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
-#import <MJRefresh/MJRefresh.h>
 
 enum {
     kXXAuthorizationRechargeSection = 0,
@@ -48,9 +47,6 @@ enum {
 @property (weak, nonatomic) IBOutlet UILabel *macAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *uniqueIDLabel;
 
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
-
-
 @end
 
 @implementation XXAuthorizationTableViewController
@@ -62,16 +58,19 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(reloadDeviceAndAuthorizationInfo:) forControlEvents:UIControlEventValueChanged];
+    [self setRefreshControl:refreshControl];
+    
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName: [UIColor whiteColor] };
     self.submitButton.tintColor = [UIColor whiteColor];
     
     self.clearsSelectionOnViewWillAppear = YES; // Override
-    self.tableView.mj_header = self.refreshHeader;
     self.authorizationField.text = self.code;
     self.authorizationField.delegate = self;
     
     if (![self loadDeviceAndAuthorizationInfo]) {
-        [self.refreshHeader beginRefreshing];
+        [self reloadDeviceAndAuthorizationInfo:nil];
     }
     
     {
@@ -101,7 +100,8 @@ enum {
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               @strongify(self);
-                              [self.refreshHeader beginRefreshing];
+                              // Begin
+                              [self reloadDeviceAndAuthorizationInfo:nil];
                               if (self.fromScan) {
                                   [self.navigationItem.leftBarButtonItem setTitle:NSLocalizedString(@"Close", nil)];
                               }
@@ -140,26 +140,7 @@ enum {
     return YES;
 }
 
-- (MJRefreshNormalHeader *)refreshHeader {
-    if (!_refreshHeader) {
-        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadDeviceAndAuthorizationInfo)];
-        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
-        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
-        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.2")) {
-            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightThin];
-        } else {
-            normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
-        }
-        normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
-        _refreshHeader = normalHeader;
-    }
-    return _refreshHeader;
-}
-
-- (void)reloadDeviceAndAuthorizationInfo {
+- (void)reloadDeviceAndAuthorizationInfo:(UIRefreshControl *)sender {
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
@@ -169,8 +150,8 @@ enum {
             result = [XXLocalNetService remoteGetDeviceAuthInfoWithError:&err];
         }
         dispatch_async_on_main_queue(^{
-            if ([self.refreshHeader isRefreshing]) {
-                [self.refreshHeader endRefreshing];
+            if ([sender isRefreshing]) {
+                [sender endRefreshing];
             }
             if (!result) {
                 [self.navigationController.view makeToast:[err localizedDescription]];

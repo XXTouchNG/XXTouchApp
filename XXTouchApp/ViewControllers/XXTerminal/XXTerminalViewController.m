@@ -50,9 +50,6 @@
 
 - (void)updateViewConstraints {
     [super updateViewConstraints];
-    [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
     [self.toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
@@ -85,6 +82,7 @@
         textView.delegate = self;
         textView.scrollIndicatorInsets =
         textView.contentInset = UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
+        textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _textView = textView;
     }
     return _textView;

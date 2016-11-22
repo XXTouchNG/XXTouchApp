@@ -12,7 +12,6 @@
 #import "XXArchiveActivity.h"
 #import "XXUnarchiveActivity.h"
 
-#import <MJRefresh/MJRefresh.h>
 #import "XXToolbar.h"
 #import "XXSwipeableCell.h"
 #import "XXInsetsLabel.h"
@@ -39,7 +38,6 @@ XXToolbarDelegate,
 UISearchDisplayDelegate
 >
 
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
 
 @property (nonatomic, assign, readonly) BOOL isRootDirectory;
@@ -76,6 +74,15 @@ UISearchDisplayDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.tableView;
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(launchSetup:) forControlEvents:UIControlEventValueChanged];
+    [tableViewController setRefreshControl:refreshControl];
+    
+    [self.tableView addSubview:refreshControl];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchDisplayController.delegate = self;
@@ -83,8 +90,6 @@ UISearchDisplayDelegate
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-    
-    self.tableView.mj_header = self.refreshHeader;
     
     self.tableView.allowsSelection = YES;
     self.tableView.allowsMultipleSelection = NO;
@@ -101,8 +106,10 @@ UISearchDisplayDelegate
     }
     [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    if ([[XXLocalDataService sharedInstance] selectedScript] == nil) {
-        [self.refreshHeader beginRefreshing];
+    if (daemonInstalled() &&
+        [[XXLocalDataService sharedInstance] selectedScript] == nil)
+    {
+        [self launchSetup:nil];
     }
 }
 
@@ -126,26 +133,6 @@ UISearchDisplayDelegate
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-#pragma mark - MJRefresh Header
-
-- (MJRefreshNormalHeader *)refreshHeader {
-    if (!_refreshHeader) {
-        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(startMJRefreshing)];
-        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
-        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
-        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        normalHeader.lastUpdatedTimeLabel.hidden = YES;
-        _refreshHeader = normalHeader;
-    }
-    return _refreshHeader;
-}
-
 #pragma mark - Reload Control
 
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
@@ -165,15 +152,13 @@ UISearchDisplayDelegate
     }
 }
 
-- (void)startMJRefreshing {
-    [self launchSetup];
-}
-
-- (void)launchSetup {
-    if (daemonInstalled() == NO)
+- (void)launchSetup:(UIRefreshControl *)sender {
+    if (!daemonInstalled())
     {
         [self reloadScriptListTableView];
-        [self endMJRefreshing];
+        if ([sender isRefreshing]) {
+            [sender endRefreshing];
+        }
         return;
     }
     @weakify(self);
@@ -191,12 +176,14 @@ UISearchDisplayDelegate
                     [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil)
                                              type:SIAlertViewButtonTypeCancel
                                           handler:^(SIAlertView *alert) {
-                                              [self endMJRefreshing];
+                                              if ([sender isRefreshing]) {
+                                                  [sender endRefreshing];
+                                              }
                                           }];
                     [alertView addButtonWithTitle:NSLocalizedString(@"Retry", nil)
                                              type:SIAlertViewButtonTypeDestructive
                                           handler:^(SIAlertView *alert) {
-                                              [self performSelector:@selector(launchSetup) withObject:nil afterDelay:0.5];
+                                              [self performSelector:@selector(launchSetup:) withObject:sender afterDelay:0.5];
                                           }];
                     [alertView show];
                     return;
@@ -205,7 +192,9 @@ UISearchDisplayDelegate
                 }
             }
             [self reloadScriptListTableView];
-            [self endMJRefreshing];
+            if ([sender isRefreshing]) {
+                [sender endRefreshing];
+            }
         });
     });
 }
@@ -299,12 +288,6 @@ UISearchDisplayDelegate
         return NO;
     }
     return [[[[XXLocalDataService sharedInstance] localUserConfig] objectForKey:kXXLocalConfigHidesMainPath] boolValue];
-}
-
-- (void)endMJRefreshing {
-    if ([self.refreshHeader isRefreshing]) {
-        [self.refreshHeader endRefreshing];
-    }
 }
 
 #pragma mark - Table view data source

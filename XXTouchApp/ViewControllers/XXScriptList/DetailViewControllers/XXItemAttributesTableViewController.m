@@ -8,7 +8,6 @@
 
 #import "XXItemAttributesTableViewController.h"
 #import "XXLocalDataService.h"
-#import <MJRefresh/MJRefresh.h>
 #import "NSFileManager+Mime.h"
 #import "NSFileManager+Size.h"
 
@@ -28,8 +27,6 @@ static char * const kXXTouchCalculatingDirectorySizeIdentifier = "com.xxtouch.ca
 
 @property (nonatomic, copy) NSString *originalName;
 @property (nonatomic, copy) NSString *originalPath;
-
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 
 @property (nonatomic, strong) NSDictionary *currentAttributes;
 
@@ -98,8 +95,12 @@ int cancelFlag = 0;
     cancelFlag = 0;
     self.clearsSelectionOnViewWillAppear = YES;
     self.nameTextField.delegate = self;
-    self.tableView.mj_header = self.refreshHeader;
-    [self reloadItemInfo];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(reloadItemInfo:) forControlEvents:UIControlEventValueChanged];
+    [self setRefreshControl:refreshControl];
+    
+    [self reloadItemInfo:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -116,21 +117,7 @@ int cancelFlag = 0;
     return YES;
 }
 
-- (MJRefreshNormalHeader *)refreshHeader {
-    if (!_refreshHeader) {
-        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadItemInfo)];
-        [normalHeader setTitle:NSLocalizedString(@"Pull down", nil) forState:MJRefreshStateIdle];
-        [normalHeader setTitle:NSLocalizedString(@"Release", nil) forState:MJRefreshStatePulling];
-        [normalHeader setTitle:NSLocalizedString(@"Loading...", nil) forState:MJRefreshStateRefreshing];
-        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
-        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-        normalHeader.lastUpdatedTimeLabel.hidden = YES;
-        _refreshHeader = normalHeader;
-    }
-    return _refreshHeader;
-}
-
-- (void)reloadItemInfo {
+- (void)reloadItemInfo:(UIRefreshControl *)sender {
     NSString *itemName = [self.currentPath lastPathComponent];
     self.nameTextField.text = itemName;
     self.originalName = [itemName mutableCopy];
@@ -178,8 +165,8 @@ int cancelFlag = 0;
     NSDate *modificationDate = self.currentAttributes[NSFileModificationDate];
     NSString *modificationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modificationDate];
     self.modifiedAtLabel.text = modificationFormattedDate;
-    if ([self.refreshHeader isRefreshing]) {
-        [self.refreshHeader endRefreshing];
+    if ([sender isRefreshing]) {
+        [sender endRefreshing];
     }
 }
 

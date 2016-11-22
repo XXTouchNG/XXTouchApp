@@ -1,7 +1,6 @@
 PODS:
   - Masonry (1.0.1)
   - MGSwipeTableCell (1.5.5)
-  - MJRefresh (3.1.12)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
@@ -18,7 +17,6 @@ PODS:
 DEPENDENCIES:
   - Masonry
   - MGSwipeTableCell
-  - MJRefresh
   - NJKWebViewProgress
   - SSZipArchive
   - Toast
@@ -29,7 +27,6 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MGSwipeTableCell: bafeb5f351124544c9364ecbdf24c7b06a37d340
-  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   SSZipArchive: 29daace2bccb90a47de2837744da397728ff9207
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
@@ -37,6 +34,6 @@ SPEC CHECKSUMS:
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   ZBarSDK: 4c1b5daeb7d6cc67dc9355e690af0230a661f6ec
 
-PODFILE CHECKSUM: a1ed38a789be156fe35816ac6962c41ca8dcf79e
+PODFILE CHECKSUM: d03ee24a33cb1a303bef9b68b8f8253931037736
 
 COCOAPODS: 1.1.1

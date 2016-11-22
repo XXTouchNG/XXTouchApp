@@ -9,7 +9,6 @@
 #import "XXCodeBlockExpandViewController.h"
 #import "XXBaseTextView.h"
 #import "XXLocalDataService.h"
-#import <Masonry/Masonry.h>
 
 @interface XXCodeBlockExpandViewController () <UITextViewDelegate>
 @property (strong, nonatomic) XXBaseTextView *textView;

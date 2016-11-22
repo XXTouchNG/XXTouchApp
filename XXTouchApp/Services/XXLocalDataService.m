@@ -77,8 +77,8 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
         if (![self localUserConfig]) {
             // First
             NSError *err = nil;
-            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@"zip"];
-            BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo.zip"] error:&err];
+            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@""];
+            BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
             if (!result)
             {
                 

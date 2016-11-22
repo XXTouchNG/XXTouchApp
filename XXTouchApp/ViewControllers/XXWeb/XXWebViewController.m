@@ -10,7 +10,6 @@
 #import "NJKWebViewProgressView.h"
 #import "XXWebViewController.h"
 #import "ARSafariActivity.h"
-#import <Masonry/Masonry.h>
 #import "XXQuickLookService.h"
 #import "NSArray+FindString.h"
 #import "NSData+plistData.h"
@@ -44,9 +43,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     [super viewDidLoad];
     
     [self.view addSubview:self.webView];
-    [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+    [self updateViewConstraints];
     [self loadWebView];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -152,17 +149,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     }
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self updateViewConstraints];
-}
-
-- (void)updateViewConstraints {
-    [super updateViewConstraints];
-    [self.webView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
@@ -215,6 +201,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
         webView.delegate = self.progressProxy;
         webView.allowsInlineMediaPlayback = YES;
         webView.scalesPageToFit = YES;
+        webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         if (SYSTEM_VERSION_GREATER_THAN(@"9.0")) {
             webView.allowsLinkPreview = YES;
             webView.allowsPictureInPictureMediaPlayback = YES;
