@@ -304,7 +304,7 @@
         }
     }
     
-    if (shouldInsertText == YES) {
+    if (shouldInsertText) {
         [self.textInput insertText:text];
     }
 }

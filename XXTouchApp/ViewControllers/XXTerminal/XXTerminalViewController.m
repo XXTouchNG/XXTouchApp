@@ -30,7 +30,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = [self.filePath lastPathComponent];
+    if (self.filePath) {
+        self.title = [self.filePath lastPathComponent];
+    } else {
+        self.title = NSLocalizedString(@"Console", nil);
+    }
     self.view.backgroundColor = [UIColor whiteColor];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -63,10 +67,13 @@
 - (void)loadProcess {
     [self.textView scrollToTopAnimated:NO];
     [self.textView setText:@""];
-    [self displayWelcomeMessage];
-    
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(executeScript) withObject:nil afterDelay:.6f];
+    if (self.filePath) {
+        [self displayWelcomeMessage];
+        [self performSelector:@selector(executeScript) withObject:nil afterDelay:.6f];
+    } else {
+//        [self performSelector:@selector(interactiveConsole) withObject:nil afterDelay:.6f];
+    }
 }
 
 #pragma mark - Getters
@@ -83,6 +90,7 @@
         textView.scrollIndicatorInsets =
         textView.contentInset = UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
         textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        textView.editable = NO;
         _textView = textView;
     }
     return _textView;
@@ -170,11 +178,11 @@
 
 - (void)displayWelcomeMessage {
     [self.textView appendMessage:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@LUA_COPYRIGHT, nil)]];
-    [self.textView appendMessage:[NSString stringWithFormat:NSLocalizedString(@"\nExecuting %@...\n", nil), self.filePath]];
+    [self.textView appendMessage:[NSString stringWithFormat:NSLocalizedString(@"\nTesting %@...\n", nil), self.filePath]];
 }
 
 - (void)displayFinishMessage {
-    [self.textView appendMessage:NSLocalizedString(@"\n\nRun finished\n", nil)];
+    [self.textView appendMessage:NSLocalizedString(@"\n\nTest finished\n", nil)];
 }
 
 - (void)launchVirtualMachine {
@@ -211,23 +219,37 @@
     [self launchVirtualMachine];
     NSError *err = nil;
     BOOL result = [self.virtualModel loadFileFromPath:self.filePath error:&err];
-    if (result == NO && err) {
+    if (!result && err) {
         [self.textView appendError:[NSString stringWithFormat:@"\n%@\n", [err localizedFailureReason]]];
         return;
     } else {
-        [self.textView appendMessage:NSLocalizedString(@"\nSyntax check passed, running...\n\n", nil)];
+        [self.textView appendMessage:NSLocalizedString(@"\nSyntax check passed, testing...\n\n", nil)];
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSError *err = nil;
         BOOL result = [self.virtualModel pcallWithError:&err];
         dispatch_async_on_main_queue(^{
-            if (result == NO && err) {
+            if (!result && err) {
                 [self.textView appendError:[NSString stringWithFormat:@"\n%@", [err localizedFailureReason]]];
                 return;
             }
         });
     });
 }
+
+//- (void)interactiveConsole {
+//    [self launchVirtualMachine];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//        NSError *err = nil;
+//        BOOL result = [self.virtualModel interactiveModeWithError:&err];
+//        dispatch_async_on_main_queue(^{
+//            if (!result && err) {
+//                [self.textView appendError:[NSString stringWithFormat:@"\n%@", [err localizedFailureReason]]];
+//                return;
+//            }
+//        });
+//    });
+//}
 
 #pragma mark - Actions
 
@@ -253,7 +275,7 @@
         return;
     }
     [self dismissViewControllerAnimated:YES completion:^() {
-        if (self.activity && self.activity.activeDirectly == NO) {
+        if (self.activity && !self.activity.activeDirectly) {
             [self.activity activityDidFinish:YES];
         }
     }];
@@ -295,9 +317,8 @@
     dispatch_sync_on_main_queue(^{
         self.closeItem.enabled = YES;
         self.textView.editable = vm.running;
-//        self.scrollItem.enabled =
         self.refreshItem.enabled = !vm.running;
-        if (vm.running == NO) {
+        if (!vm.running) {
             [self.activityIndicator stopAnimating];
             self.closeItem.title = NSLocalizedString(@"Close", nil);
             if ([self.textView isFirstResponder]) {

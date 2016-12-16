@@ -94,7 +94,7 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
                 [[XXLocalDataService sharedInstance] remoteUserConfig] :
                 [[XXLocalDataService sharedInstance] localUserConfig];
                 if (_configInfo.configType == kXXUserDefaultsTypeSwitch) {
-                    if (_configInfo.configValue == YES) {
+                    if (_configInfo.configValue) {
                         [dict setObject:@YES forKey:_configInfo.configKey];
                     } else {
                         [dict setObject:@NO forKey:_configInfo.configKey];

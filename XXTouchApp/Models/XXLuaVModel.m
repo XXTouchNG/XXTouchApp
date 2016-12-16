@@ -34,7 +34,7 @@ void luaL_setPath(lua_State* L, const char *key, const char *path)
 
 void luaL_terminate(lua_State *L, lua_Debug *ar)
 {
-    if (running == NO) {
+    if (!running) {
         CYLog(@"perform long jump");
         longjmp(buf, 1);
     }
@@ -104,8 +104,9 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
 
 - (void)setRunning:(BOOL)r {
     running = r;
-    if (r == NO)
+    if (!r)
     {
+//        fakeio(NULL, NULL, NULL);
         char *emptyBuf = malloc(8192 * sizeof(char));
         memset(emptyBuf, 0x0a, 8192);
         write(fileno(self.stdinWriteHandler), emptyBuf, 8192);
@@ -137,17 +138,31 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
     return YES;
 }
 
-#pragma mark - load from file
-
-- (BOOL)loadFileFromPath:(NSString *)path error:(NSError **)error
-{
-    NSString *dirPath = [path stringByDeletingLastPathComponent];
+- (void)setCurrentPath:(NSString *)dirPath {
     NSString *sPath = [NSString stringWithFormat:@"%@;", [dirPath stringByAppendingPathComponent:@"?.lua"]];
     NSString *cPath = [NSString stringWithFormat:@"%@;", [dirPath stringByAppendingPathComponent:@"?.so"]];
     luaL_setPath(L, "path", sPath.UTF8String);
     luaL_setPath(L, "cpath", cPath.UTF8String);
     CYLog(@"set path");
-    
+}
+
+#pragma mark - REPL
+
+- (BOOL)interactiveModeWithError:(NSError **)error {
+    [self setCurrentPath:ROOT_PATH];
+    self.running = YES;
+    char *argv[2] = {(char *)[ROOT_PATH UTF8String], ""};
+    char **argv_p = argv;
+    int load_stat = interactive(1, argv_p);
+    self.running = NO;
+    return [self checkCode:load_stat error:error];
+}
+
+#pragma mark - load from file
+
+- (BOOL)loadFileFromPath:(NSString *)path error:(NSError **)error
+{
+    [self setCurrentPath:[path stringByDeletingLastPathComponent]];
     const char *cString = [path UTF8String];
     int load_stat = luaL_loadfile(L, cString);
     return [self checkCode:load_stat error:error];

@@ -86,6 +86,9 @@
 		0F647BCB1DCA03A800C44DB4 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC51DCA03A800C44DB4 /* SourceSansPro-Regular.otf */; };
 		0F647BCD1DCA03D600C44DB4 /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */; };
 		0F6612561DB8A686009DD6C1 /* XXMulPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */; };
+		0F6DD64E1DF9A7E4002E500D /* AppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */; };
+		0F6DD64F1DF9A7E4002E500D /* CloudApiSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD6491DF9A7E4002E500D /* CloudApiSdk.m */; };
+		0F6DD6501DF9A7E4002E500D /* SignUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD64D1DF9A7E4002E500D /* SignUtil.m */; };
 		0F7898D81DD9A9E3008521AA /* XXMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7898D71DD9A9E3008521AA /* XXMediaViewController.m */; };
 		0F7898DB1DD9B98A008521AA /* XXImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7898DA1DD9B98A008521AA /* XXImageViewController.m */; };
 		0F7D85D01D8E85D4006CEC88 /* XXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7D85CF1D8E85D4006CEC88 /* XXScanLineAnimation.m */; };
@@ -383,6 +386,14 @@
 		0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.ttf"; sourceTree = "<group>"; };
 		0F6612541DB8A686009DD6C1 /* XXMulPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMulPosColorPickerController.h; sourceTree = "<group>"; };
 		0F6612551DB8A686009DD6C1 /* XXMulPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMulPosColorPickerController.m; sourceTree = "<group>"; };
+		0F6DD6461DF9A7E4002E500D /* AppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
+		0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfiguration.m; sourceTree = "<group>"; };
+		0F6DD6481DF9A7E4002E500D /* CloudApiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudApiSdk.h; sourceTree = "<group>"; };
+		0F6DD6491DF9A7E4002E500D /* CloudApiSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudApiSdk.m; sourceTree = "<group>"; };
+		0F6DD64A1DF9A7E4002E500D /* HttpConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpConstant.h; sourceTree = "<group>"; };
+		0F6DD64B1DF9A7E4002E500D /* SDKConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDKConstant.h; sourceTree = "<group>"; };
+		0F6DD64C1DF9A7E4002E500D /* SignUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUtil.h; sourceTree = "<group>"; };
+		0F6DD64D1DF9A7E4002E500D /* SignUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUtil.m; sourceTree = "<group>"; };
 		0F7898D61DD9A9E3008521AA /* XXMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMediaViewController.h; sourceTree = "<group>"; };
 		0F7898D71DD9A9E3008521AA /* XXMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMediaViewController.m; sourceTree = "<group>"; };
 		0F7898D91DD9B98A008521AA /* XXImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImageViewController.h; sourceTree = "<group>"; };
@@ -1077,6 +1088,21 @@
 			path = MulPosColor;
 			sourceTree = "<group>";
 		};
+		0F6DD6451DF9A7E4002E500D /* CloudApiSdk */ = {
+			isa = PBXGroup;
+			children = (
+				0F6DD6461DF9A7E4002E500D /* AppConfiguration.h */,
+				0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */,
+				0F6DD6481DF9A7E4002E500D /* CloudApiSdk.h */,
+				0F6DD6491DF9A7E4002E500D /* CloudApiSdk.m */,
+				0F6DD64A1DF9A7E4002E500D /* HttpConstant.h */,
+				0F6DD64B1DF9A7E4002E500D /* SDKConstant.h */,
+				0F6DD64C1DF9A7E4002E500D /* SignUtil.h */,
+				0F6DD64D1DF9A7E4002E500D /* SignUtil.m */,
+			);
+			path = CloudApiSdk;
+			sourceTree = "<group>";
+		};
 		0F7898D51DD9A99D008521AA /* XXMedia */ = {
 			isa = PBXGroup;
 			children = (
@@ -1384,6 +1410,7 @@
 		0FCF8A341DD013E700F4C906 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				0F6DD6451DF9A7E4002E500D /* CloudApiSdk */,
 				0FCF8A3E1DD013E700F4C906 /* Catalogs */,
 				0F9046391DD855780006E6DD /* IAPHelper */,
 				0F259A981DD3743F005F8403 /* LZMASDK */,
@@ -1891,6 +1918,7 @@
 				0FAF70C01DD95D110054EB93 /* XXTextActivity.m in Sources */,
 				0F07BD141DD95C64006527B7 /* XXPaymentViewController.m in Sources */,
 				0F259ACC1DD37440005F8403 /* Ppmd8.c in Sources */,
+				0F6DD64E1DF9A7E4002E500D /* AppConfiguration.m in Sources */,
 				0F28C23D1DB89A01006A6E4D /* XXPositionColorModel.m in Sources */,
 				0FCF8AA71DD013E700F4C906 /* lgc.c in Sources */,
 				0FAF70BA1DD95D110054EB93 /* XXArchiveActivity.m in Sources */,
@@ -1904,6 +1932,7 @@
 				0FCF8AE31DD0148C00F4C906 /* XXCodeBlockNavigationController.m in Sources */,
 				0F58A4241D90B95F0013806C /* XXBaseTextView.m in Sources */,
 				0F259AC81DD37440005F8403 /* LzmaDec.c in Sources */,
+				0F6DD64F1DF9A7E4002E500D /* CloudApiSdk.m in Sources */,
 				0F13EAF81D88430400DA8A25 /* XXUserDefaultsConfigTableViewCell.m in Sources */,
 				0F0C9A1A1D966E52000E184C /* XXKeyboardButtonView.m in Sources */,
 				0FCF8AC51DD0141A00F4C906 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
@@ -1941,6 +1970,7 @@
 				0F6459A71D85B37D00194057 /* XXRecordConfigTableViewController.m in Sources */,
 				0FFDB0EF1DD9C8A5009C6F1F /* IDMCaptionView.m in Sources */,
 				0FDEFCF01DB47BE300825931 /* XXPickerBaseViewController.m in Sources */,
+				0F6DD6501DF9A7E4002E500D /* SignUtil.m in Sources */,
 				0FCF8AAB1DD013E700F4C906 /* lmathlib.c in Sources */,
 				0FE93CDF1D8A7601004496BC /* XXEmptyNavigationController.m in Sources */,
 				0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */,
@@ -2229,6 +2259,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XXTouchApp/ThirdParty",
+					"$(PROJECT_DIR)/XXTouchApp/Libraries",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				IBSC_NOTICES = NO;
@@ -2284,6 +2315,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XXTouchApp/ThirdParty",
+					"$(PROJECT_DIR)/XXTouchApp/Libraries",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				IBSC_NOTICES = NO;

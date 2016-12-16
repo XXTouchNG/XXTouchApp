@@ -78,10 +78,12 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
             // First
             NSError *err = nil;
             NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@""];
-            BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
-            if (!result)
-            {
-                
+            if (demoPath) {
+                BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
+                if (!result)
+                {
+                    
+                }
             }
             [self setLocalUserConfig:[[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                        kXXLocalConfigHidesMainPath: @YES
@@ -112,7 +114,7 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
             [[NSFileManager defaultManager] createDirectoryAtPath:feverPath withIntermediateDirectories:YES attributes:nil error:&err];
             BOOL isDirectory = NO;
             [[NSFileManager defaultManager] fileExistsAtPath:feverPath isDirectory:&isDirectory];
-            if (isDirectory == NO) {
+            if (!isDirectory) {
                 NSAssert(err == nil, @"Cannot access root directory");
             }
             _rootPath = feverPath;

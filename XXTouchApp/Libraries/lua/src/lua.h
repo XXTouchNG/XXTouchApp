@@ -486,5 +486,6 @@ void *fakein();
 void *fakeout();
 void *fakeerr();
 void fakeio(void *fin, void *fout, void *ferr);
+int interactive (int argc, char **argv);
 
 #endif

@@ -307,6 +307,7 @@ static int pushline (lua_State *L, int firstline) {
   char *b = buffer;
   size_t l;
   const char *prmt = get_prompt(L, firstline);
+  if (fakein() == NULL || fakeout() == NULL) return 0;
   int readstatus = lua_readline(L, b, prmt);
   if (readstatus == 0)
     return 0;  /* no input (prompt will be popped by caller) */
@@ -411,7 +412,9 @@ static void doREPL (lua_State *L) {
     else report(L, status);
   }
   lua_settop(L, 0);  /* clear stack */
-  lua_writeline();
+  if (fakeout() != NULL) {
+    lua_writeline();
+  }
   progname = oldprogname;
 }
 

@@ -513,15 +513,13 @@
             if (event &&
                 [event isKindOfClass:[NSString class]]) {
                 if ([event isEqualToString:@"bind_code"]) {
-                    if (daemonInstalled()) {
-                        if (jsonObj[@"code"] &&
-                            [jsonObj[@"code"] isKindOfClass:[NSString class]] &&
-                            [jsonObj[@"code"] length] != 0) {
-                            NSString *code = jsonObj[@"code"];
-                            [self.navigationController.view makeToast:NSLocalizedString(@"Binding code", nil)];
-                            [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
-                            return;
-                        }
+                    if (jsonObj[@"code"] &&
+                        [jsonObj[@"code"] isKindOfClass:[NSString class]] &&
+                        [jsonObj[@"code"] length] != 0) {
+                        NSString *code = jsonObj[@"code"];
+                        [self.navigationController.view makeToast:NSLocalizedString(@"Binding code", nil)];
+                        [self performSelector:@selector(codeBindingToController:) withObject:code afterDelay:2.f];
+                        return;
                     }
                 } else if ([event isEqualToString:@"down_script"]) {
                     if (jsonObj[@"path"] &&

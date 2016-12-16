@@ -24,7 +24,7 @@
 
 - (NSString *)activityTitle
 {
-    return NSLocalizedString(@"Run as Lua", nil);
+    return NSLocalizedString(@"Preview as Lua", nil);
 }
 
 - (UIImage *)activityImage

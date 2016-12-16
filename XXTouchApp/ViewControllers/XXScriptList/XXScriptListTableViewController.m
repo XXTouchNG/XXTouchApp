@@ -26,6 +26,8 @@
 #import "NSFileManager+RealDestination.h"
 #import "NSFileManager+Size.h"
 
+#import "NSArray+FindString.h"
+
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
 
@@ -66,7 +68,7 @@ UISearchDisplayDelegate
     [super awakeFromNib];
     self.currentDirectory = [ROOT_PATH mutableCopy];
     self.rootItemsDictionaryArr = [NSMutableArray new];
-    if (daemonInstalled() == NO && self.isRootDirectory == YES) {
+    if (!daemonInstalled() && self.isRootDirectory) {
         self.navigationItem.leftBarButtonItem = self.aboutBtn;
     }
 }
@@ -298,7 +300,7 @@ UISearchDisplayDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        if (self.isRootDirectory && self.hidesMainPath == NO) {
+        if (self.isRootDirectory && !self.hidesMainPath) {
             return 1;
         } else {
             return 0;
@@ -353,7 +355,7 @@ UISearchDisplayDelegate
     XXSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:kXXScriptListCellReuseIdentifier forIndexPath:indexPath];
     
     NSDictionary *attrs = nil;
-    if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
+    if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && !self.hidesMainPath) {
         NSError *err = nil;
         NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
         if (rootPath) {
@@ -387,9 +389,9 @@ UISearchDisplayDelegate
     if (_selectBootscript) {
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else {
-        cell.accessoryType = cell.isSpecial == NO ?
-        UITableViewCellAccessoryDetailDisclosureButton :
-        UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = cell.isSpecial ?
+        UITableViewCellAccessoryDisclosureIndicator :
+        UITableViewCellAccessoryDetailDisclosureButton;
     
         UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongPress:)];
         longPressGesture.delegate = self;
@@ -397,7 +399,7 @@ UISearchDisplayDelegate
     
         NSMutableArray <MGSwipeButton *> *leftActionsArr = [[NSMutableArray alloc] init];
         NSMutableArray <MGSwipeButton *> *rightActionsArr = [[NSMutableArray alloc] init];
-        if (cell.isSelectable && daemonInstalled() == YES) {
+        if (cell.isSelectable && daemonInstalled()) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-play"] imageByTintColor:[UIColor whiteColor]]
@@ -440,17 +442,16 @@ UISearchDisplayDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-                                                                BOOL result = [XXQuickLookService editFileWithStandardEditor:currentCell.itemAttrs[kXXItemRealPathKey]
-                                                                                                        parentViewController:self
-                                                                                                                  anchorView:tableView
-                                                                                                                  anchorRect:[tableView rectForRowAtIndexPath:indexPath]];
+                                                                BOOL result = [self editFileWithStandardEditor:currentCell.itemAttrs[kXXItemRealPathKey]
+                                                                                                    anchorView:tableView
+                                                                                                    anchorRect:[tableView rectForRowAtIndexPath:indexPath]];
                                                                 if (!result) {
                                                                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                                                                 }
                                                                 return result;
                                                             }]];
         }
-        if (cell.isSpecial == NO) {
+        if (!cell.isSpecial) {
             @weakify(self);
             [leftActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                 icon:[[UIImage imageNamed:@"action-info"] imageByTintColor:[UIColor whiteColor]]
@@ -466,7 +467,7 @@ UISearchDisplayDelegate
                                                                 return YES;
                                                             }]];
         }
-        if (cell.isSpecial == NO) {
+        if (!cell.isSpecial) {
             @weakify(self);
             [rightActionsArr addObject:[MGSwipeButton buttonWithTitle:nil
                                                                  icon:[[UIImage imageNamed:@"action-trash"] imageByTintColor:[UIColor whiteColor]]
@@ -529,14 +530,14 @@ UISearchDisplayDelegate
     if (_selectBootscript) {
         return NO;
     }
-    return (self.isEditing == NO);
+    return (!self.isEditing);
 }
 
 - (void)cellLongPress:(UIGestureRecognizer *)recognizer {
-    if (self.isEditing == NO && recognizer.state == UIGestureRecognizerStateBegan) {
+    if (!self.isEditing && recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint location = [recognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-        if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
+        if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && !self.hidesMainPath) {
             if (isJailbroken()) {
                 XXSwipeableCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 [cell becomeFirstResponder];
@@ -565,7 +566,7 @@ UISearchDisplayDelegate
 }
 
 - (void)hideItemTapped:(id)sender {
-    if (self.isRootDirectory && self.hidesMainPath == NO) {
+    if (self.isRootDirectory && !self.hidesMainPath) {
         NSMutableDictionary *dict = [[XXLocalDataService sharedInstance] localUserConfig];
         [dict setObject:@YES forKey:kXXLocalConfigHidesMainPath];
         [[XXLocalDataService sharedInstance] setLocalUserConfig:dict];
@@ -649,8 +650,8 @@ UISearchDisplayDelegate
     // It is OK if the last cell is not in display cuz the lastCell may be nil and nothing will happen if a message be sent to the nil
     XXSwipeableCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (currentCell.isSelectable && isJailbroken() == YES) {
-        if (daemonInstalled() == YES) {
+    if (currentCell.isSelectable && isJailbroken()) {
+        if (daemonInstalled()) {
             if (!currentCell.checked) {
                 XXSwipeableCell *lastCell = nil;
                 for (XXSwipeableCell *cell in tableView.visibleCells) {
@@ -687,10 +688,9 @@ UISearchDisplayDelegate
             if (_selectBootscript) {
                 [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
-                BOOL result = [XXQuickLookService viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
-                                                        parentViewController:self
-                                                                  anchorView:tableView
-                                                                  anchorRect:[tableView rectForRowAtIndexPath:indexPath]];
+                BOOL result = [self viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
+                                                    anchorView:tableView
+                                                    anchorRect:[tableView rectForRowAtIndexPath:indexPath]];
                 if (!result) {
                     [self.navigationController.view makeToast:NSLocalizedString(@"Unsupported file type", nil)];
                 }
@@ -703,14 +703,14 @@ UISearchDisplayDelegate
     if (_selectBootscript) {
         return NO;
     }
-    if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && self.hidesMainPath == NO) {
+    if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && !self.hidesMainPath) {
         return NO;
     }
     return YES;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.row == 0 && self.isEditing && self.isRootDirectory && self.hidesMainPath == NO) {
+    if (indexPath.section == 0 && indexPath.row == 0 && self.isEditing && self.isRootDirectory && !self.hidesMainPath) {
         return nil;
     }
     return indexPath;
@@ -949,6 +949,14 @@ UISearchDisplayDelegate
             [act prepareWithActivityItems:urlsArr];
             [act performActivityWithController:self];
         }
+    } else if (sender == self.topToolbar.terminalButton) {
+        if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+            XXTerminalActivity *act = [[XXTerminalActivity alloc] init];
+            [act performActivityWithController:self];
+        } else {
+            XXPaymentActivity *act = [[XXPaymentActivity alloc] init];
+            [act performActivityWithController:self];
+        }
     }
 }
 
@@ -987,6 +995,140 @@ UISearchDisplayDelegate
 - (void)showAboutController:(UIBarButtonItem *)sender {
     XXAboutTableViewController *aboutController = (XXAboutTableViewController *)[STORYBOARD instantiateViewControllerWithIdentifier:kXXAboutTableViewControllerStoryboardID];
     [self.navigationController pushViewController:aboutController animated:YES];
+}
+
+#pragma mark - Type Viewers
+
+- (NSArray *)viewerActivities {
+    if (daemonInstalled()) {
+        return @[
+                 [XXWebActivity class],
+                 [XXImageActivity class],
+                 [XXMediaActivity class],
+                 [XXUnarchiveActivity class],
+                 ];
+    } else if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+        return @[
+                 [XXTerminalActivity class],
+                 [XXWebActivity class],
+                 [XXImageActivity class],
+                 [XXMediaActivity class],
+                 [XXUnarchiveActivity class],
+                 ];
+    } else {
+        return @[
+                 [XXPaymentActivity class],
+                 [XXWebActivity class],
+                 [XXImageActivity class],
+                 [XXMediaActivity class],
+                 [XXUnarchiveActivity class],
+                 ];
+    }
+}
+
+#pragma mark - Type Editors
+
+- (NSArray *)editorActivities {
+    return @[
+             [XXTextActivity class],
+             ];
+}
+
+#pragma mark - Open In...
+
+- (BOOL)viewFileWithStandardViewer:(NSString *)filePath
+                        anchorView:(UIView *)anchorView
+                        anchorRect:(CGRect)anchorRect
+{
+    NSString *fileExt = [[filePath pathExtension] lowercaseString];
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    for (Class actClass in [self viewerActivities]) {
+        if ([[actClass supportedExtensions] existsString:fileExt])
+        {
+            XXBaseActivity *act = [[actClass alloc] init];
+            [act setFileURL:fileURL];
+            [act performActivityWithController:self];
+            return YES;
+        }
+    }
+    { // Not supported
+        NSMutableArray *acts = [[NSMutableArray alloc] init];
+        for (Class actClass in [self viewerActivities]) {
+            XXBaseActivity *act = [[actClass alloc] init];
+            act.baseController = self;
+            [acts addObject:act];
+        }
+        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:acts];
+        [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+                UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                [popover presentPopoverFromRect:anchorRect
+                                         inView:anchorView
+                       permittedArrowDirections:UIPopoverArrowDirectionAny
+                                       animated:YES];
+                return YES;
+            }
+            controller.popoverPresentationController.sourceView = anchorView;
+            controller.popoverPresentationController.sourceRect = anchorRect;
+        }
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+        return YES;
+    }
+    return NO;
+}
+
+
+- (BOOL)editFileWithStandardEditor:(NSString *)filePath
+                        anchorView:(UIView *)anchorView
+                        anchorRect:(CGRect)anchorRect
+{
+    NSString *fileExt = [[filePath pathExtension] lowercaseString];
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    for (Class actClass in [self editorActivities]) {
+        if ([[actClass supportedExtensions] existsString:fileExt])
+        {
+            XXBaseActivity *act = [[actClass alloc] init];
+            [act setFileURL:fileURL];
+            [act performActivityWithController:self];
+            return YES;
+        }
+    }
+    { // Not supported
+        NSMutableArray *acts = [[NSMutableArray alloc] init];
+        for (Class actClass in [self editorActivities]) {
+            XXBaseActivity *act = [[actClass alloc] init];
+            act.baseController = self;
+            [acts addObject:act];
+        }
+        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:acts];
+        [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+                UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                [popover presentPopoverFromRect:anchorRect
+                                         inView:anchorView
+                       permittedArrowDirections:UIPopoverArrowDirectionAny
+                                       animated:YES];
+                self.currentPopoverController = popover;
+                popover.delegate = self;
+                popover.passthroughViews = nil;
+                return YES;
+            }
+            controller.popoverPresentationController.sourceView = anchorView;
+            controller.popoverPresentationController.sourceRect = anchorRect;
+        }
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+        return YES;
+    }
+    return NO;
+}
+
+
+#pragma mark - UIPopoverControllerDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+    self.currentPopoverController = nil;
 }
 
 #pragma mark - Memory

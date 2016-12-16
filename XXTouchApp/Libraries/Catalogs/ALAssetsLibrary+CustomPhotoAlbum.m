@@ -166,7 +166,7 @@
       *stop = YES;
     }
     
-    if (group == nil && albumWasFound == NO) {
+    if (group == nil && !albumWasFound) {
       // Photo albums are over, target album does not exist, thus create it
       
       // Since you use the assets library inside the block,

@@ -643,7 +643,7 @@
     _counterLabel.backgroundColor = [UIColor clearColor];
     _counterLabel.font = [UIFont fontWithName:@"Helvetica" size:17];
 
-    if(_useWhiteBackgroundColor == NO) {
+    if (!_useWhiteBackgroundColor) {
         _counterLabel.textColor = [UIColor whiteColor];
         _counterLabel.shadowColor = [UIColor darkTextColor];
         _counterLabel.shadowOffset = CGSizeMake(0, 1);

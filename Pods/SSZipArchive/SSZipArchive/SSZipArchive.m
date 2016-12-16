@@ -333,7 +333,7 @@
                             NSDictionary *attr = @{NSFileModificationDate: orgDate};
 
                             if (attr) {
-                                if ([fileManager setAttributes:attr ofItemAtPath:fullPath error:nil] == NO) {
+                                if (![fileManager setAttributes:attr ofItemAtPath:fullPath error:nil]) {
                                     // Can't set attributes
                                     NSLog(@"[SSZipArchive] Failed to set attributes - whilst setting modification date");
                                 }
@@ -353,7 +353,7 @@
                             attrs[NSFilePosixPermissions] = permissionsValue;
 
                             // Update attributes
-                            if ([fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil] == NO) {
+                            if (![fileManager setAttributes:attrs ofItemAtPath:fullPath error:nil]) {
                                 // Unable to set the permissions attribute
                                 NSLog(@"[SSZipArchive] Failed to set attributes - whilst setting permissions");
                             }

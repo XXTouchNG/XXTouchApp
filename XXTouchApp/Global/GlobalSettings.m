@@ -11,6 +11,7 @@
 #import "XXLocalDataService.h"
 #import "XXQuickLookService.h"
 #import "UMMobClick/MobClick.h"
+#import "CloudApiSdk.h"
 
 @implementation GlobalSettings
 
@@ -63,6 +64,10 @@
     UMConfigInstance.channelId = @"Cydia";
     
     [MobClick startWithConfigure:UMConfigInstance];
+    
+    [[AppConfiguration instance] setAPP_KEY:ALIYUN_APPKEY];
+    [[AppConfiguration instance] setAPP_SECRET:ALIYUN_APPSECRERT];
+    [[AppConfiguration instance] setAPP_CONNECTION_TIMEOUT:10.f];
 }
 
 @end

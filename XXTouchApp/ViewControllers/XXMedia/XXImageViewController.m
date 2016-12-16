@@ -22,7 +22,7 @@
 #pragma mark - IDMPhotoBrowserDelegate
 
 - (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser didDismissAtPageIndex:(NSUInteger)index {
-    if (self.activity && self.activity.activeDirectly == NO) {
+    if (self.activity && !self.activity.activeDirectly) {
         [self.activity activityDidFinish:YES];
     }
 }

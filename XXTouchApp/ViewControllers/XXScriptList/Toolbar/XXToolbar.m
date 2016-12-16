@@ -31,7 +31,11 @@
 
 - (NSArray <UIBarButtonItem *> *)defaultToolbarButtons {
     if (!_defaultToolbarButtons) {
-        _defaultToolbarButtons = @[self.scanButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
+        if (daemonInstalled()) {
+            _defaultToolbarButtons = @[self.scanButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
+        } else {
+            _defaultToolbarButtons = @[self.terminalButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
+        }
     }
     return _defaultToolbarButtons;
 }
@@ -140,6 +144,17 @@
         _trashButton = trashButton;
     }
     return _trashButton;
+}
+
+- (UIBarButtonItem *)terminalButton {
+    if (!_terminalButton) {
+        UIBarButtonItem *terminalButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-terminal"]
+                                                                           style:UIBarButtonItemStyleBordered
+                                                                          target:self.tapDelegate
+                                                                          action:@selector(toolbarButtonTapped:)];
+        _terminalButton = terminalButton;
+    }
+    return _terminalButton;
 }
 
 @end

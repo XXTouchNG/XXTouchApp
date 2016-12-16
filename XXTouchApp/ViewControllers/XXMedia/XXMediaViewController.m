@@ -82,7 +82,7 @@
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:^() {
-        if (self.activity && self.activity.activeDirectly == NO) {
+        if (self.activity && !self.activity.activeDirectly) {
             [self.activity activityDidFinish:YES];
         }
     }];

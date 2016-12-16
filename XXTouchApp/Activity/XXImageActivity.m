@@ -42,9 +42,9 @@
     for (NSString *filePath in pathArray) {
         BOOL isDirectory = NO;
         BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
-        if (exists == YES &&
-            isDirectory == NO &&
-            [path isEqualToString:filePath] == NO) {
+        if (exists &&
+            !isDirectory &&
+            ![path isEqualToString:filePath]) {
             NSString *fileExt = [[filePath pathExtension] lowercaseString];
             if ([[[self class] supportedExtensions] existsString:fileExt])
             {

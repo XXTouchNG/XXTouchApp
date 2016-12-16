@@ -11,6 +11,7 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 #import "NSString+XQueryComponents.h"
+#import "CloudApiSdk.h"
 
 #define CHECK_ERROR(ret) if (*error != nil) return ret;
 
@@ -56,10 +57,21 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                          error:(NSError **)error
 {
     NSURL *url = [NSURL URLWithString:[remoteUrl() stringByAppendingString:command]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.f];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    if (dict) [request setHTTPBody:[[dict stringFromQueryComponents] dataUsingEncoding:NSUTF8StringEncoding]];
+    if (!dict)
+    {
+        return nil;
+    }
+    NSURLRequest *request = [CloudApiSdk buildRequest:@"http://"
+                                               method:@"POST"
+                                                 host:[url host]
+                                                 path:[url path]
+                                           pathParams:nil
+                                          queryParams:nil
+                                           formParams:dict
+                                                 body:nil
+                                   requestContentType:@"application/x-www-form-urlencoded"
+                                    acceptContentType:@"application/json"
+                                         headerParams:nil];
     NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error]; CHECK_ERROR(nil);
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error]; CHECK_ERROR(nil);
     return result;
@@ -215,8 +227,10 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"device_auth_info" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
+        NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
         if (expirationInterval > 0) {
             [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+            [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
         }
         return YES;
     } else
@@ -231,15 +245,18 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                                                                       @"sv": deviceInfo[kXXDeviceInfoSystemVersion],
                                                                                       @"v": deviceInfo[kXXDeviceInfoSoftwareVersion],
                                                                                       @"dt": deviceInfo[kXXDeviceInfoDeviceType],
-                                                                                      @"ts": @((int)[[NSDate date] timeIntervalSince1970])
+                                                                                      @"ts": [@((int)[[NSDate date] timeIntervalSince1970]) stringValue],
+                                                                                      @"sn": deviceInfo[kXXDeviceInfoSerialNumber],
                                                                                       }];
     NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
     [sendDict setObject:checkStr forKey:@"sign"];
     NSDictionary *result = [self sendRemoteSynchronousRequest:@"device_info" withForm:sendDict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
+        NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
         if (expirationInterval > 0) {
             [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+            [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
         }
         return YES;
     } else
@@ -270,17 +287,21 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)remoteBindCode:(NSString *)bind
                  error:(NSError **)error {
     NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+    if (!deviceInfo) {
+        return NO;
+    }
     NSMutableDictionary *sendDict = [[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                       @"did": deviceInfo[kXXDeviceInfoUniqueID],
                                                                                       @"code": bind,
                                                                                       @"sv": deviceInfo[kXXDeviceInfoSystemVersion],
                                                                                       @"v": deviceInfo[kXXDeviceInfoSoftwareVersion],
                                                                                       @"dt": deviceInfo[kXXDeviceInfoDeviceType],
-                                                                                      @"ts": @((int)[[NSDate date] timeIntervalSince1970])
+                                                                                      @"ts": [@((int)[[NSDate date] timeIntervalSince1970]) stringValue],
+                                                                                      @"sn": deviceInfo[kXXDeviceInfoSerialNumber],
                                                                                       }];
     NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
     [sendDict setObject:checkStr forKey:@"sign"];
-    NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code_with_device" withForm:sendDict error:error]; CHECK_ERROR(NO);
+    NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code" withForm:sendDict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];

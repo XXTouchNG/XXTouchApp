@@ -76,7 +76,7 @@ XXEditorSettingsTableViewControllerDelegate>
     NSString *fileExt = [[self.filePath pathExtension] lowercaseString];
     self.isLuaCode = [fileExt isEqualToString:@"lua"];
     self.navigationItem.leftBarButtonItem = self.closeItem;
-    if (self.isLuaCode == YES && daemonInstalled() == NO) {
+    if (self.isLuaCode && !daemonInstalled()) {
         self.navigationItem.rightBarButtonItem = self.launchItem;
     } else {
         self.navigationItem.rightBarButtonItem = self.shareItem;
@@ -372,7 +372,7 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:^() {
-        if (self.activity && self.activity.activeDirectly == NO) {
+        if (self.activity && !self.activity.activeDirectly) {
             [self.activity activityDidFinish:YES];
         }
     }];
@@ -606,14 +606,14 @@ XXEditorSettingsTableViewControllerDelegate>
             self.searchBar.frame = searchBarFrame;
             [self updateTextViewInsetsWithKeyboardNotification:nil];
         } completion:^(BOOL finished) {
-            if (self.searchMode == NO) {
+            if (!self.searchMode) {
                 self.searchBar.hidden = YES;
             }
         }];
     } else {
         self.searchBar.frame = searchBarFrame;
         [self updateTextViewInsetsWithKeyboardNotification:nil];
-        if (self.searchMode == NO) {
+        if (!self.searchMode) {
             self.searchBar.hidden = YES;
         }
     }
@@ -803,7 +803,7 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)menuActionCodeBlocks:(UIMenuItem *)sender {
-    if (self.textView.isEditable == NO) {
+    if (!self.textView.isEditable) {
         [self.navigationController.view makeToast:NSLocalizedString(@"This document is read-only", nil)];
         return;
     }

@@ -38,6 +38,8 @@ static SKProduct * currentProduct = nil;
             NSSet* dataSet = [[NSSet alloc] initWithObjects:kXXIAPProductIDEnv, nil];
             [IAPShare sharedHelper].iap = [[IAPHelper alloc] initWithProductIdentifiers:dataSet];
 #ifdef DEBUG
+            [[XXLocalDataService sharedInstance] setPurchasedProduct:NO];
+            [[IAPShare sharedHelper].iap clearSavedPurchasedProducts];
             [IAPShare sharedHelper].iap.production = NO;
 #else
             [IAPShare sharedHelper].iap.production = YES;
@@ -47,8 +49,8 @@ static SKProduct * currentProduct = nil;
         @[
           @{
               @"titleImage": [UIImage imageNamed:@"feature-console"],
-              @"title": NSLocalizedString(@"Built-in Lua Interpreter", nil),
-              @"subtitle": NSLocalizedString(@"A console with standard input / output which allows you to run Lua Script inside Lua Virtual Machine.", nil),
+              @"title": NSLocalizedString(@"Built-in Lua Simulator", nil),
+              @"subtitle": NSLocalizedString(@"A console with standard input / output which allows you to test Lua Script inside Lua Simulator.", nil),
               },
           @{
               @"titleImage": [UIImage imageNamed:@"feature-snippets"],
@@ -140,14 +142,16 @@ static SKProduct * currentProduct = nil;
 #pragma mark - IAP
 
 - (void)checkPurchase {
+    BOOL localPurchased = [[XXLocalDataService sharedInstance] purchasedProduct];
     if (
-        [[IAPShare sharedHelper].iap isPurchasedProductsIdentifier:kXXIAPProductIDEnv]
+        [[IAPShare sharedHelper].iap isPurchasedProductsIdentifier:kXXIAPProductIDEnv] ||
+        localPurchased
         )
     {
         self.purchaseBtn.enabled = NO;
         self.restoreBtn.enabled = NO;
         self.thankyouLabel.text = NSLocalizedString(@"Thank you for buying XXTouch Pro Features, you're awesome!", nil);
-        if ([[XXLocalDataService sharedInstance] purchasedProduct] == NO) {
+        if (!localPurchased) {
             [[XXLocalDataService sharedInstance] setPurchasedProduct:YES];
             [self alertWithMessage:NSLocalizedString(@"Purchase restored automatically, thank you for your purchase.", nil) exitWhenPressOK:YES];
         }
@@ -186,7 +190,6 @@ static SKProduct * currentProduct = nil;
                                                 NSForegroundColorAttributeName: [UIColor whiteColor],
                                                 }];
     [self.purchaseBtn setAttributedTitle:attrPurchaseString forState:UIControlStateNormal];
-    self.purchaseBtn.userInteractionEnabled = YES;
     self.restoreBtn.userInteractionEnabled = YES;
 }
 
@@ -224,7 +227,6 @@ static SKProduct * currentProduct = nil;
 - (UIButton *)purchaseBtn {
     if (!_purchaseBtn) {
         UIButton *purchaseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 96.f, 28.f)];
-        purchaseBtn.userInteractionEnabled = NO;
         purchaseBtn.backgroundColor = [UIColor colorWithRGB:0x1ABC9C];
         purchaseBtn.layer.cornerRadius = 6.f;
         purchaseBtn.showsTouchWhenHighlighted = YES;
@@ -289,14 +291,17 @@ static SKProduct * currentProduct = nil;
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:^() {
-        if (self.activity && self.activity.activeDirectly == NO) {
+        if (self.activity && !self.activity.activeDirectly) {
             [self.activity activityDidFinish:YES];
         }
     }];
 }
 
 - (void)purchaseBtnTapped:(UIButton *)sender {
-    if (!currentProduct) return;
+    if (!currentProduct) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Product is not ready, please try again in a little while.", nil)];
+        return;
+    }
     @weakify(self);
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];

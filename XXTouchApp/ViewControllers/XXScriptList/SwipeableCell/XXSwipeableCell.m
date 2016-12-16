@@ -60,13 +60,13 @@
 }
 
 - (BOOL)isSelectable {
-    if (self.isEditable == NO) return NO;
+    if (!self.isEditable) return NO;
     NSString *fileExt = [[self.itemAttrs[kXXItemPathKey] pathExtension] lowercaseString];
     return [[XXQuickLookService selectableFileExtensions] existsString:fileExt];
 }
 
 - (BOOL)isEditable {
-    return (self.isSpecial == NO && self.isDirectory == NO);
+    return (!self.isSpecial && !self.isDirectory);
 }
 
 - (BOOL)isSpecial {

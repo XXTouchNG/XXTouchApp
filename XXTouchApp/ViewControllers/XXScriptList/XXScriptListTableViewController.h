@@ -10,9 +10,10 @@
 
 static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
 
-@interface XXScriptListTableViewController : UIViewController
+@interface XXScriptListTableViewController : UIViewController <UIPopoverControllerDelegate>
 @property (nonatomic, assign) BOOL selectBootscript;
 @property (nonatomic, weak) UIViewController *selectViewController;
 @property (nonatomic, copy) NSString *currentDirectory;
+@property (nonatomic, strong) UIPopoverController *currentPopoverController;
 
 @end

@@ -165,9 +165,12 @@ enum {
 - (BOOL)loadDeviceAndAuthorizationInfo {
     NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
     NSDate *expirationDate = [[XXLocalDataService sharedInstance] expirationDate];
+    NSDate *nowDate = [[XXLocalDataService sharedInstance] nowDate];
     if (deviceInfo != nil &&
-        expirationDate != nil) {
+        expirationDate != nil &&
+        nowDate != nil) {
         self.authorizationField.enabled = YES;
+        self.expiredAtLabel.textColor = ([nowDate timeIntervalSinceDate:expirationDate] >= 0) ? [UIColor redColor] : STYLE_TINT_COLOR;
         self.expiredAtLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:expirationDate];
         self.softwareVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSoftwareVersion];
         self.systemVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSystemVersion];
