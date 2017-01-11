@@ -37,13 +37,7 @@ static SKProduct * currentProduct = nil;
         {
             NSSet* dataSet = [[NSSet alloc] initWithObjects:kXXIAPProductIDEnv, nil];
             [IAPShare sharedHelper].iap = [[IAPHelper alloc] initWithProductIdentifiers:dataSet];
-#ifdef DEBUG
-            [[XXLocalDataService sharedInstance] setPurchasedProduct:NO];
-            [[IAPShare sharedHelper].iap clearSavedPurchasedProducts];
-            [IAPShare sharedHelper].iap.production = NO;
-#else
             [IAPShare sharedHelper].iap.production = YES;
-#endif
         }
         self.featuresArray =
         @[

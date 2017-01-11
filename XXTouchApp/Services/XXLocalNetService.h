@@ -58,4 +58,6 @@
 + (BOOL)localSetUserConfWithError:(NSError **)error;
 
 + (BOOL)localCheckSyntax:(NSString *)content error:(NSError **)error;
+
++ (NSString *)latestVersionFromRepositoryPackagesWithError:(NSError **)error;
 @end

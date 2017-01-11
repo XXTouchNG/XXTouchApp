@@ -42,7 +42,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                 withData:(NSData *)data
                                    error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[apiUrl() stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[extendDict()[@"localApi"] stringByAppendingString:command]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -56,7 +56,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                       withForm:(NSDictionary *)dict
                                          error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[remoteUrl() stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[extendDict()[@"remoteApi"] stringByAppendingString:command]];
     if (!dict)
     {
         return nil;
@@ -75,6 +75,47 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error]; CHECK_ERROR(nil);
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error]; CHECK_ERROR(nil);
     return result;
+}
+
++ (NSString *)latestVersionFromRepositoryPackagesWithError:(NSError **)error {
+    NSURL *url = [NSURL URLWithString:extendDict()[@"updateApi"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    NSData *received = [NSURLConnection sendSynchronousRequest:request
+                                             returningResponse:nil
+                                                         error:error]; CHECK_ERROR(nil);
+    if (!received) {
+        return nil;
+    }
+    NSString *packagesContent = [[NSString alloc] initWithData:received encoding:NSUTF8StringEncoding];
+    if (!packagesContent) {
+        return nil;
+    }
+    NSString *targetVersion = nil;
+    NSArray <NSString *> *packagesContentArray = [packagesContent componentsSeparatedByString:@"\n\n"];
+    for (NSString *packageContent in packagesContentArray) {
+        NSString *version = nil;
+        BOOL targetPackage = NO;
+        NSArray <NSString *> *packageContentLines = [packageContent componentsSeparatedByString:@"\n"];
+        for (NSString *packageContentLine in packageContentLines) {
+            if (packageContentLine.length > 9) {
+                if ([packageContentLine rangeOfString:@"Package: "].location == 0) {
+                    NSString *identifier = [packageContentLine substringFromIndex:9];
+                    if ([identifier isEqualToString:extendDict()[@"updatePackage"]]) {
+                        targetPackage = YES;
+                    }
+                } else if ([packageContentLine rangeOfString:@"Version: "].location == 0) {
+                    version = [packageContentLine substringFromIndex:9];
+                }
+            }
+            
+        }
+        if (targetPackage) {
+            targetVersion = version;
+            break;
+        }
+    }
+    return targetVersion;
 }
 
 + (NSDictionary *)sendSynchronousRequest:(NSString *)command

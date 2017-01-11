@@ -18,8 +18,23 @@ static NSString * const tmpLockedItemPath = @"/private/var/tmp/1ferver_need_resp
 static inline BOOL isJailbroken() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        jailbroken = [[UIDevice currentDevice] isJailbroken];
+        jailbroken = NO;
+        NSArray *paths = @[ @"/Applications/Cydia.app" ];
+        for (NSString *path in paths) {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+                jailbroken = YES;
+                break;
+            }
+        }
+        FILE *bash = fopen("/bin/bash", "r");
+        if (bash != NULL) {
+            fclose(bash);
+            jailbroken = YES;
+        }
     });
+#ifdef DEBUG
+    return YES;
+#endif
     return jailbroken;
 }
 
@@ -32,6 +47,9 @@ static inline BOOL daemonInstalled() {
             installed = NO;
         }
     });
+#ifdef DEBUG
+    return YES;
+#endif
     return installed;
 }
 
@@ -51,24 +69,8 @@ static inline void loadExtendApis() {
     }
 }
 
-static inline NSString *apiUrl() {
+static inline NSDictionary *extendDict() {
     loadExtendApis();
-    return extendApisDict[@"localApi"];
+    return extendApisDict;
 }
-
-static inline NSString *remoteAccessUrl() {
-    loadExtendApis();
-    return extendApisDict[@"remoteApi"];
-}
-
-static inline NSString *remoteUrl() {
-    loadExtendApis();
-    return extendApisDict[@"authApi"];
-}
-
-typedef enum : NSUInteger {
-    kXXLocalCommandMethodGET  = 0,
-    kXXLocalCommandMethodPOST = 1,
-} XXLocalCommandMethod;
-
 #endif /* XXLocalDefines_h */

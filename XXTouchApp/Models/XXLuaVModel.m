@@ -35,7 +35,6 @@ void luaL_setPath(lua_State* L, const char *key, const char *path)
 void luaL_terminate(lua_State *L, lua_Debug *ar)
 {
     if (!running) {
-        CYLog(@"perform long jump");
         longjmp(buf, 1);
     }
 }
@@ -85,15 +84,11 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
     }
     
     fakeio(self.stdinReadHandler, self.stdoutHandler, self.stderrHandler);
-    CYLog(@"faked io");
     
     L = luaL_newstate();
     NSAssert(L, @"not enough memory");
-    CYLog(@"launched vm");
     lua_sethook(L, &luaL_terminate, LUA_MASKLINE, 1);
-    CYLog(@"set line hook");
     luaL_openlibs(L);
-    CYLog(@"opened libs");
 }
 
 #pragma mark - Setters
@@ -106,12 +101,10 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
     running = r;
     if (!r)
     {
-//        fakeio(NULL, NULL, NULL);
         char *emptyBuf = malloc(8192 * sizeof(char));
         memset(emptyBuf, 0x0a, 8192);
         write(fileno(self.stdinWriteHandler), emptyBuf, 8192);
         free(emptyBuf);
-        CYLog(@"filled stdin");
     }
     if (_delegate && [_delegate respondsToSelector:@selector(virtualMachineDidChangedState:)])
     {
@@ -143,7 +136,6 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
     NSString *cPath = [NSString stringWithFormat:@"%@;", [dirPath stringByAppendingPathComponent:@"?.so"]];
     luaL_setPath(L, "path", sPath.UTF8String);
     luaL_setPath(L, "cpath", cPath.UTF8String);
-    CYLog(@"set path");
 }
 
 #pragma mark - REPL
@@ -182,13 +174,10 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
     self.running = YES;
     int load_stat = 0;
     if (!setjmp(buf)) {
-        CYLog(@"registered jump");
         load_stat = lua_pcall(L, 0, 0, 0);
-        CYLog(@"pcall");
         self.running = NO;
         return [self checkCode:load_stat error:error];
     } else {
-        CYLog(@"jumped here");
         if (error != nil) {
             *error = [NSError errorWithDomain:kXXLuaVModelErrorDomain code:-1 userInfo:@{ NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Thread terminated", nil) }];
         }
@@ -200,10 +189,7 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
 
 - (void)dealloc {
     if (L) lua_close(L);
-    CYLog(@"closed vm");
-    
     fakeio(stdin, stdout, stderr);
-    CYLog(@"canceled io");
     
     if (self.stdoutHandler) {
         fclose(self.stdoutHandler);

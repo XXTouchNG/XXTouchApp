@@ -34,7 +34,7 @@
         if (daemonInstalled()) {
             _defaultToolbarButtons = @[self.scanButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
         } else {
-            _defaultToolbarButtons = @[self.terminalButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
+            _defaultToolbarButtons = @[self.purchaseButton, self.flexibleSpace, self.addItemButton, self.flexibleSpace, self.sortByButton, self.flexibleSpace, self.pasteButton];
         }
     }
     return _defaultToolbarButtons;
@@ -146,15 +146,15 @@
     return _trashButton;
 }
 
-- (UIBarButtonItem *)terminalButton {
-    if (!_terminalButton) {
-        UIBarButtonItem *terminalButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-terminal"]
+- (UIBarButtonItem *)purchaseButton {
+    if (!_purchaseButton) {
+        UIBarButtonItem *purchaseButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"list-purchase"]
                                                                            style:UIBarButtonItemStyleBordered
                                                                           target:self.tapDelegate
                                                                           action:@selector(toolbarButtonTapped:)];
-        _terminalButton = terminalButton;
+        _purchaseButton = purchaseButton;
     }
-    return _terminalButton;
+    return _purchaseButton;
 }
 
 @end

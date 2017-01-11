@@ -49,11 +49,12 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>109</string>
+	<string>110</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>cydia</string>
 		<string>mqqapi</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

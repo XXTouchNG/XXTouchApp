@@ -49,7 +49,11 @@ enum {
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"About", nil);
-    _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
+    if (daemonInstalled()) {
+        _appLabel.text = [NSString stringWithFormat:@"%@\nV%@", NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"daemonVersion"]];
+    } else {
+        _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -63,7 +67,11 @@ enum {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     if (!picker) return;
     picker.mailComposeDelegate = self;
-    [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD]];
+    if (daemonInstalled()) {
+        [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"daemonVersion"]]];
+    } else {
+        [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD]];
+    }
     NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];

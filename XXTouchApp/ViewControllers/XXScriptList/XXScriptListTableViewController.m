@@ -949,14 +949,9 @@ UISearchDisplayDelegate
             [act prepareWithActivityItems:urlsArr];
             [act performActivityWithController:self];
         }
-    } else if (sender == self.topToolbar.terminalButton) {
-        if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
-            XXTerminalActivity *act = [[XXTerminalActivity alloc] init];
-            [act performActivityWithController:self];
-        } else {
-            XXPaymentActivity *act = [[XXPaymentActivity alloc] init];
-            [act performActivityWithController:self];
-        }
+    } else if (sender == self.topToolbar.purchaseButton) {
+        XXPaymentActivity *act = [[XXPaymentActivity alloc] init];
+        [act performActivityWithController:self];
     }
 }
 

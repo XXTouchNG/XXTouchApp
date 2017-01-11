@@ -184,7 +184,7 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
     if (wifiAddress == nil) {
         return nil;
     }
-    return [NSString stringWithFormat:remoteAccessUrl(), wifiAddress];
+    return [NSString stringWithFormat:extendDict()[@"remoteApi"], wifiAddress];
 }
 
 - (BOOL)remoteAccessStatus {

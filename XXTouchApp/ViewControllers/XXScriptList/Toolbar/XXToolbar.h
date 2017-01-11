@@ -25,7 +25,7 @@
 @property (nonatomic, strong) UIBarButtonItem *shareButton;
 @property (nonatomic, strong) UIBarButtonItem *pasteButton;
 @property (nonatomic, strong) UIBarButtonItem *trashButton;
-@property (nonatomic, strong) UIBarButtonItem *terminalButton;
+@property (nonatomic, strong) UIBarButtonItem *purchaseButton;
 
 @property (nonatomic, weak) id <XXToolbarDelegate> tapDelegate;
 
