@@ -244,11 +244,19 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     ARSafariActivity *safariActivity = [[ARSafariActivity alloc] init];
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:@[safariActivity]];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        UIView* view = [sender valueForKey:@"view"];
+        controller.popoverPresentationController.sourceView = view;
+    }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)transferItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:nil];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        UIView* view = [sender valueForKey:@"view"];
+        controller.popoverPresentationController.sourceView = view;
+    }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 

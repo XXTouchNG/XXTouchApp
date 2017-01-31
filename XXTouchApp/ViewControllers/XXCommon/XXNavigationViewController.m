@@ -18,6 +18,7 @@
 #define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore-%@"
 
 @interface XXNavigationViewController ()
+@property (nonatomic, assign) BOOL keyboardGuide;
 
 @end
 
@@ -35,6 +36,16 @@
     [[AppDelegate globalDelegate] setRootViewController:self];
     if (daemonInstalled()) {
         [self checkNeedsRespring];
+    }
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [super setNavigationBarHidden:hidden animated:animated];
+    if (!_keyboardGuide && hidden) {
+        _keyboardGuide = YES;
+        [self.view makeToast:NSLocalizedString(@"Slide down to exit edit mode", nil)
+                    duration:STYLE_TOAST_DURATION
+                    position:CSToastPositionTop];
     }
 }
 
@@ -124,7 +135,7 @@
     dispatch_async_on_main_queue(^{
         SIAlertView *alert = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Check Update", nil)
                                                      andMessage:[NSString stringWithFormat:NSLocalizedString(@"New version available: %@\nCurrent Version: %@", nil), networkVersion, currentVersion]];
-        [alert addButtonWithTitle:NSLocalizedString(@"Update", nil)
+        [alert addButtonWithTitle:NSLocalizedString(@"Update Now", nil)
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               NSURL *cydiaURL = [NSURL URLWithString:CYDIA_URL];
@@ -134,12 +145,12 @@
                                   [self.view makeToast:NSLocalizedString(@"Failed to open Cydia", nil)];
                               }
                           }];
-        [alert addButtonWithTitle:NSLocalizedString(@"Tell me Later", nil)
+        [alert addButtonWithTitle:NSLocalizedString(@"Tell Me Later", nil)
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
                               [[XXLocalDataService sharedInstance] setObject:@(1) forKey:dailyIgnoreKey];
                           }];
-        [alert addButtonWithTitle:NSLocalizedString(@"Ignore this version", nil)
+        [alert addButtonWithTitle:NSLocalizedString(@"Ignore This Version", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               [[XXLocalDataService sharedInstance] setObject:@(1) forKey:versionIgnoreKey];

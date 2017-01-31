@@ -47,7 +47,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     if (data) [request setHTTPBody:data];
-    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error]; CHECK_ERROR(nil);
+    NSHTTPURLResponse *returningResp = nil;
+    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResp error:error]; CHECK_ERROR(nil);
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error]; CHECK_ERROR(nil);
     return result;
 }
@@ -56,7 +57,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                       withForm:(NSDictionary *)dict
                                          error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[extendDict()[@"remoteApi"] stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[extendDict()[@"authApi"] stringByAppendingString:command]];
     if (!dict)
     {
         return nil;
@@ -72,7 +73,17 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                    requestContentType:@"application/x-www-form-urlencoded"
                                     acceptContentType:@"application/json"
                                          headerParams:nil];
-    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error]; CHECK_ERROR(nil);
+    NSHTTPURLResponse *returningResp = nil;
+    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResp error:error];
+    NSDictionary *returningHeadersDict = [returningResp allHeaderFields];
+    if (returningResp.statusCode != 200 &&
+        returningHeadersDict[@"X-Ca-Error-Message"])
+    {
+        *error = [NSError errorWithDomain:kXXErrorDomain
+                                     code:returningResp.statusCode
+                                 userInfo:@{ NSLocalizedDescriptionKey:NSLocalizedString(returningHeadersDict[@"X-Ca-Error-Message"], nil) }];
+    }
+    CHECK_ERROR(nil);
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:received options:0 error:error]; CHECK_ERROR(nil);
     return result;
 }
@@ -291,7 +302,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                                                                       }];
     NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
     [sendDict setObject:checkStr forKey:@"sign"];
-    NSDictionary *result = [self sendRemoteSynchronousRequest:@"device_info" withForm:sendDict error:error]; CHECK_ERROR(NO);
+    NSDictionary *result = [self sendRemoteSynchronousRequest:@"device_info" withForm:sendDict error:error];
+    CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
@@ -342,7 +354,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                                                                       }];
     NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
     [sendDict setObject:checkStr forKey:@"sign"];
-    NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code" withForm:sendDict error:error]; CHECK_ERROR(NO);
+    NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code" withForm:sendDict error:error];
+    CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];

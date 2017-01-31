@@ -33,7 +33,7 @@
     self.autocorrectionType = UITextAutocorrectionTypeNo;
     self.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.dataDetectorTypes = UIDataDetectorTypeNone;
-    self.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+    self.keyboardDismissMode = UIScrollViewKeyboardDismissModeNone;
     self.alwaysBounceVertical = YES;
     self.tintColor = STYLE_TINT_COLOR;
     self.selectedRange = NSMakeRange(0, 0);

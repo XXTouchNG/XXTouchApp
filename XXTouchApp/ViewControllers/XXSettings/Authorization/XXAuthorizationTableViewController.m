@@ -6,6 +6,8 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#include <sys/time.h>
+#include <unistd.h>
 #import "XXAuthorizationTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
@@ -115,6 +117,10 @@ enum {
         [self.authorizationField resignFirstResponder];
     }
     __block NSString *codeText = self.authorizationField.text;
+    if (![codeText matchesRegex:@"^[3-9a-zA-Z]{10,20}$" options:0]) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Invalid Code", nil)];
+        return;
+    }
     SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
 }
 
@@ -157,6 +163,30 @@ enum {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
                 [self loadDeviceAndAuthorizationInfo];
+//                NSDate *nowDate = [[XXLocalDataService sharedInstance] nowDate];
+//                if (fabs([nowDate timeIntervalSinceDate:[NSDate date]]) > 120.f)
+//                {
+//                    struct tm *t_tm;
+//                    struct timeval t_timeval;
+//                    time_t t_timet;
+//                    t_timet = time(NULL);
+//                    t_tm = localtime(&t_timet);
+//                    t_tm->tm_hour = (int)nowDate.hour;
+//                    t_tm->tm_min = (int)nowDate.minute;
+//                    t_tm->tm_sec = (int)nowDate.second;
+//                    t_tm->tm_year = (int)nowDate.year;
+//                    t_tm->tm_mon = (int)nowDate.month - 1;
+//                    t_tm->tm_mday = (int)nowDate.day;
+//                    t_timet = mktime(t_tm);
+//                    t_timeval.tv_sec = t_timet;
+//                    t_timeval.tv_usec = 0;
+//                    int rec = settimeofday(&t_timeval, NULL);
+//                    if (rec == -1) {
+//                        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot calibrate local time: Permission Denied", nil)];
+//                    } else if (rec == 0) {
+//                        [self.navigationController.view makeToast:NSLocalizedString(@"Local time has been calibrated", nil)];
+//                    }
+//                }
             }
         });
     });

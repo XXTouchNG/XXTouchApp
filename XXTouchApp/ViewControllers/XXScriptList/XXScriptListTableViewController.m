@@ -933,6 +933,10 @@ UISearchDisplayDelegate
         if (urlsArr.count != 0) {
             XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
             UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                UIView* view = [sender valueForKey:@"view"];
+                controller.popoverPresentationController.sourceView = view;
+            }
             [self.navigationController presentViewController:controller animated:YES completion:nil];
         } else {
             [self.navigationController.view makeToast:NSLocalizedString(@"You cannot share directory", nil)];

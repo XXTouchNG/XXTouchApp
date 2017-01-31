@@ -356,6 +356,10 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        UIView* view = [sender valueForKey:@"view"];
+        controller.popoverPresentationController.sourceView = view;
+    }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
