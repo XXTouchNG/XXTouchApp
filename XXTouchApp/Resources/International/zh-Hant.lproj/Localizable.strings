@@ -307,3 +307,5 @@ Hide = "隱藏";
 "Timestamp Expired" = "時間戳過期，請校準系統時間";
 "Invalid Code" = "授權碼無效";
 "Service Unavailable" = "伺服器拒絕服務";
+"Dismissed automatically" = "自動忽略";
+"Launch" = "啟動";

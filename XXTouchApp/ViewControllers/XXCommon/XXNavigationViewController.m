@@ -18,7 +18,6 @@
 #define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore-%@"
 
 @interface XXNavigationViewController ()
-@property (nonatomic, assign) BOOL keyboardGuide;
 
 @end
 
@@ -36,16 +35,6 @@
     [[AppDelegate globalDelegate] setRootViewController:self];
     if (daemonInstalled()) {
         [self checkNeedsRespring];
-    }
-}
-
-- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
-    [super setNavigationBarHidden:hidden animated:animated];
-    if (!_keyboardGuide && hidden) {
-        _keyboardGuide = YES;
-        [self.view makeToast:NSLocalizedString(@"Slide down to exit edit mode", nil)
-                    duration:STYLE_TOAST_DURATION
-                    position:CSToastPositionTop];
     }
 }
 
@@ -156,7 +145,13 @@
                               [[XXLocalDataService sharedInstance] setObject:@(1) forKey:versionIgnoreKey];
                           }];
         [alert show];
+        [self performSelector:@selector(autodismissUpdateAlertView:) withObject:alert afterDelay:10.f];
     });
+}
+
+- (void)autodismissUpdateAlertView:(SIAlertView *)alertView {
+    [alertView dismissAnimated:YES];
+    [self.view makeToast:NSLocalizedString(@"Dismissed automatically", nil)];
 }
 
 - (void)handleShortCut:(NSString *)type {

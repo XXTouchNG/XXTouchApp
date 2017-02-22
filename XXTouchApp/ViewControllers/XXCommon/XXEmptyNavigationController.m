@@ -9,6 +9,7 @@
 #import "XXEmptyNavigationController.h"
 
 @interface XXEmptyNavigationController ()
+@property (nonatomic, assign) BOOL keyboardGuide;
 
 @end
 
@@ -24,6 +25,16 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [super setNavigationBarHidden:hidden animated:animated];
+    if (!_keyboardGuide && hidden) {
+        _keyboardGuide = YES;
+        [self.view makeToast:NSLocalizedString(@"Slide down to exit edit mode", nil)
+                    duration:STYLE_TOAST_DURATION
+                    position:CSToastPositionTop];
+    }
 }
 
 @end

@@ -628,14 +628,16 @@
 - (NSString *)scanImageWithZBar:(UIImage *)image {
     ZBarImage *zImage = [[ZBarImage alloc] initWithCGImage:image.CGImage];
     [self.scanner scanImage:zImage];
-    NSString *result = nil;
+    BOOL result = NO;
     for (ZBarSymbol *symbol in self.scanner.results) {
-        result = [symbol data];
+        result = [[symbol data] canBeConvertedToEncoding:NSShiftJISStringEncoding];
         if (result) {
-            break;
+            return [NSString stringWithCString:[[symbol data] cStringUsingEncoding:NSShiftJISStringEncoding] encoding:NSUTF8StringEncoding];
+        } else {
+            return [symbol data];
         }
     }
-    return result;
+    return nil;
 }
 
 @end

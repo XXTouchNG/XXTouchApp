@@ -45,7 +45,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.2</string>
+	<string>1.1.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -76,48 +76,6 @@
 		<string>SourceSansPro-Regular.otf</string>
 		<string>SourceSansPro-Bold.otf</string>
 		<string>SourceSansPro-It.otf</string>
-	</array>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>3d-stop</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Stop</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>Stop</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>firstShorcutKey3</key>
-				<string>firstShortcutKeyValue3</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>3d-launch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Launch</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>Launch</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>firstShorcutKey2</key>
-				<string>firstShortcutKeyValue2</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>3d-scan</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Scan</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>Scan</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>firstShorcutKey1</key>
-				<string>firstShortcutKeyValue1</string>
-			</dict>
-		</dict>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>

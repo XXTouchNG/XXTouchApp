@@ -27,6 +27,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        [self setupShortcutItems];
         [self setupStyle];
         [self setupMedia];
         [self setupStatistics];
@@ -68,6 +69,30 @@
     [[AppConfiguration instance] setAPP_KEY:ALIYUN_APPKEY];
     [[AppConfiguration instance] setAPP_SECRET:ALIYUN_APPSECRERT];
     [[AppConfiguration instance] setAPP_CONNECTION_TIMEOUT:10.f];
+}
+
+- (void)setupShortcutItems {
+    if (daemonInstalled()) {
+        UIApplicationShortcutIcon *stopIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-stop"];
+        UIApplicationShortcutItem *stopItem = [[UIApplicationShortcutItem alloc] initWithType:@"Stop"
+                                                                               localizedTitle:NSLocalizedString(@"Stop", nil)
+                                                                            localizedSubtitle:nil
+                                                                                         icon:stopIcon
+                                                                                     userInfo:@{@"firstShorcutKey3": @"firstShortcutKeyValue3"}];
+        UIApplicationShortcutIcon *launchIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-launch"];
+        UIApplicationShortcutItem *launchItem = [[UIApplicationShortcutItem alloc] initWithType:@"Launch"
+                                                                                 localizedTitle:NSLocalizedString(@"Launch", nil)
+                                                                              localizedSubtitle:nil
+                                                                                           icon:launchIcon
+                                                                                       userInfo:@{@"firstShorcutKey2": @"firstShortcutKeyValue2"}];
+        UIApplicationShortcutIcon *scanIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-scan"];
+        UIApplicationShortcutItem *scanItem = [[UIApplicationShortcutItem alloc] initWithType:@"Scan"
+                                                                               localizedTitle:NSLocalizedString(@"Scan QR Code", nil)
+                                                                            localizedSubtitle:nil
+                                                                                         icon:scanIcon
+                                                                                     userInfo:@{@"firstShorcutKey1": @"firstShortcutKeyValue1"}];
+        [UIApplication sharedApplication].shortcutItems = @[stopItem, launchItem, scanItem];
+    }
 }
 
 @end
