@@ -77,7 +77,7 @@
 }
 
 - (void)checkUpdate {
-    NSString *currentVersion = extendDict()[@"daemonVersion"];
+    NSString *currentVersion = extendDict()[@"DAEMON_VERSION"];
     if (!currentVersion) {
         return;
     }
@@ -127,11 +127,14 @@
         [alert addButtonWithTitle:NSLocalizedString(@"Update Now", nil)
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
-                              NSURL *cydiaURL = [NSURL URLWithString:CYDIA_URL];
-                              if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
-                                  [[UIApplication sharedApplication] openURL:cydiaURL];
-                              } else {
-                                  [self.view makeToast:NSLocalizedString(@"Failed to open Cydia", nil)];
+                              NSString *cydiaStr = extendDict()[@"CYDIA_URL"];
+                              if (cydiaStr) {
+                                  NSURL *cydiaURL = [NSURL URLWithString:cydiaStr];
+                                  if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
+                                      [[UIApplication sharedApplication] openURL:cydiaURL];
+                                  } else {
+                                      [self.view makeToast:NSLocalizedString(@"Failed to open Cydia", nil)];
+                                  }
                               }
                           }];
         [alert addButtonWithTitle:NSLocalizedString(@"Tell Me Later", nil)

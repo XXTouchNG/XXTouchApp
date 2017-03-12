@@ -12,7 +12,7 @@
 #import "ARSafariActivity.h"
 #import "XXQuickLookService.h"
 #import "NSArray+FindString.h"
-#import "NSData+plistData.h"
+#import "NSData+PlistData.h"
 
 static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 

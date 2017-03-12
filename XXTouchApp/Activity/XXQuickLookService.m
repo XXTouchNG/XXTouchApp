@@ -55,32 +55,32 @@
 }
 
 + (NSArray <NSString *> *)imageFileExtensions
-{ // OK
+{
     return [XXImageActivity supportedExtensions];
 }
 
 + (NSArray <NSString *> *)mediaFileExtensions
-{ // OK
+{
     return [XXMediaActivity supportedExtensions];
 }
 
 + (NSArray <NSString *> *)audioFileExtensions
-{ // OK
+{
     return @[ @"m4a", @"aac", @"m4r", @"mp3", @"ogg", @"aif", @"wav" ];
 }
 
 + (NSArray <NSString *> *)videoFileExtensions
-{ // OK
+{
     return @[ @"m4v", @"mov", @"mp4", @"flv", @"mpg", @"avi" ];
 }
 
 + (NSArray <NSString *> *)webViewFileExtensions
-{ // OK
+{
     return [XXWebActivity supportedExtensions];
 }
 
 + (NSArray <NSString *> *)textEditorFileExtensions
-{ // OK
+{
     return [XXTextActivity supportedExtensions];
 }
 

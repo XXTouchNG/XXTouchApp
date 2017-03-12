@@ -42,7 +42,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                 withData:(NSData *)data
                                    error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[extendDict()[@"localApi"] stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[extendDict()[@"LOCAL_API"] stringByAppendingString:command]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -57,7 +57,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
                                       withForm:(NSDictionary *)dict
                                          error:(NSError **)error
 {
-    NSURL *url = [NSURL URLWithString:[extendDict()[@"authApi"] stringByAppendingString:command]];
+    NSURL *url = [NSURL URLWithString:[extendDict()[@"AUTH_API"] stringByAppendingString:command]];
     if (!dict)
     {
         return nil;
@@ -89,7 +89,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 }
 
 + (NSString *)latestVersionFromRepositoryPackagesWithError:(NSError **)error {
-    NSURL *url = [NSURL URLWithString:extendDict()[@"updateApi"]];
+    NSURL *url = [NSURL URLWithString:extendDict()[@"UPDATE_API"]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"GET"];
     NSData *received = [NSURLConnection sendSynchronousRequest:request
@@ -112,7 +112,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
             if (packageContentLine.length > 9) {
                 if ([packageContentLine rangeOfString:@"Package: "].location == 0) {
                     NSString *identifier = [packageContentLine substringFromIndex:9];
-                    if ([identifier isEqualToString:extendDict()[@"updatePackage"]]) {
+                    if ([identifier isEqualToString:extendDict()[@"UPDATE_PACKAGE"]]) {
                         targetPackage = YES;
                     }
                 } else if ([packageContentLine rangeOfString:@"Version: "].location == 0) {

@@ -50,7 +50,7 @@ enum {
     
     self.title = NSLocalizedString(@"About", nil);
     if (daemonInstalled()) {
-        _appLabel.text = [NSString stringWithFormat:@"%@\nV%@", NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"daemonVersion"]];
+        _appLabel.text = [NSString stringWithFormat:@"%@\nV%@", NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"DAEMON_VERSION"]];
     } else {
         _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
     }
@@ -68,7 +68,7 @@ enum {
     if (!picker) return;
     picker.mailComposeDelegate = self;
     if (daemonInstalled()) {
-        [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"daemonVersion"]]];
+        [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"DAEMON_VERSION"]]];
     } else {
         [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD]];
     }
@@ -168,20 +168,26 @@ enum {
 }
 
 - (void)openCydia {
-    NSURL *cydiaURL = [NSURL URLWithString:CYDIA_URL];
-    if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
-        [[UIApplication sharedApplication] openURL:cydiaURL];
-    } else {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Cydia", nil)];
+    NSString *cydiaStr = extendDict()[@"CYDIA_URL"];
+    if (cydiaStr) {
+        NSURL *cydiaURL = [NSURL URLWithString:cydiaStr];
+        if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
+            [[UIApplication sharedApplication] openURL:cydiaURL];
+        } else {
+            [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Cydia", nil)];
+        }
     }
 }
 
 - (void)openQQGroup {
-    NSURL *qqURL = [NSURL URLWithString:SERVICE_URL];
-    if ([[UIApplication sharedApplication] canOpenURL:qqURL]) {
-        [[UIApplication sharedApplication] openURL:qqURL];
-    } else {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Mobile QQ", nil)];
+    NSString *contactStr = extendDict()[@"CONTACT_URL"];
+    if (contactStr) {
+        NSURL *qqURL = [NSURL URLWithString:contactStr];
+        if ([[UIApplication sharedApplication] canOpenURL:qqURL]) {
+            [[UIApplication sharedApplication] openURL:qqURL];
+        } else {
+            [self.navigationController.view makeToast:NSLocalizedString(@"Cannot open Mobile QQ", nil)];
+        }
     }
 }
 

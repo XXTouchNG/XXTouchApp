@@ -666,19 +666,22 @@ UISearchDisplayDelegate
                 }
             }
         } else {
-            NSURL *cydiaURL = [NSURL URLWithString:CYDIA_URL];
-            if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
-                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Advanced Features", nil)
-                                                                 andMessage:NSLocalizedString(@"To run XXTouch script, extra package(s) should be installed via Cydia.", nil)];
-                [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-                    
-                }];
-                [alertView addButtonWithTitle:NSLocalizedString(@"Open Cydia", nil) type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
-                    [[UIApplication sharedApplication] openURL:cydiaURL];
-                }];
-                [alertView show];
-            } else {
-                [self.navigationController.view makeToast:NSLocalizedString(@"Failed to open Cydia", nil)];
+            NSString *cydiaStr = extendDict()[@"CYDIA_URL"];
+            if (cydiaStr) {
+                NSURL *cydiaURL = [NSURL URLWithString:cydiaStr];
+                if ([[UIApplication sharedApplication] canOpenURL:cydiaURL]) {
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Advanced Features", nil)
+                                                                     andMessage:NSLocalizedString(@"To run XXTouch script, extra package(s) should be installed via Cydia.", nil)];
+                    [alertView addButtonWithTitle:NSLocalizedString(@"Cancel", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                        
+                    }];
+                    [alertView addButtonWithTitle:NSLocalizedString(@"Open Cydia", nil) type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
+                        [[UIApplication sharedApplication] openURL:cydiaURL];
+                    }];
+                    [alertView show];
+                } else {
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Failed to open Cydia", nil)];
+                }
             }
         }
     } else {

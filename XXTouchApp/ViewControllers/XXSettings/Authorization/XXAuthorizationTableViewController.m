@@ -6,8 +6,8 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#include <sys/time.h>
-#include <unistd.h>
+//#include <sys/time.h>
+//#include <unistd.h>
 #import "XXAuthorizationTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
@@ -100,7 +100,7 @@ enum {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Code binding succeed", nil) andMessage:eMsg];
     [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil)
                              type:SIAlertViewButtonTypeCancel
-                          handler:^(SIAlertView *alertView) {
+                          handler:^(SIAlertView *alertView1) {
                               @strongify(self);
                               // Begin
                               [self reloadDeviceAndAuthorizationInfo:nil];
@@ -118,7 +118,7 @@ enum {
     }
     __block NSString *codeText = self.authorizationField.text;
     if (![codeText matchesRegex:@"^[3-9a-zA-Z]{10,20}$" options:0]) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Invalid Code", nil)];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Code only contains 3-9, a-z and A-Z.", nil)];
         return;
     }
     SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
@@ -142,6 +142,15 @@ enum {
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([textField isFirstResponder]) {
         [textField resignFirstResponder];
+    }
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.authorizationField) {
+        if ([string containsString:@"0"] || [string containsString:@"1"] || [string containsString:@"2"]) {
+            return NO;
+        }
     }
     return YES;
 }
@@ -202,13 +211,13 @@ enum {
         self.authorizationField.enabled = YES;
         self.expiredAtLabel.textColor = ([nowDate timeIntervalSinceDate:expirationDate] >= 0) ? [UIColor redColor] : STYLE_TINT_COLOR;
         self.expiredAtLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:expirationDate];
-        self.softwareVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSoftwareVersion];
-        self.systemVersionLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSystemVersion];
-        self.deviceTypeLabel.text = [deviceInfo objectForKey:kXXDeviceInfoDeviceType];
-        self.deviceNameLabel.text = [deviceInfo objectForKey:kXXDeviceInfoDeviceName];
-        self.serialLabel.text = [deviceInfo objectForKey:kXXDeviceInfoSerialNumber];
-        self.macAddressLabel.text = [deviceInfo objectForKey:kXXDeviceInfoMacAddress];
-        self.uniqueIDLabel.text = [deviceInfo objectForKey:kXXDeviceInfoUniqueID];
+        self.softwareVersionLabel.text = deviceInfo[kXXDeviceInfoSoftwareVersion];
+        self.systemVersionLabel.text = deviceInfo[kXXDeviceInfoSystemVersion];
+        self.deviceTypeLabel.text = deviceInfo[kXXDeviceInfoDeviceType];
+        self.deviceNameLabel.text = deviceInfo[kXXDeviceInfoDeviceName];
+        self.serialLabel.text = deviceInfo[kXXDeviceInfoSerialNumber];
+        self.macAddressLabel.text = deviceInfo[kXXDeviceInfoMacAddress];
+        self.uniqueIDLabel.text = deviceInfo[kXXDeviceInfoUniqueID];
         return YES;
     } else {
         self.authorizationField.enabled = NO;
