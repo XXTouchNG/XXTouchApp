@@ -117,7 +117,7 @@ UISearchDisplayDelegate
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:kXXGlobalNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:kXXGlobalNotificationList object:nil];
     [self reloadScriptListTableView];
     self.topToolbar.pasteButton.enabled = [[XXLocalDataService sharedInstance] pasteboardArr].count != 0;
     if (self.isRootDirectory) {

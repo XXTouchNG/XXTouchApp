@@ -96,7 +96,7 @@
                 dispatch_async_on_main_queue(^{
                     navController.view.userInteractionEnabled = YES;
                     [navController.view hideToastActivity];
-                    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationName object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventArchive}]];
+                    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationList object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventArchive}]];
                     if (!result) {
                         [navController.view makeToast:NSLocalizedString(@"Cannot create zip file", nil)];
                     } else {

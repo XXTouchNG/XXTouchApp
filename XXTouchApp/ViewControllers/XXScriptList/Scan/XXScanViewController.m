@@ -475,7 +475,7 @@
 }
 
 - (void)confirmDownloadingTask:(NSDictionary *)downloadObj {
-    UINavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
+    UINavigationController *navController = [[UIStoryboard storyboardWithName:@"Scan" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
     XXScanDownloadTaskViewController *downloadController = (XXScanDownloadTaskViewController *)navController.topViewController;
     downloadController.sourceUrl = downloadObj[@"url"];
     downloadController.destinationUrl = downloadObj[@"path"];

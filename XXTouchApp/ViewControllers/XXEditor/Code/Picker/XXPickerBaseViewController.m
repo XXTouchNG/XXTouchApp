@@ -20,6 +20,10 @@
     return @"@@";
 }
 
++ (NSString *)storyboardName {
+    return @"Main";
+}
+
 + (NSString *)storyboardID {
     return nil;
 }

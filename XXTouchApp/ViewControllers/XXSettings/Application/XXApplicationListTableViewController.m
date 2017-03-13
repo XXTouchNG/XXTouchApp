@@ -44,6 +44,10 @@ UISearchDisplayDelegate
     return @"@app@";
 }
 
++ (NSString *)storyboardName {
+    return @"Main";
+}
+
 + (NSString *)storyboardID {
     return kXXApplicationListTableViewControllerStoryboardID;
 }

@@ -87,7 +87,7 @@
                 dispatch_async_on_main_queue(^{
                     navController.view.userInteractionEnabled = YES;
                     [navController.view hideToastActivity];
-                    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationName object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventUnarchive}]];
+                    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationList object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventUnarchive}]];
                     if (err) {
                         [navController.view makeToast:[error localizedDescription]];
                     } else {

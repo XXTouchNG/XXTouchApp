@@ -1,0 +1,42 @@
+
+/* Class = "UILabel"; text = "Destination"; ObjectID = "Fmq-ua-RFQ"; */
+"Fmq-ua-RFQ.text" = "Destination";
+
+/* Class = "UILabel"; text = "Source"; ObjectID = "GYV-Ef-GoD"; */
+"GYV-Ef-GoD.text" = "Source";
+
+/* Class = "UILabel"; text = "Source Headers"; ObjectID = "Gdi-sf-m79"; */
+"Gdi-sf-m79.text" = "Source Headers";
+
+/* Class = "UILabel"; text = "Value"; ObjectID = "Lre-2f-KHL"; */
+"Lre-2f-KHL.text" = "Value";
+
+/* Class = "UINavigationItem"; title = "Source Headers"; ObjectID = "TNe-0n-8xy"; */
+"TNe-0n-8xy.title" = "Source Headers";
+
+/* Class = "UINavigationItem"; title = "Download Task"; ObjectID = "Udf-xR-96T"; */
+"Udf-xR-96T.title" = "Download Task";
+
+/* Class = "UILabel"; text = "N/A"; ObjectID = "ZLP-tl-eg3"; */
+"ZLP-tl-eg3.text" = "N/A";
+
+/* Class = "UILabel"; text = "N/A"; ObjectID = "iyv-z1-50N"; */
+"iyv-z1-50N.text" = "N/A";
+
+/* Class = "UIBarButtonItem"; title = "Copy"; ObjectID = "jj6-FK-2U0"; */
+"jj6-FK-2U0.title" = "Copy";
+
+/* Class = "UILabel"; text = "Key"; ObjectID = "rLn-nb-bof"; */
+"rLn-nb-bof.text" = "Key";
+
+/* Class = "UITableViewSection"; footerTitle = "Please confirm these information.\n\nThe source is provided by third party script author.\nTap \"Download\" if you can make sure that the source is trusted."; ObjectID = "rz0-PY-Y9V"; */
+"rz0-PY-Y9V.footerTitle" = "Please confirm these information.\n\nThe source is provided by third party script author.\nTap \"Download\" if you can make sure that the source is trusted.";
+
+/* Class = "UITableViewSection"; headerTitle = "Detail"; ObjectID = "rz0-PY-Y9V"; */
+"rz0-PY-Y9V.headerTitle" = "Detail";
+
+/* Class = "UIBarButtonItem"; title = "Download"; ObjectID = "wDw-Ai-OP8"; */
+"wDw-Ai-OP8.title" = "Download";
+
+/* Class = "UITableViewController"; title = "Download Task"; ObjectID = "x25-dM-vmH"; */
+"x25-dM-vmH.title" = "Download Task";

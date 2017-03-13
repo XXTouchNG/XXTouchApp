@@ -28,8 +28,10 @@
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
     if (shortcutItem) {
-        XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
-        [rootVC performSelector:@selector(handleShortCut:) withObject:shortcutItem.type afterDelay:0.6];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationLaunch object:shortcutItem.type userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventShortcut}]];
+        
+//        XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
+//        [rootVC performSelector:@selector(handleShortCut:) withObject:shortcutItem.type afterDelay:0.6];
         if (completionHandler) {
             completionHandler(YES);
         }
@@ -40,8 +42,9 @@
 }
 
 - (BOOL)handleUrlTransfer:(NSURL *)url {
-    XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
-    [rootVC performSelector:@selector(handleItemTransfer:) withObject:url afterDelay:0.6];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationLaunch object:url userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventInbox}]];
+//    XXNavigationViewController *rootVC = (XXNavigationViewController *)self.rootViewController;
+//    [rootVC performSelector:@selector(handleItemTransfer:) withObject:url afterDelay:0.6];
     return YES;
 }
 

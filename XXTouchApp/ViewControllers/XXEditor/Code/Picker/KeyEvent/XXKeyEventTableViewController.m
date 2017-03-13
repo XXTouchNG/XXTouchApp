@@ -32,6 +32,10 @@ static NSString * const kXXKeyEventTableViewCellReuseIdentifier = @"kXXKeyEventT
     return @"@key@";
 }
 
++ (NSString *)storyboardName {
+    return @"Picker";
+}
+
 + (NSString *)storyboardID {
     return kXXKeyEventTableViewControllerStoryboardID;
 }

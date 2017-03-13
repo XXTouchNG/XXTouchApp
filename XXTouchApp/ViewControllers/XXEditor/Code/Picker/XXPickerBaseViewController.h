@@ -24,6 +24,7 @@
 @property (nonatomic, copy) NSString *previewString;
 
 + (NSString *)keyword;
++ (NSString *)storyboardName;
 + (NSString *)storyboardID;
 
 @end

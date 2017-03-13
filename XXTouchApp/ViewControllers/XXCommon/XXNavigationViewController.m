@@ -13,6 +13,7 @@
 #import "XXScanViewController.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
+#import "XXSplashRootViewController.h"
 
 #define kXXCheckUpdateDailyIgnore @"kXXCheckUpdateDailyIgnore-%@"
 #define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore-%@"
@@ -21,7 +22,9 @@
 
 @end
 
-@implementation XXNavigationViewController
+@implementation XXNavigationViewController {
+    BOOL _firstAppeared;
+}
 
 #pragma mark - Status Bar Style
 
@@ -29,13 +32,38 @@
     return UIStatusBarStyleLightContent;
 }
 
+#pragma mark - UIView Events
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [[AppDelegate globalDelegate] setRootViewController:self];
     if (daemonInstalled()) {
         [self checkNeedsRespring];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:kXXGlobalNotificationLaunch object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (!_firstAppeared) {
+        [self performSelector:@selector(showFirstLaunchGuide) withObject:nil afterDelay:.3f];
+        _firstAppeared = YES;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Launch Events
+
+- (void)showFirstLaunchGuide {
+    XXSplashRootViewController *splashScreenController = [[XXSplashRootViewController alloc] init];
+    [self presentViewController:splashScreenController animated:YES completion:nil];
 }
 
 - (void)checkNeedsRespring {
@@ -153,8 +181,20 @@
 }
 
 - (void)autodismissUpdateAlertView:(SIAlertView *)alertView {
-    [alertView dismissAnimated:YES];
-    [self.view makeToast:NSLocalizedString(@"Dismissed automatically", nil)];
+    if ([alertView isVisible]) {
+        [alertView dismissAnimated:YES];
+        [self.view makeToast:NSLocalizedString(@"Dismissed automatically", nil)];
+    }
+}
+
+- (void)handleNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    NSString *event = userInfo[kXXGlobalNotificationKeyEvent];
+    if ([event isEqualToString:kXXGlobalNotificationKeyEventShortcut]) {
+        [self handleShortCut:aNotification.object];
+    } else if ([event isEqualToString:kXXGlobalNotificationKeyEventInbox]) {
+        [self handleItemTransfer:aNotification.object];
+    }
 }
 
 - (void)handleShortCut:(NSString *)type {
@@ -185,7 +225,7 @@
         dispatch_async_on_main_queue(^{
             self.view.userInteractionEnabled = YES;
             [self.view hideToastActivity];
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationName object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventTransfer}]];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationList object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventTransfer}]];
             if (result && err == nil) {
                 [self.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" saved", nil), lastComponent]];
             } else {

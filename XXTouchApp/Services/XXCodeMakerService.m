@@ -60,7 +60,7 @@
     if ([pickerClass storyboardID] == nil) {
         vc = [[pickerClass alloc] init];
     } else {
-        vc = [STORYBOARD instantiateViewControllerWithIdentifier:[pickerClass storyboardID]];
+        vc = [[UIStoryboard storyboardWithName:[pickerClass storyboardName] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:[pickerClass storyboardID]];
     }
     
     if (vc != nil && keywordCount != 0) {

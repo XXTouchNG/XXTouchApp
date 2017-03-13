@@ -1,0 +1,39 @@
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "EBr-Hn-4hs"; */
+"EBr-Hn-4hs.text" = "标题";
+
+/* Class = "UITableViewSection"; footerTitle = "Available flags:\n@@ - Cursur Position\n@app@ - Application Picker\n@key@ - Key Event Picker\n@loc@ - Location Picker\n@pos@ - Position Picker\n@color@ - Color Picker\n@poscolor@ - Position & Color Picker\n@poscolors@ - Positions & Colors Picker\n@rect@ - Rectangle Picker\n\nVisit \"More > Documents\" for more details."; ObjectID = "K1l-xI-oBQ"; */
+"K1l-xI-oBQ.footerTitle" = "可用标记：\n@@ - 光标位置\n@app@ - 应用程序选择器\n@key@ - 按键事件选择器\n@loc@ - 地理位置选择器\n@pos@ - 位置选择器\n@color@ - 颜色选择器\n@poscolor@ - 位置与颜色选择器\n@poscolors@ - 批量取色器\n@rect@ - 矩形区域选择器\n\n转到 \"更多 > 在线文档\" 以获取详细介绍。";
+
+/* Class = "UITableViewSection"; headerTitle = "Code"; ObjectID = "K1l-xI-oBQ"; */
+"K1l-xI-oBQ.headerTitle" = "代码";
+
+/* Class = "UISegmentedControl"; LLa-7o-mDX.segmentTitles[0] = "Internal"; ObjectID = "LLa-7o-mDX"; */
+"LLa-7o-mDX.segmentTitles[0]" = "内置函数";
+
+/* Class = "UISegmentedControl"; LLa-7o-mDX.segmentTitles[1] = "Custom"; ObjectID = "LLa-7o-mDX"; */
+"LLa-7o-mDX.segmentTitles[1]" = "自定义";
+
+/* Class = "UITableViewSection"; headerTitle = "Title"; ObjectID = "NJy-rU-r0i"; */
+"NJy-rU-r0i.headerTitle" = "标题";
+
+/* Class = "UINavigationItem"; title = "Add Snippet"; ObjectID = "OWm-az-jjU"; */
+"OWm-az-jjU.title" = "添加代码片段";
+
+/* Class = "UIViewController"; title = "Code Blocks"; ObjectID = "QYc-jl-yBm"; */
+"QYc-jl-yBm.title" = "代码片段";
+
+/* Class = "UITextField"; placeholder = "Title here"; ObjectID = "VcW-bA-uOi"; */
+"VcW-bA-uOi.placeholder" = "键入标题";
+
+/* Class = "UISearchBar"; placeholder = "Search"; ObjectID = "csk-tw-1J2"; */
+"csk-tw-1J2.placeholder" = "搜索代码片段";
+
+/* Class = "UISearchBar"; csk-tw-1J2.scopeButtonTitles[0] = "Internal Functions"; ObjectID = "csk-tw-1J2"; */
+"csk-tw-1J2.scopeButtonTitles[0]" = "内置函数";
+
+/* Class = "UISearchBar"; csk-tw-1J2.scopeButtonTitles[1] = "User Defined"; ObjectID = "csk-tw-1J2"; */
+"csk-tw-1J2.scopeButtonTitles[1]" = "自定义";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "odu-86-kcN"; */
+"odu-86-kcN.text" = "标题";
