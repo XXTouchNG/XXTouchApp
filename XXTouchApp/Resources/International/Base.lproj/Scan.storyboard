@@ -187,7 +187,7 @@ Tap "Download" if you can make sure that the source is trusted.</string>
             <objects>
                 <navigationController storyboardIdentifier="kXXDownloadTaskNavigationControllerStoryboardID" useStoryboardIdentifierAsRestorationIdentifier="YES" id="95W-Ta-Kv5" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8dC-QP-5OR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="8dC-QP-5OR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -465,40 +465,40 @@
 "fXc-yE-tQk.footerTitle" = "授权码只能包含数字 3 至 9 及大小写字母。";
 
 /* Class = "UITableViewController"; title = "Up Press"; ObjectID = "8MA-fy-CXH"; */
-"8MA-fy-CXH.title" = "";
+"8MA-fy-CXH.title" = "按一下音量 +";
 
 /* Class = "UITableViewController"; title = "Recording Config"; ObjectID = "Blm-NJ-7pf"; */
-"Blm-NJ-7pf.title" = "";
+"Blm-NJ-7pf.title" = "录制设置";
 
 /* Class = "UITableViewController"; title = "Create Item"; ObjectID = "Ffo-nH-FrI"; */
-"Ffo-nH-FrI.title" = "";
+"Ffo-nH-FrI.title" = "创建文件";
 
 /* Class = "UIViewController"; title = "Loading"; ObjectID = "Fu5-73-Fc6"; */
-"Fu5-73-Fc6.title" = "";
+"Fu5-73-Fc6.title" = "加载中";
 
 /* Class = "UITableViewController"; title = "Key Press Config"; ObjectID = "SFD-kB-CUe"; */
-"SFD-kB-CUe.title" = "";
+"SFD-kB-CUe.title" = "按键设置";
 
 /* Class = "UILabel"; text = "Filename"; ObjectID = "Ubu-cO-ZKo"; */
-"Ubu-cO-ZKo.text" = "";
+"Ubu-cO-ZKo.text" = "文件名";
 
 /* Class = "UITableViewController"; title = "Documents"; ObjectID = "VkG-RE-o2N"; */
-"VkG-RE-o2N.title" = "";
+"VkG-RE-o2N.title" = "文档";
 
 /* Class = "UITableViewController"; title = "Item Attributes"; ObjectID = "XQv-b2-LgB"; */
-"XQv-b2-LgB.title" = "";
+"XQv-b2-LgB.title" = "项目属性";
 
 /* Class = "UITableViewController"; title = "Application Detail"; ObjectID = "Ytu-F3-vi1"; */
-"Ytu-F3-vi1.title" = "";
+"Ytu-F3-vi1.title" = "应用程序详情";
 
 /* Class = "UITableViewController"; title = "Authorization"; ObjectID = "vld-oN-TUG"; */
-"vld-oN-TUG.title" = "";
+"vld-oN-TUG.title" = "授权";
 
 /* Class = "UINavigationItem"; title = "About"; ObjectID = "xfo-h5-ePc"; */
-"xfo-h5-ePc.title" = "";
+"xfo-h5-ePc.title" = "关于";
 
 /* Class = "UILabel"; text = "1970-01-01 00:00:00"; ObjectID = "ysR-7d-maO"; */
-"ysR-7d-maO.text" = "";
+"ysR-7d-maO.text" = "1970-01-01 00:00:00";
 
 /* Class = "UITableViewController"; title = "Application List"; ObjectID = "zp5-fv-J2t"; */
-"zp5-fv-J2t.title" = "";
+"zp5-fv-J2t.title" = "应用列表";
