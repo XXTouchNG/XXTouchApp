@@ -37,7 +37,9 @@ UITableViewDelegate,
 UITableViewDataSource,
 UIGestureRecognizerDelegate,
 XXToolbarDelegate,
-UISearchDisplayDelegate
+UISearchDisplayDelegate,
+UIDocumentMenuDelegate,
+UIDocumentPickerDelegate
 >
 
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
@@ -748,14 +750,34 @@ UISearchDisplayDelegate
     [self.navigationController.view makeToast:NSLocalizedString(@"Absolute path copied to the clipboard", nil)];
 }
 
+- (void)presentNewDocumentViewController {
+    UINavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
+    XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
+    viewController.currentDirectory = self.currentDirectory;
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
+}
+
+- (void)presentDocumentMenuViewController {
+    UIDocumentMenuViewController *documentPicker = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[@"public.data"] inMode:UIDocumentPickerModeImport];
+    documentPicker.delegate = self;
+    [documentPicker addOptionWithTitle:NSLocalizedString(@"New Document", nil)
+                                 image:[UIImage imageNamed:@"menu-add"]
+                                 order:UIDocumentMenuOrderFirst
+                               handler:^{
+                                   [self presentNewDocumentViewController];
+                               }];
+    [self.navigationController presentViewController:documentPicker animated:YES completion:nil];
+}
+
 - (void)toolbarButtonTapped:(UIBarButtonItem *)sender {
     if (sender == self.topToolbar.scanButton) {
         [((XXNavigationViewController *)self.navigationController) transitionToScanViewController];
     } else if (sender == self.topToolbar.addItemButton) {
-        UINavigationController *navController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
-        XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
-        viewController.currentDirectory = self.currentDirectory;
-        [self.navigationController presentViewController:navController animated:YES completion:nil];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            [self presentDocumentMenuViewController];
+        } else {
+            [self presentNewDocumentViewController];
+        }
     } else if (sender == self.topToolbar.pasteButton) {
         // Start Alert View
         SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:nil];
@@ -1131,6 +1153,28 @@ UISearchDisplayDelegate
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
     self.currentPopoverController = nil;
+}
+
+
+#pragma mark - UIDocumentMenuDelegate
+
+- (void)documentMenuWasCancelled:(UIDocumentMenuViewController *)documentMenu {
+    
+}
+
+- (void)documentMenu:(UIDocumentMenuViewController *)documentMenu didPickDocumentPicker:(UIDocumentPickerViewController *)documentPicker {
+    documentPicker.delegate = self;
+    [self.navigationController presentViewController:documentPicker animated:YES completion:nil];
+}
+
+#pragma mark - UIDocumentPickerDelegate
+
+- (void)documentPickerWasCancelled:(UIDocumentPickerViewController *)controller {
+    
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationLaunch object:url userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventInbox}]];
 }
 
 #pragma mark - Memory

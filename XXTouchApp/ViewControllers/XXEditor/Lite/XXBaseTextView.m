@@ -32,6 +32,8 @@
     self.backgroundColor = [UIColor colorWithRGB:0xfefefe];
     self.autocorrectionType = UITextAutocorrectionTypeNo;
     self.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.spellCheckingType = UITextSpellCheckingTypeNo;
+    self.returnKeyType = UIReturnKeyDefault;
     self.dataDetectorTypes = UIDataDetectorTypeNone;
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     self.alwaysBounceVertical = YES;

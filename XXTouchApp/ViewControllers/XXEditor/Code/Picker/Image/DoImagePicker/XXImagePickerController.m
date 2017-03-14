@@ -609,7 +609,7 @@
 
 - (BOOL)prefersStatusBarHidden
 {
-    return [UIApplication sharedApplication].statusBarHidden;
+    return YES;
 }
 
 - (void)dealloc {

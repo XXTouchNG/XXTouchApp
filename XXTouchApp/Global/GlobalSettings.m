@@ -51,6 +51,7 @@
     [CSToastManager sharedStyle].verticalMargin = 16.f;
     
     [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleBounce;
+    [SIAlertView appearance].backgroundStyle = SIAlertViewBackgroundStyleSolid;
     [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];
     [SIAlertView appearance].messageFont = [UIFont systemFontOfSize:14.f];
     [SIAlertView appearance].buttonFont = [UIFont systemFontOfSize:14.f];

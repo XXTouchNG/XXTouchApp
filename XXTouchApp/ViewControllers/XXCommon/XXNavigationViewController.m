@@ -49,7 +49,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (!_firstAppeared) {
-        [self performSelector:@selector(showFirstLaunchGuide) withObject:nil afterDelay:.3f];
+#ifdef DEBUG
+//        [self performSelector:@selector(showFirstLaunchGuide) withObject:nil afterDelay:.3f];
+#endif
         _firstAppeared = YES;
     }
 }

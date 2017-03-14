@@ -40,7 +40,7 @@
             <objects>
                 <navigationController storyboardIdentifier="kXXCodeBlockExpandViewControllerStoryboardID" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hOJ-qp-CYu" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="5nJ-un-coz">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="5nJ-un-coz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,4 +58,5 @@
             <point key="canvasLocation" x="-1184" y="-1468"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.1019607843" green="0.63137254899999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
 </document>

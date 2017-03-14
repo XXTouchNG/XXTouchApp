@@ -51,6 +51,7 @@
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0FA5FD8D1DD48686005D3FD4 /* XXLuaInterpreter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8C1DD48686005D3FD4 /* XXLuaInterpreter.mm */; settings = {COMPILER_FLAGS = "-Wno-varargs"; }; };
 		0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8E1DD49213005D3FD4 /* lua.c */; };
+		0FA704E61E77362F00F8ADDC /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA704E81E77362F00F8ADDC /* SplashScreen.storyboard */; };
 		0FAF70BA1DD95D110054EB93 /* XXArchiveActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAF70A91DD95D110054EB93 /* XXArchiveActivity.m */; };
 		0FAF70BB1DD95D110054EB93 /* XXBaseActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAF70AB1DD95D110054EB93 /* XXBaseActivity.m */; };
 		0FAF70BC1DD95D110054EB93 /* XXImageActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAF70AD1DD95D110054EB93 /* XXImageActivity.m */; };
@@ -143,7 +144,6 @@
 		0FE93CE31D8A8895004496BC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE21D8A8895004496BC /* CoreImage.framework */; };
 		0FEABE861D99F7CB007B96A8 /* XXCodeBlockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */; };
 		0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */; };
-		0FED7F481E75B42A004AC76F /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FED7F471E75B42A004AC76F /* SplashScreen.storyboard */; };
 		0FF5285A1D9E0B47000A0FBE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF528591D9E0B47000A0FBE /* CoreLocation.framework */; };
 		0FFB86671DADBD8A00C5AF87 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFB86661DADBD8A00C5AF87 /* CoreGraphics.framework */; };
 		0FFB86691DADBDF400C5AF87 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFB86681DADBDF400C5AF87 /* QuartzCore.framework */; };
@@ -324,6 +324,10 @@
 		0FA5FD8B1DD48686005D3FD4 /* XXLuaInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaInterpreter.h; sourceTree = "<group>"; };
 		0FA5FD8C1DD48686005D3FD4 /* XXLuaInterpreter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XXLuaInterpreter.mm; sourceTree = "<group>"; };
 		0FA5FD8E1DD49213005D3FD4 /* lua.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lua.c; sourceTree = "<group>"; };
+		0FA704E71E77362F00F8ADDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SplashScreen.storyboard; sourceTree = "<group>"; };
+		0FA704EA1E77363100F8ADDC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SplashScreen.strings"; sourceTree = "<group>"; };
+		0FA704EC1E77363200F8ADDC /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/SplashScreen.strings"; sourceTree = "<group>"; };
+		0FA704ED1E773C5600F8ADDC /* XXTouchApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XXTouchApp.entitlements; sourceTree = "<group>"; };
 		0FAF70A81DD95D110054EB93 /* XXArchiveActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXArchiveActivity.h; sourceTree = "<group>"; };
 		0FAF70A91DD95D110054EB93 /* XXArchiveActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXArchiveActivity.m; sourceTree = "<group>"; };
 		0FAF70AA1DD95D110054EB93 /* XXBaseActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseActivity.h; sourceTree = "<group>"; };
@@ -508,7 +512,6 @@
 		0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockModel.m; sourceTree = "<group>"; };
 		0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeMakerService.h; sourceTree = "<group>"; };
 		0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeMakerService.m; sourceTree = "<group>"; };
-		0FED7F471E75B42A004AC76F /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		0FF528591D9E0B47000A0FBE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0FFB86661DADBD8A00C5AF87 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0FFB86681DADBDF400C5AF87 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -922,7 +925,7 @@
 				0FB48B751D922B9400CE9019 /* zh-Hans.lproj */,
 				0FC47E881D7690540076590B /* Scenes */,
 				0F98529B1D748072001323AA /* Main.storyboard */,
-				0FED7F471E75B42A004AC76F /* SplashScreen.storyboard */,
+				0FA704E81E77362F00F8ADDC /* SplashScreen.storyboard */,
 				0FB25C1D1E76B2000098BEEE /* CodeBlock.storyboard */,
 				0FB25C261E76B69E0098BEEE /* CodePreview.storyboard */,
 				0FB25C2F1E76B9A60098BEEE /* Picker.storyboard */,
@@ -1188,6 +1191,7 @@
 		0FD1C29D1D73CC6D000A784E /* XXTouchApp */ = {
 			isa = PBXGroup;
 			children = (
+				0FA704ED1E773C5600F8ADDC /* XXTouchApp.entitlements */,
 				0FB0A7881D73D80D00129E83 /* Global */,
 				0FB0A79D1D73DB7600129E83 /* Resources */,
 				0FCF8A341DD013E700F4C906 /* Libraries */,
@@ -1826,6 +1830,9 @@
 							com.apple.Push = {
 								enabled = 0;
 							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -1867,7 +1874,7 @@
 				0FCF8B061DD015B600F4C906 /* InfoPlist.strings in Resources */,
 				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
 				0FB25C241E76B69E0098BEEE /* CodePreview.storyboard in Resources */,
-				0FED7F481E75B42A004AC76F /* SplashScreen.storyboard in Resources */,
+				0FA704E61E77362F00F8ADDC /* SplashScreen.storyboard in Resources */,
 				0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */,
 				0FCF8AD91DD0145400F4C906 /* ARSafariActivity.bundle in Resources */,
 				0F647BC61DCA03A800C44DB4 /* SourceCodePro-Bold.ttf in Resources */,
@@ -2148,6 +2155,16 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		0FA704E81E77362F00F8ADDC /* SplashScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0FA704E71E77362F00F8ADDC /* Base */,
+				0FA704EA1E77363100F8ADDC /* zh-Hans */,
+				0FA704EC1E77363200F8ADDC /* zh-Hant */,
+			);
+			name = SplashScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		0FB25C1D1E76B2000098BEEE /* CodeBlock.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2346,6 +2363,7 @@
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = XXTouchApp/XXTouchApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -2402,6 +2420,7 @@
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = NO;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = XXTouchApp/XXTouchApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
