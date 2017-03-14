@@ -14,6 +14,7 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 #import "XXSplashRootViewController.h"
+#import "XXUIListController.h"
 
 #define kXXCheckUpdateDailyIgnore @"kXXCheckUpdateDailyIgnore-%@"
 #define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore-%@"
@@ -51,6 +52,7 @@
     if (!_firstAppeared) {
 #ifdef DEBUG
 //        [self performSelector:@selector(showFirstLaunchGuide) withObject:nil afterDelay:.3f];
+        [self performSelector:@selector(showAppUI) withObject:nil afterDelay:.3f];
 #endif
         _firstAppeared = YES;
     }
@@ -66,6 +68,11 @@
 - (void)showFirstLaunchGuide {
     XXSplashRootViewController *splashScreenController = [[XXSplashRootViewController alloc] init];
     [self presentViewController:splashScreenController animated:YES completion:nil];
+}
+
+- (void)showAppUI {
+    XXUIListController *uiListController = [[XXUIListController alloc] init];
+    [self pushViewController:uiListController animated:YES];
 }
 
 - (void)checkNeedsRespring {
