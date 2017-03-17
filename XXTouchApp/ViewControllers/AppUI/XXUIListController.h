@@ -7,7 +7,10 @@
 //
 
 #import "SKTintedListController.h"
+#import "XXBaseActivity.h"
 
 @interface XXUIListController : SKTintedListController <SKListControllerProtocol>
+@property (nonatomic, weak) XXBaseActivity *activity;
+@property (nonatomic, copy) NSString *filePath;
 
 @end

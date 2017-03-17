@@ -2,10 +2,18 @@
 #import "common.h"
 
 @implementation SKListItemsController
+
 - (void)viewWillAppear:(BOOL)animated {
     if ([self respondsToSelector:@selector(tintColor)]) {
         self.view.tintColor = self.tintColor;
         [[UIApplication sharedApplication] keyWindow].tintColor = self.tintColor;
+    }
+    
+    if ([self respondsToSelector:@selector(switchTintColor)]) {
+        if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            [UITableViewCell appearanceWhenContainedIn:self.class, nil].tintColor = self.switchTintColor;
+        else
+            [UITableViewCell appearanceWhenContainedInInstancesOfClasses:@[self.class]].tintColor = self.switchTintColor;
     }
 
     if ([self respondsToSelector:@selector(navigationTintColor)]) {
@@ -31,11 +39,8 @@
     [super viewWillAppear:animated];
 }
 
-//- (void)viewWillDisappear:(BOOL)animated {
-//	[super viewWillDisappear:animated];
-//    [[UIApplication sharedApplication] keyWindow].tintColor = nil;
-//    self.view.tintColor = nil;
-//    self.navigationController.navigationBar.tintColor = nil;
-//    self.navigationController.navigationBar.titleTextAttributes = @{};
-//}
+- (UIColor *)switchTintColor {
+    return STYLE_TINT_COLOR;
+}
+
 @end

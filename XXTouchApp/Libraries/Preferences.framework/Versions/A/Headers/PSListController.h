@@ -1,6 +1,6 @@
 #import "PSViewController.h"
 
-@class PSRootController, PSSpecifier, PSTableCell;
+@class PSRootController, PSSpecifier, PSTableCell, NSConcreteNotification;
 
 @interface PSListController : PSViewController <UITableViewDelegate, UITableViewDataSource, UIAppearance> {
 	NSArray *_specifiers;
@@ -129,5 +129,7 @@
 @property (nonatomic, readonly) NSInteger observerType; // TODO: what is this?
 
 @property (nonatomic, retain) NSDictionary *pendingURLResourceDictionary;
+
+- (void)_returnKeyPressed:(NSConcreteNotification *)notification;
 
 @end

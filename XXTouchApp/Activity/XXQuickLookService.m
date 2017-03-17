@@ -84,4 +84,9 @@
     return [XXTextActivity supportedExtensions];
 }
 
++ (NSArray <NSString *> *)appUIFileExtensions
+{
+    return [XXUIActivity supportedExtensions];
+}
+
 @end

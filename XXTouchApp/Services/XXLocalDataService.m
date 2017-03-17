@@ -109,7 +109,7 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
         if ([[NSFileManager defaultManager] isReadableFileAtPath:FEVER_PATH]) {
             _rootPath = FEVER_PATH;
         } else {
-            NSString *feverPath = [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"lua"] stringByAppendingPathComponent:@"scripts"];
+            NSString *feverPath = [[self.mainPath stringByAppendingPathComponent:@"lua"] stringByAppendingPathComponent:@"scripts"];
             NSError *err = nil;
             [[NSFileManager defaultManager] createDirectoryAtPath:feverPath withIntermediateDirectories:YES attributes:nil error:&err];
             BOOL isDirectory = NO;

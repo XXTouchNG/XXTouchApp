@@ -30,7 +30,6 @@
 }
 
 - (id)localizedSpecifiersWithSpecifiers:(NSArray *)specifiers {
-    NSLog(@"localizedSpecifiersWithSpecifiers");
     for (PSSpecifier *curSpec in specifiers) {
         NSString *name = [curSpec name];
         if (name) {
@@ -58,26 +57,6 @@
 
 - (void)loadView {
     [super loadView];
-
-    if (self.showHeartImage) {
-        UIImage *image = [UIImage imageNamed:@"heart.png" inBundle:[NSBundle bundleForClass:SKTintedListController.class]];
-        if ([self respondsToSelector:@selector(heartImageColor)])
-            image = [image changeImageColor:self.heartImageColor];
-        CGRect frameimg = CGRectMake(0, 0, image.size.width, image.size.height);
-        UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
-        [someButton setBackgroundImage:image forState:UIControlStateNormal];
-
-        [someButton addTarget:self action:@selector(heartWasTouched) forControlEvents:UIControlEventTouchUpInside];
-        [someButton setShowsTouchWhenHighlighted:YES];
-        UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithCustomView:someButton];
-
-        if ([self respondsToSelector:@selector(shiftHeartImage)] && self.shiftHeartImage) {
-            UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-            negativeSpacer.width = -16;
-            [self.navigationItem setRightBarButtonItems:@[negativeSpacer, heartButton] animated:NO];
-        } else
-            ((UINavigationItem *) self.navigationItem).rightBarButtonItem = heartButton;
-    }
 
     BOOL tintSwitches_ = YES;
 
@@ -113,19 +92,6 @@
     }
 }
 
-- (void)heartWasTouched {
-    SLComposeViewController *composeController = [SLComposeViewController
-            composeViewControllerForServiceType:SLServiceTypeTwitter];
-
-    if ([self respondsToSelector:@selector(shareMessage)])
-        [composeController setInitialText:self.shareMessage];
-    else
-        [composeController setInitialText:@"Someone needs to change their [SKTintedListController shareMessage]!"];
-
-    [self presentViewController:composeController
-                       animated:YES completion:nil];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -133,13 +99,19 @@
 
     if ([self respondsToSelector:@selector(tintColor)]) {
         self.view.tintColor = self.tintColor;
-        [[UIApplication sharedApplication] keyWindow].tintColor = self.tintColor;
     }
     if ([self respondsToSelector:@selector(navigationTintColor)]) {
         self.navigationController.navigationBar.tintColor = self.navigationTintColor;
-        [[UIApplication sharedApplication] keyWindow].tintColor = self.navigationTintColor;
-    } else if ([self respondsToSelector:@selector(tintColor)])
+    } else if ([self respondsToSelector:@selector(tintColor)]) {
         self.navigationController.navigationBar.tintColor = self.tintColor;
+    }
+    
+    if ([self respondsToSelector:@selector(switchTintColor)]) {
+        if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            [UITableViewCell appearanceWhenContainedIn:self.class, nil].tintColor = self.switchTintColor;
+        else
+            [UITableViewCell appearanceWhenContainedInInstancesOfClasses:@[self.class]].tintColor = self.switchTintColor;
+    }
 
     BOOL tintNavText = YES;
     if ([self respondsToSelector:@selector(tintNavigationTitleText)])
@@ -152,14 +124,6 @@
             self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: self.tintColor};
     }
 }
-
-//- (void)viewWillDisappear:(BOOL)animated {
-//	[super viewWillDisappear:animated];
-//    [[UIApplication sharedApplication] keyWindow].tintColor = nil;
-//    self.view.tintColor = nil;
-//    self.navigationController.navigationBar.tintColor = nil;
-//    self.navigationController.navigationBar.titleTextAttributes = @{};
-//}
 
 - (void)setupHeader {
     UIView *header = nil;
@@ -175,7 +139,7 @@
         [header addSubview:imageView];
     }
 
-    if ([self respondsToSelector:@selector(headerText)]) {
+    if ([self respondsToSelector:@selector(headerText)] && self.headerText.length != 0) {
         header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 60)];
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, header.frame.size.width, header.frame.size.height + 20)];
@@ -190,7 +154,7 @@
 
         label.textAlignment = NSTextAlignmentCenter;
 
-        if ([self respondsToSelector:@selector(headerSubText)]) {
+        if ([self respondsToSelector:@selector(headerSubText)] && self.headerSubText.length != 0) {
             header.frame = CGRectMake(header.frame.origin.x, header.frame.origin.y, header.frame.size.width, header.frame.size.height + 60);
 
             label.frame = CGRectMake(label.frame.origin.x, 10, label.frame.size.width, label.frame.size.height);
@@ -226,23 +190,6 @@
 
         [self.table setTableHeaderView:header];
     }
-}
-
-- (BOOL)showHeartImage {
-    return NO;
-}
-
-- (BOOL)shiftHeartImage {
-    return NO;
-}
-
-- (UIColor *)heartImageColor {
-    if ([self respondsToSelector:@selector(navigationTintColor)])
-        return self.navigationTintColor;
-    else if ([self respondsToSelector:@selector(tintColor)])
-        return self.tintColor;
-    else
-        return SK_SYSTEM_TINT;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {

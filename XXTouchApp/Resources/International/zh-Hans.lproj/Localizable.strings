@@ -310,3 +310,4 @@ Hide = "隐藏";
 "Dismissed automatically" = "自动忽略";
 "Launch" = "启动";
 "Code only contains 3-9, a-z and A-Z." = "授权码只能包含数字 3 至 9 及大小写字母。";
+"Cannot parse: %@." = "无法解析: %@.";

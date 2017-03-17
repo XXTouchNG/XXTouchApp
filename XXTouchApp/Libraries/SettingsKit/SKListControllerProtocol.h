@@ -8,14 +8,6 @@
 
 - (NSString *)customTitle;
 
-- (BOOL)showHeartImage;
-
-- (BOOL)shiftHeartImage;
-
-- (NSString *)shareMessage;
-
-- (UIColor *)heartImageColor;
-
 - (BOOL)tintNavigationTitleText;
 
 - (BOOL)tintSwitches;
@@ -39,4 +31,5 @@
 - (UIView *)headerView;
 
 - (UIColor *)headerColor;
+
 @end
