@@ -55,6 +55,7 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
 @implementation XXLocalDataService {
     NSString *_mainPath;
     NSString *_rootPath;
+    NSString *_uicfgPath;
     
     NSDateFormatter *_defaultDateFormatter;
     NSDateFormatter *_shortDateFormatter;
@@ -121,6 +122,13 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
         }
     }
     return _rootPath;
+}
+
+- (NSString *)uicfgPath {
+    if (!_uicfgPath) {
+        _uicfgPath = [[self.mainPath stringByAppendingPathComponent:@"uicfg"] stringByAppendingPathComponent:@"defaults.plist"];
+    }
+    return _uicfgPath;
 }
 
 - (NSDateFormatter *)defaultDateFormatter {

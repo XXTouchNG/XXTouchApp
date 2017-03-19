@@ -1,12 +1,11 @@
-#import "SKListItemsController.h"
-#import "common.h"
+#import "XXUIListItemsController.h"
+#import "XXUICommonDefine.h"
 
-@implementation SKListItemsController
+@implementation XXUIListItemsController
 
 - (void)viewWillAppear:(BOOL)animated {
     if ([self respondsToSelector:@selector(tintColor)]) {
         self.view.tintColor = self.tintColor;
-        [[UIApplication sharedApplication] keyWindow].tintColor = self.tintColor;
     }
     
     if ([self respondsToSelector:@selector(switchTintColor)]) {
@@ -18,7 +17,6 @@
 
     if ([self respondsToSelector:@selector(navigationTintColor)]) {
         self.navigationController.navigationBar.tintColor = self.navigationTintColor;
-        [[UIApplication sharedApplication] keyWindow].tintColor = self.navigationTintColor;
     } else {
         if ([self respondsToSelector:@selector(tintColor)]) {
             self.navigationController.navigationBar.tintColor = self.tintColor;

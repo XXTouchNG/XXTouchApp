@@ -1,7 +1,9 @@
 #import <Preferences/Preferences.h>
 
-@interface SKSpecifierParser : NSObject
+@interface XXUISpecifierParser : NSObject
 + (PSCellType)PSCellTypeFromString:(NSString *)str;
 
 + (NSArray *)specifiersFromArray:(NSArray *)array forTarget:(PSListController *)target;
+
++ (NSString *)convertPathFromPath:(NSString *)path relativeTo:(NSString *)root;
 @end

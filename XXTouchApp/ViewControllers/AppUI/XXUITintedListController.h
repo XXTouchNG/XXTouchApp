@@ -1,8 +1,8 @@
 #import <Preferences/Preferences.h>
-#import "SKListControllerProtocol.h"
-#import "common.h"
+#import "XXUIListControllerProtocol.h"
+#import "XXUICommonDefine.h"
 
-@interface SKTintedListController : PSListController <SKListControllerProtocol>
+@interface XXUITintedListController : PSListController <XXUIListControllerProtocol>
 - (id)localizedSpecifiersWithSpecifiers:(NSArray *)specifiers;
 
 - (NSString *)localizedString:(NSString *)string;

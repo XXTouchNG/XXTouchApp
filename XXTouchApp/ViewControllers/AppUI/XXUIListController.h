@@ -6,10 +6,10 @@
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#import "SKTintedListController.h"
+#import "XXUITintedListController.h"
 #import "XXBaseActivity.h"
 
-@interface XXUIListController : SKTintedListController <SKListControllerProtocol>
+@interface XXUIListController : XXUITintedListController <XXUIListControllerProtocol>
 @property (nonatomic, weak) XXBaseActivity *activity;
 @property (nonatomic, copy) NSString *filePath;
 

@@ -22,11 +22,13 @@
 
 #import "XXUIListController.h"
 #import "XXLocalDataService.h"
+#import "XXLocalNetService.h"
 #import "XXWebViewController.h"
+#import "XXUISpecifierParser.h"
 
 @interface XXUIListController ()
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
-@property (nonatomic, strong) UIBarButtonItem *saveItem;
+//@property (nonatomic, strong) UIBarButtonItem *saveItem;
 @property (nonatomic, strong) NSDictionary *plistDict;
 
 @end
@@ -34,17 +36,31 @@
 @implementation XXUIListController
 
 - (void)viewDidLoad {
-    UIViewController *rootController = self.navigationController.viewControllers[0];
-    if (rootController != self) {
-        self.filePath = [rootController performSelector:@selector(filePath)];
+    NSString *rootPath = nil;
+    
+    UIViewController *parentController = nil;
+    NSInteger numberOfViewControllers = self.navigationController.viewControllers.count;
+    if (numberOfViewControllers < 2)
+        parentController = self.navigationController.viewControllers[0];
+    else
+        parentController = self.navigationController.viewControllers[numberOfViewControllers - 2];
+    
+    if (parentController != self) {
+        rootPath = [parentController performSelector:@selector(filePath)];
+    } else {
+        rootPath = self.filePath;
     }
+    
+    if (self.specifier && self.specifier.properties[@"path"]) {
+        self.filePath = self.specifier.properties[@"path"];
+    }
+    
     [super viewDidLoad];
-    if (rootController == self) {
-        if (self.title.length == 0) {
+    
+    if (parentController == self) {
+        if (self.title.length == 0)
             self.title = NSLocalizedString(@"AppUI", nil);
-        }
         self.navigationItem.leftBarButtonItem = self.closeItem;
-        self.navigationItem.rightBarButtonItem = self.saveItem;
     }
     if (!self.plistDict) {
         [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse: %@.", nil), self.filePath]];
@@ -60,15 +76,6 @@
     return _closeItem;
 }
 
-- (UIBarButtonItem *)saveItem {
-    if (!_saveItem) {
-        UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveItemTapped:)];
-        saveItem.tintColor = [UIColor whiteColor];
-        _saveItem = saveItem;
-    }
-    return _saveItem;
-}
-
 #pragma mark - Actions
 
 - (void)closeItemTapped:(UIBarButtonItem *)sender {
@@ -80,57 +87,11 @@
     }];
 }
 
-- (void)saveItemTapped:(UIBarButtonItem *)sender {
-    NSString *prefsDir = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"Preferences"];
-    NSString *targetDir = [[[XXLocalDataService sharedInstance] mainPath] stringByAppendingPathComponent:@"uicfg"];
-    NSFileManager *sharedManager = [NSFileManager defaultManager];
-    NSError *err = nil;
-    for (PSSpecifier *specifier in self.specifiers) {
-        if (specifier.properties[@"defaults"]) {
-            NSString *originalPref = [[prefsDir stringByAppendingPathComponent:specifier.properties[@"defaults"]] stringByAppendingPathExtension:@"plist"];
-            NSString *targetPref = [[targetDir stringByAppendingPathComponent:specifier.properties[@"defaults"]] stringByAppendingPathExtension:@"plist"];
-            if ([sharedManager fileExistsAtPath:originalPref]) {
-                NSString *destinationPref = [sharedManager destinationOfSymbolicLinkAtPath:targetPref error:&err];
-                if (destinationPref) {
-                    if ([destinationPref isEqualToString:originalPref]) {
-                        continue;
-                    } else {
-                        [sharedManager removeItemAtPath:targetPref error:&err];
-                    }
-                } else {
-                    err = nil;
-                }
-                if (![sharedManager fileExistsAtPath:targetDir]) {
-                    [sharedManager createDirectoryAtPath:targetDir withIntermediateDirectories:YES attributes:nil error:&err];
-                }
-                [sharedManager createSymbolicLinkAtPath:targetPref withDestinationPath:originalPref error:&err];
-            }
-        }
-        if (err) {
-            break;
-        }
-    }
-    if (!err) {
-        [self closeItemTapped:sender];
-    } else {
-        [self.navigationController.view makeToast:[err localizedDescription]];
-    }
-}
-
 #pragma mark - Getters
 
 - (NSDictionary *)plistDict {
     if (!_plistDict) {
-        NSString *plistPath = nil;
-        if (self.specifier) {
-            if (self.specifier.properties[@"path"]) {
-                NSURL *fileURL = [[NSURL alloc] initWithString:self.specifier.properties[@"path"]
-                                                 relativeToURL:[NSURL URLWithString:self.filePath]];
-                self.filePath = [fileURL path];
-            }
-        }
-        plistPath = self.filePath;
-        NSDictionary *plistDict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+        NSDictionary *plistDict = [[NSDictionary alloc] initWithContentsOfFile:self.filePath];
         _plistDict = plistDict;
     }
     return _plistDict;
@@ -194,8 +155,52 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)url {
-    // Nothing will be performed
+- (void)runScript:(PSSpecifier *)specifier {
+    NSString *path = specifier.properties[@"path"];
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        NSError *err = nil;
+        BOOL result = [XXLocalNetService localLaunchScript:path error:&err];
+        dispatch_async_on_main_queue(^{
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self.navigationController.view hideToastActivity];
+            if (!result) {
+                if (err.code == 2) {
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
+                    [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+                        
+                    }];
+                    [alertView show];
+                } else {
+                    [self.navigationController.view makeToast:[err localizedDescription]];
+                }
+            }
+        });
+    });
+}
+
+- (void)close {
+    [self closeItemTapped:nil];
+}
+
+- (void)back {
+    [self.view endEditing:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - XXUITitleValueCell
+
+- (NSString *)valueForSpecifier:(PSSpecifier *)specifier {
+    if (specifier.properties[@"defaults"] && specifier.properties[@"key"]) {
+        NSDictionary *configDict = [[NSDictionary alloc] initWithContentsOfFile:[specifier.properties[@"defaults"] stringByAppendingPathExtension:@"plist"]];
+        return [NSString stringWithFormat:@"%@", configDict[specifier.properties[@"key"]]];
+    } else if (specifier.properties[@"value"] && [specifier.properties[@"value"] isKindOfClass:[NSString class]]) {
+        return specifier.properties[@"value"];
+    }
+    return @"";
 }
 
 @end

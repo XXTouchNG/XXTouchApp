@@ -26,7 +26,6 @@
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion;
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion;
-//-(UINavigationController*)navigationController;
 
 - (void)loadView;
 @end

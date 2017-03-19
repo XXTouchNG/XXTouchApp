@@ -1,18 +1,18 @@
 #import <Social/SLComposeViewController.h>
 #import <Social/SLServiceTypes.h>
-#import "SKTintedListController.h"
-#import "common.h"
-#import "SKSpecifierParser.h"
+#import "XXUITintedListController.h"
+#import "XXUICommonDefine.h"
+#import "XXUISpecifierParser.h"
 
 @interface PSListController (did_rotate_from_orientation_settingskit)
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
 @end
 
-@implementation SKTintedListController
+@implementation XXUITintedListController
 - (id)specifiers {
     if (_specifiers == nil) {
         if ([self respondsToSelector:@selector(customSpecifiers)]) {
-            _specifiers = [SKSpecifierParser specifiersFromArray:self.customSpecifiers forTarget:self];
+            _specifiers = [XXUISpecifierParser specifiersFromArray:self.customSpecifiers forTarget:self];
             if ([self respondsToSelector:@selector(customTitle)])
                 self.title = SK_LCL(self.customTitle);
         } else if ([self respondsToSelector:@selector(plistName)])

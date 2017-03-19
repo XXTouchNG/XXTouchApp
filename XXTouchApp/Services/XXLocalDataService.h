@@ -81,6 +81,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 
 @property (nonatomic, copy, readonly) NSString *mainPath; // Installed
 @property (nonatomic, copy, readonly) NSString *rootPath; // Installed
+@property (nonatomic, copy, readonly) NSString *uicfgPath;
 @property (nonatomic, strong, readonly) NSDateFormatter *defaultDateFormatter; // Static
 @property (nonatomic, strong, readonly) NSDateFormatter *shortDateFormatter; // Static
 @property (nonatomic, strong, readonly) NSDateFormatter *miniDateFormatter; // Static

@@ -1,4 +1,4 @@
-@protocol SKListControllerProtocol
+@protocol XXUIListControllerProtocol
 
 @optional
 

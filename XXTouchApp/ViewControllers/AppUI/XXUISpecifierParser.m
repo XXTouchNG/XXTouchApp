@@ -1,7 +1,9 @@
 #import <Preferences/Preferences.h>
-#import "SKSpecifierParser.h"
+#import "XXUISpecifierParser.h"
 #import <objc/runtime.h>
-#import "common.h"
+#import "XXUICommonDefine.h"
+#import "XXUIListController.h"
+#import "XXLocalDataService.h"
 
 @interface PSListController (Maybe)
 - (UIColor *)iconColor;
@@ -9,46 +11,60 @@
 - (UIColor *)tintColor;
 @end
 
-@implementation SKSpecifierParser
+@implementation XXUISpecifierParser
 + (PSCellType)PSCellTypeFromString:(NSString *)str {
-    if ([str isEqual:@"PSGroupCell"])
+    if ([str isEqual:@"XXUIGroupCell"])
         return PSGroupCell;
-    if ([str isEqual:@"PSLinkCell"])
+    if ([str isEqual:@"XXUILinkCell"])
         return PSLinkCell;
-    if ([str isEqual:@"PSLinkListCell"])
+    if ([str isEqual:@"XXUILinkListCell"])
         return PSLinkListCell;
-    if ([str isEqual:@"PSListItemCell"])
-        return PSListItemCell;
-    if ([str isEqual:@"PSTitleValueCell"])
+//    if ([str isEqual:@"XXUIListItemCell"])
+//        return PSListItemCell;
+    if ([str isEqual:@"XXUITitleValueCell"])
         return PSTitleValueCell;
-    if ([str isEqual:@"PSSliderCell"])
+    if ([str isEqual:@"XXUISliderCell"])
         return PSSliderCell;
-    if ([str isEqual:@"PSSwitchCell"])
+    if ([str isEqual:@"XXUISwitchCell"])
         return PSSwitchCell;
-    if ([str isEqual:@"PSStaticTextCell"])
+    if ([str isEqual:@"XXUIStaticTextCell"])
         return PSStaticTextCell;
-    if ([str isEqual:@"PSEditTextCell"])
+    if ([str isEqual:@"XXUIEditTextCell"])
         return PSEditTextCell;
-    if ([str isEqual:@"PSSegmentCell"])
+    if ([str isEqual:@"XXUISegmentCell"])
         return PSSegmentCell;
-    if ([str isEqual:@"PSGiantIconCell"])
-        return PSGiantIconCell;
-    if ([str isEqual:@"PSGiantCell"])
-        return PSGiantCell;
-    if ([str isEqual:@"PSSecureEditTextCell"])
+//    if ([str isEqual:@"XXUIGiantIconCell"])
+//        return PSGiantIconCell;
+//    if ([str isEqual:@"XXUIGiantCell"])
+//        return PSGiantCell;
+    if ([str isEqual:@"XXUISecureEditTextCell"])
         return PSSecureEditTextCell;
-    if ([str isEqual:@"PSButtonCell"])
+    if ([str isEqual:@"XXUIButtonCell"])
         return PSButtonCell;
-    if ([str isEqual:@"PSEditTextViewCell"])
-        return PSEditTextViewCell;
+//    if ([str isEqual:@"XXUIEditTextViewCell"])
+//        return PSEditTextViewCell;
 
     return PSGroupCell;
 }
 
-+ (NSArray *)specifiersFromArray:(NSArray *)array forTarget:(PSListController *)target {
++ (NSString *)convertPathFromPath:(NSString *)path relativeTo:(NSString *)root {
+    if (root == nil) {
+        return path;
+    }
+    NSString *imagePath = nil;
+    if ([path isAbsolutePath]) {
+        imagePath = [[NSURL fileURLWithPath:path] path];
+    } else {
+        imagePath = [[[NSURL alloc] initWithString:path relativeToURL:[NSURL URLWithString:root]] path];
+    }
+    return imagePath;
+}
+
++ (NSArray *)specifiersFromArray:(NSArray *)array forTarget:(XXUIListController *)target {
+    NSString *configPath = [[XXLocalDataService sharedInstance] uicfgPath];
     NSMutableArray *specifiers = [NSMutableArray array];
     for (NSDictionary *dict in array) {
-        PSCellType cellType = [SKSpecifierParser PSCellTypeFromString:dict[@"cell"]];
+        PSCellType cellType = [XXUISpecifierParser PSCellTypeFromString:dict[@"cell"]];
         PSSpecifier *spec = nil;
         if (cellType == PSGroupCell) {
             if (dict[@"label"] != nil) {
@@ -87,31 +103,14 @@
             }
         }
 
-
         if (dict[@"icon"]) {
-            /*id value = dict[@"icon"];
-            UIImage *image = nil;
-            if ([value isKindOfClass:[UIImage class]] == NO)
-            {
-                UIImage *image = [UIImage imageNamed:value inBundle:[NSBundle bundleForClass:target.class]];
-                if (image == nil)
-                    image = [UIImage imageNamed:value inBundle:[NSBundle bundleForClass:self.class]];
-            }
-            else
-                image = value;
-
-            if ([target respondsToSelector:@selector(iconColor)])
-                image = [image changeImageColor:target.iconColor];
-            else if ([target respondsToSelector:@selector(tintColor)])
-                image = [image changeImageColor:target.tintColor]; 
-
-            [spec setProperty:image forKey:@"iconImage"];*/
-
             UIImage *image = [dict[@"icon"] isKindOfClass:[UIImage class]] ? dict[@"icon"] : nil;
             if (image == nil)
                 image = [UIImage imageNamed:dict[@"icon"] inBundle:[NSBundle bundleForClass:target.class]];
             if (image == nil)
                 image = [UIImage imageNamed:dict[@"icon"] inBundle:[NSBundle bundleForClass:self.class]];
+            if (image == nil)
+                image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"icon"] relativeTo:target.filePath]];
 
             if ([target respondsToSelector:@selector(iconColor)])
                 image = [image changeImageColor:target.iconColor];
@@ -120,17 +119,28 @@
 
             [spec setProperty:image forKey:@"iconImage"];
         }
+        
+        if (dict[@"path"]) {
+            [spec setProperty:[self convertPathFromPath:dict[@"path"] relativeTo:target.filePath] forKey:@"path"];
+        }
+        if (dict[@"defaults"]) {
+            [spec setProperty:[self convertPathFromPath:dict[@"defaults"] relativeTo:configPath] forKey:@"defaults"];
+        }
         if (dict[@"leftImage"]) {
             UIImage *image = [UIImage imageNamed:dict[@"leftImage"] inBundle:[NSBundle bundleForClass:target.class]];
             if (image == nil)
                 image = [UIImage imageNamed:dict[@"leftImage"] inBundle:[NSBundle bundleForClass:self.class]];
-
+            if (image == nil)
+                image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"leftImage"] relativeTo:target.filePath]];
+            
             [spec setProperty:image forKey:@"leftImage"];
         }
         if (dict[@"rightImage"]) {
             UIImage *image = [UIImage imageNamed:dict[@"rightImage"] inBundle:[NSBundle bundleForClass:target.class]];
             if (image == nil)
                 image = [UIImage imageNamed:dict[@"rightImage"] inBundle:[NSBundle bundleForClass:self.class]];
+            if (image == nil)
+                image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"rightImage"] relativeTo:target.filePath]];
 
             [spec setProperty:image forKey:@"rightImage"];
         }
