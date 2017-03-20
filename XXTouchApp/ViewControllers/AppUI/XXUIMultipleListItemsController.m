@@ -103,6 +103,8 @@
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [_currentValues addObject:curKey];
                 [self setPreferenceValue:[_currentValues copy] specifier:self.specifier];
+            } else {
+                [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"You can select no more than %ld row(s).", nil), _maxCount]];
             }
         } else {
             // unmark

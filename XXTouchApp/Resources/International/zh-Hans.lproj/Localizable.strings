@@ -311,3 +311,5 @@ Hide = "隐藏";
 "Launch" = "启动";
 "Code only contains 3-9, a-z and A-Z." = "授权码只能包含数字 3 至 9 及大小写字母。";
 "Cannot parse: %@." = "无法解析: %@.";
+"You can select no more than %ld row(s)." = "最多选择 %ld 个项目。";
+"You should select at least %ld row(s)." = "至少选择 %ld 个项目。";

@@ -1,15 +1,9 @@
+#import <objc/runtime.h>
 #import <Preferences/Preferences.h>
 #import "XXUISpecifierParser.h"
-#import <objc/runtime.h>
 #import "XXUICommonDefine.h"
 #import "XXUIListController.h"
 #import "XXLocalDataService.h"
-
-@interface PSListController (Maybe)
-- (UIColor *)iconColor;
-
-- (UIColor *)tintColor;
-@end
 
 @implementation XXUISpecifierParser
 + (PSCellType)PSCellTypeFromString:(NSString *)str {
@@ -19,8 +13,8 @@
         return PSLinkCell;
     if ([str isEqual:@"XXUILinkListCell"])
         return PSLinkListCell;
-//    if ([str isEqual:@"XXUIListItemCell"])
-//        return PSListItemCell;
+    if ([str isEqual:@"XXUIListItemCell"])
+        return PSListItemCell;
     if ([str isEqual:@"XXUITitleValueCell"])
         return PSTitleValueCell;
     if ([str isEqual:@"XXUISliderCell"])
@@ -33,16 +27,14 @@
         return PSEditTextCell;
     if ([str isEqual:@"XXUISegmentCell"])
         return PSSegmentCell;
-//    if ([str isEqual:@"XXUIGiantIconCell"])
-//        return PSGiantIconCell;
-//    if ([str isEqual:@"XXUIGiantCell"])
-//        return PSGiantCell;
+    if ([str isEqual:@"XXUIGiantIconCell"])
+        return PSGiantIconCell;
+    if ([str isEqual:@"XXUIGiantCell"])
+        return PSGiantCell;
     if ([str isEqual:@"XXUISecureEditTextCell"])
         return PSSecureEditTextCell;
     if ([str isEqual:@"XXUIButtonCell"])
         return PSButtonCell;
-//    if ([str isEqual:@"XXUIEditTextViewCell"])
-//        return PSEditTextViewCell;
 
     return PSGroupCell;
 }
@@ -104,19 +96,7 @@
         }
 
         if (dict[@"icon"]) {
-            UIImage *image = [dict[@"icon"] isKindOfClass:[UIImage class]] ? dict[@"icon"] : nil;
-            if (image == nil)
-                image = [UIImage imageNamed:dict[@"icon"] inBundle:[NSBundle bundleForClass:target.class]];
-            if (image == nil)
-                image = [UIImage imageNamed:dict[@"icon"] inBundle:[NSBundle bundleForClass:self.class]];
-            if (image == nil)
-                image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"icon"] relativeTo:target.filePath]];
-
-            if ([target respondsToSelector:@selector(iconColor)])
-                image = [image changeImageColor:target.iconColor];
-            else if ([target respondsToSelector:@selector(tintColor)])
-                image = [image changeImageColor:target.tintColor];
-
+            UIImage *image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"icon"] relativeTo:target.filePath]];
             [spec setProperty:image forKey:@"iconImage"];
         }
         
@@ -127,21 +107,11 @@
             [spec setProperty:[self convertPathFromPath:dict[@"defaults"] relativeTo:configPath] forKey:@"defaults"];
         }
         if (dict[@"leftImage"]) {
-            UIImage *image = [UIImage imageNamed:dict[@"leftImage"] inBundle:[NSBundle bundleForClass:target.class]];
-            if (image == nil)
-                image = [UIImage imageNamed:dict[@"leftImage"] inBundle:[NSBundle bundleForClass:self.class]];
-            if (image == nil)
-                image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"leftImage"] relativeTo:target.filePath]];
-            
+            UIImage *image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"leftImage"] relativeTo:target.filePath]];
             [spec setProperty:image forKey:@"leftImage"];
         }
         if (dict[@"rightImage"]) {
-            UIImage *image = [UIImage imageNamed:dict[@"rightImage"] inBundle:[NSBundle bundleForClass:target.class]];
-            if (image == nil)
-                image = [UIImage imageNamed:dict[@"rightImage"] inBundle:[NSBundle bundleForClass:self.class]];
-            if (image == nil)
-                image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"rightImage"] relativeTo:target.filePath]];
-
+            UIImage *image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[@"rightImage"] relativeTo:target.filePath]];
             [spec setProperty:image forKey:@"rightImage"];
         }
 

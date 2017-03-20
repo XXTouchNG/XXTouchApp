@@ -108,7 +108,7 @@
     if (section == 0) {
         return NSLocalizedString(@"Selected", nil);
     } else if (section == 1) {
-        return NSLocalizedString(@"Others", nil);
+        return NSLocalizedString(@"Remained", nil);
     }
     return @"";
 }
@@ -136,33 +136,21 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0)
-    {
-        UITableViewCell *cell =
-        [tableView dequeueReusableCellWithIdentifier:kXXUICellIdentifier];
-        if (nil == cell)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:kXXUICellIdentifier];
-            cell.tintColor = STYLE_TINT_COLOR;
-            cell.showsReorderControl = YES;
+    UITableViewCell *cell =
+    [tableView dequeueReusableCellWithIdentifier:kXXUICellIdentifier];
+    if (nil == cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:kXXUICellIdentifier];
+        cell.tintColor = STYLE_TINT_COLOR;
+        cell.showsReorderControl = YES;
+        if (indexPath.section == 0) {
             cell.textLabel.text = self.specifier.titleDictionary[_currentValues[indexPath.row]];
-        }
-        return cell;
-    } else if (indexPath.section == 1) {
-        UITableViewCell *cell =
-        [tableView dequeueReusableCellWithIdentifier:kXXUICellIdentifier];
-        if (nil == cell)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:kXXUICellIdentifier];
-            cell.tintColor = STYLE_TINT_COLOR;
-            cell.showsReorderControl = YES;
+        } else if (indexPath.section == 1) {
             cell.textLabel.text = self.specifier.titleDictionary[_leftValues[indexPath.row]];
         }
-        return cell;
+        
     }
-    return [UITableViewCell new];
+    return cell;
 }
 
 @end

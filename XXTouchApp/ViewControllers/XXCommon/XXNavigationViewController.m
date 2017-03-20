@@ -175,6 +175,7 @@
         [alert addButtonWithTitle:NSLocalizedString(@"Ignore This Version", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
+                              [[XXLocalDataService sharedInstance] setObject:@(1) forKey:dailyIgnoreKey];
                               [[XXLocalDataService sharedInstance] setObject:@(1) forKey:versionIgnoreKey];
                           }];
         [alert show];

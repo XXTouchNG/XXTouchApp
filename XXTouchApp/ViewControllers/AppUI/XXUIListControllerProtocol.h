@@ -22,8 +22,6 @@
 
 - (UIColor *)switchOnTintColor;
 
-- (NSString *)headerImage;
-
 - (NSString *)headerText;
 
 - (NSString *)headerSubText;

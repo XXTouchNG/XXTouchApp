@@ -1,4 +1,4 @@
-#import <Preferences/Preferences.h>
+#import <Preferences/PSListController.h>
 #import "XXUIListControllerProtocol.h"
 #import "XXUICommonDefine.h"
 

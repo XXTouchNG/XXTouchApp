@@ -1,58 +1,37 @@
-#import <Social/SLComposeViewController.h>
-#import <Social/SLServiceTypes.h>
 #import "XXUITintedListController.h"
 #import "XXUICommonDefine.h"
 #import "XXUISpecifierParser.h"
 
-@interface PSListController (did_rotate_from_orientation_settingskit)
+@interface PSListController (Rotation)
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
 @end
 
 @implementation XXUITintedListController
+
 - (id)specifiers {
     if (_specifiers == nil) {
         if ([self respondsToSelector:@selector(customSpecifiers)]) {
             _specifiers = [XXUISpecifierParser specifiersFromArray:self.customSpecifiers forTarget:self];
             if ([self respondsToSelector:@selector(customTitle)])
-                self.title = SK_LCL(self.customTitle);
+                self.title = self.customTitle;
         } else if ([self respondsToSelector:@selector(plistName)])
             _specifiers = [self loadSpecifiersFromPlistName:self.plistName target:self];
         else
             @throw [[NSException alloc] init];
-
-        [self localizedSpecifiersWithSpecifiers:_specifiers];
     }
     return _specifiers;
 }
 
-- (id)navigationTitle {
-    return [[self bundle] localizedStringForKey:[super title] value:[super title] table:nil];
-}
-
 - (id)localizedSpecifiersWithSpecifiers:(NSArray *)specifiers {
-    for (PSSpecifier *curSpec in specifiers) {
-        NSString *name = [curSpec name];
-        if (name) {
-            [curSpec setName:[[self bundle] localizedStringForKey:name value:name table:nil]];
-        }
-        NSString *footerText = [curSpec propertyForKey:@"footerText"];
-        if (footerText)
-            [curSpec setProperty:[[self bundle] localizedStringForKey:footerText value:footerText table:nil] forKey:@"footerText"];
-        id titleDict = [curSpec titleDictionary];
-        if (titleDict) {
-            NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
-            for (NSString *key in titleDict) {
-                NSString *value = [titleDict objectForKey:key];
-                newTitles[key] = [[self bundle] localizedStringForKey:value value:value table:nil];
-            }
-            [curSpec setTitleDictionary:newTitles];
-        }
-    }
     return specifiers;
 }
 
 - (NSString *)localizedString:(NSString *)string {
-    return [[self bundle] localizedStringForKey:string value:string table:nil] ?: string;
+    return string;
+}
+
+- (id)navigationTitle {
+    return [super title];
 }
 
 - (void)loadView {
@@ -65,13 +44,13 @@
 
     if (tintSwitches_) {
         if ([self respondsToSelector:@selector(switchOnTintColor)]) {
-            if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
                 [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.switchOnTintColor;
             else
                 [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.switchOnTintColor;
         } else {
             if ([self respondsToSelector:@selector(tintColor)]) {
-                if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+                if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
                     [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.tintColor;
                 else
                     [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.tintColor;
@@ -79,12 +58,12 @@
         }
 
         if ([self respondsToSelector:@selector(switchTintColor)]) {
-            if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
                 [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.switchTintColor;
             else
                 [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.switchTintColor;
         } else if ([self respondsToSelector:@selector(tintColor)]) {
-            if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
                 [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.tintColor;
             else
                 [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.tintColor;
@@ -107,7 +86,7 @@
     }
     
     if ([self respondsToSelector:@selector(switchTintColor)]) {
-        if (SK_SYSTEM_VERSION_LESS_THAN(@"9.0"))
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
             [UITableViewCell appearanceWhenContainedIn:self.class, nil].tintColor = self.switchTintColor;
         else
             [UITableViewCell appearanceWhenContainedInInstancesOfClasses:@[self.class]].tintColor = self.switchTintColor;
@@ -128,22 +107,11 @@
 - (void)setupHeader {
     UIView *header = nil;
 
-    if ([self respondsToSelector:@selector(headerImage)]) {
-        header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 100)];
-
-        UIImage *headerImage = [UIImage imageNamed:self.headerImage inBundle:[NSBundle bundleForClass:self.class]];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:headerImage];
-        header.frame = (CGRect) {header.frame.origin, headerImage.size};
-        imageView.frame = CGRectMake(imageView.frame.origin.x, 10, imageView.frame.size.width, headerImage.size.height);
-
-        [header addSubview:imageView];
-    }
-
     if ([self respondsToSelector:@selector(headerText)] && self.headerText.length != 0) {
         header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 60)];
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, header.frame.size.width, header.frame.size.height + 20)];
-        label.text = SK_LCL(self.headerText);
+        label.text = self.headerText;
         label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
         label.backgroundColor = [UIColor clearColor];
 
@@ -161,7 +129,7 @@
             [header addSubview:label];
 
             UILabel *subText = [[UILabel alloc] initWithFrame:CGRectMake(header.frame.origin.x, label.frame.origin.y + label.frame.size.height, header.frame.size.width, 20)];
-            subText.text = SK_LCL(self.headerSubText);
+            subText.text = self.headerSubText;
             subText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16];
             subText.backgroundColor = [UIColor clearColor];
             if ([self respondsToSelector:@selector(tintColor)])

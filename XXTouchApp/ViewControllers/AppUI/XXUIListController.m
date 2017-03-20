@@ -5,21 +5,6 @@
 //  Created by Zheng on 14/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 
-// References to:
-//  http://iphonedevwiki.net/index.php/Preferences_specifier_plist
-
-// Available Cell Types:
-// PSButtonCell
-// PSEditTextCell & PSSecureEditTextCell
-// PSGroupCell
-// PSLinkCell
-// PSLinkListCell & PSSegmentCell
-// PSSliderCell
-// PSStaticTextCell
-// PSSwitchCell
-// PSTitleValueCell
-// PSImageCell
-
 #import "XXUIListController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
@@ -28,7 +13,6 @@
 
 @interface XXUIListController ()
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
-//@property (nonatomic, strong) UIBarButtonItem *saveItem;
 @property (nonatomic, strong) NSDictionary *plistDict;
 
 @end
@@ -108,17 +92,14 @@
 }
 
 - (NSString *)customTitle {
-    // nav title
     return self.plistDict[@"title"];
 }
 
 - (NSString *)headerText {
-    // header title
     return self.plistDict[@"header"];
 }
 
 - (NSString *)headerSubText {
-    // header subtitle
     return self.plistDict[@"subheader"];
 }
 
@@ -189,6 +170,17 @@
 - (void)back {
     [self.view endEditing:YES];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)copyString:(PSSpecifier *)specifier {
+    if (specifier.properties[@"value"]) {
+        [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%@", specifier.properties[@"value"]]];
+        [self.navigationController.view makeToast:NSLocalizedString(@"Text copied to the pasteboard", nil)];
+    }
+}
+
+- (void)none {
+    
 }
 
 #pragma mark - XXUITitleValueCell
