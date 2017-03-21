@@ -1,17 +1,17 @@
-#import "XXUITintedListController.h"
-#import "XXUICommonDefine.h"
-#import "XXUISpecifierParser.h"
+#import "XXTUITintedListController.h"
+#import "XXTUICommonDefine.h"
+#import "XXTUISpecifierParser.h"
 
 @interface PSListController (Rotation)
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
 @end
 
-@implementation XXUITintedListController
+@implementation XXTUITintedListController
 
 - (id)specifiers {
     if (_specifiers == nil) {
         if ([self respondsToSelector:@selector(customSpecifiers)]) {
-            _specifiers = [XXUISpecifierParser specifiersFromArray:self.customSpecifiers forTarget:self];
+            _specifiers = [XXTUISpecifierParser specifiersFromArray:self.customSpecifiers forTarget:self];
             if ([self respondsToSelector:@selector(customTitle)])
                 self.title = self.customTitle;
         } else if ([self respondsToSelector:@selector(plistName)])
@@ -85,13 +85,6 @@
         self.navigationController.navigationBar.tintColor = self.tintColor;
     }
     
-    if ([self respondsToSelector:@selector(switchTintColor)]) {
-        if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
-            [UITableViewCell appearanceWhenContainedIn:self.class, nil].tintColor = self.switchTintColor;
-        else
-            [UITableViewCell appearanceWhenContainedInInstancesOfClasses:@[self.class]].tintColor = self.switchTintColor;
-    }
-
     BOOL tintNavText = YES;
     if ([self respondsToSelector:@selector(tintNavigationTitleText)])
         tintNavText = self.tintNavigationTitleText;
@@ -114,9 +107,7 @@
         label.text = self.headerText;
         label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
         label.backgroundColor = [UIColor clearColor];
-
-        if ([self respondsToSelector:@selector(tintColor)])
-            label.textColor = self.tintColor;
+        
         if ([self respondsToSelector:@selector(headerColor)])
             label.textColor = self.headerColor;
 
@@ -132,8 +123,7 @@
             subText.text = self.headerSubText;
             subText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16];
             subText.backgroundColor = [UIColor clearColor];
-            if ([self respondsToSelector:@selector(tintColor)])
-                subText.textColor = self.tintColor;
+            
             if ([self respondsToSelector:@selector(headerColor)])
                 subText.textColor = self.headerColor;
 

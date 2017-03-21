@@ -1,21 +1,21 @@
 //
-//  XXUIMultipleListItemsController.m
+//  XXTUIMultipleListItemsController.m
 //  XXTouchApp
 //
 //  Created by Zheng on 19/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#import "XXUIMultipleListItemsController.h"
+#import "XXTUIMultipleListItemsController.h"
 
-#define kXXUICellIdentifier @"XXUICellIdentifier"
+#define kXXTUICellIdentifier @"XXTUICellIdentifier"
 
-@interface XXUIMultipleListItemsController () <UITableViewDelegate, UITableViewDataSource>
+@interface XXTUIMultipleListItemsController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation XXUIMultipleListItemsController {
+@implementation XXTUIMultipleListItemsController {
     NSMutableArray *_currentValues;
     NSUInteger _maxCount;
 }
@@ -47,14 +47,14 @@
 #pragma mark - Data sources
 
 - (NSString *)title {
-    return self.specifier.properties[@"label"];
+    return self.specifier.properties[PSTitleKey];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return self.specifier.properties[@"staticTextMessage"];
+        return self.specifier.properties[PSStaticTextMessageKey];
     }
     return @"";
 }
@@ -74,11 +74,11 @@
     if (indexPath.section == 0)
     {
         UITableViewCell *cell =
-        [tableView dequeueReusableCellWithIdentifier:kXXUICellIdentifier];
+        [tableView dequeueReusableCellWithIdentifier:kXXTUICellIdentifier];
         if (nil == cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:kXXUICellIdentifier];
+                                          reuseIdentifier:kXXTUICellIdentifier];
             cell.tintColor = STYLE_TINT_COLOR;
             id curKey = self.specifier.titleDictionary.allKeys[indexPath.row];
             cell.textLabel.text = self.specifier.titleDictionary[curKey];

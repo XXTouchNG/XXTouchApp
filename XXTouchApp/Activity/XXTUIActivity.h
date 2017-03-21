@@ -1,5 +1,5 @@
 //
-//  XXUIActivity.h
+//  XXTUIActivity.h
 //  XXTouchApp
 //
 //  Created by Zheng on 17/03/2017.
@@ -8,6 +8,6 @@
 
 #import "XXBaseActivity.h"
 
-@interface XXUIActivity : XXBaseActivity
+@interface XXTUIActivity : XXBaseActivity
 
 @end

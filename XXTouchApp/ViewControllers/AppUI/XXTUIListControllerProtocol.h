@@ -1,4 +1,4 @@
-@protocol XXUIListControllerProtocol
+@protocol XXTUIListControllerProtocol
 
 @optional
 

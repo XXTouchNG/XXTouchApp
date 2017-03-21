@@ -1,21 +1,22 @@
 //
-//  XXUIOrderingListItemsController.m
+//  XXTUIOrderingListItemsController.m
 //  XXTouchApp
 //
 //  Created by Zheng on 19/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#import "XXUIOrderingListItemsController.h"
+#import "XXTUIOrderingListItemsController.h"
+#import <Preferences/PSSpecifier.h>
 
-#define kXXUICellIdentifier @"XXUICellIdentifier"
+#define kXXTUICellIdentifier @"XXTUICellIdentifier"
 
-@interface XXUIOrderingListItemsController () <UITableViewDelegate, UITableViewDataSource>
+@interface XXTUIOrderingListItemsController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation XXUIOrderingListItemsController {
+@implementation XXTUIOrderingListItemsController {
     NSMutableArray *_currentValues;
     NSMutableArray *_leftValues;
     NSUInteger _maxCount;
@@ -61,7 +62,7 @@
 #pragma mark - Data sources
 
 - (NSString *)title {
-    return self.specifier.properties[@"label"];
+    return self.specifier.properties[PSTitleKey];
 }
 
 #pragma mark - UITableViewDataSource
@@ -117,7 +118,7 @@
     if (section == 0) {
         return @"";
     } else if (section == 1) {
-        return self.specifier.properties[@"staticTextMessage"];
+        return self.specifier.properties[PSStaticTextMessageKey];
     }
     return @"";
 }
@@ -137,10 +138,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell =
-    [tableView dequeueReusableCellWithIdentifier:kXXUICellIdentifier];
+    [tableView dequeueReusableCellWithIdentifier:kXXTUICellIdentifier];
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:kXXUICellIdentifier];
+                                      reuseIdentifier:kXXTUICellIdentifier];
         cell.tintColor = STYLE_TINT_COLOR;
         cell.showsReorderControl = YES;
         if (indexPath.section == 0) {

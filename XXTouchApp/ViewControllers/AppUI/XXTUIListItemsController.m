@@ -1,7 +1,7 @@
-#import "XXUIListItemsController.h"
-#import "XXUICommonDefine.h"
+#import "XXTUIListItemsController.h"
+#import "XXTUICommonDefine.h"
 
-@implementation XXUIListItemsController
+@implementation XXTUIListItemsController
 
 - (void)viewWillAppear:(BOOL)animated {
     if ([self respondsToSelector:@selector(tintColor)]) {
@@ -35,10 +35,6 @@
     }
 
     [super viewWillAppear:animated];
-}
-
-- (UIColor *)switchTintColor {
-    return STYLE_TINT_COLOR;
 }
 
 @end

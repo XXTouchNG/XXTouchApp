@@ -1,5 +1,5 @@
 //
-//  XXUIImageCell.h
+//  XXTUIImageCell.h
 //  XXTouchApp
 //
 //  Created by Zheng on 19/03/2017.
@@ -8,6 +8,6 @@
 
 #import <Preferences/PSTableCell.h>
 
-@interface XXUIImageCell : PSTableCell
+@interface XXTUIImageCell : PSTableCell
 
 @end

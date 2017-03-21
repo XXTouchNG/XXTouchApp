@@ -1,15 +1,15 @@
 //
-//  XXUIListController.h
+//  XXTUIListController.h
 //  XXTouchApp
 //
 //  Created by Zheng on 14/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#import "XXUITintedListController.h"
+#import "XXTUITintedListController.h"
 #import "XXBaseActivity.h"
 
-@interface XXUIListController : XXUITintedListController <XXUIListControllerProtocol>
+@interface XXTUIListController : XXTUITintedListController <XXTUIListControllerProtocol>
 @property (nonatomic, weak) XXBaseActivity *activity;
 @property (nonatomic, copy) NSString *filePath;
 

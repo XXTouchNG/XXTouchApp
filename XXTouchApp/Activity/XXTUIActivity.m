@@ -1,16 +1,16 @@
 //
-//  XXUIActivity.m
+//  XXTUIActivity.m
 //  XXTouchApp
 //
 //  Created by Zheng on 17/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#import "XXUIActivity.h"
-#import "XXUIListController.h"
+#import "XXTUIActivity.h"
+#import "XXTUIListController.h"
 #import "XXEmptyNavigationController.h"
 
-@implementation XXUIActivity
+@implementation XXTUIActivity
 
 + (NSArray <NSString *> *)supportedExtensions {
     return @[ @"xxtu" ];
@@ -32,7 +32,7 @@
 }
 
 - (UIViewController *)activityViewController {
-    XXUIListController *uiListController = [[XXUIListController alloc] init];
+    XXTUIListController *uiListController = [[XXTUIListController alloc] init];
     uiListController.filePath = [self.fileURL path];
     uiListController.activity = self;
     XXEmptyNavigationController *navController = [[XXEmptyNavigationController alloc] initWithRootViewController:uiListController];

@@ -1,4 +1,5 @@
-#import <Preferences/Preferences.h>
+#import <Preferences/PSListController.h>
+#import <Preferences/PSTableCell.h>
 
 @interface PSListController (SettingsKit)
 - (UIView *)view;

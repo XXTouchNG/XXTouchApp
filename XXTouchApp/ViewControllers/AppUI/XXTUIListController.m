@@ -1,23 +1,24 @@
 //
-//  XXUIListController.m
+//  XXTUIListController.m
 //  XXTouchApp
 //
 //  Created by Zheng on 14/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 
-#import "XXUIListController.h"
+#import "XXTUIListController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXWebViewController.h"
-#import "XXUISpecifierParser.h"
+#import "XXTUISpecifierParser.h"
+#import <Preferences/PSSpecifier.h>
 
-@interface XXUIListController ()
+@interface XXTUIListController ()
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
 @property (nonatomic, strong) NSDictionary *plistDict;
 
 @end
 
-@implementation XXUIListController
+@implementation XXTUIListController
 
 - (void)viewDidLoad {
     NSString *rootPath = nil;
@@ -111,6 +112,14 @@
     return [UIColor whiteColor];
 }
 
+- (UIColor *)tintColor {
+    return STYLE_TINT_COLOR;
+}
+
+- (UIColor *)headerColor {
+    return [UIColor blackColor];
+}
+
 - (UIColor *)switchTintColor {
     return STYLE_TINT_COLOR;
 }
@@ -173,7 +182,7 @@
 }
 
 - (void)copyString:(PSSpecifier *)specifier {
-    if (specifier.properties[@"value"]) {
+    if (specifier.properties[PSValueKey]) {
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%@", specifier.properties[@"value"]]];
         [self.navigationController.view makeToast:NSLocalizedString(@"Text copied to the pasteboard", nil)];
     }
@@ -183,14 +192,23 @@
     
 }
 
-#pragma mark - XXUITitleValueCell
+- (void)load:(PSSpecifier *)specifier {
+    if (specifier.properties[PSDetailControllerClassKey]) {
+        Class className = NSClassFromString(specifier.properties[PSDetailControllerClassKey]);
+        PSViewController *newController = [[className alloc] init];
+        newController.specifier = specifier;
+        [self.navigationController pushViewController:newController animated:YES];
+    }
+}
+
+#pragma mark - XXTUITitleValueCell
 
 - (NSString *)valueForSpecifier:(PSSpecifier *)specifier {
-    if (specifier.properties[@"defaults"] && specifier.properties[@"key"]) {
-        NSDictionary *configDict = [[NSDictionary alloc] initWithContentsOfFile:[specifier.properties[@"defaults"] stringByAppendingPathExtension:@"plist"]];
-        return [NSString stringWithFormat:@"%@", configDict[specifier.properties[@"key"]]];
-    } else if (specifier.properties[@"value"] && [specifier.properties[@"value"] isKindOfClass:[NSString class]]) {
-        return specifier.properties[@"value"];
+    if (specifier.properties[PSDefaultsKey] && specifier.properties[PSKeyNameKey]) {
+        NSDictionary *configDict = [[NSDictionary alloc] initWithContentsOfFile:[specifier.properties[PSDefaultsKey] stringByAppendingPathExtension:@"plist"]];
+        return [NSString stringWithFormat:@"%@", configDict[specifier.properties[PSKeyNameKey]]];
+    } else if (specifier.properties[PSValueKey] && [specifier.properties[PSValueKey] isKindOfClass:[NSString class]]) {
+        return specifier.properties[PSValueKey];
     }
     return @"";
 }

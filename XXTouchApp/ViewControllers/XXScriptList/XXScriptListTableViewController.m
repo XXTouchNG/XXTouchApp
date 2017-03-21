@@ -1026,7 +1026,7 @@ UIDocumentPickerDelegate
 - (NSArray *)viewerActivities {
     if (daemonInstalled()) {
         return @[
-                 [XXUIActivity class],
+                 [XXTUIActivity class],
                  [XXWebActivity class],
                  [XXImageActivity class],
                  [XXMediaActivity class],
@@ -1035,7 +1035,7 @@ UIDocumentPickerDelegate
     } else if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
         return @[
                  [XXTerminalActivity class],
-                 [XXUIActivity class],
+                 [XXTUIActivity class],
                  [XXWebActivity class],
                  [XXImageActivity class],
                  [XXMediaActivity class],

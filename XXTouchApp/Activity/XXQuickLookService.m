@@ -86,7 +86,7 @@
 
 + (NSArray <NSString *> *)appUIFileExtensions
 {
-    return [XXUIActivity supportedExtensions];
+    return [XXTUIActivity supportedExtensions];
 }
 
 @end

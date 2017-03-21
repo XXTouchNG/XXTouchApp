@@ -1,8 +1,8 @@
 #import <Preferences/PSListController.h>
-#import "XXUIListControllerProtocol.h"
-#import "XXUICommonDefine.h"
+#import "XXTUIListControllerProtocol.h"
+#import "XXTUICommonDefine.h"
 
-@interface XXUITintedListController : PSListController <XXUIListControllerProtocol>
+@interface XXTUITintedListController : PSListController <XXTUIListControllerProtocol>
 - (id)localizedSpecifiersWithSpecifiers:(NSArray *)specifiers;
 
 - (NSString *)localizedString:(NSString *)string;
