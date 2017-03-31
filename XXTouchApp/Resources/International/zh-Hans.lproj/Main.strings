@@ -276,7 +276,7 @@
 "386-vd-XLy.text" = "启用";
 
 /* Class = "UILabel"; text = "Pop-up menu"; ObjectID = "FO9-S1-jTM"; */
-"FO9-S1-jTM.text" = "每次询问";
+"FO9-S1-jTM.text" = "弹出菜单";
 
 /* Class = "UITableViewSection"; headerTitle = "Recharge"; ObjectID = "fXc-yE-tQk"; */
 "fXc-yE-tQk.headerTitle" = "充值";
@@ -502,3 +502,18 @@
 
 /* Class = "UITableViewController"; title = "Application List"; ObjectID = "zp5-fv-J2t"; */
 "zp5-fv-J2t.title" = "应用列表";
+
+/* Class = "UILabel"; text = "Address 2"; ObjectID = "UDP-wi-kpC"; */
+"UDP-wi-kpC.text" = "";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "e3z-n8-AF2"; */
+"e3z-n8-AF2.text" = "";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "fDU-BP-94a"; */
+"fDU-BP-94a.text" = "";
+
+/* Class = "UILabel"; text = "Address 1"; ObjectID = "yJf-kM-QiZ"; */
+"yJf-kM-QiZ.text" = "";
+
+/* Class = "UITableViewSection"; headerTitle = "Remote"; ObjectID = "fiE-PB-Fqe"; */
+"fiE-PB-Fqe.headerTitle" = "远程";

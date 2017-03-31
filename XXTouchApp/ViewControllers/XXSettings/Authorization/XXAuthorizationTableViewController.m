@@ -117,8 +117,12 @@ enum {
         [self.authorizationField resignFirstResponder];
     }
     __block NSString *codeText = self.authorizationField.text;
-    if (![codeText matchesRegex:@"^[3-9a-zA-Z]{10,20}$" options:0]) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Code only contains 3-9, a-z and A-Z.", nil)];
+    if (![codeText matchesRegex:@"^[3-9a-zA-Z]*$" options:0]) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"The code only contains 3-9, a-z and A-Z.", nil)];
+        return;
+    }
+    if (codeText.length < 10 || codeText.length > 20) {
+        [self.navigationController.view makeToast:NSLocalizedString(@"Your password must be 10-20 characters long.", nil)];
         return;
     }
     SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);

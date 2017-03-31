@@ -33,9 +33,17 @@
     }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    if (self.specifier.properties[@"action"] || self.specifier.properties[@"detail"]) {
+        [super setSelected:selected animated:animated];
+    }
+}
 
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {}
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    if (self.specifier.properties[@"action"] || self.specifier.properties[@"detail"]) {
+        [super setHighlighted:highlighted animated:animated];
+    }
+}
 
 #pragma mark - UIView Getters
 

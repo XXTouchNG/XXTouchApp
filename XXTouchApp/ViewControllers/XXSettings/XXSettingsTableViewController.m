@@ -22,17 +22,24 @@ weakify(self); \
 ([alertView addButtonWithTitle:NSLocalizedString(title, nil) type:SIAlertViewButtonTypeDestructive handler:commonHandler(command)]);
 
 enum {
-    kServiceSection = 0,
-    kAuthSection    = 1,
-    kConfigSection  = 2,
-    kSystemSection  = 3,
-    kHelpSection    = 4,
+    kRemoteSection  = 0,
+    kServiceSection = 1,
+    kAuthSection    = 2,
+    kConfigSection  = 3,
+    kSystemSection  = 4,
+    kHelpSection    = 5,
+};
+
+// Index - kRemoteSection
+enum {
+    kServiceRemoteSwitchIndex = 0,
+    kServiceRemoteAddressAIndex = 1,
+    kServiceRemoteAddressBIndex = 2
 };
 
 // Index - kServiceSection
 enum {
-    kServiceRemoteSwitchIndex  = 0,
-    kServiceRestartIndex = 1,
+    kServiceRestartIndex  = 0,
 };
 
 // Index - kAuthSection
@@ -68,6 +75,9 @@ enum {
 @property (weak, nonatomic) IBOutlet UISwitch *remoteAccessSwitch;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *restartIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *remoteAccessLabel;
+@property (weak, nonatomic) IBOutlet UILabel *remoteAddressLabelA;
+@property (weak, nonatomic) IBOutlet UILabel *remoteAddressLabelB;
+
 
 @end
 
@@ -92,7 +102,7 @@ enum {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self changeRemoteAccessUI];
+    [self updateRemoteAccessUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -111,7 +121,7 @@ enum {
             if (!result) {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
-                [self changeRemoteAccessUI];
+                [self updateRemoteAccessUI];
             }
             self.remoteAccessSwitch.enabled = YES;
         });
@@ -122,7 +132,7 @@ enum {
     BOOL status = [[XXLocalDataService sharedInstance] remoteAccessStatus];
     if (sender.on) {
         if (!status) {
-            self.remoteAccessSwitch.enabled = NO;
+            sender.enabled = NO;
             @weakify(self);
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 @strongify(self);
@@ -132,20 +142,15 @@ enum {
                     if (!result) {
                         [self.navigationController.view makeToast:[err localizedDescription]];
                     } else {
-                        if ([self changeRemoteAccessUI]) {
-                            NSURL *wifiPrefs = [NSURL URLWithString:@"prefs:root=WIFI"];
-                            if ([[UIApplication sharedApplication] canOpenURL:wifiPrefs]) {
-                                [[UIApplication sharedApplication] openURL:wifiPrefs];
-                            }
-                        }
+                        [self updateRemoteAccessUI];
                     }
-                    self.remoteAccessSwitch.enabled = YES;
+                    sender.enabled = YES;
                 });
             });
         }
     } else {
         if (status) {
-            self.remoteAccessSwitch.enabled = NO;
+            sender.enabled = NO;
             @weakify(self);
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 @strongify(self);
@@ -155,43 +160,72 @@ enum {
                     if (!result) {
                         [self.navigationController.view makeToast:[err localizedDescription]];
                     } else {
-                        [self changeRemoteAccessUI];
+                        [self updateRemoteAccessUI];
                     }
-                    self.remoteAccessSwitch.enabled = YES;
+                    sender.enabled = YES;
                 });
             });
         }
     }
 }
 
-- (BOOL)changeRemoteAccessUI {
+- (void)updateRemoteAccessUI {
     BOOL on = [[XXLocalDataService sharedInstance] remoteAccessStatus];
     [self.remoteAccessSwitch setOn:on animated:YES];
     if (on) {
-        self.remoteAccessLabel.textColor = STYLE_TINT_COLOR;
-        NSString *wifiAccess = [[XXLocalDataService sharedInstance] remoteAccessURL];
-        if (wifiAccess == nil) {
-            self.remoteAccessLabel.text = NSLocalizedString(@"Connect to Wi-Fi", nil);
-            return YES;
+        NSDictionary *remoteAccessDictionary = [[XXLocalDataService sharedInstance] remoteAccessDictionary];
+        if (remoteAccessDictionary) {
+            self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
+            self.remoteAddressLabelA.text = remoteAccessDictionary[@"webserver_url"];
+            self.remoteAddressLabelB.text = remoteAccessDictionary[@"bonjour_webserver_url"];
         } else {
-            self.remoteAccessLabel.text = wifiAccess;
+            self.remoteAccessLabel.text = NSLocalizedString(@"Connect to Wi-Fi", nil);
+            self.remoteAddressLabelA.text = nil;
+            self.remoteAddressLabelB.text = nil;
         }
     } else {
         self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
-        self.remoteAccessLabel.textColor = [UIColor blackColor];
+        self.remoteAddressLabelA.text = nil;
+        self.remoteAddressLabelB.text = nil;
     }
-    return NO;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == kRemoteSection) {
+        if (self.remoteAddressLabelA.text.length != 0 &&
+            self.remoteAddressLabelB.text.length != 0) {
+            return 3;
+        } else {
+            return 1;
+        }
+    }
+    return [super tableView:tableView numberOfRowsInSection:section];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
-        case kServiceSection:
+        case kRemoteSection:
             switch (indexPath.row) {
                 case kServiceRemoteSwitchIndex:
                     break;
+                case kServiceRemoteAddressAIndex:
+                    [[UIPasteboard generalPasteboard] setString:self.remoteAddressLabelA.text];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Copied to the clipboard", nil)];
+                    break;
+                case kServiceRemoteAddressBIndex:
+                    [[UIPasteboard generalPasteboard] setString:self.remoteAddressLabelB.text];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Copied to the clipboard", nil)];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case kServiceSection:
+            switch (indexPath.row) {
                 case kServiceRestartIndex:
                     [self restartServiceIndexSelected];
                     break;

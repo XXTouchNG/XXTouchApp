@@ -264,9 +264,15 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 }
 
 + (BOOL)localOpenRemoteAccessWithError:(NSError **)error {
-    [self sendOneTimeAction:@"open_remote_access" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setRemoteAccessStatus:YES];
-    return YES;
+    NSDictionary *result = [self sendSynchronousRequest:@"open_remote_access" withDictionary:nil error:error]; CHECK_ERROR(NO);
+    XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+    if ([result[@"code"] isEqualToNumber:@0]) {
+        [sharedDataService setRemoteAccessStatus:YES];
+        [sharedDataService setRemoteAccessDictionary:result[@"data"]];
+        return YES;
+    } else
+        GENERATE_ERROR(@"");
+    return NO;
 }
 
 + (BOOL)localCloseRemoteAccessWithError:(NSError **)error {

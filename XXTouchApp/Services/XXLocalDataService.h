@@ -87,7 +87,7 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @property (nonatomic, strong, readonly) NSDateFormatter *miniDateFormatter; // Static
 @property (nonatomic, copy) NSString *selectedScript;
 @property (nonatomic, assign) BOOL remoteAccessStatus; // Cached
-@property (nonatomic, copy, readonly) NSString *remoteAccessURL; // Installed
+@property (nonatomic, strong) NSDictionary *remoteAccessDictionary; // Cached
 
 @property (nonatomic, strong) NSDictionary *deviceInfo; // Cached
 @property (nonatomic, strong) NSDate *nowDate; // Cached

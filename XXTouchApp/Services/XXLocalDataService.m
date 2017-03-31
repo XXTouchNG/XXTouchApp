@@ -46,6 +46,7 @@ static NSString * const kXXStorageKeyAutoCapitalizationEnabled = @"kXXStorageKey
 static NSString * const kXXStorageKeyRegexSearchingEnabled = @"kXXStorageKeyRegexSearchingEnabled-1";
 static NSString * const kXXStorageKeyCaseSensitiveEnabled = @"kXXStorageKeyCaseSensitiveEnabledEnabled-1";
 static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKeySyntaxHighlightingEnabled-1";
+static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddress-1";
 
 @interface XXLocalDataService ()
 @property (nonatomic, strong) NSArray <NSString *> *randStrings;
@@ -187,12 +188,12 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
     return [self.startUpConfigScriptPath hasPrefix:path];
 }
 
-- (NSString *)remoteAccessURL {
-    NSString *wifiAddress = [[UIDevice currentDevice] ipAddressWIFI];
-    if (wifiAddress == nil) {
-        return nil;
-    }
-    return [NSString stringWithFormat:extendDict()[@"REMOTE_API"], wifiAddress];
+- (NSDictionary *)remoteAccessDictionary {
+    return (NSDictionary *)[self objectForKey:kXXStorageKeyRemoteAddress];
+}
+
+- (void)setRemoteAccessDictionary:(NSDictionary *)remoteAccessDictionary {
+    [self setObject:remoteAccessDictionary forKey:kXXStorageKeyRemoteAddress];
 }
 
 - (BOOL)remoteAccessStatus {
