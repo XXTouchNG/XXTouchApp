@@ -29,7 +29,7 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 }
 
 + (NSString *)storyboardName {
-    return @"Picker";
+    return @"XXLocationPickerController";
 }
 
 + (NSString *)storyboardID {

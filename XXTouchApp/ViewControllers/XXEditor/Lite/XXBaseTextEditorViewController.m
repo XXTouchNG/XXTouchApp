@@ -491,7 +491,7 @@ XXEditorSettingsTableViewControllerDelegate>
 }
 
 - (void)statistics:(UIBarButtonItem *)sender {
-    XXBaseTextEditorPropertiesTableViewController *propertiesController = [[UIStoryboard storyboardWithName:@"Editor" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXBaseTextEditorPropertiesTableViewControllerStoryboardID];
+    XXBaseTextEditorPropertiesTableViewController *propertiesController = [[UIStoryboard storyboardWithName:@"XXBaseTextEditor" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXBaseTextEditorPropertiesTableViewControllerStoryboardID];
     propertiesController.filePath = self.filePath;
     propertiesController.fileContent = self.fileContent;
     [self.navigationController pushViewController:propertiesController animated:YES];
@@ -499,7 +499,7 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)settings:(UIBarButtonItem *)sender {
     if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
-        XXEditorSettingsTableViewController *settingsController = [[UIStoryboard storyboardWithName:@"Editor" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
+        XXEditorSettingsTableViewController *settingsController = [[UIStoryboard storyboardWithName:@"XXBaseTextEditor" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
         settingsController.delegate = self;
         [self.navigationController pushViewController:settingsController animated:YES];
     } else {
@@ -817,7 +817,7 @@ XXEditorSettingsTableViewControllerDelegate>
             [_textView resignFirstResponder];
         }
         [self keyboardDidDismiss:nil];
-        XXCodeBlockNavigationController *navController = [[UIStoryboard storyboardWithName:@"CodeBlock" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+        XXCodeBlockNavigationController *navController = [[UIStoryboard storyboardWithName:@"XXCodeBlocksViewController" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
         XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
         codeBlocksController.textInput = self.textView;
         [self.navigationController presentViewController:navController animated:YES completion:nil];

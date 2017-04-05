@@ -10,6 +10,7 @@
 #import "XXWebViewController.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
+#import "Reachability.h"
 
 #define commonHandler(command) \
 ^(SIAlertView *alertView) { \
@@ -173,20 +174,26 @@ enum {
     BOOL on = [[XXLocalDataService sharedInstance] remoteAccessStatus];
     [self.remoteAccessSwitch setOn:on animated:YES];
     if (on) {
-        NSDictionary *remoteAccessDictionary = [[XXLocalDataService sharedInstance] remoteAccessDictionary];
-        if (remoteAccessDictionary) {
-            self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
-            self.remoteAddressLabelA.text = remoteAccessDictionary[@"webserver_url"];
-            self.remoteAddressLabelB.text = remoteAccessDictionary[@"bonjour_webserver_url"];
+        Reachability *reachability = [Reachability reachabilityForInternetConnection];
+        [reachability startNotifier];
+        NetworkStatus status = [reachability currentReachabilityStatus];
+        if (status == ReachableViaWiFi)
+        {
+            NSDictionary *remoteAccessDictionary = [[XXLocalDataService sharedInstance] remoteAccessDictionary];
+            if (remoteAccessDictionary) {
+                self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
+                self.remoteAddressLabelA.text = remoteAccessDictionary[@"webserver_url"];
+                self.remoteAddressLabelB.text = remoteAccessDictionary[@"bonjour_webserver_url"];
+            }
         } else {
             self.remoteAccessLabel.text = NSLocalizedString(@"Connect to Wi-Fi", nil);
-            self.remoteAddressLabelA.text = nil;
-            self.remoteAddressLabelB.text = nil;
+            self.remoteAddressLabelA.text = @"";
+            self.remoteAddressLabelB.text = @"";
         }
     } else {
         self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
-        self.remoteAddressLabelA.text = nil;
-        self.remoteAddressLabelB.text = nil;
+        self.remoteAddressLabelA.text = @"";
+        self.remoteAddressLabelB.text = @"";
     }
     [self.tableView reloadData];
 }

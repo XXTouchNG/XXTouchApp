@@ -1,0 +1,9 @@
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "5Xr-25-em9"; */
+"5Xr-25-em9.text" = "标题";
+
+/* Class = "UITableViewController"; title = "Key Event"; ObjectID = "Ahk-W4-w4q"; */
+"Ahk-W4-w4q.title" = "按键事件";
+
+/* Class = "UINavigationItem"; title = "Key Event"; ObjectID = "xXQ-8I-fYA"; */
+"xXQ-8I-fYA.title" = "按键事件";

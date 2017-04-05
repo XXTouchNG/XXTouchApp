@@ -5,9 +5,6 @@
 /* Class = "UILabel"; text = "Press Volume Down Button"; ObjectID = "7NW-fb-QBH"; */
 "7NW-fb-QBH.text" = "按一下音量 - 机身按钮";
 
-/* Class = "UILabel"; text = "Detail"; ObjectID = "Gsc-rS-yg7"; */
-"Gsc-rS-yg7.text" = "详情";
-
 /* Class = "UILabel"; text = "Mail Feedback"; ObjectID = "s45-pm-lgY"; */
 "s45-pm-lgY.text" = "邮件反馈";
 
@@ -19,12 +16,6 @@
 
 /* Class = "UINavigationItem"; title = "Application List"; ObjectID = "uWQ-5K-tIf"; */
 "uWQ-5K-tIf.title" = "应用程序列表";
-
-/* Class = "UILabel"; text = "Mime-Type"; ObjectID = "NHa-3s-w28"; */
-"NHa-3s-w28.text" = "Mime 类型";
-
-/* Class = "UINavigationItem"; title = "Create Item"; ObjectID = "f5X-Zy-xZG"; */
-"f5X-Zy-xZG.title" = "创建文件";
 
 /* Class = "UILabel"; text = "N/A"; ObjectID = "mpr-GC-yQn"; */
 "mpr-GC-yQn.text" = "N/A";
@@ -41,17 +32,11 @@
 /* Class = "UILabel"; text = "Device Type"; ObjectID = "hK8-lg-6ea"; */
 "hK8-lg-6ea.text" = "设备类型";
 
-/* Class = "UILabel"; text = "Regular Lua File"; ObjectID = "sIh-ad-d5j"; */
-"sIh-ad-d5j.text" = "常规 Lua 文件";
-
 /* Class = "UILabel"; text = "Name"; ObjectID = "VUO-MF-3Jg"; */
 "VUO-MF-3Jg.text" = "名称";
 
 /* Class = "UILabel"; text = "N/A"; ObjectID = "wiT-ew-H2U"; */
 "wiT-ew-H2U.text" = "N/A";
-
-/* Class = "UIBarButtonItem"; title = "Close"; ObjectID = "ZrB-eC-3xm"; */
-"ZrB-eC-3xm.title" = "关闭";
 
 /* Class = "UILabel"; text = "Authorization"; ObjectID = "nm7-nn-0JE"; */
 "nm7-nn-0JE.text" = "授权";
@@ -67,9 +52,6 @@
 
 /* Class = "UILabel"; text = "Activator provides more actions for operations in XXTouch"; ObjectID = "Qsq-GA-Pyk"; */
 "Qsq-GA-Pyk.text" = "Activator 为 XXTouch 的动作提供更多事件监听";
-
-/* Class = "UILabel"; text = "Type"; ObjectID = "I38-9d-Llo"; */
-"I38-9d-Llo.text" = "类型";
 
 /* Class = "UILabel"; text = "Activator provides more actions for operations in XXTouch"; ObjectID = "IEx-pW-mmf"; */
 "IEx-pW-mmf.text" = "Activator 为 XXTouch 的动作提供更多事件监听";
@@ -96,10 +78,7 @@
 "f9B-1Z-u15.text" = "开机启动设置";
 
 /* Class = "UILabel"; text = "Select Bootscript"; ObjectID = "GpA-4c-rcs"; */
-"GpA-4c-rcs.text" = "选择 Bootscript";
-
-/* Class = "UINavigationItem"; title = "Loading"; ObjectID = "u0A-Jw-aZJ"; */
-"u0A-Jw-aZJ.title" = "加载中";
+"GpA-4c-rcs.text" = "选择启动脚本";
 
 /* Class = "UILabel"; text = "Device Name"; ObjectID = "Hrd-Xj-cgz"; */
 "Hrd-Xj-cgz.text" = "设备名称";
@@ -109,9 +88,6 @@
 
 /* Class = "UILabel"; text = "Unique ID"; ObjectID = "eUL-h3-VPK"; */
 "eUL-h3-VPK.text" = "唯一标识符";
-
-/* Class = "UILabel"; text = "Directory"; ObjectID = "KIR-Rc-P3n"; */
-"KIR-Rc-P3n.text" = "目录";
 
 /* Class = "UILabel"; text = "Mac Address"; ObjectID = "jI9-ML-hAX"; */
 "jI9-ML-hAX.text" = "Mac 地址";
@@ -137,32 +113,17 @@
 /* Class = "UITableViewSection"; footerTitle = "Tap any cell to copy details"; ObjectID = "kAN-gD-1FR"; */
 "kAN-gD-1FR.footerTitle" = "轻按任何项目以拷贝详情";
 
-/* Class = "UILabel"; text = "Directory"; ObjectID = "i3m-Rs-A3n"; */
-"i3m-Rs-A3n.text" = "目录";
-
 /* Class = "UILabel"; text = "Title"; ObjectID = "uEc-rd-tCz"; */
 "uEc-rd-tCz.text" = "标题";
-
-/* Class = "UILabel"; text = "Regular Text File"; ObjectID = "uOG-V7-AsW"; */
-"uOG-V7-AsW.text" = "常规文本文件";
 
 /* Class = "UILabel"; text = "User's Guide"; ObjectID = "ojj-ah-N63"; */
 "ojj-ah-N63.text" = "用户使用指南";
 
-/* Class = "UINavigationItem"; title = "Item Attributes"; ObjectID = "6An-8j-I9D"; */
-"6An-8j-I9D.title" = "文件属性";
-
 /* Class = "UILabel"; text = "Launch / Stop selected script"; ObjectID = "jDc-eW-yXA"; */
 "jDc-eW-yXA.text" = "启动 / 停止选中的脚本";
 
-/* Class = "UITableViewSection"; headerTitle = "Attributes"; ObjectID = "SYS-Dc-kp1"; */
-"SYS-Dc-kp1.headerTitle" = "属性";
-
 /* Class = "UILabel"; text = "About"; ObjectID = "dry-eX-pHi"; */
 "dry-eX-pHi.text" = "关于";
-
-/* Class = "UILabel"; text = "N/A"; ObjectID = "zuY-Xl-r3x"; */
-"zuY-Xl-r3x.text" = "N/A";
 
 /* Class = "UITabBarItem"; title = "More"; ObjectID = "Zam-rg-gDP"; */
 "Zam-rg-gDP.title" = "更多";
@@ -194,9 +155,6 @@
 /* Class = "UILabel"; text = "Config Title"; ObjectID = "U8W-eo-Pze"; */
 "U8W-eo-Pze.text" = "设置标题";
 
-/* Class = "UILabel"; text = "Modified At"; ObjectID = "EZO-um-Nd5"; */
-"EZO-um-Nd5.text" = "修改时间";
-
 /* Class = "UILabel"; text = "Listener: Pop-up menu"; ObjectID = "VQU-M5-NbT"; */
 "VQU-M5-NbT.text" = "监听：弹出菜单";
 
@@ -217,12 +175,6 @@
 
 /* Class = "UILabel"; text = "Press Volume Up Button"; ObjectID = "4Dy-Yt-ovP"; */
 "4Dy-Yt-ovP.text" = "按一下音量 + 机身按钮";
-
-/* Class = "UILabel"; text = "N/A"; ObjectID = "htV-bp-2A6"; */
-"htV-bp-2A6.text" = "N/A";
-
-/* Class = "UITextField"; placeholder = "Item Name"; ObjectID = "0Ge-8U-fc5"; */
-"0Ge-8U-fc5.placeholder" = "文件名称";
 
 /* Class = "UILabel"; text = "N/A"; ObjectID = "QeW-3C-x8a"; */
 "QeW-3C-x8a.text" = "N/A";
@@ -247,9 +199,6 @@
 
 /* Class = "UILabel"; text = "Up Short Hold"; ObjectID = "Hgu-8x-Iil"; */
 "Hgu-8x-Iil.text" = "按住音量 +";
-
-/* Class = "UILabel"; text = "Created At"; ObjectID = "CNt-Xu-Yg5"; */
-"CNt-Xu-Yg5.text" = "创建时间";
 
 /* Class = "UILabel"; text = "User Agreement"; ObjectID = "9Zs-zp-0m9"; */
 "9Zs-zp-0m9.text" = "用户协议";
@@ -284,17 +233,11 @@
 /* Class = "UILabel"; text = "User Defaults"; ObjectID = "jjZ-Pc-SRj"; */
 "jjZ-Pc-SRj.text" = "用户偏好设置";
 
-/* Class = "UITableViewSection"; headerTitle = "Type"; ObjectID = "ZYF-hq-sUj"; */
-"ZYF-hq-sUj.headerTitle" = "类型";
-
 /* Class = "UILabel"; text = "Software Version"; ObjectID = "eDN-L2-QVW"; */
 "eDN-L2-QVW.text" = "软件版本";
 
 /* Class = "UILabel"; text = "Application List"; ObjectID = "Drp-4y-k3T"; */
 "Drp-4y-k3T.text" = "应用列表";
-
-/* Class = "UILabel"; text = "Absolute Path"; ObjectID = "ahK-Bf-CXL"; */
-"ahK-Bf-CXL.text" = "绝对路径";
 
 /* Class = "UINavigationItem"; title = "Startup Config"; ObjectID = "IIw-Qs-TiD"; */
 "IIw-Qs-TiD.title" = "开机启动设置";
@@ -311,11 +254,8 @@
 /* Class = "UILabel"; text = "Restart Daemon"; ObjectID = "jMb-PR-yw5"; */
 "jMb-PR-yw5.text" = "重启服务";
 
-/* Class = "UITextField"; placeholder = "Item Name"; ObjectID = "y7J-X3-ZMb"; */
-"y7J-X3-ZMb.placeholder" = "文件名";
-
-/* Class = "UILabel"; text = "http://www.xxtouch.com\n2016 © XXTouch Team\nAll Rights Reserved."; ObjectID = "aXR-li-dmB"; */
-"aXR-li-dmB.text" = "http://www.xxtouch.com\n2016 © XXTouch Team\n版权所有";
+/* Class = "UILabel"; text = "http://www.xxtouch.com\n2016-2017 © XXTouch Team\nAll Rights Reserved."; ObjectID = "aXR-li-dmB"; */
+"aXR-li-dmB.text" = "http://www.xxtouch.com\n2016-2017 © XXTouch Team\n版权所有";
 
 /* Class = "UITableViewSection"; headerTitle = "Activation"; ObjectID = "GuI-3V-XMW"; */
 "GuI-3V-XMW.headerTitle" = "激活";
@@ -332,8 +272,8 @@
 /* Class = "UILabel"; text = "Serial Number"; ObjectID = "NBt-PL-dQr"; */
 "NBt-PL-dQr.text" = "序列号";
 
-/* Class = "UILabel"; text = "Enable bootscript"; ObjectID = "AHh-8s-k0y"; */
-"AHh-8s-k0y.text" = "启用 Bootscript";
+/* Class = "UILabel"; text = "Enable Bootscript"; ObjectID = "AHh-8s-k0y"; */
+"AHh-8s-k0y.text" = "开机启动脚本";
 
 /* Class = "UILabel"; text = "XXTouch\nV1.0 (1)"; ObjectID = "dp7-rb-o1s"; */
 "dp7-rb-o1s.text" = "XXTouch\nV1.0 (1)";
@@ -384,10 +324,7 @@
 "vav-6i-W0S.footerTitle" = "轻按任何项目以拷贝详情";
 
 /* Class = "UITableViewSection"; footerTitle = "Warning: Bootscript could leave system at a unpredictable state. You can hold Volume + before system booting to stop vulnerable bootscript from being launched."; ObjectID = "WR7-A8-eA3"; */
-"WR7-A8-eA3.footerTitle" = "警告：开机启动脚本 (Bootscript) 可能会造成系统不稳定。如果系统出现问题，您可以在开机启动时按住音量 +，正常启动后删除相关脚本。";
-
-/* Class = "UILabel"; text = "Size"; ObjectID = "zkS-Tz-zpU"; */
-"zkS-Tz-zpU.text" = "尺寸";
+"WR7-A8-eA3.footerTitle" = "警告：开机启动脚本可能会造成系统不稳定。如果系统出现问题，您可以在开机启动时按住音量 +，正常启动后删除相关脚本。";
 
 /* Class = "UILabel"; text = "Record only Volume -"; ObjectID = "WAh-q5-kab"; */
 "WAh-q5-kab.text" = "仅录制音量 -";
@@ -416,9 +353,6 @@
 /* Class = "UINavigationItem"; title = "User Defaults"; ObjectID = "7AZ-Ua-q4c"; */
 "7AZ-Ua-q4c.title" = "用户偏好设置";
 
-/* Class = "UILabel"; text = "Calculating..."; ObjectID = "kQz-Va-nOI"; */
-"kQz-Va-nOI.text" = "计算中...";
-
 /* Class = "UITableViewSection"; headerTitle = "Service"; ObjectID = "3MQ-v2-ZnB"; */
 "3MQ-v2-ZnB.headerTitle" = "服务";
 
@@ -427,9 +361,6 @@
 
 /* Class = "UILabel"; text = "Developer Reference"; ObjectID = "KMH-Rj-cSq"; */
 "KMH-Rj-cSq.text" = "开发者文档";
-
-/* Class = "UILabel"; text = "N/A"; ObjectID = "8t7-Am-2i5"; */
-"8t7-Am-2i5.text" = "N/A";
 
 /* Class = "UILabel"; text = "Online Update (Cydia)"; ObjectID = "IRj-iK-geI"; */
 "IRj-iK-geI.text" = "在线更新 (Cydia)";
@@ -470,12 +401,6 @@
 /* Class = "UITableViewController"; title = "Recording Config"; ObjectID = "Blm-NJ-7pf"; */
 "Blm-NJ-7pf.title" = "录制设置";
 
-/* Class = "UITableViewController"; title = "Create Item"; ObjectID = "Ffo-nH-FrI"; */
-"Ffo-nH-FrI.title" = "创建文件";
-
-/* Class = "UIViewController"; title = "Loading"; ObjectID = "Fu5-73-Fc6"; */
-"Fu5-73-Fc6.title" = "加载中";
-
 /* Class = "UITableViewController"; title = "Key Press Config"; ObjectID = "SFD-kB-CUe"; */
 "SFD-kB-CUe.title" = "按键设置";
 
@@ -484,9 +409,6 @@
 
 /* Class = "UITableViewController"; title = "Documents"; ObjectID = "VkG-RE-o2N"; */
 "VkG-RE-o2N.title" = "文档";
-
-/* Class = "UITableViewController"; title = "Item Attributes"; ObjectID = "XQv-b2-LgB"; */
-"XQv-b2-LgB.title" = "项目属性";
 
 /* Class = "UITableViewController"; title = "Application Detail"; ObjectID = "Ytu-F3-vi1"; */
 "Ytu-F3-vi1.title" = "应用程序详情";
@@ -502,18 +424,6 @@
 
 /* Class = "UITableViewController"; title = "Application List"; ObjectID = "zp5-fv-J2t"; */
 "zp5-fv-J2t.title" = "应用列表";
-
-/* Class = "UILabel"; text = "Address 2"; ObjectID = "UDP-wi-kpC"; */
-"UDP-wi-kpC.text" = "";
-
-/* Class = "UILabel"; text = "Detail"; ObjectID = "e3z-n8-AF2"; */
-"e3z-n8-AF2.text" = "";
-
-/* Class = "UILabel"; text = "Detail"; ObjectID = "fDU-BP-94a"; */
-"fDU-BP-94a.text" = "";
-
-/* Class = "UILabel"; text = "Address 1"; ObjectID = "yJf-kM-QiZ"; */
-"yJf-kM-QiZ.text" = "";
 
 /* Class = "UITableViewSection"; headerTitle = "Remote"; ObjectID = "fiE-PB-Fqe"; */
 "fiE-PB-Fqe.headerTitle" = "远程";

@@ -6,8 +6,6 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import <pthread.h>
-
 #ifndef SystemConstantsDefines_h
 #define SystemConstantsDefines_h
 
