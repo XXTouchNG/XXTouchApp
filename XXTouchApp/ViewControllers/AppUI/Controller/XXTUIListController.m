@@ -77,6 +77,11 @@
 - (NSDictionary *)plistDict {
     if (!_plistDict) {
         NSDictionary *plistDict = [[NSDictionary alloc] initWithContentsOfFile:self.filePath];
+        if (!plistDict) {
+            // ? maybe JSON format
+            NSError *error = nil;
+            plistDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:self.filePath] options:0 error:&error];
+        }
         _plistDict = plistDict;
     }
     return _plistDict;

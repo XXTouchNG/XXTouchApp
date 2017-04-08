@@ -95,7 +95,6 @@
                     [spec setProperty:dict[key] forKey:key];
             }
         }
-
         if (dict[PSBundleIconPathKey]) {
             UIImage *image = [UIImage imageWithContentsOfFile:[self convertPathFromPath:dict[PSBundleIconPathKey] relativeTo:target.filePath]];
             [spec setProperty:image forKey:PSIconImageKey];
