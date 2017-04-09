@@ -17,7 +17,7 @@
 #import "XXUnarchiveActivity.h"
 #import "XXTerminalActivity.h"
 #import "XXPaymentActivity.h"
-#import "XXTUIActivity.h"
+#import "XXUIActivity.h"
 
 static NSString * const kXXItemPathKey = @"kXXItemPathKey";
 static NSString * const kXXItemRealPathKey = @"kXXItemRealPathKey";

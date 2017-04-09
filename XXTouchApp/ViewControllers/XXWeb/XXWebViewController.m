@@ -6,8 +6,6 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "NJKWebViewProgress.h"
-#import "NJKWebViewProgressView.h"
 #import "XXWebViewController.h"
 #import "ARSafariActivity.h"
 #import "XXQuickLookService.h"
@@ -16,10 +14,8 @@
 
 static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
-@interface XXWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate, UIGestureRecognizerDelegate>
+@interface XXWebViewController () <UIWebViewDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, strong) NJKWebViewProgressView *progressView;
-@property (nonatomic, strong) NJKWebViewProgress *progressProxy;
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
 @property (nonatomic, strong) UIBarButtonItem *transferItem;
 @property (nonatomic, strong, readonly) NSURL *baseUrl;
@@ -151,7 +147,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar addSubview:_progressView];
     if ([[UIApplication sharedApplication] canOpenURL:self.url]) {
         self.navigationItem.rightBarButtonItem = self.shareItem;
     } else {
@@ -161,9 +156,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    // Remove progress view
-    // because UINavigationBar is shared with other ViewControllers
-    [_progressView removeFromSuperview];
     self.navigationItem.rightBarButtonItem = nil;
 }
 
@@ -173,32 +165,9 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     return [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"XXTReferences.bundle"];
 }
 
-- (NJKWebViewProgress *)progressProxy {
-    if (!_progressProxy) {
-        NJKWebViewProgress *progressProxy = [[NJKWebViewProgress alloc] init]; // instance variable
-        progressProxy.webViewProxyDelegate = self;
-        progressProxy.progressDelegate = self;
-        _progressProxy = progressProxy;
-    }
-    return _progressProxy;
-}
-
-- (NJKWebViewProgressView *)progressView {
-    if (!_progressView) {
-        CGFloat progressBarHeight = 2.f;
-        CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
-        CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
-        NJKWebViewProgressView *progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
-        progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        _progressView = progressView;
-    }
-    return _progressView;
-}
-
 - (UIWebView *)webView {
     if (!_webView) {
         UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-        webView.delegate = self.progressProxy;
         webView.allowsInlineMediaPlayback = YES;
         webView.scalesPageToFit = YES;
         webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -263,9 +232,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 #pragma mark - UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (webView == _webView && _progressView) {
-        [_progressView setProgress:0.0 animated:YES];
-    }
     NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     if (title && title.length > 0) {
         self.title = title;
@@ -275,12 +241,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self.navigationController.view makeToast:[error localizedDescription]];
-}
-
-#pragma mark - NJKWebViewProgressDelegate
-
-- (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress {
-    [_progressView setProgress:progress animated:YES];
 }
 
 - (void)dealloc {

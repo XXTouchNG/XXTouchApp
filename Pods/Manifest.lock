@@ -1,11 +1,6 @@
 PODS:
   - Masonry (1.0.1)
   - MGSwipeTableCell (1.5.5)
-  - NJKWebViewProgress (0.2.3):
-    - NJKWebViewProgress/Core (= 0.2.3)
-    - NJKWebViewProgress/ProgressView (= 0.2.3)
-  - NJKWebViewProgress/Core (0.2.3)
-  - NJKWebViewProgress/ProgressView (0.2.3)
   - SSZipArchive (1.5)
   - Toast (3.0)
   - YYCache (1.0.4)
@@ -17,7 +12,6 @@ PODS:
 DEPENDENCIES:
   - Masonry
   - MGSwipeTableCell
-  - NJKWebViewProgress
   - SSZipArchive
   - Toast
   - YYCache
@@ -27,13 +21,12 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MGSwipeTableCell: bafeb5f351124544c9364ecbdf24c7b06a37d340
-  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   SSZipArchive: 29daace2bccb90a47de2837744da397728ff9207
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   ZBarSDK: 4c1b5daeb7d6cc67dc9355e690af0230a661f6ec
 
-PODFILE CHECKSUM: d03ee24a33cb1a303bef9b68b8f8253931037736
+PODFILE CHECKSUM: 5205878ee863bdcecfb0a7a3a02e3b975eda8b28
 
 COCOAPODS: 1.1.1

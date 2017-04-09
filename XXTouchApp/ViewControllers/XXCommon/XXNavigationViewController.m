@@ -13,7 +13,6 @@
 #import "XXScanViewController.h"
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
-#import "XXSplashRootViewController.h"
 
 #define kXXCheckUpdateDailyIgnore @"kXXCheckUpdateDailyIgnore-%@"
 #define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore-%@"
@@ -62,11 +61,6 @@
 }
 
 #pragma mark - Launch Events
-
-- (void)showFirstLaunchGuide {
-    XXSplashRootViewController *splashScreenController = [[XXSplashRootViewController alloc] init];
-    [self presentViewController:splashScreenController animated:YES completion:nil];
-}
 
 - (void)checkNeedsRespring {
     self.view.backgroundColor = [UIColor whiteColor];

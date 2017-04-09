@@ -37,7 +37,7 @@
 
 - (UIViewController *)activityViewController
 {
-    XXEmptyNavigationController *navController = [[UIStoryboard storyboardWithName:@"XXEmptyNavigationController" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
+    XXEmptyNavigationController *navController = [[UIStoryboard storyboardWithName:[XXEmptyNavigationController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
     XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
     webController.url = self.fileURL;
     webController.title = [self.fileURL lastPathComponent];

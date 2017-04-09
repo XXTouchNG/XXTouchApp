@@ -71,7 +71,7 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if ([self.topViewController isKindOfClass:[XXPickerBaseViewController class]]) {
             XXPickerBaseViewController *picker = (XXPickerBaseViewController *)self.topViewController;
-            UINavigationController *navController = [[UIStoryboard storyboardWithName:@"XXCodeBlockExpandViewController" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCodeBlockExpandViewControllerStoryboardID];
+            UINavigationController *navController = [[UIStoryboard storyboardWithName:[XXCodeBlockExpandViewController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCodeBlockExpandViewControllerStoryboardID];
             XXCodeBlockExpandViewController *expandController = (XXCodeBlockExpandViewController *)navController.topViewController;
             NSRange highlightedRange;
             XXCodeBlockModel *model = [picker previewBlockModelWithRange:&highlightedRange];

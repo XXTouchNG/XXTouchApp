@@ -9,6 +9,13 @@
 #import "XXDocumentsTableViewController.h"
 #import "XXWebViewController.h"
 
+#define DOCUMENT_USERS_GUIDE @"https://www.zybuluo.com/xxtouch/note/378784"
+#define DOCUMENT_UPDATE_LOGS @"https://www.zybuluo.com/xxtouch/note/386289"
+#define DOCUMENT_DEVELOPER_REFERENCE @"https://www.zybuluo.com/xxtouch/note/370734"
+#define DOCUMENT_OPEN_API_REFERENCE @"https://www.zybuluo.com/xxtouch/note/386268"
+#define DOCUMENT_CODE_SNIPPETS_REFERENCE @"https://www.zybuluo.com/xxtouch/note/716784"
+#define DOCUMENT_DYNAMIC_XUI_REFERENCE @"https://www.zybuluo.com/xxtouch/note/716787"
+
 enum {
     kDocumentSection = 0,
 };
@@ -19,6 +26,7 @@ enum {
     kDeveloperReferenceIndex = 2,
     kOpenApiReferenceIndex   = 3,
     kCodeSnippetReferenceIndex = 4,
+    kDynamicXUIReferenceIndex = 5
 };
 
 @interface XXDocumentsTableViewController ()
@@ -47,7 +55,7 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 5;
+        return 6;
     }
     return 0;
 }
@@ -73,6 +81,9 @@ enum {
         } else if (indexPath.row == kCodeSnippetReferenceIndex) {
             viewController.title = NSLocalizedString(@"Code Snippet Reference", nil);
             documentUrl = DOCUMENT_CODE_SNIPPETS_REFERENCE;
+        } else if (indexPath.row == kDynamicXUIReferenceIndex) {
+            viewController.title = NSLocalizedString(@"DynamicXUI (XUI) Reference", nil);
+            documentUrl = DOCUMENT_DYNAMIC_XUI_REFERENCE;
         }
         NSString *documentPath = [documentUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         if (documentPath) {

@@ -8,7 +8,6 @@ target 'XXTouchApp' do
     pod 'YYCache'
     pod 'Toast'
     pod 'Masonry'
-    pod 'NJKWebViewProgress'
     pod 'ZBarSDK'
     pod 'MGSwipeTableCell'
     pod 'SSZipArchive'

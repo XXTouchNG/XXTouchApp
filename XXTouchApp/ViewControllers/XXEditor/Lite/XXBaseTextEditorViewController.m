@@ -817,7 +817,7 @@ XXEditorSettingsTableViewControllerDelegate>
             [_textView resignFirstResponder];
         }
         [self keyboardDidDismiss:nil];
-        XXCodeBlockNavigationController *navController = [[UIStoryboard storyboardWithName:@"XXCodeBlocksViewController" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
+        XXCodeBlockNavigationController *navController = [[UIStoryboard storyboardWithName:[XXCodeBlocksViewController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCodeBlocksTableViewControllerStoryboardID];
         XXCodeBlocksViewController *codeBlocksController = (XXCodeBlocksViewController *)navController.topViewController;
         codeBlocksController.textInput = self.textView;
         [self.navigationController presentViewController:navController animated:YES completion:nil];

@@ -431,7 +431,7 @@
 }
 
 - (void)redirectingToUrl:(NSURL *)url {
-    XXEmptyNavigationController *navController = [[UIStoryboard storyboardWithName:@"XXEmptyNavigationController" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
+    XXEmptyNavigationController *navController = [[UIStoryboard storyboardWithName:[XXEmptyNavigationController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXNavigationControllerStoryboardID];
     XXWebViewController *webController = (XXWebViewController *)navController.topViewController;
     webController.url = url;
     webController.title = NSLocalizedString(@"Redirecting...", nil);
@@ -475,7 +475,7 @@
 }
 
 - (void)confirmDownloadingTask:(NSDictionary *)downloadObj {
-    UINavigationController *navController = [[UIStoryboard storyboardWithName:@"XXScanDownloadTaskViewController" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
+    UINavigationController *navController = [[UIStoryboard storyboardWithName:[XXScanDownloadTaskViewController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXDownloadTaskNavigationControllerStoryboardID];
     XXScanDownloadTaskViewController *downloadController = (XXScanDownloadTaskViewController *)navController.topViewController;
     downloadController.sourceUrl = downloadObj[@"url"];
     downloadController.destinationUrl = downloadObj[@"path"];

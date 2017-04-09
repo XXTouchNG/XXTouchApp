@@ -314,3 +314,4 @@ Hide = "隐藏";
 "You can select no more than %ld row(s)." = "最多选择 %ld 个项目。";
 "You should select at least %ld row(s)." = "至少选择 %ld 个项目。";
 "The code must be 10-20 characters long." = "授权码长度在 10 至 20 字符之间。";
+"DynamicXUI (XUI) Reference" = "DynamicXUI (XUI) 参考文档";

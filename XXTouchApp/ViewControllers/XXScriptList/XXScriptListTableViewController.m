@@ -462,7 +462,7 @@ UIDocumentPickerDelegate
                                                             callback:^BOOL(MGSwipeTableCell *sender) {
                                                                 @strongify(self);
                                                                 XXSwipeableCell *currentCell = (XXSwipeableCell *)sender;
-                                                                UINavigationController *navController = [[UIStoryboard storyboardWithName:@"ItemAttributes" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
+                                                                UINavigationController *navController = [[UIStoryboard storyboardWithName:[XXItemAttributesTableViewController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXItemAttributesTableViewControllerStoryboardID];
                                                                 XXItemAttributesTableViewController *viewController = (XXItemAttributesTableViewController *)navController.topViewController;
                                                                 viewController.currentPath = currentCell.itemAttrs[kXXItemPathKey];
                                                                 [self.navigationController presentViewController:navController animated:YES completion:nil];
@@ -751,7 +751,7 @@ UIDocumentPickerDelegate
 }
 
 - (void)presentNewDocumentViewController {
-    UINavigationController *navController = [[UIStoryboard storyboardWithName:@"CreateItem" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
+    UINavigationController *navController = [[UIStoryboard storyboardWithName:[XXCreateItemTableViewController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
     XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
     viewController.currentDirectory = self.currentDirectory;
     [self.navigationController presentViewController:navController animated:YES completion:nil];
@@ -1026,7 +1026,7 @@ UIDocumentPickerDelegate
 - (NSArray *)viewerActivities {
     if (daemonInstalled()) {
         return @[
-                 [XXTUIActivity class],
+                 [XXUIActivity class],
                  [XXWebActivity class],
                  [XXImageActivity class],
                  [XXMediaActivity class],
@@ -1035,7 +1035,7 @@ UIDocumentPickerDelegate
     } else if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
         return @[
                  [XXTerminalActivity class],
-                 [XXTUIActivity class],
+                 [XXUIActivity class],
                  [XXWebActivity class],
                  [XXImageActivity class],
                  [XXMediaActivity class],
