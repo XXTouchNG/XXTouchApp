@@ -1,0 +1,48 @@
+
+/* Class = "UITextField"; placeholder = "Item Name"; ObjectID = "0NV-E3-0Yi"; */
+"0NV-E3-0Yi.placeholder" = "文件名";
+
+/* Class = "UILabel"; text = "Directory"; ObjectID = "5o4-C9-URT"; */
+"5o4-C9-URT.text" = "目錄";
+
+/* Class = "UILabel"; text = "Type"; ObjectID = "9aZ-gN-G82"; */
+"9aZ-gN-G82.text" = "類型";
+
+/* Class = "UILabel"; text = "Created At"; ObjectID = "D4x-kp-fMV"; */
+"D4x-kp-fMV.text" = "創建時間";
+
+/* Class = "UILabel"; text = "Absolute Path"; ObjectID = "Fpp-9U-qpm"; */
+"Fpp-9U-qpm.text" = "絕對路徑";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Mhk-bf-V2l"; */
+"Mhk-bf-V2l.text" = "詳情";
+
+/* Class = "UILabel"; text = "Calculating..."; ObjectID = "Qdh-3h-7Em"; */
+"Qdh-3h-7Em.text" = "計算中...";
+
+/* Class = "UILabel"; text = "N/A"; ObjectID = "UV0-mj-AHo"; */
+"UV0-mj-AHo.text" = "N/A";
+
+/* Class = "UITableViewSection"; headerTitle = "Attributes"; ObjectID = "WGJ-Vn-KRg"; */
+"WGJ-Vn-KRg.headerTitle" = "屬性";
+
+/* Class = "UILabel"; text = "N/A"; ObjectID = "XNx-CM-QjV"; */
+"XNx-CM-QjV.text" = "N/A";
+
+/* Class = "UILabel"; text = "Modified At"; ObjectID = "Xow-ag-Njk"; */
+"Xow-ag-Njk.text" = "修改時間";
+
+/* Class = "UINavigationItem"; title = "Item Attributes"; ObjectID = "fhh-xw-GCG"; */
+"fhh-xw-GCG.title" = "文件屬性";
+
+/* Class = "UILabel"; text = "Mime-Type"; ObjectID = "hAp-1S-yj9"; */
+"hAp-1S-yj9.text" = "Mime 類型";
+
+/* Class = "UITableViewController"; title = "Item Attributes"; ObjectID = "hl6-X0-Ywc"; */
+"hl6-X0-Ywc.title" = "文件屬性";
+
+/* Class = "UILabel"; text = "Size"; ObjectID = "hsM-Nk-oXg"; */
+"hsM-Nk-oXg.text" = "尺寸";
+
+/* Class = "UILabel"; text = "N/A"; ObjectID = "nou-F4-RMn"; */
+"nou-F4-RMn.text" = "N/A";
