@@ -48,7 +48,7 @@
 		0F9046431DD855780006E6DD /* IAPShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90463D1DD855780006E6DD /* IAPShare.m */; };
 		0F9046441DD855780006E6DD /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90463F1DD855780006E6DD /* NSString+Base64.m */; };
 		0F9046451DD855780006E6DD /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9046411DD855780006E6DD /* SFHFKeychainUtils.m */; };
-		0F93FC9A1E7FFDC2009A34EF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F93FC991E7FFDC2009A34EF /* Preferences.framework */; };
+		0F93FC9A1E7FFDC2009A34EF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F93FC991E7FFDC2009A34EF /* Preferences.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0FA5FD8D1DD48686005D3FD4 /* XXLuaInterpreter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8C1DD48686005D3FD4 /* XXLuaInterpreter.mm */; settings = {COMPILER_FLAGS = "-Wno-varargs"; }; };
 		0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8E1DD49213005D3FD4 /* lua.c */; };
@@ -142,7 +142,7 @@
 		0FDD9D4B1E8EF9E3009F96C8 /* XUITintedListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D3E1E8EF9E3009F96C8 /* XUITintedListController.m */; };
 		0FDD9D4C1E8EF9E3009F96C8 /* XUISpecifierParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D411E8EF9E3009F96C8 /* XUISpecifierParser.m */; };
 		0FE312831D963A0900AB895C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3127F1D963A0900AB895C /* Localizable.strings */; };
-		0FE36B1E1DC82C3D00E952B4 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */; };
+		0FE36B1E1DC82C3D00E952B4 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		0FE36B221DC82C5F00E952B4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B211DC82C5F00E952B4 /* libz.tbd */; };
 		0FE36B241DC82C6D00E952B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B231DC82C6D00E952B4 /* libsqlite3.tbd */; };
 		0FE36B261DC82C7B00E952B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B251DC82C7B00E952B4 /* Security.framework */; };

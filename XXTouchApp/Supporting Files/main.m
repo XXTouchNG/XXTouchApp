@@ -86,26 +86,23 @@ static bool debugger_sysctl(void)
 }
 
 int main(int argc, char * argv[]) {
+    
 #ifndef DEBUG
     // If enabled the program should exit with code 055 in GDB
     // Program exited with code 055.
     debugger_ptrace();
-    NSLog(@"Bypassed ptrace()");
     
     // If enabled the program should exit with code 0377 in GDB
     // Program exited with code 0377.
     if (debugger_sysctl())
     {
-        return -1;
-    } else {
-        NSLog(@"Bypassed sysctl()");
+        kill(getpid(), SIGKILL);
+        exit(-1);
     }
     
     // Another way of calling ptrace.
     // Ref: https://www.theiphonewiki.com/wiki/Kernel_Syscalls
     syscall(26, 31, 0, 0);
-    NSLog(@"Bypassed syscall()");
-    
     
     // Ref: https://reverse.put.as/wp-content/uploads/2012/07/Secuinside-2012-Presentation.pdf
     struct ios_execp_info
@@ -123,28 +120,23 @@ int main(int argc, char * argv[]) {
     {
         if (info->ports[i] !=0 || info->flavors[i] == THREAD_STATE_NONE)
         {
-            NSLog(@"Being debugged... task_get_exception_ports");
-        } else {
-            NSLog(@"task_get_exception_ports bypassed");
+            kill(getpid(), SIGKILL);
+            exit(-1);
         }
     }
     
     
     // Another way of figuring out if LLDB is attached.
     if (isatty(1)) {
-        NSLog(@"Being Debugged isatty");
-    } else {
-        NSLog(@"isatty() bypassed");
+        kill(getpid(), SIGKILL);
+        exit(-1);
     }
     
     // Yet another way of figuring out if LLDB is attached.
     if (!ioctl(1, TIOCGWINSZ)) {
-        NSLog(@"Being Debugged ioctl");
-    } else {
-        NSLog(@"ioctl bypassed");
+        kill(getpid(), SIGKILL);
+        exit(-1);
     }
-    
-    
     
     // Everything above relies on libraries. It is easy enough to hook these libraries and return the required
     // result to bypass those checks. So here it is implemented in ARM assembly. Not very fun to bypass these.
@@ -156,7 +148,6 @@ int main(int argc, char * argv[]) {
                   "mov r12, #26\n"
                   "svc #80\n"
                   );
-    NSLog(@"Bypassed syscall() ASM");
 #endif
 #ifdef __arm64__
     asm volatile (
@@ -167,7 +158,6 @@ int main(int argc, char * argv[]) {
                   "mov x16, #0\n"
                   "svc #128\n"
                   );
-    NSLog(@"Bypassed syscall() ASM64");
 #endif
     
 #endif
