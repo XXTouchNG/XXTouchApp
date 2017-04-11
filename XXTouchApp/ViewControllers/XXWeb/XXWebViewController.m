@@ -47,6 +47,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     tapGesture.numberOfTapsRequired = 1;
     tapGesture.numberOfTouchesRequired = 3;
     tapGesture.delegate = self;
+    tapGesture.enabled = NO;
     [self.webView addGestureRecognizer:tapGesture];
 }
 
@@ -259,21 +260,9 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 + (NSArray <NSString *> *)documentWebViewFileExtensions {
     return @[
-             @"html",
-             @"htm",
-             @"rtf",
-             @"doc",
-             @"docx",
-             @"xls",
-             @"xlsx",
-             @"pdf",
-             @"ppt",
-             @"pptx",
-             @"pages",
-             @"key",
-             @"numbers",
-             @"svg",
-             @"epub",
+             @"html", @"htm",
+             @"rtf", @"doc", @"docx", @"xls", @"xlsx", @"pdf", @"ppt", @"pptx",
+             @"pages", @"key", @"numbers", @"svg", @"epub",
              ];
 }
 

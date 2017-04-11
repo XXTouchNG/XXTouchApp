@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "NSString+CountSubstr.h"
+#import "NSString+countSubstr.h"
 
 @implementation NSString (CountSubstr)
 

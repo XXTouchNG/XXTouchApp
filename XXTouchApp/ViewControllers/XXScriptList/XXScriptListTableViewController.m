@@ -21,6 +21,9 @@
 #import "XXCreateItemTableViewController.h"
 #import "XXItemAttributesTableViewController.h"
 #import "XXAboutTableViewController.h"
+#import "XXImagePickerController.h"
+
+#import <AssetsLibrary/AssetsLibrary.h>
 
 #import "UIViewController+MSLayoutSupport.h"
 #import "NSFileManager+RealDestination.h"
@@ -39,7 +42,8 @@ UIGestureRecognizerDelegate,
 XXToolbarDelegate,
 UISearchDisplayDelegate,
 UIDocumentMenuDelegate,
-UIDocumentPickerDelegate
+UIDocumentPickerDelegate,
+XXImagePickerControllerDelegate
 >
 
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
@@ -101,7 +105,7 @@ UIDocumentPickerDelegate
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
     
     self.topToolbar.tapDelegate = self;
-    if (_selectBootscript) {
+    if (self.type == XXScriptListTableViewControllerTypeBootscript) {
         self.navigationItem.rightBarButtonItem = nil;
         [self.topToolbar setItems:self.topToolbar.selectingBootscriptButtons animated:YES];
     } else {
@@ -169,7 +173,7 @@ UIDocumentPickerDelegate
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         @strongify(self);
         NSError *err = nil;
-        BOOL result = (_selectBootscript) ?
+        BOOL result = (self.type == XXScriptListTableViewControllerTypeBootscript) ?
         [XXLocalNetService localGetStartUpConfWithError:&err] :
         [XXLocalNetService localGetSelectedScriptWithError:&err];
         dispatch_async_on_main_queue(^{
@@ -375,20 +379,20 @@ UIDocumentPickerDelegate
     }
     
     cell.itemAttrs = attrs;
-    cell.selectBootscript = self.selectBootscript;
+    cell.selectBootscript = (self.type == XXScriptListTableViewControllerTypeBootscript);
     
     if (cell.isSelectable) {
-        NSString *highlightedItemPath = (_selectBootscript) ?
+        NSString *highlightedItemPath = (cell.selectBootscript) ?
         [[XXLocalDataService sharedInstance] startUpConfigScriptPath] :
         [[XXLocalDataService sharedInstance] selectedScript];
         cell.checked = [attrs[kXXItemRealPathKey] isEqualToString:highlightedItemPath];
     } else if (cell.isDirectory) {
-        cell.checked = (_selectBootscript) ?
+        cell.checked = (cell.selectBootscript) ?
         [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:attrs[kXXItemRealPathKey]] :
         [[XXLocalDataService sharedInstance] isSelectedScriptInPath:attrs[kXXItemRealPathKey]];
     }
     
-    if (_selectBootscript) {
+    if (cell.selectBootscript) {
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else {
         cell.accessoryType = cell.isSpecial ?
@@ -491,7 +495,7 @@ UIDocumentPickerDelegate
                                                                          NSError *err = nil;
                                                                          BOOL result = [[NSFileManager defaultManager] removeItemAtPath:currentCell.itemAttrs[kXXItemPathKey] error:&err]; // This may be time comsuming
                                                                          if (currentCell.checked) {
-                                                                             if (_selectBootscript) {
+                                                                             if (self.type == XXScriptListTableViewControllerTypeBootscript) {
                                                                                  [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                                                                              } else {
                                                                                  [[XXLocalDataService sharedInstance] setSelectedScript:nil];
@@ -529,7 +533,7 @@ UIDocumentPickerDelegate
 #pragma mark - Long Press Gesture for Block
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if (_selectBootscript) {
+    if (self.type == XXScriptListTableViewControllerTypeBootscript) {
         return NO;
     }
     return (!self.isEditing);
@@ -585,7 +589,7 @@ UIDocumentPickerDelegate
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     [self.tableView setEditing:editing animated:animated];
-    if (_selectBootscript) return;
+    if (self.type == XXScriptListTableViewControllerTypeBootscript) return;
     // Pasteboard Event - setEditing
     if (editing) {
         [self.topToolbar setItems:self.topToolbar.editingToolbarButtons animated:YES];
@@ -631,8 +635,8 @@ UIDocumentPickerDelegate
     if ([segue.identifier isEqualToString:kXXRewindSegueIdentifier]) {
         XXScriptListTableViewController *newController = (XXScriptListTableViewController *)segue.destinationViewController;
         newController.currentDirectory = currentCell.itemAttrs[kXXItemPathKey];
-        if (_selectBootscript) {
-            newController.selectBootscript = self.selectBootscript;
+        if (self.type == XXScriptListTableViewControllerTypeBootscript) {
+            newController.type = self.type;
             newController.selectViewController = self.selectViewController;
         }
     }
@@ -661,7 +665,7 @@ UIDocumentPickerDelegate
                         lastCell = cell;
                     }
                 }
-                if (_selectBootscript) {
+                if (self.type == XXScriptListTableViewControllerTypeBootscript) {
                     SendConfigAction([XXLocalNetService localSetSelectedStartUpScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;  [self popToSelectViewController];);
                 } else {
                     SendConfigAction([XXLocalNetService localSetSelectedScript:currentCell.itemAttrs[kXXItemPathKey] error:&err], lastCell.checked = NO; currentCell.checked = YES;);
@@ -690,7 +694,7 @@ UIDocumentPickerDelegate
         if (currentCell.isDirectory) {
             // Perform Segue
         } else {
-            if (_selectBootscript) {
+            if (self.type == XXScriptListTableViewControllerTypeBootscript) {
                 [self.navigationController.view makeToast:NSLocalizedString(@"You can only select executable script type: lua, xxt", nil)];
             } else {
                 BOOL result = [self viewFileWithStandardViewer:currentCell.itemAttrs[kXXItemPathKey]
@@ -705,7 +709,7 @@ UIDocumentPickerDelegate
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_selectBootscript) {
+    if (self.type == XXScriptListTableViewControllerTypeBootscript) {
         return NO;
     }
     if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && !self.hidesMainPath) {
@@ -765,6 +769,17 @@ UIDocumentPickerDelegate
                                  order:UIDocumentMenuOrderFirst
                                handler:^{
                                    [self presentNewDocumentViewController];
+                               }];
+    [documentPicker addOptionWithTitle:NSLocalizedString(@"Photos Library", nil)
+                                 image:nil
+                                 order:UIDocumentMenuOrderLast
+                               handler:^{
+                                   XXImagePickerController *cont = [[XXImagePickerController alloc] initWithNibName:@"XXImagePickerController" bundle:nil];
+                                   cont.delegate = self;
+                                   cont.nResultType = DO_PICKER_RESULT_ASSET;
+                                   cont.nMaxCount = DO_NO_LIMIT_SELECT;
+                                   cont.nColumnCount = 4;
+                                   [self presentViewController:cont animated:YES completion:nil];
                                }];
     [self.navigationController presentViewController:documentPicker animated:YES completion:nil];
 }
@@ -916,7 +931,7 @@ UIDocumentPickerDelegate
             NSMutableIndexSet *indexesToBeDeleted = [NSMutableIndexSet new];
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
-                if (_selectBootscript) {
+                if (self.type == XXScriptListTableViewControllerTypeBootscript) {
                     if ([itemPath isEqualToString:[[XXLocalDataService sharedInstance] startUpConfigScriptPath]]) {
                         [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
                     }
@@ -1178,6 +1193,44 @@ UIDocumentPickerDelegate
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationLaunch object:url userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventInbox}]];
 }
+
+#pragma mark - XXImagePickerControllerDelegate
+
+- (void)didCancelDoImagePickerController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didSelectPhotosFromDoImagePickerController:(XXImagePickerController *)picker
+                                            result:(NSArray *)aSelected
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        NSError *error = nil;
+        NSString *currentDirectory = self.currentDirectory;
+        for (ALAsset *asset in aSelected) {
+            ALAssetRepresentation *assetRepr = asset.defaultRepresentation;
+            Byte *buffer = (Byte*)malloc(assetRepr.size);
+            NSUInteger buffered = [assetRepr getBytes:buffer fromOffset:0 length:assetRepr.size error:&error];
+            if (error) {
+                continue;
+            }
+            NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            [data writeToFile:[currentDirectory stringByAppendingPathComponent:assetRepr.filename] atomically:YES];
+        }
+        dispatch_async_on_main_queue(^{
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self.navigationController.view hideToastActivity];
+            [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"%lu image(s) imported.", nil), aSelected.count]];
+            [self reloadScriptListTableView];
+        });
+    });
+}
+
 
 #pragma mark - Memory
 

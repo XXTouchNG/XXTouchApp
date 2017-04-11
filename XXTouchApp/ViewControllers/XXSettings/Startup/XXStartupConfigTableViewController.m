@@ -64,7 +64,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1 && indexPath.row == 0) {
         XXScriptListTableViewController *newController = [STORYBOARD instantiateViewControllerWithIdentifier:kXXScriptListTableViewControllerStoryboardID];
-        newController.selectBootscript = YES;
+        newController.type = XXScriptListTableViewControllerTypeBootscript;
         newController.selectViewController = self;
         newController.title = NSLocalizedString(@"Select Bootscript", nil);
         [self.navigationController pushViewController:newController animated:YES];

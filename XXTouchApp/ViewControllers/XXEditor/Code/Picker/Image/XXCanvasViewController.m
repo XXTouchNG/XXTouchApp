@@ -332,7 +332,7 @@
 }
 
 #pragma mark - UIGestureRecognizerDelegate
-#pragma mark - DoImagePickerControllerDelegate
+#pragma mark - XXImagePickerControllerDelegate
 
 - (void)didCancelDoImagePickerController
 {

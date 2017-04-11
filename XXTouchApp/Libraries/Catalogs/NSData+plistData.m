@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
-#import "NSData+PlistData.h"
+#import "NSData+plistData.h"
 
 @implementation NSData (plistData)
 

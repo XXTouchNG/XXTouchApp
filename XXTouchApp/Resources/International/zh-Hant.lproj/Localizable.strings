@@ -315,3 +315,4 @@ Hide = "隱藏";
 "You should select at least %ld row(s)." = "至少選擇 %ld 個項目。";
 "The code must be 10-20 characters long." = "授權碼長度在 10 至 20 字元之間。";
 "DynamicXUI (XUI) Reference" = "DynamicXUI (XUI) 參考文檔";
+"%@ image(s) imported." = "已導入 %@ 張圖片。";

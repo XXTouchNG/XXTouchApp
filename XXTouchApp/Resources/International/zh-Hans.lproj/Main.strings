@@ -427,3 +427,6 @@
 
 /* Class = "UITableViewSection"; headerTitle = "Remote"; ObjectID = "fiE-PB-Fqe"; */
 "fiE-PB-Fqe.headerTitle" = "远程";
+
+/* Class = "UILabel"; text = "DynamicXUI (XUI) Reference"; ObjectID = "s5q-UZ-whh"; */
+"s5q-UZ-whh.text" = "DynamicXUI (XUI) 参考文档";

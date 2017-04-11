@@ -48,9 +48,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (!_firstAppeared) {
-#ifdef DEBUG
-//        [self performSelector:@selector(showFirstLaunchGuide) withObject:nil afterDelay:.3f];
-#endif
         _firstAppeared = YES;
     }
 }
@@ -143,6 +140,8 @@
     if ([[XXLocalDataService sharedInstance] objectForKey:versionIgnoreKey])
     {
         // Do not notify version
+        // and do not check today
+        [[XXLocalDataService sharedInstance] setObject:@YES forKey:dailyIgnoreKey];
         return;
     }
     dispatch_async_on_main_queue(^{
@@ -164,13 +163,13 @@
         [alert addButtonWithTitle:NSLocalizedString(@"Tell Me Later", nil)
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
-                              [[XXLocalDataService sharedInstance] setObject:@(1) forKey:dailyIgnoreKey];
+                              [[XXLocalDataService sharedInstance] setObject:@YES forKey:dailyIgnoreKey];
                           }];
         [alert addButtonWithTitle:NSLocalizedString(@"Ignore This Version", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
-                              [[XXLocalDataService sharedInstance] setObject:@(1) forKey:dailyIgnoreKey];
-                              [[XXLocalDataService sharedInstance] setObject:@(1) forKey:versionIgnoreKey];
+                              [[XXLocalDataService sharedInstance] setObject:@YES forKey:dailyIgnoreKey];
+                              [[XXLocalDataService sharedInstance] setObject:@YES forKey:versionIgnoreKey];
                           }];
         [alert show];
         [self performSelector:@selector(autodismissUpdateAlertView:) withObject:alert afterDelay:10.f];
@@ -217,7 +216,12 @@
         NSError *err = nil;
         NSString *lastComponent = [url lastPathComponent];
         NSString *formerPath = [url path];
-        NSString *latterPath = [ROOT_PATH stringByAppendingPathComponent:lastComponent];
+        NSString *currentPath = ROOT_PATH;
+        id currentViewController = self.topViewController;
+        if ([currentViewController isKindOfClass:[XXScriptListTableViewController class]]) {
+            currentPath = ((XXScriptListTableViewController *)currentViewController).currentDirectory;
+        }
+        NSString *latterPath = [currentPath stringByAppendingPathComponent:lastComponent];
         BOOL result = [[NSFileManager defaultManager] moveItemAtPath:formerPath toPath:latterPath error:&err];
         dispatch_async_on_main_queue(^{
             self.view.userInteractionEnabled = YES;

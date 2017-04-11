@@ -8,10 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    XXScriptListTableViewControllerTypeNormal = 0,
+    XXScriptListTableViewControllerTypeBootscript = 1,
+    XXScriptListTableViewControllerTypePicker = 2,
+} XXScriptListTableViewControllerType;
+
 static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
 
 @interface XXScriptListTableViewController : UIViewController <UIPopoverControllerDelegate>
-@property (nonatomic, assign) BOOL selectBootscript;
+@property (nonatomic, assign) XXScriptListTableViewControllerType type;
 @property (nonatomic, weak) UIViewController *selectViewController;
 @property (nonatomic, copy) NSString *currentDirectory;
 @property (nonatomic, strong) UIPopoverController *currentPopoverController;

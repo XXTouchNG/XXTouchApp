@@ -17,6 +17,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
+				<string>com.xxtouch.xui</string>
 				<string>com.xxtouch.lua</string>
 				<string>com.xxtouch.xxt</string>
 			</array>
@@ -119,6 +120,23 @@
 	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.text</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.xxtouch.xui</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>xui</string>
+				</array>
+				<key>public.mime-type</key>
+				<string>application/x-xui</string>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
