@@ -65,9 +65,15 @@ typedef enum : NSUInteger {
     if (itemType == kXXCreateItemTypeRegularLuaFile) {
         itemPath = [itemPath stringByAppendingPathExtension:@"lua"];
         NSString *deviceName = [[UIDevice currentDevice] name];
+        NSString *versionString = nil;
+        if (daemonInstalled()) {
+            versionString = [NSString stringWithFormat:@"%@ V%@", NSLocalizedString(@"XXTouch Pro", nil), extendDict()[@"DAEMON_VERSION"]];
+        } else {
+            versionString = [NSString stringWithFormat:@"%@ V%@ (%@)", NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD];
+        }
         NSString *newLua = [NSString stringWithFormat:@"--\n--  %@\n--  %@\n--\n--  Created by %@ on %@.\n--  Copyright © %ld %@.\n--  All rights reserved.\n--\n\n",
                             [itemName stringByAppendingPathExtension:@"lua"],
-                            [NSString stringWithFormat:@"%@ v%@", NSLocalizedString(@"XXTouch", nil), VERSION_STRING],
+                            versionString,
                             deviceName,
                             [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
                             (long)[[NSDate date] year], deviceName];

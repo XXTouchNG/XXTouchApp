@@ -14,12 +14,13 @@
 
 static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
-@interface XXWebViewController () <UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface XXWebViewController () <UIWebViewDelegate, UIGestureRecognizerDelegate, UIPopoverControllerDelegate>
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
 @property (nonatomic, strong) UIBarButtonItem *transferItem;
 @property (nonatomic, strong, readonly) NSURL *baseUrl;
 
+@property (nonatomic, strong) UIPopoverController *currentPopoverController;
 @end
 
 @implementation XXWebViewController
@@ -41,14 +42,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     [self.view addSubview:self.webView];
     [self updateViewConstraints];
     [self loadWebView];
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(tripleFingerTapped:)];
-    tapGesture.numberOfTapsRequired = 1;
-    tapGesture.numberOfTouchesRequired = 3;
-    tapGesture.delegate = self;
-    tapGesture.enabled = NO;
-    [self.webView addGestureRecognizer:tapGesture];
 }
 
 - (void)loadWebView {
@@ -56,8 +49,11 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     { // Not local
         NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
         [self.webView loadRequest:request];
+        self.navigationItem.rightBarButtonItem = self.shareItem;
         return;
     }
+    self.navigationItem.rightBarButtonItem = self.transferItem;
+    
     NSData *fileData = nil;
     NSString *fileString = nil;
     NSError *err = nil;
@@ -146,15 +142,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if ([[UIApplication sharedApplication] canOpenURL:self.url]) {
-        self.navigationItem.rightBarButtonItem = self.shareItem;
-    } else {
-        self.navigationItem.rightBarButtonItem = self.transferItem;
-    }
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     self.navigationItem.rightBarButtonItem = nil;
@@ -169,6 +156,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 - (UIWebView *)webView {
     if (!_webView) {
         UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        webView.delegate = self;
         webView.allowsInlineMediaPlayback = YES;
         webView.scalesPageToFit = YES;
         webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -183,10 +171,10 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (UIBarButtonItem *)shareItem {
     if (!_shareItem) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
-        anotherButton.tintColor = [UIColor whiteColor];
-        anotherButton.enabled = NO;
-        _shareItem = anotherButton;
+        UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
+        shareItem.tintColor = [UIColor whiteColor];
+        shareItem.enabled = NO;
+        _shareItem = shareItem;
     }
     return _shareItem;
 }
@@ -214,18 +202,40 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     ARSafariActivity *safariActivity = [[ARSafariActivity alloc] init];
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:@[safariActivity]];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        UIView* view = [sender valueForKey:@"view"];
-        controller.popoverPresentationController.sourceView = view;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        controller.modalPresentationStyle = UIModalPresentationPopover;
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+            [popover presentPopoverFromBarButtonItem:sender
+                            permittedArrowDirections:UIPopoverArrowDirectionAny
+                                            animated:YES];
+            self.currentPopoverController = popover;
+            popover.delegate = self;
+            popover.passthroughViews = nil;
+            return;
+        }
+        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        controller.popoverPresentationController.barButtonItem = sender;
     }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)transferItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:nil];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        UIView* view = [sender valueForKey:@"view"];
-        controller.popoverPresentationController.sourceView = view;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        controller.modalPresentationStyle = UIModalPresentationPopover;
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+            [popover presentPopoverFromBarButtonItem:sender
+                            permittedArrowDirections:UIPopoverArrowDirectionAny
+                                            animated:YES];
+            self.currentPopoverController = popover;
+            popover.delegate = self;
+            popover.passthroughViews = nil;
+            return;
+        }
+        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        controller.popoverPresentationController.barButtonItem = sender;
     }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
@@ -242,10 +252,6 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self.navigationController.view makeToast:[error localizedDescription]];
-}
-
-- (void)dealloc {
-    CYLog(@"");
 }
 
 #pragma mark - File Types
@@ -274,11 +280,10 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     return @[ @"plist" ];
 }
 
-#pragma mark - UIGestureRecognizer
+#pragma mark - Memory
 
-- (void)tripleFingerTapped:(UITapGestureRecognizer *)gestureRecognizer
-{
-    [self.navigationController setNavigationBarHidden:![self.navigationController isNavigationBarHidden] animated:YES];
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

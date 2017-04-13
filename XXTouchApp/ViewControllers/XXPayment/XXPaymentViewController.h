@@ -10,6 +10,7 @@
 #import "XXBaseActivity.h"
 
 @interface XXPaymentViewController : UIViewController
+@property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, weak) XXBaseActivity *activity;
 
 @end

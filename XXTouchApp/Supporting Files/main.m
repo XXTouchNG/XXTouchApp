@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Vincent Tan. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+
+#ifndef DEBUG
+#import <UIKit/UIKit.h>
 
 // For debugger_ptrace. Ref: https://www.theiphonewiki.com/wiki/Bugging_Debuggers
 #import <dlfcn.h>
@@ -76,14 +78,15 @@ static bool debugger_sysctl(void)
     
     if (sysctl(mib, 4, &info, &info_size, NULL, 0) == -1)
     {
-        perror("perror sysctl");
-        exit(-1);
+        kill(getpid(), SIGKILL);
     }
     
     // We're being debugged if the P_TRACED flag is set.
     
     return ((info.kp_proc.p_flag & P_TRACED) != 0);
 }
+
+#endif 
 
 int main(int argc, char * argv[]) {
     
@@ -97,45 +100,21 @@ int main(int argc, char * argv[]) {
     if (debugger_sysctl())
     {
         kill(getpid(), SIGKILL);
-        exit(-1);
     }
     
     // Another way of calling ptrace.
     // Ref: https://www.theiphonewiki.com/wiki/Kernel_Syscalls
     syscall(26, 31, 0, 0);
     
-    // Ref: https://reverse.put.as/wp-content/uploads/2012/07/Secuinside-2012-Presentation.pdf
-    struct ios_execp_info
-    {
-        exception_mask_t masks[EXC_TYPES_COUNT];
-        mach_port_t ports[EXC_TYPES_COUNT];
-        exception_behavior_t behaviors[EXC_TYPES_COUNT];
-        thread_state_flavor_t flavors[EXC_TYPES_COUNT];
-        mach_msg_type_number_t count;
-    };
-    struct ios_execp_info *info = malloc(sizeof(struct ios_execp_info));
-    kern_return_t kr = task_get_exception_ports(mach_task_self(), EXC_MASK_ALL, info->masks, &info->count, info->ports, info->behaviors, info->flavors);
-    
-    for (int i = 0; i < info->count; i++)
-    {
-        if (info->ports[i] !=0 || info->flavors[i] == THREAD_STATE_NONE)
-        {
-            kill(getpid(), SIGKILL);
-            exit(-1);
-        }
-    }
-    
     
     // Another way of figuring out if LLDB is attached.
     if (isatty(1)) {
         kill(getpid(), SIGKILL);
-        exit(-1);
     }
     
     // Yet another way of figuring out if LLDB is attached.
     if (!ioctl(1, TIOCGWINSZ)) {
         kill(getpid(), SIGKILL);
-        exit(-1);
     }
     
     // Everything above relies on libraries. It is easy enough to hook these libraries and return the required

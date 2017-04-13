@@ -17,6 +17,7 @@ typedef enum : NSUInteger {
 } kXXWebViewLoadType;
 
 @interface XXWebViewController : UIViewController
+@property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, weak) XXBaseActivity *activity;
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, assign) kXXWebViewLoadType loadType;

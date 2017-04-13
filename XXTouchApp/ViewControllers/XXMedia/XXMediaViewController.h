@@ -10,7 +10,7 @@
 #import "XXBaseActivity.h"
 
 @interface XXMediaViewController : UIViewController
-@property (nonatomic, weak) XXBaseActivity *activity;
 @property (nonatomic, copy) NSString *filePath;
+@property (nonatomic, weak) XXBaseActivity *activity;
 
 @end

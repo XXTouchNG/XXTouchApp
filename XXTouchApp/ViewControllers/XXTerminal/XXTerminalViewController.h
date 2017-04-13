@@ -10,8 +10,9 @@
 #import "XXBaseActivity.h"
 
 @interface XXTerminalViewController : UIViewController
-@property (nonatomic, weak) XXBaseActivity *activity;
-@property (nonatomic, assign) BOOL runImmediately;
 @property (nonatomic, copy) NSString *filePath;
+@property (nonatomic, weak) XXBaseActivity *activity;
+
+@property (nonatomic, assign) BOOL runImmediately;
 
 @end

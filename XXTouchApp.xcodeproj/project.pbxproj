@@ -2418,7 +2418,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2467,7 +2467,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -2511,6 +2511,7 @@
 					"$(PROJECT_DIR)/XXTouchApp/ThirdParty",
 					"$(PROJECT_DIR)/XXTouchApp/Libraries",
 				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2574,7 +2575,6 @@
 					"\"QuartzCore\"",
 					"-framework",
 					"\"UIKit\"",
-					"-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxtouch.XXTouchApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2624,6 +2624,7 @@
 					"$(PROJECT_DIR)/XXTouchApp/ThirdParty",
 					"$(PROJECT_DIR)/XXTouchApp/Libraries",
 				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

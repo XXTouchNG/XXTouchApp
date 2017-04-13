@@ -9,11 +9,13 @@
 #import "XXMediaViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface XXMediaViewController ()
+@interface XXMediaViewController () <UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
 @property (nonatomic, strong) UIBarButtonItem *shareItem;
+
+@property (nonatomic, strong) UIPopoverController *currentPopoverController;
 
 @end
 
@@ -71,9 +73,9 @@
 
 - (UIBarButtonItem *)shareItem {
     if (!_shareItem) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
-        anotherButton.tintColor = [UIColor whiteColor];
-        _shareItem = anotherButton;
+        UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItemTapped:) ];
+        shareItem.tintColor = [UIColor whiteColor];
+        _shareItem = shareItem;
     }
     return _shareItem;
 }
@@ -90,9 +92,20 @@
 
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        UIView* view = [sender valueForKey:@"view"];
-        controller.popoverPresentationController.sourceView = view;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        controller.modalPresentationStyle = UIModalPresentationPopover;
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+            [popover presentPopoverFromBarButtonItem:sender
+                            permittedArrowDirections:UIPopoverArrowDirectionAny
+                                            animated:YES];
+            self.currentPopoverController = popover;
+            popover.delegate = self;
+            popover.passthroughViews = nil;
+            return;
+        }
+        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        controller.popoverPresentationController.barButtonItem = sender;
     }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }

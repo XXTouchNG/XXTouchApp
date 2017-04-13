@@ -43,7 +43,8 @@ XXToolbarDelegate,
 UISearchDisplayDelegate,
 UIDocumentMenuDelegate,
 UIDocumentPickerDelegate,
-XXImagePickerControllerDelegate
+XXImagePickerControllerDelegate,
+UIPopoverControllerDelegate
 >
 
 @property (weak, nonatomic) IBOutlet XXToolbar *topToolbar;
@@ -58,6 +59,8 @@ XXImagePickerControllerDelegate
 @property (nonatomic, copy) NSString *relativePath;
 
 @property (nonatomic, strong) UIBarButtonItem *aboutBtn;
+
+@property (nonatomic, strong) UIPopoverController *currentPopoverController;
 
 @end
 
@@ -754,34 +757,49 @@ XXImagePickerControllerDelegate
     [self.navigationController.view makeToast:NSLocalizedString(@"Absolute path copied to the clipboard", nil)];
 }
 
-- (void)presentNewDocumentViewController {
+- (void)presentNewDocumentViewController:(UIBarButtonItem *)sender {
     UINavigationController *navController = [[UIStoryboard storyboardWithName:[XXCreateItemTableViewController className] bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXCreateItemTableViewControllerStoryboardID];
     XXCreateItemTableViewController *viewController = (XXCreateItemTableViewController *)navController.topViewController;
     viewController.currentDirectory = self.currentDirectory;
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)presentDocumentMenuViewController {
-    UIDocumentMenuViewController *documentPicker = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[@"public.data"] inMode:UIDocumentPickerModeImport];
-    documentPicker.delegate = self;
-    [documentPicker addOptionWithTitle:NSLocalizedString(@"New Document", nil)
-                                 image:[UIImage imageNamed:@"menu-add"]
-                                 order:UIDocumentMenuOrderFirst
-                               handler:^{
-                                   [self presentNewDocumentViewController];
-                               }];
-    [documentPicker addOptionWithTitle:NSLocalizedString(@"Photos Library", nil)
-                                 image:nil
-                                 order:UIDocumentMenuOrderLast
-                               handler:^{
-                                   XXImagePickerController *cont = [[XXImagePickerController alloc] initWithNibName:@"XXImagePickerController" bundle:nil];
-                                   cont.delegate = self;
-                                   cont.nResultType = DO_PICKER_RESULT_ASSET;
-                                   cont.nMaxCount = DO_NO_LIMIT_SELECT;
-                                   cont.nColumnCount = 4;
-                                   [self presentViewController:cont animated:YES completion:nil];
-                               }];
-    [self.navigationController presentViewController:documentPicker animated:YES completion:nil];
+- (void)presentDocumentMenuViewController:(UIBarButtonItem *)sender {
+    UIDocumentMenuViewController *controller = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[@"public.data"] inMode:UIDocumentPickerModeImport];
+    controller.delegate = self;
+    [controller addOptionWithTitle:NSLocalizedString(@"New Document", nil)
+                             image:[UIImage imageNamed:@"menu-add"]
+                             order:UIDocumentMenuOrderFirst
+                           handler:^{
+                               [self presentNewDocumentViewController:(UIBarButtonItem *)sender];
+                           }];
+    [controller addOptionWithTitle:NSLocalizedString(@"Photos Library", nil)
+                             image:nil
+                             order:UIDocumentMenuOrderLast
+                           handler:^{
+                               XXImagePickerController *cont = [[XXImagePickerController alloc] initWithNibName:@"XXImagePickerController" bundle:nil];
+                               cont.delegate = self;
+                               cont.nResultType = DO_PICKER_RESULT_ASSET;
+                               cont.nMaxCount = DO_NO_LIMIT_SELECT;
+                               cont.nColumnCount = 4;
+                               [self presentViewController:cont animated:YES completion:nil];
+                           }];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        controller.modalPresentationStyle = UIModalPresentationPopover;
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+            [popover presentPopoverFromBarButtonItem:sender
+                            permittedArrowDirections:UIPopoverArrowDirectionAny
+                                            animated:YES];
+            self.currentPopoverController = popover;
+            popover.delegate = self;
+            popover.passthroughViews = nil;
+            return;
+        }
+        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        controller.popoverPresentationController.barButtonItem = sender;
+    }
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)toolbarButtonTapped:(UIBarButtonItem *)sender {
@@ -789,9 +807,9 @@ XXImagePickerControllerDelegate
         [((XXNavigationViewController *)self.navigationController) transitionToScanViewController];
     } else if (sender == self.topToolbar.addItemButton) {
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-            [self presentDocumentMenuViewController];
+            [self presentDocumentMenuViewController:sender];
         } else {
-            [self presentNewDocumentViewController];
+            [self presentNewDocumentViewController:sender];
         }
     } else if (sender == self.topToolbar.pasteButton) {
         // Start Alert View
@@ -973,9 +991,20 @@ XXImagePickerControllerDelegate
         if (urlsArr.count != 0) {
             XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
             UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-                UIView* view = [sender valueForKey:@"view"];
-                controller.popoverPresentationController.sourceView = view;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                controller.modalPresentationStyle = UIModalPresentationPopover;
+                if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+                    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                    [popover presentPopoverFromBarButtonItem:sender
+                                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                    animated:YES];
+                    self.currentPopoverController = popover;
+                    popover.delegate = self;
+                    popover.passthroughViews = nil;
+                    return;
+                }
+                controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+                controller.popoverPresentationController.barButtonItem = sender;
             }
             [self.navigationController presentViewController:controller animated:YES completion:nil];
         } else {
@@ -1102,14 +1131,19 @@ XXImagePickerControllerDelegate
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:acts];
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            controller.modalPresentationStyle = UIModalPresentationPopover;
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
                 UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
                 [popover presentPopoverFromRect:anchorRect
                                          inView:anchorView
                        permittedArrowDirections:UIPopoverArrowDirectionAny
                                        animated:YES];
+                self.currentPopoverController = popover;
+                popover.delegate = self;
+                popover.passthroughViews = nil;
                 return YES;
             }
+            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.sourceView = anchorView;
             controller.popoverPresentationController.sourceRect = anchorRect;
         }
@@ -1145,7 +1179,8 @@ XXImagePickerControllerDelegate
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:acts];
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            controller.modalPresentationStyle = UIModalPresentationPopover;
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
                 UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
                 [popover presentPopoverFromRect:anchorRect
                                          inView:anchorView
@@ -1156,6 +1191,7 @@ XXImagePickerControllerDelegate
                 popover.passthroughViews = nil;
                 return YES;
             }
+            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.sourceView = anchorView;
             controller.popoverPresentationController.sourceRect = anchorRect;
         }
@@ -1165,13 +1201,11 @@ XXImagePickerControllerDelegate
     return NO;
 }
 
-
 #pragma mark - UIPopoverControllerDelegate
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
     self.currentPopoverController = nil;
 }
-
 
 #pragma mark - UIDocumentMenuDelegate
 
@@ -1214,8 +1248,8 @@ XXImagePickerControllerDelegate
         NSString *currentDirectory = self.currentDirectory;
         for (ALAsset *asset in aSelected) {
             ALAssetRepresentation *assetRepr = asset.defaultRepresentation;
-            Byte *buffer = (Byte*)malloc(assetRepr.size);
-            NSUInteger buffered = [assetRepr getBytes:buffer fromOffset:0 length:assetRepr.size error:&error];
+            Byte *buffer = (Byte *)malloc((size_t)assetRepr.size);
+            NSUInteger buffered = [assetRepr getBytes:buffer fromOffset:0 length:(NSUInteger)assetRepr.size error:&error];
             if (error) {
                 continue;
             }

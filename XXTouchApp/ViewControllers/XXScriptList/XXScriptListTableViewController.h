@@ -16,10 +16,9 @@ typedef enum : NSUInteger {
 
 static NSString * const kXXScriptListTableViewControllerStoryboardID = @"kXXScriptListTableViewControllerStoryboardID";
 
-@interface XXScriptListTableViewController : UIViewController <UIPopoverControllerDelegate>
+@interface XXScriptListTableViewController : UIViewController
 @property (nonatomic, assign) XXScriptListTableViewControllerType type;
 @property (nonatomic, weak) UIViewController *selectViewController;
 @property (nonatomic, copy) NSString *currentDirectory;
-@property (nonatomic, strong) UIPopoverController *currentPopoverController;
 
 @end

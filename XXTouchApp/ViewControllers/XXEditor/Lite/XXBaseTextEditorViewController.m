@@ -32,7 +32,9 @@ static clock_t tickCount;
 UIScrollViewDelegate,
 UIGestureRecognizerDelegate,
 UISearchBarDelegate,
-XXEditorSettingsTableViewControllerDelegate>
+XXEditorSettingsTableViewControllerDelegate,
+UIPopoverControllerDelegate
+>
 
 @property (nonatomic, strong) UIView *fakeStatusBar;
 @property (nonatomic, strong) XXBaseTextView *textView;
@@ -60,6 +62,8 @@ XXEditorSettingsTableViewControllerDelegate>
 @property (nonatomic, strong) XXKeyboardRow *keyboardRow;
 @property (nonatomic, copy) NSString *tabString;
 @property (nonatomic, assign) BOOL autoIndent;
+
+@property (nonatomic, strong) UIPopoverController *currentPopoverController;
 
 @end
 
@@ -356,9 +360,20 @@ XXEditorSettingsTableViewControllerDelegate>
 
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        UIView* view = [sender valueForKey:@"view"];
-        controller.popoverPresentationController.sourceView = view;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        controller.modalPresentationStyle = UIModalPresentationPopover;
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+            [popover presentPopoverFromBarButtonItem:sender
+                            permittedArrowDirections:UIPopoverArrowDirectionAny
+                                            animated:YES];
+            self.currentPopoverController = popover;
+            popover.delegate = self;
+            popover.passthroughViews = nil;
+            return;
+        }
+        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        controller.popoverPresentationController.barButtonItem = sender;
     }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }

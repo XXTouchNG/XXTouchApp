@@ -1275,7 +1275,7 @@
     }
 }
 
-- (void)actionButtonPressed:(id)sender {
+- (void)actionButtonPressed:(UIBarButtonItem *)sender {
     id <IDMPhoto> photo = [self photoAtIndex:_currentPageIndex];
 
     if ([self numberOfPhotos] > 0 && [photo underlyingImage]) {
@@ -1309,9 +1309,9 @@
 			}
 			else { // iPad
 				UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:self.activityViewController];
-				[popover presentPopoverFromRect:CGRectMake(self.view.frame.size.width/2, self.view.frame.size.height/4, 0, 0)
-										 inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny
-									   animated:YES];
+                [popover presentPopoverFromBarButtonItem:sender
+                                permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                animated:YES];
 			}
         }
         else
