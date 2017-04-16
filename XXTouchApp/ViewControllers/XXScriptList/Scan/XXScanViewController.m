@@ -408,7 +408,7 @@
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
@@ -416,7 +416,7 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
     if (metadataObjects.count > 0) {
         AVMetadataMachineReadableCodeObject * metadataObject = metadataObjects[0];
-        CYLog(@"%@", metadataObject.stringValue);
+        XXLog(@"%@", metadataObject.stringValue);
         if (_session && [_session isRunning]) {
             [_session stopRunning];
         }
@@ -443,7 +443,7 @@
 }
 
 - (void)codeBindingToController:(NSString *)code {
-    XXAuthorizationTableViewController *authController = (XXAuthorizationTableViewController *)[STORYBOARD instantiateViewControllerWithIdentifier:kXXAuthorizationTableViewControllerStoryboardID];
+    XXAuthorizationTableViewController *authController = (XXAuthorizationTableViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXAuthorizationTableViewControllerStoryboardID];
     authController.code = code;
     authController.fromScan = YES;
     _authController = authController;
@@ -466,7 +466,7 @@
             CIQRCodeFeature *feature = features[index];
             scannedResult = feature.messageString;
             if (scannedResult) {
-                CYLog(@"%@", scannedResult);
+                XXLog(@"%@", scannedResult);
                 break;
             }
         }

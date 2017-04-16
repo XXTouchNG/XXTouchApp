@@ -99,8 +99,6 @@ static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainP
 @property (nonatomic, strong) NSMutableArray <NSString *> *pasteboardArr;
 @property (nonatomic, assign) kXXScriptListSortMethod sortMethod; // Cached
 
-- (NSString *)randString;
-
 @property (nonatomic, strong) NSArray <NSDictionary *> *bundles; // Cached
 
 @property (nonatomic, assign) kXXEditorFontFamily fontFamily; // Cached

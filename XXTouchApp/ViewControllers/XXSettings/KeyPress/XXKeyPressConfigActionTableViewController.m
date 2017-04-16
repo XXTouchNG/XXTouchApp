@@ -129,7 +129,7 @@ static void * handle = nil;
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

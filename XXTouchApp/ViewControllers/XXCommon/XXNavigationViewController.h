@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const kXXRootNavigationControllerStoryboardID = @"kXXRootNavigationControllerStoryboardID";
+
 @interface XXNavigationViewController : UINavigationController
 - (void)handleShortCut:(NSString *)type;
 - (void)handleItemTransfer:(NSURL *)url;

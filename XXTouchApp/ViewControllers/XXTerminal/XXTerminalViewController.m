@@ -48,7 +48,7 @@
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
     [self resetVirtualMachine];
 }
 

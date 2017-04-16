@@ -114,7 +114,7 @@ static NSString * const kXXUserDefaultsConfigOptionTableViewCellIReuseIdentifier
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

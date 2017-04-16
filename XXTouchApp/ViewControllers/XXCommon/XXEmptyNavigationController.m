@@ -32,7 +32,7 @@
     if (!_keyboardGuide && hidden) {
         _keyboardGuide = YES;
         [self.view makeToast:NSLocalizedString(@"Slide down to exit edit mode", nil)
-                    duration:STYLE_TOAST_DURATION
+                    duration:3.f
                     position:CSToastPositionTop];
     }
 }

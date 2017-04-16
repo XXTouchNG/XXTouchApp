@@ -46,7 +46,7 @@
             self.sourceUrl = [url absoluteString]; // Encoded
         }
     }
-    self.rootDirectory = [ROOT_PATH copy];
+    self.rootDirectory = [[[XXLocalDataService sharedInstance] rootPath] copy];
     NSURL *rootUrl = [NSURL fileURLWithPath:[self.rootDirectory stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
     NSString *relativePath = [self.destinationUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
     NSURL *destination = nil;

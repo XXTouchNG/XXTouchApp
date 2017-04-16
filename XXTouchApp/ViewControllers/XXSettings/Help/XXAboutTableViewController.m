@@ -72,7 +72,7 @@ enum {
     } else {
         [picker setSubject:[NSString stringWithFormat:@"[%@] %@\nV%@ (%@)", NSLocalizedString(@"Feedback", nil), NSLocalizedString(@"XXTouch", nil), VERSION_STRING, VERSION_BUILD]];
     }
-    NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
+    NSArray *toRecipients = [NSArray arrayWithObject:extendDict()[@"SERVICE_EMAIL"]];
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];
 }
@@ -149,7 +149,7 @@ enum {
 - (void)openOfficialSite {
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
     viewController.title = NSLocalizedString(@"Official Site", nil);
-    viewController.url = [NSURL URLWithString:OFFICIAL_SITE];
+    viewController.url = [NSURL URLWithString:extendDict()[@"OFFICIAL_SITE"]];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -192,7 +192,7 @@ enum {
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

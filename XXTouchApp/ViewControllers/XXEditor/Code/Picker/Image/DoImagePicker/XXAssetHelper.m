@@ -75,7 +75,7 @@
     
     void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error)
     {
-        CYLog(@"Error : %@", [error description]);
+        XXLog(@"Error : %@", [error description]);
     };
     
     _assetGroups = [[NSMutableArray alloc] init];
@@ -144,7 +144,7 @@
         
         void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *err)
         {
-            CYLog(@"Error : %@", [err description]);
+            XXLog(@"Error : %@", [err description]);
             error(err);
         };
         
@@ -207,7 +207,7 @@
                                                          inputImageExtent:image.extent
                                                                     error:&error];
             if (error) {
-                CYLog(@"Error during CIFilter creation: %@", [error localizedDescription]);
+                XXLog(@"Error during CIFilter creation: %@", [error localizedDescription]);
             }
             
             for (CIFilter *filter in filterArray) {
@@ -223,7 +223,7 @@
     
     ALAssetsLibraryAccessFailureBlock failureblock  = ^(NSError *myerror)
     {
-        CYLog(@"booya, cant get image - %@",[myerror localizedDescription]);
+        XXLog(@"booya, cant get image - %@",[myerror localizedDescription]);
     };
     
     [_assetsLibrary assetForURL:urlImage
@@ -265,7 +265,7 @@
                                                          inputImageExtent:image.extent
                                                                     error:&error];
             if (error) {
-                CYLog(@"Error during CIFilter creation: %@", [error localizedDescription]);
+                XXLog(@"Error during CIFilter creation: %@", [error localizedDescription]);
             }
             
             for (CIFilter *filter in filterArray) {

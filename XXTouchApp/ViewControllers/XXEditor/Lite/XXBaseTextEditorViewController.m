@@ -432,8 +432,6 @@ UIPopoverControllerDelegate
             } else {
                 if (err.code == 0) {
                     if (sender.selected) {
-                        NSString *myStr = [NSString stringWithBase64EncodedString:[[XXLocalDataService sharedInstance] randString]];
-                        [self.navigationController.view makeToast:myStr];
                         [self extendHisLife:NO];
                     } else {
                         [self.navigationController.view makeToast:NSLocalizedString(@"Syntax Check Passed", nil)];
@@ -987,7 +985,7 @@ UIPopoverControllerDelegate
 #pragma mark - Memory
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

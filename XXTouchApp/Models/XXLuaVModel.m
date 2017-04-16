@@ -25,9 +25,14 @@ void luaL_setPath(lua_State* L, const char *key, const char *path)
 {
     lua_getglobal(L, "package");
     lua_getfield(L, -1, key); // get field "path" from table at top of stack (-1)
-    lua_tostring(L, -1); // grab path string from top of stack
+    const char *origPath = lua_tostring(L, -1); // grab path string from top of stack
+    NSString *strPath = [[NSString alloc] initWithUTF8String:path];
+    NSString *strOrigPath = [[NSString alloc] initWithUTF8String:origPath];
+    strOrigPath = [strOrigPath stringByAppendingString:@";"];
+    strOrigPath = [strOrigPath stringByAppendingString:strPath];
+    strOrigPath = [strOrigPath stringByAppendingString:@";"];
     lua_pop(L, 1); // get rid of the string on the stack we just pushed on line 5
-    lua_pushstring(L, path); // push the new one
+    lua_pushstring(L, [strOrigPath UTF8String]); // push the new one
     lua_setfield(L, -2, key); // set the field "path" in table at -2 with value at top of stack
     lua_pop(L, 1); // get rid of package table from top of stack
 }
@@ -132,8 +137,9 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
 }
 
 - (void)setCurrentPath:(NSString *)dirPath {
-    NSString *sPath = [NSString stringWithFormat:@"%@;", [dirPath stringByAppendingPathComponent:@"?.lua"]];
-    NSString *cPath = [NSString stringWithFormat:@"%@;", [dirPath stringByAppendingPathComponent:@"?.so"]];
+    chdir([dirPath UTF8String]);
+    NSString *sPath = [NSString stringWithFormat:@"%@", [dirPath stringByAppendingPathComponent:@"?.lua"]];
+    NSString *cPath = [NSString stringWithFormat:@"%@", [dirPath stringByAppendingPathComponent:@"?.so"]];
     luaL_setPath(L, "path", sPath.UTF8String);
     luaL_setPath(L, "cpath", cPath.UTF8String);
 }
@@ -141,9 +147,9 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
 #pragma mark - REPL
 
 - (BOOL)interactiveModeWithError:(NSError **)error {
-    [self setCurrentPath:ROOT_PATH];
+    [self setCurrentPath:[[XXLocalDataService sharedInstance] rootPath]];
     self.running = YES;
-    char *argv[2] = {(char *)[ROOT_PATH UTF8String], ""};
+    char *argv[2] = {(char *)[[[XXLocalDataService sharedInstance] rootPath] UTF8String], ""};
     char **argv_p = argv;
     int load_stat = interactive(1, argv_p);
     self.running = NO;
@@ -190,6 +196,7 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
 - (void)dealloc {
     if (L) lua_close(L);
     fakeio(stdin, stdout, stderr);
+    chdir("/");
     
     if (self.stdoutHandler) {
         fclose(self.stdoutHandler);

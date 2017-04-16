@@ -283,7 +283,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 #pragma mark - Memory
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

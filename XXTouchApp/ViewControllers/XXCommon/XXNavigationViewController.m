@@ -111,7 +111,7 @@
     }
     NSError *error = nil;
     NSString *networkVersion = [XXLocalNetService latestVersionFromRepositoryPackagesWithError:&error];
-    CYLog(@"Current Version: %@\nNetwork Version: %@", currentVersion, networkVersion);
+    XXLog(@"Current Version: %@\nNetwork Version: %@", currentVersion, networkVersion);
     if (error) {
         dispatch_async_on_main_queue(^{
             [self.view makeToast:[error localizedDescription]];
@@ -216,7 +216,7 @@
         NSError *err = nil;
         NSString *lastComponent = [url lastPathComponent];
         NSString *formerPath = [url path];
-        NSString *currentPath = ROOT_PATH;
+        NSString *currentPath = [[XXLocalDataService sharedInstance] rootPath];
         id currentViewController = self.topViewController;
         if ([currentViewController isKindOfClass:[XXScriptListTableViewController class]]) {
             currentPath = ((XXScriptListTableViewController *)currentViewController).currentDirectory;

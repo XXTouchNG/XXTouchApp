@@ -28,7 +28,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
         pid_t pid;
-        const char* binary = [ADD1S_PATH UTF8String];
+        const char* binary = [extendDict()[@"ADD1S_PATH"] UTF8String];
         const char* args[] = {binary, "killall", "-9", "backboardd", NULL};
         posix_spawn(&pid, binary, NULL, NULL, (char* const*)args, (char* const*)envp);
         waitpid(pid, &status, 0);
@@ -184,7 +184,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
             NSString *absoluteString = [result[@"data"][@"filename"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
             if (absoluteString) {
                 NSURL *absolutePath = [NSURL URLWithString:absoluteString
-                                             relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+                                             relativeToURL:[NSURL fileURLWithPath:[[XXLocalDataService sharedInstance] rootPath]]];
                 [[XXLocalDataService sharedInstance] setSelectedScript:[[absolutePath path] stringByRemovingPercentEncoding]];
             }
         }
@@ -483,7 +483,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         if ([data[kXXStartUpConfigScriptPath] hasPrefix:@"/"]) {
             [sharedDataService setStartUpConfigScriptPath:data[kXXStartUpConfigScriptPath]];
         } else {
-            NSURL *absolutePath = [NSURL URLWithString:[data[kXXStartUpConfigScriptPath] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:[NSURL fileURLWithPath:ROOT_PATH]];
+            NSURL *absolutePath = [NSURL URLWithString:[data[kXXStartUpConfigScriptPath] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:[NSURL fileURLWithPath:[[XXLocalDataService sharedInstance] rootPath]]];
             [sharedDataService setStartUpConfigScriptPath:[[absolutePath path] stringByRemovingPercentEncoding]];
         }
         return YES;

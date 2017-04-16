@@ -2607,7 +2607,7 @@ All Rights Reserved.</string>
         <!--XX Navigation-->
         <scene sceneID="EpI-pI-wkQ">
             <objects>
-                <navigationController title="XX Navigation" id="szv-sl-aZ6" customClass="XXNavigationViewController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="kXXRootNavigationControllerStoryboardID" title="XX Navigation" id="szv-sl-aZ6" customClass="XXNavigationViewController" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FX6-ho-HYp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

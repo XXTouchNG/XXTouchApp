@@ -40,7 +40,7 @@
     [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].leftView = nil;
     
     [CSToastManager setTapToDismissEnabled:YES];
-    [CSToastManager setDefaultDuration:STYLE_TOAST_DURATION];
+    [CSToastManager setDefaultDuration:2.f];
     [CSToastManager setQueueEnabled:NO];
     [CSToastManager setDefaultPosition:CSToastPositionCenter];
     
@@ -62,14 +62,14 @@
 }
 
 - (void)setupStatistics {
-    UMConfigInstance.appKey = UMENG_KEY;
-    UMConfigInstance.channelId = @"Cydia";
+    UMConfigInstance.appKey = extendDict()[@"UMENG_KEY"];
+    UMConfigInstance.channelId = extendDict()[@"CHANNEL_ID"];
     
     [MobClick startWithConfigure:UMConfigInstance];
     
-    [[AppConfiguration instance] setAPP_KEY:ALIYUN_APPKEY];
-    [[AppConfiguration instance] setAPP_SECRET:ALIYUN_APPSECRERT];
-    [[AppConfiguration instance] setAPP_CONNECTION_TIMEOUT:10.f];
+    [[AppConfiguration instance] setAPP_KEY:extendDict()[@"ALIYUN_APPKEY"]];
+    [[AppConfiguration instance] setAPP_SECRET:extendDict()[@"ALIYUN_APPSECRERT"]];
+    [[AppConfiguration instance] setAPP_CONNECTION_TIMEOUT:[extendDict()[@"APP_CONNECTION_TIMEOUT"] intValue]];
 }
 
 - (void)setupShortcutItems {

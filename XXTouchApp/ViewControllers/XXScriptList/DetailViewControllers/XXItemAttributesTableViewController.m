@@ -179,7 +179,7 @@ int cancelFlag = 0;
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

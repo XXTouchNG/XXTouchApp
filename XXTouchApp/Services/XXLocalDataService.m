@@ -49,7 +49,6 @@ static NSString * const kXXStorageKeySyntaxHighlightingEnabled = @"kXXStorageKey
 static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddress-1";
 
 @interface XXLocalDataService ()
-@property (nonatomic, strong) NSArray <NSString *> *randStrings;
 
 @end
 
@@ -78,15 +77,15 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
         // Init Local Data Configure
         if (![self localUserConfig]) {
             // First
-            NSError *err = nil;
-            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@""];
-            if (demoPath) {
-                BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
-                if (!result)
-                {
-                    
-                }
-            }
+//            NSError *err = nil;
+//            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@""];
+//            if (demoPath) {
+//                BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
+//                if (!result)
+//                {
+//                    
+//                }
+//            }
             [self setLocalUserConfig:[[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                        kXXLocalConfigHidesMainPath: @YES
                                                                                        }]];
@@ -97,8 +96,8 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
 
 - (NSString *)mainPath {
     if (!_mainPath) {
-        if ([[NSFileManager defaultManager] isReadableFileAtPath:MAIN_PATH]) {
-            _mainPath = MAIN_PATH;
+        if ([[NSFileManager defaultManager] isReadableFileAtPath:extendDict()[@"MAIN_PATH"]]) {
+            _mainPath = extendDict()[@"MAIN_PATH"];
         } else {
             _mainPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
         }
@@ -108,8 +107,8 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
 
 - (NSString *)rootPath {
     if (!_rootPath) {
-        if ([[NSFileManager defaultManager] isReadableFileAtPath:FEVER_PATH]) {
-            _rootPath = FEVER_PATH;
+        if ([[NSFileManager defaultManager] isReadableFileAtPath:extendDict()[@"FEVER_PATH"]]) {
+            _rootPath = extendDict()[@"FEVER_PATH"];
         } else {
             NSString *feverPath = [[self.mainPath stringByAppendingPathComponent:@"lua"] stringByAppendingPathComponent:@"scripts"];
             NSError *err = nil;
@@ -315,24 +314,6 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
 
 - (void)setKeyPressConfigPressVolumeDown:(kXXKeyPressConfig)keyPressConfigPressVolumeDown {
     [self setObject:[NSNumber numberWithUnsignedInteger:keyPressConfigPressVolumeDown] forKey:kXXStorageKeyPressConfigPressVolumeDown];
-}
-
-- (NSArray <NSString *> *)randStrings {
-    if (!_randStrings) {
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"extendHisLife" ofType:@"plist"];
-        NSArray *arr = [[NSArray alloc] initWithContentsOfFile:plistPath];
-        if (arr) {
-            _randStrings = arr;
-        } else {
-            _randStrings = @[];
-        }
-    }
-    return _randStrings;
-}
-
-- (NSString *)randString {
-    NSUInteger rand = arc4random() % self.randStrings.count;
-    return self.randStrings[rand];
 }
 
 - (NSArray *)bundles {

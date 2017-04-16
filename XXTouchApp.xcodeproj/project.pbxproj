@@ -38,6 +38,7 @@
 		0F647BCA1DCA03A800C44DB4 /* SourceSansPro-It.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC41DCA03A800C44DB4 /* SourceSansPro-It.otf */; };
 		0F647BCB1DCA03A800C44DB4 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BC51DCA03A800C44DB4 /* SourceSansPro-Regular.otf */; };
 		0F647BCD1DCA03D600C44DB4 /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */; };
+		0F665A541EA3D8B30081065F /* AppDefines.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F665A531EA3D8B30081065F /* AppDefines.plist */; };
 		0F6DD64E1DF9A7E4002E500D /* AppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */; };
 		0F6DD64F1DF9A7E4002E500D /* CloudApiSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD6491DF9A7E4002E500D /* CloudApiSdk.m */; };
 		0F6DD6501DF9A7E4002E500D /* SignUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD64D1DF9A7E4002E500D /* SignUtil.m */; };
@@ -118,10 +119,6 @@
 		0FCF8ADB1DD0145400F4C906 /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF8AD41DD0145400F4C906 /* SIAlertView.bundle */; };
 		0FCF8ADC1DD0145400F4C906 /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCF8AD61DD0145400F4C906 /* SIAlertView.m */; };
 		0FCF8ADD1DD0145400F4C906 /* XXInsetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCF8AD81DD0145400F4C906 /* XXInsetsLabel.m */; };
-		0FCF8AEB1DD014E000F4C906 /* internalFunctions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF8AE71DD014E000F4C906 /* internalFunctions.plist */; };
-		0FCF8AEC1DD014E000F4C906 /* userDefinedFunctions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF8AE81DD014E000F4C906 /* userDefinedFunctions.plist */; };
-		0FCF8AED1DD014E000F4C906 /* extendHisLife.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF8AE91DD014E000F4C906 /* extendHisLife.plist */; };
-		0FCF8AEE1DD014E000F4C906 /* extendApis.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF8AEA1DD014E000F4C906 /* extendApis.plist */; };
 		0FCF8B061DD015B600F4C906 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF8B011DD015B600F4C906 /* InfoPlist.strings */; };
 		0FDD9D231E8EF98B009F96C8 /* XXArchiveActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D0E1E8EF98B009F96C8 /* XXArchiveActivity.m */; };
 		0FDD9D241E8EF98B009F96C8 /* XXBaseActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D101E8EF98B009F96C8 /* XXBaseActivity.m */; };
@@ -141,7 +138,6 @@
 		0FDD9D4A1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D3C1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m */; };
 		0FDD9D4B1E8EF9E3009F96C8 /* XUITintedListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D3E1E8EF9E3009F96C8 /* XUITintedListController.m */; };
 		0FDD9D4C1E8EF9E3009F96C8 /* XUISpecifierParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D411E8EF9E3009F96C8 /* XUISpecifierParser.m */; };
-		0FE312831D963A0900AB895C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3127F1D963A0900AB895C /* Localizable.strings */; };
 		0FE36B1E1DC82C3D00E952B4 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		0FE36B221DC82C5F00E952B4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B211DC82C5F00E952B4 /* libz.tbd */; };
 		0FE36B241DC82C6D00E952B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B231DC82C6D00E952B4 /* libsqlite3.tbd */; };
@@ -309,6 +305,7 @@
 		0F647BC41DCA03A800C44DB4 /* SourceSansPro-It.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-It.otf"; sourceTree = "<group>"; };
 		0F647BC51DCA03A800C44DB4 /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.otf"; sourceTree = "<group>"; };
 		0F647BCC1DCA03D600C44DB4 /* SourceCodePro-It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.ttf"; sourceTree = "<group>"; };
+		0F665A531EA3D8B30081065F /* AppDefines.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppDefines.plist; sourceTree = "<group>"; };
 		0F6DD6461DF9A7E4002E500D /* AppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
 		0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfiguration.m; sourceTree = "<group>"; };
 		0F6DD6481DF9A7E4002E500D /* CloudApiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudApiSdk.h; sourceTree = "<group>"; };
@@ -344,19 +341,14 @@
 		0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalSettings.m; sourceTree = "<group>"; };
 		0FB25C1C1E76B2000098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXCodeBlocksViewController.storyboard; sourceTree = "<group>"; };
 		0FB25C1F1E76B2060098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXCodeBlocksViewController.strings"; sourceTree = "<group>"; };
-		0FB25C211E76B2080098BEEE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXCodeBlocksViewController.strings"; sourceTree = "<group>"; };
 		0FB25C251E76B69E0098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXCodeBlockExpandViewController.storyboard; sourceTree = "<group>"; };
 		0FB25C281E76B6AC0098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXCodeBlockExpandViewController.strings"; sourceTree = "<group>"; };
-		0FB25C2A1E76B6AD0098BEEE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXCodeBlockExpandViewController.strings"; sourceTree = "<group>"; };
 		0FB25C2E1E76B9A60098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXLocationPickerController.storyboard; sourceTree = "<group>"; };
 		0FB25C311E76B9A80098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXLocationPickerController.strings"; sourceTree = "<group>"; };
-		0FB25C331E76B9A90098BEEE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXLocationPickerController.strings"; sourceTree = "<group>"; };
 		0FB25C371E76BC340098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXBaseTextEditor.storyboard; sourceTree = "<group>"; };
 		0FB25C3A1E76BC380098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXBaseTextEditor.strings"; sourceTree = "<group>"; };
-		0FB25C3C1E76BC3B0098BEEE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXBaseTextEditor.strings"; sourceTree = "<group>"; };
 		0FB25C401E76BCEC0098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXScanDownloadTaskViewController.storyboard; sourceTree = "<group>"; };
 		0FB25C431E76BCF10098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXScanDownloadTaskViewController.strings"; sourceTree = "<group>"; };
-		0FB25C451E76BCF30098BEEE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXScanDownloadTaskViewController.strings"; sourceTree = "<group>"; };
 		0FB48B771D922B9400CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
 		0FB611A81DC77B2A00745BD1 /* XXLuaVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaVModel.h; sourceTree = "<group>"; };
 		0FB611A91DC77B2A00745BD1 /* XXLuaVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLuaVModel.m; sourceTree = "<group>"; };
@@ -365,11 +357,7 @@
 		0FBF5B561DD96945002AB03D /* NSFileManager+RealDestination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+RealDestination.h"; sourceTree = "<group>"; };
 		0FBF5B571DD96945002AB03D /* NSFileManager+RealDestination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+RealDestination.m"; sourceTree = "<group>"; };
 		0FCF899B1DD0134000F4C906 /* AppDefines.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDefines.pch; sourceTree = "<group>"; };
-		0FCF899C1DD0134000F4C906 /* StyleDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleDefines.h; sourceTree = "<group>"; };
 		0FCF899D1DD0134000F4C906 /* SystemConstantsDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemConstantsDefines.h; sourceTree = "<group>"; };
-		0FCF899E1DD0134000F4C906 /* SystemDebugDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemDebugDefines.h; sourceTree = "<group>"; };
-		0FCF899F1DD0134000F4C906 /* SystemVersionDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemVersionDefines.h; sourceTree = "<group>"; };
-		0FCF89A01DD0134000F4C906 /* UrlDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UrlDefines.h; sourceTree = "<group>"; };
 		0FCF89A61DD0139000F4C906 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0FCF8A361DD013E700F4C906 /* LAActivator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAActivator.h; sourceTree = "<group>"; };
 		0FCF8A371DD013E700F4C906 /* LAActivatorVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAActivatorVersion.h; sourceTree = "<group>"; };
@@ -474,14 +462,9 @@
 		0FCF8AD61DD0145400F4C906 /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
 		0FCF8AD71DD0145400F4C906 /* XXInsetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXInsetsLabel.h; sourceTree = "<group>"; };
 		0FCF8AD81DD0145400F4C906 /* XXInsetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXInsetsLabel.m; sourceTree = "<group>"; };
-		0FCF8AE71DD014E000F4C906 /* internalFunctions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = internalFunctions.plist; sourceTree = "<group>"; };
-		0FCF8AE81DD014E000F4C906 /* userDefinedFunctions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = userDefinedFunctions.plist; sourceTree = "<group>"; };
-		0FCF8AE91DD014E000F4C906 /* extendHisLife.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = extendHisLife.plist; sourceTree = "<group>"; };
-		0FCF8AEA1DD014E000F4C906 /* extendApis.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = extendApis.plist; sourceTree = "<group>"; };
 		0FCF8B001DD015B600F4C906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		0FCF8B021DD015B600F4C906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0FCF8B031DD015B600F4C906 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		0FCF8B041DD015B600F4C906 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0FD1C29B1D73CC6D000A784E /* XXTouchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXTouchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FDD9D0D1E8EF98B009F96C8 /* XXArchiveActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXArchiveActivity.h; sourceTree = "<group>"; };
 		0FDD9D0E1E8EF98B009F96C8 /* XXArchiveActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXArchiveActivity.m; sourceTree = "<group>"; };
@@ -521,8 +504,6 @@
 		0FDD9D411E8EF9E3009F96C8 /* XUISpecifierParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XUISpecifierParser.m; sourceTree = "<group>"; };
 		0FDD9D421E8EF9E3009F96C8 /* XUICommonDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUICommonDefine.h; sourceTree = "<group>"; };
 		0FDD9D431E8EF9E3009F96C8 /* XUIListControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUIListControllerProtocol.h; sourceTree = "<group>"; };
-		0FE3127D1D9638C900AB895C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		0FE312801D963A0900AB895C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = Localizable.strings; sourceTree = "<group>"; };
 		0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMMobClick.framework; path = XXTouchApp/ThirdParty/UMMobClick.framework; sourceTree = "<group>"; };
 		0FE36B1F1DC82C5400E952B4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		0FE36B211DC82C5F00E952B4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -538,18 +519,14 @@
 		0FEABE851D99F7CB007B96A8 /* XXCodeBlockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockModel.m; sourceTree = "<group>"; };
 		0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeMakerService.h; sourceTree = "<group>"; };
 		0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeMakerService.m; sourceTree = "<group>"; };
-		0FF025581E959E0C00CA813F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXCreateItemTableViewController.strings"; sourceTree = "<group>"; };
 		0FF025591E959E1200CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXCreateItemTableViewController.storyboard; sourceTree = "<group>"; };
 		0FF0255C1E959EBF00CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXCreateItemTableViewController.strings"; sourceTree = "<group>"; };
 		0FF0255E1E959EF900CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXItemAttributesTableViewController.storyboard; sourceTree = "<group>"; };
 		0FF025611E959EFC00CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXItemAttributesTableViewController.strings"; sourceTree = "<group>"; };
-		0FF025631E959EFD00CA813F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXItemAttributesTableViewController.strings"; sourceTree = "<group>"; };
 		0FF025671E959F2D00CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXEmptyNavigationController.storyboard; sourceTree = "<group>"; };
 		0FF0256A1E959F2F00CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXEmptyNavigationController.strings"; sourceTree = "<group>"; };
-		0FF0256C1E959F2F00CA813F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXEmptyNavigationController.strings"; sourceTree = "<group>"; };
 		0FF025701E95A14800CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXKeyEventTableViewController.storyboard; sourceTree = "<group>"; };
 		0FF025731E95A14900CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXKeyEventTableViewController.strings"; sourceTree = "<group>"; };
-		0FF025751E95A14A00CA813F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/XXKeyEventTableViewController.strings"; sourceTree = "<group>"; };
 		0FF025761E95A53600CA813F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FF025781E95A5AF00CA813F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0FF025791E95A5AF00CA813F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -932,7 +909,6 @@
 		0FB0A7A01D73DB9F00129E83 /* International */ = {
 			isa = PBXGroup;
 			children = (
-				0FE3127E1D963A0900AB895C /* zh-Hant.lproj */,
 				0FB48B751D922B9400CE9019 /* zh-Hans.lproj */,
 				0FC47E881D7690540076590B /* Scenes */,
 				0F98529B1D748072001323AA /* Main.storyboard */,
@@ -961,15 +937,7 @@
 			children = (
 				0FCF8AFE1DD015B600F4C906 /* Info */,
 				0FCF899B1DD0134000F4C906 /* AppDefines.pch */,
-				0FCF899C1DD0134000F4C906 /* StyleDefines.h */,
 				0FCF899D1DD0134000F4C906 /* SystemConstantsDefines.h */,
-				0FCF899E1DD0134000F4C906 /* SystemDebugDefines.h */,
-				0FCF899F1DD0134000F4C906 /* SystemVersionDefines.h */,
-				0FCF89A01DD0134000F4C906 /* UrlDefines.h */,
-				0FCF8AE71DD014E000F4C906 /* internalFunctions.plist */,
-				0FCF8AE81DD014E000F4C906 /* userDefinedFunctions.plist */,
-				0FCF8AE91DD014E000F4C906 /* extendHisLife.plist */,
-				0FCF8AEA1DD014E000F4C906 /* extendApis.plist */,
 			);
 			path = Defines;
 			sourceTree = "<group>";
@@ -1175,6 +1143,7 @@
 			children = (
 				0FCF8AFF1DD015B600F4C906 /* Info.plist */,
 				0FCF8B011DD015B600F4C906 /* InfoPlist.strings */,
+				0F665A531EA3D8B30081065F /* AppDefines.plist */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -1295,14 +1264,6 @@
 				0FDD9D411E8EF9E3009F96C8 /* XUISpecifierParser.m */,
 			);
 			path = Helper;
-			sourceTree = "<group>";
-		};
-		0FE3127E1D963A0900AB895C /* zh-Hant.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				0FE3127F1D963A0900AB895C /* Localizable.strings */,
-			);
-			path = "zh-Hant.lproj";
 			sourceTree = "<group>";
 		};
 		0FFDB0DE1DD9C8A5009C6F1F /* IDMPhotoBrowser */ = {
@@ -1933,7 +1894,6 @@
 				en,
 				Base,
 				"zh-Hans",
-				"zh-Hant",
 			);
 			mainGroup = 0FD1C2921D73CC6C000A784E;
 			productRefGroup = 0FD1C29C1D73CC6D000A784E /* Products */;
@@ -1952,14 +1912,13 @@
 			files = (
 				0FB25C2D1E76B9A60098BEEE /* XXLocationPickerController.storyboard in Resources */,
 				0F647BCA1DCA03A800C44DB4 /* SourceSansPro-It.otf in Resources */,
-				0FCF8AEB1DD014E000F4C906 /* internalFunctions.plist in Resources */,
 				0FF025541E959E0B00CA813F /* XXCreateItemTableViewController.storyboard in Resources */,
 				0FCF8ADB1DD0145400F4C906 /* SIAlertView.bundle in Resources */,
 				0FB25C1B1E76B2000098BEEE /* XXCodeBlocksViewController.storyboard in Resources */,
 				0F647BC81DCA03A800C44DB4 /* SourceCodePro-Regular.ttf in Resources */,
+				0F665A541EA3D8B30081065F /* AppDefines.plist in Resources */,
 				0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */,
 				0F647BCD1DCA03D600C44DB4 /* SourceCodePro-It.ttf in Resources */,
-				0FE312831D963A0900AB895C /* Localizable.strings in Resources */,
 				0FCF8B061DD015B600F4C906 /* InfoPlist.strings in Resources */,
 				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
 				0FF0256F1E95A14800CA813F /* XXKeyEventTableViewController.storyboard in Resources */,
@@ -1968,13 +1927,10 @@
 				0FCF8AD91DD0145400F4C906 /* ARSafariActivity.bundle in Resources */,
 				0FF025661E959F2D00CA813F /* XXEmptyNavigationController.storyboard in Resources */,
 				0F647BC61DCA03A800C44DB4 /* SourceCodePro-Bold.ttf in Resources */,
-				0FCF8AEE1DD014E000F4C906 /* extendApis.plist in Resources */,
 				0FF0255D1E959EF900CA813F /* XXItemAttributesTableViewController.storyboard in Resources */,
 				0F98529D1D748072001323AA /* Main.storyboard in Resources */,
 				0F647BC91DCA03A800C44DB4 /* SourceSansPro-Bold.otf in Resources */,
 				0F647BCB1DCA03A800C44DB4 /* SourceSansPro-Regular.otf in Resources */,
-				0FCF8AED1DD014E000F4C906 /* extendHisLife.plist in Resources */,
-				0FCF8AEC1DD014E000F4C906 /* userDefinedFunctions.plist in Resources */,
 				52512E9EBBD1E1CE4238BEB5 /* XXImagePickerAlbumCell.xib in Resources */,
 				525128E679F09F782864F1CD /* XXImagePickerController.xib in Resources */,
 				52512765F7BEB1EE5E606A61 /* XXImagePickerPhotoCell.xib in Resources */,
@@ -2247,7 +2203,6 @@
 			children = (
 				0F98529C1D748072001323AA /* Base */,
 				0F08A9E21D9522950066BCE0 /* zh-Hans */,
-				0FE3127D1D9638C900AB895C /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -2257,7 +2212,6 @@
 			children = (
 				0FB25C1C1E76B2000098BEEE /* Base */,
 				0FB25C1F1E76B2060098BEEE /* zh-Hans */,
-				0FB25C211E76B2080098BEEE /* zh-Hant */,
 			);
 			name = XXCodeBlocksViewController.storyboard;
 			path = ../../../Resources/International;
@@ -2268,7 +2222,6 @@
 			children = (
 				0FB25C251E76B69E0098BEEE /* Base */,
 				0FB25C281E76B6AC0098BEEE /* zh-Hans */,
-				0FB25C2A1E76B6AD0098BEEE /* zh-Hant */,
 			);
 			name = XXCodeBlockExpandViewController.storyboard;
 			path = ../../../Resources/International;
@@ -2279,7 +2232,6 @@
 			children = (
 				0FB25C2E1E76B9A60098BEEE /* Base */,
 				0FB25C311E76B9A80098BEEE /* zh-Hans */,
-				0FB25C331E76B9A90098BEEE /* zh-Hant */,
 			);
 			name = XXLocationPickerController.storyboard;
 			path = ../../../../../Resources/International;
@@ -2290,7 +2242,6 @@
 			children = (
 				0FB25C371E76BC340098BEEE /* Base */,
 				0FB25C3A1E76BC380098BEEE /* zh-Hans */,
-				0FB25C3C1E76BC3B0098BEEE /* zh-Hant */,
 			);
 			name = XXBaseTextEditor.storyboard;
 			path = ../../../Resources/International;
@@ -2301,7 +2252,6 @@
 			children = (
 				0FB25C401E76BCEC0098BEEE /* Base */,
 				0FB25C431E76BCF10098BEEE /* zh-Hans */,
-				0FB25C451E76BCF30098BEEE /* zh-Hant */,
 			);
 			name = XXScanDownloadTaskViewController.storyboard;
 			path = ../../../Resources/International;
@@ -2328,23 +2278,13 @@
 			children = (
 				0FCF8B021DD015B600F4C906 /* Base */,
 				0FCF8B031DD015B600F4C906 /* zh-Hans */,
-				0FCF8B041DD015B600F4C906 /* zh-Hant */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0FE3127F1D963A0900AB895C /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FE312801D963A0900AB895C /* zh-Hant */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		0FF025561E959E0B00CA813F /* XXCreateItemTableViewController.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0FF025581E959E0C00CA813F /* zh-Hant */,
 				0FF025591E959E1200CA813F /* Base */,
 				0FF0255C1E959EBF00CA813F /* zh-Hans */,
 			);
@@ -2357,7 +2297,6 @@
 			children = (
 				0FF0255E1E959EF900CA813F /* Base */,
 				0FF025611E959EFC00CA813F /* zh-Hans */,
-				0FF025631E959EFD00CA813F /* zh-Hant */,
 			);
 			name = XXItemAttributesTableViewController.storyboard;
 			path = ../../../Resources/International;
@@ -2368,7 +2307,6 @@
 			children = (
 				0FF025671E959F2D00CA813F /* Base */,
 				0FF0256A1E959F2F00CA813F /* zh-Hans */,
-				0FF0256C1E959F2F00CA813F /* zh-Hant */,
 			);
 			name = XXEmptyNavigationController.storyboard;
 			path = ../../Resources/International;
@@ -2379,7 +2317,6 @@
 			children = (
 				0FF025701E95A14800CA813F /* Base */,
 				0FF025731E95A14900CA813F /* zh-Hans */,
-				0FF025751E95A14A00CA813F /* zh-Hant */,
 			);
 			name = XXKeyEventTableViewController.storyboard;
 			sourceTree = "<group>";
@@ -2497,7 +2434,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = XXTouchApp/XXTouchApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
@@ -2610,7 +2547,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = XXTouchApp/XXTouchApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";

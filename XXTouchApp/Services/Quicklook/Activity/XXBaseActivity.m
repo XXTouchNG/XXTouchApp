@@ -49,7 +49,7 @@
 
 - (void)dealloc
 {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

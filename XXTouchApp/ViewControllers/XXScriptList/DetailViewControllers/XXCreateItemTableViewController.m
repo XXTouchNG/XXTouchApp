@@ -126,7 +126,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

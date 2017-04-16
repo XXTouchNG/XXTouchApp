@@ -146,7 +146,7 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
 #pragma mark - Memory
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

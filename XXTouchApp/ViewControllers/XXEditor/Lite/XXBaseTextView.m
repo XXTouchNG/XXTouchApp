@@ -103,6 +103,20 @@
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x445588],
                                       NSFontAttributeName : self.defaultFont
                                       }],
+            [CYRToken tokenWithName:@"string.quoted.double.lua"
+                         expression:@"([\"'])(?:[^\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xdd1144],
+                                      NSBackgroundColorAttributeName : [UIColor clearColor],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
+            [CYRToken tokenWithName:@"string.quoted.other.multiline.lua"
+                         expression:@"(?<!--)\\[(=*)\\[.*?(\\]\\1\\]|$)"
+                         attributes:@{
+                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xdd1144],
+                                      NSBackgroundColorAttributeName : [UIColor clearColor],
+                                      NSFontAttributeName : self.defaultFont
+                                      }],
             [CYRToken tokenWithName:@"comment.line.double-dash.lua"
                          expression:@"--(?!\\[\\[)[^\\n]*"
                          attributes:@{
@@ -116,18 +130,6 @@
                                       NSForegroundColorAttributeName : [UIColor colorWithRGB:0x000998],
                                       NSBackgroundColorAttributeName : [UIColor colorWithRGB:0xf0f0f0],
                                       NSFontAttributeName : self.italicFont,
-                                      }],
-            [CYRToken tokenWithName:@"string.quoted.double.lua"
-                         expression:@"([\"'])(?:[^\\\\]|\\\\[\\d\\D])*?(\\1|\\n|$)"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xdd1144],
-                                      NSFontAttributeName : self.defaultFont
-                                      }],
-            [CYRToken tokenWithName:@"string.quoted.other.multiline.lua"
-                         expression:@"(?<!--)\\[(=*)\\[.*?(\\]\\1\\]|$)"
-                         attributes:@{
-                                      NSForegroundColorAttributeName : [UIColor colorWithRGB:0xdd1144],
-                                      NSFontAttributeName : self.defaultFont
                                       }],
             ];
     return solverTokens;

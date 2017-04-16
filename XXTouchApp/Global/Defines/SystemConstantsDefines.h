@@ -21,9 +21,6 @@ static NSString * const kXXGlobalNotificationLaunch = @"kXXGlobalNotificationLau
 static NSString * const kXXGlobalNotificationKeyEventShortcut = @"kXXGlobalNotificationKeyEventShortcut";
 static NSString * const kXXGlobalNotificationKeyEventInbox = @"kXXGlobalNotificationKeyEventInbox";
 
-
-#define STORYBOARD ([UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]])
-
 #define SendConfigAction(command, reload) \
 self.navigationController.view.userInteractionEnabled = NO; \
 [self.navigationController.view makeToastActivity:CSToastPositionCenter]; \
@@ -42,5 +39,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         } \
     }); \
 });
+
+#define STYLE_TINT_COLOR [UIColor colorWithRed:26.f/255.f green:161.f/255.f blue:230.f/255.f alpha:1.f]
 
 #endif /* SystemConstantsDefines_h */

@@ -75,7 +75,7 @@ UIPopoverControllerDelegate
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.currentDirectory = [ROOT_PATH mutableCopy];
+    self.currentDirectory = [[[XXLocalDataService sharedInstance] rootPath] mutableCopy];
     self.rootItemsDictionaryArr = [NSMutableArray new];
     if (!daemonInstalled() && self.isRootDirectory) {
         self.navigationItem.leftBarButtonItem = self.aboutBtn;
@@ -148,7 +148,7 @@ UIPopoverControllerDelegate
 
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
     _currentDirectory = currentDirectory;
-    NSString *homePath = ROOT_PATH;
+    NSString *homePath = [[XXLocalDataService sharedInstance] rootPath];
     NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
     if ([currentDirectory isEqualToString:homePath]) {
         self.relativePath = @"~";
@@ -1061,7 +1061,7 @@ UIPopoverControllerDelegate
 #pragma mark - Non Jailbroken device
 
 - (void)showAboutController:(UIBarButtonItem *)sender {
-    XXAboutTableViewController *aboutController = (XXAboutTableViewController *)[STORYBOARD instantiateViewControllerWithIdentifier:kXXAboutTableViewControllerStoryboardID];
+    XXAboutTableViewController *aboutController = (XXAboutTableViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXAboutTableViewControllerStoryboardID];
     [self.navigationController pushViewController:aboutController animated:YES];
 }
 
@@ -1269,7 +1269,7 @@ UIPopoverControllerDelegate
 #pragma mark - Memory
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

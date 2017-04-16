@@ -71,7 +71,7 @@
 #pragma mark - Memory
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end

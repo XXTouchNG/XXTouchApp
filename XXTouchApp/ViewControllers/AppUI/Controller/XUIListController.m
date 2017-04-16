@@ -5,6 +5,7 @@
 //  Created by Zheng on 14/03/2017.
 //  Copyright © 2017 Zheng. All rights reserved.
 
+#import "AppDelegate.h"
 #import "XUIListController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
@@ -40,17 +41,26 @@
         self.filePath = self.specifier.properties[@"path"];
     }
     
+    [self setupAppearance];
     [super viewDidLoad];
     
     if (parentController == self) {
         if (self.title.length == 0)
-            self.title = NSLocalizedString(@"AppUI", nil);
-        self.navigationItem.leftBarButtonItem = self.closeItem;
+            self.title = NSLocalizedString(@"DynamicXUI", nil);
+        if (self.navigationController != [AppDelegate globalDelegate].window.rootViewController) {
+            self.navigationItem.leftBarButtonItem = self.closeItem;
+        }
     }
     if (!self.plistDict) {
         [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse: %@.", nil), self.filePath]];
     }
 }
+
+- (void)setupAppearance {
+    
+}
+
+#pragma mark - UIView Getters
 
 - (UIBarButtonItem *)closeItem {
     if (!_closeItem) {
@@ -207,6 +217,10 @@
         newController.specifier = specifier;
         [self.navigationController pushViewController:newController animated:YES];
     }
+}
+
+- (void)exit {
+    exit(0);
 }
 
 #pragma mark - XUITitleValueCell

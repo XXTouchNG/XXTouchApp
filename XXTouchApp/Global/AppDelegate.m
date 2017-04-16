@@ -7,8 +7,10 @@
 //
 
 #import "AppDelegate.h"
-#import "XXLocalNetService.h"
+#import "XUIListController.h"
 #import "XXNavigationViewController.h"
+#import "XXEmptyNavigationController.h"
+#import "XXLocalDataService.h"
 
 @interface AppDelegate ()
 
@@ -23,7 +25,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [GlobalSettings sharedInstance];
-    return YES;
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    BOOL rootLoaded = NO;
+    if (rootLoaded ||
+        [self loadRootWithXUI:extendDict()[@"ROOT_UI"]]) {
+        rootLoaded = YES;
+    }
+    if (rootLoaded ||
+        [self loadRootWithMain]) {
+        rootLoaded = YES;
+    }
+    self.window.backgroundColor = [UIColor blackColor];
+    [self.window makeKeyAndVisible];
+    return rootLoaded;
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
@@ -54,7 +68,40 @@
             openURL:(NSURL *)url
             options:(nonnull NSDictionary<NSString *,id> *)options
 {
+    if ([[url scheme] isEqualToString:@"xxt"]) {
+        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url
+                                                    resolvingAgainstBaseURL:NO];
+        NSArray *queryItems = urlComponents.queryItems;
+        if ([urlComponents.host isEqualToString:@"root"]) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", @"path"];
+            NSURLQueryItem *queryValue = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];
+            if (queryValue && queryValue.value) {
+                NSString *uiPath = queryValue.value;
+                [self loadRootWithXUI:uiPath];
+            }
+        }
+        return YES;
+    }
     return [self handleUrlTransfer:url];
+}
+
+- (UIViewController *)loadRootWithXUI:(NSString *)uiPath {
+    if (!uiPath || uiPath.length == 0) return nil;
+    if (![uiPath isAbsolutePath]) {
+        uiPath = [[[XXLocalDataService sharedInstance] rootPath] stringByAppendingPathComponent:uiPath];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:uiPath]) return nil;
+    XUIListController *listController = [[XUIListController alloc] init];
+    listController.filePath = uiPath;
+    XXEmptyNavigationController *navController = [[XXEmptyNavigationController alloc] initWithRootViewController:listController];
+    self.window.rootViewController = navController;
+    return navController;
+}
+
+- (UIViewController *)loadRootWithMain {
+    XXNavigationViewController *navController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXRootNavigationControllerStoryboardID];
+    self.window.rootViewController = navController;
+    return navController;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

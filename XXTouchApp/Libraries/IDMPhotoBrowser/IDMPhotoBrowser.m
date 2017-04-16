@@ -380,8 +380,8 @@
 
     void (^completion)() = ^() {
         self.view.alpha = 1.0f;
-        _pagingScrollView.alpha = 1.0f;
-        resizableImageView.backgroundColor = [UIColor colorWithWhite:(_useWhiteBackgroundColor) ? 1 : 0 alpha:1];
+        self->_pagingScrollView.alpha = 1.0f;
+        resizableImageView.backgroundColor = [UIColor colorWithWhite:(self->_useWhiteBackgroundColor) ? 1 : 0 alpha:1];
         [fadeView removeFromSuperview];
         [resizableImageView removeFromSuperview];
     };
@@ -437,9 +437,9 @@
     self.view.hidden = YES;
 
     void (^completion)() = ^() {
-        _senderViewForAnimation.hidden = NO;
-        _senderViewForAnimation = nil;
-        _scaleImage = nil;
+        self->_senderViewForAnimation.hidden = NO;
+        self->_senderViewForAnimation = nil;
+        self->_scaleImage = nil;
 
         [fadeView removeFromSuperview];
         [resizableImageView removeFromSuperview];
@@ -521,8 +521,8 @@
         [_delegate photoBrowser:self willDismissAtPageIndex:_currentPageIndex];
 
     [self dismissViewControllerAnimated:animated completion:^{
-        if ([_delegate respondsToSelector:@selector(photoBrowser:didDismissAtPageIndex:)])
-            [_delegate photoBrowser:self didDismissAtPageIndex:_currentPageIndex];
+        if ([self->_delegate respondsToSelector:@selector(photoBrowser:didDismissAtPageIndex:)])
+            [self->_delegate photoBrowser:self didDismissAtPageIndex:self->_currentPageIndex];
 
 //		if (SYSTEM_VERSION_LESS_THAN(@"8.0"))
 //		{
@@ -979,7 +979,7 @@
 			[self configurePage:page forIndex:index];
 			[_visiblePages addObject:page];
 			[_pagingScrollView addSubview:page];
-			CYLog(@"Added page at index %lu", (unsigned long)index);
+			XXLog(@"Added page at index %lu", (unsigned long)index);
 
             // Add caption
             IDMCaptionView *captionView = [self captionViewForPhotoAtIndex:index];
@@ -1205,8 +1205,8 @@
     [UIView animateWithDuration:(animated ? 0.1 : 0) animations:^(void) {
         CGFloat alpha = hidden ? 0 : 1;
         [self.navigationController.navigationBar setAlpha:alpha];
-        [_toolbar setAlpha:alpha];
-        [_doneButton setAlpha:alpha];
+        [self->_toolbar setAlpha:alpha];
+        [self->_doneButton setAlpha:alpha];
         for (UIView *v in captionViews) v.alpha = alpha;
     } completion:^(BOOL finished) {}];
 

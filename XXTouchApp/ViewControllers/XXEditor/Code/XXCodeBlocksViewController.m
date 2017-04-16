@@ -114,8 +114,7 @@ enum {
 
 - (NSMutableArray <XXCodeBlockModel *> *)internalFunctions {
     if (!_internalFunctions) {
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"internalFunctions" ofType:@"plist"];
-        NSArray *plistArr = [[NSArray alloc] initWithContentsOfFile:plistPath];
+        NSArray *plistArr = extendDict()[@"INTERNAL_FUNC"];
         NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
         for (NSDictionary *m in plistArr)
         {
@@ -162,8 +161,7 @@ enum {
 
 - (NSMutableArray <XXCodeBlockModel *> *)userDefinedFunctions {
     if (!_userDefinedFunctions) {
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"userDefinedFunctions" ofType:@"plist"];
-        NSArray *plistArr = [[NSArray alloc] initWithContentsOfFile:plistPath];
+        NSArray *plistArr = extendDict()[@"USER_FUNC"];
         NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
         for (NSDictionary *m in plistArr)
         {
@@ -508,7 +506,7 @@ enum {
 }
 
 - (void)dealloc {
-    CYLog(@"");
+    XXLog(@"");
 }
 
 @end
