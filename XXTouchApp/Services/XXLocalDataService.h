@@ -29,7 +29,7 @@ typedef enum : NSUInteger {
     kXXEditorFontFamilyCourierNew = 0,
     kXXEditorFontFamilyMenlo = 1,
     kXXEditorFontFamilySourceCodePro = 2,
-    kXXEditorFontFamilySourceSansPro = 3,
+    kXXEditorFontFamilyCaminggoCode = 3,
 } kXXEditorFontFamily;
 
 static NSString * const kXXDeviceInfoSoftwareVersion = @"zeversion";
@@ -58,7 +58,7 @@ static NSString * const kXXStartUpConfigScriptPath = @"startup_script";
 static NSString * const kXXLocalConfigHidesMainPath = @"kXXLocalConfigHidesMainPath";
 
 @interface XXLocalDataService : YYCache
-+ (id)sharedInstance;
+//+ (id)sharedInstance;
 
 @property (nonatomic, assign) BOOL purchasedProduct; // Cached
 

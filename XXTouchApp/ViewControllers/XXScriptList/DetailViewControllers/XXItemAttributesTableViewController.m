@@ -160,10 +160,10 @@ int cancelFlag = 0;
         self.itemTypeLabel.text = NSLocalizedString(@"Unsupported file type", nil);
     }
     NSDate *creationDate = self.currentAttributes[NSFileCreationDate];
-    NSString *creationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:creationDate];
+    NSString *creationFormattedDate = [[XXTGSSI.dataService defaultDateFormatter] stringFromDate:creationDate];
     self.createdAtLabel.text = creationFormattedDate;
     NSDate *modificationDate = self.currentAttributes[NSFileModificationDate];
-    NSString *modificationFormattedDate = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modificationDate];
+    NSString *modificationFormattedDate = [[XXTGSSI.dataService defaultDateFormatter] stringFromDate:modificationDate];
     self.modifiedAtLabel.text = modificationFormattedDate;
     if ([sender isRefreshing]) {
         [sender endRefreshing];

@@ -105,11 +105,11 @@ enum {
 #pragma mark - Getters
 
 - (NSUInteger)selectedCodeBlockSegmentIndex {
-    return [(NSNumber *)[[XXLocalDataService sharedInstance] objectForKey:kXXStorageKeySelectedCodeBlockSegmentIndex] unsignedIntegerValue];
+    return [(NSNumber *)[XXTGSSI.dataService objectForKey:kXXStorageKeySelectedCodeBlockSegmentIndex] unsignedIntegerValue];
 }
 
 - (void)setSelectedCodeBlockSegmentIndex:(NSUInteger)selectedCodeBlockSegmentIndex {
-    [[XXLocalDataService sharedInstance] setObject:@(selectedCodeBlockSegmentIndex) forKey:kXXStorageKeySelectedCodeBlockSegmentIndex];
+    [XXTGSSI.dataService setObject:@(selectedCodeBlockSegmentIndex) forKey:kXXStorageKeySelectedCodeBlockSegmentIndex];
 }
 
 - (NSMutableArray <XXCodeBlockModel *> *)internalFunctions {
@@ -122,7 +122,7 @@ enum {
         }
         
         BOOL edited = NO;
-        NSMutableArray <XXCodeBlockModel *> *internalFunctions = (NSMutableArray <XXCodeBlockModel *> *)[[XXLocalDataService sharedInstance] objectForKey:kXXStorageKeyCodeBlockInternalFunctions];
+        NSMutableArray <XXCodeBlockModel *> *internalFunctions = (NSMutableArray <XXCodeBlockModel *> *)[XXTGSSI.dataService objectForKey:kXXStorageKeyCodeBlockInternalFunctions];
         if (!internalFunctions) {
             internalFunctions = mModelArr;
             edited = YES;
@@ -145,7 +145,7 @@ enum {
             }
         }
         if (edited) {
-            [[XXLocalDataService sharedInstance] setObject:internalFunctions
+            [XXTGSSI.dataService setObject:internalFunctions
                                                     forKey:kXXStorageKeyCodeBlockInternalFunctions];
         }
         
@@ -155,7 +155,7 @@ enum {
 }
 
 - (void)saveInternalFunctions:(NSMutableArray<XXCodeBlockModel *> *)internalFunctions {
-    [[XXLocalDataService sharedInstance] setObject:internalFunctions
+    [XXTGSSI.dataService setObject:internalFunctions
                                             forKey:kXXStorageKeyCodeBlockInternalFunctions];
 }
 
@@ -169,7 +169,7 @@ enum {
         }
         
         BOOL edited = NO;
-        NSMutableArray <XXCodeBlockModel *> *userDefinedFunctions = (NSMutableArray <XXCodeBlockModel *> *)[[XXLocalDataService sharedInstance] objectForKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
+        NSMutableArray <XXCodeBlockModel *> *userDefinedFunctions = (NSMutableArray <XXCodeBlockModel *> *)[XXTGSSI.dataService objectForKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
         if (!userDefinedFunctions) {
             userDefinedFunctions = mModelArr;
             edited = YES;
@@ -192,7 +192,7 @@ enum {
             }
         }
         if (edited) {
-            [[XXLocalDataService sharedInstance] setObject:userDefinedFunctions
+            [XXTGSSI.dataService setObject:userDefinedFunctions
                                                     forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
         }
         
@@ -202,7 +202,7 @@ enum {
 }
 
 - (void)saveUserDefinedFunctions:(NSMutableArray<XXCodeBlockModel *> *)userDefinedFunctions {
-    [[XXLocalDataService sharedInstance] setObject:userDefinedFunctions
+    [XXTGSSI.dataService setObject:userDefinedFunctions
                                             forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
 }
 

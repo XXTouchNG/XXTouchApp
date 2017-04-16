@@ -75,7 +75,7 @@ UIPopoverControllerDelegate
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.currentDirectory = [[[XXLocalDataService sharedInstance] rootPath] mutableCopy];
+    self.currentDirectory = [[XXTGSSI.dataService rootPath] mutableCopy];
     self.rootItemsDictionaryArr = [NSMutableArray new];
     if (!daemonInstalled() && self.isRootDirectory) {
         self.navigationItem.leftBarButtonItem = self.aboutBtn;
@@ -118,7 +118,7 @@ UIPopoverControllerDelegate
     [self.footerLabel setTarget:self action:@selector(itemCountLabelTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     if (daemonInstalled() &&
-        [[XXLocalDataService sharedInstance] selectedScript] == nil)
+        [XXTGSSI.dataService selectedScript] == nil)
     {
         [self launchSetup:nil];
     }
@@ -128,7 +128,7 @@ UIPopoverControllerDelegate
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:kXXGlobalNotificationList object:nil];
     [self reloadScriptListTableView];
-    self.topToolbar.pasteButton.enabled = [[XXLocalDataService sharedInstance] pasteboardArr].count != 0;
+    self.topToolbar.pasteButton.enabled = [XXTGSSI.dataService pasteboardArr].count != 0;
     if (self.isRootDirectory) {
         self.title = NSLocalizedString(@"My Scripts", nil);
     } else {
@@ -148,8 +148,8 @@ UIPopoverControllerDelegate
 
 - (void)setCurrentDirectory:(NSString *)currentDirectory {
     _currentDirectory = currentDirectory;
-    NSString *homePath = [[XXLocalDataService sharedInstance] rootPath];
-    NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
+    NSString *homePath = [XXTGSSI.dataService rootPath];
+    NSString *rootPath = [XXTGSSI.dataService mainPath];
     if ([currentDirectory isEqualToString:homePath]) {
         self.relativePath = @"~";
     } else if ([currentDirectory hasPrefix:[homePath stringByAppendingString:@"/"]]) {
@@ -266,7 +266,7 @@ UIPopoverControllerDelegate
     }
     
     // Items Sorting
-    if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByNameAsc) {
+    if ([XXTGSSI.dataService sortMethod] == kXXScriptListSortByNameAsc) {
         [self.topToolbar.sortByButton setImage:[UIImage imageNamed:@"sort-alpha"]];
         [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
@@ -274,7 +274,7 @@ UIPopoverControllerDelegate
         [fileArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj1[kXXItemNameKey] compare:obj2[kXXItemNameKey] options:NSCaseInsensitiveSearch];
         }];
-    } else if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByModificationDesc) {
+    } else if ([XXTGSSI.dataService sortMethod] == kXXScriptListSortByModificationDesc) {
         [self.topToolbar.sortByButton setImage:[UIImage imageNamed:@"sort-number"]];
         [dirArr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
             return [obj2[NSFileModificationDate] compare:obj1[NSFileModificationDate]];
@@ -298,7 +298,7 @@ UIPopoverControllerDelegate
     {
         return NO;
     }
-    return [[[[XXLocalDataService sharedInstance] localUserConfig] objectForKey:kXXLocalConfigHidesMainPath] boolValue];
+    return [[[XXTGSSI.dataService localUserConfig] objectForKey:kXXLocalConfigHidesMainPath] boolValue];
 }
 
 #pragma mark - Table view data source
@@ -366,7 +366,7 @@ UIPopoverControllerDelegate
     NSDictionary *attrs = nil;
     if (indexPath.section == 0 && indexPath.row == 0 && self.isRootDirectory && !self.hidesMainPath) {
         NSError *err = nil;
-        NSString *rootPath = [[XXLocalDataService sharedInstance] mainPath];
+        NSString *rootPath = [XXTGSSI.dataService mainPath];
         if (rootPath) {
             NSDictionary *iAttrs = [[NSFileManager defaultManager] attributesOfItemAtPath:rootPath
                                                                                     error:&err];
@@ -386,13 +386,13 @@ UIPopoverControllerDelegate
     
     if (cell.isSelectable) {
         NSString *highlightedItemPath = (cell.selectBootscript) ?
-        [[XXLocalDataService sharedInstance] startUpConfigScriptPath] :
-        [[XXLocalDataService sharedInstance] selectedScript];
+        [XXTGSSI.dataService startUpConfigScriptPath] :
+        [XXTGSSI.dataService selectedScript];
         cell.checked = [attrs[kXXItemRealPathKey] isEqualToString:highlightedItemPath];
     } else if (cell.isDirectory) {
         cell.checked = (cell.selectBootscript) ?
-        [[XXLocalDataService sharedInstance] isSelectedStartUpScriptInPath:attrs[kXXItemRealPathKey]] :
-        [[XXLocalDataService sharedInstance] isSelectedScriptInPath:attrs[kXXItemRealPathKey]];
+        [XXTGSSI.dataService isSelectedStartUpScriptInPath:attrs[kXXItemRealPathKey]] :
+        [XXTGSSI.dataService isSelectedScriptInPath:attrs[kXXItemRealPathKey]];
     }
     
     if (cell.selectBootscript) {
@@ -499,9 +499,9 @@ UIPopoverControllerDelegate
                                                                          BOOL result = [[NSFileManager defaultManager] removeItemAtPath:currentCell.itemAttrs[kXXItemPathKey] error:&err]; // This may be time comsuming
                                                                          if (currentCell.checked) {
                                                                              if (self.type == XXScriptListTableViewControllerTypeBootscript) {
-                                                                                 [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
+                                                                                 [XXTGSSI.dataService setStartUpConfigScriptPath:nil];
                                                                              } else {
-                                                                                 [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                                                                                 [XXTGSSI.dataService setSelectedScript:nil];
                                                                              }
                                                                          }
                                                                          if (result)
@@ -576,9 +576,9 @@ UIPopoverControllerDelegate
 
 - (void)hideItemTapped:(id)sender {
     if (self.isRootDirectory && !self.hidesMainPath) {
-        NSMutableDictionary *dict = [[XXLocalDataService sharedInstance] localUserConfig];
+        NSMutableDictionary *dict = [XXTGSSI.dataService localUserConfig];
         [dict setObject:@YES forKey:kXXLocalConfigHidesMainPath];
-        [[XXLocalDataService sharedInstance] setLocalUserConfig:dict];
+        [XXTGSSI.dataService setLocalUserConfig:dict];
         
         [self.tableView beginUpdates];
         [self.tableView deleteRow:0 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -601,7 +601,7 @@ UIPopoverControllerDelegate
         self.topToolbar.compressButton.enabled =
         self.topToolbar.trashButton.enabled = NO;
         [self.topToolbar setItems:self.topToolbar.defaultToolbarButtons animated:YES];
-        if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
+        if ([XXTGSSI.dataService pasteboardArr].count == 0) {
             self.topToolbar.pasteButton.enabled = NO;
         }
     }
@@ -615,7 +615,7 @@ UIPopoverControllerDelegate
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView indexPathsForSelectedRows].count == 0) {
-        if ([[XXLocalDataService sharedInstance] pasteboardArr].count == 0) {
+        if ([XXTGSSI.dataService pasteboardArr].count == 0) {
             self.topToolbar.pasteButton.enabled = NO;
         }
         self.topToolbar.shareButton.enabled =
@@ -818,7 +818,7 @@ UIPopoverControllerDelegate
         // Set Paste / Link Action
         NSString *pasteStr = nil;
         NSString *linkStr = nil;
-        NSMutableArray *pasteArr = [[XXLocalDataService sharedInstance] pasteboardArr];
+        NSMutableArray *pasteArr = [XXTGSSI.dataService pasteboardArr];
         if (pasteArr.count != 0) {
             if (pasteArr.count == 1) {
                 pasteStr = NSLocalizedString(@"Paste 1 item", nil);
@@ -827,7 +827,7 @@ UIPopoverControllerDelegate
                 pasteStr = [NSString stringWithFormat:NSLocalizedString(@"Paste %d items", nil), pasteArr.count];
                 linkStr = [NSString stringWithFormat:NSLocalizedString(@"Create %d links", nil), pasteArr.count];
             }
-            kXXPasteboardType pasteboardType = [[XXLocalDataService sharedInstance] pasteboardType];
+            kXXPasteboardType pasteboardType = [XXTGSSI.dataService pasteboardType];
             @weakify(self);
             [alertView addButtonWithTitle:pasteStr type:SIAlertViewButtonTypeDefault handler:^(SIAlertView *alertView) {
                 @strongify(self);
@@ -900,14 +900,14 @@ UIPopoverControllerDelegate
                 [alertView addButtonWithTitle:copyStr
                                          type:SIAlertViewButtonTypeDefault
                                       handler:^(SIAlertView *alertView) {
-                    [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCopy];
-                    [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
+                    [XXTGSSI.dataService setPasteboardType:kXXPasteboardTypeCopy];
+                    [XXTGSSI.dataService setPasteboardArr:selectedPaths];
                 }];
                 [alertView addButtonWithTitle:cutStr
                                          type:SIAlertViewButtonTypeDefault
                                       handler:^(SIAlertView *alertView) {
-                    [[XXLocalDataService sharedInstance] setPasteboardType:kXXPasteboardTypeCut];
-                    [[XXLocalDataService sharedInstance] setPasteboardArr:selectedPaths];
+                    [XXTGSSI.dataService setPasteboardType:kXXPasteboardTypeCut];
+                    [XXTGSSI.dataService setPasteboardArr:selectedPaths];
                 }];
             }
         }
@@ -919,11 +919,11 @@ UIPopoverControllerDelegate
         // Show Alert
         [alertView show];
     } else if (sender == self.topToolbar.sortByButton) {
-        if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByNameAsc) {
-            [[XXLocalDataService sharedInstance] setSortMethod:kXXScriptListSortByModificationDesc];
+        if ([XXTGSSI.dataService sortMethod] == kXXScriptListSortByNameAsc) {
+            [XXTGSSI.dataService setSortMethod:kXXScriptListSortByModificationDesc];
             [self.topToolbar.sortByButton setImage:[UIImage imageNamed:@"sort-number"]];
-        } else if ([[XXLocalDataService sharedInstance] sortMethod] == kXXScriptListSortByModificationDesc) {
-            [[XXLocalDataService sharedInstance] setSortMethod:kXXScriptListSortByNameAsc];
+        } else if ([XXTGSSI.dataService sortMethod] == kXXScriptListSortByModificationDesc) {
+            [XXTGSSI.dataService setSortMethod:kXXScriptListSortByNameAsc];
             [self.topToolbar.sortByButton setImage:[UIImage imageNamed:@"sort-alpha"]];
         }
         [self reloadScriptListTableView];
@@ -950,12 +950,12 @@ UIPopoverControllerDelegate
             for (NSIndexPath *indexPath in selectedIndexPaths) {
                 NSString *itemPath = self.rootItemsDictionaryArr[indexPath.row][kXXItemPathKey];
                 if (self.type == XXScriptListTableViewControllerTypeBootscript) {
-                    if ([itemPath isEqualToString:[[XXLocalDataService sharedInstance] startUpConfigScriptPath]]) {
-                        [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:nil];
+                    if ([itemPath isEqualToString:[XXTGSSI.dataService startUpConfigScriptPath]]) {
+                        [XXTGSSI.dataService setStartUpConfigScriptPath:nil];
                     }
                 } else {
-                    if ([itemPath isEqualToString:[[XXLocalDataService sharedInstance] selectedScript]]) {
-                        [[XXLocalDataService sharedInstance] setSelectedScript:nil];
+                    if ([itemPath isEqualToString:[XXTGSSI.dataService selectedScript]]) {
+                        [XXTGSSI.dataService setSelectedScript:nil];
                     }
                 }
                 result = [[NSFileManager defaultManager] removeItemAtPath:itemPath error:&err];
@@ -1076,7 +1076,7 @@ UIPopoverControllerDelegate
                  [XXMediaActivity class],
                  [XXUnarchiveActivity class],
                  ];
-    } else if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+    } else if ([XXTGSSI.dataService purchasedProduct]) {
         return @[
                  [XXTerminalActivity class],
                  [XXUIActivity class],

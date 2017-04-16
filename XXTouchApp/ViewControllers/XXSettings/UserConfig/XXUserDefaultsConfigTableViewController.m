@@ -86,12 +86,12 @@ static NSString * const kXXUserDefaultsConfigTableViewCellIReuseIdentifier = @"k
 }
 
 - (void)reloadLocalConfigList {
-    [self loadConfigListFromDictionary:[[XXLocalDataService sharedInstance] localUserConfig] toArray:self.localUserConfigArray];
+    [self loadConfigListFromDictionary:[XXTGSSI.dataService localUserConfig] toArray:self.localUserConfigArray];
     [self.tableView reloadData];
 }
 
 - (void)reloadRemoteConfigList {
-    [self loadConfigListFromDictionary:[[XXLocalDataService sharedInstance] remoteUserConfig] toArray:self.remoteUserConfigArray];
+    [self loadConfigListFromDictionary:[XXTGSSI.dataService remoteUserConfig] toArray:self.remoteUserConfigArray];
     [self.tableView reloadData];
 }
 

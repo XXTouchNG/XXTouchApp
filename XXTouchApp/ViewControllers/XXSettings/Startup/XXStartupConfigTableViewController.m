@@ -39,14 +39,14 @@
 }
 
 - (void)loadStartupConfig {
-    BOOL switchedOn = [[XXLocalDataService sharedInstance] startUpConfigSwitch];
+    BOOL switchedOn = [XXTGSSI.dataService startUpConfigSwitch];
     self.startupSwitch.on = switchedOn;
     if (switchedOn) {
         self.bootScriptPathLabel.textColor = STYLE_TINT_COLOR;
     } else {
         self.bootScriptPathLabel.textColor = [UIColor grayColor];
     }
-    NSString *selectedBootScript = [[XXLocalDataService sharedInstance] startUpConfigScriptPath];
+    NSString *selectedBootScript = [XXTGSSI.dataService startUpConfigScriptPath];
     if (selectedBootScript && selectedBootScript.length != 0) {
         self.bootScriptPathLabel.text = selectedBootScript;
     }

@@ -84,13 +84,13 @@
 - (void)reloadCheckmark {
     kXXKeyPressConfig configValue = 0;
     if (self.currentSection == kXXKeyPressConfigHoldVolumeUpSection) {
-        configValue = [[XXLocalDataService sharedInstance] keyPressConfigHoldVolumeUp];
+        configValue = [XXTGSSI.dataService keyPressConfigHoldVolumeUp];
     } else if (self.currentSection == kXXKeyPressConfigHoldVolumeDownSection) {
-        configValue = [[XXLocalDataService sharedInstance] keyPressConfigHoldVolumeDown];
+        configValue = [XXTGSSI.dataService keyPressConfigHoldVolumeDown];
     } else if (self.currentSection == kXXKeyPressConfigPressVolumeUpSection) {
-        configValue = [[XXLocalDataService sharedInstance] keyPressConfigPressVolumeUp];
+        configValue = [XXTGSSI.dataService keyPressConfigPressVolumeUp];
     } else if (self.currentSection == kXXKeyPressConfigPressVolumeDownSection) {
-        configValue = [[XXLocalDataService sharedInstance] keyPressConfigPressVolumeDown];
+        configValue = [XXTGSSI.dataService keyPressConfigPressVolumeDown];
     }
     [self displayCheckmarkForIndexPath:[NSIndexPath indexPathForRow:configValue inSection:0]];
 }

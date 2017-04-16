@@ -54,7 +54,7 @@
 }
 
 + (NSArray *)specifiersFromArray:(NSArray *)array forTarget:(XUIListController *)target {
-    NSString *configPath = [[XXLocalDataService sharedInstance] uicfgPath];
+    NSString *configPath = [XXTGSSI.dataService uicfgPath];
     NSMutableArray *specifiers = [NSMutableArray array];
     for (NSDictionary *dict in array) {
         PSCellType cellType = [XUISpecifierParser PSCellTypeFromString:dict[PSTableCellClassKey]];

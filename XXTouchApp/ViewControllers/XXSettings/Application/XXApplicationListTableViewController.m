@@ -114,7 +114,7 @@ UISearchDisplayDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         if (section == kXXApplicationListCellSection) {
-            return [[XXLocalDataService sharedInstance] bundles].count;
+            return [XXTGSSI.dataService bundles].count;
         }
     } else {
         return self.showData.count;
@@ -126,7 +126,7 @@ UISearchDisplayDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXApplicationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXApplicationNameLabelReuseIdentifier forIndexPath:indexPath];
     if (tableView == self.tableView) {
-        cell.appInfo = [[[XXLocalDataService sharedInstance] bundles] objectAtIndex:indexPath.row];
+        cell.appInfo = [[XXTGSSI.dataService bundles] objectAtIndex:indexPath.row];
     } else {
         cell.appInfo = _showData[indexPath.row];
         return cell;
@@ -138,7 +138,7 @@ UISearchDisplayDelegate
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *identifier = nil;
     if (tableView == self.tableView) {
-        identifier = [[XXLocalDataService sharedInstance] bundles][indexPath.row][kXXApplicationKeyBundleID];
+        identifier = [XXTGSSI.dataService bundles][indexPath.row][kXXApplicationKeyBundleID];
     } else {
         identifier = _showData[indexPath.row][kXXApplicationKeyBundleID];
     }
@@ -173,7 +173,7 @@ UISearchDisplayDelegate
         predicate = [NSPredicate predicateWithFormat:@"bid CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     }
     if (predicate) {
-        self.showData = [[NSArray alloc] initWithArray:[[[XXLocalDataService sharedInstance] bundles] filteredArrayUsingPredicate:predicate]];
+        self.showData = [[NSArray alloc] initWithArray:[[XXTGSSI.dataService bundles] filteredArrayUsingPredicate:predicate]];
     }
 }
 

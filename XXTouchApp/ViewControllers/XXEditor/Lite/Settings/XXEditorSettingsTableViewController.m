@@ -51,61 +51,61 @@
 }
 
 - (void)loadSettings {
-    self.fontNameLabel.text = [[XXLocalDataService sharedInstance] fontFamilyName];
-    self.syntaxHighlightSwitch.on = [[XXLocalDataService sharedInstance] syntaxHighlightingEnabled];
+    self.fontNameLabel.text = [XXTGSSI.dataService fontFamilyName];
+    self.syntaxHighlightSwitch.on = [XXTGSSI.dataService syntaxHighlightingEnabled];
     
-    self.lineNumbersSwitch.on = [[XXLocalDataService sharedInstance] lineNumbersEnabled];
-    self.softTabsSwitch.on = [[XXLocalDataService sharedInstance] softTabsEnabled];
-    self.autoIndentSwitch.on = [[XXLocalDataService sharedInstance] autoIndentEnabled];
-    self.readOnlySwitch.on = [[XXLocalDataService sharedInstance] readOnlyEnabled];
-    self.autoCorrectionSwitch.on = [[XXLocalDataService sharedInstance] autoCorrectionEnabled];
-    self.autoCapitalizationSwitch.on = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled];
+    self.lineNumbersSwitch.on = [XXTGSSI.dataService lineNumbersEnabled];
+    self.softTabsSwitch.on = [XXTGSSI.dataService softTabsEnabled];
+    self.autoIndentSwitch.on = [XXTGSSI.dataService autoIndentEnabled];
+    self.readOnlySwitch.on = [XXTGSSI.dataService readOnlyEnabled];
+    self.autoCorrectionSwitch.on = [XXTGSSI.dataService autoCorrectionEnabled];
+    self.autoCapitalizationSwitch.on = [XXTGSSI.dataService autoCapitalizationEnabled];
     
-    self.tabWidthControl.selectedSegmentIndex = [[XXLocalDataService sharedInstance] tabWidth];
-    self.fontSizeView.fontSize = (NSUInteger)[[XXLocalDataService sharedInstance] fontFamilySize];
+    self.tabWidthControl.selectedSegmentIndex = [XXTGSSI.dataService tabWidth];
+    self.fontSizeView.fontSize = (NSUInteger)[XXTGSSI.dataService fontFamilySize];
     
-    self.regexSwitch.on = [[XXLocalDataService sharedInstance] regexSearchingEnabled];
-    self.caseSensitiveSwitch.on = [[XXLocalDataService sharedInstance] caseSensitiveEnabled];
+    self.regexSwitch.on = [XXTGSSI.dataService regexSearchingEnabled];
+    self.caseSensitiveSwitch.on = [XXTGSSI.dataService caseSensitiveEnabled];
 }
 
 - (IBAction)lineNumbersChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setLineNumbersEnabled:sender.on]; [self notifyChangedInSection:1];
+    [XXTGSSI.dataService setLineNumbersEnabled:sender.on]; [self notifyChangedInSection:1];
 }
 
 - (IBAction)tabWidthChanged:(UISegmentedControl *)sender {
-    [[XXLocalDataService sharedInstance] setTabWidth:sender.selectedSegmentIndex]; [self notifyChangedInSection:2];
+    [XXTGSSI.dataService setTabWidth:sender.selectedSegmentIndex]; [self notifyChangedInSection:2];
 }
 
 - (IBAction)autoIndentChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setAutoIndentEnabled:sender.on]; [self notifyChangedInSection:2];
+    [XXTGSSI.dataService setAutoIndentEnabled:sender.on]; [self notifyChangedInSection:2];
 }
 
 - (IBAction)softTabsChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setSoftTabsEnabled:sender.on]; [self notifyChangedInSection:2];
+    [XXTGSSI.dataService setSoftTabsEnabled:sender.on]; [self notifyChangedInSection:2];
 }
 
 - (IBAction)readOnlyChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setReadOnlyEnabled:sender.on]; [self notifyChangedInSection:3];
+    [XXTGSSI.dataService setReadOnlyEnabled:sender.on]; [self notifyChangedInSection:3];
 }
 
 - (IBAction)autoCorrectionChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setAutoCorrectionEnabled:sender.on]; [self notifyChangedInSection:3];
+    [XXTGSSI.dataService setAutoCorrectionEnabled:sender.on]; [self notifyChangedInSection:3];
 }
 
 - (IBAction)autoCapitalizationChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setAutoCapitalizationEnabled:sender.on]; [self notifyChangedInSection:3];
+    [XXTGSSI.dataService setAutoCapitalizationEnabled:sender.on]; [self notifyChangedInSection:3];
 }
 
 - (IBAction)regexChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setRegexSearchingEnabled:sender.on]; [self notifyChangedInSection:4];
+    [XXTGSSI.dataService setRegexSearchingEnabled:sender.on]; [self notifyChangedInSection:4];
 }
 
 - (IBAction)caseSensitiveChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setCaseSensitiveEnabled:sender.on]; [self notifyChangedInSection:4];
+    [XXTGSSI.dataService setCaseSensitiveEnabled:sender.on]; [self notifyChangedInSection:4];
 }
 
 - (IBAction)syntaxHighlightChanged:(UISwitch *)sender {
-    [[XXLocalDataService sharedInstance] setSyntaxHighlightingEnabled:sender.on]; [self notifyChangedInSection:1];
+    [XXTGSSI.dataService setSyntaxHighlightingEnabled:sender.on]; [self notifyChangedInSection:1];
 }
 
 - (void)notifyChangedInSection:(NSUInteger)section {
@@ -116,12 +116,12 @@
 }
 
 - (void)editorFontSettingsDidEdited:(XXEditorFontSettingsTableViewController *)controller {
-    self.fontNameLabel.text = [[XXLocalDataService sharedInstance] fontFamilyName];
+    self.fontNameLabel.text = [XXTGSSI.dataService fontFamilyName];
     [self notifyChangedInSection:0];
 }
 
 - (void)fontViewSizeDidChanged:(XXEditorFontSizeView *)view {
-    [[XXLocalDataService sharedInstance] setFontFamilySize:(CGFloat)view.fontSize];
+    [XXTGSSI.dataService setFontFamilySize:(CGFloat)view.fontSize];
     [self notifyChangedInSection:0];
 }
 

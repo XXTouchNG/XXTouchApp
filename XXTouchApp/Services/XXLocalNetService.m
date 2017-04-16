@@ -168,7 +168,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSAssert(scriptPath != nil, @"scriptPath cannot be nil");
     NSDictionary *result = [self sendSynchronousRequest:@"select_script_file" withDictionary:@{ @"filename": scriptPath } error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setSelectedScript:scriptPath];
+        [XXTGSSI.dataService setSelectedScript:scriptPath];
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -179,13 +179,13 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"get_selected_script_file" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         if ([result[@"data"][@"filename"] hasPrefix:@"/"]) {
-            [[XXLocalDataService sharedInstance] setSelectedScript:result[@"data"][@"filename"]];
+            [XXTGSSI.dataService setSelectedScript:result[@"data"][@"filename"]];
         } else {
             NSString *absoluteString = [result[@"data"][@"filename"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
             if (absoluteString) {
                 NSURL *absolutePath = [NSURL URLWithString:absoluteString
-                                             relativeToURL:[NSURL fileURLWithPath:[[XXLocalDataService sharedInstance] rootPath]]];
-                [[XXLocalDataService sharedInstance] setSelectedScript:[[absolutePath path] stringByRemovingPercentEncoding]];
+                                             relativeToURL:[NSURL fileURLWithPath:[XXTGSSI.dataService rootPath]]];
+                [XXTGSSI.dataService setSelectedScript:[[absolutePath path] stringByRemovingPercentEncoding]];
             }
         }
         return YES;
@@ -232,7 +232,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)localGetRemoteAccessStatusWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"is_remote_access_opened" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setRemoteAccessStatus:[result[@"data"][@"opened"] boolValue]];
+        [XXTGSSI.dataService setRemoteAccessStatus:[result[@"data"][@"opened"] boolValue]];
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -265,7 +265,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)localOpenRemoteAccessWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"open_remote_access" withDictionary:nil error:error]; CHECK_ERROR(NO);
-    XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+    XXLocalDataService *sharedDataService = XXTGSSI.dataService;
     if ([result[@"code"] isEqualToNumber:@0]) {
         [sharedDataService setRemoteAccessStatus:YES];
         [sharedDataService setRemoteAccessDictionary:result[@"data"]];
@@ -277,7 +277,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)localCloseRemoteAccessWithError:(NSError **)error {
     [self sendOneTimeAction:@"close_remote_access" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setRemoteAccessStatus:NO];
+    [XXTGSSI.dataService setRemoteAccessStatus:NO];
     return YES;
 }
 
@@ -287,8 +287,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
         if (expirationInterval > 0) {
-            [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
-            [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
+            [XXTGSSI.dataService setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+            [XXTGSSI.dataService setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
         }
         return YES;
     } else
@@ -297,7 +297,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 }
 
 + (BOOL)remoteGetDeviceAuthInfoWithError:(NSError **)error {
-    NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+    NSDictionary *deviceInfo = [XXTGSSI.dataService deviceInfo];
     NSMutableDictionary *sendDict = [[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                       @"did": deviceInfo[kXXDeviceInfoUniqueID],
                                                                                       @"sv": deviceInfo[kXXDeviceInfoSystemVersion],
@@ -314,8 +314,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
         if (expirationInterval > 0) {
-            [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
-            [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
+            [XXTGSSI.dataService setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+            [XXTGSSI.dataService setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
         }
         return YES;
     } else
@@ -326,7 +326,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)localGetDeviceInfoWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"deviceinfo" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setDeviceInfo:[result[@"data"] copy]];
+        [XXTGSSI.dataService setDeviceInfo:[result[@"data"] copy]];
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -345,7 +345,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)remoteBindCode:(NSString *)bind
                  error:(NSError **)error {
-    NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
+    NSDictionary *deviceInfo = [XXTGSSI.dataService deviceInfo];
     if (!deviceInfo) {
         return NO;
     }
@@ -366,8 +366,8 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
         if (expirationInterval > 0 || nowInterval > 0) {
-            [[XXLocalDataService sharedInstance] setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
-            [[XXLocalDataService sharedInstance] setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
+            [XXTGSSI.dataService setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
+            [XXTGSSI.dataService setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
         }
         return YES;
     }
@@ -379,7 +379,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 + (BOOL)localGetApplicationListWithError:(NSError **)error {
     NSDictionary *result = [self sendSynchronousRequest:@"applist" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setBundles:result[@"data"]];
+        [XXTGSSI.dataService setBundles:result[@"data"]];
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -401,7 +401,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"get_volume_action_conf" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSDictionary *data = result[@"data"];
-        XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+        XXLocalDataService *sharedDataService = XXTGSSI.dataService;
         [sharedDataService setKeyPressConfigHoldVolumeUp:[(NSNumber *)[data objectForKey:kXXKeyPressConfigHoldVolumeUp] integerValue]];
         [sharedDataService setKeyPressConfigHoldVolumeDown:[(NSNumber *)[data objectForKey:kXXKeyPressConfigHoldVolumeDown] integerValue]];
         [sharedDataService setKeyPressConfigPressVolumeUp:[(NSNumber *)[data objectForKey:kXXKeyPressConfigPressVolumeUp] integerValue]];
@@ -415,25 +415,25 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)localSetHoldVolumeUpAction:(NSUInteger)option error:(NSError **)error {
     [self sendSynchronousRequest:@"set_hold_volume_up_action" withIntegerValue:option error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setKeyPressConfigHoldVolumeUp:option];
+    [XXTGSSI.dataService setKeyPressConfigHoldVolumeUp:option];
     return YES;
 }
 
 + (BOOL)localSetHoldVolumeDownAction:(NSUInteger)option error:(NSError **)error {
     [self sendSynchronousRequest:@"set_hold_volume_down_action" withIntegerValue:option error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setKeyPressConfigHoldVolumeDown:option];
+    [XXTGSSI.dataService setKeyPressConfigHoldVolumeDown:option];
     return YES;
 }
 
 + (BOOL)localSetPressVolumeUpAction:(NSUInteger)option error:(NSError **)error {
     [self sendSynchronousRequest:@"set_click_volume_up_action" withIntegerValue:option error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setKeyPressConfigPressVolumeUp:option];
+    [XXTGSSI.dataService setKeyPressConfigPressVolumeUp:option];
     return YES;
 }
 
 + (BOOL)localSetPressVolumeDownAction:(NSUInteger)option error:(NSError **)error {
     [self sendSynchronousRequest:@"set_click_volume_down_action" withIntegerValue:option error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setKeyPressConfigPressVolumeDown:option];
+    [XXTGSSI.dataService setKeyPressConfigPressVolumeDown:option];
     return YES;
 }
 
@@ -441,7 +441,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"get_record_conf" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSDictionary *data = result[@"data"];
-        XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+        XXLocalDataService *sharedDataService = XXTGSSI.dataService;
         [sharedDataService setRecordConfigRecordVolumeUp:[(NSNumber *)[data objectForKey:kXXRecordConfigRecordVolumeUp] boolValue]];
         [sharedDataService setRecordConfigRecordVolumeDown:[(NSNumber *)[data objectForKey:kXXRecordConfigRecordVolumeDown] boolValue]];
         return YES;
@@ -452,25 +452,25 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)localSetRecordVolumeUpOnWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_record_volume_up_on" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setRecordConfigRecordVolumeUp:YES];
+    [XXTGSSI.dataService setRecordConfigRecordVolumeUp:YES];
     return YES;
 }
 
 + (BOOL)localSetRecordVolumeUpOffWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_record_volume_up_off" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setRecordConfigRecordVolumeUp:NO];
+    [XXTGSSI.dataService setRecordConfigRecordVolumeUp:NO];
     return YES;
 }
 
 + (BOOL)localSetRecordVolumeDownOnWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_record_volume_down_on" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setRecordConfigRecordVolumeDown:YES];
+    [XXTGSSI.dataService setRecordConfigRecordVolumeDown:YES];
     return YES;
 }
 
 + (BOOL)localSetRecordVolumeDownOffWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_record_volume_down_off" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setRecordConfigRecordVolumeDown:NO];
+    [XXTGSSI.dataService setRecordConfigRecordVolumeDown:NO];
     return YES;
 }
 
@@ -478,12 +478,12 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"get_startup_conf" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSDictionary *data = result[@"data"];
-        XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+        XXLocalDataService *sharedDataService = XXTGSSI.dataService;
         [sharedDataService setStartUpConfigSwitch:[(NSNumber *)data[kXXStartUpConfigSwitch] boolValue]];
         if ([data[kXXStartUpConfigScriptPath] hasPrefix:@"/"]) {
             [sharedDataService setStartUpConfigScriptPath:data[kXXStartUpConfigScriptPath]];
         } else {
-            NSURL *absolutePath = [NSURL URLWithString:[data[kXXStartUpConfigScriptPath] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:[NSURL fileURLWithPath:[[XXLocalDataService sharedInstance] rootPath]]];
+            NSURL *absolutePath = [NSURL URLWithString:[data[kXXStartUpConfigScriptPath] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]] relativeToURL:[NSURL fileURLWithPath:[XXTGSSI.dataService rootPath]]];
             [sharedDataService setStartUpConfigScriptPath:[[absolutePath path] stringByRemovingPercentEncoding]];
         }
         return YES;
@@ -497,7 +497,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSAssert(scriptPath != nil, @"scriptPath cannot be nil");
     NSDictionary *result = [self sendSynchronousRequest:@"select_startup_script_file" withDictionary:@{ @"filename": scriptPath } error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
-        [[XXLocalDataService sharedInstance] setStartUpConfigScriptPath:scriptPath];
+        [XXTGSSI.dataService setStartUpConfigScriptPath:scriptPath];
         return YES;
     } else
         GENERATE_ERROR(@"");
@@ -506,13 +506,13 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 
 + (BOOL)localSetStartUpRunOnWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_startup_run_on" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setStartUpConfigSwitch:YES];
+    [XXTGSSI.dataService setStartUpConfigSwitch:YES];
     return YES;
 }
 
 + (BOOL)localSetStartUpRunOffWithError:(NSError **)error {
     [self sendOneTimeAction:@"set_startup_run_off" error:error]; CHECK_ERROR(NO);
-    [[XXLocalDataService sharedInstance] setStartUpConfigSwitch:NO];
+    [XXTGSSI.dataService setStartUpConfigSwitch:NO];
     return YES;
 }
 
@@ -520,7 +520,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSDictionary *result = [self sendSynchronousRequest:@"get_user_conf" withDictionary:nil error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSDictionary *data = result[@"data"];
-        XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+        XXLocalDataService *sharedDataService = XXTGSSI.dataService;
         [sharedDataService setRemoteUserConfig:[[NSMutableDictionary alloc] initWithDictionary:data]];
         return YES;
     } else
@@ -529,7 +529,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
 }
 
 + (BOOL)localSetUserConfWithError:(NSError **)error {
-    XXLocalDataService *sharedDataService = [XXLocalDataService sharedInstance];
+    XXLocalDataService *sharedDataService = XXTGSSI.dataService;
     NSDictionary *dict = sharedDataService.remoteUserConfig;
     NSDictionary *result = [self sendSynchronousRequest:@"set_user_conf" withDictionary:dict error:error]; CHECK_ERROR(NO);
     if ([result[@"code"] isEqualToNumber:@0]) {

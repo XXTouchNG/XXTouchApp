@@ -84,7 +84,7 @@
         self.fileTypeImageView.image = self.isDirectory ? [UIImage imageNamed:@"file-folder"] : [XXQuickLookService fetchDisplayImageForFileExtension:fileExt];
     }
     NSDate *modificationDate = itemAttrs[NSFileModificationDate];
-    NSString *formattedDate = [[[XXLocalDataService sharedInstance] shortDateFormatter] stringFromDate:modificationDate];
+    NSString *formattedDate = [[XXTGSSI.dataService shortDateFormatter] stringFromDate:modificationDate];
     self.fileModifiedTimeLabel.text = formattedDate;
 }
 

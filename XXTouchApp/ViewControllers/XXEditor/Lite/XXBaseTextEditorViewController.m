@@ -260,7 +260,7 @@ UIPopoverControllerDelegate
 - (UITextView *)textView {
     if (!_textView) {
         XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds
-                                                      lineNumbersEnabled:[[XXLocalDataService sharedInstance] lineNumbersEnabled]];
+                                                      lineNumbersEnabled:[XXTGSSI.dataService lineNumbersEnabled]];
         textView.delegate = self;
         textView.contentInset =
         textView.scrollIndicatorInsets =
@@ -379,7 +379,7 @@ UIPopoverControllerDelegate
 }
 
 - (void)launchItemTapped:(UIBarButtonItem *)sender {
-    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+    if ([XXTGSSI.dataService purchasedProduct]) {
         XXTerminalActivity *act = [[XXTerminalActivity alloc] init];
         [act setFileURL:[NSURL fileURLWithPath:self.filePath]];
         [act performActivityWithController:self];
@@ -511,7 +511,7 @@ UIPopoverControllerDelegate
 }
 
 - (void)settings:(UIBarButtonItem *)sender {
-    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+    if ([XXTGSSI.dataService purchasedProduct]) {
         XXEditorSettingsTableViewController *settingsController = [[UIStoryboard storyboardWithName:@"XXBaseTextEditor" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kXXEditorSettingsTableViewControllerStoryboardID];
         settingsController.delegate = self;
         [self.navigationController pushViewController:settingsController animated:YES];
@@ -653,7 +653,7 @@ UIPopoverControllerDelegate
     NSString *searchString = self.searchBar.text;
     
     if (searchString.length) {
-        if ([[XXLocalDataService sharedInstance] regexSearchingEnabled]) {
+        if ([XXTGSSI.dataService regexSearchingEnabled]) {
             [self.textView scrollToMatch:searchString searchDirection:direction];
         } else {
             [self.textView scrollToString:searchString searchDirection:direction];
@@ -690,7 +690,7 @@ UIPopoverControllerDelegate
         @strongify(self);
         self.textView.circularSearch = YES;
         self.textView.scrollPosition = ICTextViewScrollPositionTop;
-        self.textView.searchOptions = [[XXLocalDataService sharedInstance] caseSensitiveEnabled] ? 0 : NSRegularExpressionCaseInsensitive;
+        self.textView.searchOptions = [XXTGSSI.dataService caseSensitiveEnabled] ? 0 : NSRegularExpressionCaseInsensitive;
     });
 }
 
@@ -698,10 +698,10 @@ UIPopoverControllerDelegate
     @weakify(self);
     dispatch_sync_on_main_queue(^{
         @strongify(self);
-        self.textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
-        self.textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeWords : UITextAutocapitalizationTypeNone;
+        self.textView.autocorrectionType = [XXTGSSI.dataService autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
+        self.textView.autocapitalizationType = [XXTGSSI.dataService autoCapitalizationEnabled] ? UITextAutocapitalizationTypeWords : UITextAutocapitalizationTypeNone;
         
-        self.textView.editable = ![[XXLocalDataService sharedInstance] readOnlyEnabled];
+        self.textView.editable = ![XXTGSSI.dataService readOnlyEnabled];
         if (self.isLuaCode && self.textView.editable) {
             if (self.textView.inputAccessoryView == nil)
             {
@@ -726,9 +726,9 @@ UIPopoverControllerDelegate
     dispatch_sync_on_main_queue(^{
         @strongify(self);
         NSString *tabString = nil;
-        if ([[XXLocalDataService sharedInstance] softTabsEnabled]) {
+        if ([XXTGSSI.dataService softTabsEnabled]) {
             NSArray <NSString *> *tabStringChoices = @[ @"  ", @"   ", @"    ", @"        " ];
-            NSUInteger choice = [[XXLocalDataService sharedInstance] tabWidth];
+            NSUInteger choice = [XXTGSSI.dataService tabWidth];
             if (choice < tabStringChoices.count) {
                 tabString = tabStringChoices[choice];
             }
@@ -736,7 +736,7 @@ UIPopoverControllerDelegate
             tabString = @"\t";
         }
         self.tabString = tabString;
-        self.autoIndent = [[XXLocalDataService sharedInstance] autoIndentEnabled];
+        self.autoIndent = [XXTGSSI.dataService autoIndentEnabled];
         [self.keyboardRow setTabString:tabString];
     });
 }
@@ -745,12 +745,13 @@ UIPopoverControllerDelegate
     @weakify(self);
     dispatch_sync_on_main_queue(^{
         @strongify(self);
-        NSArray <UIFont *> *fontFamily = [[XXLocalDataService sharedInstance] fontFamilyArray];
-        NSAssert(fontFamily.count == 3, @"Invalid Font Family");
+        NSArray <UIFont *> *fontFamily = [XXTGSSI.dataService fontFamilyArray];
+        NSAssert(fontFamily.count == 4, @"Invalid Font Family");
         [self.textView setDefaultFont:fontFamily[0] shouldUpdate:NO];
         [self.textView setBoldFont:fontFamily[1]];
         [self.textView setItalicFont:fontFamily[2]];
-        BOOL highlightEnabled = (self.isLuaCode && [[XXLocalDataService sharedInstance] syntaxHighlightingEnabled]);
+        [self.textView setBoldItalicFont:fontFamily[3]];
+        BOOL highlightEnabled = (self.isLuaCode && [XXTGSSI.dataService syntaxHighlightingEnabled]);
         [self.textView setHighlightLuaSymbols:highlightEnabled];
     });
 }
@@ -824,7 +825,7 @@ UIPopoverControllerDelegate
         [self.navigationController.view makeToast:NSLocalizedString(@"This document is read-only", nil)];
         return;
     }
-    if ([[XXLocalDataService sharedInstance] purchasedProduct]) {
+    if ([XXTGSSI.dataService purchasedProduct]) {
         [self keyboardWillDismiss:nil];
         if ([_textView isFirstResponder]) {
             [_textView resignFirstResponder];
@@ -977,7 +978,7 @@ UIPopoverControllerDelegate
 
 - (void)checkTimeout {
     clock_t tickDiff = clock() - tickCount;
-    if (tickDiff > 5000000 && [[XXLocalDataService sharedInstance] syntaxHighlightingEnabled]) {
+    if (tickDiff > 5000000 && [XXTGSSI.dataService syntaxHighlightingEnabled]) {
         [self.navigationController.view makeToast:NSLocalizedString(@"It takes too long to load, disable \"Syntax Highlight\" to reach a better performance.", nil)];
     }
 }

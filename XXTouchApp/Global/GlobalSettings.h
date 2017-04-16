@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XXLocalDataService.h"
 
 @interface GlobalSettings : NSObject
-+ (id)sharedInstance;
+@property (nonatomic, strong) XXLocalDataService *dataService;
+
++ (instancetype)sharedInstance;
 
 @end

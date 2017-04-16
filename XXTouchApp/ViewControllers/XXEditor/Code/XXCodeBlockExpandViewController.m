@@ -29,8 +29,8 @@
 - (XXBaseTextView *)textView {
     if (!_textView) {
         XXBaseTextView *textView = [[XXBaseTextView alloc] initWithFrame:self.view.bounds lineNumbersEnabled:YES];
-        textView.autocorrectionType = [[XXLocalDataService sharedInstance] autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
-        textView.autocapitalizationType = [[XXLocalDataService sharedInstance] autoCapitalizationEnabled] ? UITextAutocapitalizationTypeNone : UITextAutocapitalizationTypeWords;
+        textView.autocorrectionType = [XXTGSSI.dataService autoCorrectionEnabled] ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
+        textView.autocapitalizationType = [XXTGSSI.dataService autoCapitalizationEnabled] ? UITextAutocapitalizationTypeNone : UITextAutocapitalizationTypeWords;
         textView.alwaysBounceVertical = YES;
         textView.delegate = self;
         textView.tintColor = STYLE_TINT_COLOR;
@@ -38,7 +38,7 @@
         textView.contentOffset = CGPointZero;
         textView.editable = NO;
         textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        NSArray <UIFont *> *fontFamily = [[XXLocalDataService sharedInstance] fontFamilyArray];
+        NSArray <UIFont *> *fontFamily = [XXTGSSI.dataService fontFamilyArray];
         NSAssert(fontFamily.count == 3, @"Invalid Font Family");
         textView.defaultFont = fontFamily[0];
         textView.boldFont = fontFamily[1];

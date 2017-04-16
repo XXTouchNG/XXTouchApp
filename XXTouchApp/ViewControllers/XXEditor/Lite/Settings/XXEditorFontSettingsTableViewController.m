@@ -47,14 +47,14 @@
 }
 
 - (void)loadFontSettings {
-    _selectedIndex = [[XXLocalDataService sharedInstance] fontFamily];
+    _selectedIndex = [XXTGSSI.dataService fontFamily];
     [self displayCheckmarkForIndexPath:[NSIndexPath indexPathForRow:_selectedIndex inSection:0]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_selectedIndex != indexPath.row && indexPath.section == 0) {
-        [[XXLocalDataService sharedInstance] setFontFamily:indexPath.row];
+        [XXTGSSI.dataService setFontFamily:indexPath.row];
         [self notifyChanged];
         [self loadFontSettings];
     }

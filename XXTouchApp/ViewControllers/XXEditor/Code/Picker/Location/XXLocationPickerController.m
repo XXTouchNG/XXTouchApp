@@ -52,8 +52,8 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     defaultCoordinate.longitude = 116.46f;
     MKCoordinateSpan defaultSpan = {1.f, 1.f};
     MKCoordinateRegion region = {defaultCoordinate, defaultSpan};
-    id latitudeObj = [[XXLocalDataService sharedInstance] objectForKey:kXXCoordinateRegionLatitudeKey];
-    id longitudeObj = [[XXLocalDataService sharedInstance] objectForKey:kXXCoordinateRegionLongitudeKey];
+    id latitudeObj = [XXTGSSI.dataService objectForKey:kXXCoordinateRegionLatitudeKey];
+    id longitudeObj = [XXTGSSI.dataService objectForKey:kXXCoordinateRegionLongitudeKey];
     if (
         latitudeObj && longitudeObj
         ) {
@@ -114,8 +114,8 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
             break;
         case MKAnnotationViewDragStateEnding:
             anno.subtitle = dragTips;
-            [[XXLocalDataService sharedInstance] setObject:@((float) anno.coordinate.latitude) forKey:kXXCoordinateRegionLatitudeKey];
-            [[XXLocalDataService sharedInstance] setObject:@((float) anno.coordinate.longitude) forKey:kXXCoordinateRegionLongitudeKey];
+            [XXTGSSI.dataService setObject:@((float) anno.coordinate.latitude) forKey:kXXCoordinateRegionLatitudeKey];
+            [XXTGSSI.dataService setObject:@((float) anno.coordinate.longitude) forKey:kXXCoordinateRegionLongitudeKey];
             break;
         default:
             break;

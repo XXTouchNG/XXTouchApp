@@ -17,6 +17,7 @@
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 #define APP_BUNDLE_ID [[UIApplication sharedApplication] appBundleID]
+#define XXTGSSI [GlobalSettings sharedInstance]
 
 #import <Foundation/Foundation.h>
 #import <YYCategories/YYCategories.h>

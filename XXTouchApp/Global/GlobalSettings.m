@@ -13,6 +13,8 @@
 #import "UMMobClick/MobClick.h"
 #import "CloudApiSdk.h"
 
+static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
+
 @implementation GlobalSettings
 
 + (id)sharedInstance {
@@ -28,12 +30,16 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self setupShortcutItems];
+        [self setupDataService];
         [self setupStyle];
         [self setupMedia];
         [self setupStatistics];
-        [XXLocalDataService sharedInstance];
     }
     return self;
+}
+
+- (void)setupDataService {
+    self.dataService = [[XXLocalDataService alloc] initWithName:kXXTouchStorageDB];
 }
 
 - (void)setupStyle {

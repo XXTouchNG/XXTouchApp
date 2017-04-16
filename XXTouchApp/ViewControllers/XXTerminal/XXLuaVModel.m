@@ -147,9 +147,9 @@ void luaL_terminate(lua_State *L, lua_Debug *ar)
 #pragma mark - REPL
 
 - (BOOL)interactiveModeWithError:(NSError **)error {
-    [self setCurrentPath:[[XXLocalDataService sharedInstance] rootPath]];
+    [self setCurrentPath:[XXTGSSI.dataService rootPath]];
     self.running = YES;
-    char *argv[2] = {(char *)[[[XXLocalDataService sharedInstance] rootPath] UTF8String], ""};
+    char *argv[2] = {(char *)[[XXTGSSI.dataService rootPath] UTF8String], ""};
     char **argv_p = argv;
     int load_stat = interactive(1, argv_p);
     self.running = NO;

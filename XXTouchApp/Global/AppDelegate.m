@@ -88,7 +88,7 @@
 - (UIViewController *)loadRootWithXUI:(NSString *)uiPath {
     if (!uiPath || uiPath.length == 0) return nil;
     if (![uiPath isAbsolutePath]) {
-        uiPath = [[[XXLocalDataService sharedInstance] rootPath] stringByAppendingPathComponent:uiPath];
+        uiPath = [[XXTGSSI.dataService rootPath] stringByAppendingPathComponent:uiPath];
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:uiPath]) return nil;
     XUIListController *listController = [[XUIListController alloc] init];

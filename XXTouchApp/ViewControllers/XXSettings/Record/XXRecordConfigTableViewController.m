@@ -60,7 +60,7 @@ enum {
 }
 
 - (void)loadRecordConfig {
-    XXLocalDataService *sharedInstance = [XXLocalDataService sharedInstance];
+    XXLocalDataService *sharedInstance = XXTGSSI.dataService;
     BOOL volUp = [sharedInstance recordConfigRecordVolumeUp];
     BOOL volDown = [sharedInstance recordConfigRecordVolumeDown];
     

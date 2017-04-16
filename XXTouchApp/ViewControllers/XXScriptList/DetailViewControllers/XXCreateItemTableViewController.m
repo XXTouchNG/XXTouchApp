@@ -75,7 +75,7 @@ typedef enum : NSUInteger {
                             [itemName stringByAppendingPathExtension:@"lua"],
                             versionString,
                             deviceName,
-                            [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]],
+                            [[XXTGSSI.dataService miniDateFormatter] stringFromDate:[NSDate date]],
                             (long)[[NSDate date] year], deviceName];
         
         result = [newLua writeToFile:itemPath atomically:YES encoding:NSUTF8StringEncoding error:&err];

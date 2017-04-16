@@ -130,7 +130,7 @@ enum {
 }
 
 - (IBAction)remoteAccessSwitched:(UISwitch *)sender {
-    BOOL status = [[XXLocalDataService sharedInstance] remoteAccessStatus];
+    BOOL status = [XXTGSSI.dataService remoteAccessStatus];
     if (sender.on) {
         if (!status) {
             sender.enabled = NO;
@@ -171,7 +171,7 @@ enum {
 }
 
 - (void)updateRemoteAccessUI {
-    BOOL on = [[XXLocalDataService sharedInstance] remoteAccessStatus];
+    BOOL on = [XXTGSSI.dataService remoteAccessStatus];
     [self.remoteAccessSwitch setOn:on animated:YES];
     if (on) {
         Reachability *reachability = [Reachability reachabilityForInternetConnection];
@@ -179,7 +179,7 @@ enum {
         NetworkStatus status = [reachability currentReachabilityStatus];
         if (status == ReachableViaWiFi)
         {
-            NSDictionary *remoteAccessDictionary = [[XXLocalDataService sharedInstance] remoteAccessDictionary];
+            NSDictionary *remoteAccessDictionary = [XXTGSSI.dataService remoteAccessDictionary];
             if (remoteAccessDictionary) {
                 self.remoteAccessLabel.text = NSLocalizedString(@"Remote Service", nil);
                 self.remoteAddressLabelA.text = remoteAccessDictionary[@"webserver_url"];

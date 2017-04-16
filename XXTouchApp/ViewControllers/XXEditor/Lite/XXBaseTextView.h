@@ -11,6 +11,7 @@
 @interface XXBaseTextView : CYRTextView
 @property (nonatomic, strong) UIFont *boldFont;
 @property (nonatomic, strong) UIFont *italicFont;
+@property (nonatomic, strong) UIFont *boldItalicFont;
 
 - (id)initWithFrame:(CGRect)frame lineNumbersEnabled:(BOOL)lineNumbersEnabled;
 - (void)setHighlightLuaSymbols:(BOOL)highlightLuaSymbols;

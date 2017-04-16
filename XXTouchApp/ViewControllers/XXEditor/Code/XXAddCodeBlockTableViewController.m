@@ -76,7 +76,7 @@
 }
 
 - (void)saveUserDefinedFunctions {
-    [[XXLocalDataService sharedInstance] setObject:self.codeBlocks
+    [XXTGSSI.dataService setObject:self.codeBlocks
                                             forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
 }
 

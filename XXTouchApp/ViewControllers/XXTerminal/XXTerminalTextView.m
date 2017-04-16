@@ -53,7 +53,7 @@
 - (NSDictionary *)defaultAttributes {
     if (!_defaultAttributes) {
         _defaultAttributes = @{
-                               NSFontAttributeName: [[XXLocalDataService sharedInstance] fontFamilyArray][0],
+                               NSFontAttributeName: [XXTGSSI.dataService fontFamilyArray][0],
                                NSForegroundColorAttributeName: [UIColor colorWithWhite:.33f alpha:1.f],
                                };
     }
@@ -63,7 +63,7 @@
 - (NSDictionary *)messageAttributes {
     if (!_messageAttributes) {
         _messageAttributes = @{
-                             NSFontAttributeName: [[XXLocalDataService sharedInstance] fontFamilyArray][1],
+                             NSFontAttributeName: [XXTGSSI.dataService fontFamilyArray][1],
                              NSForegroundColorAttributeName: [UIColor colorWithWhite:.33f alpha:1.f],
                              };
     }
@@ -73,7 +73,7 @@
 - (NSDictionary *)errorAttributes {
     if (!_errorAttributes) {
         _errorAttributes = @{
-                               NSFontAttributeName: [[XXLocalDataService sharedInstance] fontFamilyArray][0],
+                               NSFontAttributeName: [XXTGSSI.dataService fontFamilyArray][0],
                                NSForegroundColorAttributeName: [UIColor redColor],
                                };
     }
@@ -83,7 +83,7 @@
 - (NSDictionary *)inputAttributes {
     if (!_inputAttributes) {
         _inputAttributes = @{
-                             NSFontAttributeName: [[XXLocalDataService sharedInstance] fontFamilyArray][0],
+                             NSFontAttributeName: [XXTGSSI.dataService fontFamilyArray][0],
                              NSForegroundColorAttributeName: STYLE_TINT_COLOR,
                              };
     }

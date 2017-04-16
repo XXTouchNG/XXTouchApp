@@ -136,7 +136,7 @@ static SKProduct * currentProduct = nil;
 #pragma mark - IAP
 
 - (void)checkPurchase {
-    BOOL localPurchased = [[XXLocalDataService sharedInstance] purchasedProduct];
+    BOOL localPurchased = [XXTGSSI.dataService purchasedProduct];
     if (
         [[IAPShare sharedHelper].iap isPurchasedProductsIdentifier:kXXIAPProductIDEnv] ||
         localPurchased
@@ -146,7 +146,7 @@ static SKProduct * currentProduct = nil;
         self.restoreBtn.enabled = NO;
         self.thankyouLabel.text = NSLocalizedString(@"Thank you for buying XXTouch Pro Features, you're awesome!", nil);
         if (!localPurchased) {
-            [[XXLocalDataService sharedInstance] setPurchasedProduct:YES];
+            [XXTGSSI.dataService setPurchasedProduct:YES];
             [self alertWithMessage:NSLocalizedString(@"Purchase restored automatically, thank you for your purchase.", nil) exitWhenPressOK:YES];
         }
     }
@@ -312,7 +312,7 @@ static SKProduct * currentProduct = nil;
                                            NSDictionary* rec = [IAPShare toJSON:response];
                                            if ([rec[@"status"] integerValue] == 0) {
                                                [[IAPShare sharedHelper].iap provideContentWithTransaction:trans];
-                                               [[XXLocalDataService sharedInstance] setPurchasedProduct:YES];
+                                               [XXTGSSI.dataService setPurchasedProduct:YES];
                                                [self alertWithMessage:NSLocalizedString(@"Thanks for your purchase!", nil) exitWhenPressOK:YES];
                                            } else {
                                                [self alertWithMessage:NSLocalizedString(@"We cannot verify your receipt, please try again in a little while.", nil) exitWhenPressOK:NO];
@@ -340,7 +340,7 @@ static SKProduct * currentProduct = nil;
         for (SKPaymentTransaction *transaction in payment.transactions) {
             NSString *purchased = transaction.payment.productIdentifier;
             if ([purchased isEqualToString:kXXIAPProductIDEnv]) {
-                [[XXLocalDataService sharedInstance] setPurchasedProduct:YES];
+                [XXTGSSI.dataService setPurchasedProduct:YES];
                 [self alertWithMessage:NSLocalizedString(@"Purchase restored, thank you for your purchase.", nil) exitWhenPressOK:YES];
                 break;
             }

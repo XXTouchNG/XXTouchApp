@@ -87,7 +87,7 @@ enum {
 - (void)endBindingCodeAndGetDeviceInfo {
     self.authorizationField.text = @"";
     NSMutableString *intervalString = [[NSMutableString alloc] init];
-    NSTimeInterval interval = [[[XXLocalDataService sharedInstance] expirationDate] timeIntervalSinceDate:[[XXLocalDataService sharedInstance] nowDate]];
+    NSTimeInterval interval = [[XXTGSSI.dataService expirationDate] timeIntervalSinceDate:[XXTGSSI.dataService nowDate]];
     int intervalDay = (int)floor(interval / 86400);
     if (intervalDay != 0)
     {
@@ -176,7 +176,7 @@ enum {
                 [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
                 [self loadDeviceAndAuthorizationInfo];
-//                NSDate *nowDate = [[XXLocalDataService sharedInstance] nowDate];
+//                NSDate *nowDate = [XXTGSSI.dataService nowDate];
 //                if (fabs([nowDate timeIntervalSinceDate:[NSDate date]]) > 120.f)
 //                {
 //                    struct tm *t_tm;
@@ -206,15 +206,15 @@ enum {
 }
 
 - (BOOL)loadDeviceAndAuthorizationInfo {
-    NSDictionary *deviceInfo = [[XXLocalDataService sharedInstance] deviceInfo];
-    NSDate *expirationDate = [[XXLocalDataService sharedInstance] expirationDate];
-    NSDate *nowDate = [[XXLocalDataService sharedInstance] nowDate];
+    NSDictionary *deviceInfo = [XXTGSSI.dataService deviceInfo];
+    NSDate *expirationDate = [XXTGSSI.dataService expirationDate];
+    NSDate *nowDate = [XXTGSSI.dataService nowDate];
     if (deviceInfo != nil &&
         expirationDate != nil &&
         nowDate != nil) {
         self.authorizationField.enabled = YES;
         self.expiredAtLabel.textColor = ([nowDate timeIntervalSinceDate:expirationDate] >= 0) ? [UIColor redColor] : STYLE_TINT_COLOR;
-        self.expiredAtLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:expirationDate];
+        self.expiredAtLabel.text = [[XXTGSSI.dataService defaultDateFormatter] stringFromDate:expirationDate];
         self.softwareVersionLabel.text = deviceInfo[kXXDeviceInfoSoftwareVersion];
         self.systemVersionLabel.text = deviceInfo[kXXDeviceInfoSystemVersion];
         self.deviceTypeLabel.text = deviceInfo[kXXDeviceInfoDeviceType];

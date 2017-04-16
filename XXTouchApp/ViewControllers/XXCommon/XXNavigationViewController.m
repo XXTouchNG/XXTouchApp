@@ -102,9 +102,9 @@
     if (!currentVersion) {
         return;
     }
-    NSString *todayString = [[[XXLocalDataService sharedInstance] miniDateFormatter] stringFromDate:[NSDate date]];
+    NSString *todayString = [[XXTGSSI.dataService miniDateFormatter] stringFromDate:[NSDate date]];
     NSString *dailyIgnoreKey = [NSString stringWithFormat:kXXCheckUpdateDailyIgnore, todayString];
-    if ([[XXLocalDataService sharedInstance] objectForKey:dailyIgnoreKey])
+    if ([XXTGSSI.dataService objectForKey:dailyIgnoreKey])
     {
         // Do not check today
         return;
@@ -137,11 +137,11 @@
         return;
     }
     NSString *versionIgnoreKey = [NSString stringWithFormat:kXXCheckUpdateVersionIgnore, networkVersion];
-    if ([[XXLocalDataService sharedInstance] objectForKey:versionIgnoreKey])
+    if ([XXTGSSI.dataService objectForKey:versionIgnoreKey])
     {
         // Do not notify version
         // and do not check today
-        [[XXLocalDataService sharedInstance] setObject:@YES forKey:dailyIgnoreKey];
+        [XXTGSSI.dataService setObject:@YES forKey:dailyIgnoreKey];
         return;
     }
     dispatch_async_on_main_queue(^{
@@ -163,13 +163,13 @@
         [alert addButtonWithTitle:NSLocalizedString(@"Tell Me Later", nil)
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
-                              [[XXLocalDataService sharedInstance] setObject:@YES forKey:dailyIgnoreKey];
+                              [XXTGSSI.dataService setObject:@YES forKey:dailyIgnoreKey];
                           }];
         [alert addButtonWithTitle:NSLocalizedString(@"Ignore This Version", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
-                              [[XXLocalDataService sharedInstance] setObject:@YES forKey:dailyIgnoreKey];
-                              [[XXLocalDataService sharedInstance] setObject:@YES forKey:versionIgnoreKey];
+                              [XXTGSSI.dataService setObject:@YES forKey:dailyIgnoreKey];
+                              [XXTGSSI.dataService setObject:@YES forKey:versionIgnoreKey];
                           }];
         [alert show];
         [self performSelector:@selector(autodismissUpdateAlertView:) withObject:alert afterDelay:10.f];
@@ -216,7 +216,7 @@
         NSError *err = nil;
         NSString *lastComponent = [url lastPathComponent];
         NSString *formerPath = [url path];
-        NSString *currentPath = [[XXLocalDataService sharedInstance] rootPath];
+        NSString *currentPath = [XXTGSSI.dataService rootPath];
         id currentViewController = self.topViewController;
         if ([currentViewController isKindOfClass:[XXScriptListTableViewController class]]) {
             currentPath = ((XXScriptListTableViewController *)currentViewController).currentDirectory;

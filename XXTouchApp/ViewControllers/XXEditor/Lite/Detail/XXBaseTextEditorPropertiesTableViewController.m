@@ -45,7 +45,7 @@
     if (*err) return NO;
     NSDate *modifiedAt = [[[NSFileManager defaultManager] attributesOfItemAtPath:self.filePath error:err] objectForKey:NSFileModificationDate];
     if (*err) return NO;
-    self.modificationLabel.text = [[[XXLocalDataService sharedInstance] defaultDateFormatter] stringFromDate:modifiedAt];
+    self.modificationLabel.text = [[XXTGSSI.dataService defaultDateFormatter] stringFromDate:modifiedAt];
     self.encodingLabel.text = NSLocalizedString(@"Unicode (UTF-8)", nil); // Certain
     NSRange crlfRange = [self.fileContent rangeOfString:@"\r\n"];
     if (crlfRange.location != NSNotFound) {

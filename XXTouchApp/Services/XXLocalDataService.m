@@ -14,7 +14,6 @@
 
 static NSString * const kXXStorageAlbumName = @"XXTouch";
 
-static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
 static NSString * const kXXStorageKeyPurchasedProduct = @"kXXStorageKeyPurchasedProduct-1";
 static NSString * const kXXStorageKeyApplicationBundles = @"kXXStorageKeyApplicationBundles-1";
 static NSString * const kXXStorageKeyStartUpConfigScriptPath = @"kXXStorageKeyStartUpConfigScriptPath-1";
@@ -62,30 +61,30 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
     NSDateFormatter *_miniDateFormatter;
 }
 
-+ (id)sharedInstance {
-    static XXLocalDataService *sharedInstance = nil;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedInstance = [[self alloc] initWithName:kXXTouchStorageDB];
-    });
-    
-    return sharedInstance;
-}
+//+ (id)sharedInstance {
+//    static XXLocalDataService *sharedInstance = nil;
+//    static dispatch_once_t once;
+//    dispatch_once(&once, ^{
+//        sharedInstance = [[self alloc] initWithName:kXXTouchStorageDB];
+//    });
+//    
+//    return sharedInstance;
+//}
 
 - (instancetype)initWithName:(NSString *)name {
     if (self = [super initWithName:name]) {
         // Init Local Data Configure
         if (![self localUserConfig]) {
             // First
-//            NSError *err = nil;
-//            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@""];
-//            if (demoPath) {
-//                BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
-//                if (!result)
-//                {
-//                    
-//                }
-//            }
+            NSError *err = nil;
+            NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"XXTReferences.bundle/demo" ofType:@""];
+            if (demoPath) {
+                BOOL result = [[NSFileManager defaultManager] copyItemAtPath:demoPath toPath:[self.rootPath stringByAppendingPathComponent:@"demo"] error:&err];
+                if (!result)
+                {
+                    
+                }
+            }
             [self setLocalUserConfig:[[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                        kXXLocalConfigHidesMainPath: @YES
                                                                                        }]];
@@ -350,8 +349,8 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
         return @"Menlo";
     } else if (self.fontFamily == kXXEditorFontFamilySourceCodePro) {
         return @"Source Code Pro";
-    } else if (self.fontFamily == kXXEditorFontFamilySourceSansPro) {
-        return @"Source Sans Pro";
+    } else if (self.fontFamily == kXXEditorFontFamilyCaminggoCode) {
+        return @"Caminggo Code";
     }
     return @"";
 }
@@ -364,6 +363,7 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
                      [UIFont fontWithName:@"CourierNewPSMT" size:fontSize],
                      [UIFont fontWithName:@"CourierNewPS-BoldMT" size:fontSize],
                      [UIFont fontWithName:@"CourierNewPS-ItalicMT" size:fontSize],
+                     [UIFont fontWithName:@"CourierNewPS-BoldItalicMT" size:fontSize],
                      ];
             break;
         case kXXEditorFontFamilyMenlo:
@@ -371,6 +371,7 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
                      [UIFont fontWithName:@"Menlo" size:fontSize],
                      [UIFont fontWithName:@"Menlo-Bold" size:fontSize],
                      [UIFont fontWithName:@"Menlo-Italic" size:fontSize],
+                     [UIFont fontWithName:@"Menlo-BoldItalic" size:fontSize],
                      ];
             break;
         case kXXEditorFontFamilySourceCodePro:
@@ -378,13 +379,15 @@ static NSString * const kXXStorageKeyRemoteAddress = @"kXXStorageKeyRemoteAddres
                      [UIFont fontWithName:@"SourceCodePro-Regular" size:fontSize],
                      [UIFont fontWithName:@"SourceCodePro-Bold" size:fontSize],
                      [UIFont fontWithName:@"SourceCodePro-It" size:fontSize],
+                     [UIFont fontWithName:@"SourceCodePro-BoldIt" size:fontSize],
                      ];
             break;
-        case kXXEditorFontFamilySourceSansPro:
+        case kXXEditorFontFamilyCaminggoCode:
             return @[
-                     [UIFont fontWithName:@"SourceSansPro-Regular" size:fontSize],
-                     [UIFont fontWithName:@"SourceSansPro-Bold" size:fontSize],
-                     [UIFont fontWithName:@"SourceSansPro-It" size:fontSize],
+                     [UIFont fontWithName:@"CamingoCode-Regular" size:fontSize],
+                     [UIFont fontWithName:@"CamingoCode-Bold" size:fontSize],
+                     [UIFont fontWithName:@"CamingoCode-Italic" size:fontSize],
+                     [UIFont fontWithName:@"CamingoCode-BoldItalic" size:fontSize],
                      ];
             break;
         default:
