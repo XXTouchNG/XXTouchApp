@@ -62,7 +62,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     {
         return nil;
     }
-    NSURLRequest *request = [CloudApiSdk buildRequest:@"http://"
+    NSURLRequest *request = [CloudApiSdk buildRequest:[NSString stringWithFormat:@"%@://", [url scheme]]
                                                method:@"POST"
                                                  host:[url host]
                                                  path:[url path]

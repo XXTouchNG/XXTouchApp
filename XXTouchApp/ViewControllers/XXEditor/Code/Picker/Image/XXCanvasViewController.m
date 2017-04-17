@@ -54,23 +54,6 @@
 
 #pragma mark - Transition
 
-- (void)willMoveToParentViewController:(UIViewController *)parent {
-    if (parent == nil) {
-        // Out
-        self.selectedImage = nil;
-    } else {
-        
-    }
-}
-
-- (void)didMoveToParentViewController:(UIViewController *)parent {
-    if (parent == nil) {
-        
-    } else {
-        // Into
-    }
-}
-
 - (void)next:(UIBarButtonItem *)sender {
     if (!self.selectedImage) {
         [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:@""];

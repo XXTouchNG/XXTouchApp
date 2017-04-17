@@ -48,9 +48,9 @@ static BOOL isJailbroken() {
             _jailbroken = YES;
         }
     });
-//#ifdef DEBUG
-//    return YES;
-//#endif
+#ifdef DEBUG
+    return YES;
+#endif
     return _jailbroken;
 }
 
@@ -63,9 +63,9 @@ static inline BOOL daemonInstalled() {
             _installed = NO;
         }
     });
-//#ifdef DEBUG
-//    return YES;
-//#endif
+#ifdef DEBUG
+    return YES;
+#endif
     return _installed;
 }
 

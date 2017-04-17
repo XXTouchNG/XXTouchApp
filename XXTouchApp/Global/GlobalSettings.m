@@ -43,7 +43,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
 }
 
 - (void)setupStyle {
-    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].leftView = nil;
+//    [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].leftView = nil;
     
     [CSToastManager setTapToDismissEnabled:YES];
     [CSToastManager setDefaultDuration:2.f];

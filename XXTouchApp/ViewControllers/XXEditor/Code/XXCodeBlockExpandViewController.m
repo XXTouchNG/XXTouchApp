@@ -39,10 +39,11 @@
         textView.editable = NO;
         textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         NSArray <UIFont *> *fontFamily = [XXTGSSI.dataService fontFamilyArray];
-        NSAssert(fontFamily.count == 3, @"Invalid Font Family");
+        NSAssert(fontFamily.count == 4, @"Invalid Font Family");
         textView.defaultFont = fontFamily[0];
         textView.boldFont = fontFamily[1];
         textView.italicFont = fontFamily[2];
+        textView.boldItalicFont = fontFamily[3];
         [textView setHighlightLuaSymbols:YES];
         _textView = textView;
     }

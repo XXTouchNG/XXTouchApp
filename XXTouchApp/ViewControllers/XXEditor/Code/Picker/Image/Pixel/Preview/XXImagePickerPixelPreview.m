@@ -48,7 +48,7 @@
 - (void)setup {
     self.frame = CGRectZero;
     self.backgroundColor = [UIColor clearColor];
-    self.layer.borderWidth = .5f;
+    self.layer.borderWidth = 1.f;
     self.layer.borderColor = [[UIColor blackColor] CGColor];
     self.windowLevel = UIWindowLevelAlert;
     self.rootViewController = [XXImagePickerPixelPreviewRootViewController new];
@@ -115,7 +115,7 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSetLineCap(ctx, kCGLineCapSquare);
     
-    CGContextSetLineWidth(ctx, 0.5);
+    CGContextSetLineWidth(ctx, 1);
     
     int hNum = (int)(_hPixelNum / 2);
     int vNum = (int)(_vPixelNum / 2);

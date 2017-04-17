@@ -14,8 +14,8 @@
 #import "XXLocalNetService.h"
 #import "XXLocalDataService.h"
 
-#define kXXCheckUpdateDailyIgnore @"kXXCheckUpdateDailyIgnore-%@"
-#define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore-%@"
+#define kXXCheckUpdateDailyIgnore @"kXXCheckUpdateDailyIgnore"
+#define kXXCheckUpdateVersionIgnore @"kXXCheckUpdateVersionIgnore"
 
 @interface XXNavigationViewController ()
 
@@ -103,8 +103,7 @@
         return;
     }
     NSString *todayString = [[XXTGSSI.dataService miniDateFormatter] stringFromDate:[NSDate date]];
-    NSString *dailyIgnoreKey = [NSString stringWithFormat:kXXCheckUpdateDailyIgnore, todayString];
-    if ([XXTGSSI.dataService objectForKey:dailyIgnoreKey])
+    if ([(NSString *)[XXTGSSI.dataService objectForKey:kXXCheckUpdateDailyIgnore] isEqualToString:todayString])
     {
         // Do not check today
         return;
@@ -136,12 +135,11 @@
     if (!shouldUpdate) {
         return;
     }
-    NSString *versionIgnoreKey = [NSString stringWithFormat:kXXCheckUpdateVersionIgnore, networkVersion];
-    if ([XXTGSSI.dataService objectForKey:versionIgnoreKey])
+    if ([(NSString *)[XXTGSSI.dataService objectForKey:kXXCheckUpdateVersionIgnore] isEqualToString:networkVersion])
     {
         // Do not notify version
         // and do not check today
-        [XXTGSSI.dataService setObject:@YES forKey:dailyIgnoreKey];
+        [XXTGSSI.dataService setObject:todayString forKey:kXXCheckUpdateDailyIgnore];
         return;
     }
     dispatch_async_on_main_queue(^{
@@ -163,13 +161,13 @@
         [alert addButtonWithTitle:NSLocalizedString(@"Tell Me Later", nil)
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
-                              [XXTGSSI.dataService setObject:@YES forKey:dailyIgnoreKey];
+                              [XXTGSSI.dataService setObject:todayString forKey:kXXCheckUpdateDailyIgnore];
                           }];
         [alert addButtonWithTitle:NSLocalizedString(@"Ignore This Version", nil)
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
-                              [XXTGSSI.dataService setObject:@YES forKey:dailyIgnoreKey];
-                              [XXTGSSI.dataService setObject:@YES forKey:versionIgnoreKey];
+                              [XXTGSSI.dataService setObject:todayString forKey:kXXCheckUpdateDailyIgnore];
+                              [XXTGSSI.dataService setObject:networkVersion forKey:kXXCheckUpdateVersionIgnore];
                           }];
         [alert show];
         [self performSelector:@selector(autodismissUpdateAlertView:) withObject:alert afterDelay:10.f];

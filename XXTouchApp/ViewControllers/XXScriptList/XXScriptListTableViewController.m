@@ -34,13 +34,17 @@
 static NSString * const kXXScriptListCellReuseIdentifier = @"kXXScriptListCellReuseIdentifier";
 static NSString * const kXXRewindSegueIdentifier = @"kXXRewindSegueIdentifier";
 
+enum {
+    kXXBrowserSearchTypeCurrent = 0,
+    kXXBrowserSearchTypeRecursive
+};
+
 @interface XXScriptListTableViewController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
 UIGestureRecognizerDelegate,
 XXToolbarDelegate,
-UISearchDisplayDelegate,
 UIDocumentMenuDelegate,
 UIDocumentPickerDelegate,
 XXImagePickerControllerDelegate,
@@ -61,7 +65,7 @@ UIPopoverControllerDelegate
 @property (nonatomic, strong) UIBarButtonItem *aboutBtn;
 
 @property (nonatomic, strong) UIPopoverController *currentPopoverController;
-
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation XXScriptListTableViewController
@@ -91,12 +95,11 @@ UIPopoverControllerDelegate
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(launchSetup:) forControlEvents:UIControlEventValueChanged];
     [tableViewController setRefreshControl:refreshControl];
-    
-    [self.tableView addSubview:refreshControl];
+    [self.tableView.backgroundView insertSubview:refreshControl atIndex:0];
+    self.refreshControl = refreshControl;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.searchDisplayController.delegate = self;
     
     self.tableView.scrollIndicatorInsets =
     self.tableView.contentInset =
@@ -122,6 +125,7 @@ UIPopoverControllerDelegate
     {
         [self launchSetup:nil];
     }
+    [self.tableView setContentOffset:CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -315,7 +319,9 @@ UIPopoverControllerDelegate
             return 0;
         }
     } else if (section == 1) {
-        return self.rootItemsDictionaryArr.count;
+        if (tableView == self.tableView) {
+            return self.rootItemsDictionaryArr.count;
+        }
     }
     
     return 0;
@@ -1264,7 +1270,6 @@ UIPopoverControllerDelegate
         });
     });
 }
-
 
 #pragma mark - Memory
 

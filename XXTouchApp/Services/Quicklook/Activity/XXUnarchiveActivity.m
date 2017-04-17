@@ -8,12 +8,11 @@
 
 #import "XXUnarchiveActivity.h"
 #import <SSZipArchive/SSZipArchive.h>
-#import "LZMAExtractor.h"
 
 @implementation XXUnarchiveActivity
 
 + (NSArray <NSString *> *)supportedExtensions {
-    return @[ @"zip", @"7z" ];
+    return @[ @"zip" ];
 }
 
 - (NSString *)activityType
@@ -75,14 +74,6 @@
                                          password:nil
                                             error:&err
                                          delegate:nil];
-                }
-                else
-                    if ([fileExt isEqualToString:@"7z"])
-                {
-                    [LZMAExtractor extract7zArchive:filePath
-                                            dirName:destination
-                                        preserveDir:YES
-                                              error:&err];
                 }
                 dispatch_async_on_main_queue(^{
                     navController.view.userInteractionEnabled = YES;

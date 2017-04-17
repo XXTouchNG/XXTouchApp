@@ -155,7 +155,7 @@
 
 #pragma mark - Button Actions
 
-- (void)url:(PSSpecifier *)specifier {
+- (void)openURL:(PSSpecifier *)specifier {
     NSString *urlString = specifier.properties[@"url"];
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
     viewController.title = @"";
@@ -190,33 +190,33 @@
     });
 }
 
-- (void)close {
-    [self closeItemTapped:nil];
-}
-
-- (void)back {
-    [self.view endEditing:YES];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)copyString:(PSSpecifier *)specifier {
+- (void)copyValue:(PSSpecifier *)specifier {
     if (specifier.properties[PSValueKey]) {
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%@", specifier.properties[@"value"]]];
         [self.navigationController.view makeToast:NSLocalizedString(@"Text copied to the pasteboard", nil)];
     }
 }
 
-- (void)none {
-    
+- (void)dismissViewController {
+    [self closeItemTapped:nil];
 }
 
-- (void)load:(PSSpecifier *)specifier {
+- (void)popViewController {
+    [self.view endEditing:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)presentViewController:(PSSpecifier *)specifier {
     if (specifier.properties[PSDetailControllerClassKey]) {
         Class className = NSClassFromString(specifier.properties[PSDetailControllerClassKey]);
         PSViewController *newController = [[className alloc] init];
         newController.specifier = specifier;
         [self.navigationController pushViewController:newController animated:YES];
     }
+}
+
+- (void)noAction {
+    
 }
 
 - (void)exit {

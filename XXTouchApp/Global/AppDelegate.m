@@ -35,7 +35,7 @@
         [self loadRootWithMain]) {
         rootLoaded = YES;
     }
-    self.window.backgroundColor = [UIColor blackColor];
+    self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return rootLoaded;
 }

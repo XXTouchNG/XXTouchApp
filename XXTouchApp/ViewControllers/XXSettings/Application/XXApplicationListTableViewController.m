@@ -73,6 +73,8 @@ UISearchDisplayDelegate
     self.tableView.contentInset =
     UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
+    [self.tableView setContentOffset:CGPointMake(0, self.searchDisplayController.searchBar.bounds.size.height)];
+    
     [self fetchApplicationList];
 }
 

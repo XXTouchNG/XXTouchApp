@@ -96,11 +96,7 @@ int cancelFlag = 0;
     self.clearsSelectionOnViewWillAppear = YES;
     self.nameTextField.delegate = self;
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(reloadItemInfo:) forControlEvents:UIControlEventValueChanged];
-    [self setRefreshControl:refreshControl];
-    
-    [self reloadItemInfo:nil];
+    [self reloadItemInfo];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -117,7 +113,7 @@ int cancelFlag = 0;
     return YES;
 }
 
-- (void)reloadItemInfo:(UIRefreshControl *)sender {
+- (void)reloadItemInfo {
     NSString *itemName = [self.currentPath lastPathComponent];
     self.nameTextField.text = itemName;
     self.originalName = [itemName mutableCopy];
@@ -165,9 +161,6 @@ int cancelFlag = 0;
     NSDate *modificationDate = self.currentAttributes[NSFileModificationDate];
     NSString *modificationFormattedDate = [[XXTGSSI.dataService defaultDateFormatter] stringFromDate:modificationDate];
     self.modifiedAtLabel.text = modificationFormattedDate;
-    if ([sender isRefreshing]) {
-        [sender endRefreshing];
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

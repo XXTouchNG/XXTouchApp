@@ -76,6 +76,8 @@ enum {
         self.tableView.scrollIndicatorInsets =
         UIEdgeInsetsMake(0, 0, self.toolbar.height, 0);
     }
+    
+    [self.tableView setContentOffset:CGPointMake(0, self.searchDisplayController.searchBar.bounds.size.height)];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -381,7 +383,7 @@ enum {
 #pragma mark - UISearchDisplayDelegate
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    
+//    self.navigationController.navigationBar.translucent = YES;
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
@@ -395,6 +397,10 @@ enum {
     [self.tableView reloadData];
     [self reloadSearch];
     return YES;
+}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+//    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
