@@ -6,6 +6,7 @@
 //  Copyright © 2017 Zheng. All rights reserved.
 
 #import "AppDelegate.h"
+#import "XUIAction.h"
 #import "XUIListController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
@@ -13,7 +14,7 @@
 #import "XUISpecifierParser.h"
 #import <Preferences/PSSpecifier.h>
 
-@interface XUIListController ()
+@interface XUIListController () <XUIAction>
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
 @property (nonatomic, strong) NSDictionary *plistDict;
 
@@ -156,10 +157,24 @@
 #pragma mark - Button Actions
 
 - (void)openURL:(PSSpecifier *)specifier {
-    NSString *urlString = specifier.properties[@"url"];
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
     viewController.title = @"";
-    viewController.url = [NSURL URLWithString:urlString];
+    NSURL *url = nil;
+    
+    if (!url) {
+        NSString *urlString = specifier.properties[@"url"];
+        url = [NSURL URLWithString:urlString];
+    }
+    
+    if (!url) {
+        NSString *pathString = specifier.properties[@"path"];
+        url = [NSURL fileURLWithPath:pathString];
+    }
+    
+    if (!url) return;
+    
+    viewController.url = url;
+    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

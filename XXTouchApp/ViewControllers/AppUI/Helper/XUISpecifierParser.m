@@ -101,8 +101,8 @@
         }
         if (dict[PSDetailControllerClassKey]) {
             if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-                [spec setProperty:@"load:" forKey:PSActionKey];
-                spec->action = NSSelectorFromString(@"load:");
+                [spec setProperty:@"presentViewController:" forKey:PSActionKey];
+                spec->action = NSSelectorFromString(@"presentViewController:");
             }
         }
         if (dict[@"path"]) {

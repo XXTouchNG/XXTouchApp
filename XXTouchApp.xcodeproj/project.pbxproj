@@ -287,6 +287,7 @@
 		0FB25C401E76BCEC0098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXScanDownloadTaskViewController.storyboard; sourceTree = "<group>"; };
 		0FB25C431E76BCF10098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXScanDownloadTaskViewController.strings"; sourceTree = "<group>"; };
 		0FB48B771D922B9400CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
+		0FBD99DD1EA5579400EFB8FD /* XUIAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUIAction.h; sourceTree = "<group>"; };
 		0FBDB8771EA425320016B513 /* XXLuaInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaInterpreter.h; sourceTree = "<group>"; };
 		0FBDB8781EA425320016B513 /* XXLuaInterpreter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XXLuaInterpreter.mm; sourceTree = "<group>"; };
 		0FBDB8791EA425320016B513 /* XXLuaVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaVModel.h; sourceTree = "<group>"; };
@@ -1101,6 +1102,7 @@
 				0FDD9D3F1E8EF9E3009F96C8 /* Helper */,
 				0FDD9D421E8EF9E3009F96C8 /* XUICommonDefine.h */,
 				0FDD9D431E8EF9E3009F96C8 /* XUIListControllerProtocol.h */,
+				0FBD99DD1EA5579400EFB8FD /* XUIAction.h */,
 			);
 			path = AppUI;
 			sourceTree = "<group>";

@@ -56,7 +56,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
     [CSToastManager sharedStyle].activitySize = CGSizeMake(80.f, 80.f);
     [CSToastManager sharedStyle].verticalMargin = 16.f;
     
-    [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleBounce;
+    [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleFade;
     [SIAlertView appearance].backgroundStyle = SIAlertViewBackgroundStyleSolid;
     [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];
     [SIAlertView appearance].messageFont = [UIFont systemFontOfSize:14.f];

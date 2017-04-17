@@ -939,11 +939,8 @@ UIPopoverControllerDelegate
 {
     if (!self.autoIndent) return YES;
     if (text.length == 1 &&
-        [text isEqualToString:@"\n"] &&
-        _tabString.length != 0
-        ) {
-        BOOL hasBreak = ([text rangeOfString:@"\n"].location != NSNotFound);
-        if (!hasBreak) return YES;
+        [text isEqualToString:@"\n"]) {
+        // Just like what Textastic do
         
         NSString *stringRef = textView.text;
         NSRange lastBreak = [stringRef rangeOfString:@"\n" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
@@ -964,9 +961,10 @@ UIPopoverControllerDelegate
         return NO;
     }
     else if (text.length == 0 &&
-             range.length != 0 &&
-             _tabString.length != 0)
-    {}
+             range.length == 1)
+    {
+        // Auto backward? No...
+    }
     return YES;
 }
 

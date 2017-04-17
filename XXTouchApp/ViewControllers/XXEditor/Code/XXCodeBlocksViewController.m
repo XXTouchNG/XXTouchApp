@@ -213,9 +213,41 @@ enum {
 - (void)replaceTextInputSelectedRangeWithModel:(XXCodeBlockModel *)model {
     NSRange selectedNSRange = _textInput.selectedRange;
     UITextRange *selectedRange = [_textInput selectedTextRange];
-    [_textInput replaceRange:selectedRange withText:model.code];
     
-    NSRange modelCurPos = [model.code rangeOfString:@"@@"];
+    NSString *stringRef = _textInput.text;
+    NSRange lastBreak = [stringRef rangeOfString:@"\n" options:NSBackwardsSearch range:NSMakeRange(0, selectedNSRange.location)];
+    
+    NSUInteger idx = lastBreak.location + 1;
+    
+    BOOL autoIndent = YES;
+    if (lastBreak.location == NSNotFound) {
+        idx = 0;
+    }
+    else if (lastBreak.location + lastBreak.length == selectedNSRange.location) {
+        autoIndent = NO;
+    }
+    
+    NSString *replaceCode = nil;
+    if (autoIndent) {
+        NSMutableString *tabStr = [NSMutableString new];
+        [tabStr appendString:@"\n"];
+        for (; idx < selectedNSRange.location; idx++) {
+            char thisChar = (char) [stringRef characterAtIndex:idx];
+            if (thisChar != ' ' && thisChar != '\t') break;
+            else [tabStr appendFormat:@"%c", (char)thisChar];
+        }
+        NSMutableString *mutableCode = [model.code mutableCopy];
+        [mutableCode replaceOccurrencesOfString:@"\n"
+                                     withString:tabStr
+                                        options:NSCaseInsensitiveSearch
+                                          range:NSMakeRange(0, mutableCode.length)];
+        replaceCode = [mutableCode copy];
+    } else {
+        replaceCode = [model.code copy];
+    }
+    [_textInput replaceRange:selectedRange withText:replaceCode];
+    
+    NSRange modelCurPos = [replaceCode rangeOfString:@"@@"];
     if (modelCurPos.location != NSNotFound) {
         NSRange curPos = NSMakeRange(
                                      selectedNSRange.location

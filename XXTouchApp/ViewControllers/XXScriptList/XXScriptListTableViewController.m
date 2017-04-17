@@ -780,7 +780,7 @@ UIPopoverControllerDelegate
                                [self presentNewDocumentViewController:(UIBarButtonItem *)sender];
                            }];
     [controller addOptionWithTitle:NSLocalizedString(@"Photos Library", nil)
-                             image:nil
+                             image:[UIImage imageNamed:@"menu-photo-library"]
                              order:UIDocumentMenuOrderLast
                            handler:^{
                                XXImagePickerController *cont = [[XXImagePickerController alloc] initWithNibName:@"XXImagePickerController" bundle:nil];
