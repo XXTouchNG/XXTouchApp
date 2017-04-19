@@ -66,21 +66,51 @@
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
+  sourceApplication:(nullable NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [self application:application openURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
             options:(nonnull NSDictionary<NSString *,id> *)options
 {
+    return [self application:application openURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url {
     if ([[url scheme] isEqualToString:@"xxt"]) {
         NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url
                                                     resolvingAgainstBaseURL:NO];
-        NSArray *queryItems = urlComponents.queryItems;
         if ([urlComponents.host isEqualToString:@"root"]) {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", @"path"];
-            NSURLQueryItem *queryValue = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];
-            if (queryValue && queryValue.value) {
-                NSString *uiPath = queryValue.value;
+            START_IGNORE_PARTIAL
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                NSArray *queryItems = urlComponents.queryItems;
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", @"path"];
+                NSURLQueryItem *queryValue = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];
+                if (queryValue && queryValue.value) {
+                    NSString *uiPath = queryValue.value;
+                    [self loadRootWithXUI:uiPath];
+                }
+                return YES;
+            } else {
+                NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
+                NSArray *urlQuery = [[urlComponents query] componentsSeparatedByString:@"&"];
+                for (NSString *keyValuePair in urlQuery)
+                {
+                    NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
+                    NSString *key = [[pairComponents firstObject] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    NSString *value = [[pairComponents lastObject] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    if (key && value) {
+                        [queryStringDictionary setObject:value forKey:key];
+                    }
+                }
+                NSString *uiPath = queryStringDictionary[@"path"];
                 [self loadRootWithXUI:uiPath];
             }
+            END_IGNORE_PARTIAL
         }
-        return YES;
     }
     return [self handleUrlTransfer:url];
 }

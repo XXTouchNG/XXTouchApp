@@ -42,4 +42,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 
 #define STYLE_TINT_COLOR [UIColor colorWithRed:26.f/255.f green:161.f/255.f blue:230.f/255.f alpha:1.f]
 
+#define START_IGNORE_PARTIAL _Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wpartial-availability\"")
+#define END_IGNORE_PARTIAL _Pragma("clang diagnostic pop")
+
 #endif /* SystemConstantsDefines_h */

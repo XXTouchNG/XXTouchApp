@@ -7,6 +7,7 @@
 #import "XXLocalDataService.h"
 
 @implementation XUISpecifierParser
+
 + (PSCellType)PSCellTypeFromString:(NSString *)str {
     if ([str isEqual:@"XUIGroupCell"])
         return PSGroupCell;
@@ -54,7 +55,7 @@
 }
 
 + (NSArray *)specifiersFromArray:(NSArray *)array forTarget:(XUIListController *)target {
-    NSString *configPath = [XXTGSSI.dataService uicfgPath];
+    NSString *configPath = [[XXTGSSI.dataService uicfgPath] copy];
     NSMutableArray *specifiers = [NSMutableArray array];
     for (NSDictionary *dict in array) {
         PSCellType cellType = [XUISpecifierParser PSCellTypeFromString:dict[PSTableCellClassKey]];
@@ -125,9 +126,12 @@
         else
             [spec setProperty:dict[PSTitleKey] forKey:PSIDKey];
         spec.target = target;
-
+        
+        [spec setProperty:kXUINotificationString forKey:PSValueChangedNotificationKey];
+        
         [specifiers addObject:spec];
     }
     return specifiers;
 }
+
 @end

@@ -94,7 +94,11 @@
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
-        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        START_IGNORE_PARTIAL
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+            controller.popoverPresentationController.barButtonItem = sender;
+        } else {
             UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
             [popover presentPopoverFromBarButtonItem:sender
                             permittedArrowDirections:UIPopoverArrowDirectionAny
@@ -104,8 +108,7 @@
             popover.passthroughViews = nil;
             return;
         }
-        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-        controller.popoverPresentationController.barButtonItem = sender;
+        END_IGNORE_PARTIAL
     }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }

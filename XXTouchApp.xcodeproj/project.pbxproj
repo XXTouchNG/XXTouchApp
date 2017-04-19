@@ -36,6 +36,7 @@
 		0FB25C361E76BC340098BEEE /* XXBaseTextEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C381E76BC340098BEEE /* XXBaseTextEditor.storyboard */; };
 		0FB25C3F1E76BCEC0098BEEE /* XXScanDownloadTaskViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C411E76BCEC0098BEEE /* XXScanDownloadTaskViewController.storyboard */; };
 		0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FB48B761D922B9400CE9019 /* Localizable.strings */; };
+		0FB643E11EA78459007791B1 /* XXDarwinNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB643E01EA78459007791B1 /* XXDarwinNotificationsManager.m */; };
 		0FBDB87B1EA425320016B513 /* XXLuaInterpreter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB8781EA425320016B513 /* XXLuaInterpreter.mm */; };
 		0FBDB87C1EA425320016B513 /* XXLuaVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB87A1EA425320016B513 /* XXLuaVModel.m */; };
 		0FBDB87F1EA4255F0016B513 /* XXKeyEventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB87E1EA4255F0016B513 /* XXKeyEventModel.m */; };
@@ -121,7 +122,6 @@
 		0FDD9D481E8EF9E3009F96C8 /* XUIListItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D381E8EF9E3009F96C8 /* XUIListItemsController.m */; };
 		0FDD9D491E8EF9E3009F96C8 /* XUIMultipleListItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D3A1E8EF9E3009F96C8 /* XUIMultipleListItemsController.m */; };
 		0FDD9D4A1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D3C1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m */; };
-		0FDD9D4B1E8EF9E3009F96C8 /* XUITintedListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D3E1E8EF9E3009F96C8 /* XUITintedListController.m */; };
 		0FDD9D4C1E8EF9E3009F96C8 /* XUISpecifierParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDD9D411E8EF9E3009F96C8 /* XUISpecifierParser.m */; };
 		0FE36B1E1DC82C3D00E952B4 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B1D1DC82C3D00E952B4 /* UMMobClick.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		0FE36B221DC82C5F00E952B4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE36B211DC82C5F00E952B4 /* libz.tbd */; };
@@ -287,6 +287,8 @@
 		0FB25C401E76BCEC0098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXScanDownloadTaskViewController.storyboard; sourceTree = "<group>"; };
 		0FB25C431E76BCF10098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXScanDownloadTaskViewController.strings"; sourceTree = "<group>"; };
 		0FB48B771D922B9400CE9019 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
+		0FB643DF1EA78459007791B1 /* XXDarwinNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXDarwinNotificationsManager.h; sourceTree = "<group>"; };
+		0FB643E01EA78459007791B1 /* XXDarwinNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXDarwinNotificationsManager.m; sourceTree = "<group>"; };
 		0FBD99DD1EA5579400EFB8FD /* XUIAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUIAction.h; sourceTree = "<group>"; };
 		0FBDB8771EA425320016B513 /* XXLuaInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaInterpreter.h; sourceTree = "<group>"; };
 		0FBDB8781EA425320016B513 /* XXLuaInterpreter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XXLuaInterpreter.mm; sourceTree = "<group>"; };
@@ -452,8 +454,6 @@
 		0FDD9D3A1E8EF9E3009F96C8 /* XUIMultipleListItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XUIMultipleListItemsController.m; sourceTree = "<group>"; };
 		0FDD9D3B1E8EF9E3009F96C8 /* XUIOrderingListItemsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUIOrderingListItemsController.h; sourceTree = "<group>"; };
 		0FDD9D3C1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XUIOrderingListItemsController.m; sourceTree = "<group>"; };
-		0FDD9D3D1E8EF9E3009F96C8 /* XUITintedListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUITintedListController.h; sourceTree = "<group>"; };
-		0FDD9D3E1E8EF9E3009F96C8 /* XUITintedListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XUITintedListController.m; sourceTree = "<group>"; };
 		0FDD9D401E8EF9E3009F96C8 /* XUISpecifierParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUISpecifierParser.h; sourceTree = "<group>"; };
 		0FDD9D411E8EF9E3009F96C8 /* XUISpecifierParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XUISpecifierParser.m; sourceTree = "<group>"; };
 		0FDD9D421E8EF9E3009F96C8 /* XUICommonDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XUICommonDefine.h; sourceTree = "<group>"; };
@@ -757,6 +757,8 @@
 				0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */,
 				0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */,
 				0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */,
+				0FB643DF1EA78459007791B1 /* XXDarwinNotificationsManager.h */,
+				0FB643E01EA78459007791B1 /* XXDarwinNotificationsManager.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1127,8 +1129,6 @@
 				0FDD9D3A1E8EF9E3009F96C8 /* XUIMultipleListItemsController.m */,
 				0FDD9D3B1E8EF9E3009F96C8 /* XUIOrderingListItemsController.h */,
 				0FDD9D3C1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m */,
-				0FDD9D3D1E8EF9E3009F96C8 /* XUITintedListController.h */,
-				0FDD9D3E1E8EF9E3009F96C8 /* XUITintedListController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1945,6 +1945,7 @@
 				0FCF8A9D1DD013E700F4C906 /* lbaselib.c in Sources */,
 				0FCF8AA41DD013E700F4C906 /* ldo.c in Sources */,
 				0F9046431DD855780006E6DD /* IAPShare.m in Sources */,
+				0FB643E11EA78459007791B1 /* XXDarwinNotificationsManager.m in Sources */,
 				0FDD9D271E8EF98B009F96C8 /* XXPaymentActivity.m in Sources */,
 				0FCF8AB91DD013E700F4C906 /* lutf8lib.c in Sources */,
 				0FCF8ADC1DD0145400F4C906 /* SIAlertView.m in Sources */,
@@ -2004,7 +2005,6 @@
 				5251213082D00C5B94A2E478 /* XXLocationPickerController.m in Sources */,
 				525129F953B4C0A9014EFD41 /* XXCodeBlockTableViewCell.m in Sources */,
 				52512E0F3D7F970EB64E9AD8 /* XXCodeBlocksViewController.m in Sources */,
-				0FDD9D4B1E8EF9E3009F96C8 /* XUITintedListController.m in Sources */,
 				5251239A4A8419B029DE0767 /* XXAddCodeBlockTableViewController.m in Sources */,
 				52512F9AA741CE0135B74E97 /* XXCodeBlockNavigationController.m in Sources */,
 				52512FEFB26BD3EFA2A62790 /* XXCodeBlockExpandViewController.m in Sources */,
@@ -2322,6 +2322,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -2393,6 +2394,7 @@
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VALID_ARCHS = "armv7 arm64";
+				WARNING_CFLAGS = "-Wpartial-availability";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;
@@ -2435,6 +2437,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/XXTouchApp/Global/Defines/AppDefines.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -2507,6 +2510,7 @@
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VALID_ARCHS = "armv7 arm64";
+				WARNING_CFLAGS = "-Wpartial-availability";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 127.0.0.1;

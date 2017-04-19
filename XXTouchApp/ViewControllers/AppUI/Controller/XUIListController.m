@@ -13,14 +13,155 @@
 #import "XXWebViewController.h"
 #import "XUISpecifierParser.h"
 #import <Preferences/PSSpecifier.h>
+#import "XUICommonDefine.h"
+//#import "XXDarwinNotificationsManager.h"
+
+@interface PSListController (Rotation)
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
+@end
 
 @interface XUIListController () <XUIAction>
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
 @property (nonatomic, strong) NSDictionary *plistDict;
+//@property (nonatomic, strong) XXDarwinNotificationsManager *notificationManager;
 
 @end
 
 @implementation XUIListController
+
+- (void)loadView {
+    [super loadView];
+    
+    BOOL tintSwitches_ = YES;
+    
+    if ([self respondsToSelector:@selector(tintSwitches)])
+        tintSwitches_ = [self tintSwitches];
+    
+    if (tintSwitches_) {
+        if ([self respondsToSelector:@selector(switchOnTintColor)]) {
+            START_IGNORE_PARTIAL
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+                [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.switchOnTintColor;
+            else
+                [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.switchOnTintColor;
+            END_IGNORE_PARTIAL
+        } else {
+            if ([self respondsToSelector:@selector(tintColor)]) {
+                START_IGNORE_PARTIAL
+                if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+                    [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.tintColor;
+                else
+                    [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.tintColor;
+                END_IGNORE_PARTIAL
+            }
+        }
+        
+        if ([self respondsToSelector:@selector(switchTintColor)]) {
+            START_IGNORE_PARTIAL
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+                [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.switchTintColor;
+            else
+                [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.switchTintColor;
+            END_IGNORE_PARTIAL
+        } else if ([self respondsToSelector:@selector(tintColor)]) {
+            START_IGNORE_PARTIAL
+            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+                [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.tintColor;
+            else
+                [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.tintColor;
+            END_IGNORE_PARTIAL
+        }
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setupHeader];
+    
+    if ([self respondsToSelector:@selector(tintColor)]) {
+        self.view.tintColor = self.tintColor;
+    }
+    if ([self respondsToSelector:@selector(navigationTintColor)]) {
+        self.navigationController.navigationBar.tintColor = self.navigationTintColor;
+    } else if ([self respondsToSelector:@selector(tintColor)]) {
+        self.navigationController.navigationBar.tintColor = self.tintColor;
+    }
+    
+    BOOL tintNavText = YES;
+    if ([self respondsToSelector:@selector(tintNavigationTitleText)])
+        tintNavText = self.tintNavigationTitleText;
+    
+    if (tintNavText) {
+        if ([self respondsToSelector:@selector(navigationTitleTintColor)])
+            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: self.navigationTitleTintColor};
+        else if ([self respondsToSelector:@selector(tintColor)])
+            self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: self.tintColor};
+    }
+}
+
+- (void)setupHeader {
+    UIView *header = nil;
+    
+    if ([self respondsToSelector:@selector(headerText)] && self.headerText.length != 0) {
+        header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 60)];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, header.frame.size.width, header.frame.size.height + 20)];
+        label.text = self.headerText;
+        label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
+        label.backgroundColor = [UIColor clearColor];
+        
+        if ([self respondsToSelector:@selector(headerColor)])
+            label.textColor = self.headerColor;
+        
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        if ([self respondsToSelector:@selector(headerSubText)] && self.headerSubText.length != 0) {
+            header.frame = CGRectMake(header.frame.origin.x, header.frame.origin.y, header.frame.size.width, header.frame.size.height + 60);
+            
+            label.frame = CGRectMake(label.frame.origin.x, 10, label.frame.size.width, label.frame.size.height);
+            [header addSubview:label];
+            
+            UILabel *subText = [[UILabel alloc] initWithFrame:CGRectMake(header.frame.origin.x, label.frame.origin.y + label.frame.size.height, header.frame.size.width, 20)];
+            subText.text = self.headerSubText;
+            subText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16];
+            subText.backgroundColor = [UIColor clearColor];
+            
+            if ([self respondsToSelector:@selector(headerColor)])
+                subText.textColor = self.headerColor;
+            
+            subText.textAlignment = NSTextAlignmentCenter;
+            
+            [header addSubview:subText];
+        } else {
+            label.frame = CGRectMake(label.frame.origin.x, 5, label.frame.size.width, label.frame.size.height);
+            [header addSubview:label];
+        }
+    }
+    
+    if ([self respondsToSelector:@selector(headerView)]) {
+        header = self.headerView;
+    }
+    
+    if (header) {
+        header.backgroundColor = [UIColor clearColor];
+        
+        header.autoresizesSubviews = YES;
+        header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        
+        [self.table setTableHeaderView:header];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [UIView animateWithDuration:.3f
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [self setupHeader];
+                     } completion:^(BOOL finished) {}];
+}
 
 - (void)viewDidLoad {
     NSString *rootPath = nil;
@@ -44,10 +185,9 @@
     
     [self setupAppearance];
     [super viewDidLoad];
+    [self setTitle:self.title];
     
     if (parentController == self) {
-        if (self.title.length == 0)
-            self.title = NSLocalizedString(@"DynamicXUI", nil);
         if (self.navigationController != [AppDelegate globalDelegate].window.rootViewController) {
             self.navigationItem.leftBarButtonItem = self.closeItem;
         }
@@ -55,6 +195,11 @@
     if (!self.plistDict) {
         [self.navigationController.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse: %@.", nil), self.filePath]];
     }
+    
+//    self.notificationManager = [[XXDarwinNotificationsManager alloc] init];
+//    [self.notificationManager registerForNotificationName:[kXUINotificationString copy] callback:^{
+//        [self reload];
+//    }];
 }
 
 - (void)setupAppearance {
@@ -107,8 +252,26 @@
     return @"";
 }
 
-- (NSArray *)customSpecifiers {
+- (NSArray <PSSpecifier *> *)specifiers {
+    if (!_specifiers) {
+        _specifiers = [XUISpecifierParser specifiersFromArray:self.customSpecifiers forTarget:self];
+    }
+    return _specifiers;
+}
+
+- (NSArray <NSDictionary *> *)customSpecifiers {
     return self.plistDict[@"items"];
+}
+
+- (NSString *)navigationTitle {
+    return self.customTitle;
+}
+
+- (NSString *)title {
+    if (self.customTitle.length == 0) {
+        return NSLocalizedString(@"DynamicXUI", nil);
+    }
+    return self.customTitle;
 }
 
 - (NSString *)customTitle {
@@ -157,29 +320,36 @@
 #pragma mark - Button Actions
 
 - (void)openURL:(PSSpecifier *)specifier {
+    NSArray <NSString *> *kwargs = specifier.properties[@"kwargs"];
+    if (!kwargs || kwargs.count == 0) return;
+    id arg1 = kwargs[0];
+    if (![arg1 isKindOfClass:[NSString class]]) {
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:arg1];
+    if (![url scheme]) {
+        if (![arg1 isAbsolutePath]) {
+            arg1 = [XUISpecifierParser convertPathFromPath:arg1 relativeTo:self.filePath];
+        }
+        url = [NSURL fileURLWithPath:arg1];
+    }
     XXWebViewController *viewController = [[XXWebViewController alloc] init];
     viewController.title = @"";
-    NSURL *url = nil;
-    
-    if (!url) {
-        NSString *urlString = specifier.properties[@"url"];
-        url = [NSURL URLWithString:urlString];
-    }
-    
-    if (!url) {
-        NSString *pathString = specifier.properties[@"path"];
-        url = [NSURL fileURLWithPath:pathString];
-    }
-    
-    if (!url) return;
-    
     viewController.url = url;
-    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)runScript:(PSSpecifier *)specifier {
-    NSString *path = specifier.properties[@"path"];
+    NSArray <NSString *> *kwargs = specifier.properties[@"kwargs"];
+    if (!kwargs || kwargs.count == 0) return;
+    id arg1 = kwargs[0];
+    if (![arg1 isKindOfClass:[NSString class]]) {
+        return;
+    }
+    if (![arg1 isAbsolutePath]) {
+        arg1 = [XUISpecifierParser convertPathFromPath:arg1 relativeTo:self.filePath];
+    }
+    NSString *path = arg1;
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     @weakify(self);
@@ -206,8 +376,11 @@
 }
 
 - (void)copyValue:(PSSpecifier *)specifier {
-    if (specifier.properties[PSValueKey]) {
-        [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%@", specifier.properties[@"value"]]];
+    NSArray <NSString *> *kwargs = specifier.properties[@"kwargs"];
+    if (!kwargs || kwargs.count == 0) return;
+    id arg1 = kwargs[0];
+    if ([arg1 isKindOfClass:[NSString class]]) {
+        [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%@", arg1]];
         [self.navigationController.view makeToast:NSLocalizedString(@"Text copied to the pasteboard", nil)];
     }
 }
@@ -220,6 +393,8 @@
     [self.view endEditing:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#pragma mark - Hidden action
 
 - (void)presentViewController:(PSSpecifier *)specifier {
     if (specifier.properties[PSDetailControllerClassKey]) {
@@ -248,6 +423,12 @@
         return specifier.properties[PSValueKey];
     }
     return @"";
+}
+
+#pragma mark - Memory
+
+- (void)dealloc {
+    XXLog(@"");
 }
 
 @end

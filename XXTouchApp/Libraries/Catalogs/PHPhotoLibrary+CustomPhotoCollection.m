@@ -56,7 +56,11 @@ typedef NS_ENUM(NSInteger, LoadAlbumFailure) {
     //再将相片保存到自定义相册中
     __block NSString *assetID = nil;
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-        assetID = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
+        START_IGNORE_PARTIAL
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            assetID = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
+        }
+        END_IGNORE_PARTIAL
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (error) {
             if (failure) {

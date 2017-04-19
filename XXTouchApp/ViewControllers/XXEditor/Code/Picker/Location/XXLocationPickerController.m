@@ -85,13 +85,13 @@ static NSString * const kXXMapViewAnnotationFormat = @"Latitude: %f, Longitude: 
     MKPinAnnotationView *customPinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:kXXMapViewAnnotationIdentifier];
     if (!customPinView) {
         customPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kXXMapViewAnnotationIdentifier];
-
+        START_IGNORE_PARTIAL
         if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
             customPinView.pinColor = MKPinAnnotationColorRed;
         } else {
             customPinView.pinTintColor = STYLE_TINT_COLOR;
         }
-
+        END_IGNORE_PARTIAL
         customPinView.animatesDrop = YES;
         customPinView.canShowCallout = YES;
         customPinView.draggable = YES;

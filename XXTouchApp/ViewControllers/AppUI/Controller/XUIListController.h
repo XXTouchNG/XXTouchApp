@@ -6,10 +6,12 @@
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#import "XUITintedListController.h"
 #import "XXBaseActivity.h"
+#import <Preferences/PSListController.h>
+#import "XUIListControllerProtocol.h"
+#import "XUICommonDefine.h"
 
-@interface XUIListController : XUITintedListController <XUIListControllerProtocol>
+@interface XUIListController : PSListController <XUIListControllerProtocol>
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, weak) XXBaseActivity *activity;
 

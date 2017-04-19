@@ -1289,6 +1289,7 @@
 
             __typeof__(self) __weak selfBlock = self;
 
+            START_IGNORE_PARTIAL
 			if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
 			{
 				[self.activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
@@ -1303,6 +1304,7 @@
 					selfBlock.activityViewController = nil;
 				}];
 			}
+            END_IGNORE_PARTIAL
 
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 				[self presentViewController:self.activityViewController animated:YES completion:nil];

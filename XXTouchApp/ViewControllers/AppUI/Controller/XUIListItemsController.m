@@ -9,10 +9,12 @@
     }
     
     if ([self respondsToSelector:@selector(switchTintColor)]) {
+        START_IGNORE_PARTIAL
         if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
             [UITableViewCell appearanceWhenContainedIn:self.class, nil].tintColor = self.switchTintColor;
         else
             [UITableViewCell appearanceWhenContainedInInstancesOfClasses:@[self.class]].tintColor = self.switchTintColor;
+        END_IGNORE_PARTIAL
     }
 
     if ([self respondsToSelector:@selector(navigationTintColor)]) {

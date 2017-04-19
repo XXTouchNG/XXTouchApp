@@ -746,10 +746,12 @@ UIPopoverControllerDelegate
     
 }
 
+START_IGNORE_PARTIAL
 - (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Replaced by MGSwipeTableCell
     return nil;
 }
+END_IGNORE_PARTIAL
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     XXSwipeableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -792,7 +794,11 @@ UIPopoverControllerDelegate
                            }];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
-        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        START_IGNORE_PARTIAL
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+            controller.popoverPresentationController.barButtonItem = sender;
+        } else {
             UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
             [popover presentPopoverFromBarButtonItem:sender
                             permittedArrowDirections:UIPopoverArrowDirectionAny
@@ -802,8 +808,7 @@ UIPopoverControllerDelegate
             popover.passthroughViews = nil;
             return;
         }
-        controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-        controller.popoverPresentationController.barButtonItem = sender;
+        END_IGNORE_PARTIAL
     }
     [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
@@ -999,7 +1004,11 @@ UIPopoverControllerDelegate
             UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
                 controller.modalPresentationStyle = UIModalPresentationPopover;
-                if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+                START_IGNORE_PARTIAL
+                if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                    controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+                    controller.popoverPresentationController.barButtonItem = sender;
+                } else {
                     UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
                     [popover presentPopoverFromBarButtonItem:sender
                                     permittedArrowDirections:UIPopoverArrowDirectionAny
@@ -1009,8 +1018,7 @@ UIPopoverControllerDelegate
                     popover.passthroughViews = nil;
                     return;
                 }
-                controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-                controller.popoverPresentationController.barButtonItem = sender;
+                END_IGNORE_PARTIAL
             }
             [self.navigationController presentViewController:controller animated:YES completion:nil];
         } else {
@@ -1138,7 +1146,12 @@ UIPopoverControllerDelegate
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             controller.modalPresentationStyle = UIModalPresentationPopover;
-            if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            START_IGNORE_PARTIAL
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+                controller.popoverPresentationController.sourceView = anchorView;
+                controller.popoverPresentationController.sourceRect = anchorRect;
+            } else {
                 UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
                 [popover presentPopoverFromRect:anchorRect
                                          inView:anchorView
@@ -1149,9 +1162,7 @@ UIPopoverControllerDelegate
                 popover.passthroughViews = nil;
                 return YES;
             }
-            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-            controller.popoverPresentationController.sourceView = anchorView;
-            controller.popoverPresentationController.sourceRect = anchorRect;
+            END_IGNORE_PARTIAL
         }
         [self.navigationController presentViewController:controller animated:YES completion:nil];
         return YES;
@@ -1186,7 +1197,12 @@ UIPopoverControllerDelegate
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             controller.modalPresentationStyle = UIModalPresentationPopover;
-            if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            START_IGNORE_PARTIAL
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+                controller.popoverPresentationController.sourceView = anchorView;
+                controller.popoverPresentationController.sourceRect = anchorRect;
+            } else {
                 UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
                 [popover presentPopoverFromRect:anchorRect
                                          inView:anchorView
@@ -1197,9 +1213,7 @@ UIPopoverControllerDelegate
                 popover.passthroughViews = nil;
                 return YES;
             }
-            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-            controller.popoverPresentationController.sourceView = anchorView;
-            controller.popoverPresentationController.sourceRect = anchorRect;
+            END_IGNORE_PARTIAL
         }
         [self.navigationController presentViewController:controller animated:YES completion:nil];
         return YES;

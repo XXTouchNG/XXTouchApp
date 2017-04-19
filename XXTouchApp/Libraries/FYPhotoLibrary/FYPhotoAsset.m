@@ -46,6 +46,7 @@
         
         FYPhotoLibrary *library = [FYPhotoLibrary sharedInstance];
         
+        START_IGNORE_PARTIAL
         if (self.alAsset) {
             self.cachedThumbnail = [UIImage imageWithCGImage:self.alAsset.aspectRatioThumbnail];
             returnBlock();
@@ -63,6 +64,7 @@
                 
             }];
         }
+        END_IGNORE_PARTIAL
         
     }
     else {
@@ -73,6 +75,7 @@
 - (void)getScaledImage:(FYPhotoAssetGetImage)result height:(CGFloat)height {
     FYPhotoLibrary *library = [FYPhotoLibrary sharedInstance];
     
+    START_IGNORE_PARTIAL
     if (self.alAsset) {
         [library.queue addOperationWithBlock:^{
             
@@ -102,12 +105,14 @@
         }];
         
     }
+    END_IGNORE_PARTIAL
     
 }
 - (void)getOriginalImageData:(FYPhotoAssetGetImageData)result {
     
     FYPhotoLibrary *library = [FYPhotoLibrary sharedInstance];
     
+    START_IGNORE_PARTIAL
     if (self.alAsset) {
         [library.queue addOperationWithBlock:^{
             
@@ -135,6 +140,7 @@
         }];
         
     }
+    END_IGNORE_PARTIAL
     
     
 }
@@ -176,12 +182,14 @@
 
 #pragma mark - PHAsset resize
 
+START_IGNORE_PARTIAL
 - (PHImageRequestOptions*)PHResizeOptions {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     [options setDeliveryMode:PHImageRequestOptionsDeliveryModeHighQualityFormat];
     [options setResizeMode:PHImageRequestOptionsResizeModeExact];
     return options;
 }
+END_IGNORE_PARTIAL
 
 #pragma mark - ALAsset resize
 

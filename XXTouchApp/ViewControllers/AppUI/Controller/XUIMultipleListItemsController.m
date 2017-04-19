@@ -48,9 +48,11 @@
         tableView.dataSource = self;
         tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         tableView.editing = NO;
+        START_IGNORE_PARTIAL
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
             tableView.cellLayoutMarginsFollowReadableWidth = NO;
         }
+        END_IGNORE_PARTIAL
         _tableView = tableView;
     }
     return _tableView;

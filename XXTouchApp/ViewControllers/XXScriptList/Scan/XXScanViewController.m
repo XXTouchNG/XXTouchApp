@@ -457,9 +457,8 @@
 
 - (NSString *)scanImage:(UIImage *)image {
     NSString *scannedResult = nil;
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        return [self scanImageWithZBar:image];
-    } else {
+    START_IGNORE_PARTIAL
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
         CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
         NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
         for (int index = 0; index < features.count; index ++) {
@@ -470,7 +469,10 @@
                 break;
             }
         }
+    } else {
+        return [self scanImageWithZBar:image];
     }
+    END_IGNORE_PARTIAL
     return scannedResult;
 }
 

@@ -56,7 +56,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
     [CSToastManager sharedStyle].activitySize = CGSizeMake(80.f, 80.f);
     [CSToastManager sharedStyle].verticalMargin = 16.f;
     
-    [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleFade;
+    [SIAlertView appearance].transitionStyle = SIAlertViewTransitionStyleBounce;
     [SIAlertView appearance].backgroundStyle = SIAlertViewBackgroundStyleSolid;
     [SIAlertView appearance].titleFont = [UIFont boldSystemFontOfSize:18.f];
     [SIAlertView appearance].messageFont = [UIFont systemFontOfSize:14.f];
@@ -79,32 +79,33 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
 }
 
 - (void)setupShortcutItems {
-    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
-        return;
+    START_IGNORE_PARTIAL
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+        if (daemonInstalled()) {
+            UIApplicationShortcutIcon *stopIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-stop"];
+            UIApplicationShortcutItem *stopItem = [[UIApplicationShortcutItem alloc] initWithType:@"Stop"
+                                                                                   localizedTitle:NSLocalizedString(@"Stop", nil)
+                                                                                localizedSubtitle:nil
+                                                                                             icon:stopIcon
+                                                                                         userInfo:@{@"firstShorcutKey3": @"firstShortcutKeyValue3"}];
+            UIApplicationShortcutIcon *launchIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-launch"];
+            UIApplicationShortcutItem *launchItem = [[UIApplicationShortcutItem alloc] initWithType:@"Launch"
+                                                                                     localizedTitle:NSLocalizedString(@"Launch", nil)
+                                                                                  localizedSubtitle:nil
+                                                                                               icon:launchIcon
+                                                                                           userInfo:@{@"firstShorcutKey2": @"firstShortcutKeyValue2"}];
+            UIApplicationShortcutIcon *scanIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-scan"];
+            UIApplicationShortcutItem *scanItem = [[UIApplicationShortcutItem alloc] initWithType:@"Scan"
+                                                                                   localizedTitle:NSLocalizedString(@"Scan QR Code", nil)
+                                                                                localizedSubtitle:nil
+                                                                                             icon:scanIcon
+                                                                                         userInfo:@{@"firstShorcutKey1": @"firstShortcutKeyValue1"}];
+            [UIApplication sharedApplication].shortcutItems = @[stopItem, launchItem, scanItem];
+        } else {
+            [UIApplication sharedApplication].shortcutItems = @[];
+        }
     }
-    if (daemonInstalled()) {
-        UIApplicationShortcutIcon *stopIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-stop"];
-        UIApplicationShortcutItem *stopItem = [[UIApplicationShortcutItem alloc] initWithType:@"Stop"
-                                                                               localizedTitle:NSLocalizedString(@"Stop", nil)
-                                                                            localizedSubtitle:nil
-                                                                                         icon:stopIcon
-                                                                                     userInfo:@{@"firstShorcutKey3": @"firstShortcutKeyValue3"}];
-        UIApplicationShortcutIcon *launchIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-launch"];
-        UIApplicationShortcutItem *launchItem = [[UIApplicationShortcutItem alloc] initWithType:@"Launch"
-                                                                                 localizedTitle:NSLocalizedString(@"Launch", nil)
-                                                                              localizedSubtitle:nil
-                                                                                           icon:launchIcon
-                                                                                       userInfo:@{@"firstShorcutKey2": @"firstShortcutKeyValue2"}];
-        UIApplicationShortcutIcon *scanIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-scan"];
-        UIApplicationShortcutItem *scanItem = [[UIApplicationShortcutItem alloc] initWithType:@"Scan"
-                                                                               localizedTitle:NSLocalizedString(@"Scan QR Code", nil)
-                                                                            localizedSubtitle:nil
-                                                                                         icon:scanIcon
-                                                                                     userInfo:@{@"firstShorcutKey1": @"firstShortcutKeyValue1"}];
-        [UIApplication sharedApplication].shortcutItems = @[stopItem, launchItem, scanItem];
-    } else {
-        [UIApplication sharedApplication].shortcutItems = @[];
-    }
+    END_IGNORE_PARTIAL
 }
 
 @end
