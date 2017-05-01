@@ -11,14 +11,10 @@
 @implementation XXCodeBlockModel
 
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code {
-    return [self modelWithTitle:title code:code type:kXXCodeBlockTypeInternalFunction];
+    return [self modelWithTitle:title code:code udid:nil];
 }
 
-+ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type {
-    return [self modelWithTitle:title code:code type:type udid:nil];
-}
-
-+ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type udid:(NSString *)udid {
++ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code udid:(NSString *)udid {
     XXCodeBlockModel *newModel = [XXCodeBlockModel new];
     newModel.title = title;
     newModel.code = code;

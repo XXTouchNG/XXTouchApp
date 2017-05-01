@@ -155,15 +155,14 @@
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:kXUICellIdentifier];
-        cell.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-        cell.tintColor = STYLE_TINT_COLOR;
-        cell.showsReorderControl = YES;
-        if (indexPath.section == 0) {
-            cell.textLabel.text = self.specifier.titleDictionary[_currentValues[indexPath.row]];
-        } else if (indexPath.section == 1) {
-            cell.textLabel.text = self.specifier.titleDictionary[_leftValues[indexPath.row]];
-        }
-        
+    }
+    cell.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    cell.tintColor = STYLE_TINT_COLOR;
+    cell.showsReorderControl = YES;
+    if (indexPath.section == 0) {
+        cell.textLabel.text = self.specifier.titleDictionary[_currentValues[indexPath.row]];
+    } else if (indexPath.section == 1) {
+        cell.textLabel.text = self.specifier.titleDictionary[_leftValues[indexPath.row]];
     }
     return cell;
 }

@@ -120,7 +120,7 @@ enum {
         NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
         for (NSDictionary *m in plistArr)
         {
-            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"] type:kXXCodeBlockTypeInternalFunction udid:m[@"udid"]]];
+            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"]  udid:m[@"udid"]]];
         }
         
         BOOL edited = NO;
@@ -167,7 +167,7 @@ enum {
         NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
         for (NSDictionary *m in plistArr)
         {
-            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"] type:kXXCodeBlockTypeUserDefined udid:m[@"udid"]]];
+            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"]  udid:m[@"udid"]]];
         }
         
         BOOL edited = NO;

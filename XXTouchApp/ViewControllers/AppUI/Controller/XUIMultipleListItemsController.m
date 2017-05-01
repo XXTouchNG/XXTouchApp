@@ -93,13 +93,13 @@
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:kXUICellIdentifier];
-            cell.tintColor = STYLE_TINT_COLOR;
-            id curKey = self.specifier.titleDictionary.allKeys[indexPath.row];
-            cell.textLabel.text = self.specifier.titleDictionary[curKey];
-            for (id value in _currentValues) {
-                if ([curKey isEqual:value]) {
-                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                }
+        }
+        cell.tintColor = STYLE_TINT_COLOR;
+        id curKey = self.specifier.titleDictionary.allKeys[indexPath.row];
+        cell.textLabel.text = self.specifier.titleDictionary[curKey];
+        for (id value in _currentValues) {
+            if ([curKey isEqual:value]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
         }
         return cell;

@@ -21,6 +21,5 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy) NSString *code;
 
 + (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code;
-+ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type;
-+ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code type:(kXXCodeBlockType)type udid:(NSString *)udid;
++ (instancetype)modelWithTitle:(NSString *)title code:(NSString *)code udid:(NSString *)udid;
 @end
