@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0F0873211DD96987003C061C /* NSFileManager+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0873201DD96987003C061C /* NSFileManager+Mime.m */; };
+		0F1B885C1EB874E200FCF19C /* XXTPickerCollection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1B88581EB874AF00FCF19C /* XXTPickerCollection.framework */; };
+		0F1B885E1EB874FE00FCF19C /* XXTPickerCollection.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0F1B88581EB874AF00FCF19C /* XXTPickerCollection.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F239D251DC716C900B6CBC3 /* XXTReferences.bundle */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -32,16 +34,12 @@
 		0FB0A7CD1D7411CE00129E83 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A7CC1D7411CE00129E83 /* GlobalSettings.m */; };
 		0FB25C1B1E76B2000098BEEE /* XXCodeBlocksViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C1D1E76B2000098BEEE /* XXCodeBlocksViewController.storyboard */; };
 		0FB25C241E76B69E0098BEEE /* XXCodeBlockExpandViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C261E76B69E0098BEEE /* XXCodeBlockExpandViewController.storyboard */; };
-		0FB25C2D1E76B9A60098BEEE /* XXLocationPickerController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C2F1E76B9A60098BEEE /* XXLocationPickerController.storyboard */; };
 		0FB25C361E76BC340098BEEE /* XXBaseTextEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C381E76BC340098BEEE /* XXBaseTextEditor.storyboard */; };
 		0FB25C3F1E76BCEC0098BEEE /* XXScanDownloadTaskViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FB25C411E76BCEC0098BEEE /* XXScanDownloadTaskViewController.storyboard */; };
 		0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FB48B761D922B9400CE9019 /* Localizable.strings */; };
 		0FB643E11EA78459007791B1 /* XXDarwinNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB643E01EA78459007791B1 /* XXDarwinNotificationsManager.m */; };
 		0FBDB87B1EA425320016B513 /* XXLuaInterpreter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB8781EA425320016B513 /* XXLuaInterpreter.mm */; };
 		0FBDB87C1EA425320016B513 /* XXLuaVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB87A1EA425320016B513 /* XXLuaVModel.m */; };
-		0FBDB87F1EA4255F0016B513 /* XXKeyEventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB87E1EA4255F0016B513 /* XXKeyEventModel.m */; };
-		0FBDB8821EA4257D0016B513 /* XXCodeBlockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB8811EA4257C0016B513 /* XXCodeBlockModel.m */; };
-		0FBDB8851EA425A70016B513 /* XXPositionColorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB8841EA425A70016B513 /* XXPositionColorModel.m */; };
 		0FBDB8881EA425D30016B513 /* XXUserDefaultsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBDB8871EA425D30016B513 /* XXUserDefaultsModel.m */; };
 		0FBDB8991EA42C860016B513 /* CamingoCode-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FBDB8911EA42C860016B513 /* CamingoCode-Bold.ttf */; };
 		0FBDB89A1EA42C860016B513 /* CamingoCode-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FBDB8921EA42C860016B513 /* CamingoCode-BoldItalic.ttf */; };
@@ -131,11 +129,9 @@
 		0FE881D41D75ABE9003907A7 /* XXLocalDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */; };
 		0FE93CE11D8A8391004496BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE01D8A8391004496BC /* MobileCoreServices.framework */; };
 		0FE93CE31D8A8895004496BC /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FE93CE21D8A8895004496BC /* CoreImage.framework */; };
-		0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */; };
 		0FF025541E959E0B00CA813F /* XXCreateItemTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FF025561E959E0B00CA813F /* XXCreateItemTableViewController.storyboard */; };
 		0FF0255D1E959EF900CA813F /* XXItemAttributesTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FF0255F1E959EF900CA813F /* XXItemAttributesTableViewController.storyboard */; };
 		0FF025661E959F2D00CA813F /* XXEmptyNavigationController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FF025681E959F2D00CA813F /* XXEmptyNavigationController.storyboard */; };
-		0FF0256F1E95A14800CA813F /* XXKeyEventTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FF025711E95A14800CA813F /* XXKeyEventTableViewController.storyboard */; };
 		0FF025771E95A53600CA813F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF025761E95A53600CA813F /* SystemConfiguration.framework */; };
 		0FF0257A1E95A5AF00CA813F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF025791E95A5AF00CA813F /* Reachability.m */; };
 		0FF5285A1D9E0B47000A0FBE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF528591D9E0B47000A0FBE /* CoreLocation.framework */; };
@@ -150,19 +146,11 @@
 		52512006BCA027C8075A9DB7 /* ICRegularExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 525127B9987A25F50B0A2676 /* ICRegularExpression.m */; };
 		525120D40BA355D9DCDE113F /* XXTerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E37CA9FD0A4144B4924 /* XXTerminalViewController.m */; };
 		52512112AFF8CDCE048A1914 /* XXFeatureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 525127556EA45748AC67ED30 /* XXFeatureTableViewCell.m */; };
-		5251213082D00C5B94A2E478 /* XXLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251291C8602C481BD66F6B3 /* XXLocationPickerController.m */; };
 		525121749702655B6B2866F0 /* CYRLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 525123CC60B8F6B8A7F2A554 /* CYRLayoutManager.m */; };
-		525121C7C15AC872FF4DD17C /* XXPickerPopupBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512F2039B04225AEEB0AF2 /* XXPickerPopupBar.m */; };
-		525121C7E4C92D7EAC5506E1 /* XXImagePickerPixelPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E8C9C7EA2BE7F15D401 /* XXImagePickerPixelPreview.m */; };
 		525121EC57E5BC20BB9E3531 /* CYRTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512759309DFE986D05AF93 /* CYRTextView.m */; };
-		5251224BBD747C0A22CB26CB /* XXPositionPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251297E8CB40399475E557D /* XXPositionPickerController.m */; };
 		525122B367D03354BB52D740 /* XXScriptListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525128D3758FB763D4C48C6B /* XXScriptListTableViewController.m */; };
-		52512377007340598DC95189 /* XXImagePickerPixelPreviewRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512AD20CF6CF587A36A3C8 /* XXImagePickerPixelPreviewRootViewController.m */; };
 		5251239A4A8419B029DE0767 /* XXAddCodeBlockTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512A50FCA5BBA4CA0B8F0F /* XXAddCodeBlockTableViewController.m */; };
-		5251239F220484A8F4EBB385 /* XXImagePickerPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E3D64B5C1E3A5BF6A21 /* XXImagePickerPlaceholderView.m */; };
-		525123D33A4E2499C7804BC9 /* XXCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251236F8EBFCF80B023120C /* XXCropView.m */; };
 		525123FFF79AC67E786F82AE /* XXImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525128683F083B49E388E315 /* XXImageViewController.m */; };
-		5251240D565378E5D8608E9B /* XXTPixelImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E9CEB28478CF6F8220B /* XXTPixelImage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		52512440DA2ED673613E64A2 /* XXApplicationDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251241D9BD0F50060DE5F7D /* XXApplicationDetailTableViewController.m */; };
 		52512447BEC4CCA7AB2BDA4A /* XXMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525123E40E901D4BC2786894 /* XXMediaViewController.m */; };
 		525124A20BBC747829A445F5 /* XXAuthorizationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E35F4C471142087FC9E /* XXAuthorizationTableViewController.m */; };
@@ -173,40 +161,27 @@
 		525124F0ED886E41B651546A /* XXScanDownloadSourceHeadersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512683A660628C97C1737E /* XXScanDownloadSourceHeadersTableViewController.m */; };
 		52512565D9DC442471DB438B /* XXUserDefaultsConfigTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512BC8149760A7C8D6E677 /* XXUserDefaultsConfigTableViewCell.m */; };
 		525125A77F663F176A4EFD7A /* TurtleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512DD41A47F5860BB21060 /* TurtleBezierPath.m */; };
-		525125CB0323D1C78BCE4845 /* XXImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525121476720B7AA4453597E /* XXImagePickerController.m */; };
-		525125EEB4EC40E2FA6D7478 /* XXResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512397481014CF33119CFC /* XXResizeControl.m */; };
 		525125F2EFBABC582C139ADB /* XXScanDownloadTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512271A1239D6B2A1CFCFC /* XXScanDownloadTaskViewController.m */; };
 		5251260EE3ACC3109F5DEB60 /* XXItemAttributesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E972405347A2B41DA53 /* XXItemAttributesTableViewController.m */; };
 		52512647F188FE241AF30B30 /* CYRToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512F8A241BA672A664CDC1 /* CYRToken.m */; };
-		5251265EBECD486F1466ED27 /* XXKeyEventTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525128BB91B8550882F60C3D /* XXKeyEventTableViewController.m */; };
 		52512694988EE6EEE6E0DB5C /* XXKeyboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 525123AA8DFF7B5CBFAFB5E6 /* XXKeyboardButton.m */; };
 		525126C6D1D86098C69C3F4D /* ICRangeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512BB6281B51FE4D02E145 /* ICRangeUtils.m */; };
 		525126E340F70751371D9DA3 /* XXDocumentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251289EEC9642818B2230F3 /* XXDocumentsTableViewController.m */; };
-		525126EE24DBCBD9027DBF88 /* XXImagePickerAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 525123872CEB516338750540 /* XXImagePickerAlbumCell.m */; };
 		52512723F4FFE03ACB53B926 /* XXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 525127A135138BECA01B601B /* XXScanLineAnimation.m */; };
 		5251273FBD2AE3D4DACA6E6D /* CYRTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512B1295785F7856DA1BCA /* CYRTextStorage.m */; };
-		52512765F7BEB1EE5E606A61 /* XXImagePickerPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5251283611EA30278F3820FB /* XXImagePickerPhotoCell.xib */; };
 		52512775B013A11D75906843 /* XXSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 525121CCA4A934E652CE318A /* XXSwipeableCell.m */; };
-		5251277EFB60740C6738D30C /* XXColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512AFC244C524AFFDD5D25 /* XXColorPickerController.m */; };
 		5251278CC5FE2EDACAB6D5EF /* XXEditorSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525127FCF39E70071A366CA4 /* XXEditorSettingsTableViewController.m */; };
 		525128063DA015972B56A9D2 /* XXBaseTextEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525125B50F6E97AA1C89D3B0 /* XXBaseTextEditorViewController.m */; };
 		52512811BDC06F4848364FAD /* XXKeyPressConfigActionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512D4887C0C81795EE5A63 /* XXKeyPressConfigActionTableViewController.m */; };
 		5251283AD5B38708CF150F15 /* XXToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512EDF3DA0747B3DBA4F68 /* XXToolbar.m */; };
 		525128489A38FACD8302870C /* XXCreateItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525125D90F2EB2DF94CE089A /* XXCreateItemTableViewController.m */; };
 		525128A9ED8EB349598992BE /* XXBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512B0CC00CF9374B91FBDA /* XXBaseTextView.m */; };
-		525128E679F09F782864F1CD /* XXImagePickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5251256F659D954D31626141 /* XXImagePickerController.xib */; };
-		525129236689CACB7D5C4A52 /* XXImageFlagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512A0E90DFD9B43199F883 /* XXImageFlagView.m */; };
-		525129DA2438CD7D947D2890 /* XXImagePickerPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512599B93620F97D3B3B82 /* XXImagePickerPhotoCell.m */; };
 		525129F953B4C0A9014EFD41 /* XXCodeBlockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 525122FF365DEEDF7702DC74 /* XXCodeBlockTableViewCell.m */; };
-		525129FE18F98833F8B5C0A6 /* XXAssetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 525129CDF4E80DE3170C7F8B /* XXAssetHelper.m */; };
 		52512A216E4FEB95A7C54519 /* XXApplicationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251249BDECF9FEFC2F25F31 /* XXApplicationListTableViewController.m */; };
-		52512A70AD9E673C03B44E19 /* XXMulPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251251D13B1EB0E61E8813E /* XXMulPosColorPickerController.m */; };
 		52512A9259923CFE0B588897 /* XXTerminalTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251203999A7C2EAA05FE669 /* XXTerminalTextView.m */; };
-		52512AA603811CA0B8F9AAFF /* XXCropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512A0A0513B788938D4134 /* XXCropRectView.m */; };
 		52512AFC5C2CA25710F02637 /* XXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525129ADB0D981C0111F3F6B /* XXScanViewController.m */; };
 		52512B2BCA332CC8F96AA8B6 /* XXUserDefaultsConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525121688ED3E1074772B7E9 /* XXUserDefaultsConfigTableViewController.m */; };
 		52512B4844D3E12A379B9448 /* XXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512FE6831F05280F3F2348 /* XXNavigationViewController.m */; };
-		52512BB1B336BB835BD8B19C /* UIImage+XXCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512C21588748B3EA9A78EA /* UIImage+XXCrop.m */; };
 		52512BCED6876C89105215EB /* XXEditorFontSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512C25EF09C046C1C50548 /* XXEditorFontSettingsTableViewController.m */; };
 		52512BFD415A014FA79FD23F /* XXSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525126C00083DDA64FF96976 /* XXSettingsTableViewController.m */; };
 		52512C4E8E8D61443458F41D /* UIImage+ColoredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512BCB2422209F98E6A3F6 /* UIImage+ColoredImage.m */; };
@@ -214,26 +189,49 @@
 		52512CA7D9A38B31407CAA6C /* XXPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512C71271339402AE15B03 /* XXPaymentViewController.m */; };
 		52512CC2E18111C68BB4E73D /* XXApplicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512179F38093199FF68D51 /* XXApplicationTableViewCell.m */; };
 		52512CD276CCD9E01CA9C9A2 /* XXRecordConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512F967AF9F8BC30DCB775 /* XXRecordConfigTableViewController.m */; };
-		52512CFD95D5D03B77DABCED /* XXPosColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251225A876ED659787B07FE /* XXPosColorPickerController.m */; };
 		52512D49BF45164841A64E28 /* XXAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E0DAED952649A270973 /* XXAboutTableViewController.m */; };
-		52512D4EA915DF0532C2098B /* XXTColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 525125EA34BE3E3389DCFFDE /* XXTColor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		52512D5E8BB97284C16F7221 /* XXBaseTextEditorPropertiesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525123B0A1CEAB7C46BF6200 /* XXBaseTextEditorPropertiesTableViewController.m */; };
-		52512D781DD52B8383B6A17B /* XXCanvasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251205239DF2FFA55B94798 /* XXCanvasViewController.m */; };
-		52512DBAF2E0574A6527AD1A /* XXKeyEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512AA02FA15964FAB43971 /* XXKeyEventTableViewCell.m */; };
 		52512E08A45D5DFA8A6D1CDA /* XXEditorFontSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512CED0004B93B0538D181 /* XXEditorFontSizeView.m */; };
 		52512E0F3D7F970EB64E9AD8 /* XXCodeBlocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512EC37EC0B538C28D6078 /* XXCodeBlocksViewController.m */; };
 		52512E62FAADE8B2083951CA /* XXStartupConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512009A443D11C756062AD /* XXStartupConfigTableViewController.m */; };
-		52512E9EBBD1E1CE4238BEB5 /* XXImagePickerAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525120F389A44713370C7E76 /* XXImagePickerAlbumCell.xib */; };
 		52512ED4FFBA9F3436450035 /* XXUserDefaultsConfigOptionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512346E1ED58BBCF670ADB /* XXUserDefaultsConfigOptionTableViewController.m */; };
 		52512EDC2C523B69E39A160D /* XXMainTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512E83DEE5A3C081399619 /* XXMainTabbarViewController.m */; };
-		52512EFAAB550C9D01F4A4AD /* XXRectPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5251217080EA961804C613FD /* XXRectPickerController.m */; };
 		52512F141E3EEC2CDFEE5801 /* XXKeyPressConfigOperationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512537E2A1B6858D213344 /* XXKeyPressConfigOperationTableViewController.m */; };
 		52512F4CA156055C5E07C601 /* XXEmptyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52512C66FB60747A9A8C1031 /* XXEmptyNavigationController.m */; };
-		52512F5083FE8205D7DEF713 /* XXPickerBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525126D506AC9B5D3A03FA6E /* XXPickerBaseViewController.m */; };
 		52512F9AA741CE0135B74E97 /* XXCodeBlockNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525122A8B255597F24743477 /* XXCodeBlockNavigationController.m */; };
 		52512FEFB26BD3EFA2A62790 /* XXCodeBlockExpandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 525129EB4C97E5AFE1F9989F /* XXCodeBlockExpandViewController.m */; };
 		B9DBF5BDBBFC4E8EF398289E /* libPods-XXTouchApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAF459ED010F8DE160C82EA /* libPods-XXTouchApp.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0F1B88571EB874AF00FCF19C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F1B88531EB874AF00FCF19C /* XXTPickerCollection.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0F7A80B51EA2B5B600A4AC11;
+			remoteInfo = XXTPickerCollection;
+		};
+		0F1B88591EB874C100FCF19C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F1B88531EB874AF00FCF19C /* XXTPickerCollection.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0F7A80B41EA2B5B600A4AC11;
+			remoteInfo = XXTPickerCollection;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0F1B885D1EB874F200FCF19C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0F1B885E1EB874FE00FCF19C /* XXTPickerCollection.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0F08731F1DD96987003C061C /* NSFileManager+Mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Mime.h"; sourceTree = "<group>"; };
@@ -241,6 +239,7 @@
 		0F08A9E21D9522950066BCE0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		0F0FA8EF1D997F73009FD2F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0F0FA8F11D997F95009FD2F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0F1B88531EB874AF00FCF19C /* XXTPickerCollection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XXTPickerCollection.xcodeproj; path = ../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection.xcodeproj; sourceTree = "<group>"; };
 		0F239D251DC716C900B6CBC3 /* XXTReferences.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = XXTReferences.bundle; sourceTree = "<group>"; };
 		0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -280,8 +279,6 @@
 		0FB25C1F1E76B2060098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXCodeBlocksViewController.strings"; sourceTree = "<group>"; };
 		0FB25C251E76B69E0098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXCodeBlockExpandViewController.storyboard; sourceTree = "<group>"; };
 		0FB25C281E76B6AC0098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXCodeBlockExpandViewController.strings"; sourceTree = "<group>"; };
-		0FB25C2E1E76B9A60098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXLocationPickerController.storyboard; sourceTree = "<group>"; };
-		0FB25C311E76B9A80098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXLocationPickerController.strings"; sourceTree = "<group>"; };
 		0FB25C371E76BC340098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXBaseTextEditor.storyboard; sourceTree = "<group>"; };
 		0FB25C3A1E76BC380098BEEE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXBaseTextEditor.strings"; sourceTree = "<group>"; };
 		0FB25C401E76BCEC0098BEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXScanDownloadTaskViewController.storyboard; sourceTree = "<group>"; };
@@ -294,12 +291,6 @@
 		0FBDB8781EA425320016B513 /* XXLuaInterpreter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XXLuaInterpreter.mm; sourceTree = "<group>"; };
 		0FBDB8791EA425320016B513 /* XXLuaVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLuaVModel.h; sourceTree = "<group>"; };
 		0FBDB87A1EA425320016B513 /* XXLuaVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLuaVModel.m; sourceTree = "<group>"; };
-		0FBDB87D1EA4255F0016B513 /* XXKeyEventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventModel.h; sourceTree = "<group>"; };
-		0FBDB87E1EA4255F0016B513 /* XXKeyEventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventModel.m; sourceTree = "<group>"; };
-		0FBDB8801EA4257C0016B513 /* XXCodeBlockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockModel.h; sourceTree = "<group>"; };
-		0FBDB8811EA4257C0016B513 /* XXCodeBlockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockModel.m; sourceTree = "<group>"; };
-		0FBDB8831EA425A70016B513 /* XXPositionColorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPositionColorModel.h; sourceTree = "<group>"; };
-		0FBDB8841EA425A70016B513 /* XXPositionColorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPositionColorModel.m; sourceTree = "<group>"; };
 		0FBDB8861EA425D30016B513 /* XXUserDefaultsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsModel.h; sourceTree = "<group>"; };
 		0FBDB8871EA425D30016B513 /* XXUserDefaultsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsModel.m; sourceTree = "<group>"; };
 		0FBDB8911EA42C860016B513 /* CamingoCode-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CamingoCode-Bold.ttf"; sourceTree = "<group>"; };
@@ -469,16 +460,12 @@
 		0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XXLocalDataService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0FE93CE01D8A8391004496BC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0FE93CE21D8A8895004496BC /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeMakerService.h; sourceTree = "<group>"; };
-		0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeMakerService.m; sourceTree = "<group>"; };
 		0FF025591E959E1200CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXCreateItemTableViewController.storyboard; sourceTree = "<group>"; };
 		0FF0255C1E959EBF00CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXCreateItemTableViewController.strings"; sourceTree = "<group>"; };
 		0FF0255E1E959EF900CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXItemAttributesTableViewController.storyboard; sourceTree = "<group>"; };
 		0FF025611E959EFC00CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXItemAttributesTableViewController.strings"; sourceTree = "<group>"; };
 		0FF025671E959F2D00CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXEmptyNavigationController.storyboard; sourceTree = "<group>"; };
 		0FF0256A1E959F2F00CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXEmptyNavigationController.strings"; sourceTree = "<group>"; };
-		0FF025701E95A14800CA813F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/XXKeyEventTableViewController.storyboard; sourceTree = "<group>"; };
-		0FF025731E95A14900CA813F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/XXKeyEventTableViewController.strings"; sourceTree = "<group>"; };
 		0FF025761E95A53600CA813F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FF025781E95A5AF00CA813F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0FF025791E95A5AF00CA813F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -502,37 +489,23 @@
 		52512009A443D11C756062AD /* XXStartupConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXStartupConfigTableViewController.m; sourceTree = "<group>"; };
 		525120207CB1A7D7E7AEFC39 /* XXApplicationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationListTableViewController.h; sourceTree = "<group>"; };
 		5251203999A7C2EAA05FE669 /* XXTerminalTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTerminalTextView.m; sourceTree = "<group>"; };
-		5251205239DF2FFA55B94798 /* XXCanvasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCanvasViewController.m; sourceTree = "<group>"; };
-		525120754B71621D371F2542 /* XXAssetHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAssetHelper.h; sourceTree = "<group>"; };
 		525120CE809C9EA4E3DAB4AF /* UIImage+ColoredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColoredImage.h"; sourceTree = "<group>"; };
 		525120E0A412A18E9F1A0632 /* XXKeyboardButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardButtonView.m; sourceTree = "<group>"; };
-		525120F389A44713370C7E76 /* XXImagePickerAlbumCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XXImagePickerAlbumCell.xib; sourceTree = "<group>"; };
 		525120FCE3CEB2437A2E25C4 /* XXMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMediaViewController.h; sourceTree = "<group>"; };
 		525121023E4E6668486E4604 /* XXBaseTextEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextEditorViewController.h; sourceTree = "<group>"; };
 		525121147742F8413954D996 /* XXKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardRow.m; sourceTree = "<group>"; };
-		525121476720B7AA4453597E /* XXImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerController.m; sourceTree = "<group>"; };
 		52512158CC035D63542B0E7D /* ICRangeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICRangeUtils.h; sourceTree = "<group>"; };
 		525121688ED3E1074772B7E9 /* XXUserDefaultsConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewController.m; sourceTree = "<group>"; };
-		5251217080EA961804C613FD /* XXRectPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXRectPickerController.m; sourceTree = "<group>"; };
 		52512179F38093199FF68D51 /* XXApplicationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationTableViewCell.m; sourceTree = "<group>"; };
 		525121BFE2F1B06CF2DB5930 /* XXApplicationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationTableViewCell.h; sourceTree = "<group>"; };
 		525121CCA4A934E652CE318A /* XXSwipeableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXSwipeableCell.m; sourceTree = "<group>"; };
-		525121FAFF47D2CA7853E9B7 /* XXImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerController.h; sourceTree = "<group>"; };
-		5251221DD956D11909AEF4E0 /* XXCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCropView.h; sourceTree = "<group>"; };
 		52512230963D43EDC0C75CA3 /* TurtleBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TurtleBezierPath.h; sourceTree = "<group>"; };
-		5251225A876ED659787B07FE /* XXPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPosColorPickerController.m; sourceTree = "<group>"; };
 		52512271A1239D6B2A1CFCFC /* XXScanDownloadTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanDownloadTaskViewController.m; sourceTree = "<group>"; };
-		5251229302BC8B33B8D82D5C /* XXPositionPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPositionPickerController.h; sourceTree = "<group>"; };
-		5251229F09FA7E0DACC0B7D8 /* XXImagePickerPixelPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreview.h; sourceTree = "<group>"; };
 		525122A8B255597F24743477 /* XXCodeBlockNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockNavigationController.m; sourceTree = "<group>"; };
 		525122FF365DEEDF7702DC74 /* XXCodeBlockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockTableViewCell.m; sourceTree = "<group>"; };
 		52512306737F7D8D2727255C /* XXScanDownloadSourceHeadersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadSourceHeadersTableViewController.h; sourceTree = "<group>"; };
 		52512346E1ED58BBCF670ADB /* XXUserDefaultsConfigOptionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigOptionTableViewController.m; sourceTree = "<group>"; };
-		5251234B829E840E773D3BA8 /* XXImagePickerAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerAlbumCell.h; sourceTree = "<group>"; };
 		52512358F1BA39C6F527AC6F /* XXEditorSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorSettingsTableViewController.h; sourceTree = "<group>"; };
-		5251236F8EBFCF80B023120C /* XXCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCropView.m; sourceTree = "<group>"; };
-		525123872CEB516338750540 /* XXImagePickerAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerAlbumCell.m; sourceTree = "<group>"; };
-		52512397481014CF33119CFC /* XXResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXResizeControl.m; sourceTree = "<group>"; };
 		525123A167B53290950119F6 /* XXKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardRow.h; sourceTree = "<group>"; };
 		525123AA8DFF7B5CBFAFB5E6 /* XXKeyboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyboardButton.m; sourceTree = "<group>"; };
 		525123AB851AE3AF058A613A /* XXUserDefaultsConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewController.h; sourceTree = "<group>"; };
@@ -541,7 +514,6 @@
 		525123E40E901D4BC2786894 /* XXMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMediaViewController.m; sourceTree = "<group>"; };
 		5251241D9BD0F50060DE5F7D /* XXApplicationDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXApplicationDetailTableViewController.m; sourceTree = "<group>"; };
 		5251241E36C2AC0BAB048254 /* XXUserDefaultsConfigTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXUserDefaultsConfigTableViewCell.h; sourceTree = "<group>"; };
-		5251242BEB8B0BE5E01E550B /* XXKeyEventTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventTableViewController.h; sourceTree = "<group>"; };
 		5251246EC1DBADE73C25B218 /* XXFeatureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXFeatureTableViewCell.h; sourceTree = "<group>"; };
 		52512479D42662F8628EE751 /* CYRToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRToken.h; sourceTree = "<group>"; };
 		5251249A8AB2940C79D3BBBE /* XXScanLineAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanLineAnimation.h; sourceTree = "<group>"; };
@@ -549,23 +521,16 @@
 		525124B326AA67EBC7EEC0DF /* XXKeyboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardButton.h; sourceTree = "<group>"; };
 		525124C3EC55A22960BB2CA5 /* ICTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICTextView.h; sourceTree = "<group>"; };
 		525124DBCD3340F4034BA169 /* XXScanDownloadTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanDownloadTaskViewController.h; sourceTree = "<group>"; };
-		5251250854A1870277A5E64F /* XXImagePickerPixelPreviewRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPixelPreviewRootViewController.h; sourceTree = "<group>"; };
-		5251251D13B1EB0E61E8813E /* XXMulPosColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMulPosColorPickerController.m; sourceTree = "<group>"; };
 		52512537E2A1B6858D213344 /* XXKeyPressConfigOperationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyPressConfigOperationTableViewController.m; sourceTree = "<group>"; };
-		5251256F659D954D31626141 /* XXImagePickerController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XXImagePickerController.xib; sourceTree = "<group>"; };
 		5251257628F7C52F4420C3D8 /* XXEmptyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEmptyNavigationController.h; sourceTree = "<group>"; };
 		5251257967275032697927EF /* XXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXNavigationViewController.h; sourceTree = "<group>"; };
-		52512599B93620F97D3B3B82 /* XXImagePickerPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPhotoCell.m; sourceTree = "<group>"; };
 		525125B50F6E97AA1C89D3B0 /* XXBaseTextEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextEditorViewController.m; sourceTree = "<group>"; };
 		525125D90F2EB2DF94CE089A /* XXCreateItemTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCreateItemTableViewController.m; sourceTree = "<group>"; };
 		525125E2F0CD14156A082773 /* XXDocumentsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXDocumentsTableViewController.h; sourceTree = "<group>"; };
-		525125EA34BE3E3389DCFFDE /* XXTColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTColor.m; sourceTree = "<group>"; };
 		525125F38D633144A424440A /* XXApplicationDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXApplicationDetailTableViewController.h; sourceTree = "<group>"; };
 		5251266E5A1FBA19C132B6EF /* XXItemAttributesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXItemAttributesTableViewController.h; sourceTree = "<group>"; };
 		52512683A660628C97C1737E /* XXScanDownloadSourceHeadersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanDownloadSourceHeadersTableViewController.m; sourceTree = "<group>"; };
 		525126C00083DDA64FF96976 /* XXSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXSettingsTableViewController.m; sourceTree = "<group>"; };
-		525126D506AC9B5D3A03FA6E /* XXPickerBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPickerBaseViewController.m; sourceTree = "<group>"; };
-		5251272E4765C480BEA4EDBF /* XXLocationPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLocationPickerController.h; sourceTree = "<group>"; };
 		525127556EA45748AC67ED30 /* XXFeatureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXFeatureTableViewCell.m; sourceTree = "<group>"; };
 		52512759309DFE986D05AF93 /* CYRTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYRTextView.m; sourceTree = "<group>"; };
 		5251277728FABB191A873FEE /* ICRegularExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICRegularExpression.h; sourceTree = "<group>"; };
@@ -575,93 +540,62 @@
 		525127C088DA0C19A472B41C /* XXRecordConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXRecordConfigTableViewController.h; sourceTree = "<group>"; };
 		525127C73450D1847C83A5A7 /* XXScriptListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScriptListTableViewController.h; sourceTree = "<group>"; };
 		525127FCF39E70071A366CA4 /* XXEditorSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorSettingsTableViewController.m; sourceTree = "<group>"; };
-		5251283611EA30278F3820FB /* XXImagePickerPhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XXImagePickerPhotoCell.xib; sourceTree = "<group>"; };
 		525128683F083B49E388E315 /* XXImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImageViewController.m; sourceTree = "<group>"; };
 		525128688E3DC8111B162E7B /* XXCodeBlocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlocksViewController.h; sourceTree = "<group>"; };
-		5251288E8310B4DBACFAE87C /* XXRectPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXRectPickerController.h; sourceTree = "<group>"; };
 		5251289EEC9642818B2230F3 /* XXDocumentsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXDocumentsTableViewController.m; sourceTree = "<group>"; };
 		525128A9636DF16D9197A43D /* XXSwipeableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXSwipeableCell.h; sourceTree = "<group>"; };
-		525128BB91B8550882F60C3D /* XXKeyEventTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventTableViewController.m; sourceTree = "<group>"; };
 		525128D2173D560AD244E38B /* XXSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXSettingsTableViewController.h; sourceTree = "<group>"; };
 		525128D3758FB763D4C48C6B /* XXScriptListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScriptListTableViewController.m; sourceTree = "<group>"; };
 		525128F94D796A67476950DE /* XXPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPaymentViewController.h; sourceTree = "<group>"; };
 		5251290B3DF3A25EF67DE8F5 /* XXAboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAboutTableViewController.h; sourceTree = "<group>"; };
 		52512913452A2D0E4F1ABEA1 /* XXEditorFontSizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorFontSizeView.h; sourceTree = "<group>"; };
-		5251291C8602C481BD66F6B3 /* XXLocationPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLocationPickerController.m; sourceTree = "<group>"; };
 		5251295B1E1A1415AE075506 /* XXKeyPressConfigOperationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigOperationTableViewController.h; sourceTree = "<group>"; };
-		5251297E8CB40399475E557D /* XXPositionPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPositionPickerController.m; sourceTree = "<group>"; };
 		525129ADB0D981C0111F3F6B /* XXScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXScanViewController.m; sourceTree = "<group>"; };
-		525129CDF4E80DE3170C7F8B /* XXAssetHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAssetHelper.m; sourceTree = "<group>"; };
 		525129EB4C97E5AFE1F9989F /* XXCodeBlockExpandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlockExpandViewController.m; sourceTree = "<group>"; };
-		525129F924E45800C1F10A54 /* XXKeyEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyEventTableViewCell.h; sourceTree = "<group>"; };
-		52512A00C9DB139FC1637072 /* XXResizeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXResizeControl.h; sourceTree = "<group>"; };
-		52512A0A0513B788938D4134 /* XXCropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCropRectView.m; sourceTree = "<group>"; };
-		52512A0E90DFD9B43199F883 /* XXImageFlagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImageFlagView.m; sourceTree = "<group>"; };
 		52512A14C0EE9B2DA5C6F874 /* XXImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImageViewController.h; sourceTree = "<group>"; };
 		52512A1C78158C212DDAFF21 /* XXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXWebViewController.m; sourceTree = "<group>"; };
 		52512A2C94151BDBAAF27A85 /* XXCodeBlockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockTableViewCell.h; sourceTree = "<group>"; };
 		52512A4074F93C0FCD74E15D /* XXEditorFontSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXEditorFontSettingsTableViewController.h; sourceTree = "<group>"; };
-		52512A467CB142D36DD3CABF /* XXCropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCropRectView.h; sourceTree = "<group>"; };
 		52512A50FCA5BBA4CA0B8F0F /* XXAddCodeBlockTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAddCodeBlockTableViewController.m; sourceTree = "<group>"; };
 		52512A719C339D5706CD9712 /* XXCodeBlockExpandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockExpandViewController.h; sourceTree = "<group>"; };
-		52512AA02FA15964FAB43971 /* XXKeyEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyEventTableViewCell.m; sourceTree = "<group>"; };
 		52512AB5A53D9286463B3E37 /* CYRTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRTextView.h; sourceTree = "<group>"; };
 		52512AB6362E877F39198A0C /* CYRLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRLayoutManager.h; sourceTree = "<group>"; };
-		52512AD20CF6CF587A36A3C8 /* XXImagePickerPixelPreviewRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPixelPreviewRootViewController.m; sourceTree = "<group>"; };
 		52512AF356BCBBF483CF327B /* XXAddCodeBlockTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAddCodeBlockTableViewController.h; sourceTree = "<group>"; };
-		52512AFC244C524AFFDD5D25 /* XXColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXColorPickerController.m; sourceTree = "<group>"; };
 		52512B0CC00CF9374B91FBDA /* XXBaseTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBaseTextView.m; sourceTree = "<group>"; };
 		52512B1295785F7856DA1BCA /* CYRTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYRTextStorage.m; sourceTree = "<group>"; };
 		52512BB6281B51FE4D02E145 /* ICRangeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICRangeUtils.m; sourceTree = "<group>"; };
 		52512BC8149760A7C8D6E677 /* XXUserDefaultsConfigTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXUserDefaultsConfigTableViewCell.m; sourceTree = "<group>"; };
 		52512BCB2422209F98E6A3F6 /* UIImage+ColoredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColoredImage.m"; sourceTree = "<group>"; };
-		52512C21588748B3EA9A78EA /* UIImage+XXCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+XXCrop.m"; sourceTree = "<group>"; };
 		52512C25EF09C046C1C50548 /* XXEditorFontSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorFontSettingsTableViewController.m; sourceTree = "<group>"; };
 		52512C28DE9BEF8A43300673 /* XXKeyboardButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyboardButtonView.h; sourceTree = "<group>"; };
 		52512C66FB60747A9A8C1031 /* XXEmptyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEmptyNavigationController.m; sourceTree = "<group>"; };
 		52512C6D97BD8E5D5D44AA5E /* XXMainTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMainTabbarViewController.h; sourceTree = "<group>"; };
 		52512C71271339402AE15B03 /* XXPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPaymentViewController.m; sourceTree = "<group>"; };
-		52512C75FE0995854CDC226B /* XXImageFlagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImageFlagView.h; sourceTree = "<group>"; };
 		52512C84C50BAEDFC0605BC7 /* XXStartupConfigTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXStartupConfigTableViewController.h; sourceTree = "<group>"; };
-		52512C8EB8FB4835E0A3DE6C /* XXCanvasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCanvasViewController.h; sourceTree = "<group>"; };
 		52512C932ADD9563BE6578AB /* XXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXSearchBar.m; sourceTree = "<group>"; };
 		52512C975B7802AD4FA006A5 /* XXToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXToolbar.h; sourceTree = "<group>"; };
 		52512C98B0AB93A250BFD324 /* XXBaseTextEditorPropertiesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextEditorPropertiesTableViewController.h; sourceTree = "<group>"; };
-		52512CBF6FD2D09E6962F963 /* XXTColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTColor.h; sourceTree = "<group>"; };
 		52512CED0004B93B0538D181 /* XXEditorFontSizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXEditorFontSizeView.m; sourceTree = "<group>"; };
-		52512CF4CD2F813F27BB586C /* XXPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPosColorPickerController.h; sourceTree = "<group>"; };
 		52512CF6B74F4FEFAEBF084E /* XXCodeBlockNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCodeBlockNavigationController.h; sourceTree = "<group>"; };
 		52512D008DBE74315C49E9D0 /* XXBaseTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBaseTextView.h; sourceTree = "<group>"; };
 		52512D00E10B1B1DE799C471 /* XXKeyPressConfigActionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXKeyPressConfigActionTableViewController.h; sourceTree = "<group>"; };
 		52512D01CEF66A2BD64C3ECD /* XXCreateItemTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXCreateItemTableViewController.h; sourceTree = "<group>"; };
 		52512D0DBFEC14270A96DB2C /* ICTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICTextView.m; sourceTree = "<group>"; };
 		52512D1506F6951983EE3CEA /* XXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXSearchBar.h; sourceTree = "<group>"; };
-		52512D248AC26357DC6D3F7F /* XXMulPosColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXMulPosColorPickerController.h; sourceTree = "<group>"; };
 		52512D352305FC318F8D5991 /* XXScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXScanViewController.h; sourceTree = "<group>"; };
 		52512D4887C0C81795EE5A63 /* XXKeyPressConfigActionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXKeyPressConfigActionTableViewController.m; sourceTree = "<group>"; };
-		52512DA520BA592469E3673D /* XXTPixelImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPixelImage.h; sourceTree = "<group>"; };
 		52512DD41A47F5860BB21060 /* TurtleBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TurtleBezierPath.m; sourceTree = "<group>"; };
-		52512DEA7A6CBBC6CB7EFC75 /* XXColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXColorPickerController.h; sourceTree = "<group>"; };
-		52512DED75F58145B602B4FF /* XXImagePickerPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPhotoCell.h; sourceTree = "<group>"; };
 		52512E0DAED952649A270973 /* XXAboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAboutTableViewController.m; sourceTree = "<group>"; };
 		52512E35F4C471142087FC9E /* XXAuthorizationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAuthorizationTableViewController.m; sourceTree = "<group>"; };
 		52512E37CA9FD0A4144B4924 /* XXTerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTerminalViewController.m; sourceTree = "<group>"; };
-		52512E3D64B5C1E3A5BF6A21 /* XXImagePickerPlaceholderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPlaceholderView.m; sourceTree = "<group>"; };
 		52512E83DEE5A3C081399619 /* XXMainTabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXMainTabbarViewController.m; sourceTree = "<group>"; };
-		52512E8C9C7EA2BE7F15D401 /* XXImagePickerPixelPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXImagePickerPixelPreview.m; sourceTree = "<group>"; };
 		52512E972405347A2B41DA53 /* XXItemAttributesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXItemAttributesTableViewController.m; sourceTree = "<group>"; };
-		52512E9CEB28478CF6F8220B /* XXTPixelImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTPixelImage.m; sourceTree = "<group>"; };
 		52512EB0C0EFACAF960C1D0F /* XXTerminalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTerminalViewController.h; sourceTree = "<group>"; };
 		52512EC37EC0B538C28D6078 /* XXCodeBlocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXCodeBlocksViewController.m; sourceTree = "<group>"; };
 		52512EDF3DA0747B3DBA4F68 /* XXToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXToolbar.m; sourceTree = "<group>"; };
 		52512EE75D07059A622299FB /* CYRTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRTextStorage.h; sourceTree = "<group>"; };
 		52512EEDA3904FEBDA494977 /* XXAuthorizationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAuthorizationTableViewController.h; sourceTree = "<group>"; };
-		52512F17AF8CBBB23F21E68F /* XXImagePickerPlaceholderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXImagePickerPlaceholderView.h; sourceTree = "<group>"; };
 		52512F1C718AC00247D50476 /* XXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXWebViewController.h; sourceTree = "<group>"; };
-		52512F2039B04225AEEB0AF2 /* XXPickerPopupBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXPickerPopupBar.m; sourceTree = "<group>"; };
-		52512F636AC04F70B3C24FC2 /* XXPickerPopupBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPickerPopupBar.h; sourceTree = "<group>"; };
-		52512F71FE17F7636BA3BFED /* XXPickerBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXPickerBaseViewController.h; sourceTree = "<group>"; };
-		52512F761045F9AD292C3A57 /* UIImage+XXCrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+XXCrop.h"; sourceTree = "<group>"; };
 		52512F8A241BA672A664CDC1 /* CYRToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYRToken.m; sourceTree = "<group>"; };
 		52512F967AF9F8BC30DCB775 /* XXRecordConfigTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXRecordConfigTableViewController.m; sourceTree = "<group>"; };
 		52512FC253DD5C5445BE2C7F /* ICPreprocessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPreprocessor.h; sourceTree = "<group>"; };
@@ -677,6 +611,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F1B885C1EB874E200FCF19C /* XXTPickerCollection.framework in Frameworks */,
 				0FF025771E95A53600CA813F /* SystemConfiguration.framework in Frameworks */,
 				0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */,
 				0F7665761E77E68600AFB013 /* CoreTelephony.framework in Frameworks */,
@@ -701,6 +636,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F1B88541EB874AF00FCF19C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F1B88581EB874AF00FCF19C /* XXTPickerCollection.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0F647BBF1DCA03A800C44DB4 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -755,8 +698,6 @@
 				0FE881D01D75A9AD003907A7 /* XXLocalNetService.m */,
 				0FE881D21D75ABE9003907A7 /* XXLocalDataService.h */,
 				0FE881D31D75ABE9003907A7 /* XXLocalDataService.m */,
-				0FEABE871D9A169F007B96A8 /* XXCodeMakerService.h */,
-				0FEABE881D9A169F007B96A8 /* XXCodeMakerService.m */,
 				0FB643DF1EA78459007791B1 /* XXDarwinNotificationsManager.h */,
 				0FB643E01EA78459007791B1 /* XXDarwinNotificationsManager.m */,
 			);
@@ -1029,6 +970,7 @@
 		0FD1C2921D73CC6C000A784E = {
 			isa = PBXGroup;
 			children = (
+				0F1B88531EB874AF00FCF19C /* XXTPickerCollection.xcodeproj */,
 				0FD1C29D1D73CC6D000A784E /* XXTouchApp */,
 				0FCF89A11DD0139000F4C906 /* Supporting Files */,
 				0FD1C29C1D73CC6D000A784E /* Products */,
@@ -1179,28 +1121,6 @@
 			path = Scan;
 			sourceTree = "<group>";
 		};
-		525121C028C8FD59495E07C7 /* Rect */ = {
-			isa = PBXGroup;
-			children = (
-				5251288E8310B4DBACFAE87C /* XXRectPickerController.h */,
-				5251217080EA961804C613FD /* XXRectPickerController.m */,
-			);
-			path = Rect;
-			sourceTree = "<group>";
-		};
-		5251222B444910FBDFFC6451 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-				525124C718BBB7D858A6C5FB /* Crop */,
-				52512307B6E4B98B49183867 /* DoImagePicker */,
-				525128677A63C4A1A8D73D5F /* Pixel */,
-				5251256B36E3935BCCB95AF2 /* Placeholder */,
-				52512C8EB8FB4835E0A3DE6C /* XXCanvasViewController.h */,
-				5251205239DF2FFA55B94798 /* XXCanvasViewController.m */,
-			);
-			path = Image;
-			sourceTree = "<group>";
-		};
 		52512248B5E63ED961FFB320 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
@@ -1217,24 +1137,6 @@
 				525123B0A1CEAB7C46BF6200 /* XXBaseTextEditorPropertiesTableViewController.m */,
 			);
 			path = Detail;
-			sourceTree = "<group>";
-		};
-		52512307B6E4B98B49183867 /* DoImagePicker */ = {
-			isa = PBXGroup;
-			children = (
-				525120754B71621D371F2542 /* XXAssetHelper.h */,
-				525129CDF4E80DE3170C7F8B /* XXAssetHelper.m */,
-				5251234B829E840E773D3BA8 /* XXImagePickerAlbumCell.h */,
-				525123872CEB516338750540 /* XXImagePickerAlbumCell.m */,
-				525120F389A44713370C7E76 /* XXImagePickerAlbumCell.xib */,
-				525121FAFF47D2CA7853E9B7 /* XXImagePickerController.h */,
-				525121476720B7AA4453597E /* XXImagePickerController.m */,
-				5251256F659D954D31626141 /* XXImagePickerController.xib */,
-				52512DED75F58145B602B4FF /* XXImagePickerPhotoCell.h */,
-				52512599B93620F97D3B3B82 /* XXImagePickerPhotoCell.m */,
-				5251283611EA30278F3820FB /* XXImagePickerPhotoCell.xib */,
-			);
-			path = DoImagePicker;
 			sourceTree = "<group>";
 		};
 		5251230E41A395DEBFA3A1D2 /* XXScriptList */ = {
@@ -1259,15 +1161,6 @@
 			path = XXWeb;
 			sourceTree = "<group>";
 		};
-		525123A4DD73A91FB74A7303 /* MulPosColor */ = {
-			isa = PBXGroup;
-			children = (
-				52512D248AC26357DC6D3F7F /* XXMulPosColorPickerController.h */,
-				5251251D13B1EB0E61E8813E /* XXMulPosColorPickerController.m */,
-			);
-			path = MulPosColor;
-			sourceTree = "<group>";
-		};
 		52512464D01777E43378FA87 /* Lite */ = {
 			isa = PBXGroup;
 			children = (
@@ -1284,42 +1177,6 @@
 				525125B50F6E97AA1C89D3B0 /* XXBaseTextEditorViewController.m */,
 			);
 			path = Lite;
-			sourceTree = "<group>";
-		};
-		525124C08CBCC164910DEB25 /* Picker */ = {
-			isa = PBXGroup;
-			children = (
-				52512F636AC04F70B3C24FC2 /* XXPickerPopupBar.h */,
-				52512F2039B04225AEEB0AF2 /* XXPickerPopupBar.m */,
-				52512F71FE17F7636BA3BFED /* XXPickerBaseViewController.h */,
-				525126D506AC9B5D3A03FA6E /* XXPickerBaseViewController.m */,
-				5251222B444910FBDFFC6451 /* Image */,
-				525123A4DD73A91FB74A7303 /* MulPosColor */,
-				52512D6B6E9CA0120ABDF960 /* PosColor */,
-				525125CA50A2D77DEE4E02FB /* Color */,
-				525121C028C8FD59495E07C7 /* Rect */,
-				52512D30A0C9A4CC4BC2B7FE /* Position */,
-				525127BD5D7FF8D64C8530AC /* KeyEvent */,
-				5251264ABEF0B5CD0AF63016 /* Location */,
-			);
-			path = Picker;
-			sourceTree = "<group>";
-		};
-		525124C718BBB7D858A6C5FB /* Crop */ = {
-			isa = PBXGroup;
-			children = (
-				52512C75FE0995854CDC226B /* XXImageFlagView.h */,
-				52512A0E90DFD9B43199F883 /* XXImageFlagView.m */,
-				52512A467CB142D36DD3CABF /* XXCropRectView.h */,
-				52512A0A0513B788938D4134 /* XXCropRectView.m */,
-				5251221DD956D11909AEF4E0 /* XXCropView.h */,
-				5251236F8EBFCF80B023120C /* XXCropView.m */,
-				52512A00C9DB139FC1637072 /* XXResizeControl.h */,
-				52512397481014CF33119CFC /* XXResizeControl.m */,
-				52512F761045F9AD292C3A57 /* UIImage+XXCrop.h */,
-				52512C21588748B3EA9A78EA /* UIImage+XXCrop.m */,
-			);
-			path = Crop;
 			sourceTree = "<group>";
 		};
 		525125195B690E4E45BAA627 /* Search */ = {
@@ -1353,15 +1210,6 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		5251256B36E3935BCCB95AF2 /* Placeholder */ = {
-			isa = PBXGroup;
-			children = (
-				52512F17AF8CBBB23F21E68F /* XXImagePickerPlaceholderView.h */,
-				52512E3D64B5C1E3A5BF6A21 /* XXImagePickerPlaceholderView.m */,
-			);
-			path = Placeholder;
-			sourceTree = "<group>";
-		};
 		525125BC89A220D6F79F137A /* UserConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -1375,25 +1223,6 @@
 				52512346E1ED58BBCF670ADB /* XXUserDefaultsConfigOptionTableViewController.m */,
 			);
 			path = UserConfig;
-			sourceTree = "<group>";
-		};
-		525125CA50A2D77DEE4E02FB /* Color */ = {
-			isa = PBXGroup;
-			children = (
-				52512DEA7A6CBBC6CB7EFC75 /* XXColorPickerController.h */,
-				52512AFC244C524AFFDD5D25 /* XXColorPickerController.m */,
-			);
-			path = Color;
-			sourceTree = "<group>";
-		};
-		5251264ABEF0B5CD0AF63016 /* Location */ = {
-			isa = PBXGroup;
-			children = (
-				0FB25C2F1E76B9A60098BEEE /* XXLocationPickerController.storyboard */,
-				5251272E4765C480BEA4EDBF /* XXLocationPickerController.h */,
-				5251291C8602C481BD66F6B3 /* XXLocationPickerController.m */,
-			);
-			path = Location;
 			sourceTree = "<group>";
 		};
 		5251269231FFA22C2B96865B /* Toolbar */ = {
@@ -1459,31 +1288,6 @@
 			path = KeyPress;
 			sourceTree = "<group>";
 		};
-		525127B72168CB9BF9458F1F /* Preview */ = {
-			isa = PBXGroup;
-			children = (
-				5251229F09FA7E0DACC0B7D8 /* XXImagePickerPixelPreview.h */,
-				52512E8C9C7EA2BE7F15D401 /* XXImagePickerPixelPreview.m */,
-				5251250854A1870277A5E64F /* XXImagePickerPixelPreviewRootViewController.h */,
-				52512AD20CF6CF587A36A3C8 /* XXImagePickerPixelPreviewRootViewController.m */,
-			);
-			path = Preview;
-			sourceTree = "<group>";
-		};
-		525127BD5D7FF8D64C8530AC /* KeyEvent */ = {
-			isa = PBXGroup;
-			children = (
-				0FBDB87D1EA4255F0016B513 /* XXKeyEventModel.h */,
-				0FBDB87E1EA4255F0016B513 /* XXKeyEventModel.m */,
-				0FF025711E95A14800CA813F /* XXKeyEventTableViewController.storyboard */,
-				525129F924E45800C1F10A54 /* XXKeyEventTableViewCell.h */,
-				52512AA02FA15964FAB43971 /* XXKeyEventTableViewCell.m */,
-				5251242BEB8B0BE5E01E550B /* XXKeyEventTableViewController.h */,
-				525128BB91B8550882F60C3D /* XXKeyEventTableViewController.m */,
-			);
-			path = KeyEvent;
-			sourceTree = "<group>";
-		};
 		525127DB80C9C1F7787E0DC9 /* CYRTextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1513,18 +1317,6 @@
 				525126C00083DDA64FF96976 /* XXSettingsTableViewController.m */,
 			);
 			path = XXSettings;
-			sourceTree = "<group>";
-		};
-		525128677A63C4A1A8D73D5F /* Pixel */ = {
-			isa = PBXGroup;
-			children = (
-				525127B72168CB9BF9458F1F /* Preview */,
-				52512CBF6FD2D09E6962F963 /* XXTColor.h */,
-				525125EA34BE3E3389DCFFDE /* XXTColor.m */,
-				52512DA520BA592469E3673D /* XXTPixelImage.h */,
-				52512E9CEB28478CF6F8220B /* XXTPixelImage.m */,
-			);
-			path = Pixel;
 			sourceTree = "<group>";
 		};
 		525128CBE29879DC8C0D7F0D /* DetailViewControllers */ = {
@@ -1559,9 +1351,6 @@
 		52512A19EE4A8E2AD3766EE6 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				0FBDB8801EA4257C0016B513 /* XXCodeBlockModel.h */,
-				0FBDB8811EA4257C0016B513 /* XXCodeBlockModel.m */,
-				525124C08CBCC164910DEB25 /* Picker */,
 				0FB25C1D1E76B2000098BEEE /* XXCodeBlocksViewController.storyboard */,
 				0FB25C261E76B69E0098BEEE /* XXCodeBlockExpandViewController.storyboard */,
 				52512A2C94151BDBAAF27A85 /* XXCodeBlockTableViewCell.h */,
@@ -1606,15 +1395,6 @@
 			path = Keyboard;
 			sourceTree = "<group>";
 		};
-		52512D30A0C9A4CC4BC2B7FE /* Position */ = {
-			isa = PBXGroup;
-			children = (
-				5251229302BC8B33B8D82D5C /* XXPositionPickerController.h */,
-				5251297E8CB40399475E557D /* XXPositionPickerController.m */,
-			);
-			path = Position;
-			sourceTree = "<group>";
-		};
 		52512D5367FDD0C50F7026D0 /* XXPayment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1624,17 +1404,6 @@
 				52512C71271339402AE15B03 /* XXPaymentViewController.m */,
 			);
 			path = XXPayment;
-			sourceTree = "<group>";
-		};
-		52512D6B6E9CA0120ABDF960 /* PosColor */ = {
-			isa = PBXGroup;
-			children = (
-				0FBDB8831EA425A70016B513 /* XXPositionColorModel.h */,
-				0FBDB8841EA425A70016B513 /* XXPositionColorModel.m */,
-				52512CF4CD2F813F27BB586C /* XXPosColorPickerController.h */,
-				5251225A876ED659787B07FE /* XXPosColorPickerController.m */,
-			);
-			path = PosColor;
 			sourceTree = "<group>";
 		};
 		52512DAA92CD160E8F06183E /* ICTextView */ = {
@@ -1736,10 +1505,12 @@
 				0FD1C2991D73CC6D000A784E /* Resources */,
 				2E957E7B84CDEB356ECD3E6F /* [CP] Embed Pods Frameworks */,
 				F90C0599FF4662AB633741D6 /* [CP] Copy Pods Resources */,
+				0F1B885D1EB874F200FCF19C /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0F1B885A1EB874C100FCF19C /* PBXTargetDependency */,
 			);
 			name = XXTouchApp;
 			productName = XXTouchApp;
@@ -1786,6 +1557,12 @@
 			mainGroup = 0FD1C2921D73CC6C000A784E;
 			productRefGroup = 0FD1C29C1D73CC6D000A784E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0F1B88541EB874AF00FCF19C /* Products */;
+					ProjectRef = 0F1B88531EB874AF00FCF19C /* XXTPickerCollection.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0FD1C29A1D73CC6D000A784E /* XXTouchApp */,
@@ -1793,12 +1570,21 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		0F1B88581EB874AF00FCF19C /* XXTPickerCollection.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XXTPickerCollection.framework;
+			remoteRef = 0F1B88571EB874AF00FCF19C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		0FD1C2991D73CC6D000A784E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FB25C2D1E76B9A60098BEEE /* XXLocationPickerController.storyboard in Resources */,
 				0FF025541E959E0B00CA813F /* XXCreateItemTableViewController.storyboard in Resources */,
 				0FCF8ADB1DD0145400F4C906 /* SIAlertView.bundle in Resources */,
 				0FBDB89C1EA42C860016B513 /* CamingoCode-Regular.ttf in Resources */,
@@ -1811,7 +1597,6 @@
 				0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */,
 				0FCF8B061DD015B600F4C906 /* InfoPlist.strings in Resources */,
 				0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */,
-				0FF0256F1E95A14800CA813F /* XXKeyEventTableViewController.storyboard in Resources */,
 				0FB25C241E76B69E0098BEEE /* XXCodeBlockExpandViewController.storyboard in Resources */,
 				0FBDB89A1EA42C860016B513 /* CamingoCode-BoldItalic.ttf in Resources */,
 				0FB48B7A1D922B9400CE9019 /* Localizable.strings in Resources */,
@@ -1820,9 +1605,6 @@
 				0FF025661E959F2D00CA813F /* XXEmptyNavigationController.storyboard in Resources */,
 				0FF0255D1E959EF900CA813F /* XXItemAttributesTableViewController.storyboard in Resources */,
 				0F98529D1D748072001323AA /* Main.storyboard in Resources */,
-				52512E9EBBD1E1CE4238BEB5 /* XXImagePickerAlbumCell.xib in Resources */,
-				525128E679F09F782864F1CD /* XXImagePickerController.xib in Resources */,
-				52512765F7BEB1EE5E606A61 /* XXImagePickerPhotoCell.xib in Resources */,
 				0FBDB89B1EA42C860016B513 /* CamingoCode-Italic.ttf in Resources */,
 				0FB25C361E76BC340098BEEE /* XXBaseTextEditor.storyboard in Resources */,
 				0FB25C3F1E76BCEC0098BEEE /* XXScanDownloadTaskViewController.storyboard in Resources */,
@@ -1924,7 +1706,6 @@
 				0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */,
 				0FCF8AB21DD013E700F4C906 /* lstate.c in Sources */,
 				0F9046421DD855780006E6DD /* IAPHelper.m in Sources */,
-				0FBDB8851EA425A70016B513 /* XXPositionColorModel.m in Sources */,
 				0FFDB0F11DD9C8A5009C6F1F /* IDMPhoto.m in Sources */,
 				0F9046451DD855780006E6DD /* SFHFKeychainUtils.m in Sources */,
 				0FCF8AAA1DD013E700F4C906 /* llex.c in Sources */,
@@ -1938,9 +1719,7 @@
 				0FCF8A9B1DD013E700F4C906 /* lapi.c in Sources */,
 				0FCF8A9F1DD013E700F4C906 /* lcode.c in Sources */,
 				0FCF8A9A1DD013E700F4C906 /* UIImage+ProportionalFill.m in Sources */,
-				0FEABE891D9A169F007B96A8 /* XXCodeMakerService.m in Sources */,
 				0FBF5B581DD96945002AB03D /* NSFileManager+RealDestination.m in Sources */,
-				0FBDB87F1EA4255F0016B513 /* XXKeyEventModel.m in Sources */,
 				0FDD9D471E8EF9E3009F96C8 /* XUIListController.m in Sources */,
 				0FCF8A9D1DD013E700F4C906 /* lbaselib.c in Sources */,
 				0FCF8AA41DD013E700F4C906 /* ldo.c in Sources */,
@@ -1976,39 +1755,13 @@
 				52512F4CA156055C5E07C601 /* XXEmptyNavigationController.m in Sources */,
 				0FDD9D2C1E8EF98B009F96C8 /* XXWebActivity.m in Sources */,
 				525124D005B884F65765B3A0 /* XXWebViewController.m in Sources */,
-				525121C7C15AC872FF4DD17C /* XXPickerPopupBar.m in Sources */,
-				52512F5083FE8205D7DEF713 /* XXPickerBaseViewController.m in Sources */,
-				525129236689CACB7D5C4A52 /* XXImageFlagView.m in Sources */,
-				52512AA603811CA0B8F9AAFF /* XXCropRectView.m in Sources */,
 				0FDD9D4A1E8EF9E3009F96C8 /* XUIOrderingListItemsController.m in Sources */,
-				525123D33A4E2499C7804BC9 /* XXCropView.m in Sources */,
-				525125EEB4EC40E2FA6D7478 /* XXResizeControl.m in Sources */,
-				52512BB1B336BB835BD8B19C /* UIImage+XXCrop.m in Sources */,
-				525129FE18F98833F8B5C0A6 /* XXAssetHelper.m in Sources */,
-				525126EE24DBCBD9027DBF88 /* XXImagePickerAlbumCell.m in Sources */,
-				525125CB0323D1C78BCE4845 /* XXImagePickerController.m in Sources */,
-				525129DA2438CD7D947D2890 /* XXImagePickerPhotoCell.m in Sources */,
-				525121C7E4C92D7EAC5506E1 /* XXImagePickerPixelPreview.m in Sources */,
-				52512377007340598DC95189 /* XXImagePickerPixelPreviewRootViewController.m in Sources */,
-				52512D4EA915DF0532C2098B /* XXTColor.m in Sources */,
-				5251240D565378E5D8608E9B /* XXTPixelImage.m in Sources */,
-				5251239F220484A8F4EBB385 /* XXImagePickerPlaceholderView.m in Sources */,
 				0FDD9D491E8EF9E3009F96C8 /* XUIMultipleListItemsController.m in Sources */,
-				52512D781DD52B8383B6A17B /* XXCanvasViewController.m in Sources */,
-				52512A70AD9E673C03B44E19 /* XXMulPosColorPickerController.m in Sources */,
-				52512CFD95D5D03B77DABCED /* XXPosColorPickerController.m in Sources */,
-				5251277EFB60740C6738D30C /* XXColorPickerController.m in Sources */,
-				52512EFAAB550C9D01F4A4AD /* XXRectPickerController.m in Sources */,
-				5251224BBD747C0A22CB26CB /* XXPositionPickerController.m in Sources */,
-				52512DBAF2E0574A6527AD1A /* XXKeyEventTableViewCell.m in Sources */,
-				5251265EBECD486F1466ED27 /* XXKeyEventTableViewController.m in Sources */,
-				5251213082D00C5B94A2E478 /* XXLocationPickerController.m in Sources */,
 				525129F953B4C0A9014EFD41 /* XXCodeBlockTableViewCell.m in Sources */,
 				52512E0F3D7F970EB64E9AD8 /* XXCodeBlocksViewController.m in Sources */,
 				5251239A4A8419B029DE0767 /* XXAddCodeBlockTableViewController.m in Sources */,
 				52512F9AA741CE0135B74E97 /* XXCodeBlockNavigationController.m in Sources */,
 				52512FEFB26BD3EFA2A62790 /* XXCodeBlockExpandViewController.m in Sources */,
-				0FBDB8821EA4257D0016B513 /* XXCodeBlockModel.m in Sources */,
 				525124ED92FCCCFEDF0B96FC /* XXSearchBar.m in Sources */,
 				0FDD9D2A1E8EF98B009F96C8 /* XXUIActivity.m in Sources */,
 				0FDD9D251E8EF98B009F96C8 /* XXImageActivity.m in Sources */,
@@ -2069,6 +1822,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0F1B885A1EB874C100FCF19C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = XXTPickerCollection;
+			targetProxy = 0F1B88591EB874C100FCF19C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		0F98529B1D748072001323AA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -2097,16 +1858,6 @@
 			);
 			name = XXCodeBlockExpandViewController.storyboard;
 			path = ../../../Resources/International;
-			sourceTree = "<group>";
-		};
-		0FB25C2F1E76B9A60098BEEE /* XXLocationPickerController.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FB25C2E1E76B9A60098BEEE /* Base */,
-				0FB25C311E76B9A80098BEEE /* zh-Hans */,
-			);
-			name = XXLocationPickerController.storyboard;
-			path = ../../../../../Resources/International;
 			sourceTree = "<group>";
 		};
 		0FB25C381E76BC340098BEEE /* XXBaseTextEditor.storyboard */ = {
@@ -2182,15 +1933,6 @@
 			);
 			name = XXEmptyNavigationController.storyboard;
 			path = ../../Resources/International;
-			sourceTree = "<group>";
-		};
-		0FF025711E95A14800CA813F /* XXKeyEventTableViewController.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FF025701E95A14800CA813F /* Base */,
-				0FF025731E95A14900CA813F /* zh-Hans */,
-			);
-			name = XXKeyEventTableViewController.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -2342,7 +2084,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel",
 					/opt/theos/sdks/iPhoneOS9.2.sdk/System/Library/PrivateFrameworks/Preferences.framework,
 					"$(PROJECT_DIR)/XXTouchApp/Libraries/Preferences.framework/Versions/A",
 				);
@@ -2457,7 +2198,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel",
 					/opt/theos/sdks/iPhoneOS9.2.sdk/System/Library/PrivateFrameworks/Preferences.framework,
 					"$(PROJECT_DIR)/XXTouchApp/Libraries/Preferences.framework/Versions/A",
 				);

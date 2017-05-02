@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XXCodeBlockModel.h"
+#import <XXTPickerCollection/XXTPickerCollection.h>
 
 @interface XXCodeBlockTableViewCell : UITableViewCell
-@property (nonatomic, strong) XXCodeBlockModel *codeBlock;
+@property (nonatomic, strong) XXTPickerTask *pickerTask;
 
 @end

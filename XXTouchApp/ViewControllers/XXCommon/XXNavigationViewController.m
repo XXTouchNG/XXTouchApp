@@ -64,7 +64,7 @@
     if (needsRespring()) {
         self.view.userInteractionEnabled = NO;
         @weakify(self);
-        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Needs Respring", nil) andMessage:NSLocalizedString(@"You should resping your device to continue to use this application.", nil)];
+        SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Needs Respring", nil) andMessage:NSLocalizedString(@"You should respring your device to continue to use this application.", nil)];
         [alertView addButtonWithTitle:NSLocalizedString(@"Respring Now", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
             @strongify(self);
             [self.view makeToastActivity:CSToastPositionCenter];

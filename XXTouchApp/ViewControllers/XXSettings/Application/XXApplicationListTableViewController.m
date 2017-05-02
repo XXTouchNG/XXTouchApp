@@ -11,7 +11,6 @@
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXApplicationTableViewCell.h"
-#import "XXCodeMakerService.h"
 #include "NSString+AddSlashes.h"
 
 static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
@@ -38,18 +37,6 @@ UISearchDisplayDelegate
 
 @implementation XXApplicationListTableViewController {
     NSString *_previewString;
-}
-
-+ (NSString *)keyword {
-    return @"@app@";
-}
-
-+ (NSString *)storyboardName {
-    return @"Main";
-}
-
-+ (NSString *)storyboardID {
-    return kXXApplicationListTableViewControllerStoryboardID;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -144,11 +131,6 @@ UISearchDisplayDelegate
     } else {
         identifier = _showData[indexPath.row][kXXApplicationKeyBundleID];
     }
-    if (self.codeBlock) {
-        identifier = [identifier addSlashes];
-        _previewString = identifier;
-        [self pushToNextControllerWithKeyword:[[self class] keyword] replacement:identifier];
-    }
 }
 
 #pragma mark - UISearchDisplayDelegate
@@ -182,9 +164,6 @@ UISearchDisplayDelegate
 #pragma mark - Navigation
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(XXApplicationTableViewCell *)sender {
-    if (self.codeBlock) {
-        return NO;
-    }
     return YES;
 }
 
@@ -193,16 +172,6 @@ UISearchDisplayDelegate
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     ((XXApplicationDetailTableViewController *)segue.destinationViewController).appInfo = [sender.appInfo copy];
-}
-
-#pragma mark - Previewing Bar
-
-- (NSString *)previewString {
-    return _previewString;
-}
-
-- (NSString *)subtitle {
-    return NSLocalizedString(@"Select an application", nil);
 }
 
 #pragma mark - Memory

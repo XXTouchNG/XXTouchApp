@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XXCodeBlockModel.h"
+#import <XXTPickerCollection/XXTPickerCollection.h>
 
 static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCodeBlocksTableViewControllerStoryboardID";
 
 @interface XXCodeBlocksViewController : UIViewController
 @property (nonatomic, weak) UITextView *textInput;
 
-- (void)replaceTextInputSelectedRangeWithModel:(XXCodeBlockModel *)model;
+- (void)replaceTextInputSelectedRangeWithModel:(XXTPickerTask *)model;
 @end

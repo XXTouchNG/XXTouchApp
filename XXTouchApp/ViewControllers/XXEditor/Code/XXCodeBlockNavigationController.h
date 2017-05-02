@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XXPickerPopupBar.h"
+#import <XXTPickerCollection/XXTPickerCollection.h>
 
-@interface XXCodeBlockNavigationController : UINavigationController
-@property (nonatomic, strong) XXPickerPopupBar *popupBar;
+@interface XXCodeBlockNavigationController : XXTPickerNavigationController
 
 @end

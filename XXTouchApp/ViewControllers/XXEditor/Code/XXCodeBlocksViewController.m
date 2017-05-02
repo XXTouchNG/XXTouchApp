@@ -8,10 +8,9 @@
 
 #import "XXCodeBlockTableViewCell.h"
 #import "XXCodeBlocksViewController.h"
-#import "XXApplicationListTableViewController.h"
 #import "XXAddCodeBlockTableViewController.h"
-#import "XXCodeMakerService.h"
-#import "XXLocalDataService.h"
+#import <XXTPickerCollection/XXTPickerCollection.h>
+#import <XXTPickerCollection/XXTPickerHelper.h>
 
 static NSString * const kXXCodeBlocksTableViewCellReuseIdentifier = @"kXXCodeBlocksTableViewCellReuseIdentifier";
 static NSString * const kXXCodeBlocksTableViewInternalCellReuseIdentifier = @"kXXCodeBlocksTableViewInternalCellReuseIdentifier";
@@ -31,10 +30,10 @@ enum {
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
-@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *internalFunctions;
-@property (nonatomic, strong) NSMutableArray <XXCodeBlockModel *> *userDefinedFunctions;
-@property (nonatomic, strong) NSArray <XXCodeBlockModel *> *showInternalFunctions;
-@property (nonatomic, strong) NSArray <XXCodeBlockModel *> *showUserDefinedFunctions;
+@property (nonatomic, strong) NSMutableArray <XXTPickerTask *> *internalFunctions;
+@property (nonatomic, strong) NSMutableArray <XXTPickerTask *> *userDefinedFunctions;
+@property (nonatomic, strong) NSArray <XXTPickerTask *> *showInternalFunctions;
+@property (nonatomic, strong) NSArray <XXTPickerTask *> *showUserDefinedFunctions;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, assign) NSUInteger selectedCodeBlockSegmentIndex;
@@ -114,25 +113,25 @@ enum {
     [XXTGSSI.dataService setObject:@(selectedCodeBlockSegmentIndex) forKey:kXXStorageKeySelectedCodeBlockSegmentIndex];
 }
 
-- (NSMutableArray <XXCodeBlockModel *> *)internalFunctions {
+- (NSMutableArray <XXTPickerTask *> *)internalFunctions {
     if (!_internalFunctions) {
         NSArray *plistArr = extendDict()[@"INTERNAL_FUNC"];
-        NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
+        NSMutableArray <XXTPickerTask *> *mModelArr = [NSMutableArray new];
         for (NSDictionary *m in plistArr)
         {
-            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"]  udid:m[@"udid"]]];
+            [mModelArr addObject:[XXTPickerTask taskWithTitle:m[@"title"] code:m[@"code"]  udid:m[@"udid"]]];
         }
         
         BOOL edited = NO;
-        NSMutableArray <XXCodeBlockModel *> *internalFunctions = (NSMutableArray <XXCodeBlockModel *> *)[XXTGSSI.dataService objectForKey:kXXStorageKeyCodeBlockInternalFunctions];
+        NSMutableArray <XXTPickerTask *> *internalFunctions = (NSMutableArray <XXTPickerTask *> *)[XXTGSSI.dataService objectForKey:kXXStorageKeyCodeBlockInternalFunctions];
         if (!internalFunctions) {
             internalFunctions = mModelArr;
             edited = YES;
         } else {
-            for (XXCodeBlockModel *aModel in mModelArr)
+            for (XXTPickerTask *aModel in mModelArr)
             {
                 BOOL finded = NO;
-                for (XXCodeBlockModel *bModel in internalFunctions) {
+                for (XXTPickerTask *bModel in internalFunctions) {
                     if ([bModel.udid isEqualToString:aModel.udid]) {
                         bModel.title = aModel.title;
                         bModel.code = aModel.code;
@@ -156,30 +155,30 @@ enum {
     return _internalFunctions;
 }
 
-- (void)saveInternalFunctions:(NSMutableArray<XXCodeBlockModel *> *)internalFunctions {
+- (void)saveInternalFunctions:(NSMutableArray<XXTPickerTask *> *)internalFunctions {
     [XXTGSSI.dataService setObject:internalFunctions
-                                            forKey:kXXStorageKeyCodeBlockInternalFunctions];
+                            forKey:kXXStorageKeyCodeBlockInternalFunctions];
 }
 
-- (NSMutableArray <XXCodeBlockModel *> *)userDefinedFunctions {
+- (NSMutableArray <XXTPickerTask *> *)userDefinedFunctions {
     if (!_userDefinedFunctions) {
         NSArray *plistArr = extendDict()[@"USER_FUNC"];
-        NSMutableArray <XXCodeBlockModel *> *mModelArr = [NSMutableArray new];
+        NSMutableArray <XXTPickerTask *> *mModelArr = [NSMutableArray new];
         for (NSDictionary *m in plistArr)
         {
-            [mModelArr addObject:[XXCodeBlockModel modelWithTitle:m[@"title"] code:m[@"code"]  udid:m[@"udid"]]];
+            [mModelArr addObject:[XXTPickerTask taskWithTitle:m[@"title"] code:m[@"code"]  udid:m[@"udid"]]];
         }
         
         BOOL edited = NO;
-        NSMutableArray <XXCodeBlockModel *> *userDefinedFunctions = (NSMutableArray <XXCodeBlockModel *> *)[XXTGSSI.dataService objectForKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
+        NSMutableArray <XXTPickerTask *> *userDefinedFunctions = (NSMutableArray <XXTPickerTask *> *)[XXTGSSI.dataService objectForKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
         if (!userDefinedFunctions) {
             userDefinedFunctions = mModelArr;
             edited = YES;
         } else {
-            for (XXCodeBlockModel *aModel in mModelArr)
+            for (XXTPickerTask *aModel in mModelArr)
             {
                 BOOL finded = NO;
-                for (XXCodeBlockModel *bModel in userDefinedFunctions) {
+                for (XXTPickerTask *bModel in userDefinedFunctions) {
                     if ([bModel.udid isEqualToString:aModel.udid]) {
                         bModel.title = aModel.title;
                         bModel.code = aModel.code;
@@ -195,7 +194,7 @@ enum {
         }
         if (edited) {
             [XXTGSSI.dataService setObject:userDefinedFunctions
-                                                    forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
+                                    forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
         }
         
         _userDefinedFunctions = userDefinedFunctions;
@@ -203,14 +202,19 @@ enum {
     return _userDefinedFunctions;
 }
 
-- (void)saveUserDefinedFunctions:(NSMutableArray<XXCodeBlockModel *> *)userDefinedFunctions {
+- (void)saveUserDefinedFunctions:(NSMutableArray<XXTPickerTask *> *)userDefinedFunctions {
     [XXTGSSI.dataService setObject:userDefinedFunctions
-                                            forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
+                            forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
 }
 
 #pragma mark - Text replacing
 
-- (void)replaceTextInputSelectedRangeWithModel:(XXCodeBlockModel *)model {
+- (void)finishTask:(XXTPickerTask *)task {
+    [self replaceTextInputSelectedRangeWithModel:task];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)replaceTextInputSelectedRangeWithModel:(XXTPickerTask *)model {
     NSRange selectedNSRange = _textInput.selectedRange;
     UITextRange *selectedRange = [_textInput selectedTextRange];
     
@@ -351,10 +355,10 @@ enum {
     if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
         XXCodeBlockTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewInternalCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
-            cell.codeBlock = self.internalFunctions[(NSUInteger) indexPath.row];
+            cell.pickerTask = self.internalFunctions[(NSUInteger) indexPath.row];
             cell.textLabel.text = self.internalFunctions[(NSUInteger) indexPath.row].title;
         } else {
-            cell.codeBlock = self.showInternalFunctions[(NSUInteger) indexPath.row];
+            cell.pickerTask = self.showInternalFunctions[(NSUInteger) indexPath.row];
             cell.textLabel.text = self.showInternalFunctions[(NSUInteger) indexPath.row].title;
         }
         
@@ -362,10 +366,10 @@ enum {
     } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
         XXCodeBlockTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXCodeBlocksTableViewCellReuseIdentifier forIndexPath:indexPath];
         if (tableView == self.tableView) {
-            cell.codeBlock = self.userDefinedFunctions[(NSUInteger) indexPath.row];
+            cell.pickerTask = self.userDefinedFunctions[(NSUInteger) indexPath.row];
             cell.textLabel.text = self.userDefinedFunctions[(NSUInteger) indexPath.row].title;
         } else {
-            cell.codeBlock = self.showUserDefinedFunctions[(NSUInteger) indexPath.row];
+            cell.pickerTask = self.showUserDefinedFunctions[(NSUInteger) indexPath.row];
             cell.textLabel.text = self.showUserDefinedFunctions[(NSUInteger) indexPath.row].title;
         }
         
@@ -387,18 +391,37 @@ enum {
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    XXTPickerTask *pickerTask = nil;
     if (tableView == self.tableView) {
         if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.internalFunctions[(NSUInteger) indexPath.row] controller:self];
+            pickerTask = self.internalFunctions[(NSUInteger) indexPath.row];
         } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.userDefinedFunctions[(NSUInteger) indexPath.row] controller:self];
+            pickerTask = self.userDefinedFunctions[(NSUInteger) indexPath.row];
         }
     } else {
         if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksInternalFunctionSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showInternalFunctions[(NSUInteger) indexPath.row] controller:self];
+            pickerTask = self.showInternalFunctions[(NSUInteger) indexPath.row];
         } else if (_segmentedControl.selectedSegmentIndex == kXXCodeBlocksUserDefinedSection) {
-            [XXCodeMakerService pushToMakerWithCodeBlockModel:self.showUserDefinedFunctions[(NSUInteger) indexPath.row] controller:self];
+            pickerTask = self.showUserDefinedFunctions[(NSUInteger) indexPath.row];
         }
+    }
+    if (pickerTask) {
+        
+        id nextPicker = [[pickerTask nextStepClass] new];
+        if (nextPicker && [nextPicker respondsToSelector:@selector(setPickerTask:)])
+        {
+            [nextPicker performSelector:@selector(setPickerTask:) withObject:[pickerTask mutableCopy]];
+        }
+        
+        if (nextPicker) {
+            [[XXTPickerHelper sharedInstance] setCallbackObject:self];
+            [[XXTPickerHelper sharedInstance] setCallbackSelector:@selector(finishTask:)];
+            [self.navigationController pushViewController:nextPicker animated:YES];
+        } else {
+            [self replaceTextInputSelectedRangeWithModel:pickerTask];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        }
+
     }
 }
 
@@ -530,12 +553,12 @@ enum {
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(XXCodeBlockTableViewCell *)sender {
     XXAddCodeBlockTableViewController *addController = ((XXAddCodeBlockTableViewController *)segue.destinationViewController);
     if ([segue.identifier isEqualToString:kXXCodeBlocksEditBlockSegueIdentifier]) {
-        addController.codeBlock = sender.codeBlock;
-        addController.codeBlocks = self.userDefinedFunctions;
+        addController.pickerTask = sender.pickerTask;
+        addController.pickerTasks = self.userDefinedFunctions;
         addController.editMode = YES;
     } else if ([segue.identifier isEqualToString:kXXCodeBlocksAddBlockSegueIdentifier]) {
-        addController.codeBlock = nil;
-        addController.codeBlocks = self.userDefinedFunctions;
+        addController.pickerTask = nil;
+        addController.pickerTasks = self.userDefinedFunctions;
         addController.editMode = NO;
         if ([self isEditing]) {
             [self setEditing:NO animated:YES];

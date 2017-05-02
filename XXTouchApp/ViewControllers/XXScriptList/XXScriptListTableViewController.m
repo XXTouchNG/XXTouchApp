@@ -21,7 +21,7 @@
 #import "XXCreateItemTableViewController.h"
 #import "XXItemAttributesTableViewController.h"
 #import "XXAboutTableViewController.h"
-#import "XXImagePickerController.h"
+#import <XXTPickerCollection/XXTPickerCollection.h>
 
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -47,7 +47,7 @@ UIGestureRecognizerDelegate,
 XXToolbarDelegate,
 UIDocumentMenuDelegate,
 UIDocumentPickerDelegate,
-XXImagePickerControllerDelegate,
+XXTImagePickerControllerDelegate,
 UIPopoverControllerDelegate
 >
 
@@ -785,10 +785,11 @@ END_IGNORE_PARTIAL
                              image:[UIImage imageNamed:@"menu-photo-library"]
                              order:UIDocumentMenuOrderLast
                            handler:^{
-                               XXImagePickerController *cont = [[XXImagePickerController alloc] initWithNibName:@"XXImagePickerController" bundle:nil];
+                               NSBundle *frameBundle = [NSBundle bundleWithIdentifier:XXT_PICKER_COLLECTION_FRAMEWORK_ID];
+                               XXTImagePickerController *cont = [[XXTImagePickerController alloc] initWithNibName:@"XXTImagePickerController" bundle:frameBundle];
                                cont.delegate = self;
-                               cont.nResultType = DO_PICKER_RESULT_ASSET;
-                               cont.nMaxCount = DO_NO_LIMIT_SELECT;
+                               cont.nResultType = XXT_PICKER_RESULT_ASSET;
+                               cont.nMaxCount = XXT_NO_LIMIT_SELECT;
                                cont.nColumnCount = 4;
                                [self presentViewController:cont animated:YES completion:nil];
                            }];
@@ -1248,17 +1249,17 @@ END_IGNORE_PARTIAL
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationLaunch object:url userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventInbox}]];
 }
 
-#pragma mark - XXImagePickerControllerDelegate
+#pragma mark - XXTImagePickerControllerDelegate
 
-- (void)didCancelDoImagePickerController
+- (void)didCancelImagePickerController:(XXTImagePickerController *)picker
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)didSelectPhotosFromDoImagePickerController:(XXImagePickerController *)picker
+- (void)didSelectPhotosFromImagePickerController:(XXTImagePickerController *)picker
                                             result:(NSArray *)aSelected
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
     self.navigationController.view.userInteractionEnabled = NO;
     [self.navigationController.view makeToastActivity:CSToastPositionCenter];
     @weakify(self);

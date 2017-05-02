@@ -22,18 +22,18 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (XXCodeBlockModel *)codeBlock {
-    if (!_codeBlock) {
-        _codeBlock = [XXCodeBlockModel modelWithTitle:@"" code:@""];
+- (XXTPickerTask *)pickerTask {
+    if (!_pickerTask) {
+        _pickerTask = [XXTPickerTask taskWithTitle:@"" code:@""];
     }
-    return _codeBlock;
+    return _pickerTask;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _titleField.text = self.codeBlock.title;
-    _codeTextView.text = self.codeBlock.code;
+    _titleField.text = self.pickerTask.title;
+    _codeTextView.text = self.pickerTask.code;
     
     _titleField.delegate = self;
     _codeTextView.delegate = self;
@@ -64,11 +64,11 @@
         [_titleField resignFirstResponder];
     }
     
-    self.codeBlock.title = _titleField.text;
-    self.codeBlock.code = _codeTextView.text;
+    self.pickerTask.title = _titleField.text;
+    self.pickerTask.code = _codeTextView.text;
     
     if (!_editMode) { // Add New Block
-        [self.codeBlocks insertObject:self.codeBlock atIndex:0];
+        [self.pickerTasks insertObject:self.pickerTask atIndex:0];
     }
     
     [self saveUserDefinedFunctions];
@@ -76,8 +76,8 @@
 }
 
 - (void)saveUserDefinedFunctions {
-    [XXTGSSI.dataService setObject:self.codeBlocks
-                                            forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
+    [XXTGSSI.dataService setObject:self.pickerTasks
+                            forKey:kXXStorageKeyCodeBlockUserDefinedFunctions];
 }
 
 @end

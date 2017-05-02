@@ -7,7 +7,6 @@
 //
 
 #import "XXCreateItemTableViewController.h"
-#import "XXLocalDataService.h"
 
 typedef enum : NSUInteger {
     kXXCreateItemTypeRegularLuaFile = 0,

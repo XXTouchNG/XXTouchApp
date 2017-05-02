@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XXCodeBlockModel.h"
-#import "XXPickerBaseViewController.h"
+#import <XXTPickerCollection/XXTPickerCollection.h>
 
 static NSString * const kXXApplicationListTableViewControllerStoryboardID = @"kXXApplicationListTableViewControllerStoryboardID";
 
-@interface XXApplicationListTableViewController : XXPickerBaseViewController
+@interface XXApplicationListTableViewController : UIViewController
 
 @end
