@@ -6,9 +6,6 @@
 //  Copyright © 2017 Zheng. All rights reserved.
 //
 
-#ifndef XXTBasePicker_h
-#define XXTBasePicker_h
-
 #import "XXTPickerTask.h"
 
 @protocol XXTBasePicker <NSObject>
@@ -22,5 +19,3 @@
 - (NSAttributedString *)pickerAttributedSubtitle;
 
 @end
-
-#endif /* XXTBasePicker_h */

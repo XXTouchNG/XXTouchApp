@@ -633,7 +633,6 @@
 		0FFFDEEC1EBA5DA100C03FBE /* XXTBasePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTBasePicker.h; sourceTree = "<group>"; };
 		0FFFDEED1EBA5DA100C03FBE /* XXTPickerBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPickerBaseViewController.h; sourceTree = "<group>"; };
 		0FFFDEEE1EBA5DA100C03FBE /* XXTPickerBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTPickerBaseViewController.m; sourceTree = "<group>"; };
-		0FFFDEEF1EBA5DA100C03FBE /* XXTPickerCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPickerCollection.h; sourceTree = "<group>"; };
 		0FFFDEF01EBA5DA100C03FBE /* XXTPickerDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPickerDefine.h; sourceTree = "<group>"; };
 		0FFFDEF11EBA5DA100C03FBE /* XXTPickerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPickerHelper.h; sourceTree = "<group>"; };
 		0FFFDEF21EBA5DA100C03FBE /* XXTPickerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTPickerHelper.m; sourceTree = "<group>"; };
@@ -1264,7 +1263,6 @@
 				0FFFDEEC1EBA5DA100C03FBE /* XXTBasePicker.h */,
 				0FFFDEED1EBA5DA100C03FBE /* XXTPickerBaseViewController.h */,
 				0FFFDEEE1EBA5DA100C03FBE /* XXTPickerBaseViewController.m */,
-				0FFFDEEF1EBA5DA100C03FBE /* XXTPickerCollection.h */,
 				0FFFDEF01EBA5DA100C03FBE /* XXTPickerDefine.h */,
 				0FFFDEF11EBA5DA100C03FBE /* XXTPickerHelper.h */,
 				0FFFDEF21EBA5DA100C03FBE /* XXTPickerHelper.m */,

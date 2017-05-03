@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XXTPickerCollection/XXTPickerCollection.h>
+#import "XXTPickerNavigationController.h"
 
 @interface XXCodeBlockNavigationController : XXTPickerNavigationController
 

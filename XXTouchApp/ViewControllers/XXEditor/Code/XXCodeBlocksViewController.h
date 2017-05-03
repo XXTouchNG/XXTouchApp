@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XXTPickerCollection/XXTPickerCollection.h>
+#import "XXTPickerTask.h"
 
 static NSString * const kXXCodeBlocksTableViewControllerStoryboardID = @"kXXCodeBlocksTableViewControllerStoryboardID";
 

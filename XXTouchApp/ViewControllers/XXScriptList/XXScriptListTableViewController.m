@@ -21,7 +21,7 @@
 #import "XXCreateItemTableViewController.h"
 #import "XXItemAttributesTableViewController.h"
 #import "XXAboutTableViewController.h"
-#import <XXTPickerCollection/XXTPickerCollection.h>
+#import "XXTImagePickerController.h"
 
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -785,7 +785,7 @@ END_IGNORE_PARTIAL
                              image:nil
                              order:UIDocumentMenuOrderLast
                            handler:^{
-                               NSBundle *frameBundle = [NSBundle bundleWithIdentifier:XXT_PICKER_COLLECTION_FRAMEWORK_ID];
+                               NSBundle *frameBundle = [NSBundle mainBundle];
                                XXTImagePickerController *cont = [[XXTImagePickerController alloc] initWithNibName:@"XXTImagePickerController" bundle:frameBundle];
                                cont.delegate = self;
                                cont.nResultType = XXT_PICKER_RESULT_ASSET;

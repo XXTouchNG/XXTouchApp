@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XXTPickerCollection/XXTPickerCollection.h>
 
 static NSString * const kXXApplicationListTableViewControllerStoryboardID = @"kXXApplicationListTableViewControllerStoryboardID";
 

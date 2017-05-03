@@ -9,7 +9,8 @@
 #import "XXCodeBlockTableViewCell.h"
 #import "XXCodeBlocksViewController.h"
 #import "XXAddCodeBlockTableViewController.h"
-#import "XXTPickerCollection.h"
+#import "XXTPickerTask.h"
+#import "XXTPickerHelper.h"
 
 static NSString * const kXXCodeBlocksTableViewCellReuseIdentifier = @"kXXCodeBlocksTableViewCellReuseIdentifier";
 static NSString * const kXXCodeBlocksTableViewInternalCellReuseIdentifier = @"kXXCodeBlocksTableViewInternalCellReuseIdentifier";
