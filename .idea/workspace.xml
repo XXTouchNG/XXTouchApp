@@ -2,86 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdd5ac7a-d111-4d2d-8373-5910fa2e9f37" name="Default" comment="Storyboard split.">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXCodeMakerService.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/Services/XXCodeMakerService.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Color/XXColorPickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Color/XXColorPickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/UIImage+XXCrop.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/UIImage+XXCrop.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXCropRectView.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXCropRectView.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXCropView.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXCropView.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXImageFlagView.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXImageFlagView.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXResizeControl.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Crop/XXResizeControl.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXAssetHelper.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXAssetHelper.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerAlbumCell.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerAlbumCell.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerAlbumCell.xib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerController.xib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerPhotoCell.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerPhotoCell.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/DoImagePicker/XXImagePickerPhotoCell.xib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/Preview/XXImagePickerPixelPreview.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/Preview/XXImagePickerPixelPreview.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/Preview/XXImagePickerPixelPreviewRootViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/Preview/XXImagePickerPixelPreviewRootViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/XXTColor.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/XXTColor.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/XXTPixelImage.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Pixel/XXTPixelImage.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Placeholder/XXImagePickerPlaceholderView.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/Placeholder/XXImagePickerPlaceholderView.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXCanvasViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Image/XXCanvasViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/Base.lproj/XXKeyEventTableViewController.storyboard" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/XXKeyEventModel.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/XXKeyEventModel.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/XXKeyEventTableViewCell.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/XXKeyEventTableViewCell.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/XXKeyEventTableViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/XXKeyEventTableViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/KeyEvent/zh-Hans.lproj/XXKeyEventTableViewController.strings" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Location/XXLocationPickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Location/XXLocationPickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/MulPosColor/XXMulPosColorPickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/MulPosColor/XXMulPosColorPickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/PosColor/XXPosColorPickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/PosColor/XXPosColorPickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/PosColor/XXPositionColorModel.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/PosColor/XXPositionColorModel.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Position/XXPositionPickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Position/XXPositionPickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Rect/XXRectPickerController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/Rect/XXRectPickerController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/XXPickerBaseViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/XXPickerBaseViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/XXPickerPopupBar.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/Picker/XXPickerPopupBar.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockModel.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockModel.m" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/XXTouchApp.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/xcschememanagement.plist" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/XXTouchApp.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/XXTouchApp.xcscheme" afterPath="$PROJECT_DIR$/XXTouchApp.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/XXTouchApp.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Resources/International/Base.lproj/Main.storyboard" afterPath="$PROJECT_DIR$/XXTouchApp/Resources/International/Base.lproj/Main.storyboard" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hans.lproj/Localizable.strings" afterPath="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hans.lproj/Localizable.strings" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXCommon/XXNavigationViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXCommon/XXNavigationViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXAddCodeBlockTableViewController.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXAddCodeBlockTableViewController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXAddCodeBlockTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXAddCodeBlockTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockNavigationController.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockNavigationController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockNavigationController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockNavigationController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockTableViewCell.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlockTableViewCell.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlocksViewController.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlocksViewController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlocksViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXCodeBlocksViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXCreateItemTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/DetailViewControllers/XXCreateItemTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/XXScriptListTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXScriptList/XXScriptListTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXSettings/Application/XXApplicationListTableViewController.h" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXSettings/Application/XXApplicationListTableViewController.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXSettings/Application/XXApplicationListTableViewController.m" afterPath="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXSettings/Application/XXApplicationListTableViewController.m" />
     </list>
     <ignored path="XXTouchApp.iws" />
@@ -96,17 +21,29 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_3e7619eafe1cccf7738f23cac522e259fcf44de5" />
   <component name="FavoritesManager">
     <favorites_list name="XXTouchApp" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="XXAddCodeBlockTableViewController.m" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXAddCodeBlockTableViewController.m">
+      <file leaf-file-name="XXTApplicationPicker.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection/Application/XXTApplicationPicker.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="21" column="18" lean-forward="false" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+            <state relative-caret-position="222">
+              <caret line="58" column="5" lean-forward="false" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
+              <folding>
+                <element signature="e#1284#1374#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XXTPickerTask.m" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection/XXTPickerTask.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="52" column="28" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -188,6 +125,7 @@
         <option value="$PROJECT_DIR$/../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection/zh-Hans.lproj/Localizable.strings" />
         <option value="$PROJECT_DIR$/XXTouchApp/Resources/International/zh-Hans.lproj/Localizable.strings" />
         <option value="$PROJECT_DIR$/XXTouchApp/ViewControllers/XXCommon/XXNavigationViewController.m" />
+        <option value="$PROJECT_DIR$/../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection/XXTPickerTask.m" />
       </list>
     </option>
   </component>
@@ -606,7 +544,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.XXTPickerCollection">
+  <component name="RunManager" selected="Application.XXTouchApp">
     <configuration default="true" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="XXTouchApp" TARGET_NAME="XXTouchApp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="XXTouchApp" RUN_TARGET_NAME="XXTouchApp" MAKE_ACTIVE="TRUE">
       <envs />
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
@@ -718,6 +656,9 @@
       <workItem from="1493715941636" duration="1804000" />
       <workItem from="1493723016091" duration="533000" />
       <workItem from="1493723560846" duration="301000" />
+      <workItem from="1493761186484" duration="1000" />
+      <workItem from="1493805049735" duration="146000" />
+      <workItem from="1493822408885" duration="190000" />
     </task>
     <task id="LOCAL-00001" summary="SplashScreen">
       <created>1489335717775</created>
@@ -737,26 +678,26 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21151000" />
+    <option name="totallyTimeSpent" value="21488000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.45555556" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.51111114" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24150059" sideWeight="0.58263886" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28541666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.51111114" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24150059" sideWeight="0.58263886" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976552" sideWeight="0.6652778" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976552" sideWeight="0.6652778" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.45555556" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -786,13 +727,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/Libraries/SettingsKit/SKTintedControlCell.h" />
-    <entry file="file://$PROJECT_DIR$/XXTouchApp/Libraries/SettingsKit/SKTintedControlCell.m" />
     <entry file="file://$PROJECT_DIR$/XXTouchApp/Libraries/SettingsKit/SKTintedSwitchCell.h" />
     <entry file="file://$PROJECT_DIR$/XXTouchApp/Libraries/SettingsKit/SKTintedSwitchCell.m" />
     <entry file="file://$PROJECT_DIR$/XXTouchApp/Libraries/SettingsKit/SKListItemsController.m" />
@@ -951,7 +890,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
           <caret line="133" column="14" lean-forward="false" selection-start-line="133" selection-start-column="14" selection-end-line="133" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -987,9 +925,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="269">
           <caret line="413" column="9" lean-forward="true" selection-start-line="413" selection-start-column="9" selection-end-line="413" selection-end-column="9" />
-          <folding>
-            <element signature="e#140#176#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1005,7 +940,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1020,7 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="753">
           <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1028,9 +961,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
           <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding>
-            <element signature="e#1754#1849#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1038,7 +968,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="77" column="1" lean-forward="true" selection-start-line="77" selection-start-column="1" selection-end-line="77" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1046,14 +975,31 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="20" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/XXTouchApp/ViewControllers/XXEditor/Code/XXAddCodeBlockTableViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="21" column="18" lean-forward="false" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+        <state relative-caret-position="645">
+          <caret line="44" column="35" lean-forward="true" selection-start-line="44" selection-start-column="35" selection-end-line="44" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection/Application/XXTApplicationPicker.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="58" column="5" lean-forward="false" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
+          <folding>
+            <element signature="e#1284#1374#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../XXTPickerCollectionTest/XXTPickerCollection/XXTPickerCollection/XXTPickerTask.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="52" column="28" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
           <folding />
         </state>
       </provider>

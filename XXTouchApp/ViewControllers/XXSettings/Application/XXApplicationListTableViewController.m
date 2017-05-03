@@ -11,7 +11,7 @@
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXApplicationTableViewCell.h"
-#include "NSString+AddSlashes.h"
+#import "NSString+AddSlashes.h"
 
 static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 

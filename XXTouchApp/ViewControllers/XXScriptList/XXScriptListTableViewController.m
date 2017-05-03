@@ -782,7 +782,7 @@ END_IGNORE_PARTIAL
                                [self presentNewDocumentViewController:(UIBarButtonItem *)sender];
                            }];
     [controller addOptionWithTitle:NSLocalizedString(@"Photos Library", nil)
-                             image:[UIImage imageNamed:@"menu-photo-library"]
+                             image:nil
                              order:UIDocumentMenuOrderLast
                            handler:^{
                                NSBundle *frameBundle = [NSBundle bundleWithIdentifier:XXT_PICKER_COLLECTION_FRAMEWORK_ID];

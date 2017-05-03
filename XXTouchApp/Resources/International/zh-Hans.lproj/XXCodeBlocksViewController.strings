@@ -23,9 +23,6 @@
 /* Class = "UIViewController"; title = "Code Blocks"; ObjectID = "QYc-jl-yBm"; */
 "QYc-jl-yBm.title" = "代码片段";
 
-/* Class = "UITextField"; placeholder = "Title here"; ObjectID = "VcW-bA-uOi"; */
-"VcW-bA-uOi.placeholder" = "键入标题";
-
 /* Class = "UISearchBar"; placeholder = "Search"; ObjectID = "csk-tw-1J2"; */
 "csk-tw-1J2.placeholder" = "搜索代码片段";
 

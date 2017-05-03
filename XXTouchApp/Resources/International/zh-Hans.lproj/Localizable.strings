@@ -263,3 +263,4 @@ Hide = "隐藏";
 "The code must be 10-20 characters long." = "授权码长度在 10 至 20 字符之间。";
 "DynamicXUI (XUI) Reference" = "DynamicXUI (XUI) 参考文档";
 "%@ image(s) imported." = "已导入 %@ 张图片。";
+"Slide down to exit edit mode" = "下划以退出编辑模式";
