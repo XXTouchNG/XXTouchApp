@@ -7,6 +7,7 @@
 //
 
 #import "XXTApplicationCell.h"
+#import "XXTPickerDefine.h"
 #import "UIImage+imageData.h"
 
 @interface XXTApplicationCell ()
@@ -21,6 +22,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.iconImageView.layer.cornerRadius = 6.f;
+    self.iconImageView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -38,7 +41,11 @@
 }
 
 - (void)setApplicationIconData:(NSData *)iconData {
-    self.iconImageView.image = [UIImage imageWithImageData:iconData];
+//    if (XXT_SYSTEM_9) {
+        self.iconImageView.image = [UIImage imageWithImageData:iconData];
+//    } else {
+//        self.iconImageView.image = [UIImage imageWithData:iconData];
+//    }
 }
 
 - (NSString *)applicationBundleID {

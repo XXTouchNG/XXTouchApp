@@ -169,7 +169,6 @@
 		0FFFDF131EBA5DA100C03FBE /* XXTPositionColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDEB91EBA5DA100C03FBE /* XXTPositionColorPicker.m */; };
 		0FFFDF141EBA5DA100C03FBE /* XXTPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDEBB1EBA5DA100C03FBE /* XXTPositionPicker.m */; };
 		0FFFDF151EBA5DA100C03FBE /* XXTRectanglePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDEBD1EBA5DA100C03FBE /* XXTRectanglePicker.m */; };
-		0FFFDF161EBA5DA100C03FBE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFDEBF1EBA5DA100C03FBE /* Localizable.strings */; };
 		0FFFDF171EBA5DA100C03FBE /* xxt-add-box.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFDEC11EBA5DA100C03FBE /* xxt-add-box.png */; };
 		0FFFDF181EBA5DA100C03FBE /* xxt-add-box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFDEC21EBA5DA100C03FBE /* xxt-add-box@2x.png */; };
 		0FFFDF191EBA5DA100C03FBE /* xxt-add-box@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFFDEC31EBA5DA100C03FBE /* xxt-add-box@3x.png */; };
@@ -586,7 +585,6 @@
 		0FFFDEBB1EBA5DA100C03FBE /* XXTPositionPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTPositionPicker.m; sourceTree = "<group>"; };
 		0FFFDEBC1EBA5DA100C03FBE /* XXTRectanglePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTRectanglePicker.h; sourceTree = "<group>"; };
 		0FFFDEBD1EBA5DA100C03FBE /* XXTRectanglePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTRectanglePicker.m; sourceTree = "<group>"; };
-		0FFFDEC01EBA5DA100C03FBE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0FFFDEC11EBA5DA100C03FBE /* xxt-add-box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xxt-add-box.png"; sourceTree = "<group>"; };
 		0FFFDEC21EBA5DA100C03FBE /* xxt-add-box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xxt-add-box@2x.png"; sourceTree = "<group>"; };
 		0FFFDEC31EBA5DA100C03FBE /* xxt-add-box@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xxt-add-box@3x.png"; sourceTree = "<group>"; };
@@ -629,7 +627,6 @@
 		0FFFDEE81EBA5DA100C03FBE /* XXTImagePickerAlbumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XXTImagePickerAlbumCell.xib; sourceTree = "<group>"; };
 		0FFFDEE91EBA5DA100C03FBE /* XXTImagePickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XXTImagePickerController.xib; sourceTree = "<group>"; };
 		0FFFDEEA1EBA5DA100C03FBE /* XXTImagePickerPhotoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XXTImagePickerPhotoCell.xib; sourceTree = "<group>"; };
-		0FFFDEEB1EBA5DA100C03FBE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0FFFDEEC1EBA5DA100C03FBE /* XXTBasePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTBasePicker.h; sourceTree = "<group>"; };
 		0FFFDEED1EBA5DA100C03FBE /* XXTPickerBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTPickerBaseViewController.h; sourceTree = "<group>"; };
 		0FFFDEEE1EBA5DA100C03FBE /* XXTPickerBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTPickerBaseViewController.m; sourceTree = "<group>"; };
@@ -1371,7 +1368,6 @@
 		0FFFDEBE1EBA5DA100C03FBE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0FFFDEBF1EBA5DA100C03FBE /* Localizable.strings */,
 				0FFFDEC11EBA5DA100C03FBE /* xxt-add-box.png */,
 				0FFFDEC21EBA5DA100C03FBE /* xxt-add-box@2x.png */,
 				0FFFDEC31EBA5DA100C03FBE /* xxt-add-box@3x.png */,
@@ -1904,7 +1900,6 @@
 				0FFFDF241EBA5DA100C03FBE /* xxt-picker-border.png in Resources */,
 				0FFFDF3A1EBA5DA100C03FBE /* xxt-unlock.png in Resources */,
 				0F665A541EA3D8B30081065F /* AppDefines.plist in Resources */,
-				0FFFDF161EBA5DA100C03FBE /* Localizable.strings in Resources */,
 				0FFFDF261EBA5DA100C03FBE /* xxt-picker-check.png in Resources */,
 				0FFFDF271EBA5DA100C03FBE /* xxt-picker-check@2x.png in Resources */,
 				0FFFDF1F1EBA5DA100C03FBE /* xxt-lock@2x.png in Resources */,
@@ -2297,15 +2292,6 @@
 			);
 			name = XXEmptyNavigationController.storyboard;
 			path = ../../Resources/International;
-			sourceTree = "<group>";
-		};
-		0FFFDEBF1EBA5DA100C03FBE /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FFFDEC01EBA5DA100C03FBE /* en */,
-				0FFFDEEB1EBA5DA100C03FBE /* zh-Hans */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

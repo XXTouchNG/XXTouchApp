@@ -2610,7 +2610,7 @@ All Rights Reserved.</string>
             <objects>
                 <navigationController storyboardIdentifier="kXXRootNavigationControllerStoryboardID" title="XX Navigation" id="szv-sl-aZ6" customClass="XXNavigationViewController" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FX6-ho-HYp">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="FX6-ho-HYp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

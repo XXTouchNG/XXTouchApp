@@ -7,6 +7,7 @@
 //
 
 #import "XXApplicationTableViewCell.h"
+#import "UIImage+imageData.h"
 
 @interface XXApplicationTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -20,6 +21,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    self.iconImageView.layer.cornerRadius = 6.f;
+    self.iconImageView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -28,13 +32,20 @@
     // Configure the view for the selected state
 }
 
-- (void)setAppInfo:(NSDictionary *)appInfo {
-    _appInfo = appInfo;
-    if (appInfo) {
-        self.iconImageView.image = [UIImage imageWithData:[NSData dataWithBase64EncodedString:[appInfo objectForKey:kXXApplicationKeyIcon]]];
-        self.appLabel.text = [appInfo objectForKey:kXXApplicationKeyAppName];
-        self.bundleIDLabel.text = [appInfo objectForKey:kXXApplicationKeyBundleID];
-    }
+- (void)setApplicationName:(NSString *)name {
+    self.appLabel.text = name;
+}
+
+- (void)setApplicationBundleID:(NSString *)bundleID {
+    self.bundleIDLabel.text = bundleID;
+}
+
+- (void)setApplicationIconData:(NSData *)iconData {
+    self.iconImageView.image = [UIImage imageWithImageData:iconData];
+}
+
+- (NSString *)applicationBundleID {
+    return self.bundleIDLabel.text;
 }
 
 @end

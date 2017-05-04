@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString * const kXXApplicationKeyBundleID = @"bid";
-static NSString * const kXXApplicationKeyAppName = @"name";
-static NSString * const kXXApplicationKeyBundlePath = @"bundle_path";
-static NSString * const kXXApplicationKeyDataPath = @"data_path";
-static NSString * const kXXApplicationKeyIcon = @"icon";
-
 @interface XXApplicationTableViewCell : UITableViewCell
-@property (nonatomic, strong) NSDictionary *appInfo;
+
+- (void)setApplicationName:(NSString *)name;
+
+- (NSString *)applicationBundleID;
+- (void)setApplicationBundleID:(NSString *)bundleID;
+
+- (void)setApplicationIconData:(NSData *)iconData;
 
 @end

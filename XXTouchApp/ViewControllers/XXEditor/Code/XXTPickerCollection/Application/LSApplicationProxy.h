@@ -14,8 +14,12 @@
 @interface LSApplicationProxy : NSObject
 
 + (LSApplicationProxy *)applicationProxyForIdentifier:(NSString *)bid;
-- (NSData *)iconDataForVariant:(NSNumber *)arg1;
+- (NSData *)iconDataForVariant:(int)arg1;
+- (NSString *)itemName;
 - (NSString *)localizedName;
+- (NSURL *)resourcesDirectoryURL;
+- (NSURL *)containerURL;
+- (NSURL *)dataContainerURL;
 
 @property (nonatomic, readonly) NSString *applicationIdentifier;
 

@@ -8,26 +8,48 @@
 
 #import "UIImage+imageData.h"
 
+struct data_header_o {
+    uint32_t hLen;
+    uint32_t width;
+    uint32_t height;
+    uint32_t bytesPerRow;
+    uint32_t bitsPerComponent;
+    uint32_t colorDepth;
+    uint32_t bitmapInfo;
+    uint32_t arg7; // 0
+}; // Just guess...
+
 @implementation UIImage (imageData)
 
 + (UIImage *)imageWithImageData:(NSData *)imageData {
-    NSInteger lenth =  imageData.length;
-    NSInteger width = 87;
-    NSInteger height = 87;
-    uint32_t *pixels = (uint32_t *)malloc(width * height * sizeof(uint32_t));
-    [imageData getBytes:pixels range:NSMakeRange(32, lenth - 32)];
+    
+    NSInteger length = imageData.length;
+    struct data_header_o header;
+    [imageData getBytes:&header range:NSMakeRange(0, 32)];
+    if (header.hLen != 32)
+    {
+        [imageData getBytes:&header range:NSMakeRange(4, 32)];
+    }
+    if (header.hLen != 32)
+    {
+        return nil;
+    }
+    
+    uint32_t *pixels = (uint32_t *)malloc(header.width * header.height * sizeof(uint32_t));
+    [imageData getBytes:pixels range:NSMakeRange(header.hLen, length - header.hLen)];
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    CGContextRef ctx = CGBitmapContextCreate(pixels, width, height, 8, (width + 1) * sizeof(uint32_t), colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    CGContextRef ctx = CGBitmapContextCreate(pixels, header.width, header.height, header.bitsPerComponent, header.bytesPerRow, colorSpace, header.bitmapInfo);
     
     CGImageRef cgImage = CGBitmapContextCreateImage(ctx);
     CGContextRelease(ctx);
     CGColorSpaceRelease(colorSpace);
-    UIImage *icon = [UIImage imageWithCGImage: cgImage];
+    UIImage *icon = [UIImage imageWithCGImage:cgImage];
     CGImageRelease(cgImage);
     
+    free(pixels);
     return icon;
+    
 }
 
 @end

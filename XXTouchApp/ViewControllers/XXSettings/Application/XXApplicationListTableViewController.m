@@ -6,12 +6,14 @@
 //  Copyright © 2016 Zheng. All rights reserved.
 //
 
+#include <objc/runtime.h>
 #import "XXApplicationListTableViewController.h"
 #import "XXApplicationDetailTableViewController.h"
 #import "XXLocalDataService.h"
 #import "XXLocalNetService.h"
 #import "XXApplicationTableViewCell.h"
 #import "NSString+AddSlashes.h"
+#import "LSApplicationProxy.h"
 
 static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 
@@ -30,7 +32,8 @@ UITableViewDelegate,
 UITableViewDataSource,
 UISearchDisplayDelegate
 >
-@property (nonatomic, strong) NSArray *showData;
+@property(nonatomic, strong) NSArray <LSApplicationProxy *> *allApplications;
+@property(nonatomic, strong) NSArray <LSApplicationProxy *> *displayApplications;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -52,6 +55,13 @@ UISearchDisplayDelegate
     _previewString = nil;
     self.title = NSLocalizedString(@"Application List", nil);
     
+    Class LSApplicationWorkspace_class = objc_getClass("LSApplicationWorkspace");
+    SEL selector = NSSelectorFromString(@"defaultWorkspace");
+    NSObject *workspace = [LSApplicationWorkspace_class performSelector:selector];
+    SEL selectorAll = NSSelectorFromString(@"allApplications");
+    NSArray <LSApplicationProxy *> *allApplications = [workspace performSelector:selectorAll];
+    self.allApplications = allApplications;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchDisplayController.delegate = self;
@@ -62,7 +72,6 @@ UISearchDisplayDelegate
     
     [self.tableView setContentOffset:CGPointMake(0, self.searchDisplayController.searchBar.bounds.size.height)];
     
-    [self fetchApplicationList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,30 +79,13 @@ UISearchDisplayDelegate
     // Dispose of any resources that can be recreated.
 }
 
-- (void)fetchApplicationList {
-    @weakify(self);
-    self.navigationController.view.userInteractionEnabled = NO;
-    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        @strongify(self);
-        NSError *err = nil;
-        BOOL result = [XXLocalNetService localGetApplicationListWithError:&err];
-        dispatch_async_on_main_queue(^{
-            self.navigationController.view.userInteractionEnabled = YES;
-            [self.navigationController.view hideToastActivity];
-            if (!result) {
-                [self.navigationController.view makeToast:[err localizedDescription]];
-            } else {
-                [self.tableView reloadData];
-            }
-        });
-    });
-}
-
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 66;
+    if (indexPath.section == kXXApplicationListCellSection) {
+        return 66.f;
+    }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -103,34 +95,40 @@ UISearchDisplayDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         if (section == kXXApplicationListCellSection) {
-            return [XXTGSSI.dataService bundles].count;
+            return self.allApplications.count;
         }
     } else {
-        return self.showData.count;
+        if (section == kXXApplicationListCellSection) {
+            return self.displayApplications.count;
+        }
     }
-    
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXApplicationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXApplicationNameLabelReuseIdentifier forIndexPath:indexPath];
+    LSApplicationProxy *appProxy;
     if (tableView == self.tableView) {
-        cell.appInfo = [[XXTGSSI.dataService bundles] objectAtIndex:indexPath.row];
+        if (indexPath.section == kXXApplicationListCellSection) {
+            appProxy = self.allApplications[(NSUInteger) indexPath.row];
+        }
     } else {
-        cell.appInfo = _showData[indexPath.row];
-        return cell;
+        if (indexPath.section == kXXApplicationListCellSection) {
+            appProxy = self.displayApplications[(NSUInteger) indexPath.row];
+        }
+    }
+    [cell setApplicationName:[appProxy localizedName]];
+    [cell setApplicationBundleID:[appProxy applicationIdentifier]];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+        [cell setApplicationIconData:[appProxy performSelector:@selector(iconDataForVariant:) withObject:@(2)]];
+    } else {
+        [cell setApplicationIconData:[appProxy iconDataForVariant:0]];
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *identifier = nil;
-    if (tableView == self.tableView) {
-        identifier = [XXTGSSI.dataService bundles][indexPath.row][kXXApplicationKeyBundleID];
-    } else {
-        identifier = _showData[indexPath.row][kXXApplicationKeyBundleID];
-    }
 }
 
 #pragma mark - UISearchDisplayDelegate
@@ -152,12 +150,12 @@ UISearchDisplayDelegate
 - (void)reloadSearch {
     NSPredicate *predicate = nil;
     if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeName) {
-        predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+        predicate = [NSPredicate predicateWithFormat:@"localizedName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     } else if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeBundleID) {
-        predicate = [NSPredicate predicateWithFormat:@"bid CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+        predicate = [NSPredicate predicateWithFormat:@"applicationIdentifier CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     }
     if (predicate) {
-        self.showData = [[NSArray alloc] initWithArray:[[XXTGSSI.dataService bundles] filteredArrayUsingPredicate:predicate]];
+        self.displayApplications = [[NSArray alloc] initWithArray:[self.allApplications filteredArrayUsingPredicate:predicate]];
     }
 }
 
@@ -167,11 +165,21 @@ UISearchDisplayDelegate
     return YES;
 }
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(XXApplicationTableViewCell *)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    ((XXApplicationDetailTableViewController *)segue.destinationViewController).appInfo = [sender.appInfo copy];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(XXApplicationTableViewCell *)sender {
+    LSApplicationProxy *appProxy;
+    if (!self.searchDisplayController.active) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        if (indexPath.section == kXXApplicationListCellSection) {
+            appProxy = self.allApplications[(NSUInteger) indexPath.row];
+        }
+    } else {
+        NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForCell:sender];
+        if (indexPath.section == kXXApplicationListCellSection) {
+            appProxy = self.displayApplications[(NSUInteger) indexPath.row];
+        }
+    }
+    ((XXApplicationDetailTableViewController *)segue.destinationViewController).appProxy = appProxy;
 }
 
 #pragma mark - Memory

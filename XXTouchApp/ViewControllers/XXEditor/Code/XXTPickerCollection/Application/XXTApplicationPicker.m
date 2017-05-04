@@ -172,7 +172,11 @@ enum {
     }
     [cell setApplicationName:[appProxy localizedName]];
     [cell setApplicationBundleID:[appProxy applicationIdentifier]];
-    [cell setApplicationIconData:[appProxy iconDataForVariant:@(2)]];
+    if (XXT_SYSTEM_9) {
+        [cell setApplicationIconData:[appProxy performSelector:@selector(iconDataForVariant:) withObject:@(2)]];
+    } else {
+        [cell setApplicationIconData:[appProxy iconDataForVariant:0]];
+    }
     [cell setTintColor:[[XXTPickerHelper sharedInstance] frontColor]];
     if (appProxy == self.selectedApplication) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LSApplicationProxy.h"
 
 @interface XXApplicationDetailTableViewController : UITableViewController
-@property (nonatomic, strong) NSDictionary *appInfo;
+@property (nonatomic, strong) LSApplicationProxy *appProxy;
 
 @end
