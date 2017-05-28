@@ -38,8 +38,16 @@ struct data_header_o {
     uint32_t *pixels = (uint32_t *)malloc(header.width * header.height * sizeof(uint32_t));
     [imageData getBytes:pixels range:NSMakeRange(header.hLen, length - header.hLen)];
     
+    CGFloat radius = MIN(header.width, header.height) / 6.4f;
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef ctx = CGBitmapContextCreate(pixels, header.width, header.height, header.bitsPerComponent, header.bytesPerRow, colorSpace, header.bitmapInfo);
+    
+    CGRect imageRect = CGRectMake(0, 0, header.width, header.height);
+    UIBezierPath *boundPath = [UIBezierPath bezierPathWithRect:imageRect];
+    [boundPath appendPath:[UIBezierPath bezierPathWithRoundedRect:imageRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(radius, radius)]];
+    CGContextAddPath(ctx, boundPath.CGPath);
+    CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+    CGContextDrawPath(ctx, kCGPathEOFill);
     
     CGImageRef cgImage = CGBitmapContextCreateImage(ctx);
     CGContextRelease(ctx);

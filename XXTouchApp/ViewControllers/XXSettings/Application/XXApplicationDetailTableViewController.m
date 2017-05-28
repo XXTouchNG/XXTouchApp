@@ -52,6 +52,9 @@ enum {
     } else {
         self.dataPathLabel.text = [[self.appProxy containerURL] path];
     }
+    if (self.dataPathLabel.text.length == 0) {
+        self.dataPathLabel.text = @"/private/var/mobile";
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,16 +68,24 @@ enum {
     if (indexPath.section == kXXApplicationDetailCellSection) {
         switch (indexPath.row) {
             case kXXApplicationDetailAppNameIndex:
-                [[UIPasteboard generalPasteboard] setString:self.appNameLabel.text];
+                if (self.appNameLabel.text) {
+                    [[UIPasteboard generalPasteboard] setString:self.appNameLabel.text];
+                }
                 break;
             case kXXApplicationDetailBundleIDIndex:
-                [[UIPasteboard generalPasteboard] setString:self.bundleIDLabel.text];
+                if (self.bundleIDLabel.text) {
+                    [[UIPasteboard generalPasteboard] setString:self.bundleIDLabel.text];
+                }
                 break;
             case kXXApplicationDetailBundlePathIndex:
-                [[UIPasteboard generalPasteboard] setString:self.bundlePathLabel.text];
+                if (self.bundlePathLabel.text) {
+                    [[UIPasteboard generalPasteboard] setString:self.bundlePathLabel.text];
+                }
                 break;
             case kXXApplicationDetailDataPathIndex:
-                [[UIPasteboard generalPasteboard] setString:self.dataPathLabel.text];
+                if (self.dataPathLabel.text) {
+                    [[UIPasteboard generalPasteboard] setString:self.dataPathLabel.text];
+                }
                 break;
             default:
                 break;

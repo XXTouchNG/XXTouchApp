@@ -76,7 +76,22 @@ enum {
     NSObject *workspace = [LSApplicationWorkspace_class performSelector:selector];
     SEL selectorAll = NSSelectorFromString(@"allApplications");
     NSArray <LSApplicationProxy *> *allApplications = [workspace performSelector:selectorAll];
-    self.allApplications = allApplications;
+    
+    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"white-icons" ofType:@"plist"];
+    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"white-icons"];
+    NSMutableArray *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
+    for (LSApplicationProxy *appProxy in allApplications) {
+        BOOL shouldAdd = YES;
+        for (NSString *appId in blacklistApplications) {
+            if ([appId isEqualToString:[appProxy applicationIdentifier]]) {
+                shouldAdd = NO;
+            }
+        }
+        if (shouldAdd) {
+            [filteredApplications addObject:appProxy];
+        }
+    }
+    self.allApplications = filteredApplications;
 
     if (allApplications.count != 0) {
         self.selectedApplication = allApplications[0];

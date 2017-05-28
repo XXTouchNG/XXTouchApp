@@ -26,6 +26,7 @@
 		0F93FC9A1E7FFDC2009A34EF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F93FC991E7FFDC2009A34EF /* Preferences.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8E1DD49213005D3FD4 /* lua.c */; };
+		0FA7ABE01ED63D03003EAD7D /* white-icons.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7ABDF1ED63D03003EAD7D /* white-icons.plist */; };
 		0FAF70C81DD961930054EB93 /* NSFileManager+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAF70C71DD961930054EB93 /* NSFileManager+Size.m */; };
 		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
 		0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A79E1D73DB7600129E83 /* Assets.xcassets */; };
@@ -310,6 +311,7 @@
 		0F98529C1D748072001323AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0FA5FD8E1DD49213005D3FD4 /* lua.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lua.c; sourceTree = "<group>"; };
 		0FA704ED1E773C5600F8ADDC /* XXTouchApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XXTouchApp.entitlements; sourceTree = "<group>"; };
+		0FA7ABDF1ED63D03003EAD7D /* white-icons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "white-icons.plist"; sourceTree = "<group>"; };
 		0FAF70C61DD961930054EB93 /* NSFileManager+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Size.h"; sourceTree = "<group>"; };
 		0FAF70C71DD961930054EB93 /* NSFileManager+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Size.m"; sourceTree = "<group>"; };
 		0FB0A7891D73D80D00129E83 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -909,6 +911,7 @@
 		0FCF89A11DD0139000F4C906 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0FA7ABDF1ED63D03003EAD7D /* white-icons.plist */,
 				0FCF89A61DD0139000F4C906 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -1902,6 +1905,7 @@
 				0F665A541EA3D8B30081065F /* AppDefines.plist in Resources */,
 				0FFFDF261EBA5DA100C03FBE /* xxt-picker-check.png in Resources */,
 				0FFFDF271EBA5DA100C03FBE /* xxt-picker-check@2x.png in Resources */,
+				0FA7ABE01ED63D03003EAD7D /* white-icons.plist in Resources */,
 				0FFFDF1F1EBA5DA100C03FBE /* xxt-lock@2x.png in Resources */,
 				0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */,
 				0FFFDF2D1EBA5DA100C03FBE /* xxt-picker-show.png in Resources */,

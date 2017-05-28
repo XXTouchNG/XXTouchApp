@@ -4,7 +4,6 @@
 #import "XUISpecifierParser.h"
 #import "XUICommonDefine.h"
 #import "XUIListController.h"
-#import "XXLocalDataService.h"
 
 @implementation XUISpecifierParser
 

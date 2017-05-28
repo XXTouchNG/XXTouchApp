@@ -82,6 +82,9 @@ enum {
     }
     
     self.submitButton.enabled = (self.authorizationField.text.length != 0);
+    
+    [refreshControl beginRefreshing];
+    [self.refreshControl sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 - (void)endBindingCodeAndGetDeviceInfo {

@@ -60,7 +60,22 @@ UISearchDisplayDelegate
     NSObject *workspace = [LSApplicationWorkspace_class performSelector:selector];
     SEL selectorAll = NSSelectorFromString(@"allApplications");
     NSArray <LSApplicationProxy *> *allApplications = [workspace performSelector:selectorAll];
-    self.allApplications = allApplications;
+    
+    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"white-icons" ofType:@"plist"];
+    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"white-icons"];
+    NSMutableArray *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
+    for (LSApplicationProxy *appProxy in allApplications) {
+        BOOL shouldAdd = YES;
+        for (NSString *appId in blacklistApplications) {
+            if ([appId isEqualToString:[appProxy applicationIdentifier]]) {
+                shouldAdd = NO;
+            }
+        }
+        if (shouldAdd) {
+            [filteredApplications addObject:appProxy];
+        }
+    }
+    self.allApplications = filteredApplications;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -122,7 +137,7 @@ UISearchDisplayDelegate
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
         [cell setApplicationIconData:[appProxy performSelector:@selector(iconDataForVariant:) withObject:@(2)]];
     } else {
-        [cell setApplicationIconData:[appProxy iconDataForVariant:0]];
+        [cell setApplicationIconData:[appProxy iconDataForVariant:16]];
     }
     return cell;
 }
