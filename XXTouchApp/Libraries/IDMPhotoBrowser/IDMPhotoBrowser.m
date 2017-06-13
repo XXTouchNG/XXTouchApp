@@ -188,7 +188,7 @@
 
         _applicationWindow = [[[UIApplication sharedApplication] delegate] window];
 
-		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+		if (XXT_SYSTEM_8)
 		{
 			self.modalPresentationStyle = UIModalPresentationCustom;
 //			self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -524,7 +524,7 @@
         if ([self->_delegate respondsToSelector:@selector(photoBrowser:didDismissAtPageIndex:)])
             [self->_delegate photoBrowser:self didDismissAtPageIndex:self->_currentPageIndex];
 
-//		if (SYSTEM_VERSION_LESS_THAN(@"8.0"))
+//		if (!XXT_SYSTEM_8)
 //		{
 //			_applicationTopViewController.modalPresentationStyle = _previousModalPresentationStyle;
 //		}
@@ -1290,7 +1290,7 @@
             __typeof__(self) __weak selfBlock = self;
 
             START_IGNORE_PARTIAL
-			if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+			if (XXT_SYSTEM_8)
 			{
 				[self.activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
 					[selfBlock hideControlsAfterDelay];
@@ -1306,7 +1306,7 @@
 			}
             END_IGNORE_PARTIAL
 
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+			if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
 				[self presentViewController:self.activityViewController animated:YES completion:nil];
 			}
 			else { // iPad
@@ -1328,7 +1328,7 @@
             self.actionsSheet.cancelButtonIndex = [self.actionsSheet addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
             self.actionsSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
 				[_actionsSheet showInView:self.view];
             } else {
                 [_actionsSheet showFromBarButtonItem:sender animated:YES];

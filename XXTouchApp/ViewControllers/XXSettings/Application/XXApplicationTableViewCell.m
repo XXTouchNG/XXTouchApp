@@ -7,7 +7,6 @@
 //
 
 #import "XXApplicationTableViewCell.h"
-#import "UIImage+imageData.h"
 
 @interface XXApplicationTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -37,8 +36,8 @@
     self.bundleIDLabel.text = bundleID;
 }
 
-- (void)setApplicationIconData:(NSData *)iconData {
-    self.iconImageView.image = [UIImage imageWithImageData:iconData];
+- (void)setApplicationIconImage:(UIImage *)image {
+    self.iconImageView.image = image;
 }
 
 - (NSString *)applicationBundleID {

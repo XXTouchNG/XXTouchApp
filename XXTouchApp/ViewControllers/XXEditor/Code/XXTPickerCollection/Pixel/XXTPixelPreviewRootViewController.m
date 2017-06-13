@@ -22,7 +22,7 @@
 #pragma mark - View Style
 
 - (BOOL)shouldAutorotate {
-    return XXT_SYSTEM_9;
+    return XXTP_SYSTEM_9;
 }
 
 @end

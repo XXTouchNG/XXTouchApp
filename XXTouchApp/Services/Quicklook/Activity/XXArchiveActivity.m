@@ -83,7 +83,7 @@
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:destination withIntermediateDirectories:YES attributes:nil error:&error];
         if (error) {
-            [navController.view makeToast:[error localizedDescription]];
+            [navController.view makeToast:[error customDescription]];
         } else {
             navController.view.userInteractionEnabled = NO;
             [navController.view makeToastActivity:CSToastPositionCenter];

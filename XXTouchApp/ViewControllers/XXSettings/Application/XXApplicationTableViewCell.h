@@ -14,7 +14,6 @@
 
 - (NSString *)applicationBundleID;
 - (void)setApplicationBundleID:(NSString *)bundleID;
-
-- (void)setApplicationIconData:(NSData *)iconData;
+- (void)setApplicationIconImage:(UIImage *)image;
 
 @end

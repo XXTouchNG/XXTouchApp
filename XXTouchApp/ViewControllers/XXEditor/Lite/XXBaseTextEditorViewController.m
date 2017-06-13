@@ -113,7 +113,7 @@ UIPopoverControllerDelegate
             if (!result) {
                 self.isLoaded = NO;
                 self.bottomBar.hidden = YES;
-                [self.navigationController.view makeToast:[err localizedDescription]];
+                [self.navigationController.view makeToast:[err customDescription]];
             } else {
                 self.isLoaded = YES;
                 self.bottomBar.hidden = NO;
@@ -360,10 +360,10 @@ UIPopoverControllerDelegate
 
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_8) {
             controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.barButtonItem = sender;
         } else {
@@ -580,7 +580,7 @@ UIPopoverControllerDelegate
     NSError *err = nil;
     [self saveFileWithError:&err];
     if (err) {
-        [self.navigationController.view makeToast:[err localizedDescription]];
+        [self.navigationController.view makeToast:[err customDescription]];
     }
 }
 

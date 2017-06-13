@@ -80,7 +80,7 @@ static NSString * const kXXTouchStorageDB = @"kXXTouchStorageDB-1";
 
 - (void)setupShortcutItems {
     START_IGNORE_PARTIAL
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+    if (XXT_SYSTEM_9) {
         if (daemonInstalled()) {
             UIApplicationShortcutIcon *stopIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:@"3d-stop"];
             UIApplicationShortcutItem *stopItem = [[UIApplicationShortcutItem alloc] initWithType:@"Stop"

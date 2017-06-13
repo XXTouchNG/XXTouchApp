@@ -8,7 +8,6 @@
 
 #import "XXTApplicationCell.h"
 #import "XXTPickerDefine.h"
-#import "UIImage+imageData.h"
 
 @interface XXTApplicationCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -40,12 +39,8 @@
     self.bundleIDLabel.text = bundleID;
 }
 
-- (void)setApplicationIconData:(NSData *)iconData {
-//    if (XXT_SYSTEM_9) {
-        self.iconImageView.image = [UIImage imageWithImageData:iconData];
-//    } else {
-//        self.iconImageView.image = [UIImage imageWithData:iconData];
-//    }
+- (void)setApplicationIconImage:(UIImage *)image {
+    self.iconImageView.image = image;
 }
 
 - (NSString *)applicationBundleID {

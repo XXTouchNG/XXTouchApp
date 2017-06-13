@@ -303,7 +303,7 @@ static SKProduct * currentProduct = nil;
                                onCompletion:^(SKPaymentTransaction* trans) {
                                    @strongify(self);
                                    if (trans.error) {
-                                       [self alertWithMessage:[trans.error localizedDescription] exitWhenPressOK:NO];
+                                       [self alertWithMessage:[trans.error customDescription] exitWhenPressOK:NO];
                                        [self.navigationController.view hideToastActivity];
                                        self.navigationController.view.userInteractionEnabled = YES;
                                    }

@@ -26,14 +26,17 @@ enum {
     kXXApplicationSearchTypeBundleID
 };
 
+CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier);
+CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier);
+
 @interface XXApplicationListTableViewController ()
 <
 UITableViewDelegate,
 UITableViewDataSource,
 UISearchDisplayDelegate
 >
-@property(nonatomic, strong) NSArray <LSApplicationProxy *> *allApplications;
-@property(nonatomic, strong) NSArray <LSApplicationProxy *> *displayApplications;
+@property(nonatomic, strong) NSArray <NSDictionary *> *allApplications;
+@property(nonatomic, strong) NSArray <NSDictionary *> *displayApplications;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -61,9 +64,9 @@ UISearchDisplayDelegate
     SEL selectorAll = NSSelectorFromString(@"allApplications");
     NSArray <LSApplicationProxy *> *allApplications = [workspace performSelector:selectorAll];
     
-    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"white-icons" ofType:@"plist"];
-    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"white-icons"];
-    NSMutableArray *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
+    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"xxt-white-icons" ofType:@"plist"];
+    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"xxt-white-icons"];
+    NSMutableArray <NSDictionary *> *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
     for (LSApplicationProxy *appProxy in allApplications) {
         BOOL shouldAdd = YES;
         for (NSString *appId in blacklistApplications) {
@@ -72,7 +75,19 @@ UISearchDisplayDelegate
             }
         }
         if (shouldAdd) {
-            [filteredApplications addObject:appProxy];
+            NSString *applicationIdentifier = appProxy.applicationIdentifier;
+            NSString *applicationBundle = [appProxy.resourcesDirectoryURL path];
+            NSString *applicationContainer = nil;
+            NSString *applicationLocalizedName = CFBridgingRelease(SBSCopyLocalizedApplicationNameForDisplayIdentifier((__bridge CFStringRef)(applicationIdentifier)));
+            UIImage *applicationIconImage = [UIImage imageWithData:CFBridgingRelease(SBSCopyIconImagePNGDataForDisplayIdentifier((__bridge CFStringRef)(applicationIdentifier)))];
+            if (XXT_SYSTEM_8) {
+                applicationContainer = [[appProxy dataContainerURL] path];
+            } else {
+                applicationContainer = [[appProxy containerURL] path];
+            }
+            if (applicationIdentifier && applicationBundle && applicationContainer && applicationLocalizedName && applicationIconImage) {
+                [filteredApplications addObject:@{@"applicationIdentifier": applicationIdentifier, @"applicationBundle": applicationBundle, @"applicationContainer": applicationContainer, @"applicationLocalizedName": applicationLocalizedName, @"applicationIconImage": applicationIconImage}];
+            }
         }
     }
     self.allApplications = filteredApplications;
@@ -122,23 +137,19 @@ UISearchDisplayDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XXApplicationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kXXApplicationNameLabelReuseIdentifier forIndexPath:indexPath];
-    LSApplicationProxy *appProxy;
+    NSDictionary *applicationDetail = nil;
     if (tableView == self.tableView) {
         if (indexPath.section == kXXApplicationListCellSection) {
-            appProxy = self.allApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.allApplications[(NSUInteger) indexPath.row];
         }
     } else {
         if (indexPath.section == kXXApplicationListCellSection) {
-            appProxy = self.displayApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.displayApplications[(NSUInteger) indexPath.row];
         }
     }
-    [cell setApplicationName:[appProxy localizedName]];
-    [cell setApplicationBundleID:[appProxy applicationIdentifier]];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
-        [cell setApplicationIconData:[appProxy performSelector:@selector(iconDataForVariant:) withObject:@(2)]];
-    } else {
-        [cell setApplicationIconData:[appProxy iconDataForVariant:16]];
-    }
+    [cell setApplicationName:applicationDetail[@"applicationLocalizedName"]];
+    [cell setApplicationBundleID:applicationDetail[@"applicationIdentifier"]];
+    [cell setApplicationIconImage:applicationDetail[@"applicationIconImage"]];
     return cell;
 }
 
@@ -165,7 +176,7 @@ UISearchDisplayDelegate
 - (void)reloadSearch {
     NSPredicate *predicate = nil;
     if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeName) {
-        predicate = [NSPredicate predicateWithFormat:@"localizedName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+        predicate = [NSPredicate predicateWithFormat:@"applicationLocalizedName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     } else if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeBundleID) {
         predicate = [NSPredicate predicateWithFormat:@"applicationIdentifier CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     }
@@ -182,19 +193,20 @@ UISearchDisplayDelegate
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(XXApplicationTableViewCell *)sender {
-    LSApplicationProxy *appProxy;
+    NSDictionary *applicationDetail = nil;
     if (!self.searchDisplayController.active) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         if (indexPath.section == kXXApplicationListCellSection) {
-            appProxy = self.allApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.allApplications[(NSUInteger) indexPath.row];
         }
     } else {
         NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForCell:sender];
         if (indexPath.section == kXXApplicationListCellSection) {
-            appProxy = self.displayApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.displayApplications[(NSUInteger) indexPath.row];
         }
     }
-    ((XXApplicationDetailTableViewController *)segue.destinationViewController).appProxy = appProxy;
+    
+    ((XXApplicationDetailTableViewController *)segue.destinationViewController).applicationDetail = applicationDetail;
 }
 
 #pragma mark - Memory

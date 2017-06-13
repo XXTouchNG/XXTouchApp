@@ -10,6 +10,6 @@
 #import "LSApplicationProxy.h"
 
 @interface XXApplicationDetailTableViewController : UITableViewController
-@property (nonatomic, strong) LSApplicationProxy *appProxy;
+@property (nonatomic, strong) NSDictionary *applicationDetail;
 
 @end

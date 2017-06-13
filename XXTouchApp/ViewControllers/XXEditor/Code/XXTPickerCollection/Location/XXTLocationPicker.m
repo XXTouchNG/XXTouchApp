@@ -64,7 +64,7 @@ static NSString * const kXXTMapViewAnnotationFormat = @"Latitude: %f, Longitude:
     mapView.zoomEnabled = YES; mapView.scrollEnabled = YES; mapView.rotateEnabled = YES;
     mapView.showsUserLocation = YES; mapView.showsBuildings = NO; mapView.showsPointsOfInterest = NO;
     START_IGNORE_PARTIAL
-    if (XXT_SYSTEM_9) {
+    if (XXTP_SYSTEM_9) {
         mapView.showsCompass = YES; mapView.showsScale = YES; mapView.showsTraffic = NO;
     }
     END_IGNORE_PARTIAL
@@ -140,7 +140,7 @@ static NSString * const kXXTMapViewAnnotationFormat = @"Latitude: %f, Longitude:
     if (!customPinView) {
         customPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kXXTMapViewAnnotationIdentifier];
         START_IGNORE_PARTIAL
-        if (XXT_SYSTEM_9) {
+        if (XXTP_SYSTEM_9) {
             customPinView.pinTintColor = [[XXTPickerHelper sharedInstance] frontColor];
         } else {
             customPinView.pinColor = MKPinAnnotationColorRed;

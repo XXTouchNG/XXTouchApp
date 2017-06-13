@@ -113,7 +113,7 @@
     XXLog(@"Current Version: %@\nNetwork Version: %@", currentVersion, networkVersion);
     if (error) {
         dispatch_async_on_main_queue(^{
-            [self.view makeToast:[error localizedDescription]];
+            [self.view makeToast:[error customDescription]];
         });
         return;
     }
@@ -228,7 +228,7 @@
             if (result && err == nil) {
                 [self.view makeToast:[NSString stringWithFormat:NSLocalizedString(@"File \"%@\" saved", nil), lastComponent]];
             } else {
-                [self.view makeToast:[err localizedDescription]];
+                [self.view makeToast:[err customDescription]];
             }
         });
     });

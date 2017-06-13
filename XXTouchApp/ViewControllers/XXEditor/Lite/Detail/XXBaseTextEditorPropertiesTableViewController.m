@@ -34,7 +34,7 @@
     NSError *err = nil;
     [self loadFilePropertiesWithError:&err];
     if (err) {
-        [self.navigationController.view makeToast:[err localizedDescription]];
+        [self.navigationController.view makeToast:[err customDescription]];
     }
 }
 

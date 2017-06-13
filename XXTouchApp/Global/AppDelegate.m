@@ -58,10 +58,10 @@
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
-        return [self handleUrlTransfer:url];
+    if (XXT_SYSTEM_9) {
+        return NO;
     }
-    return NO;
+    return [self handleUrlTransfer:url];
 }
 
 - (BOOL)application:(UIApplication *)application
@@ -85,7 +85,7 @@
                                                     resolvingAgainstBaseURL:NO];
         if ([urlComponents.host isEqualToString:@"root"]) {
             START_IGNORE_PARTIAL
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            if (XXT_SYSTEM_8) {
                 NSArray *queryItems = urlComponents.queryItems;
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", @"path"];
                 NSURLQueryItem *queryValue = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];

@@ -93,7 +93,7 @@ static NSString * const kXXTKeyEventTableViewCellReuseIdentifier = @"kXXTKeyEven
     tableView1.dataSource = self;
     tableView1.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     START_IGNORE_PARTIAL
-    if (XXT_SYSTEM_9) {
+    if (XXTP_SYSTEM_9) {
         tableView1.cellLayoutMarginsFollowReadableWidth = NO;
     }
     END_IGNORE_PARTIAL

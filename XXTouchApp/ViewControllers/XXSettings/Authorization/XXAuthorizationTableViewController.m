@@ -125,7 +125,7 @@ enum {
         return;
     }
     if (codeText.length < 10 || codeText.length > 20) {
-        [self.navigationController.view makeToast:NSLocalizedString(@"Your password must be 10-20 characters long.", nil)];
+        [self.navigationController.view makeToast:NSLocalizedString(@"The code must be 10-20 characters long.", nil)];
         return;
     }
     SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
@@ -176,7 +176,7 @@ enum {
                 [sender endRefreshing];
             }
             if (!result) {
-                [self.navigationController.view makeToast:[err localizedDescription]];
+                [self.navigationController.view makeToast:[err customDescription]];
             } else {
                 [self loadDeviceAndAuthorizationInfo];
 //                NSDate *nowDate = [XXTGSSI.dataService nowDate];

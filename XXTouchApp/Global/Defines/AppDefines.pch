@@ -19,6 +19,10 @@
 #define APP_BUNDLE_ID [[UIApplication sharedApplication] appBundleID]
 #define XXTGSSI [GlobalSettings sharedInstance]
 
+#define XXT_SYSTEM_9 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0)
+#define XXT_SYSTEM_8 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_0)
+#define XXT_SYSTEM_7 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_0)
+
 #import <Foundation/Foundation.h>
 #import <YYCategories/YYCategories.h>
 #import <Toast/UIView+Toast.h>
@@ -29,12 +33,7 @@
 #import "SystemConstantsDefines.h"
 #import "UINavigationController+StatusBar.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
-
-#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
-#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
-#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+#import "NSError+LocalizedDescription.h"
 
 #ifdef DEBUG
 #define XXLog(fmt, ...) NSLog((@"\n[%@:%d]\n%s\n" fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);

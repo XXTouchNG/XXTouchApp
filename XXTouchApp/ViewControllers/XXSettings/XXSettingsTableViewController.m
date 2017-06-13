@@ -120,7 +120,7 @@ enum {
         BOOL result = [XXLocalNetService localGetRemoteAccessStatusWithError:&err];
         dispatch_async_on_main_queue(^{
             if (!result) {
-                [self.navigationController.view makeToast:[err localizedDescription]];
+                [self.navigationController.view makeToast:[err customDescription]];
             } else {
                 [self updateRemoteAccessUI];
             }
@@ -141,7 +141,7 @@ enum {
                 BOOL result = [XXLocalNetService localOpenRemoteAccessWithError:&err];
                 dispatch_async_on_main_queue(^{
                     if (!result) {
-                        [self.navigationController.view makeToast:[err localizedDescription]];
+                        [self.navigationController.view makeToast:[err customDescription]];
                     } else {
                         [self updateRemoteAccessUI];
                     }
@@ -159,7 +159,7 @@ enum {
                 BOOL result = [XXLocalNetService localCloseRemoteAccessWithError:&err];
                 dispatch_async_on_main_queue(^{
                     if (!result) {
-                        [self.navigationController.view makeToast:[err localizedDescription]];
+                        [self.navigationController.view makeToast:[err customDescription]];
                     } else {
                         [self updateRemoteAccessUI];
                     }

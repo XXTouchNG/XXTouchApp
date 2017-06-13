@@ -203,7 +203,7 @@ UIPopoverControllerDelegate
                     [alertView show];
                     return;
                 } else {
-                    [self.navigationController.view makeToast:[err localizedDescription]];
+                    [self.navigationController.view makeToast:[err customDescription]];
                 }
             }
             [self reloadScriptListTableView];
@@ -435,13 +435,13 @@ UIPopoverControllerDelegate
                                                                         [self.navigationController.view hideToastActivity];
                                                                         if (!result) {
                                                                             if (err.code == 2) {
-                                                                                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
+                                                                                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err customDescription] andMessage:[err localizedFailureReason]];
                                                                                 [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
                                                                                     
                                                                                 }];
                                                                                 [alertView show];
                                                                             } else {
-                                                                                [self.navigationController.view makeToast:[err localizedDescription]];
+                                                                                [self.navigationController.view makeToast:[err customDescription]];
                                                                             }
                                                                         }
                                                                     });
@@ -523,7 +523,7 @@ UIPopoverControllerDelegate
                                                                                  [self.tableView endUpdates];
                                                                                  [self reloadScriptListTableData];
                                                                              } else {
-                                                                                 [self.navigationController.view makeToast:[err localizedDescription]];
+                                                                                 [self.navigationController.view makeToast:[err customDescription]];
                                                                              }
                                                                          });
                                                                      });
@@ -793,10 +793,10 @@ END_IGNORE_PARTIAL
                                cont.nColumnCount = 4;
                                [self presentViewController:cont animated:YES completion:nil];
                            }];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_8) {
             controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.barButtonItem = sender;
         } else {
@@ -818,7 +818,7 @@ END_IGNORE_PARTIAL
     if (sender == self.topToolbar.scanButton) {
         [((XXNavigationViewController *)self.navigationController) transitionToScanViewController];
     } else if (sender == self.topToolbar.addItemButton) {
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_8) {
             [self presentDocumentMenuViewController:sender];
         } else {
             [self presentNewDocumentViewController:sender];
@@ -984,7 +984,7 @@ END_IGNORE_PARTIAL
                 [self.tableView endUpdates];
                 [self reloadScriptListTableData];
             } else {
-                [self.navigationController.view makeToast:[err localizedDescription]];
+                [self.navigationController.view makeToast:[err customDescription]];
             }
         }];
         [alertView show];
@@ -1003,10 +1003,10 @@ END_IGNORE_PARTIAL
         if (urlsArr.count != 0) {
             XXArchiveActivity *act = [[XXArchiveActivity alloc] init];
             UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:urlsArr applicationActivities:@[act]];
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
                 controller.modalPresentationStyle = UIModalPresentationPopover;
                 START_IGNORE_PARTIAL
-                if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                if (XXT_SYSTEM_8) {
                     controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
                     controller.popoverPresentationController.barButtonItem = sender;
                 } else {
@@ -1145,10 +1145,10 @@ END_IGNORE_PARTIAL
         }
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:acts];
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             controller.modalPresentationStyle = UIModalPresentationPopover;
             START_IGNORE_PARTIAL
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            if (XXT_SYSTEM_8) {
                 controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
                 controller.popoverPresentationController.sourceView = anchorView;
                 controller.popoverPresentationController.sourceRect = anchorRect;
@@ -1196,10 +1196,10 @@ END_IGNORE_PARTIAL
         }
         UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[fileURL] applicationActivities:acts];
         [controller setExcludedActivityTypes:@[ UIActivityTypeAirDrop ]];
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             controller.modalPresentationStyle = UIModalPresentationPopover;
             START_IGNORE_PARTIAL
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            if (XXT_SYSTEM_8) {
                 controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
                 controller.popoverPresentationController.sourceView = anchorView;
                 controller.popoverPresentationController.sourceRect = anchorRect;

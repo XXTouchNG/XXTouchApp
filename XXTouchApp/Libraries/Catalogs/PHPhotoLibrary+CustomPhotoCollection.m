@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, LoadAlbumFailure) {
     __block NSString *assetID = nil;
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_8) {
             assetID = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
         }
         END_IGNORE_PARTIAL

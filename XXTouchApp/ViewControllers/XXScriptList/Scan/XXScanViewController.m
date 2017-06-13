@@ -458,7 +458,7 @@
 - (NSString *)scanImage:(UIImage *)image {
     NSString *scannedResult = nil;
     START_IGNORE_PARTIAL
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+    if (XXT_SYSTEM_8) {
         CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
         NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
         for (int index = 0; index < features.count; index ++) {
@@ -600,7 +600,10 @@
         NSError *error = nil;
         BOOL result = NO;
         if (!err) {
-            result = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&error];
+            result = [[NSFileManager defaultManager] removeItemAtPath:destination error:&error];
+            if (result) {
+                result = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&error];
+            }
         } else {
             error = err;
         }
@@ -612,7 +615,7 @@
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
                 if (error) {
-                    [self.navigationController.view makeToast:[error localizedDescription]];
+                    [self.navigationController.view makeToast:[error customDescription]];
                 }
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
             }

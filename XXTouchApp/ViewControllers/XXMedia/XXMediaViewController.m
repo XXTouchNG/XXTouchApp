@@ -40,7 +40,7 @@
 - (void)moviePlaybackDidFinish:(NSNotification *)aNotification {
     NSDictionary *userInfo = aNotification.userInfo;
     if ([userInfo[@"error"] isKindOfClass:[NSError class]]) {
-        NSString *reason = [userInfo[@"error"] localizedDescription];
+        NSString *reason = [userInfo[@"error"] customDescription];
         [self.navigationController.view makeToast:reason];
     }
 }
@@ -92,10 +92,10 @@
 
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:self.filePath]] applicationActivities:nil];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_8) {
             controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.barButtonItem = sender;
         } else {

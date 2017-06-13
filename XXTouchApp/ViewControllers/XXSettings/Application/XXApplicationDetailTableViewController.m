@@ -44,14 +44,10 @@ enum {
     [super viewDidLoad];
     self.clearsSelectionOnViewWillAppear = YES; // Override
     self.title = 
-    self.appNameLabel.text = [self.appProxy localizedName];
-    self.bundleIDLabel.text = [self.appProxy applicationIdentifier];
-    self.bundlePathLabel.text = [[self.appProxy resourcesDirectoryURL] path];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        self.dataPathLabel.text = [[self.appProxy dataContainerURL] path];
-    } else {
-        self.dataPathLabel.text = [[self.appProxy containerURL] path];
-    }
+    self.appNameLabel.text = self.applicationDetail[@"applicationLocalizedName"];
+    self.bundleIDLabel.text = self.applicationDetail[@"applicationIdentifier"];
+    self.bundlePathLabel.text = self.applicationDetail[@"applicationBundle"];
+    self.dataPathLabel.text = self.applicationDetail[@"applicationContainer"];
     if (self.dataPathLabel.text.length == 0) {
         self.dataPathLabel.text = @"/private/var/mobile";
     }
@@ -99,7 +95,7 @@ enum {
 }
 
 - (void)clearAppDataIndexSelected {
-    NSString *bid = [self.appProxy applicationIdentifier];
+    NSString *bid = self.applicationDetail[@"applicationIdentifier"];
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear Application Data", nil)
                                                      andMessage:NSLocalizedString(@"This operation will clear all data of the application, and it cannot be revoked.", nil)];
     @weakify(self);

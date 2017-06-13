@@ -63,7 +63,7 @@
         tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         tableView.editing = YES;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
+        if (XXT_SYSTEM_9) {
             tableView.cellLayoutMarginsFollowReadableWidth = NO;
         }
         END_IGNORE_PARTIAL

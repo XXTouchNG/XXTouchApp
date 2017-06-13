@@ -20,16 +20,19 @@ enum {
     kXXTApplicationSearchTypeBundleID
 };
 
+CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier);
+CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier);
+
 @interface XXTApplicationPicker ()
         <
         UITableViewDelegate,
         UITableViewDataSource,
         UISearchDisplayDelegate
         >
-@property(nonatomic, strong) NSArray <LSApplicationProxy *> *allApplications;
-@property(nonatomic, strong) NSArray <LSApplicationProxy *> *displayApplications;
+@property(nonatomic, strong) NSArray <NSDictionary *> *allApplications;
+@property(nonatomic, strong) NSArray <NSDictionary *> *displayApplications;
 @property(nonatomic, strong) UITableView *tableView;
-@property(nonatomic, strong) LSApplicationProxy *selectedApplication;
+@property(nonatomic, strong) NSDictionary *selectedApplication;
 
 @end
 
@@ -48,7 +51,7 @@ enum {
 }
 
 - (NSString *)pickerResult {
-    return self.selectedApplication.applicationIdentifier;
+    return self.selectedApplication[@"applicationIdentifier"];
 }
 
 #pragma mark - Default Style
@@ -77,9 +80,9 @@ enum {
     SEL selectorAll = NSSelectorFromString(@"allApplications");
     NSArray <LSApplicationProxy *> *allApplications = [workspace performSelector:selectorAll];
     
-    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"white-icons" ofType:@"plist"];
-    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"white-icons"];
-    NSMutableArray *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
+    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"xxt-white-icons" ofType:@"plist"];
+    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"xxt-white-icons"];
+    NSMutableArray <NSDictionary *> *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
     for (LSApplicationProxy *appProxy in allApplications) {
         BOOL shouldAdd = YES;
         for (NSString *appId in blacklistApplications) {
@@ -88,13 +91,25 @@ enum {
             }
         }
         if (shouldAdd) {
-            [filteredApplications addObject:appProxy];
+            NSString *applicationIdentifier = appProxy.applicationIdentifier;
+            NSString *applicationBundle = [appProxy.resourcesDirectoryURL path];
+            NSString *applicationContainer = nil;
+            NSString *applicationLocalizedName = CFBridgingRelease(SBSCopyLocalizedApplicationNameForDisplayIdentifier((__bridge CFStringRef)(applicationIdentifier)));
+            UIImage *applicationIconImage = [UIImage imageWithData:CFBridgingRelease(SBSCopyIconImagePNGDataForDisplayIdentifier((__bridge CFStringRef)(applicationIdentifier)))];
+            if (XXTP_SYSTEM_8) {
+                applicationContainer = [[appProxy dataContainerURL] path];
+            } else {
+                applicationContainer = [[appProxy containerURL] path];
+            }
+            if (applicationIdentifier && applicationBundle && applicationContainer && applicationLocalizedName && applicationIconImage) {
+                [filteredApplications addObject:@{@"applicationIdentifier": applicationIdentifier, @"applicationBundle": applicationBundle, @"applicationContainer": applicationContainer, @"applicationLocalizedName": applicationLocalizedName, @"applicationIconImage": applicationIconImage}];
+            }
         }
     }
     self.allApplications = filteredApplications;
 
     if (allApplications.count != 0) {
-        self.selectedApplication = allApplications[0];
+        self.selectedApplication = self.allApplications[0];
     }
 
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -103,7 +118,7 @@ enum {
     tableView.dataSource = self;
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     START_IGNORE_PARTIAL
-    if (XXT_SYSTEM_9) {
+    if (XXTP_SYSTEM_9) {
         tableView.cellLayoutMarginsFollowReadableWidth = NO;
     }END_IGNORE_PARTIAL
     tableView.scrollIndicatorInsets = tableView.contentInset =
@@ -175,25 +190,21 @@ enum {
         cell = [[XXTApplicationCell alloc] initWithStyle:UITableViewCellStyleDefault
                                          reuseIdentifier:kXXTApplicationCellReuseIdentifier];
     }
-    LSApplicationProxy *appProxy;
+    NSDictionary *applicationDetail = nil;
     if (tableView == self.tableView) {
         if (indexPath.section == kXXTApplicationPickerCellSection) {
-            appProxy = self.allApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.allApplications[(NSUInteger) indexPath.row];
         }
     } else {
         if (indexPath.section == kXXTApplicationPickerCellSection) {
-            appProxy = self.displayApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.displayApplications[(NSUInteger) indexPath.row];
         }
     }
-    [cell setApplicationName:[appProxy localizedName]];
-    [cell setApplicationBundleID:[appProxy applicationIdentifier]];
-    if (XXT_SYSTEM_9) {
-        [cell setApplicationIconData:[appProxy performSelector:@selector(iconDataForVariant:) withObject:@(2)]];
-    } else {
-        [cell setApplicationIconData:[appProxy iconDataForVariant:0]];
-    }
+    [cell setApplicationName:applicationDetail[@"applicationLocalizedName"]];
+    [cell setApplicationBundleID:applicationDetail[@"applicationIdentifier"]];
+    [cell setApplicationIconImage:applicationDetail[@"applicationIconImage"]];
     [cell setTintColor:[[XXTPickerHelper sharedInstance] frontColor]];
-    if (appProxy == self.selectedApplication) {
+    if (applicationDetail == self.selectedApplication) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -204,14 +215,14 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    LSApplicationProxy *appProxy;
+    NSDictionary *applicationDetail = nil;
     if (tableView == self.tableView) {
         if (indexPath.section == kXXTApplicationPickerCellSection) {
-            appProxy = self.allApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.allApplications[(NSUInteger) indexPath.row];
         }
     } else {
         if (indexPath.section == kXXTApplicationPickerCellSection) {
-            appProxy = self.displayApplications[(NSUInteger) indexPath.row];
+            applicationDetail = self.displayApplications[(NSUInteger) indexPath.row];
         }
     }
 
@@ -220,7 +231,7 @@ enum {
     }
     if (tableView != self.tableView) {
         for (NSUInteger i = 0; i < self.tableView.visibleCells.count; ++i) {
-            if (self.allApplications[i] == appProxy) {
+            if (self.allApplications[i] == applicationDetail) {
                 self.tableView.visibleCells[i].accessoryType = UITableViewCellAccessoryCheckmark;
                 [self.tableView scrollToRowAtIndexPath:[self.tableView indexPathForCell:self.tableView.visibleCells[i]]
                                       atScrollPosition:UITableViewScrollPositionTop
@@ -233,7 +244,7 @@ enum {
 
     XXTApplicationCell *cell1 = [tableView cellForRowAtIndexPath:indexPath];
     cell1.accessoryType = UITableViewCellAccessoryCheckmark;
-    self.selectedApplication = appProxy;
+    self.selectedApplication = applicationDetail;
 
     [self updateSubtitle:[cell1 applicationBundleID]];
 }
@@ -287,7 +298,7 @@ enum {
 - (void)reloadSearch {
     NSPredicate *predicate = nil;
     if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXTApplicationSearchTypeName) {
-        predicate = [NSPredicate predicateWithFormat:@"localizedName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+        predicate = [NSPredicate predicateWithFormat:@"applicationLocalizedName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     } else if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXTApplicationSearchTypeBundleID) {
         predicate = [NSPredicate predicateWithFormat:@"applicationIdentifier CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     }

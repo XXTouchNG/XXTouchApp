@@ -134,7 +134,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     else
     {
         if (err != nil) {
-            [self.navigationController.view makeToast:[err localizedDescription]];
+            [self.navigationController.view makeToast:[err customDescription]];
             return;
         }
         NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
@@ -161,7 +161,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
         webView.scalesPageToFit = YES;
         webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN(@"9.0")) {
+        if (XXT_SYSTEM_9) {
             webView.allowsLinkPreview = YES;
             webView.allowsPictureInPictureMediaPlayback = YES;
         }
@@ -204,10 +204,10 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 - (void)shareItemTapped:(UIBarButtonItem *)sender {
     ARSafariActivity *safariActivity = [[ARSafariActivity alloc] init];
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:@[safariActivity]];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_9) {
             controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.barButtonItem = sender;
         } else {
@@ -227,10 +227,10 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 
 - (void)transferItemTapped:(UIBarButtonItem *)sender {
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:nil];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         controller.modalPresentationStyle = UIModalPresentationPopover;
         START_IGNORE_PARTIAL
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if (XXT_SYSTEM_9) {
             controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
             controller.popoverPresentationController.barButtonItem = sender;
         } else {
@@ -259,7 +259,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [self.navigationController.view makeToast:[error localizedDescription]];
+    [self.navigationController.view makeToast:[error customDescription]];
 }
 
 #pragma mark - File Types

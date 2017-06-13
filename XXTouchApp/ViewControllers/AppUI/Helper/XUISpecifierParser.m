@@ -100,7 +100,7 @@
             [spec setProperty:image forKey:PSIconImageKey];
         }
         if (dict[PSDetailControllerClassKey]) {
-            if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            if (!XXT_SYSTEM_8) {
                 [spec setProperty:@"presentViewController:" forKey:PSActionKey];
                 spec->action = NSSelectorFromString(@"presentViewController:");
             }

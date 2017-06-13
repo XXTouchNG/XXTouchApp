@@ -16,17 +16,17 @@
 #pragma mark - View Style
 
 - (BOOL)shouldAutorotate {
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        return NO;
+    if (XXT_SYSTEM_8) {
+        return self.topViewController.shouldAutorotate;
     }
-    return self.topViewController.shouldAutorotate;
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        return UIInterfaceOrientationMaskPortrait;
+    if (XXT_SYSTEM_8) {
+        return self.topViewController.supportedInterfaceOrientations;
     }
-    return self.topViewController.supportedInterfaceOrientations;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {

@@ -60,7 +60,7 @@
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:destination withIntermediateDirectories:YES attributes:nil error:&error];
         if (error) {
-            [navController.view makeToast:[error localizedDescription]];
+            [navController.view makeToast:[error customDescription]];
         } else {
             navController.view.userInteractionEnabled = NO;
             [navController.view makeToastActivity:CSToastPositionCenter];
@@ -80,7 +80,7 @@
                     [navController.view hideToastActivity];
                     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kXXGlobalNotificationList object:nil userInfo:@{kXXGlobalNotificationKeyEvent: kXXGlobalNotificationKeyEventUnarchive}]];
                     if (err) {
-                        [navController.view makeToast:[error localizedDescription]];
+                        [navController.view makeToast:[error customDescription]];
                     } else {
                         [navController.view makeToast:NSLocalizedString(@"Operation completed", nil)];
                     }

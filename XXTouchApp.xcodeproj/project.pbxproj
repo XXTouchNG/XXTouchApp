@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		0F0873211DD96987003C061C /* NSFileManager+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0873201DD96987003C061C /* NSFileManager+Mime.m */; };
 		0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F239D251DC716C900B6CBC3 /* XXTReferences.bundle */; };
+		0F35BE2B1EEC5445000F0770 /* NSError+LocalizedDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35BE2A1EEC5445000F0770 /* NSError+LocalizedDescription.m */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
 		0F5D1F5C1D7E525F0061A954 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F5B1D7E525F0061A954 /* AVKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F665A541EA3D8B30081065F /* AppDefines.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F665A531EA3D8B30081065F /* AppDefines.plist */; };
+		0F6AD8DA1EDF15340078A32F /* SpringBoardServices in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6AD8D91EDF15340078A32F /* SpringBoardServices */; };
 		0F6DD64E1DF9A7E4002E500D /* AppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */; };
 		0F6DD64F1DF9A7E4002E500D /* CloudApiSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD6491DF9A7E4002E500D /* CloudApiSdk.m */; };
 		0F6DD6501DF9A7E4002E500D /* SignUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD64D1DF9A7E4002E500D /* SignUtil.m */; };
@@ -26,7 +28,7 @@
 		0F93FC9A1E7FFDC2009A34EF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F93FC991E7FFDC2009A34EF /* Preferences.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F98529D1D748072001323AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F98529B1D748072001323AA /* Main.storyboard */; };
 		0FA5FD8F1DD49213005D3FD4 /* lua.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FA5FD8E1DD49213005D3FD4 /* lua.c */; };
-		0FA7ABE01ED63D03003EAD7D /* white-icons.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7ABDF1ED63D03003EAD7D /* white-icons.plist */; };
+		0FA7ABE01ED63D03003EAD7D /* xxt-white-icons.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7ABDF1ED63D03003EAD7D /* xxt-white-icons.plist */; };
 		0FAF70C81DD961930054EB93 /* NSFileManager+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAF70C71DD961930054EB93 /* NSFileManager+Size.m */; };
 		0FB0A78E1D73D80D00129E83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A78A1D73D80D00129E83 /* AppDelegate.m */; };
 		0FB0A79F1D73DB7600129E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0A79E1D73DB7600129E83 /* Assets.xcassets */; };
@@ -142,7 +144,6 @@
 		0FFDB0F41DD9C8A5009C6F1F /* IDMTapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFDB0EA1DD9C8A5009C6F1F /* IDMTapDetectingImageView.m */; };
 		0FFDB0F51DD9C8A5009C6F1F /* IDMTapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFDB0EC1DD9C8A5009C6F1F /* IDMTapDetectingView.m */; };
 		0FFDB0F61DD9C8A5009C6F1F /* IDMZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFDB0EE1DD9C8A5009C6F1F /* IDMZoomingScrollView.m */; };
-		0FFFDEF91EBA5DA100C03FBE /* UIImage+imageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDE821EBA5DA100C03FBE /* UIImage+imageData.m */; };
 		0FFFDEFA1EBA5DA100C03FBE /* XXTApplicationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDE841EBA5DA100C03FBE /* XXTApplicationCell.m */; };
 		0FFFDEFB1EBA5DA100C03FBE /* XXTApplicationPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDE861EBA5DA100C03FBE /* XXTApplicationPicker.m */; };
 		0FFFDEFC1EBA5DA100C03FBE /* XXTImagePickerAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFFDE891EBA5DA100C03FBE /* XXTImagePickerAlbumCell.m */; };
@@ -284,11 +285,14 @@
 		0F0FA8EF1D997F73009FD2F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0F0FA8F11D997F95009FD2F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0F239D251DC716C900B6CBC3 /* XXTReferences.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = XXTReferences.bundle; sourceTree = "<group>"; };
+		0F35BE291EEC5445000F0770 /* NSError+LocalizedDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+LocalizedDescription.h"; sourceTree = "<group>"; };
+		0F35BE2A1EEC5445000F0770 /* NSError+LocalizedDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+LocalizedDescription.m"; sourceTree = "<group>"; };
 		0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F5D1F591D7E51020061A954 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0F5D1F5B1D7E525F0061A954 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		0F665A531EA3D8B30081065F /* AppDefines.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppDefines.plist; sourceTree = "<group>"; };
+		0F6AD8D91EDF15340078A32F /* SpringBoardServices */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = SpringBoardServices; sourceTree = "<group>"; };
 		0F6DD6461DF9A7E4002E500D /* AppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
 		0F6DD6471DF9A7E4002E500D /* AppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfiguration.m; sourceTree = "<group>"; };
 		0F6DD6481DF9A7E4002E500D /* CloudApiSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudApiSdk.h; sourceTree = "<group>"; };
@@ -311,7 +315,7 @@
 		0F98529C1D748072001323AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0FA5FD8E1DD49213005D3FD4 /* lua.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lua.c; sourceTree = "<group>"; };
 		0FA704ED1E773C5600F8ADDC /* XXTouchApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XXTouchApp.entitlements; sourceTree = "<group>"; };
-		0FA7ABDF1ED63D03003EAD7D /* white-icons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "white-icons.plist"; sourceTree = "<group>"; };
+		0FA7ABDF1ED63D03003EAD7D /* xxt-white-icons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "xxt-white-icons.plist"; sourceTree = "<group>"; };
 		0FAF70C61DD961930054EB93 /* NSFileManager+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Size.h"; sourceTree = "<group>"; };
 		0FAF70C71DD961930054EB93 /* NSFileManager+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Size.m"; sourceTree = "<group>"; };
 		0FB0A7891D73D80D00129E83 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -531,8 +535,6 @@
 		0FFDB0ED1DD9C8A5009C6F1F /* IDMZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDMZoomingScrollView.h; sourceTree = "<group>"; };
 		0FFDB0EE1DD9C8A5009C6F1F /* IDMZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDMZoomingScrollView.m; sourceTree = "<group>"; };
 		0FFFDE801EBA5DA100C03FBE /* LSApplicationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSApplicationProxy.h; sourceTree = "<group>"; };
-		0FFFDE811EBA5DA100C03FBE /* UIImage+imageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+imageData.h"; sourceTree = "<group>"; };
-		0FFFDE821EBA5DA100C03FBE /* UIImage+imageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+imageData.m"; sourceTree = "<group>"; };
 		0FFFDE831EBA5DA100C03FBE /* XXTApplicationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTApplicationCell.h; sourceTree = "<group>"; };
 		0FFFDE841EBA5DA100C03FBE /* XXTApplicationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXTApplicationCell.m; sourceTree = "<group>"; };
 		0FFFDE851EBA5DA100C03FBE /* XXTApplicationPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXTApplicationPicker.h; sourceTree = "<group>"; };
@@ -768,6 +770,7 @@
 			files = (
 				0FF025771E95A53600CA813F /* SystemConfiguration.framework in Frameworks */,
 				0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */,
+				0F6AD8DA1EDF15340078A32F /* SpringBoardServices in Frameworks */,
 				0F7665761E77E68600AFB013 /* CoreTelephony.framework in Frameworks */,
 				0FE36B261DC82C7B00E952B4 /* Security.framework in Frameworks */,
 				0FE36B241DC82C6D00E952B4 /* libsqlite3.tbd in Frameworks */,
@@ -911,7 +914,7 @@
 		0FCF89A11DD0139000F4C906 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0FA7ABDF1ED63D03003EAD7D /* white-icons.plist */,
+				0FA7ABDF1ED63D03003EAD7D /* xxt-white-icons.plist */,
 				0FCF89A61DD0139000F4C906 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -981,6 +984,8 @@
 				0F0873201DD96987003C061C /* NSFileManager+Mime.m */,
 				0FBF5B561DD96945002AB03D /* NSFileManager+RealDestination.h */,
 				0FBF5B571DD96945002AB03D /* NSFileManager+RealDestination.m */,
+				0F35BE291EEC5445000F0770 /* NSError+LocalizedDescription.h */,
+				0F35BE2A1EEC5445000F0770 /* NSError+LocalizedDescription.m */,
 			);
 			path = Catalogs;
 			sourceTree = "<group>";
@@ -1280,8 +1285,6 @@
 			isa = PBXGroup;
 			children = (
 				0FFFDE801EBA5DA100C03FBE /* LSApplicationProxy.h */,
-				0FFFDE811EBA5DA100C03FBE /* UIImage+imageData.h */,
-				0FFFDE821EBA5DA100C03FBE /* UIImage+imageData.m */,
 				0FFFDE831EBA5DA100C03FBE /* XXTApplicationCell.h */,
 				0FFFDE841EBA5DA100C03FBE /* XXTApplicationCell.m */,
 				0FFFDE851EBA5DA100C03FBE /* XXTApplicationPicker.h */,
@@ -1773,6 +1776,7 @@
 		7FB225FCAC06A2A9A6A98656 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F6AD8D91EDF15340078A32F /* SpringBoardServices */,
 				0FF025761E95A53600CA813F /* SystemConfiguration.framework */,
 				0F9046371DD84A890006E6DD /* StoreKit.framework */,
 				0FE36B251DC82C7B00E952B4 /* Security.framework */,
@@ -1905,7 +1909,7 @@
 				0F665A541EA3D8B30081065F /* AppDefines.plist in Resources */,
 				0FFFDF261EBA5DA100C03FBE /* xxt-picker-check.png in Resources */,
 				0FFFDF271EBA5DA100C03FBE /* xxt-picker-check@2x.png in Resources */,
-				0FA7ABE01ED63D03003EAD7D /* white-icons.plist in Resources */,
+				0FA7ABE01ED63D03003EAD7D /* xxt-white-icons.plist in Resources */,
 				0FFFDF1F1EBA5DA100C03FBE /* xxt-lock@2x.png in Resources */,
 				0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */,
 				0FFFDF2D1EBA5DA100C03FBE /* xxt-picker-show.png in Resources */,
@@ -2094,6 +2098,7 @@
 				0FCF8A9E1DD013E700F4C906 /* lbitlib.c in Sources */,
 				0FCF8A931DD013E700F4C906 /* NSString+AddSlashes.m in Sources */,
 				0FCF8A941DD013E700F4C906 /* NSString+CountSubstr.m in Sources */,
+				0F35BE2B1EEC5445000F0770 /* NSError+LocalizedDescription.m in Sources */,
 				0FFFDF071EBA5DA100C03FBE /* XXTColorPicker.m in Sources */,
 				0FCF8AB41DD013E700F4C906 /* lstrlib.c in Sources */,
 				0FCF8AAF1DD013E700F4C906 /* lopcodes.c in Sources */,
@@ -2102,7 +2107,6 @@
 				0FFFDF031EBA5DA100C03FBE /* XXTLocationPicker.m in Sources */,
 				0FCF8AA11DD013E700F4C906 /* lctype.c in Sources */,
 				0FCF89AB1DD0139000F4C906 /* main.m in Sources */,
-				0FFFDEF91EBA5DA100C03FBE /* UIImage+imageData.m in Sources */,
 				0FCF8AAD1DD013E700F4C906 /* loadlib.c in Sources */,
 				0FFDB0F61DD9C8A5009C6F1F /* IDMZoomingScrollView.m in Sources */,
 				0FFFDEFF1EBA5DA100C03FBE /* XXTImagePickerPhotoCell.m in Sources */,
@@ -2448,8 +2452,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XXTouchApp/Libraries/Preferences.framework/Versions/A",
+					"$(PROJECT_DIR)",
 				);
 				LLVM_LTO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CODE_SIGN_FLAGS = "--no-strict";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2561,6 +2567,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/XXTouchApp/Libraries/Preferences.framework/Versions/A",
+					"$(PROJECT_DIR)",
 				);
 				LLVM_LTO = NO;
 				OTHER_CODE_SIGN_FLAGS = "--no-strict";

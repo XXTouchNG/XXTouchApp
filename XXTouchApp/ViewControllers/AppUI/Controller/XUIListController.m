@@ -40,7 +40,7 @@
     if (tintSwitches_) {
         if ([self respondsToSelector:@selector(switchOnTintColor)]) {
             START_IGNORE_PARTIAL
-            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            if (!XXT_SYSTEM_9)
                 [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.switchOnTintColor;
             else
                 [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.switchOnTintColor;
@@ -48,7 +48,7 @@
         } else {
             if ([self respondsToSelector:@selector(tintColor)]) {
                 START_IGNORE_PARTIAL
-                if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+                if (!XXT_SYSTEM_9)
                     [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.tintColor;
                 else
                     [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.tintColor;
@@ -58,14 +58,14 @@
         
         if ([self respondsToSelector:@selector(switchTintColor)]) {
             START_IGNORE_PARTIAL
-            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            if (!XXT_SYSTEM_9)
                 [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.switchTintColor;
             else
                 [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.switchTintColor;
             END_IGNORE_PARTIAL
         } else if ([self respondsToSelector:@selector(tintColor)]) {
             START_IGNORE_PARTIAL
-            if (SYSTEM_VERSION_LESS_THAN(@"9.0"))
+            if (!XXT_SYSTEM_9)
                 [UISwitch appearanceWhenContainedIn:self.class, nil].onTintColor = self.tintColor;
             else
                 [UISwitch appearanceWhenContainedInInstancesOfClasses:@[self.class]].onTintColor = self.tintColor;
@@ -362,13 +362,13 @@
             [self.navigationController.view hideToastActivity];
             if (!result) {
                 if (err.code == 2) {
-                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err customDescription] andMessage:[err localizedFailureReason]];
                     [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
                         
                     }];
                     [alertView show];
                 } else {
-                    [self.navigationController.view makeToast:[err localizedDescription]];
+                    [self.navigationController.view makeToast:[err customDescription]];
                 }
             }
         });
