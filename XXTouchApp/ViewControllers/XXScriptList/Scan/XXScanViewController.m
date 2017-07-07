@@ -16,6 +16,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ZBarSDK/ZBarImageScanner.h>
+#import "XXLocalNetService.h"
 
 @interface XXScanViewController () <AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, XXScanDownloadTaskDelegate>
 
@@ -596,17 +597,46 @@
     @weakify(self);
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:urlRequest completionHandler:^(NSURL *location, NSURLResponse *response, NSError *err) {
         @strongify(self);
-        NSString *destination = destinationPath;
-        NSError *error = nil;
         BOOL result = NO;
-        if (!err) {
-            if ([[NSFileManager defaultManager] fileExistsAtPath:destination])
-            {
-                [[NSFileManager defaultManager] removeItemAtPath:destination error:&error];
-            }
-            result = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&error];
-        } else {
+        NSError *error = nil;
+        NSString *destination = destinationPath;
+        if (err) {
+            result = NO;
             error = err;
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            NSInteger responseStatusCode = [httpResponse statusCode];
+            if (responseStatusCode == 200) {
+                if ([[NSFileManager defaultManager] fileExistsAtPath:destination]) {
+                    NSError *removeError = nil;
+                    BOOL removeResult = [[NSFileManager defaultManager] removeItemAtPath:destination error:&removeError];
+                    if (removeResult == NO) {
+                        result = NO;
+                        error = removeError;
+                    }
+                }
+                if (error == nil) {
+                    NSError *moveError = nil;
+                    BOOL moveResult = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&moveError];
+                    if (moveResult == NO) {
+                        result = NO;
+                        error = moveError;
+                    } else {
+                        result = YES;
+                        error = nil;
+                    }
+                }
+            } else {
+                result = NO;
+                error = [NSError errorWithDomain:kXXErrorDomain
+                                            code:responseStatusCode
+                                        userInfo:
+  @{
+    NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Download failed: %d %@", nil),
+                                responseStatusCode,
+                                [NSHTTPURLResponse localizedStringForStatusCode:responseStatusCode]]
+    }];
+            }
         }
         dispatch_async_on_main_queue(^{
             [self.navigationController.view hideToastActivity];
@@ -616,7 +646,7 @@
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
                 if (error) {
-                    [self.navigationController.view makeToast:[error localizedDescription]];
+                    [self.navigationController.view makeToast:[error customDescription]];
                 }
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
             }

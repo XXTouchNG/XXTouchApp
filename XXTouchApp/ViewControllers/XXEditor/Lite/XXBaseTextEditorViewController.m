@@ -24,7 +24,6 @@
 #import "XXPaymentActivity.h"
 #import "NSFileManager+Size.h"
 
-static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static clock_t tickCount;
 
 @interface XXBaseTextEditorViewController ()

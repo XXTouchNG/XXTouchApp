@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
+
 @interface XXLocalNetService : NSObject
 
 + (void)killBackboardd;
