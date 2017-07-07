@@ -129,7 +129,7 @@
             }
         } else if (err) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Error", nil, [XXTPickerHelper bundle], nil)
-                                                                message:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Cannot load image from cache: %@", nil, [XXTPickerHelper bundle], nil), [err customDescription]]
+                                                                message:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Cannot load image from cache: %@", nil, [XXTPickerHelper bundle], nil), [err localizedDescription]]
                                                                delegate:self
                                                       cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [XXTPickerHelper bundle], nil)
                                                       otherButtonTitles:nil];
@@ -381,7 +381,7 @@
                                    error:&err];
     if (!result) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Error", nil, [XXTPickerHelper bundle], nil)
-                                                            message:[err customDescription]
+                                                            message:[err localizedDescription]
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [XXTPickerHelper bundle], nil)
                                                   otherButtonTitles:nil];
@@ -397,7 +397,7 @@
     BOOL result = [[NSFileManager defaultManager] removeItemAtPath:self.tempImagePath error:&err];
     if (!result) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Error", nil, [XXTPickerHelper bundle], nil)
-                                                            message:[err customDescription]
+                                                            message:[err localizedDescription]
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [XXTPickerHelper bundle], nil)
                                                   otherButtonTitles:nil];

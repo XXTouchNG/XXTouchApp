@@ -66,7 +66,7 @@ int cancelFlag = 0;
     NSError *err = nil;
     [[NSFileManager defaultManager] moveItemAtPath:self.originalPath toPath:targetPath error:&err];
     if (err != nil) {
-        [self.navigationController.view makeToast:[err customDescription]];
+        [self.navigationController.view makeToast:[err localizedDescription]];
         return;
     }
     if ([_nameTextField isFirstResponder]) {

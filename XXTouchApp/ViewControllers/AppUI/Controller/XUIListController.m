@@ -362,13 +362,13 @@
             [self.navigationController.view hideToastActivity];
             if (!result) {
                 if (err.code == 2) {
-                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err customDescription] andMessage:[err localizedFailureReason]];
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
                     [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
                         
                     }];
                     [alertView show];
                 } else {
-                    [self.navigationController.view makeToast:[err customDescription]];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Could not connect to the daemon.", nil)];
                 }
             }
         });

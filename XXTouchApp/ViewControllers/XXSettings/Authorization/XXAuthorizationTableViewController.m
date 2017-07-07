@@ -87,10 +87,23 @@ enum {
     [self.refreshControl sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
-- (void)endBindingCodeAndGetDeviceInfo {
+- (void)endBindingCodeAndGetDeviceInfoWithMessage:(NSString *)message andCode:(NSString *)code {
+    NSDate *expireDate = [XXTGSSI.dataService expirationDate];
+    NSString *logText = [NSString stringWithFormat:@"[%04ld-%02ld-%02ld %02ld:%02ld:%02ld]: %@\n",
+                         (long)expireDate.year, (long)expireDate.month, (long)expireDate.day, (long)expireDate.hour, (long)expireDate.minute, (long)expireDate.second, code];
+    NSString *logPath = [[XXTGSSI.dataService mainPath] stringByAppendingPathComponent:@"log/bind_code.log"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
+        [[NSFileManager defaultManager] createFileAtPath:logPath
+                                                contents:nil
+                                              attributes:nil];
+    }
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:logPath];
+    [fileHandle seekToEndOfFile];
+    [fileHandle writeData:[logText dataUsingEncoding:NSUTF8StringEncoding]];
+    [fileHandle closeFile];
     self.authorizationField.text = @"";
     NSMutableString *intervalString = [[NSMutableString alloc] init];
-    NSTimeInterval interval = [[XXTGSSI.dataService expirationDate] timeIntervalSinceDate:[XXTGSSI.dataService nowDate]];
+    NSTimeInterval interval = [expireDate timeIntervalSinceDate:[XXTGSSI.dataService nowDate]];
     int intervalDay = (int)floor(interval / 86400);
     if (intervalDay != 0)
     {
@@ -98,7 +111,8 @@ enum {
     }
     int intervalHour = (int)floor((interval - intervalDay * 86400) / 3600);
     [intervalString appendFormat:NSLocalizedString(@"%d Hour(s) ", nil), intervalHour];
-    NSString *eMsg = [NSString stringWithFormat:NSLocalizedString(@"Operation succeed, added %@", nil), intervalString];
+//    NSString *eMsg = [NSString stringWithFormat:NSLocalizedString(@"Operation succeed, added %@", nil), intervalString];
+    NSString *eMsg = message;
     @weakify(self);
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Code binding succeed", nil) andMessage:eMsg];
     [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil)
@@ -119,7 +133,7 @@ enum {
     {
         [self.authorizationField resignFirstResponder];
     }
-    __block NSString *codeText = self.authorizationField.text;
+    __block NSString *codeText = [self.authorizationField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     if (![codeText matchesRegex:@"^[3-9a-zA-Z]*$" options:0]) {
         [self.navigationController.view makeToast:NSLocalizedString(@"The code only contains 3-9, a-z and A-Z.", nil)];
         return;
@@ -128,7 +142,24 @@ enum {
         [self.navigationController.view makeToast:NSLocalizedString(@"The code must be 10-20 characters long.", nil)];
         return;
     }
-    SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
+//    SendConfigAction([XXLocalNetService remoteBindCode:codeText error:&err], [self endBindingCodeAndGetDeviceInfo]);
+    self.navigationController.view.userInteractionEnabled = NO;
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        @strongify(self);
+        __block NSError *err = nil;
+        NSDictionary *result = [XXLocalNetService remoteBindCode:codeText error:&err];
+        dispatch_async_on_main_queue(^{
+            self.navigationController.view.userInteractionEnabled = YES;
+            [self.navigationController.view hideToastActivity];
+            if (!result) {
+                [self.navigationController.view makeToast:[err localizedDescription]];
+            } else {
+                [self endBindingCodeAndGetDeviceInfoWithMessage:result[@"message"] andCode:codeText];
+            }
+        });
+    });
 }
 
 - (IBAction)authorizationFieldChanged:(UITextField *)sender {
@@ -155,9 +186,24 @@ enum {
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField == self.authorizationField) {
-        if ([string containsString:@"0"] || [string containsString:@"1"] || [string containsString:@"2"]) {
+        NSMutableString *codeText = [[textField.text stringByReplacingCharactersInRange:range withString:string] mutableCopy];
+        [codeText replaceOccurrencesOfString:@" " withString:@"" options:0 range:NSMakeRange(0, codeText.length)];
+        if (![codeText matchesRegex:@"^[3-9a-zA-Z]*$" options:0]) {
             return NO;
         }
+        if (codeText.length > 20) {
+            return NO;
+        }
+        NSMutableString *spacedText = [[NSMutableString alloc] init];
+        for (NSUInteger i = 0; i < [codeText length]; i++) {
+            if (i != 0 && i % 4 == 0) {
+                [spacedText appendString:@" "];
+            }
+            [spacedText appendString:[codeText substringWithRange:NSMakeRange(i, 1)]];
+        }
+        [textField setText:[spacedText uppercaseString]];
+        [self authorizationFieldChanged:textField];
+        return NO;
     }
     return YES;
 }
@@ -176,7 +222,7 @@ enum {
                 [sender endRefreshing];
             }
             if (!result) {
-                [self.navigationController.view makeToast:[err customDescription]];
+                [self.navigationController.view makeToast:NSLocalizedString(@"Cannot fetch authorization data from server.", nil)];
             } else {
                 [self loadDeviceAndAuthorizationInfo];
 //                NSDate *nowDate = [XXTGSSI.dataService nowDate];

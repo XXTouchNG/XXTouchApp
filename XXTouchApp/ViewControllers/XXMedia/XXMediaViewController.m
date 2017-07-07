@@ -40,7 +40,7 @@
 - (void)moviePlaybackDidFinish:(NSNotification *)aNotification {
     NSDictionary *userInfo = aNotification.userInfo;
     if ([userInfo[@"error"] isKindOfClass:[NSError class]]) {
-        NSString *reason = [userInfo[@"error"] customDescription];
+        NSString *reason = [userInfo[@"error"] localizedDescription];
         [self.navigationController.view makeToast:reason];
     }
 }

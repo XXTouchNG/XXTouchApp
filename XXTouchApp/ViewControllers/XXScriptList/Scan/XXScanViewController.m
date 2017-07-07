@@ -600,10 +600,11 @@
         NSError *error = nil;
         BOOL result = NO;
         if (!err) {
-            result = [[NSFileManager defaultManager] removeItemAtPath:destination error:&error];
-            if (result) {
-                result = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&error];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:destination])
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:destination error:&error];
             }
+            result = [[NSFileManager defaultManager] moveItemAtPath:[location path] toPath:destination error:&error];
         } else {
             error = err;
         }
@@ -615,7 +616,7 @@
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
                 if (error) {
-                    [self.navigationController.view makeToast:[error customDescription]];
+                    [self.navigationController.view makeToast:[error localizedDescription]];
                 }
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
             }

@@ -19,9 +19,9 @@
 #define APP_BUNDLE_ID [[UIApplication sharedApplication] appBundleID]
 #define XXTGSSI [GlobalSettings sharedInstance]
 
-#define XXT_SYSTEM_9 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0)
-#define XXT_SYSTEM_8 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_0)
-#define XXT_SYSTEM_7 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_0)
+#define XXT_SYSTEM_9 (NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_9_0)
+#define XXT_SYSTEM_8 (NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_8_0)
+#define XXT_SYSTEM_7 (NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_7_0)
 
 #import <Foundation/Foundation.h>
 #import <YYCategories/YYCategories.h>
@@ -33,7 +33,6 @@
 #import "SystemConstantsDefines.h"
 #import "UINavigationController+StatusBar.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
-#import "NSError+LocalizedDescription.h"
 
 #ifdef DEBUG
 #define XXLog(fmt, ...) NSLog((@"\n[%@:%d]\n%s\n" fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);

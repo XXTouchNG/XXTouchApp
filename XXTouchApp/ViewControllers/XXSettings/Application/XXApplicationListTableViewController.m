@@ -26,8 +26,22 @@ enum {
     kXXApplicationSearchTypeBundleID
 };
 
+#if TARGET_IPHONE_SIMULATOR
+
+CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier) {
+    return CFBridgingRetain(@"");
+}
+
+CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier) {
+    return CFBridgingRetain([[NSData alloc] init]);
+}
+
+#else
+
 CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier);
 CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier);
+
+#endif
 
 @interface XXApplicationListTableViewController ()
 <

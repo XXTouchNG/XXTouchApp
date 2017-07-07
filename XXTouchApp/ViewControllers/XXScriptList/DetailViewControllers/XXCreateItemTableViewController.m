@@ -91,7 +91,7 @@ typedef enum : NSUInteger {
         }
         [self dismissViewControllerAnimated:YES completion:nil];
     } else if (err != nil) {
-        [self.navigationController.view makeToast:[err customDescription]];
+        [self.navigationController.view makeToast:[err localizedDescription]];
     } else {
         [self.navigationController.view makeToast:NSLocalizedString(@"Unknown error", nil)];
     }

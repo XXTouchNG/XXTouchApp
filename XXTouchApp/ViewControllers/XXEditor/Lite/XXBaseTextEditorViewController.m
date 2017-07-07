@@ -113,7 +113,7 @@ UIPopoverControllerDelegate
             if (!result) {
                 self.isLoaded = NO;
                 self.bottomBar.hidden = YES;
-                [self.navigationController.view makeToast:[err customDescription]];
+                [self.navigationController.view makeToast:[err localizedDescription]];
             } else {
                 self.isLoaded = YES;
                 self.bottomBar.hidden = NO;
@@ -580,7 +580,7 @@ UIPopoverControllerDelegate
     NSError *err = nil;
     [self saveFileWithError:&err];
     if (err) {
-        [self.navigationController.view makeToast:[err customDescription]];
+        [self.navigationController.view makeToast:[err localizedDescription]];
     }
 }
 

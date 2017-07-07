@@ -134,7 +134,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
     else
     {
         if (err != nil) {
-            [self.navigationController.view makeToast:[err customDescription]];
+            [self.navigationController.view makeToast:[err localizedDescription]];
             return;
         }
         NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
@@ -259,7 +259,7 @@ static NSString * const kXXWebViewErrorDomain = @"kXXWebViewErrorDomain";
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [self.navigationController.view makeToast:[error customDescription]];
+    [self.navigationController.view makeToast:[error localizedDescription]];
 }
 
 #pragma mark - File Types

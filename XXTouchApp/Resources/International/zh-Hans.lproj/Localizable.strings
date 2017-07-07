@@ -321,4 +321,5 @@ Hide = "隐藏";
 "Search Application" = "搜索应用程序";
 "Name" = "名称";
 "Bundle ID" = "标识符";
-"Could not connect to the server." = "无法连接到守护程序。";
+"Could not connect to the daemon." = "无法连接到守护程序。";
+"Cannot fetch authorization data from server." = "无法连接到授权服务器。";

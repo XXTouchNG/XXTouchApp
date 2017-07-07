@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0F0873211DD96987003C061C /* NSFileManager+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0873201DD96987003C061C /* NSFileManager+Mime.m */; };
 		0F239D261DC716C900B6CBC3 /* XXTReferences.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F239D251DC716C900B6CBC3 /* XXTReferences.bundle */; };
-		0F35BE2B1EEC5445000F0770 /* NSError+LocalizedDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35BE2A1EEC5445000F0770 /* NSError+LocalizedDescription.m */; };
 		0F55538C1D7D4DBA00D8A8A6 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F551D7E3FED0061A954 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0F5D1F5A1D7E51020061A954 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5D1F591D7E51020061A954 /* MediaPlayer.framework */; };
@@ -285,8 +284,6 @@
 		0F0FA8EF1D997F73009FD2F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0F0FA8F11D997F95009FD2F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0F239D251DC716C900B6CBC3 /* XXTReferences.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = XXTReferences.bundle; sourceTree = "<group>"; };
-		0F35BE291EEC5445000F0770 /* NSError+LocalizedDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+LocalizedDescription.h"; sourceTree = "<group>"; };
-		0F35BE2A1EEC5445000F0770 /* NSError+LocalizedDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+LocalizedDescription.m"; sourceTree = "<group>"; };
 		0F55538B1D7D4DBA00D8A8A6 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		0F5D1F541D7E3FED0061A954 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F5D1F591D7E51020061A954 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -984,8 +981,6 @@
 				0F0873201DD96987003C061C /* NSFileManager+Mime.m */,
 				0FBF5B561DD96945002AB03D /* NSFileManager+RealDestination.h */,
 				0FBF5B571DD96945002AB03D /* NSFileManager+RealDestination.m */,
-				0F35BE291EEC5445000F0770 /* NSError+LocalizedDescription.h */,
-				0F35BE2A1EEC5445000F0770 /* NSError+LocalizedDescription.m */,
 			);
 			path = Catalogs;
 			sourceTree = "<group>";
@@ -2098,7 +2093,6 @@
 				0FCF8A9E1DD013E700F4C906 /* lbitlib.c in Sources */,
 				0FCF8A931DD013E700F4C906 /* NSString+AddSlashes.m in Sources */,
 				0FCF8A941DD013E700F4C906 /* NSString+CountSubstr.m in Sources */,
-				0F35BE2B1EEC5445000F0770 /* NSError+LocalizedDescription.m in Sources */,
 				0FFFDF071EBA5DA100C03FBE /* XXTColorPicker.m in Sources */,
 				0FCF8AB41DD013E700F4C906 /* lstrlib.c in Sources */,
 				0FCF8AAF1DD013E700F4C906 /* lopcodes.c in Sources */,

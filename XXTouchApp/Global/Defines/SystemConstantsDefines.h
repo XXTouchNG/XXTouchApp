@@ -33,7 +33,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
         self.navigationController.view.userInteractionEnabled = YES; \
         [self.navigationController.view hideToastActivity]; \
         if (!result) { \
-            [self.navigationController.view makeToast:[err customDescription]]; \
+            [self.navigationController.view makeToast:[err localizedDescription]]; \
         } else { \
             reload; \
         } \

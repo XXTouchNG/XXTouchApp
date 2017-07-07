@@ -343,11 +343,11 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     return NO;
 }
 
-+ (BOOL)remoteBindCode:(NSString *)bind
++ (NSDictionary *)remoteBindCode:(NSString *)bind
                  error:(NSError **)error {
     NSDictionary *deviceInfo = [XXTGSSI.dataService deviceInfo];
     if (!deviceInfo) {
-        return NO;
+        return nil;
     }
     NSMutableDictionary *sendDict = [[NSMutableDictionary alloc] initWithDictionary:@{
                                                                                       @"did": deviceInfo[kXXDeviceInfoUniqueID],
@@ -361,7 +361,7 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
     NSString *checkStr = [[sendDict stringFromQueryComponents] sha1String];
     [sendDict setObject:checkStr forKey:@"sign"];
     NSDictionary *result = [self sendRemoteSynchronousRequest:@"bind_code" withForm:sendDict error:error];
-    CHECK_ERROR(NO);
+    CHECK_ERROR(nil);
     if ([result[@"code"] isEqualToNumber:@0]) {
         NSTimeInterval expirationInterval = [result[@"data"][@"expireDate"] doubleValue];
         NSTimeInterval nowInterval = [result[@"data"][@"nowDate"] doubleValue];
@@ -369,11 +369,11 @@ static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr
             [XXTGSSI.dataService setExpirationDate:[NSDate dateWithTimeIntervalSince1970:expirationInterval]];
             [XXTGSSI.dataService setNowDate:[NSDate dateWithTimeIntervalSince1970:nowInterval]];
         }
-        return YES;
+        return result;
     }
     else
         GENERATE_ERROR(@"");
-    return NO;
+    return nil;
 }
 
 + (BOOL)localGetApplicationListWithError:(NSError **)error {

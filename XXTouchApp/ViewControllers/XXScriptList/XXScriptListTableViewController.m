@@ -203,7 +203,7 @@ UIPopoverControllerDelegate
                     [alertView show];
                     return;
                 } else {
-                    [self.navigationController.view makeToast:[err customDescription]];
+                    [self.navigationController.view makeToast:NSLocalizedString(@"Could not connect to the daemon.", nil)];
                 }
             }
             [self reloadScriptListTableView];
@@ -435,13 +435,13 @@ UIPopoverControllerDelegate
                                                                         [self.navigationController.view hideToastActivity];
                                                                         if (!result) {
                                                                             if (err.code == 2) {
-                                                                                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err customDescription] andMessage:[err localizedFailureReason]];
+                                                                                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:[err localizedDescription] andMessage:[err localizedFailureReason]];
                                                                                 [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
                                                                                     
                                                                                 }];
                                                                                 [alertView show];
                                                                             } else {
-                                                                                [self.navigationController.view makeToast:[err customDescription]];
+                                                                                [self.navigationController.view makeToast:NSLocalizedString(@"Could not connect to the daemon.", nil)];
                                                                             }
                                                                         }
                                                                     });
@@ -523,7 +523,7 @@ UIPopoverControllerDelegate
                                                                                  [self.tableView endUpdates];
                                                                                  [self reloadScriptListTableData];
                                                                              } else {
-                                                                                 [self.navigationController.view makeToast:[err customDescription]];
+                                                                                 [self.navigationController.view makeToast:[err localizedDescription]];
                                                                              }
                                                                          });
                                                                      });
@@ -984,7 +984,7 @@ END_IGNORE_PARTIAL
                 [self.tableView endUpdates];
                 [self reloadScriptListTableData];
             } else {
-                [self.navigationController.view makeToast:[err customDescription]];
+                [self.navigationController.view makeToast:[err localizedDescription]];
             }
         }];
         [alertView show];
@@ -1177,7 +1177,7 @@ END_IGNORE_PARTIAL
                         anchorRect:(CGRect)anchorRect
 {
     NSString *fileExt = [[filePath pathExtension] lowercaseString];
-    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath isDirectory:NO];
     for (Class actClass in [self editorActivities]) {
         if ([[actClass supportedExtensions] existsString:fileExt])
         {

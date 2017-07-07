@@ -32,7 +32,7 @@
 + (BOOL)remoteGetDeviceAuthInfoWithError:(NSError **)error;
 + (BOOL)localGetDeviceInfoWithError:(NSError **)error;
 + (BOOL)localBindCode:(NSString *)bind error:(NSError **)error;
-+ (BOOL)remoteBindCode:(NSString *)bind error:(NSError **)error;
++ (NSDictionary *)remoteBindCode:(NSString *)bind error:(NSError **)error;
 
 + (BOOL)localGetApplicationListWithError:(NSError **)error;
 + (BOOL)localClearAppData:(NSString *)bid error:(NSError **)error;
