@@ -17,7 +17,6 @@
 
 #define GENERATE_ERROR(d) (*error = [NSError errorWithDomain:kXXErrorDomain code:[result[@"code"] integerValue] userInfo:@{ NSLocalizedDescriptionKey:result[@"message"], NSLocalizedFailureReasonErrorKey:d }])
 
-static NSString * const kXXErrorDomain = @"com.xxtouch.error-domain";
 static const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME=/var/mobile", "USER=mobile", "LOGNAME=mobile", NULL};
 
 @implementation XXLocalNetService

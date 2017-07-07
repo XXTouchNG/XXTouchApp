@@ -322,3 +322,4 @@ Hide = "隐藏";
 "Name" = "名称";
 "Bundle ID" = "标识符";
 "Could not connect to the server." = "无法连接到守护程序。";
+"Download failed: %d %@" = "下载失败：%d %@";
