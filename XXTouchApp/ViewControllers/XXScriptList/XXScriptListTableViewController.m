@@ -440,6 +440,8 @@ UIPopoverControllerDelegate
                                                                                     
                                                                                 }];
                                                                                 [alertView show];
+                                                                            } else if (err.code >= 0 && err.code <= 10) {
+                                                                                [self.navigationController.view makeToast:[err localizedDescription]];
                                                                             } else {
                                                                                 [self.navigationController.view makeToast:NSLocalizedString(@"Could not connect to the daemon.", nil)];
                                                                             }

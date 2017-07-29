@@ -646,7 +646,7 @@
                 [self performSelector:@selector(close:) withObject:nil afterDelay:.6f];
             } else {
                 if (error) {
-                    [self.navigationController.view makeToast:[error customDescription]];
+                    [self.navigationController.view makeToast:[error localizedDescription]];
                 }
                 [self performSelector:@selector(continueScanning) withObject:nil afterDelay:.6f];
             }
