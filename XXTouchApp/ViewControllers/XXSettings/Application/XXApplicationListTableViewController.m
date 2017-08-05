@@ -38,6 +38,7 @@ CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentif
 
 #else
 
+CFArrayRef SBSCopyApplicationDisplayIdentifiers(bool onlyActive, bool debuggable);
 CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier);
 CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier);
 
@@ -72,39 +73,66 @@ UISearchDisplayDelegate
     _previewString = nil;
     self.title = NSLocalizedString(@"Application List", nil);
     
-    Class LSApplicationWorkspace_class = objc_getClass("LSApplicationWorkspace");
-    SEL selector = NSSelectorFromString(@"defaultWorkspace");
-    NSObject *workspace = [LSApplicationWorkspace_class performSelector:selector];
-    SEL selectorAll = NSSelectorFromString(@"allApplications");
-    NSArray <LSApplicationProxy *> *allApplications = [workspace performSelector:selectorAll];
-    
-    NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"xxt-white-icons" ofType:@"plist"];
-    NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"xxt-white-icons"];
-    NSMutableArray <NSDictionary *> *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
-    for (LSApplicationProxy *appProxy in allApplications) {
-        BOOL shouldAdd = YES;
-        for (NSString *appId in blacklistApplications) {
-            if ([appId isEqualToString:[appProxy applicationIdentifier]]) {
-                shouldAdd = NO;
+    self.allApplications = ({
+        NSArray <NSString *> *applicationIdentifiers = (NSArray *)CFBridgingRelease(SBSCopyApplicationDisplayIdentifiers(false, false));
+        NSMutableArray <LSApplicationProxy *> *allApplications = nil;
+        if (applicationIdentifiers) {
+            allApplications = [NSMutableArray arrayWithCapacity:applicationIdentifiers.count];
+            [applicationIdentifiers enumerateObjectsUsingBlock:^(NSString * _Nonnull bid, NSUInteger idx, BOOL * _Nonnull stop) {
+                LSApplicationProxy *proxy = [LSApplicationProxy applicationProxyForIdentifier:bid];
+                [allApplications addObject:proxy];
+            }];
+        } else {
+            SEL selectorAll = NSSelectorFromString(@"allApplications");
+            Class LSApplicationWorkspace_class = objc_getClass("LSApplicationWorkspace");
+            SEL selector = NSSelectorFromString(@"defaultWorkspace");
+            id applicationWorkspace = [LSApplicationWorkspace_class performSelector:selector];
+            allApplications = [applicationWorkspace performSelector:selectorAll];
+        }
+        NSString *whiteIconListPath = [[NSBundle mainBundle] pathForResource:@"xxte-white-icons" ofType:@"plist"];
+        NSSet <NSString *> *blacklistApplications = [NSDictionary dictionaryWithContentsOfFile:whiteIconListPath][@"xxte-white-icons"];
+        NSMutableArray <NSDictionary *> *filteredApplications = [NSMutableArray arrayWithCapacity:allApplications.count];
+        for (LSApplicationProxy *appProxy in allApplications) {
+            NSString *applicationBundleID = appProxy.applicationIdentifier;
+            BOOL shouldAdd = ![blacklistApplications containsObject:applicationBundleID];
+            if (shouldAdd) {
+                NSString *applicationBundlePath = [appProxy.resourcesDirectoryURL path];
+                NSString *applicationContainerPath = nil;
+                NSString *applicationName = CFBridgingRelease(SBSCopyLocalizedApplicationNameForDisplayIdentifier((__bridge CFStringRef)(applicationBundleID)));
+                if (!applicationName) {
+                    applicationName = appProxy.localizedName;
+                }
+                UIImage *applicationIconImage = [UIImage imageWithData:CFBridgingRelease(SBSCopyIconImagePNGDataForDisplayIdentifier((__bridge CFStringRef)(applicationBundleID)))];
+                if (XXT_SYSTEM_8) {
+                    if ([appProxy respondsToSelector:@selector(dataContainerURL)]) {
+                        applicationContainerPath = [[appProxy dataContainerURL] path];
+                    }
+                } else {
+                    if ([appProxy respondsToSelector:@selector(containerURL)]) {
+                        applicationContainerPath = [[appProxy containerURL] path];
+                    }
+                }
+                NSMutableDictionary *applicationDetail = [[NSMutableDictionary alloc] init];
+                if (applicationBundleID) {
+                    applicationDetail[kXXTMoreApplicationDetailKeyBundleID] = applicationBundleID;
+                }
+                if (applicationName) {
+                    applicationDetail[kXXTMoreApplicationDetailKeyName] = applicationName;
+                }
+                if (applicationBundlePath) {
+                    applicationDetail[kXXTMoreApplicationDetailKeyBundlePath] = applicationBundlePath;
+                }
+                if (applicationContainerPath) {
+                    applicationDetail[kXXTMoreApplicationDetailKeyContainerPath] = applicationContainerPath;
+                }
+                if (applicationIconImage) {
+                    applicationDetail[kXXTMoreApplicationDetailKeyIconImage] = applicationIconImage;
+                }
+                [filteredApplications addObject:[applicationDetail copy]];
             }
         }
-        if (shouldAdd) {
-            NSString *applicationIdentifier = appProxy.applicationIdentifier;
-            NSString *applicationBundle = [appProxy.resourcesDirectoryURL path];
-            NSString *applicationContainer = nil;
-            NSString *applicationLocalizedName = CFBridgingRelease(SBSCopyLocalizedApplicationNameForDisplayIdentifier((__bridge CFStringRef)(applicationIdentifier)));
-            UIImage *applicationIconImage = [UIImage imageWithData:CFBridgingRelease(SBSCopyIconImagePNGDataForDisplayIdentifier((__bridge CFStringRef)(applicationIdentifier)))];
-            if (XXT_SYSTEM_8) {
-                applicationContainer = [[appProxy dataContainerURL] path];
-            } else {
-                applicationContainer = [[appProxy containerURL] path];
-            }
-            if (applicationIdentifier && applicationBundle && applicationContainer && applicationLocalizedName && applicationIconImage) {
-                [filteredApplications addObject:@{@"applicationIdentifier": applicationIdentifier, @"applicationBundle": applicationBundle, @"applicationContainer": applicationContainer, @"applicationLocalizedName": applicationLocalizedName, @"applicationIconImage": applicationIconImage}];
-            }
-        }
-    }
-    self.allApplications = filteredApplications;
+        filteredApplications;
+    });;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -161,9 +189,9 @@ UISearchDisplayDelegate
             applicationDetail = self.displayApplications[(NSUInteger) indexPath.row];
         }
     }
-    [cell setApplicationName:applicationDetail[@"applicationLocalizedName"]];
-    [cell setApplicationBundleID:applicationDetail[@"applicationIdentifier"]];
-    [cell setApplicationIconImage:applicationDetail[@"applicationIconImage"]];
+    [cell setApplicationName:applicationDetail[kXXTMoreApplicationDetailKeyName]];
+    [cell setApplicationBundleID:applicationDetail[kXXTMoreApplicationDetailKeyBundleID]];
+    [cell setApplicationIconImage:applicationDetail[kXXTMoreApplicationDetailKeyIconImage]];
     return cell;
 }
 
@@ -190,9 +218,9 @@ UISearchDisplayDelegate
 - (void)reloadSearch {
     NSPredicate *predicate = nil;
     if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeName) {
-        predicate = [NSPredicate predicateWithFormat:@"applicationLocalizedName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+        predicate = [NSPredicate predicateWithFormat:@"kXXTMoreApplicationDetailKeyName CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     } else if (self.searchDisplayController.searchBar.selectedScopeButtonIndex == kXXApplicationSearchTypeBundleID) {
-        predicate = [NSPredicate predicateWithFormat:@"applicationIdentifier CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
+        predicate = [NSPredicate predicateWithFormat:@"kXXTMoreApplicationDetailKeyBundleID CONTAINS[cd] %@", self.searchDisplayController.searchBar.text];
     }
     if (predicate) {
         self.displayApplications = [[NSArray alloc] initWithArray:[self.allApplications filteredArrayUsingPredicate:predicate]];
