@@ -1,5 +1,3 @@
-# README #
+# XXTouch
 
-This is XXTouch iOS (Application) Version 3.
-
-**This repository will not be updated, check new "XXTExplorer" later.**
+This is XXTouch (Client) Version 3, work with XXTouch (Daemon) 1.1.x.
