@@ -1,6 +1,6 @@
 # XXTouch
 
-This is XXTouch (Client) v1.1, work with XXTouch (Daemon) 1.1.x.
+This is XXTouch (iOS Client) v1.1, work with XXTouch (iOS Daemon) 1.1.x.
 
 XXTouch iOS 客户端 1.1 版本，与 XXTouch 服务 1.1.x 协同工作。
 
@@ -18,5 +18,5 @@ XXTouch iOS 客户端 1.1 版本，与 XXTouch 服务 1.1.x 协同工作。
 
 ## License
 
-Coding is available under the MIT license. See the LICENSE file for more info.
+XXTouch (iOS Client) is available under the MIT license. See the LICENSE file for more info.
 
