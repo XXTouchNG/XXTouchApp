@@ -13,6 +13,9 @@ XXTouch iOS 客户端 1.1 版本，与 XXTouch 服务 1.1.x 协同工作。
 
 ## 部署
 
+- Xcode 8.0 及以上
+- iOS 7.0 及以上
+
 ```shell
 git clone https://github.com/Lessica/XXTouchApp.git
 cd XXTouchApp
