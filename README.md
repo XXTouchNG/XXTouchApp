@@ -17,7 +17,7 @@ XXTouch iOS 客户端 1.1 版本，与 XXTouch 服务 1.1.x 协同工作。
 - iOS 7.0 及以上
 
 ```shell
-git clone https://github.com/Lessica/XXTouchApp.git
+git clone https://github.com/XXTouchAssistant/XXTouchApp.git
 cd XXTouchApp
 open XXTouchApp.xcworkspace
 ```
