@@ -15,8 +15,25 @@
 #import "NSString+AddSlashes.h"
 #import "LSApplicationProxy.h"
 
-static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 
+#if !(TARGET_OS_SIMULATOR)
+CFArrayRef SBSCopyApplicationDisplayIdentifiers(bool onlyActive, bool debuggable);
+CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier);
+CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier);
+#else
+CFArrayRef SBSCopyApplicationDisplayIdentifiers(bool onlyActive, bool debuggable) {
+    return (__bridge CFArrayRef)(@[]);
+}
+CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier) {
+    return (__bridge CFStringRef)@"";
+}
+CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier) {
+    return (__bridge CFDataRef)([NSData data]);
+}
+#endif
+
+
+static NSString * const kXXApplicationNameLabelReuseIdentifier = @"kXXApplicationNameLabelReuseIdentifier";
 enum {
     kXXApplicationListCellSection = 0,
 };
@@ -26,23 +43,6 @@ enum {
     kXXApplicationSearchTypeBundleID
 };
 
-#if TARGET_IPHONE_SIMULATOR
-
-CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier) {
-    return CFBridgingRetain(@"");
-}
-
-CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier) {
-    return CFBridgingRetain([[NSData alloc] init]);
-}
-
-#else
-
-CFArrayRef SBSCopyApplicationDisplayIdentifiers(bool onlyActive, bool debuggable);
-CFStringRef SBSCopyLocalizedApplicationNameForDisplayIdentifier(CFStringRef displayIdentifier);
-CFDataRef SBSCopyIconImagePNGDataForDisplayIdentifier(CFStringRef displayIdentifier);
-
-#endif
 
 @interface XXApplicationListTableViewController ()
 <
